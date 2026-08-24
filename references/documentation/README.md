@@ -18,3 +18,8 @@ The Saturn CD corpus is cataloged in `docs/references.md` and summarized for fut
 image inspection in `docs/disc_layout.md`. It covers Sega's Game-CD format, boot-ROM
 recognition, CD-block communication and ISO 9660 service, plus ISO's bibliographic
 record for ISO 9660:1988. No target disc image or extracted target content was used.
+
+The Mednafen debugger corpus is cataloged in `docs/references.md` and summarized in
+`docs/mednafen.md`. It records upstream documentation valid for `1.32.0-UNSTABLE` and
+`1.32.1`, but does not select a build or relabel documented commands as observed
+Saturn behavior.

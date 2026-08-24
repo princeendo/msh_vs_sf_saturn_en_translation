@@ -443,3 +443,89 @@ git diff --check
 Next action:
 Begin `DOC-004` to collect documented stock Mednafen debugger commands and limits.
 M1 remains blocked by `GATE-M0`.
+
+## 2026-08-24 19:06 CDT - SESSION-0006
+
+Task: DOC-004
+
+Goal:
+Record upstream stock Mednafen debugger commands and explicit limitations for the
+later selected-version evaluation without claiming local runtime capability.
+
+Observation:
+`docs/mednafen.md` required debugger evaluation but did not provide a citable command
+baseline. The upstream debugger page labels Saturn as having at least basic debugger
+functionality but does not provide Saturn-specific address-space or breakpoint
+details.
+
+Hypothesis:
+The upstream debugger, general, Saturn-module, and release pages would define a small
+documented workflow while leaving module-specific behavior for `EMU-010` and
+`EMU-011` to test.
+
+Action:
+Retrieved the three upstream HTML pages and the candidate `1.32.1` source archive
+with curl 8.7.1, then hashed them with shasum 6.02:
+
+```text
+curl -L --fail --silent --show-error -o <temporary-path>/mednafen-debugger.html \
+  https://mednafen.github.io/documentation/debugger.html
+curl -L --fail --silent --show-error -o <temporary-path>/mednafen-general.html \
+  https://mednafen.github.io/documentation/mednafen.html
+curl -L --fail --silent --show-error -o <temporary-path>/mednafen-ss.html \
+  https://mednafen.github.io/documentation/ss.html
+curl -L --fail --silent --show-error -o <temporary-path>/mednafen-1.32.1.tar.xz \
+  https://mednafen.github.io/releases/files/mednafen-1.32.1.tar.xz
+shasum -a 256 <temporary-path>/mednafen-debugger.html \
+  <temporary-path>/mednafen-general.html <temporary-path>/mednafen-ss.html \
+  <temporary-path>/mednafen-1.32.1.tar.xz
+stat -f '%N %z bytes' <temporary-path>/mednafen-debugger.html \
+  <temporary-path>/mednafen-general.html <temporary-path>/mednafen-ss.html \
+  <temporary-path>/mednafen-1.32.1.tar.xz
+```
+
+Result:
+
+```text
+mednafen-debugger.html 9827 bytes
+  13545a2e06adee0ce172f47952a5ca9617ab87ceb074d6cbfde61100c7cfd53d
+mednafen-general.html 142106 bytes
+  897f6cbd6659d5f53360549a6f2c172164d23b4f3d36db87385071f024098b09
+mednafen-ss.html 100442 bytes
+  43d0a4a7cfb165b61e38ce2f50d58fd72e7510dd222b267c2bf5304667404c6f
+mednafen-1.32.1.tar.xz 3571236 bytes
+  de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832
+```
+
+The debugger page, last updated 2023-11-25 and valid as of `1.32.0-UNSTABLE`,
+documents CPU run/step, PC/read/write breakpoints, watches, low/high-level pokes, and
+memory-space dump/load. It explicitly warns that save states and power/reset in step
+mode may cause significant malfunctions for Saturn. The general and Saturn pages are
+valid as of `1.32.1`; the latter confirms only basic Saturn-module context and the
+MSHvSF 4 MiB extended-RAM database entry, not debugger details.
+
+Conclusion:
+`SUPPORTED`: upstream documentation provides a bounded command and caution baseline.
+Saturn CPU selections, register presentation, address spaces and aliases, graphics
+view, high-level poke support, breakpoint timing, and DMA visibility remain
+unverified. The archive retrieval is provenance only; no release has been selected or
+built. No experiment record or discovery entry is warranted.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  All checks passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Success: no issues found in 10 source files.
+git diff --check
+  Passed with no output.
+```
+
+Next action:
+Begin `DOC-005` to catalog legally usable Saturn localization projects and bounded
+techniques. M1 remains blocked by `GATE-M0`.

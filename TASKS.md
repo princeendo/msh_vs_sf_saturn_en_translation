@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `DOC-004`.
+- Current active task: `DOC-005`.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-004`.
+- Next research task: `DOC-005`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -158,7 +158,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-004 - Collect Mednafen debugger documentation
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None.
@@ -166,7 +166,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Capability hypotheses should come from exact upstream documentation and then be experimentally tested.
 - **Acceptance criteria:** Source provenance and concise command summaries are recorded; documented capability is not mislabeled as observed capability.
 - **Outputs:** `docs/references.md`, `docs/mednafen.md`.
-- **Notes:** Selection of the exact version occurs in `EMU-001`.
+- **Notes:** `SESSION-0006` records upstream page and candidate-archive identities,
+  the documented command baseline and cautions, verification, and the boundary
+  against claiming selected-build behavior. Version selection remains `EMU-001`.
 
 ### DOC-005 - Collect relevant Saturn localization projects
 

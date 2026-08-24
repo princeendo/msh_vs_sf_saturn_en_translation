@@ -278,6 +278,75 @@ tracks and sectors.
 - No source above identifies the target release's tracks, files, extents, sector
   modes, boot fields, image-container layout, checksums, or rebuild constraints.
 
+## Mednafen Debugger
+
+All URLs in this section were accessed on 2026-08-24. This is an upstream
+documentation baseline, not evidence from a local build or target runtime.
+
+### Mednafen Team, *Debugger Documentation*
+
+- Upstream page: <https://mednafen.github.io/documentation/debugger.html>.
+- Publication identity: last updated November 25, 2023; valid as of Mednafen
+  `1.32.0-UNSTABLE`.
+- Retrieved HTML identity: 9,827 bytes; SHA-256
+  `13545a2e06adee0ce172f47952a5ca9617ab87ceb074d6cbfde61100c7cfd53d`.
+- Relevant sections: Notes and Cautions; Quick Key Reference; Memory Poking; Read and
+  Write Breakpoints.
+- Supported claims: the `ss` module is listed among modules with at least basic
+  debugger functionality; the debugger documents CPU run/step, register and address
+  editing, PC/read/write breakpoints, watches, memory pokes, memory-space selection,
+  and memory dump/load operations. The dump prompt accepts either an inclusive
+  `start_address end_address filename` range or `start_address +count filename`.
+- Documented cautions: save states and power/reset while in step mode may cause
+  significant malfunctions or glitches in the Saturn module; PC breakpoints are
+  checked against the PC at instruction start; branch history is reliable while the
+  CPU debugger view is inactive only when at least one breakpoint is installed; and
+  high-level poke is not implemented for every system.
+- Limits: the page does not enumerate Saturn CPU selections, register presentation,
+  memory-editor address-space names, address aliases, graphics-viewer support,
+  breakpoint timing, dump behavior at boundaries, or high-level-poke support. It does
+  not say whether Saturn read/write breakpoints observe CPU, DMA, or device accesses.
+
+### Mednafen Team, *General Documentation*
+
+- Upstream page: <https://mednafen.github.io/documentation/mednafen.html>.
+- Publication identity: last updated March 19, 2024; valid as of Mednafen `1.32.1`.
+- Retrieved HTML identity: 142,106 bytes; SHA-256
+  `897f6cbd6659d5f53360549a6f2c172164d23b4f3d36db87385071f024098b09`.
+- Relevant sections: Key Assignments; Global Settings Reference, especially
+  `debugger.autostepmode`; Screen Snapshots; Debugger link.
+- Supported claims: `Left Alt+D` is the default debugger toggle;
+  `debugger.autostepmode` can enter step mode after loading a game; and snapshots and
+  save states are separate general facilities.
+- Limits: the general page links to the debugger documentation but does not update its
+  stated `1.32.0-UNSTABLE` validity or certify debugger behavior in a particular build.
+
+### Mednafen Team, *Sega Saturn Documentation*
+
+- Upstream page: <https://mednafen.github.io/documentation/ss.html>.
+- Publication identity: last updated March 19, 2024; valid as of Mednafen `1.32.1`.
+- Retrieved HTML identity: 100,442 bytes; SHA-256
+  `43d0a4a7cfb165b61e38ce2f50d58fd72e7510dd222b267c2bf5304667404c6f`.
+- Relevant sections: Introduction; Firmware/BIOS; Internal Databases, Cart.
+- Supported claims: the Saturn module is under active development, has save-state
+  support, and its internal cart database identifies MSHvSF Japan product `T-1238G`
+  as requiring 4 MiB extended RAM.
+- Limits: the page contains no Saturn-specific debugger command or address-space
+  reference. Database identification and documented requirements are not a local boot
+  or debugger test.
+
+### Release Provenance Boundary
+
+- Upstream releases page: <https://mednafen.github.io/releases/>. It lists Mednafen
+  `1.32.1`, dated April 5, 2024.
+- Candidate source archive URL:
+  <https://mednafen.github.io/releases/files/mednafen-1.32.1.tar.xz>.
+- Retrieved candidate archive identity: `mednafen-1.32.1.tar.xz`; 3,571,236 bytes;
+  SHA-256 `de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832`.
+- The archive was retrieved only to record provenance and was not committed, built,
+  or selected. Exact release selection, license recording, source verification, and
+  build configuration remain `EMU-001` and `EMU-002` work.
+
 ## Bibliography Fields
 
 Record title, author or publisher when available, release or revision, publication

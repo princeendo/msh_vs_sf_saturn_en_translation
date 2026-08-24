@@ -8,6 +8,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Are stock debugger facilities sufficient for the planned controlled experiments?
 - How does stock Mednafen label the SH-2 program counter, expose Saturn address
   aliases, and implement breakpoints relative to the SH7604 hardware semantics?
+- Which CPU selections and memory-editor address spaces does the selected stock
+  Mednafen build expose for Saturn, and which can be dumped reproducibly?
+- Do Saturn read/write breakpoints observe only CPU accesses, or also DMA and device
+  activity, and at what point relative to the access do they stop?
 
 ## Target Data
 
