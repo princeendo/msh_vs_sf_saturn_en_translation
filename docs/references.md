@@ -1,7 +1,8 @@
 # References and Evidence Rules
 
-No bibliography entries are recorded yet. Add references only after verifying their
-identity and relevance; do not invent citations.
+References are evaluated by the authority of the document, not the authority of its
+host. A third-party mirror of an official Sega document remains a primary document;
+the mirror's catalog description is only secondary metadata.
 
 ## Reference Roles
 
@@ -14,6 +15,102 @@ identity and relevance; do not invent citations.
 
 References do not establish structural equivalence between games, releases, or
 platforms.
+
+## Sega Saturn Architecture
+
+All URLs in this section were accessed on 2026-08-24. The PDFs remain external and
+are not committed.
+
+### Sega, *Saturn Overview Manual*
+
+- Issuer: SEGA; inspected English copy distributed through Sega of America, Inc.
+- Release: temporary version 1, June 6, 1994.
+- Document number: `ST-103-R1-040194`.
+- Third-party PDF mirror:
+  <https://antime.kapsi.fi/sega/files/ST-103-R1-040194.pdf>
+- Mirror file identity: 707,231 bytes; SHA-256
+  `0d44855f9ce5a62cbcd08895c1bf647b409651968c420c2b6a96399be1ce5a82`.
+- Relevant sections: Chapter 2 sections 2.1 through 2.3; Chapter 3 sections
+  3.1 through 3.7.
+- Supported claims: the main system has two SH-2 processors and 2 MiB of main RAM;
+  the SCU connects and controls the CPU-bus, A-bus, and B-bus; VDP1 performs sprite
+  and primitive drawing into frame buffers; VDP2 handles scroll/background display,
+  priority, and final composition; the sound block contains an MC68EC000, SCSP, and
+  512 KiB sound RAM; SMPC performs system and peripheral control; the CD subsystem
+  has its own SH-1 and 512 KiB buffer RAM; a cartridge interface is present.
+- Limits: this is explicitly a temporary overview. It does not identify MSHvSF data
+  structures or use of any hardware region.
+
+### Sega, *SCU User's Manual*
+
+- Issuer: SEGA; inspected English copy distributed through Sega of America, Inc.
+- Release: Third version; internal version history dates Version 3 to July 15, 1994.
+- Document number: `ST-97-R5-072694`; the mirror filename zero-pads this as
+  `ST-097-R5-072694.pdf`.
+- Third-party PDF mirror:
+  <https://antime.kapsi.fi/sega/files/ST-097-R5-072694.pdf>
+- Independent archival item: <https://archive.org/details/237-r-1>, ARK
+  `ark:/13960/t7hr4p074`; its `SCUum.pdf` is byte-identical to the PDF above.
+- Mirror file identity: 1,702,622 bytes; SHA-256
+  `d56a86087f10c61d0bafaf5dfa0de134f92fe413e6e40f69a656df5192ccc8d3`.
+- Relevant sections: Chapter 1 section 1.1, Figures 1.1 and 1.2; section 1.2,
+  Figures 1.3 through 1.5; Chapter 2 section 2.1.
+- Supported claims: the SCU contains CPU, A-bus, and B-bus interfaces plus DMA,
+  interrupt, and DSP controllers; WRAM-L, WRAM-H, backup RAM, IPL ROM, and SMPC
+  are on the CPU-bus side; CD and cartridge media connect through the A-bus; VDP1,
+  VDP2, and SCSP connect through the B-bus. Figures 1.3 and 1.5 support the work-RAM
+  ranges and cache-through aliases recorded in `docs/saturn_memory_map.md`.
+- Limits: the map is diagrammatic. Address boundaries were checked against rendered
+  page images rather than accepted from OCR alone.
+
+### Sega, *SEGA Saturn SCU Final Specifications: Precautions*
+
+- Issuer: SEGA; inspected English copy distributed through Sega of America, Inc.
+- Release: Version 1, issued October 16, 1994 according to the revision history.
+- Document number: `ST-210-110194`.
+- Third-party PDF mirror:
+  <https://antime.kapsi.fi/sega/files/ST-210-110194.pdf>
+- Mirror file identity: 326,397 bytes; SHA-256
+  `7842694c3fb747a9db921ac73e2454741d960fe40c2289fc515a2cb2feb7abdb`.
+- Relevant sections: sections 1 and 3, especially items 04 and 05.
+- Supported claims: SCU-DMA may use WRAM-H but not WRAM-L; SCU register access
+  must use cache-through addresses. The document also supersedes parts of the base
+  SCU manual, so detailed DMA or register work must consult it rather than the base
+  manual alone.
+
+### Sega, *Developer's Documentation, Electronic Version*
+
+- Publisher: SEGA Enterprises Co., Ltd.
+- Release: document version 2.50, second edition, issued August 1997; page date
+  August 25, 1997.
+- Third-party HTML mirror: <https://www.infochunk.com/saturn/segahtml_en/>.
+- Relevant sections: Hardware Manual index; *Saturn Overview Manual*; *SCU User's
+  Manual*; Hardware Manual errata at
+  <https://www.infochunk.com/saturn/segahtml_en/xhistory/ver250/hard.htm>.
+- Supported claims: this later Sega corpus identifies its publication state and
+  records corrections to the overview and SCU manuals, including the revised SCU
+  map labels and DMA precautions.
+- Limits: the HTML conversion contains conspicuous translation and transcription
+  defects. Use the original English PDFs for exact content of their 1994 publication
+  states, but apply later Sega errata and final-specification notices where they
+  explicitly supersede those states.
+
+## Conflicts And Uncertainty
+
+- The 1994 overview's Table 2.1 says `DMA 2 ch`, while its detailed Table 3.2 says
+  three CPU channels and one DSP channel. The SCU manual also describes four total
+  channels, and the final-specification notice says at most two may be used
+  concurrently with guaranteed priority. These statements describe different things
+  or publication states; `DMA 2 ch` is not used as a channel-count fact here.
+- The 1994 SCU PDF cover says `Third version`, its number contains `R5`, and its
+  internal history calls the July 15, 1994 state `Version 3`. These identifiers are
+  preserved without inferring a reconciliation.
+- The 1997 corpus incorporates later corrections and labels the SCU manual third
+  edition dated November 1, 1996. It is not treated as identical to the 1994 PDF.
+- The SCU manual defines 1 Kbyte as 1,024 bytes and 1 Mbit as 1,048,576 bits. The
+  one-MiB work-RAM sizes are also fixed independently by their address boundaries.
+  This project uses `MiB` and `KiB` when normalizing byte capacities.
+- No collected platform reference establishes where MSHvSF stores or renders text.
 
 ## Bibliography Fields
 

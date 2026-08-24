@@ -9,7 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task after repository construction: `DOC-001`.
+- Next research task: `DOC-002`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -117,7 +117,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-001 - Collect Sega Saturn architecture references
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None.
@@ -125,7 +125,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Platform claims must be traceable to sources rather than prior assumptions.
 - **Acceptance criteria:** Citations, versions/editions, access dates, relevant sections, and supported claims are recorded; uncertain or conflicting claims remain explicit.
 - **Outputs:** `docs/references.md`, `docs/saturn_memory_map.md`.
-- **Notes:** Do not dump whole manuals into agent context or commit unauthorized copies.
+- **Notes:** `SESSION-0003` records source identities, exact sections, validation,
+  conflicts, and reproduction commands. No manuals are committed.
 
 ### DOC-002 - Collect SH-2 references
 
