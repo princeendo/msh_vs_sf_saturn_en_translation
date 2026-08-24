@@ -12,6 +12,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
 ## Target Data
 
 - What is the verified target source-image identity and disc layout?
+- What image-container format, session/track layout, sector representation, ISO 9660
+  tree, extents, and IP fields does the exact target source contain?
+- Which disc material must be preserved outside ordinary file contents for a
+  deterministic, bootable rebuild?
 - Where are Ryu post-fight captions stored on disc and during execution?
 - What encoding, boundaries, indirection, compression, or transformation is used?
 - What constraints apply to replacement text?
