@@ -347,6 +347,122 @@ documentation baseline, not evidence from a local build or target runtime.
   or selected. Exact release selection, license recording, source verification, and
   build configuration remain `EMU-001` and `EMU-002` work.
 
+## Saturn Localization Projects
+
+These repositories were inspected on 2026-08-24 at immutable commits. They are
+method references, not evidence of MSHvSF structures. Source archives were retrieved
+only for identity and inspection and are not committed.
+
+### `coregee/devil_summoner_tools`
+
+- Repository and revision:
+  <https://github.com/coregee/devil_summoner_tools/tree/1e1483fb72584ad5dc39f07dff5e2ef5750dd69a>.
+- Revision date: 2026-08-24.
+- Retrieved archive: 4,977,408 bytes; SHA-256
+  `1a008b377254b3df84ab8149bf259bfa031298178abf8e7d8a895ecdedfdda9d`.
+- License: project-authored source and documentation are 0BSD. The repository's
+  `LICENSE` explicitly excludes game-derived JSON text, modified images, preview
+  screenshots, and future game-derived assets; third-party fonts retain their terms.
+- Relevant technique: manifest every source track by exact size and SHA-256; restore
+  extraction state from verified originals; publish rebuilt media transactionally;
+  guard binary patches with expected original bytes and overlap checks; and verify
+  unchanged tracks, ISO records, changed-sector bounds, and Mode 1 EDC/ECC.
+- Limits: the documented Saturn repacker has its own allocation and relocation limits.
+  Every address, format, font, engine patch, and loader behavior is specific to
+  *Devil Summoner*. Only material inside the explicit 0BSD scope is reusable.
+
+### `ralfguth/langrisser3-english`
+
+- Repository and revision:
+  <https://github.com/ralfguth/langrisser3-english/tree/bee5a495eba18bbec0872faa552df47f4370f040>;
+  tag `v0.7.2` points to the inspected commit.
+- Revision date: 2026-08-24.
+- Retrieved archive: 1,938,981 bytes; SHA-256
+  `236294909f5c9e0cb4235af3514a3fcd71b7fdf321ae069d7d48aa858623cc72`.
+- License: GPL-3.0-or-later for the stated project contributions. The README records
+  separately licensed fonts and prior translation contributions.
+- Relevant technique: build from a fingerprinted source Track 1; stage extraction,
+  text/font generation, insertion, and disc publication; update ISO directory extents
+  when files grow; recalculate raw Mode 1 EDC/ECC; preserve mixed-mode track topology;
+  and validate text controls, layout, output naming, and track placement in tests.
+- Limits: GPL implementation cannot be copied into an MIT-only derivative without
+  satisfying GPL terms. Langrisser's successful file relocation does not establish
+  MSHvSF loader behavior, and its track, file, encoding, font, and movie details are
+  release-specific.
+
+### `benclaff/culdcept_saturn_tools`
+
+- Repository and revision:
+  <https://github.com/benclaff/culdcept_saturn_tools/tree/098142497c4b86e7c30b1ff98a8fb6cc032525e1>.
+- Revision date: 2026-05-22.
+- Retrieved archive: 48,093 bytes; SHA-256
+  `797e908786fe2a8ff8e6f7e0353c93b1d9cdbc4194fab9657c82889bedf48b23`.
+- License: GPL-3.0-or-later.
+- Relevant technique: extract typed text classes to structured records containing
+  original text, translation fields, offsets, controls, and layout guidance; preserve
+  untranslated entries; and reject replacements that exceed measured byte capacity.
+- Limits: the project emits a patched game file rather than a complete rebuilt disc,
+  does not generally recalculate pointer tables, and deliberately constrains text to
+  original capacities. Its offsets and formats target Culdcept v1.04, not MSHvSF.
+
+### `eadmaster/pcrown`
+
+- Repository and revision:
+  <https://github.com/eadmaster/pcrown/tree/26def6fd9c2f804fc30ec90c95afa98974cafa02>;
+  tag `v1.1b2` points to the inspected commit.
+- Revision date: 2025-07-31.
+- Retrieved archive: 4,601,139 bytes; SHA-256
+  `39e989c47321f3e74e154bdf9ae9e2eeb2aaf325095db5e39571f91d186dc2b1`.
+- License: top-level GPL-2.0. The tree mixes source with third-party tools,
+  translations, images, and derived material, so the top-level license is not treated
+  as proof that every artifact is reusable.
+- Relevant technique: a released Saturn pipeline extracts event data, enforces line
+  fitting, rebuilds translated events, replaces files in raw media, applies font and
+  graphics changes, and emits a binary delta. Its documentation notes that already
+  loaded event data can remain cached, requiring a loading transition or cold path to
+  test a disc edit.
+- Limits: reuse only files with clear provenance and compatible terms. Event formats,
+  line limits, and caching behavior are Princess Crown observations and can only
+  motivate controlled MSHvSF experiments.
+
+### Qualified And Excluded Leads
+
+- `AngelouCurator/new-parm-archives-tools` at
+  `1453906aef0e87eefe240ee976fbf6d53a071e63` documents original Python tooling for
+  ISO walking, text injection, relayout, and emulator checkpoints. Retrieved archive:
+  439,108 bytes; SHA-256
+  `7d37c53e2a9efa33a6a1bfa9e0f36191f8ca1a7b3432070159e8cdc7402b20d2`.
+  Its README says original code and documentation are MIT, while its `NOTICE` says
+  MIT covers only the README, documentation, and issue templates. Because those
+  scopes conflict and required upstream tools are unlicensed, no code is approved for
+  reuse here without clarification. Its warning that synthesized sectors may lack
+  valid EDC/ECC is a useful negative design lesson, not a recommended implementation.
+- `DerekPascarella/Rabbit-EnglishPatchSaturn` at
+  `2cafe00bd3bb59046b60a1add2bc04e0f8aed194` is a relevant released Saturn
+  fighting-game translation, but no repository license was found. It may suggest
+  questions about compression, integrity checks, and dialogue surfaces; its code,
+  scripts, text, and assets are not reusable here absent permission.
+- SegaXtreme's Saturn translation resource category is a discovery index, not a
+  source-code license. A downloadable patch or project page without explicit reuse
+  terms is not treated as reusable implementation.
+
+### Transferable Process Only
+
+The corpus supports using these process patterns without assuming target structure:
+
+- hash every source component and reject an unexpected release;
+- prove a no-edit extraction/rebuild round trip before changing text;
+- guard every patch with expected original bytes and reject overlaps;
+- preserve control tokens separately from translated prose and enforce measured byte,
+  glyph, row, and pixel limits before writing;
+- treat file growth, pointer changes, and disc relayout as separate experiments;
+- regenerate Mode 1 EDC/ECC instead of relying on emulator tolerance;
+- verify ISO records, changed sectors, track topology, and unchanged audio; and
+- cold-boot or cross a deterministic reload boundary after source-media changes.
+
+No project above establishes MSHvSF encoding, offsets, pointers, compression,
+renderer behavior, file relocation safety, or runtime caching.
+
 ## Bibliography Fields
 
 Record title, author or publisher when available, release or revision, publication
