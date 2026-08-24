@@ -112,57 +112,72 @@ are not committed.
   This project uses `MiB` and `KiB` when normalizing byte capacities.
 - No collected platform reference establishes where MSHvSF stores or renders text.
 
-## SH-2 Architecture And Debugging References
+## SH-2 Architecture And Debugging
 
-The following processor references were accessed on 2026-08-24. The PDFs remain
-external and are not committed. They are platform references only; neither source
-identifies MSHvSF code or data addresses.
+All URLs in this section were accessed on 2026-08-24. The PDFs remain external and
+are not committed. These are processor references only; neither source identifies an
+MSHvSF address, data structure, or execution path.
 
-### Hitachi/Renesas, *SH-1/SH-2 Programming Manual*
+### Hitachi, *SuperH RISC Engine SH-1/SH-2 Programming Manual*
 
-- Issuer: Hitachi Semiconductor; the mirror identifies the later vendor as Renesas
-  Technology.
-- Stable mirror: <https://antime.kapsi.fi/sega/files/h12p0.pdf>.
-- Mirror filename: `h12p0.pdf`; 1,034,304 bytes; SHA-256
+- Issuer: Hitachi America Ltd.
+- Release: September 3, 1996; no document number is visible in the inspected copy.
+- Third-party PDF mirror: <https://antime.kapsi.fi/sega/files/h12p0.pdf>.
+- Mirror file identity: `h12p0.pdf`; 1,034,304 bytes; SHA-256
   `03364fae725c23980ae76d75f266f760844a6ce4e4ec54b7c40897b180be5d44`.
-- Relevant areas: programmer-visible registers; instruction descriptions; addressing
-  modes; condition-code behavior; delayed branches; exceptions and interrupts; and
-  programmer-visible memory-access rules.
-- Supported claims: SH-2 debugger interpretation must account for the general
-  registers, `PC`, `PR`, `GBR`, `VBR`, `MACH`, `MACL`, and `SR`; instruction operands
-  use the documented addressing modes; branch instructions with delay slots require
-  instruction-flow interpretation beyond the branch address; and exception/interrupt
-  handling uses the documented vector and status-register mechanisms.
-- Limits: the mirror does not provide a verified publication edition in its catalog
-  entry, and the manual is not a Saturn game debugger manual. These claims guide
-  processor interpretation only.
+- Relevant sections: section 2, Register Configuration; section 3, Data Formats;
+  sections 4.1 through 4.3, Instruction Features and Addressing Modes; section 5,
+  Instruction Set; branch descriptions in sections 6.6 through 6.13 and 6.25,
+  6.26, 6.50, and 6.51; section 7, Pipeline Operation; appendix A, Instruction
+  Code.
+- Supported claims: the programmer-visible state includes sixteen 32-bit general
+  registers plus `SR`, `GBR`, `VBR`, `MACH`, `MACL`, `PR`, and `PC`; `R15` is the
+  hardware stack pointer during exception handling; instructions are fixed-width
+  16-bit values; the documented addressing modes define how effective addresses are
+  calculated; byte and word memory loads are sign-extended; and delayed branches
+  execute their slot instruction before transferring control. The manual defines its
+  architectural `PC` as the fourth byte after the current instruction, a convention
+  that must not be assumed to match a debugger's display label.
+- Limits: the manual covers both SH-1 and SH-2, so CPU-specific tables must be checked
+  before applying an instruction. It describes processor semantics, not a Saturn bus
+  map or emulator interface.
 
-### Hitachi/Renesas, *SH7604 Hardware Manual*
+### Hitachi, *SH7604 Hardware Manual*
 
-- Issuer: Hitachi Semiconductor; the mirror identifies the later vendor as Renesas
-  Technology.
-- Stable mirror: <https://antime.kapsi.fi/sega/files/sh7604.pdf>.
-- Mirror filename: `sh7604.pdf`; 2,211,720 bytes; SHA-256
+- Issuer: Hitachi, Ltd.; published by its Customer Service Division.
+- Release: document `ADE-602-085C`, revision 4.0, September 19, 2001; first edition
+  March 1995 and fourth edition September 2001.
+- Third-party PDF mirror: <https://antime.kapsi.fi/sega/files/sh7604.pdf>.
+- Mirror file identity: `sh7604.pdf`; 2,211,720 bytes; SHA-256
   `262cfff2abec2fa0cef5c5475495d6a4da390eff107ed3a75575827467daab9f`.
-- Relevant areas: SH7604 memory map and bus interface; interrupt controller; DMA
-  controller; cache and address behavior; and CPU peripheral registers.
-- Supported claims: hardware-level debugger interpretation must distinguish CPU
-  execution state from peripheral state, treat DMA and interrupt-controller
-  registers according to documented access rules, and preserve the documented
-  distinction between CPU-visible addresses and peripheral/register behavior.
-- Limits: this hardware manual describes the SH7604 device, not the complete Saturn
-  bus map or MSHvSF implementation. Saturn-specific mappings remain governed by the
-  Sega references above and measured runtime evidence.
+- Relevant sections: section 2, CPU; section 4, Exception Handling; section 5,
+  Interrupt Controller; sections 6.1 through 6.3, User Break Controller; section
+  7.1.5, Address Map; sections 8.3 through 8.5, Cache; and appendix B, List of
+  Registers.
+- Supported claims: exception entry saves `SR` and `PC` through `R15` and obtains the
+  handler from the vector table; the SH7604 user-break controller has two channels and
+  can compare address, instruction-fetch versus data-access cycle, read versus write,
+  operand size, and, on channel B, data; it can request a break before or after an
+  instruction's execution; and a data-access break does not identify an exact
+  instruction as precisely as an instruction-fetch break. The manual also documents
+  cache and DMA effects that can make a CPU-only explanation incomplete.
+- Limits: this later revision documents the SH7604 device and its self-debugging
+  hardware, not Mednafen's debugger implementation. Whether stock Mednafen exposes,
+  emulates, or bypasses these facilities is unverified. The hardware manual's generic
+  SH7604 address map must not replace Sega's Saturn memory map.
 
-### Related mirror index
+### Source Selection And Uncertainty
 
-- Antime's Saturn documentation index identifies the two manuals under its
-  `Renesas Technology` section and also lists the *SuperH RISC Engine Assembler,
-  User's Manual* and *SuperH RISC Engine Simulator/Debugger, User's Manual*.
-- The assembler and simulator/debugger manuals are not used as primary claims here:
-  their exact editions and applicable host/tool versions were not independently
-  established during this task. They remain candidates if a later experiment needs
-  assembler syntax or simulator-specific behavior.
+- Antime's documentation index identifies both official vendor manuals under its
+  Renesas Technology section. The authority comes from the documents' Hitachi
+  publication identities, not from the mirror.
+- The index also lists SuperH assembler and simulator/debugger manuals. They were not
+  needed for the processor claims above, and their tool-specific behavior is not used
+  as evidence for Mednafen.
+- The 1996 programming manual and 2001 fourth-edition hardware manual agree on the
+  debugger-relevant register, alignment, branch-delay, and exception concepts sampled
+  here. The later hardware revision may include post-Saturn errata or features; no
+  revision-specific claim is transferred to target behavior without measurement.
 
 ## Bibliography Fields
 

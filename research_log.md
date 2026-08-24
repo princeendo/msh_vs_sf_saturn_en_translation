@@ -280,51 +280,64 @@ Begin `DOC-002` to collect SH-2 architecture, instruction, and debugging referen
 Other READY M0 documentation tasks and `EMU-001` remain independent options. M1
 remains blocked by `GATE-M0`.
 
-## 2026-08-24 18:05 CDT - SESSION-0004
+## 2026-08-24 17:28 CDT - SESSION-0004
 
 Task: DOC-002
 
 Goal:
-Collect authoritative SH-2 processor and SH7604 hardware references needed to
-interpret future Saturn debugger evidence without inferring target addresses.
+Collect authoritative SH-2 architecture, instruction, and hardware-debugging
+references needed to interpret future debugger evidence without inferring target
+addresses.
 
 Observation:
 The repository had Saturn architecture references but no processor-specific corpus.
-`docs/code_map.md` correctly prohibited unmeasured target addresses, but did not yet
-state the SH-2 semantics a debugger workflow must preserve.
+`docs/code_map.md` prohibited unmeasured target addresses but did not state which SH-2
+semantics must be preserved when reading a trace.
 
 Hypothesis:
-The Hitachi/Renesas SH-1/SH-2 Programming Manual plus the SH7604 Hardware Manual
-provide sufficient verified processor-level coverage for the planned debugger work;
-Sega game-specific claims must remain outside this task.
+The official Hitachi SH-1/SH-2 Programming Manual and SH7604 Hardware Manual would
+directly support the bounded processor concepts needed for debugger work, while
+leaving Mednafen presentation and game-specific behavior unresolved.
 
 Action:
-Inspected the Antime Saturn documentation index and retrieved these external PDFs
-with curl 8.7.1. The downloaded files were hashed with shasum 6.02:
+Retrieved both official-document copies from the Antime mirror with curl 8.7.1 and
+hashed them with shasum 6.02:
 
 ```text
-curl -L --fail --silent --show-error -o /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf https://antime.kapsi.fi/sega/files/h12p0.pdf
-curl -L --fail --silent --show-error -o /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf https://antime.kapsi.fi/sega/files/sh7604.pdf
-shasum -a 256 /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf
-stat -f '%N %z bytes' /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf
+curl -L --fail --silent --show-error \
+  -o /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf \
+  https://antime.kapsi.fi/sega/files/h12p0.pdf
+curl -L --fail --silent --show-error \
+  -o /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf \
+  https://antime.kapsi.fi/sega/files/sh7604.pdf
+shasum -a 256 \
+  /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf \
+  /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf
+stat -f '%N %z bytes' \
+  /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf \
+  /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf
 ```
 
-The source identities are recorded in `docs/references.md`. The index also lists
-assembler and simulator/debugger manuals, but their exact editions and applicable
-tool versions were not established and they were not used to support claims.
+The files were 1,034,304 and 2,211,720 bytes with SHA-256 values
+`03364fae725c23980ae76d75f266f760844a6ce4e4ec54b7c40897b180be5d44` and
+`262cfff2abec2fa0cef5c5475495d6a4da390eff107ed3a75575827467daab9f`.
+Inspected rendered pages for publication identity and sections covering registers,
+data formats, addressing, branches, exceptions, and the user-break controller.
 
 Result:
-The programming manual supports the programmer-visible register set, addressing
-modes, instruction semantics, delayed branches, and exception/interrupt concepts.
-The SH7604 manual supports treating CPU execution, DMA, interrupt-controller, cache,
-and peripheral behavior as distinct evidence domains. The task-oriented summary was
-added to `docs/code_map.md`; no MSHvSF image, executable region, address, or runtime
-behavior was inspected.
+The September 3, 1996 programming manual directly defines the programmer-visible
+registers, 16-bit instruction format, effective-address rules, alignment, sign
+extension, delay slots, and architectural `PC` convention. The SH7604 Hardware Manual
+`ADE-602-085C`, revision 4.0, directly defines exception stacking and a two-channel
+user-break controller able to discriminate instruction fetch, data access, read/write,
+size, and channel-B data conditions. It warns that data-access breaks do not identify
+an exact instruction as precisely as instruction-fetch breaks.
 
 Conclusion:
-`SUPPORTED`: the two retrieved manuals provide a bounded, citable SH-2 reference
-corpus for debugger interpretation. `DOC-002` meets its acceptance criteria. Runtime
-debugger presentation and target-specific address interpretation remain unknown.
+`SUPPORTED`: the manuals provide a bounded, citable processor corpus for interpreting
+future debugger evidence. They do not establish Mednafen behavior, Saturn mappings,
+or MSHvSF addresses. `DOC-002` meets its source and summary criteria; no experiment
+record or discovery entry is warranted.
 
 Verification commands and outcomes:
 
@@ -332,16 +345,15 @@ Verification commands and outcomes:
 ./invenv.sh pytest
   4 passed.
 ./invenv.sh ruff check .
-  Passed.
+  All checks passed.
 ./invenv.sh ruff format --check .
-  Passed.
+  54 files already formatted.
 ./invenv.sh mypy tools tests
-  Passed.
+  Success: no issues found in 10 source files.
 git diff --check
-  Passed.
+  Passed with no output.
 ```
 
 Next action:
-Begin `DOC-003` to collect Saturn boot-media, CD block, ISO9660, track, and
-filesystem references. `EMU-001` and other independent M0 documentation tasks remain
-available; M1 remains blocked by `GATE-M0`.
+Begin `DOC-003` to collect Saturn boot-media, CD block, ISO9660, track, and filesystem
+references. M1 remains blocked by `GATE-M0`.
