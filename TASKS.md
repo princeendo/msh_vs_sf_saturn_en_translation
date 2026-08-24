@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `DOC-006`.
+- Current active task: `DOC-007`.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-006`.
+- Next research task: `DOC-007`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -186,7 +186,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-006 - Collect known MSHvSF English quote references
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** Runtime evidence may later require legal access to official releases.
@@ -194,7 +194,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** The target wording must not be invented or taken from an unsourced transcription.
 - **Acceptance criteria:** Provenance and reliability are recorded; no Japanese-English correspondence is asserted without evidence.
 - **Outputs:** `docs/references.md`, permitted reference notes.
-- **Notes:** Selecting and verifying one Ryu quote occurs under `REF-001` through `REF-005`.
+- **Notes:** `SESSION-0008` records two original US arcade revisions, the distinct
+  modern Capcom reissue, the US PlayStation fingerprint, source reliability, and
+  verification. Selecting and verifying one Ryu quote remains `REF-001` through
+  `REF-005` work.
 
 ### DOC-007 - Collect known XvSF Saturn translation/research references
 
