@@ -103,15 +103,19 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### ENV-007 - Record immutable source identities
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-004.
-- **Blockers:** The MSHvSF Saturn JP image path and release description are still not supplied.
+- **Blockers:** None.
 - **Objective:** Record filename, size, SHA-256, and description for the BIOS and every source-image component without modifying them.
 - **Rationale:** All later observations must identify their exact immutable inputs.
 - **Acceptance criteria:** The checked source-hash utility records every component; before/after hashes match; only metadata is tracked.
 - **Outputs:** Source identity records; ignored or external source files.
-- **Notes:** BIOS files were supplied and recorded in `docs/mednafen.md`; multi-file images require one record per component, not only the descriptor.
+- **Notes:** BIOS files were supplied and recorded in `docs/mednafen.md`. The MSHvSF
+  Saturn JP image is copied to ignored `local/disc_images/mshvsf_saturn_jp/`, and its
+  CUE plus all twelve BIN components are recorded in
+  `references/mshvsf/saturn_jp/README.md`. Multi-file images require one record per
+  component, not only the descriptor.
 
 ## Phase B: Documentation Corpus
 

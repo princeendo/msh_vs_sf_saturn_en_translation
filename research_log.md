@@ -685,3 +685,63 @@ git diff --check
 Next action:
 Begin `DOC-007` to catalog XvSF Saturn translation and research references without
 comparative analysis or modification. M1 remains blocked by `GATE-M0`.
+
+## 2026-08-24 18:20 CDT - SESSION-0009
+
+Task: ENV-007
+
+Goal:
+Record the immutable identity of the supplied MSHvSF Saturn JP source image without
+tracking copyrighted disc contents.
+
+Observation:
+`/Users/colinwhite/Downloads/Marvel Super Heroes vs. Street Fighter (Japan)` contained
+one CUE descriptor and twelve BIN components: one MODE1/2352 data track followed by
+eleven audio tracks as described by the supplied CUE. The source directory was not
+modified. The repository already ignored `local/` and optical-disc media extensions.
+
+Hypothesis:
+Copying the complete set to `local/disc_images/mshvsf_saturn_jp/`, retaining the CUE
+beside its BIN components, and tracking only a hash manifest will provide a reproducible
+local input without placing the image in version control.
+
+Action:
+Copied all files with preserved names and metadata:
+
+```text
+mkdir -p local/disc_images/mshvsf_saturn_jp
+cp -p "/Users/colinwhite/Downloads/Marvel Super Heroes vs. Street Fighter (Japan)"/* local/disc_images/mshvsf_saturn_jp/
+./invenv.sh python -m tools.disc.hash_source \
+  --description "Locally supplied Marvel Super Heroes vs. Street Fighter (Japan) Saturn disc image; release identity as named, not independently verified" \
+  --json local/disc_images/mshvsf_saturn_jp/*
+```
+
+The command reported all thirteen components, with the filenames, sizes, and SHA-256
+values recorded in `references/mshvsf/saturn_jp/README.md`.
+
+Result:
+The copied files have the same sizes and SHA-256 values as the supplied source files:
+the data track is 452,397,792 bytes, the eleven audio tracks range from 3,238,704 to
+10,600,464 bytes, and the CUE is 1,697 bytes. No source or copied media file is tracked.
+The disc layout itself was not inspected or inferred.
+
+Conclusion:
+`CONFIRMED`: the supplied source identity is reproducibly recorded for ENV-007, and
+the complete local image set is available at the documented ignored path. This confirms
+identity and artifact placement only; it does not confirm any target disc-layout,
+filesystem, encoding, or caption-storage claim.
+
+Verification commands and outcomes:
+
+```text
+set -e; for source in "/Users/colinwhite/Downloads/Marvel Super Heroes vs. Street Fighter (Japan)"/*; do cmp -s "$source" "local/disc_images/mshvsf_saturn_jp/${source##*/}"; done
+  Passed; every source and copied component byte-matched.
+./invenv.sh python -m tools.disc.hash_source --json local/disc_images/mshvsf_saturn_jp/*
+  13 files reported; values matched the tracked manifest.
+git check-ignore -v local/disc_images/mshvsf_saturn_jp/*
+  All 13 files matched the existing local/ ignore rule.
+```
+
+Next action:
+Continue the current M0 task sequence. Before any M1 work, inspect this untouched image
+under a documented tool configuration and record the target layout separately.

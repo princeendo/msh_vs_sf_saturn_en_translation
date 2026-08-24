@@ -2,7 +2,18 @@
 
 ## Status
 
-The target disc layout has not been documented or confirmed in this repository.
+The source identity is recorded, but the target disc layout has not been documented or
+confirmed in this repository.
+
+## Recorded Source Identity
+
+The complete locally supplied source image is available at the ignored path
+`local/disc_images/mshvsf_saturn_jp/`. Its CUE descriptor and all twelve BIN tracks
+remain local and immutable. The tracked filename, size, and SHA-256 manifest is in
+[`references/mshvsf/saturn_jp/README.md`](../references/mshvsf/saturn_jp/README.md).
+
+Do not infer track roles, filesystem structure, sector modes, or offsets from filenames
+alone. Record those properties only after inspection of this exact source image.
 
 The platform expectations below come from the official Sega references cataloged in
 `docs/references.md`. They constrain later observations but are not observations of
