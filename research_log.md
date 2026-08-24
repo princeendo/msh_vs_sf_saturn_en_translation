@@ -92,3 +92,67 @@ Next action:
 Begin `DOC-001`, collecting authoritative Sega Saturn architecture references and
 recording concise, citable claims. `EMU-001` and the other READY M0 documentation
 tasks may proceed independently, but M1 remains blocked by `GATE-M0`.
+
+## 2026-08-24 16:35 CDT — SESSION-0002
+
+Task: ENV-007 / local Mednafen BIOS setup
+
+Goal:
+Make the supplied local Saturn BIOS set available to Mednafen without
+tracking copyrighted binary files, while recording immutable identities.
+
+Observation:
+`/Users/colinwhite/Downloads/Sega Saturn BIOS` contained 11 BIOS files, each 524288
+bytes. The repository already ignored `*.bin` and recommended local Mednafen state
+under `local/mednafen/`.
+
+Hypothesis:
+Copying the supplied files to ignored `local/mednafen/firmware/` and providing the two
+Mednafen 1.32.1 default filenames from hash-matching supplied files will make the
+firmware discoverable without changing the source files or tracking BIOS content.
+
+Action:
+Copied all 11 supplied files without renaming them. Created `sega_101.bin` from
+`Bios Saturn 1.01 (J) [!].bin` and `mpr-17933.bin` from `Sega Saturn BIOS (EUR).bin`.
+Recorded all sizes and SHA-256 hashes in `docs/mednafen.md`, along with the
+`MEDNAFEN_HOME="$PWD/local/mednafen"` launch convention. Updated ENV-007's blocker
+to identify only the still-missing MSHvSF Saturn JP image.
+
+Result:
+The canonical aliases have the documented Mednafen hashes: `sega_101.bin` is
+`dcfef4b99605f872b6c3b6d05c045385cdea3d1b702906a0ed930df7bcb7deac`, and
+`mpr-17933.bin` is
+`96e106f740ab448cf89f0dd49dfbac7fe5391cb6bd6e14ad5e3061c13330266f`. The source
+directory was not modified. Runtime boot has not yet been tested because the exact
+Mednafen build and MSHvSF source image are not available.
+
+Conclusion:
+`SUPPORTED`: the local firmware layout and canonical filenames are consistent with
+the Mednafen 1.32.1 documentation and independently match the supplied-file hashes.
+`EMU-001` through `EMU-004` are still required before treating firmware use as
+runtime-confirmed.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh python -m tools.disc.hash_source --description "Locally supplied Sega Saturn BIOS; filename-based release identity" --json local/mednafen/firmware/*.bin
+  13 files reported; every file was 524288 bytes and the hashes matched the manifest.
+git check-ignore -v local/mednafen/firmware/*.bin
+  All 13 files matched the existing local/ ignore rule.
+cmp source files and copied files, including both canonical aliases
+  Source copies and canonical aliases byte-matched.
+git diff --check
+  Passed.
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  Passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Passed; 10 source files checked.
+```
+
+Next action:
+Select and document the exact stock Mednafen version under `EMU-001`. ENV-007 remains
+blocked until the MSHvSF Saturn JP image path and release description are supplied.
