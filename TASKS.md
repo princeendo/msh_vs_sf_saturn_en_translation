@@ -138,8 +138,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Future execution tracing requires precise processor semantics.
 - **Acceptance criteria:** Sources and task-oriented summaries cover only verified concepts needed for debugger work, with citations and remaining unknowns.
 - **Outputs:** `docs/references.md`, `docs/code_map.md`.
-- **Notes:** `SESSION-0004` records the external source identities, task-oriented
-  SH-2 summary, and the explicit boundary against inferring target addresses.
+- **Notes:** `SESSION-0004` records source identities, task-oriented SH-2 and
+  hardware-debugging summaries, verification, and the explicit boundary against
+  inferring target addresses or Mednafen behavior.
 
 ### DOC-003 - Collect Saturn CD/filesystem references
 
