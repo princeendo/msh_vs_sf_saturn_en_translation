@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/mshvsf/artifact-manifest.schema.json",
+  "title": "Local research artifact metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["experiment_id", "artifacts"],
+  "properties": {
+    "experiment_id": { "type": "string", "pattern": "^EXP-[0-9]{4}$" },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "filename", "size_bytes", "sha256", "description"],
+        "properties": {
+          "role": { "type": "string", "minLength": 1 },
+          "filename": { "type": "string", "minLength": 1 },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "description": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
