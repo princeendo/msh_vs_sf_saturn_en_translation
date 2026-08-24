@@ -17,6 +17,77 @@ Validate the task-required stock capabilities before proposing modifications:
 Record observed behavior and limitations; do not infer capabilities from another
 version or platform.
 
+## Documented Debugger Baseline
+
+The upstream pages and retrieved identities are cataloged in `docs/references.md`.
+The debugger page is valid as of `1.32.0-UNSTABLE`; the general and Saturn pages are
+valid as of `1.32.1`. These are documented capabilities only. `EMU-001`, `EMU-010`,
+and `EMU-011` must verify them in the selected stock build and exact target session.
+
+### Entry And CPU Control
+
+| Key | Documented action |
+| --- | --- |
+| `Left Alt+D` | Toggle the master debugger view. |
+| `Alt+1` | Select the CPU debugger view. |
+| `R` | Run. |
+| `S` | Step. |
+| `Return` | Edit the selected disassembly address or register. |
+| `Shift+Return` | Edit the watch address. |
+| `Space` | Toggle a PC breakpoint at the selected disassembly address. |
+| `Shift+R` | Edit read breakpoints. |
+| `Shift+W` | Edit write breakpoints. |
+| `Tab` | Move focus between disassembly and registers. |
+
+PC breakpoints are documented as testing the PC at the start of an instruction. Do
+not infer Saturn delay-slot or breakpoint timing beyond that statement without a
+controlled test.
+
+### Memory View And Capture
+
+| Key | Documented action |
+| --- | --- |
+| `Alt+3` | Select the memory editor. |
+| `Ctrl+Left` / `Ctrl+Right` | Select the previous or next address space. |
+| `D` | Dump a range from the selected address space to a file. |
+| `L` | Load a file into the selected address space. |
+| `S` / `R` / `T` | Search for byte strings, relative byte strings, or text. |
+| `Insert` | Enter memory edit mode. |
+| `P` | Low-level poke through the virtual CPU's write handlers. |
+| `Shift+P` | Attempt a high-level poke to underlying ROM or RAM. |
+
+The documented dump specifications are:
+
+```text
+start_address end_address filename
+start_address +count filename
+```
+
+The first form's end address is inclusive. `L`, `P`, `Shift+P`, and memory edit mode
+modify emulated state and are not capture operations. High-level poke is not available
+for every system. Dump files, traces, and other runtime evidence belong under ignored
+paths with checkpoint, address-space, range, size, and SHA-256 metadata recorded.
+
+### Required Live Checks
+
+- Confirm that the selected build includes debugger support and that `ss` exposes the
+  CPU and memory views required by the project.
+- Enumerate every Saturn CPU choice, displayed register, and memory-editor address
+  space exactly as shown; do not supply names from source code or another frontend.
+- Test PC, read, and write breakpoint timing one controlled case at a time, including
+  whether DMA or device accesses trigger CPU-oriented breakpoints.
+- Test dump range boundaries, output size, selected address space, and repeatability on
+  a small non-copyrighted or safely retained runtime range before bulk capture.
+- Do not load a save state or invoke power/reset while stopped in step mode. Upstream
+  documentation warns that this combination may significantly malfunction for `ss`.
+- Treat branch history as unreliable when the CPU debugger is not active unless at
+  least one breakpoint is installed.
+
+The upstream debugger page does not document Saturn-specific graphics-viewer support,
+address aliases, physical/logical address meaning, high-level pokes, or DMA visibility.
+Those are unknown until observed; source-code inspection alone would not make them
+runtime-confirmed behavior.
+
 ## Local State
 
 Keep runtime configuration, BIOS files, save states, screenshots, memory dumps,
