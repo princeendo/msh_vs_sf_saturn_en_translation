@@ -463,6 +463,125 @@ The corpus supports using these process patterns without assuming target structu
 No project above establishes MSHvSF encoding, offsets, pointers, compression,
 renderer behavior, file relocation safety, or runtime caching.
 
+## MSHvSF Official English Text Sources
+
+This section identifies candidate official releases and the evidence needed to use
+them. It does not adopt a quote transcription or assert correspondence with Japanese
+Saturn text. Sources were accessed on 2026-08-24.
+
+### US Arcade Revisions In MAME 0.289
+
+- Catalog authority: MAME upstream signed tag `mame0289`, tag object
+  `d0b7160e54874fa58f553614db373d73100d5ecb`, commit
+  `f34f02505e32c1993c6a782b6814232cbfc74e36`, released 2026-07-30.
+- Immutable source:
+  <https://github.com/mamedev/mame/blob/f34f02505e32c1993c6a782b6814232cbfc74e36/src/mame/capcom/cps2.cpp>.
+- Retrieved source identity: 977,277 bytes; SHA-256
+  `a8c09ef83841d75b81a4b2ee8ac029ebf8eecb6a743b016abb33e3d46e861602`.
+- `mshvsfu`: *Marvel Super Heroes Vs. Street Fighter (USA 970827)*. Distinguishing
+  program files include `mvsu.03g` CRC-32 `0664ab15`, SHA-1
+  `939fb1e3c06c33fc212b26ecfceac3180e108e9d`, and `mvsu.04g` CRC-32
+  `97e060ee`, SHA-1 `787924e04508c83ecd4c3a872882d2be9e57eb50`.
+- `mshvsfu1`: *Marvel Super Heroes Vs. Street Fighter (USA 970625)*. Distinguishing
+  program files include `mvsu.03d` CRC-32 `ae60a66a`, SHA-1
+  `1fa7e6534d02ec8059153705b1161a55b9cfe803`, and `mvsu.04d` CRC-32
+  `91f67d8a`, SHA-1 `e95f7a3fb281e1bafdbe7a1b22532c4fab5ec89d`.
+- MAME also catalogs a `970625 Phoenix Edition` as a bootleg. It is excluded as an
+  official wording source.
+- Reliability: the pinned MAME catalog provides reproducible set identities and ROM
+  fingerprints. It does not transcribe, render, or establish any post-fight wording.
+  `970625` and `970827` are program version labels, not proven retail dates. Whether
+  the two revisions show identical quotes is unknown until both are captured.
+
+### Official Arcade Context
+
+- Capcom Coin-Op, Inc., *Marvel Super Heroes Vs. Street Fighter Operator's Manual*;
+  manual `PM00201`, printed code `062897`, copyright 1997; Internet Archive item
+  <https://archive.org/details/arcademanual_marvel-super-heroes-vs-street-fighter>,
+  ARK `ark:/13960/t9d56vh3h`.
+- Retrieved original PDF identity: 3,393,718 bytes; SHA-256
+  `709fc6257bef27d07f01fc004adc20ff215fe6afb1eea742c03882318876f48e`;
+  Archive metadata MD5 `190eff6a86099e5d03d880fe78b21965` and SHA-1
+  `01b8609fb3958c1cef1f926b796b48a48a888256`.
+- Reliability: the manual is primary evidence for an official US/Canada Capcom arcade
+  product and its operator context. It does not identify either MAME program revision
+  and contains no post-fight quote corpus.
+
+### Capcom 2024 Reissue
+
+- Official page:
+  <https://www.capcom-games.com/marvel-vs-capcom-fc/en-us/title/marvel-vs-sf/>.
+- Capcom labels the included release `JAPAN 970707 / USA 970707` and documents changes
+  from the original, including a playable Cyber-Akuma mode and light reduction.
+- Reliability: this is an official, legally available runtime source for its own
+  `USA 970707` presentation. MAME 0.289 catalogs US `970625` and `970827`, not
+  `970707`. The relationship among these builds is unresolved, so the reissue must be
+  recorded as a third release rather than substituted for either original board set.
+
+### US PlayStation Release
+
+- Primary candidate: *Marvel Super Heroes vs. Street Fighter*, US PlayStation,
+  `SLUS-00793`, Fighters Edge, English, NTSC-U.
+- Redump record: <http://redump.org/disc/12632/>; status records at least two dumps
+  from original media. One Data/Mode 2 track: 235,074 sectors; 552,894,048 bytes;
+  CRC-32 `94eb061c`; MD5 `a182cf4649be619c78c0aeb172f5246b`; SHA-1
+  `6e50ac0d4dfc5eaf2ddd0da3cabde19e0ec3721a`.
+- MAME corroboration: MAME 0.289 `hash/psx.xml` at the same pinned commit identifies
+  software `mshvsf`, `SLUS-00793`, NTSC-U, Capcom Entertainment, and the matching raw
+  track. Retrieved XML identity: 3,919,227 bytes; SHA-256
+  `d5c9acd791513686a6e94061f2efb49f0c46d13260aa0465ade8ebe84a0fbc1f`.
+- Official contextual corroboration: the ESRB record at
+  <https://www.esrb.org/ratings/3836/marvel-super-heroes-vs-street-fighter/>
+  identifies Capcom Entertainment and PlayStation/PS one. The scanned official English
+  manual is archived at
+  <https://archive.org/details/marvel_super_heroes_vs_street_fighter_english>, ARK
+  `ark:/13960/t11p4rw4g`; retrieved PDF identity 6,452,890 bytes, SHA-256
+  `ddaa9fb8f8974a034af26628caf55b544fceffa05ebbd627c966ed2ccb136840`,
+  Archive metadata MD5 `1346d56b9ab54876f7607e185eff7bd2` and SHA-1
+  `bb5f3bf52f4893df1acec56da063bfc4567755fd`.
+- Reliability: these sources establish the release identity, not quote wording.
+  Redump's executable and filesystem timestamps are build metadata, not retail dates.
+  Secondary catalogs disagree on the exact February 1999 US retail day, which is not
+  needed for quote provenance and remains unresolved.
+
+### Transcription Leads Are Not Oracles
+
+- Robert Iu's *Quotes and Dialog Guide*, version 1.01, July 13, 1999, is available at
+  <https://gamefaqs.gamespot.com/arcade/583597-marvel-super-heroes-vs-street-fighter/faqs/704>.
+  It explicitly says its source was the US PlayStation version and only supposes that
+  it should be close to the arcade version.
+- Reliability: it is a useful period candidate index, but records no serial, disc
+  hash, screenshots, route, arcade revision, or per-line evidence. Copies shown under
+  arcade, PlayStation, and Saturn categories are one document, not independent
+  confirmations. It cannot establish arcade wording or Japanese-English
+  correspondence.
+- Community wikis, user-contributed trivia, unversioned gameplay videos, and emulator
+  screenshots without input hashes are lead-only sources for the same reason.
+
+### Evidence Hierarchy And Capture Protocol
+
+- Release identity: use pinned MAME ROM definitions or a full Redump-compatible disc
+  fingerprint.
+- Exact wording: capture and independently transcribe a lossless frame from the
+  identity-verified official release. A catalog or extracted byte string alone does
+  not establish rendered case, punctuation, spacing, or line breaks.
+- Context: record mode, character, partner, opponents, stage, round, finishing
+  character, settings, route, checkpoint, and whether quote selection is deterministic.
+- Arcade comparison: reproduce the context in both `mshvsfu` and `mshvsfu1`; record
+  exact MAME version/commit, ROM audit, command line, settings, and screenshot hashes.
+- PS1 comparison: use a legal `SLUS-00793` disc matching the complete track fingerprint
+  above; treat the result as evidence for that port only.
+- Correspondence: matching character or similar meaning is insufficient. Keep a
+  Japanese-English pairing as `HYPOTHESIS` until context and selection behavior are
+  reproducibly linked. If random selection cannot be controlled, alternatives remain.
+- Store screenshots, ROMs, disc images, and states only under ignored local paths.
+  Commit release identifiers, hashes, commands, context, transcriptions, and confidence.
+
+`REF-001` may use lead-only lists to choose a candidate route but not to adopt wording.
+`REF-002` and `REF-003` establish the Japanese visible source. `REF-004` establishes
+the primary arcade wording and correspondence confidence through direct capture.
+`REF-005` records the PS1 equivalent only when it adds discriminating evidence.
+
 ## Bibliography Fields
 
 Record title, author or publisher when available, release or revision, publication

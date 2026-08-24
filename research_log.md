@@ -610,3 +610,78 @@ git diff --check
 Next action:
 Begin `DOC-006` to identify authoritative release provenance for official English
 MSHvSF post-fight text. M1 remains blocked by `GATE-M0`.
+
+## 2026-08-24 20:02 CDT - SESSION-0008
+
+Task: DOC-006
+
+Goal:
+Identify authoritative candidate releases for official English MSHvSF post-fight text
+and define the evidence needed to accept wording and correspondence.
+
+Observation:
+The repository named the US arcade release as primary and US PlayStation as secondary,
+but had no revision identities, hashes, or reliability assessment. Search results also
+exposed a period quote guide under several platform categories without independent
+release evidence.
+
+Hypothesis:
+A pinned MAME catalog, Redump-compatible PlayStation identity, and official contextual
+materials would establish release provenance, while direct capture would remain
+necessary for wording and Japanese-English correspondence.
+
+Action:
+Pinned arcade and PlayStation catalog evidence to signed MAME 0.289 tag `mame0289`,
+commit `f34f02505e32c1993c6a782b6814232cbfc74e36`; retrieved and hashed its CPS-II
+source and PSX software list. Retrieved and hashed the archived official arcade and
+US PlayStation manuals. Inspected Redump disc 12632 metadata, Capcom's current
+collection page, the ESRB record, and Robert Iu's 1999 quote guide.
+
+```text
+MAME 0.289 cps2.cpp  977277 bytes
+  a8c09ef83841d75b81a4b2ee8ac029ebf8eecb6a743b016abb33e3d46e861602
+MAME 0.289 psx.xml   3919227 bytes
+  d5c9acd791513686a6e94061f2efb49f0c46d13260aa0465ade8ebe84a0fbc1f
+arcade operator manual PDF 3393718 bytes
+  709fc6257bef27d07f01fc004adc20ff215fe6afb1eea742c03882318876f48e
+US PlayStation manual PDF 6452890 bytes
+  ddaa9fb8f8974a034af26628caf55b544fceffa05ebbd627c966ed2ccb136840
+```
+
+Result:
+MAME identifies two original US arcade revisions: `mshvsfu`, `USA 970827`, and
+`mshvsfu1`, `USA 970625`, with distinct program ROM fingerprints. Capcom's modern
+collection labels a separate `USA 970707` release, whose relationship to the MAME
+sets is unresolved. Redump disc 12632 and MAME's software list identify US
+PlayStation `SLUS-00793` through a complete single-track fingerprint.
+
+The operator and console manuals corroborate official products but contain no quote
+corpus. The 1999 GameFAQs guide explicitly derives from US PS1 and only speculates
+that arcade should be close; it is therefore a candidate index, not authoritative
+arcade wording. No Japanese-English correspondence was found or asserted.
+
+Conclusion:
+`SUPPORTED`: bibliographic and reproducible identity evidence is sufficient to close
+`DOC-006`. Exact wording remains `UNKNOWN` until direct capture from verified media,
+and correspondence remains `UNKNOWN` until the staged `REF-001` through `REF-005`
+context experiments. No quote text is added to translation data. No experiment record
+or discovery entry is warranted.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  All checks passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Success: no issues found in 10 source files.
+git diff --check
+  Passed with no output.
+```
+
+Next action:
+Begin `DOC-007` to catalog XvSF Saturn translation and research references without
+comparative analysis or modification. M1 remains blocked by `GATE-M0`.
