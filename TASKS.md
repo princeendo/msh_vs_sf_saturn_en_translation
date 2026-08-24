@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: none.
+- Current active task: `DOC-003`.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-002`.
+- Next research task: `DOC-003`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -130,7 +130,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-002 - Collect SH-2 references
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None.
@@ -138,7 +138,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Future execution tracing requires precise processor semantics.
 - **Acceptance criteria:** Sources and task-oriented summaries cover only verified concepts needed for debugger work, with citations and remaining unknowns.
 - **Outputs:** `docs/references.md`, `docs/code_map.md`.
-- **Notes:** No game code addresses may be inferred from architecture documentation.
+- **Notes:** `SESSION-0004` records the external source identities, task-oriented
+  SH-2 summary, and the explicit boundary against inferring target addresses.
 
 ### DOC-003 - Collect Saturn CD/filesystem references
 

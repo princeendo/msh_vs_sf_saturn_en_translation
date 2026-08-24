@@ -112,6 +112,58 @@ are not committed.
   This project uses `MiB` and `KiB` when normalizing byte capacities.
 - No collected platform reference establishes where MSHvSF stores or renders text.
 
+## SH-2 Architecture And Debugging References
+
+The following processor references were accessed on 2026-08-24. The PDFs remain
+external and are not committed. They are platform references only; neither source
+identifies MSHvSF code or data addresses.
+
+### Hitachi/Renesas, *SH-1/SH-2 Programming Manual*
+
+- Issuer: Hitachi Semiconductor; the mirror identifies the later vendor as Renesas
+  Technology.
+- Stable mirror: <https://antime.kapsi.fi/sega/files/h12p0.pdf>.
+- Mirror filename: `h12p0.pdf`; 1,034,304 bytes; SHA-256
+  `03364fae725c23980ae76d75f266f760844a6ce4e4ec54b7c40897b180be5d44`.
+- Relevant areas: programmer-visible registers; instruction descriptions; addressing
+  modes; condition-code behavior; delayed branches; exceptions and interrupts; and
+  programmer-visible memory-access rules.
+- Supported claims: SH-2 debugger interpretation must account for the general
+  registers, `PC`, `PR`, `GBR`, `VBR`, `MACH`, `MACL`, and `SR`; instruction operands
+  use the documented addressing modes; branch instructions with delay slots require
+  instruction-flow interpretation beyond the branch address; and exception/interrupt
+  handling uses the documented vector and status-register mechanisms.
+- Limits: the mirror does not provide a verified publication edition in its catalog
+  entry, and the manual is not a Saturn game debugger manual. These claims guide
+  processor interpretation only.
+
+### Hitachi/Renesas, *SH7604 Hardware Manual*
+
+- Issuer: Hitachi Semiconductor; the mirror identifies the later vendor as Renesas
+  Technology.
+- Stable mirror: <https://antime.kapsi.fi/sega/files/sh7604.pdf>.
+- Mirror filename: `sh7604.pdf`; 2,211,720 bytes; SHA-256
+  `262cfff2abec2fa0cef5c5475495d6a4da390eff107ed3a75575827467daab9f`.
+- Relevant areas: SH7604 memory map and bus interface; interrupt controller; DMA
+  controller; cache and address behavior; and CPU peripheral registers.
+- Supported claims: hardware-level debugger interpretation must distinguish CPU
+  execution state from peripheral state, treat DMA and interrupt-controller
+  registers according to documented access rules, and preserve the documented
+  distinction between CPU-visible addresses and peripheral/register behavior.
+- Limits: this hardware manual describes the SH7604 device, not the complete Saturn
+  bus map or MSHvSF implementation. Saturn-specific mappings remain governed by the
+  Sega references above and measured runtime evidence.
+
+### Related mirror index
+
+- Antime's Saturn documentation index identifies the two manuals under its
+  `Renesas Technology` section and also lists the *SuperH RISC Engine Assembler,
+  User's Manual* and *SuperH RISC Engine Simulator/Debugger, User's Manual*.
+- The assembler and simulator/debugger manuals are not used as primary claims here:
+  their exact editions and applicable host/tool versions were not independently
+  established during this task. They remain candidates if a later experiment needs
+  assembler syntax or simulator-specific behavior.
+
 ## Bibliography Fields
 
 Record title, author or publisher when available, release or revision, publication
