@@ -279,3 +279,69 @@ Next action:
 Begin `DOC-002` to collect SH-2 architecture, instruction, and debugging references.
 Other READY M0 documentation tasks and `EMU-001` remain independent options. M1
 remains blocked by `GATE-M0`.
+
+## 2026-08-24 18:05 CDT - SESSION-0004
+
+Task: DOC-002
+
+Goal:
+Collect authoritative SH-2 processor and SH7604 hardware references needed to
+interpret future Saturn debugger evidence without inferring target addresses.
+
+Observation:
+The repository had Saturn architecture references but no processor-specific corpus.
+`docs/code_map.md` correctly prohibited unmeasured target addresses, but did not yet
+state the SH-2 semantics a debugger workflow must preserve.
+
+Hypothesis:
+The Hitachi/Renesas SH-1/SH-2 Programming Manual plus the SH7604 Hardware Manual
+provide sufficient verified processor-level coverage for the planned debugger work;
+Sega game-specific claims must remain outside this task.
+
+Action:
+Inspected the Antime Saturn documentation index and retrieved these external PDFs
+with curl 8.7.1. The downloaded files were hashed with shasum 6.02:
+
+```text
+curl -L --fail --silent --show-error -o /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf https://antime.kapsi.fi/sega/files/h12p0.pdf
+curl -L --fail --silent --show-error -o /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf https://antime.kapsi.fi/sega/files/sh7604.pdf
+shasum -a 256 /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf
+stat -f '%N %z bytes' /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/h12p0.pdf /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/sh7604.pdf
+```
+
+The source identities are recorded in `docs/references.md`. The index also lists
+assembler and simulator/debugger manuals, but their exact editions and applicable
+tool versions were not established and they were not used to support claims.
+
+Result:
+The programming manual supports the programmer-visible register set, addressing
+modes, instruction semantics, delayed branches, and exception/interrupt concepts.
+The SH7604 manual supports treating CPU execution, DMA, interrupt-controller, cache,
+and peripheral behavior as distinct evidence domains. The task-oriented summary was
+added to `docs/code_map.md`; no MSHvSF image, executable region, address, or runtime
+behavior was inspected.
+
+Conclusion:
+`SUPPORTED`: the two retrieved manuals provide a bounded, citable SH-2 reference
+corpus for debugger interpretation. `DOC-002` meets its acceptance criteria. Runtime
+debugger presentation and target-specific address interpretation remain unknown.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  Passed.
+./invenv.sh ruff format --check .
+  Passed.
+./invenv.sh mypy tools tests
+  Passed.
+git diff --check
+  Passed.
+```
+
+Next action:
+Begin `DOC-003` to collect Saturn boot-media, CD block, ISO9660, track, and
+filesystem references. `EMU-001` and other independent M0 documentation tasks remain
+available; M1 remains blocked by `GATE-M0`.
