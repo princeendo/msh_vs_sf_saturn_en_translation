@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `DOC-005`.
+- Current active task: `DOC-006`.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-005`.
+- Next research task: `DOC-006`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -172,7 +172,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-005 - Collect relevant Saturn localization projects
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None.
@@ -180,7 +180,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Prior work may suggest tools or tests but cannot establish MSHvSF structures.
 - **Acceptance criteria:** Each entry records provenance, license, exact relevant technique, and limits on transferability.
 - **Outputs:** `docs/references.md`, `references/projects/` notes where useful.
-- **Notes:** Avoid large unsummarized collections.
+- **Notes:** `SESSION-0007` records immutable revisions, archive identities,
+  license scopes, bounded techniques, excluded leads, and verification. No project
+  behavior is transferred to MSHvSF.
 
 ### DOC-006 - Collect known MSHvSF English quote references
 

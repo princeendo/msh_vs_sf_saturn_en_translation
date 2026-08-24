@@ -529,3 +529,84 @@ git diff --check
 Next action:
 Begin `DOC-005` to catalog legally usable Saturn localization projects and bounded
 techniques. M1 remains blocked by `GATE-M0`.
+
+## 2026-08-24 19:34 CDT - SESSION-0007
+
+Task: DOC-005
+
+Goal:
+Catalog a small set of legally inspectable Saturn localization projects that provide
+specific methods for future experiments without transferring game-specific facts.
+
+Observation:
+The repository had no evaluated project corpus. Public patch indexes contain many
+released Saturn translations, but publication or download access does not grant code
+reuse rights, and many repositories omit a license or mix source with derived assets.
+
+Hypothesis:
+A license-first search would identify a small corpus covering source verification,
+text round trips, guarded patching, disc rebuilds, and runtime reload checks, while
+explicitly excluding ambiguous or unlicensed material.
+
+Action:
+Searched GitHub repository metadata and Saturn translation indexes, inspected
+immutable repository revisions, license files, README documentation, manifests,
+tests, and representative patch/rebuild code. Retrieved five commit archives with
+curl 8.7.1 and hashed them with shasum 6.02:
+
+```text
+devil_summoner_tools 1e1483fb72584ad5dc39f07dff5e2ef5750dd69a
+  4977408 bytes
+  1a008b377254b3df84ab8149bf259bfa031298178abf8e7d8a895ecdedfdda9d
+langrisser3-english bee5a495eba18bbec0872faa552df47f4370f040
+  1938981 bytes
+  236294909f5c9e0cb4235af3514a3fcd71b7fdf321ae069d7d48aa858623cc72
+culdcept_saturn_tools 098142497c4b86e7c30b1ff98a8fb6cc032525e1
+  48093 bytes
+  797e908786fe2a8ff8e6f7e0353c93b1d9cdbc4194fab9657c82889bedf48b23
+pcrown 26def6fd9c2f804fc30ec90c95afa98974cafa02
+  4601139 bytes
+  39e989c47321f3e74e154bdf9ae9e2eeb2aaf325095db5e39571f91d186dc2b1
+new-parm-archives-tools 1453906aef0e87eefe240ee976fbf6d53a071e63
+  439108 bytes
+  7d37c53e2a9efa33a6a1bfa9e0f36191f8ca1a7b3432070159e8cdc7402b20d2
+```
+
+Result:
+One project provides explicitly scoped 0BSD source and three provide GPL source with
+clear method value. Together they support source manifests, no-edit round trips,
+expected-byte patch guards, structured text/control records, capacity checks,
+growth-aware ISO updates, raw-sector EDC/ECC repair, mixed-mode output verification,
+and testing after a reload boundary. None was run against copyrighted media in this
+task.
+
+`new-parm-archives-tools` has conflicting MIT scope statements between its README and
+NOTICE and is therefore documentation-only pending clarification. The released Rabbit
+Saturn fighting-game translation has no detected repository license and is retained
+only as a question-generating lead. SegaXtreme is treated as a discovery index, not a
+license authority.
+
+Conclusion:
+`SUPPORTED`: the selected corpus meets `DOC-005` provenance, license, technique, and
+transferability criteria. No project establishes an MSHvSF structure or behavior, and
+no project code or game-derived asset was copied. No experiment record or discovery
+entry is warranted.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  All checks passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Success: no issues found in 10 source files.
+git diff --check
+  Passed with no output.
+```
+
+Next action:
+Begin `DOC-006` to identify authoritative release provenance for official English
+MSHvSF post-fight text. M1 remains blocked by `GATE-M0`.
