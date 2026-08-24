@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/mshvsf/quote.schema.json",
+  "title": "Cross-release quote evidence record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "game",
+    "character",
+    "context",
+    "quote_id",
+    "status",
+    "saturn_jp_text",
+    "arcade_us_text",
+    "ps1_us_text",
+    "preferred_english",
+    "evidence",
+    "notes"
+  ],
+  "properties": {
+    "game": { "type": "string", "minLength": 1 },
+    "character": { "type": "string", "minLength": 1 },
+    "context": { "type": "string", "minLength": 1 },
+    "quote_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["UNKNOWN", "HYPOTHESIS", "SUPPORTED", "CONFIRMED", "DISPROVEN"]
+    },
+    "saturn_jp_text": { "type": "string" },
+    "arcade_us_text": { "type": "string" },
+    "ps1_us_text": { "type": "string" },
+    "preferred_english": { "type": "string" },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reference", "supports"],
+        "properties": {
+          "reference": { "type": "string", "minLength": 1 },
+          "supports": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}
