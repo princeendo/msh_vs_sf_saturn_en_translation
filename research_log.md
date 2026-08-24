@@ -357,3 +357,89 @@ git diff --check
 Next action:
 Begin `DOC-003` to collect Saturn boot-media, CD block, ISO9660, track, and filesystem
 references. M1 remains blocked by `GATE-M0`.
+
+## 2026-08-24 18:42 CDT - SESSION-0005
+
+Task: DOC-003
+
+Goal:
+Collect authoritative Saturn boot-media, CD block, ISO 9660, track, and filesystem
+references without inspecting or inferring the target image layout.
+
+Observation:
+`docs/disc_layout.md` contained source-identity and future-recording rules but no
+platform vocabulary for distinguishing tracks, raw sectors, logical sectors, file
+extents, and image-container offsets.
+
+Hypothesis:
+Sega's Game-CD format, Boot ROM, and CD Communication Interface manuals, bounded by
+the ISO 9660:1988 catalog record, would support the concepts needed for later target
+inspection while leaving every target-specific field unresolved.
+
+Action:
+Retrieved the three official-document copies from the Antime mirror with curl 8.7.1,
+hashed them with shasum 6.02, inspected their publication pages and relevant rendered
+sections, and checked ISO's official catalog record for ISO 9660:1988:
+
+```text
+curl -L --fail --silent --show-error -o <temporary-path>/ST-040-R4-051795.pdf \
+  https://antime.kapsi.fi/sega/files/ST-040-R4-051795.pdf
+curl -L --fail --silent --show-error -o <temporary-path>/ST-079B-R3-011895.pdf \
+  https://antime.kapsi.fi/sega/files/ST-079B-R3-011895.pdf
+curl -L --fail --silent --show-error -o <temporary-path>/ST-162-062094.pdf \
+  https://antime.kapsi.fi/sega/files/ST-162-062094.pdf
+shasum -a 256 <temporary-path>/ST-040-R4-051795.pdf \
+  <temporary-path>/ST-079B-R3-011895.pdf \
+  <temporary-path>/ST-162-062094.pdf
+stat -f '%N %z bytes' <temporary-path>/ST-040-R4-051795.pdf \
+  <temporary-path>/ST-079B-R3-011895.pdf \
+  <temporary-path>/ST-162-062094.pdf
+```
+
+Result:
+The files and identities were:
+
+```text
+ST-040-R4-051795.pdf  436835 bytes
+  066dccf08feb72713f78d371dcaf749cf9aa9ed9264c51629c0fc85d5770f1d2
+ST-079B-R3-011895.pdf 247170 bytes
+  ee2c05e29091ab7aac76624612b1f2eabd17335e8590883d549ab2d7e3a8ea7b
+ST-162-062094.pdf      875729 bytes
+  3fc11970edae90fcbafd47966637a0deb2a941b6e7cb335da451bc7acee8d1ad
+```
+
+The Game-CD standard directly supports track ordering, sector forms and user-data
+sizes, FAD/LSN conversion, system-area and ISO 9660 boundaries, directory records,
+and IP structure. The Boot ROM manual supports the bounded claim that boot code is
+checked before game startup. The CD interface manual supports host/CD-block transfer,
+TOC/session capability, sector filtering and buffering, and its ISO 9660 file service.
+
+An apparent conflict is scope-specific: the Game-CD standard prohibits multisession,
+while the CD block supports multisession media generally and refers to the last
+session's volume descriptor. Both statements are retained without attributing either
+layout to the target.
+
+Conclusion:
+`SUPPORTED`: these sources provide a task-oriented platform corpus for a future,
+hash-bound target image inspection. No target track, file, extent, sector mode, IP
+field, image offset, or rebuild constraint was observed. No experiment record or
+discovery entry is warranted.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  All checks passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Success: no issues found in 10 source files.
+git diff --check
+  Passed with no output.
+```
+
+Next action:
+Begin `DOC-004` to collect documented stock Mednafen debugger commands and limits.
+M1 remains blocked by `GATE-M0`.

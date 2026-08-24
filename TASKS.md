@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `DOC-003`.
+- Current active task: `DOC-004`.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-003`.
+- Next research task: `DOC-004`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -144,7 +144,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-003 - Collect Saturn CD/filesystem references
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None.
@@ -152,7 +152,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** M2 needs documented disc semantics before extraction or rebuilding.
 - **Acceptance criteria:** Authoritative citations and concise summaries distinguish filesystem facts from target-image observations.
 - **Outputs:** `docs/references.md`, `docs/disc_layout.md`.
-- **Notes:** Do not inspect or patch target data in this task.
+- **Notes:** `SESSION-0005` records official source identities, task-oriented format
+  and CD-block summaries, the scope-specific multisession distinction, and
+  verification. No target data was inspected.
 
 ### DOC-004 - Collect Mednafen debugger documentation
 

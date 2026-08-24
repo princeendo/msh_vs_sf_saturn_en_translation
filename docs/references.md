@@ -179,6 +179,105 @@ MSHvSF address, data structure, or execution path.
   here. The later hardware revision may include post-Saturn errata or features; no
   revision-specific claim is transferred to target behavior without measurement.
 
+## Saturn CD And Filesystem
+
+All URLs in this section were accessed on 2026-08-24. The Sega PDFs remain external
+and are not committed. These references define platform formats and interfaces; they
+do not show which permitted features MSHvSF uses or how a local image container maps
+tracks and sectors.
+
+### Sega, *Disc Format Standards Specification Sheet*
+
+- Issuer: SEGA; inspected English copy distributed through Sega of America, Inc.
+- Release: version 1.0, copyright 1995.
+- Document number: `ST-040-R4-051795`.
+- Third-party PDF mirror:
+  <https://antime.kapsi.fi/sega/files/ST-040-R4-051795.pdf>.
+- Mirror file identity: 436,835 bytes; SHA-256
+  `066dccf08feb72713f78d371dcaf749cf9aa9ed9264c51629c0fc85d5770f1d2`.
+- Relevant sections: 1.0, Disc Format Overview; 2.1 through 2.4, physical
+  organization, track layout, position keys, and sectors; 3.1 through 3.4, logical
+  format; and 4.1 through 4.8, boot system.
+- Supported claims: a conforming Game-CD is single-session and uses a Mode 1 track
+  first, followed by any Mode 2 Form 1/Form 2 tracks and then CD-DA tracks; Game-CD
+  logical structure conforms to ISO 9660; `LSN = FAD - 150`; Mode 1 and Mode 2 Form 1
+  sectors have 2,048 user-data bytes, while Mode 2 Form 2 has 2,324; LSN 0 through 15
+  form the system area and ISO 9660 volume descriptors begin at LSN 16; and the system
+  area's IP contains System ID, security code, area code group, and application initial
+  program. Directory records carry extent location, data length, flags, and file
+  identifier, and a file may be interleaved rather than physically contiguous.
+- Limits: the document describes a mastered Game-CD, not `.cue`, `.bin`, CHD, or
+  other image-container semantics. Its sample mastering scripts are examples, not
+  evidence of target layout. It does not establish MSHvSF track count, filenames,
+  extents, sector modes, interleaving, IP fields, first-read file, or rebuild method.
+
+### Sega, *Boot ROM User's Manual*
+
+- Issuer: SEGA; inspected English copy distributed through Sega of America, Inc.
+- Release: copyright 1995.
+- Document number: `ST-079B-R3-011895`.
+- Third-party PDF mirror:
+  <https://antime.kapsi.fi/sega/files/ST-079B-R3-011895.pdf>.
+- Mirror file identity: 247,170 bytes; SHA-256
+  `ee2c05e29091ab7aac76624612b1f2eabd17335e8590883d549ab2d7e3a8ea7b`.
+- Relevant sections: 1.0, Introduction; 2.0, Boot ROM Process Flow; 3.0, SEGA SATURN
+  Logo Display and Game Startup; and 4.0, Troubleshooting.
+- Supported claims: the boot ROM checks whether inserted media is recognized as a
+  Saturn Game-CD while displaying the logo and starts the game only when the required
+  boot code is recognized.
+- Limits: the manual explicitly describes a non-Japanese boot ROM and warns that
+  Japanese units differ. It establishes neither target boot behavior nor which BIOS
+  behavior Mednafen reproduces; those require the exact BIOS and runtime evidence.
+
+### Sega, *System Library User's Guide*
+
+- Issuer: SEGA; inspected English copy distributed through Sega of America, Inc.
+- Release: copyright 1994; the inspected copy archives pages 1 through 20 and directs
+  readers to `ST-162-R1-092994` for revised System Program and SMPC material.
+- Document number: `ST-162-062094`.
+- Third-party PDF mirror:
+  <https://antime.kapsi.fi/sega/files/ST-162-062094.pdf>.
+- Mirror file identity: 875,729 bytes; SHA-256
+  `3fc11970edae90fcbafd47966637a0deb2a941b6e7cb335da451bc7acee8d1ad`.
+- Relevant component and sections: *CD Communication Interface User's Manual*,
+  sections 1.1 through 1.3, interface and functions; 2.1 and 2.2, terminology and disc
+  layout; 3.1 through 3.4, communication and transfer; 4.1 through 4.3, drive; 5.1
+  through 5.5, CD block; and 6.1 through 6.2.3, ISO 9660 file system.
+- Supported claims: the host exchanges commands, responses, and sector data with the
+  CD block through its hardware interface; the CD block addresses media by FAD and
+  can expose TOC/session information; its ISO 9660 service reads directory records,
+  retains file information, and reads file sectors through selectors and buffer
+  partitions; and it supports multisession media generally, using the last session's
+  volume descriptor for its file-system service.
+- Limits: documented hardware or library capability does not prove that MSHvSF uses
+  the library or a specific command path. The CD block's generic multisession support
+  does not override the Game-CD mastering rule prohibiting multisession.
+
+### ISO, *ISO 9660:1988*
+
+- Issuer: International Organization for Standardization.
+- Release: edition 1, April 1988; corrected English version September 1988; withdrawn
+  in 2023 and revised by ISO/IEC 9660:2023.
+- Catalog record: <https://www.iso.org/standard/17505.html>.
+- Relevant material: public abstract and general information. The full standard was
+  not acquired for this task.
+- Supported claim: ISO 9660:1988 specifies CD-ROM volume and file structure,
+  including descriptors, file placement, file attributes, and record structures.
+- Limits: field-level statements here are cited to Sega's Saturn-specific format
+  document, not inferred from ISO's public abstract or the later 2023 revision.
+
+### Scope Boundaries And Apparent Conflict
+
+- `ST-040-R4-051795` prohibits multisession for a conforming Saturn Game-CD.
+  `ST-162-062094` documents that the CD drive and CD-block file-system interface can
+  handle multisession media generally. These statements have different scopes and are
+  retained together; neither is evidence that the target disc is multisession.
+- The format standard says files may be interleaved and the CD block can select by
+  FAD and subheader. Therefore an ISO extent alone is not sufficient evidence of a
+  byte offset in an arbitrary image container.
+- No source above identifies the target release's tracks, files, extents, sector
+  modes, boot fields, image-container layout, checksums, or rebuild constraints.
+
 ## Bibliography Fields
 
 Record title, author or publisher when available, release or revision, publication
