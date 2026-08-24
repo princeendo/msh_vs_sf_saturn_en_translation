@@ -108,3 +108,8 @@ Before ending substantial work:
 3. Update task status only when acceptance criteria are met.
 4. Identify the next unblocked task without beginning a gated milestone.
 5. Check that no copyrighted or machine-local artifact is staged for commit.
+6. After each successfully completed user-requested task, run the relevant
+   verification, inspect the status and diff, stage only intended files, create
+   a concise commit, and push it to the configured upstream branch. Never force-
+   push or commit prohibited artifacts or secrets; report an unavailable
+   upstream or failed push as a blocker.
