@@ -37,9 +37,8 @@ binaries but no macOS binary, while this research host is macOS arm64. The upstr
 Saturn documentation says official Saturn builds are compiled for some 64-bit
 architectures, including AArch64, and gives a minimum recommended CPU of quad-core
 Intel Haswell class at 3.3 GHz base and 3.7 GHz turbo. These are expected host
-requirements only. This selection does not claim that the source builds or runs on
-the local host; `EMU-002` must record the actual dependencies, options, build result,
-and binary hash.
+requirements only. The exact local stock build result is recorded below; it does not
+claim target-game boot or debugger behavior.
 
 The upstream source-build notes list `build-essential`, `pkg-config`, SDL 2.0.5 or
 newer, libFLAC, and zlib, with Debian Stretch package names as examples. They also
@@ -52,6 +51,30 @@ page, the general and Saturn documentation are valid as of `1.32.1`, and the Sat
 database identifies MSHvSF Japan product `T-1238G` as requiring 4 MiB extended RAM.
 The debugger documentation provides the relevant stock workflow baseline, subject to
 the later exact-build tests in `EMU-010` and `EMU-011`.
+
+## Exact Stock Build
+
+`EMU-002` built the unmodified `1.32.1` archive on 2026-08-24 using macOS 26.5.2
+arm64, Darwin 25.5.0, Apple Clang 21.0.0, GNU Make 3.81, `pkg-config` 2.5.1,
+Homebrew 6.0.18, SDL2 2.32.70, libFLAC 1.5.0, and zlib 1.2.12. The source and
+out-of-tree build are retained only in ignored local paths.
+
+From `vendor/mednafen/build`, the configure and build commands were:
+
+```bash
+PKG_CONFIG=/opt/homebrew/bin/pkg-config \
+CC=/usr/bin/clang CXX=/usr/bin/clang++ \
+  ../src/configure --prefix="$PWD/install" --enable-debugger --enable-ss
+make -j12
+```
+
+The resulting native arm64 binary is `vendor/mednafen/build/src/mednafen`, size
+21,322,536 bytes, SHA-256
+`ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587`. With the
+project-local `MEDNAFEN_HOME`, `./src/mednafen -help` exited successfully without a
+BIOS or game image, reported version `1.32.1`, and listed the Saturn `ss` module.
+The selected build's debugger and target runtime behavior remain later experimental
+questions.
 
 ## Documented Debugger Baseline
 

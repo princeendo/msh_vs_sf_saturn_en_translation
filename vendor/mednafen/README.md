@@ -36,6 +36,61 @@ successful compilation on FreeBSD, Linux, NetBSD, OpenBSD, and Windows, but do n
 establish a macOS build. `EMU-002` must determine the corresponding dependency
 versions and availability on this host.
 
+## EMU-002 Stock Build
+
+`EMU-002` built the selected archive without a local patch on 2026-08-24. The source
+was extracted to ignored `vendor/mednafen/src/`, and the out-of-tree build was placed
+under ignored `vendor/mednafen/build/`.
+
+Host and tool versions:
+
+- Host: macOS 26.5.2, Darwin 25.5.0, arm64.
+- Compiler: Apple Clang 21.0.0 (`/usr/bin/clang`, `/usr/bin/clang++`).
+- Make: GNU Make 3.81.
+- `pkg-config`: 2.5.1; Homebrew: 6.0.18.
+- SDL2: 2.32.70 via Homebrew `sdl2-compat`.
+- libFLAC: 1.5.0; zlib: 1.2.12.
+
+The archive acquisition command, when the archive is not already available, is:
+
+```bash
+curl -L --fail --silent --show-error \
+  -o /path/to/mednafen-1.32.1.tar.xz \
+  https://mednafen.github.io/releases/files/mednafen-1.32.1.tar.xz
+```
+
+The build commands were:
+
+```bash
+mkdir -p vendor/mednafen/src vendor/mednafen/build
+tar -xJf /path/to/mednafen-1.32.1.tar.xz \
+  --strip-components=1 -C vendor/mednafen/src
+cd vendor/mednafen/build
+PKG_CONFIG=/opt/homebrew/bin/pkg-config \
+CC=/usr/bin/clang CXX=/usr/bin/clang++ \
+  ../src/configure --prefix="$PWD/install" --enable-debugger --enable-ss
+make -j12
+```
+
+`config.status --config` recorded `--enable-debugger`, `--enable-ss`, the local
+prefix, and the explicit compiler and `pkg-config` paths. All other configure options
+remained at their upstream defaults. The resulting binary is a native arm64 Mach-O:
+
+- Path: `vendor/mednafen/build/src/mednafen`.
+- Size: 21,322,536 bytes.
+- SHA-256: `ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587`.
+
+The isolated smoke test was run from the build directory with no BIOS or game image:
+
+```bash
+MEDNAFEN_HOME="$PWD/../../../local/mednafen" ./src/mednafen -help
+```
+
+It exited successfully, reported Mednafen `1.32.1`, and listed the `ss` Saturn
+emulation module. The GNU-style `--version` spelling is not accepted by this binary;
+it reports `Unrecognized argument: --version`. This build result does not claim that
+the target game boots or that debugger behavior has been experimentally verified.
+
 If authorized, track:
 
 - upstream project URL;
