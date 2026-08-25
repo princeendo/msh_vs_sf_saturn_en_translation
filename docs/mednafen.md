@@ -130,9 +130,40 @@ actions remain `EMU-007` through `EMU-009` work.
 
 The target run selected software ID `T-1238G` and reported `Cart: 4MiB Extended RAM`.
 It initialized the Saturn video and audio modules but was stopped before a normal
-game-screen endpoint, so this observation does not close `EMU-004` or `EMU-005`.
+game-screen endpoint during `EMU-003`; this observation did not close `EMU-004` or
+`EMU-005`.
 The run also reported the source CUE's unsupported `CATALOG` directive and absence of
 an adjacent `.sbi` file; neither issue was changed during this task.
+
+## EMU-004 Boot Result
+
+`EMU-004` confirmed on 2026-08-24 that the same stock launch reaches a stable
+MSHvSF title screen. The exact command was:
+
+```bash
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan).cue" \
+  > local/mednafen/logs/emu004-launch-2.log 2>&1
+```
+
+The retained log is 4,190 bytes with SHA-256
+`e3ff1139f0774d6bb34160d315f6d496386ff5cdf75c7e63564e7862224156f2`. It records
+software ID `T-1238G`, the Japanese area, and `Cart: 4MiB Extended RAM`. After
+the window was focused, Enter was sent to continue the title flow and the
+configured snapshot action was sent after a three-second wait. The resulting
+ignored screenshot is:
+
+- Path: `local/mednafen/snaps/Marvel Super Heroes vs. Street Fighter (Japan)-0001.png`
+- Size: 22,616 bytes, 352x240 pixels.
+- SHA-256: `4c19283ec7c84b6b7690fa526e3323a7e0121efa75fa5fa9c6e88bf3c24f0d85`.
+- Content: stable MSHvSF title screen with the mode menu visible.
+
+The run exited cleanly. Pre-run and post-run checks matched all 13 source-image
+component hashes in `references/mshvsf/saturn_jp/README.md`, as well as the
+selected binary and canonical BIOS hashes. This closes `EMU-004` only. The
+reported cart selection is setup/runtime evidence, but `EMU-005` still requires
+its own controlled cartridge-operation observation.
 
 ## Documented Debugger Baseline
 

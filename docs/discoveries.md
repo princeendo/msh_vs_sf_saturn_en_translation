@@ -1,6 +1,35 @@
 # Confirmed Discoveries
 
-**None confirmed.**
+## EMU-004: Stock MSHvSF Boot Endpoint
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0001`
+
+Stock Mednafen 1.32.1 reaches a stable, visibly rendered MSHvSF Saturn title
+screen from the recorded untouched Japanese source image using the project-local
+runtime root and selected BIOS aliases. The observed runtime log identifies
+software `T-1238G`, area `J`, and `Cart: 4MiB Extended RAM`.
+
+Source identity is the 13-component manifest in
+`references/mshvsf/saturn_jp/README.md`; every component hash matched before and
+after the run. The stock binary is
+`vendor/mednafen/build/src/mednafen`, 21,322,536 bytes, SHA-256
+`ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587`. The
+canonical Japanese and North American/European BIOS aliases are unchanged from
+the hashes recorded in `docs/mednafen.md`.
+
+The ignored endpoint screenshot is
+`local/mednafen/snaps/Marvel Super Heroes vs. Street Fighter (Japan)-0001.png`,
+352x240, 22,616 bytes, SHA-256
+`4c19283ec7c84b6b7690fa526e3323a7e0121efa75fa5fa9c6e88bf3c24f0d85`. The
+retained ignored launch log is 4,190 bytes, SHA-256
+`e3ff1139f0774d6bb34160d315f6d496386ff5cdf75c7e63564e7862224156f2`.
+
+Reproduction uses the launch command and host input sequence recorded in
+`research/experiments/EXP-0001/README.md`. This confirms the baseline boot
+endpoint only; it does not close `EMU-005`, validate every input, or establish
+that the source-image CUE warnings are irrelevant to later experiments.
 
 This file contains only durable findings rated **CONFIRMED** by a controlled,
 reproducible experiment. Environment setup, observations, hypotheses, supported
