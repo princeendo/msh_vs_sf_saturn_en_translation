@@ -1229,3 +1229,62 @@ PS4-compatible presentation and the selected Mednafen SDL device identity.
 Next action:
 Run EMU-007 to validate the required controls in-game and test screenshot, pause,
 frame advance, save/load state, and slot-selection shortcuts where available.
+
+## 2026-08-25 — EXP-0004
+
+Task: EMU-007
+
+Goal:
+Validate the required physical M30 controls in-game and test the useful stock
+Mednafen shortcuts without changing the source image or emulator binary.
+
+Observation:
+`EMU-006` had already confirmed the M30 profile parsed and the selected stock build
+enumerated the device. Runtime action behavior and shortcut availability remained
+unverified. A standard Mac keyboard did not provide a reliable Pause/Break key.
+
+Hypothesis:
+The configured M30 controls and available shortcuts will produce their intended
+runtime behavior in MSHvSF; pause may be unavailable on this host despite its
+generated SDL binding.
+
+Action:
+Verified the 13 source-image component hashes before launch, verified the stock
+binary and canonical BIOS hashes, and launched:
+
+```bash
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan).cue" \
+  > local/mednafen/logs/emu007-validation.log 2>&1
+```
+
+The physical M30 was used for the required controls only. The configured screenshot,
+frame-advance, normal-run, save-state, load-state, and slot-selection actions were
+tested. The generated pause binding was tested as configured; temporary F1 and F4
+host bindings were also tried only in the ignored local profile. The stock binary,
+BIOS, and source image were not modified.
+
+Result:
+The user reported the expected in-game behavior for D-pad up/right/down/left,
+A/B/C, X/Y/Z, and Start. The user also reported successful use of every tested
+shortcut except pause. F1 opened Mednafen help; F4 produced no pause response. No
+new screenshot or state file remained under the configured local directories after
+the run. The retained runtime log is 4,248 bytes with SHA-256
+`c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c` and records
+joystick ID `0xecccd365fc40db2f0006000c00010000`, software `T-1238G`, area `J`, and
+`Cart: 4MiB Extended RAM`.
+
+The post-run source identity command reproduced every pre-run size and SHA-256
+value. The generated profile retained its original SDL Pause scancode 72 after
+the temporary binding attempts.
+
+Conclusion:
+`SUPPORTED` for the required M30 runtime mapping and the available tested shortcuts.
+Pause/unpause is `UNKNOWN` on this Mac host, not a confirmed capability. EMU-007
+meets its documentation acceptance criteria with the unavailable shortcut explicitly
+recorded.
+
+Next action:
+Proceed to EMU-008 only; do not begin EMU-009 until EMU-008 is complete. The pause
+unknown may be revisited if a physical Pause/Break keyboard becomes available.
