@@ -898,3 +898,125 @@ Next action:
 Proceed to `EMU-003`, using the verified binary and project-local runtime root. Do not
 begin target boot or debugger experiments before the configuration strategy is
 documented.
+
+## 2026-08-24 19:52 CDT — SESSION-0012
+
+Task: EMU-003
+
+Goal:
+Isolate stock Mednafen configuration, runtime artifacts, and diagnostic output from
+user-global state, then verify a repeatable launch and cold-relaunch procedure.
+
+Observation:
+`local/mednafen/` already contained the generated 1.32.1 configuration and ignored
+runtime directories. No Mednafen process held the existing zero-byte lock file before
+testing. The stock binary, both selected BIOS aliases, and the source-image identity
+records were unchanged.
+
+Hypothesis:
+Setting `MEDNAFEN_HOME` to the ignored project-local root will cause stock Mednafen to
+load configuration and place runtime state and retained diagnostics below that root,
+without requiring a tracked copy of the generated host-specific configuration.
+
+Controlled change:
+Only runtime invocation and ignored generated artifacts changed. The source image,
+BIOS files, stock Mednafen source, and stock Mednafen binary were not modified.
+
+Action:
+Verified the following identities before launch:
+
+```text
+vendor/mednafen/build/src/mednafen  21322536 bytes
+  ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587
+local/mednafen/firmware/sega_101.bin  524288 bytes
+  dcfef4b99605f872b6c3b6d05c045385cdea3d1b702906a0ed930df7bcb7deac
+local/mednafen/firmware/mpr-17933.bin  524288 bytes
+  96e106f740ab448cf89f0dd49dfbac7fe5391cb6bd6e14ad5e3061c13330266f
+```
+
+Ran the configuration smoke test:
+
+```bash
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen -help
+```
+
+The process reported base directory
+`/Users/colinwhite/workspace/personal/msh_vs_sf_saturn_en_translation/local/mednafen`,
+loaded `local/mednafen/mednafen.cfg`, and loaded `7904` valid settings with zero
+unknown settings.
+
+Ran the target launch twice, ending each instance after Saturn initialization and
+rerunning the identical command:
+
+```bash
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan).cue"
+```
+
+For the retained third run, stdout and stderr were redirected to ignored
+`local/mednafen/logs/emu003-launch.log`, 4,282 bytes, SHA-256
+`341c7816182d74902dff457ae00655cd46d6f3784c3d0dd7d7a79edba94dfe91`. The run
+reported software ID `T-1238G`, selected `Cart: 4MiB Extended RAM`, initialized
+Saturn audio and OpenGL video, and used the project-local paths for firmware,
+per-game configuration, and cheats. It also created ignored Saturn save data:
+
+```text
+local/mednafen/sav/Marvel Super Heroes vs. Street Fighter (Japan).0eac041df6b7d4ca563f4c35017eea24.bkr
+  32768 bytes, SHA-256 6a0d5bcdf8c8243c4f6b8666e76aa0fc8f4eef56df7993b414f3fa7bb3a3e141
+local/mednafen/sav/Marvel Super Heroes vs. Street Fighter (Japan).0eac041df6b7d4ca563f4c35017eea24.smpc
+  12 bytes, SHA-256 d56cfb76c84202e39548d613ffe49c390ec69ee9c657d22dd7d7953919bcbe60
+```
+
+After each termination, no Mednafen process retained the lock file. The generated
+configuration remained ignored. A host automation attempt to send the configured
+screenshot and save-state hotkeys timed out, produced no screenshot or state file,
+and was not treated as a successful action test.
+
+Result:
+The local-root launch, configuration load, runtime save-data placement, diagnostic
+log placement, and cold-relaunch procedure all behaved as predicted. The target
+initialization also reproduced the database-selected 4 MiB expansion-cart setting.
+The launch emitted two source-input warnings: the CUE `CATALOG` directive is
+unsupported by this build, and the adjacent `.sbi` file is absent. Neither source
+file was changed. No normal game-screen endpoint was recorded.
+
+Conclusion:
+`CONFIRMED` for `EMU-003`: the project-local runtime root is usable and isolates the
+tested configuration, save data, and retained diagnostic output from user-global
+state. The generated configuration remains local because its host-specific input
+bindings are not stable project metadata. This result does not close `EMU-004`,
+`EMU-005`, `EMU-007`, `EMU-008`, or `EMU-009`; screenshot and interactive save-state
+actions require a later controlled input test.
+
+Uncertainty:
+The in-emulator reset hotkey, screenshot action, and interactive save/load-state
+actions remain unverified. The missing SBI and unsupported CUE directive may affect
+later boot validation and require a separate source-format experiment; no conclusion
+about their impact was drawn here.
+
+Verification commands and outcomes:
+
+```text
+git diff --check
+  Passed.
+bash -n setup_venv.sh invenv.sh
+  Passed.
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  All checks passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Success: no issues found in 10 source files.
+./invenv.sh python -m tools.disc.hash_source --description
+  "MSHvSF Saturn JP source identity verification" --json
+  local/disc_images/mshvsf_saturn_jp/*
+  All 13 source-image component hashes and sizes matched the recorded manifest.
+```
+
+Next action:
+Begin `EMU-004` to document whether the target reaches a normal game screen. Keep the
+local root and exact launch convention unchanged.

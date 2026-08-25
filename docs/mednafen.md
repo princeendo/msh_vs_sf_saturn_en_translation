@@ -76,6 +76,64 @@ BIOS or game image, reported version `1.32.1`, and listed the Saturn `ss` module
 The selected build's debugger and target runtime behavior remain later experimental
 questions.
 
+## Project-Local Configuration Strategy
+
+`EMU-003` confirms that the selected build can be launched with an isolated runtime
+root. The generated configuration and all runtime artifacts remain ignored under
+`local/mednafen/`; the generated 1.32.1 configuration is not a tracked project
+configuration because it contains host-specific input bindings and the complete
+version-generated default set.
+
+Use this launch convention from the repository root:
+
+```bash
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan).cue"
+```
+
+The stable settings recorded from the selected build are:
+
+| Setting | Value | Purpose |
+| --- | --- | --- |
+| `filesys.path_firmware` | `firmware` | Supplied BIOS files below the local root. |
+| `filesys.path_sav` | `sav` | Saturn nonvolatile save data. |
+| `filesys.path_savbackup` | `b` | Save-data backups. |
+| `filesys.path_state` | `mcs` | Compressed save states. |
+| `filesys.path_snap` | `snaps` | Screen snapshots. |
+| `filesys.path_movie` | `mcm` | Movie data. |
+| `filesys.path_pgconfig` | `pgconfig` | Per-game configuration overrides. |
+| `filesys.path_cheat` | `cheats` | Cheat data. |
+| `filesys.fname_state` | `%f.%M%X` | Stable state filename template. |
+| `filesys.fname_snap` | `%f-%p.%x` | Stable snapshot filename template. |
+| `autosave` | `0` | Avoid implicit state changes at load/exit. |
+| `debugger.autostepmode` | `0` | Avoid entering debugger step mode on launch. |
+| `ss.bios_jp` | `sega_101.bin` | Recorded Japanese Saturn BIOS alias. |
+| `ss.bios_na_eu` | `mpr-17933.bin` | Recorded North American/European BIOS alias. |
+| `ss.cart` | `auto` | Use the selected build's Saturn software database. |
+
+Stock Mednafen has no project log-directory setting. Retain diagnostic output, when
+needed, by redirecting stdout and stderr to an ignored path below the same root:
+
+```bash
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan).cue" \
+  > local/mednafen/logs/run.log 2>&1
+```
+
+The tested cold-reset procedure is to end the running instance, verify that no
+process retains `local/mednafen/mednafen.lck`, and rerun the launch command. Two
+independent target relaunches loaded the same local configuration and recreated the
+same Saturn setup. This does not verify an in-game reset hotkey; input and checkpoint
+actions remain `EMU-007` through `EMU-009` work.
+
+The target run selected software ID `T-1238G` and reported `Cart: 4MiB Extended RAM`.
+It initialized the Saturn video and audio modules but was stopped before a normal
+game-screen endpoint, so this observation does not close `EMU-004` or `EMU-005`.
+The run also reported the source CUE's unsupported `CATALOG` directive and absence of
+an adjacent `.sbi` file; neither issue was changed during this task.
+
 ## Documented Debugger Baseline
 
 The upstream pages and retrieved identities are cataloged in `docs/references.md`.

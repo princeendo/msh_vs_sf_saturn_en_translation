@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `EMU-002`.
+- Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-002`.
+- Next research task: `EMU-004`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -261,7 +261,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-003 - Create project-local Mednafen configuration strategy
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-002.
 - **Blockers:** None.
@@ -269,14 +269,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Hidden global settings make observations irreproducible.
 - **Acceptance criteria:** Launch and reset procedures use an ignored local root; sanitized stable settings can be recorded; secrets and unstable identifiers are excluded.
 - **Outputs:** `docs/mednafen.md`, ignored `local/mednafen/`.
-- **Notes:** Configuration values must be tested rather than assumed.
+- **Notes:** `SESSION-0012` confirmed the project-local base directory, loaded settings,
+  runtime save-data placement, diagnostic-log placement, and cold relaunch procedure.
+  Snapshot and interactive save-state hotkeys were not automated in this host session
+  and remain separate verification work.
 
 ### EMU-004 - Boot MSHvSF Saturn successfully
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-003, ENV-007.
-- **Blockers:** Emulator/configuration and identified legal BIOS/game inputs are unavailable.
+- **Blockers:** None. A normal game-screen endpoint has not yet been observed.
 - **Objective:** Reach a documented normal game screen using the recorded inputs.
 - **Rationale:** Later evidence is invalid without a reproducible baseline boot.
 - **Acceptance criteria:** Exact command/configuration and observed endpoint are recorded; source hashes remain unchanged; local screenshot evidence and metadata are captured.
