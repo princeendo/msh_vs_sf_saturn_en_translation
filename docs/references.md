@@ -343,9 +343,9 @@ documentation baseline, not evidence from a local build or target runtime.
   <https://mednafen.github.io/releases/files/mednafen-1.32.1.tar.xz>.
 - Retrieved candidate archive identity: `mednafen-1.32.1.tar.xz`; 3,571,236 bytes;
   SHA-256 `de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832`.
-- The archive was retrieved only to record provenance and was not committed, built,
-  or selected. Exact release selection, license recording, source verification, and
-  build configuration remain `EMU-001` and `EMU-002` work.
+- The archive was retrieved only to record provenance and was not committed or built.
+  `EMU-001` selects this exact source release; license recording and source/build
+  verification remain bounded by the selection and `EMU-002` work.
 
 ## Saturn Localization Projects
 

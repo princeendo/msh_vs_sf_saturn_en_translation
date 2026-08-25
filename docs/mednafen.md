@@ -17,6 +17,42 @@ Validate the task-required stock capabilities before proposing modifications:
 Record observed behavior and limitations; do not infer capabilities from another
 version or platform.
 
+## Selected Stock Release
+
+`EMU-001` selects the unmodified Mednafen `1.32.1` source release for the M0
+evaluation.
+
+- Upstream project: <https://mednafen.github.io/>.
+- Release page: <https://mednafen.github.io/releases/>.
+- Release date: 2024-04-05.
+- Source archive URL: <https://mednafen.github.io/releases/files/mednafen-1.32.1.tar.xz>.
+- Retrieval date: 2026-08-24.
+- Archive: `mednafen-1.32.1.tar.xz`, 3,571,236 bytes.
+- SHA-256: `de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832`.
+- License: GNU GPL version 2, as stated by `mednafen/COPYING` in the source archive;
+  bundled components may have separate notices.
+
+The source archive is selected because the upstream release page provides Windows
+binaries but no macOS binary, while this research host is macOS arm64. The upstream
+Saturn documentation says official Saturn builds are compiled for some 64-bit
+architectures, including AArch64, and gives a minimum recommended CPU of quad-core
+Intel Haswell class at 3.3 GHz base and 3.7 GHz turbo. These are expected host
+requirements only. This selection does not claim that the source builds or runs on
+the local host; `EMU-002` must record the actual dependencies, options, build result,
+and binary hash.
+
+The upstream source-build notes list `build-essential`, `pkg-config`, SDL 2.0.5 or
+newer, libFLAC, and zlib, with Debian Stretch package names as examples. They also
+list successful compilation on FreeBSD, Linux, NetBSD, OpenBSD, and Windows, but do
+not establish a macOS build. These are the applicable upstream build prerequisites;
+`EMU-002` must determine the corresponding versions and availability on this host.
+
+Selection rationale: `1.32.1` is the latest release listed by the upstream release
+page, the general and Saturn documentation are valid as of `1.32.1`, and the Saturn
+database identifies MSHvSF Japan product `T-1238G` as requiring 4 MiB extended RAM.
+The debugger documentation provides the relevant stock workflow baseline, subject to
+the later exact-build tests in `EMU-010` and `EMU-011`.
+
 ## Documented Debugger Baseline
 
 The upstream pages and retrieved identities are cataloged in `docs/references.md`.
