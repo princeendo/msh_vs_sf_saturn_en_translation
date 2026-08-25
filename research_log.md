@@ -1069,3 +1069,70 @@ close EMU-005, EMU-006, EMU-007, or EMU-008.
 Next action:
 Begin `EMU-005` with a separate controlled observation of 4 MiB expansion-RAM
 operation. Preserve the exact launch root and source identity.
+
+## 2026-08-24 21:17 CDT — EXP-0002
+
+Task: EMU-005
+
+Goal:
+Validate the required 4 MiB Saturn expansion-RAM configuration with a controlled
+runtime observation separate from the `EMU-004` automatic-detection boot.
+
+Observation:
+The `EMU-004` run reported `Cart: 4MiB Extended RAM` while using `ss.cart=auto`,
+but a configuration value alone was not sufficient evidence for EMU-005.
+
+Hypothesis:
+Forcing `ss.cart=extram4` will initialize the 4 MiB extended-RAM model and allow
+the untouched MSHvSF image to reach the same stable title-screen endpoint.
+
+Action:
+Verified all 13 source-image component hashes before launch and verified the stock
+Mednafen binary and both canonical BIOS alias hashes. The exact forced launch was:
+
+```text
+MEDNAFEN_HOME="$PWD/local/mednafen" \
+  vendor/mednafen/build/src/mednafen -ss.cart extram4 \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan).cue" \
+  > local/mednafen/logs/emu005-extram4-run3.log 2>&1
+```
+
+The first host automation attempt timed out before evidence capture. A short retry
+captured a black window before the title flow completed. Those attempts were not
+used as endpoint evidence. Two extended cold runs then sent Enter, waited through
+the boot flow, and captured the window at approximately 20 and 35 seconds. A final
+cold run repeated the title endpoint and confirmed that refocused F12 terminated
+the emulator without a fallback signal. The persisted local setting was restored
+with `-ss.cart auto -help`.
+
+Result:
+Every forced run log reported:
+
+```text
+SGID: T-1238G
+SGNAME: MARVEL SUPER HEROES VS. STREET FIGHTER
+SGAREA: J
+Cart: 4MiB Extended RAM
+```
+
+The 20-second capture showed the legal notice. The 35-second captures showed the
+MSHvSF title screen with `PRESS START BUTTON`. The successful repeated runtime log
+was 4,190 bytes with SHA-256
+`e3ff1139f0774d6bb34160d315f6d496386ff5cdf75c7e63564e7862224156f2`. The two title
+captures were 5,964,265 bytes with SHA-256
+`8d1bb3fd2e6f6eaa48a9f0df4d4399774bc48d072d11086e4f2b73f94812882b` and 6,035,363
+bytes with SHA-256
+`9fa0dc7e1189c4740cbaa6c2f0b11a265424d3b75de597a91540ceffe200bc51`.
+
+The post-run source identity report matched the same 13 manifest entries and the
+local configuration was returned to `ss.cart auto`.
+
+Conclusion:
+`CONFIRMED`, scoped to the tested runtime path: explicit `extram4` selection is
+honored by stock Mednafen 1.32.1 for MSHvSF and supports repeatable operation to
+the title screen. This does not directly test cartridge RAM reads, writes, or
+boundaries, and the existing CUE/SBI warnings remain unresolved.
+
+Next action:
+Proceed to the next unblocked M0 research task, `DOC-007`. Keep `EMU-006` blocked
+until the physical fightpad and OS identity are available.

@@ -13,6 +13,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
   Mednafen build expose for Saturn, and which can be dumped reproducibly?
 - Do Saturn read/write breakpoints observe only CPU accesses, or also DMA and device
   activity, and at what point relative to the access do they stop?
+- Does the confirmed 4 MiB cartridge model pass direct RAM read/write and boundary
+  tests through the stock debugger, and which game code paths access it?
 
 ## Target Data
 

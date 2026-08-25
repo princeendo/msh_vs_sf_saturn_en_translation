@@ -35,6 +35,30 @@ This file contains only durable findings rated **CONFIRMED** by a controlled,
 reproducible experiment. Environment setup, observations, hypotheses, supported
 claims, visual similarity, and isolated byte matches do not qualify.
 
+## EMU-005: Forced 4 MiB Cartridge Operation
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0002`
+
+With the untouched MSHvSF Saturn source image and stock Mednafen 1.32.1, forcing
+`ss.cart=extram4` selects `Cart: 4MiB Extended RAM` for software `T-1238G`. Three
+cold launches reproduced the same selection and reached the rendered MSHvSF title
+screen with `PRESS START BUTTON` after the recorded input sequence.
+
+The source identity is the 13-component manifest in
+`references/mshvsf/saturn_jp/README.md`; all component hashes matched before and
+after. The stock binary is the unchanged
+`vendor/mednafen/build/src/mednafen`, 21,322,536 bytes, SHA-256
+`ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587`.
+
+The successful runtime log is 4,190 bytes with SHA-256
+`e3ff1139f0774d6bb34160d315f6d496386ff5cdf75c7e63564e7862224156f2`. The ignored
+host captures and exact commands are recorded in `EXP-0002`. This finding is
+limited to cartridge configuration and operation sufficient for the tested boot
+path; it does not establish direct cartridge RAM read/write or address-boundary
+behavior.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -9,7 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-005`.
+- Next research task: `DOC-007`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -288,7 +288,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-005 - Verify 4 MB RAM cartridge configuration
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-004.
 - **Blockers:** None.
@@ -296,7 +296,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Memory observations must use the correct runtime hardware model.
 - **Acceptance criteria:** A controlled observation validates cartridge operation; setting, expected result, observed result, and uncertainty are recorded.
 - **Outputs:** Experiment record, validated configuration guidance.
-- **Notes:** A configuration value alone is not proof.
+- **Notes:** `EXP-0002` forced `ss.cart=extram4` for three cold observations.
+  Each run reported `T-1238G`, `Cart: 4MiB Extended RAM`, and reached the
+  rendered MSHvSF title screen. Source hashes matched before and after. This
+  confirms the tested runtime path, not direct cartridge RAM read/write behavior.
 
 ### EMU-006 - Configure fightpad
 

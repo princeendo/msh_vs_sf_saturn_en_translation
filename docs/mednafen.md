@@ -162,8 +162,38 @@ ignored screenshot is:
 The run exited cleanly. Pre-run and post-run checks matched all 13 source-image
 component hashes in `references/mshvsf/saturn_jp/README.md`, as well as the
 selected binary and canonical BIOS hashes. This closes `EMU-004` only. The
-reported cart selection is setup/runtime evidence, but `EMU-005` still requires
-its own controlled cartridge-operation observation.
+reported cart selection was setup/runtime evidence only; `EXP-0002` records the
+separate controlled cartridge-operation observation that closes `EMU-005`.
+
+## EMU-005 4 MiB Cartridge Result
+
+`EMU-005` is confirmed by `research/experiments/EXP-0002/README.md`. The controlled
+variable was the Mednafen command-line setting `-ss.cart extram4`; the stock binary,
+BIOS aliases, runtime root, source image, region, and input sequence remained the
+same as the `EMU-004` configuration. Mednafen persisted the command-line setting to
+the ignored local configuration, and the setting was restored to `ss.cart auto` after
+the experiment.
+
+Three cold forced-cart launches each reported:
+
+```text
+SGID: T-1238G
+SGNAME: MARVEL SUPER HEROES VS. STREET FIGHTER
+SGAREA: J
+Cart: 4MiB Extended RAM
+```
+
+The repeated runs reached the visible MSHvSF title screen with `PRESS START BUTTON`
+after the recorded Start input and boot delay. The retained runtime log for the
+successful repeated runs is 4,190 bytes with SHA-256
+`e3ff1139f0774d6bb34160d315f6d496386ff5cdf75c7e63564e7862224156f2`. Host-capture
+metadata and hashes are recorded in `EXP-0002`; the captures remain ignored.
+
+Pre-run and post-run checks matched all 13 source-image components in
+`references/mshvsf/saturn_jp/README.md`. This confirms explicit 4 MiB cartridge
+configuration and operation sufficient for the tested MSHvSF boot path. It does not
+directly test cartridge RAM reads, writes, address boundaries, or game access
+patterns; those remain debugger questions.
 
 ## Documented Debugger Baseline
 
