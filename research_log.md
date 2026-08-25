@@ -1020,3 +1020,52 @@ bash -n setup_venv.sh invenv.sh
 Next action:
 Begin `EMU-004` to document whether the target reaches a normal game screen. Keep the
 local root and exact launch convention unchanged.
+
+## 2026-08-24 20:42 CDT — EXP-0001
+
+Task: EMU-004
+
+Goal:
+Reach and document a stable, visibly rendered MSHvSF Saturn game screen using
+the selected stock Mednafen build, project-local configuration, recorded BIOS,
+and untouched source image.
+
+Observation:
+`EMU-003` initialized the target and reported software ID `T-1238G` and
+`Cart: 4MiB Extended RAM`, but stopped before a normal game-screen endpoint.
+The source image, stock binary, BIOS aliases, and local configuration were
+available unchanged. The source CUE still produced the previously recorded
+unsupported `CATALOG` and missing `.sbi` warnings.
+
+Hypothesis:
+Continuing the boot/title flow with the existing keyboard configuration will
+reach a stable, visibly rendered MSHvSF title or menu screen.
+
+Action:
+Verified all 13 source-image component hashes before launching. Verified the
+stock binary hash `ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587`
+and canonical BIOS hashes. Launched the unchanged command twice under the
+project-local `MEDNAFEN_HOME`. On the retained second run, after the window was
+focused, sent Enter, waited three seconds, and sent the configured Mednafen
+snapshot key through macOS System Events. Exited with the configured host F12
+command.
+
+Result:
+The retained run log was 4,190 bytes with SHA-256
+`e3ff1139f0774d6bb34160d315f6d496386ff5cdf75c7e63564e7862224156f2`. It
+recorded `T-1238G`, `MARVEL SUPER HEROES VS. STREET FIGHTER`, area `J`, and
+`Cart: 4MiB Extended RAM`. Mednafen created the ignored screenshot
+`local/mednafen/snaps/Marvel Super Heroes vs. Street Fighter (Japan)-0001.png`,
+352x240 pixels, 22,616 bytes, SHA-256
+`4c19283ec7c84b6b7690fa526e3323a7e0121efa75fa5fa9c6e88bf3c24f0d85`. Visual
+inspection showed the stable title screen and mode menu. Mednafen exited
+cleanly, and the post-run source-image hashes matched the pre-run manifest.
+
+Conclusion:
+`CONFIRMED`: EMU-004's normal game-screen endpoint is reproducibly reached by
+the recorded stock launch and input sequence. This does not independently
+close EMU-005, EMU-006, EMU-007, or EMU-008.
+
+Next action:
+Begin `EMU-005` with a separate controlled observation of 4 MiB expansion-RAM
+operation. Preserve the exact launch root and source identity.

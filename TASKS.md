@@ -9,7 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-004`.
+- Next research task: `EMU-005`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -276,10 +276,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-004 - Boot MSHvSF Saturn successfully
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-003, ENV-007.
-- **Blockers:** None. A normal game-screen endpoint has not yet been observed.
+- **Blockers:** None.
 - **Objective:** Reach a documented normal game screen using the recorded inputs.
 - **Rationale:** Later evidence is invalid without a reproducible baseline boot.
 - **Acceptance criteria:** Exact command/configuration and observed endpoint are recorded; source hashes remain unchanged; local screenshot evidence and metadata are captured.
@@ -288,10 +288,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-005 - Verify 4 MB RAM cartridge configuration
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-004.
-- **Blockers:** No verified baseline boot exists.
+- **Blockers:** None.
 - **Objective:** Confirm the required 4 MB cartridge operates in the research configuration.
 - **Rationale:** Memory observations must use the correct runtime hardware model.
 - **Acceptance criteria:** A controlled observation validates cartridge operation; setting, expected result, observed result, and uncertainty are recorded.
