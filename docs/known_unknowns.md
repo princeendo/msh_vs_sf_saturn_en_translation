@@ -4,8 +4,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
 
 ## Environment
 
-- Which stock Mednafen runtime configuration satisfies the remaining M0 acceptance
-  requirements beyond the verified `EMU-002` build?
+- Which remaining M0 runtime observations, beyond the confirmed local configuration
+  strategy, are needed for a complete stock Mednafen acceptance?
 - Are stock debugger facilities sufficient for the planned controlled experiments?
 - How does stock Mednafen label the SH-2 program counter, expose Saturn address
   aliases, and implement breakpoints relative to the SH7604 hardware semantics?
