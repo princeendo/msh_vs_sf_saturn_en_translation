@@ -7,9 +7,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `DOC-007`.
+- Current active task: `EMU-002`.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-007`.
+- Next research task: `EMU-002`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -231,7 +231,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-001 - Select and document exact Mednafen version
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None.
@@ -239,14 +239,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Build and runtime evidence require exact provenance.
 - **Acceptance criteria:** Upstream URL, version/revision, retrieval date, rationale, expected host requirements, and license are recorded without claiming runtime success.
 - **Outputs:** `docs/mednafen.md`, `vendor/mednafen/README.md`.
-- **Notes:** Selection does not authorize source modification.
+- **Notes:** `SESSION-0010` selects the unmodified `1.32.1` source archive, records its
+  release provenance, archive hash, GPL-2 license, expected Saturn host requirements,
+  and macOS-arm64 source-build rationale. Selection does not authorize source
+  modification. Build identity and runtime behavior remain `EMU-002` onward.
 
 ### EMU-002 - Download/build stock Mednafen
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-001, DOC-004.
-- **Blockers:** Exact version and applicable build documentation are not recorded.
+- **Blockers:** None.
 - **Objective:** Acquire and build pristine Mednafen with reproducible commands.
 - **Rationale:** Runtime observations must be tied to a known binary.
 - **Acceptance criteria:** Source identity, download/build commands, tool versions, options, binary hash, and smoke-test result are recorded; source and binaries remain ignored.

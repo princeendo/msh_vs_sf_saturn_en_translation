@@ -745,3 +745,81 @@ git check-ignore -v local/disc_images/mshvsf_saturn_jp/*
 Next action:
 Continue the current M0 task sequence. Before any M1 work, inspect this untouched image
 under a documented tool configuration and record the target layout separately.
+
+## 2026-08-24 20:30 CDT - SESSION-0010
+
+Task: EMU-001
+
+Goal:
+Select one exact unmodified stock Mednafen release for the M0 evaluation and record
+the provenance, license, expected host requirements, and selection boundary before any
+build or runtime claim.
+
+Observation:
+The repository had already retrieved the upstream `mednafen-1.32.1.tar.xz` archive and
+recorded its identity, but `EMU-001` remained open. The upstream release page lists
+`1.32.1` as the latest release dated 2024-04-05. Its general and Saturn documentation
+are valid as of `1.32.1`; the Saturn page identifies MSHvSF Japan product `T-1238G` as
+requiring 4 MiB extended RAM. The release page provides Windows binaries but no macOS
+binary. The current host is Darwin 25.5.0 arm64 with 12 logical CPUs.
+
+Hypothesis:
+Mednafen `1.32.1` source is the most reproducible stock candidate for this project,
+provided its source identity and GPL license are recorded and macOS arm64 remains an
+explicit build hypothesis rather than an assumed capability.
+
+Action:
+Rehashed the existing external archive and inspected its top-level license file:
+
+```text
+shasum -a 256 /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/mednafen-1.32.1.tar.xz
+  de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832
+stat -f '%N %z bytes' /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/mednafen-1.32.1.tar.xz
+  3,571,236 bytes
+tar -xOf /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/mednafen-1.32.1.tar.xz mednafen/COPYING
+  GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
+uname -srm
+  Darwin 25.5.0 arm64
+sysctl -n hw.ncpu hw.memsize hw.model
+  12 / 25769803776 / Mac16,8
+```
+
+Result:
+The archive identity matches the prior provenance record: filename
+`mednafen-1.32.1.tar.xz`, size 3,571,236 bytes, and SHA-256
+`de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832`. The archive's
+`mednafen/COPYING` is GNU GPL version 2. The upstream Saturn documentation states
+that official Saturn builds target some 64-bit architectures including AArch64 and
+recommends at least a quad-core Intel Haswell-class CPU at 3.3 GHz base and 3.7 GHz
+turbo. Those statements define expected requirements only; no local build or runtime
+behavior was tested. The upstream source-build notes additionally list
+`build-essential`, `pkg-config`, SDL 2.0.5 or newer, libFLAC, and zlib, with Debian
+Stretch package names as examples, and list successful compilation on FreeBSD, Linux,
+NetBSD, OpenBSD, and Windows. They do not establish a macOS build.
+
+Conclusion:
+`SUPPORTED`: `1.32.1` is selected as the exact unmodified stock release for this
+investigation. The selection is source-bound and reproducible, is appropriate for
+testing the documented MSHvSF 4 MiB cartridge requirement, and does not authorize a
+Mednafen modification. macOS arm64 build success remains `UNKNOWN` pending `EMU-002`.
+`EMU-001` meets its acceptance criteria.
+
+Verification commands and outcomes:
+
+```text
+./invenv.sh pytest
+  4 passed.
+./invenv.sh ruff check .
+  All checks passed.
+./invenv.sh ruff format --check .
+  54 files already formatted.
+./invenv.sh mypy tools tests
+  Success: no issues found in 10 source files.
+git diff --check
+  Passed with no output.
+```
+
+Next action:
+Run `EMU-002` to acquire or use the exact external source archive, document host
+dependencies and build options, build pristine stock Mednafen, record the binary hash,
+and perform only the specified smoke test. Do not patch Mednafen.
