@@ -59,6 +59,32 @@ limited to cartridge configuration and operation sufficient for the tested boot
 path; it does not establish direct cartridge RAM read/write or address-boundary
 behavior.
 
+## EMU-009: Repeated Save/Load Checkpoint
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0006`
+
+Stock Mednafen 1.32.1 saved and restored a documented MSHvSF title/menu checkpoint
+in two cold observations. Each run advanced to the mode-selection screen, then
+returned to the title scene after `F7`; the second run used a distinct state slot.
+
+The ignored slot-0 state is 3,173,150 bytes with SHA-256
+`e54380cfca308b1058f92d2840bde73e4c13d01bd9e4b8c864be82a3730b66db`. The ignored
+slot-1 state is 3,244,032 bytes with SHA-256
+`88e8945770bf26667e9006aff476b4d5dab7f7eaef93fa471ceced343dc93d80`. State files
+are checkpoint artifacts, not RAM dumps, and were not decompressed or diffed.
+
+The source image matched the 13-component manifest before and after both runs. The
+stock binary and BIOS aliases were unchanged. Both run logs were 4,248 bytes with
+SHA-256 `c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c` and
+reported `T-1238G`, area `J`, and `Cart: 4MiB Extended RAM`.
+
+The title background and attract mode are time-dependent, so an immediate screenshot
+after `F7` is required when the title scene is the checkpoint criterion. The exact
+screenshots, temporary host mapping, and reproduction procedure are recorded in
+`research/experiments/EXP-0006/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

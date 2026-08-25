@@ -1340,3 +1340,74 @@ for an animated scene.
 Next action:
 Begin EMU-009, verifying repeated save/load-state return to an equivalent documented
 checkpoint. Do not treat save-state files as RAM dumps.
+
+## 2026-08-25 09:21 CDT - EXP-0006
+
+Task: EMU-009
+
+Goal:
+Verify that stock Mednafen 1.32.1 can repeatedly save and restore an equivalent
+documented MSHvSF checkpoint without treating save-state files as RAM dumps.
+
+Observation:
+EMU-005, EMU-007, and EMU-008 were complete. The configured stock save/load
+shortcuts had been observed, but no dedicated experiment had recorded state paths,
+hashes, and repeated visible restoration.
+
+Hypothesis:
+Saving at the title/menu checkpoint, advancing to mode selection, and loading with
+`F7` will return to the title scene. The sequence will reproduce after a cold launch
+using another state slot.
+
+Controlled change:
+Only ignored runtime state/screenshot artifacts and save/load inputs changed. The
+Mednafen binary, source image, BIOS aliases, and 4 MiB cartridge configuration were
+unchanged. Because automation could not generate the physical M30 Start event, the
+ignored local profile temporarily changed `ss.input.port1.gamepad.start` from the
+M30 joystick binding to `keyboard 0x0 40`; the original M30 line was restored before
+exit. This temporary mapping was used only for the visible checkpoint transition.
+
+Result:
+The first corrected visible-window run saved slot 0 as
+`local/mednafen/mcs/Marvel Super Heroes vs. Street Fighter (Japan).0eac041df6b7d4ca563f4c35017eea24.mc0`,
+3,173,150 bytes, SHA-256
+`e54380cfca308b1058f92d2840bde73e4c13d01bd9e4b8c864be82a3730b66db`. The title
+checkpoint screenshot was 3,332 bytes, SHA-256
+`2a0b629ac9b2a6410ef9c62a1a9b2c6c06c1f608b863efd997061f1104f95290`; the mode
+selection screenshot was 21,380 bytes, SHA-256
+`d01d1a311f092d704e43cae91468bf6af6673b18387a71bcebea8100fb49dea4`; and the
+post-load title screenshot was 24,616 bytes, SHA-256
+`47e3d5eaade0f88d52aee28f6bbb69fdb95ef794a05b994cde066374f5c96b48`.
+
+The second cold run saved slot 1 as
+`local/mednafen/mcs/Marvel Super Heroes vs. Street Fighter (Japan).0eac041df6b7d4ca563f4c35017eea24.mc1`,
+3,244,032 bytes, SHA-256
+`88e8945770bf26667e9006aff476b4d5dab7f7eaef93fa471ceced343dc93d80`. The title
+checkpoint screenshot was 18,847 bytes, SHA-256
+`987a6da8844ba28f7901643435cf536fcc422ac3ff496ed185f09630d8c26a6e`; the mode
+selection screenshot was 24,114 bytes, SHA-256
+`2d4772688b0c2477d0594d7b5909b2c8046dbddeb1bababc709f9443777ab07e`; and the
+immediate post-load title screenshot was 19,145 bytes, SHA-256
+`0d94b909bf94286ed7d960bc21171ec49ea843d161cba221ea6e656a61431310`.
+
+All six screenshots were 352x240 RGB PNGs. A delayed post-load capture in the
+second run showed attract mode rather than the title scene; an immediate repeated
+load/capture returned the title scene. All three run logs were 4,248 bytes with
+SHA-256 `c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`.
+The source identity command reproduced all 13 manifest hashes after the runs.
+
+Conclusion:
+`CONFIRMED`: stock Mednafen 1.32.1 repeatedly restored the equivalent visible
+checkpoint across two cold launches and two state slots. State bytes are not claimed
+to be identical, and no state file was treated as a RAM dump.
+
+Uncertainty:
+The title screen is animated and transitions into attract mode with elapsed time.
+The checkpoint procedure therefore requires an immediate post-load screenshot when
+the title scene is the criterion. The first exploratory save made while the emulator
+window was off-screen was excluded from evidence and overwritten by the corrected
+slot-0 run.
+
+Next action:
+Proceed to EMU-010 only. Do not modify Mednafen; debugger access remains a separate
+stock-build verification task.
