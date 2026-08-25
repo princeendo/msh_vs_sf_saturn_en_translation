@@ -9,7 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DOC-007`.
+- Next research task: `EMU-007`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -303,22 +303,26 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-006 - Configure fightpad
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-003, EMU-004.
-- **Blockers:** The physical device/OS identity is unknown and no verified game boot exists.
+- **Blockers:** None.
 - **Objective:** Map one identified physical fightpad to Saturn controls locally.
 - **Rationale:** Manual checkpoint capture depends on reliable controls.
-- **Acceptance criteria:** Device and connection are documented without unnecessary identifiers; D-pad, A/B/C/X/Y/Z, L/R, and Start mappings are configured.
+- **Acceptance criteria:** Device and connection are documented without unnecessary identifiers; D-pad, A/B/C/X/Y/Z, and Start mappings are configured. L/R are explicitly out of scope for this task because the selected Mednafen device models did not provide usable bindings and the target checkpoint work does not require them.
 - **Outputs:** Ignored local configuration, mapping draft in `docs/mednafen.md`.
-- **Notes:** Runtime validation occurs in `EMU-007`.
+- **Notes:** The physical device is an 8BitDo M30 in wired macOS mode. macOS presents
+  it to SDL as `PS4 Controller`; Mednafen records joystick ID
+  `0xecccd365fc40db2f0006000c00010000`. The ignored local profile preserves keyboard
+  fallbacks and maps the required Saturn controls. Runtime shortcut validation remains
+  in `EMU-007`.
 
 ### EMU-007 - Document fightpad mapping
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-006.
-- **Blockers:** No configured mapping exists.
+- **Blockers:** Runtime validation and shortcut evidence are still required.
 - **Objective:** Validate and document every required input in game.
 - **Rationale:** Configuration labels do not prove intended runtime behavior.
 - **Acceptance criteria:** Expected and observed behavior are recorded for all mapped controls and useful emulator shortcuts, including save/load, screenshot, pause, frame advance, and slot selection where available.

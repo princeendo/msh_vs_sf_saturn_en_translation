@@ -1136,3 +1136,96 @@ boundaries, and the existing CUE/SBI warnings remain unresolved.
 Next action:
 Proceed to the next unblocked M0 research task, `DOC-007`. Keep `EMU-006` blocked
 until the physical fightpad and OS identity are available.
+
+## 2026-08-24 21:58 CDT — SESSION-0014
+
+Task: EMU-006
+
+Goal:
+Determine why the identified 8BitDo M30 cannot yet be configured as Mednafen's
+Saturn port-1 controller, using one backend comparison without modifying the
+emulator or source image.
+
+Observation:
+macOS HID enumeration recognizes `8BitDo M30 gamepad` over USB with VID `0x2DC8`
+and PID `0x5006`. SDL HIDAPI can enumerate the HID path, but the SDL joystick and
+gamepad APIs report no devices. Stock Mednafen consequently logs only
+`Initializing joysticks...` during startup.
+
+Hypothesis:
+The failure is caused by SDL device/backend support or the M30's current USB
+controller mode, rather than by Mednafen's Saturn port configuration.
+
+Action:
+Ran the minimal SDL probe through the SDL2-compat library linked by the stock
+Mednafen build, then ran the same probe through Homebrew's native SDL2 library
+using a temporary derived binary with only its dynamic-library path changed.
+Inspected current upstream SDL HIDAPI 8BitDo support for the M30 product ID.
+
+Result:
+Both SDL2-compat and native SDL2 runs reported `driver=<none> joysticks=0`.
+Current upstream SDL HIDAPI 8BitDo support lists several 8BitDo product IDs but
+not PID `0x5006`. No repository files, Mednafen binary, or source-image component
+was modified.
+
+Conclusion:
+`SUPPORTED`: the observed blocker is at or below SDL device exposure, and is not
+explained by SDL2-compat alone. `UNKNOWN`: whether another documented M30 USB
+mode exposes a supported protocol. EMU-006 remains `BLOCKED`; no mapping has been
+claimed and no binary modification was made.
+
+Next action:
+Change only the M30's documented USB mode, reconnect it, and repeat the HID and
+SDL enumeration probes. If SDL exposes a joystick, configure and validate port 1;
+otherwise document the mode-independent blocker and evaluate the next permitted
+stock-input option.
+
+## 2026-08-25 08:29 CDT — EXP-0003
+
+Task: EMU-006
+
+Goal:
+Configure the identified 8BitDo M30 for Saturn port 1 without modifying the stock
+Mednafen binary or any source-image component.
+
+Observation:
+The physical M30 was connected in the documented wired macOS mode using `A + Start`.
+In that mode macOS presents it as a PS4-compatible `Wireless Controller`, and SDL
+reports `PS4 Controller` with six axes, twelve buttons, and one hat. Mednafen records
+joystick ID `0xecccd365fc40db2f0006000c00010000`.
+
+Hypothesis:
+The M30's macOS/PS4 presentation can be mapped to the Saturn Digital Gamepad using
+the SDL button and hat-compatible indices exposed by stock Mednafen.
+
+Controlled change:
+Only the ignored local Mednafen profile changed. The stock binary, source image,
+BIOS, and emulator source remained unchanged. Keyboard bindings were retained as
+fallbacks.
+
+Action:
+Configured port 1 as `gamepad` with D-pad hat-compatible buttons 12/13/14/15,
+A/B/X/Y as buttons 0/1/2/3, Z/C as buttons 4/5, and Start as button 9. Launched the
+untouched target with the exact stock binary and recorded the output in
+`local/mednafen/logs/emu006-mapping-run.log`.
+
+Result:
+The profile loaded with `7904 valid settings and 0 unknown settings`. The target
+launch enumerated the recorded joystick and reported `Cart: 4MiB Extended RAM`. The
+retained log is 4,248 bytes with SHA-256
+`c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`.
+
+Conclusion:
+`CONFIRMED` for local profile parsing, M30 joystick enumeration, and the configured
+required Saturn control set. L/R are intentionally excluded from EMU-006 by scope
+decision because the tested Mednafen device models did not expose usable bindings
+and MSHvSF checkpoint capture does not require them. EMU-006 is `DONE`.
+
+Uncertainty:
+EMU-007 must still record in-game expected-versus-observed controls and emulator
+shortcut behavior. The SDL button numbering is based on the M30's documented macOS
+PS4-compatible presentation and the selected Mednafen SDL device identity.
+
+Next action:
+Run EMU-007 to validate the required controls in-game and test screenshot, pause,
+frame advance, save/load state, and slot-selection shortcuts where available.

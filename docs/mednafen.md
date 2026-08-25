@@ -76,6 +76,54 @@ BIOS or game image, reported version `1.32.1`, and listed the Saturn `ss` module
 The selected build's debugger and target runtime behavior remain later experimental
 questions.
 
+## EMU-006 Input Enumeration Investigation
+
+The identified test device is an 8BitDo M30 gamepad connected over USB (VID `0x2DC8`,
+PID `0x5006`). macOS HID enumeration and Apple Games recognize the device. The stock
+Mednafen process, however, logs only `Initializing joysticks...`; it does not expose a
+device for port configuration.
+
+Two minimal SDL probes reported `joysticks=0` and `controllers=0` while the M30 was
+connected. The probes were run once through the SDL2-compat library used by the
+Mednafen binary and once through Homebrew's native SDL2 library; both reported
+`driver=<none> joysticks=0`. The native comparison used only a temporary derived probe
+binary and did not modify Mednafen or any source image.
+
+Current upstream SDL HIDAPI source inspection also shows that its 8BitDo driver lists
+SF30 Pro, SN30 Pro, Pro 2, Pro 3, and Ultimate product IDs, but not M30 PID `0x5006`.
+This is `SUPPORTED` evidence for an SDL-layer device-support or controller-mode
+blocker, not confirmation that every M30 USB mode is unsupported. The next controlled
+experiment is to change only the M30's documented USB mode and repeat HID and SDL
+enumeration before attempting Mednafen bindings.
+
+## EMU-006 Mapping Result
+
+The M30 was switched to the documented wired macOS mode with `A + Start` and connected
+by USB. In this mode macOS presents the physical M30 as a PS4-compatible `Wireless
+Controller`; SDL reports `PS4 Controller` with six axes, twelve buttons, and one hat.
+Mednafen's exact joystick identity is
+`0xecccd365fc40db2f0006000c00010000`.
+
+The ignored profile at `local/mednafen/mednafen.cfg` keeps
+`ss.input.port1 gamepad` and adds the following SDL bindings while retaining the
+existing keyboard fallbacks:
+
+| Saturn control | SDL input |
+| --- | --- |
+| D-pad up/right/down/left | Hat-compatible buttons 12/13/14/15 |
+| A/B/X/Y | Buttons 0/1/2/3 |
+| Z/C | Buttons 4/5 |
+| Start | Button 9 (PS4 Options / M30 Start) |
+
+The selected Saturn Digital Gamepad model does not provide usable L/R bindings in
+the tested Mednafen configuration. L/R are intentionally excluded from EMU-006 by
+scope decision; MSHvSF checkpoint capture does not require them. The mapping profile
+was parsed successfully and a target launch recorded the joystick identity and
+`Cart: 4MiB Extended RAM` in ignored log
+`local/mednafen/logs/emu006-mapping-run.log` (4,248 bytes,
+SHA-256 `c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`).
+Runtime control and emulator-shortcut validation remains EMU-007.
+
 ## Project-Local Configuration Strategy
 
 `EMU-003` confirms that the selected build can be launched with an isolated runtime
