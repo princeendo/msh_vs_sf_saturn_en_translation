@@ -9,7 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-009`.
+- Next research task: `EMU-010`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -347,27 +347,30 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-009 - Verify save/load states
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-005, EMU-007, EMU-008.
-- **Blockers:** Runtime, controls, and screenshots are not validated.
+- **Blockers:** None.
 - **Objective:** Repeatedly return to an equivalent documented checkpoint.
 - **Rationale:** Differential experiments need controlled starting conditions.
 - **Acceptance criteria:** Save/load actions, slot/path, hashes, timing caveats, and at least two repeat observations are recorded; state files remain ignored and are not diffed as RAM.
 - **Outputs:** Save-state experiment and checkpoint procedure.
-- **Notes:** Equivalent visible state need not imply byte-identical RAM.
+- **Notes:** `EXP-0006` confirmed two cold save/load cycles using slots 0 and 1.
+  The title/menu checkpoint returned after a visible mode-selection transition.
+  State files remain ignored and were not diffed as RAM; animated title timing is
+  recorded as a caveat.
 
 ### EMU-010 - Verify debugger access
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-005, EMU-009.
-- **Blockers:** Deterministic stock runtime is unavailable.
+- **Blockers:** None.
 - **Objective:** Enter, operate, and exit the stock interactive debugger against MSHvSF.
 - **Rationale:** M1 requires developer-level memory inspection and controlled writes.
 - **Acceptance criteria:** Exact invocation/actions demonstrate pause/resume and read-only inspection; source/configuration identities are linked; no caption conclusion is drawn.
 - **Outputs:** Debugger smoke-test experiment.
-- **Notes:** Do not modify Mednafen.
+- **Notes:** EMU-009 established repeated stock checkpoints. Do not modify Mednafen.
 
 ### EMU-011 - Document debugger workflow
 

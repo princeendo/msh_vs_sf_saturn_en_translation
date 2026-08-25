@@ -222,6 +222,27 @@ game-screen endpoint during `EMU-003`; this observation did not close `EMU-004` 
 The run also reported the source CUE's unsupported `CATALOG` directive and absence of
 an adjacent `.sbi` file; neither issue was changed during this task.
 
+## EMU-009 Save/Load-State Result
+
+`EXP-0006` confirmed the stock save/load workflow on 2026-08-25. Two cold launches
+saved the visible MSHvSF title/menu checkpoint, advanced to the mode-selection
+screen, and returned to the title scene with `F7`. The ignored state files were:
+
+| Slot | Artifact | Size | SHA-256 |
+| ---: | --- | ---: | --- |
+| 0 | `local/mednafen/mcs/Marvel Super Heroes vs. Street Fighter (Japan).0eac041df6b7d4ca563f4c35017eea24.mc0` | 3,173,150 bytes | `e54380cfca308b1058f92d2840bde73e4c13d01bd9e4b8c864be82a3730b66db` |
+| 1 | `local/mednafen/mcs/Marvel Super Heroes vs. Street Fighter (Japan).0eac041df6b7d4ca563f4c35017eea24.mc1` | 3,244,032 bytes | `88e8945770bf26667e9006aff476b4d5dab7f7eaef93fa471ceced343dc93d80` |
+
+State files are checkpoints, not RAM dumps. They differ in size and hash and were
+not decompressed or compared. The title background is animated; capture immediately
+after loading when the title scene itself is required. The exact checkpoint images,
+timing caveat, temporary host mapping, and reproduction steps are recorded in
+`research/experiments/EXP-0006/README.md`.
+
+The source image manifest matched before and after both runs. Each retained run log
+was 4,248 bytes with SHA-256
+`c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`.
+
 ## EMU-004 Boot Result
 
 `EMU-004` confirmed on 2026-08-24 that the same stock launch reaches a stable
