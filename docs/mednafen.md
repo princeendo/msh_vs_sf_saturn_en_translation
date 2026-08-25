@@ -145,6 +145,24 @@ F4 binding produced no pause response; neither is treated as a valid pause mappi
 The exact expected-versus-observed controls and shortcut results are recorded in
 `research/experiments/EXP-0004/README.md`.
 
+## EMU-008 Screenshot Capture Result
+
+`EXP-0005` confirmed the stock screenshot workflow on 2026-08-25. From two cold
+launches of the untouched MSHvSF source using the project-local runtime root, the
+focused-window `F9` action created emulator-generated PNGs in `local/mednafen/snaps/`.
+Both were 352x240 RGB images of the MSHvSF title screen with `PRESS START BUTTON`.
+
+| Artifact | Size | SHA-256 |
+| --- | ---: | --- |
+| `Marvel Super Heroes vs. Street Fighter (Japan)-0003.png` | 19,270 bytes | `7e20cb6ce62bdb0924d1ce00c1a5ac48e74cebbcd2d6fb7fcbb14902e460dfd7` |
+| `Marvel Super Heroes vs. Street Fighter (Japan)-0004.png` | 24,589 bytes | `5a655bd264448b796948b9f6c0766c3f160611e5edf6e4f2479863e80775761b` |
+
+The title background animation differed between captures, so byte-identical output is
+not expected. The two retained run logs were each 4,248 bytes with SHA-256
+`c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`. Pre-run and
+post-run checks matched all 13 source-image component identities. Runtime evidence
+remains under ignored paths.
+
 ## Project-Local Configuration Strategy
 
 `EMU-003` confirms that the selected build can be launched with an isolated runtime

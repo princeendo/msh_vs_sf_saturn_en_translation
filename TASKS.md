@@ -9,7 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-007`.
+- Next research task: `EMU-009`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -335,10 +335,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-008 - Verify screenshot capture
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-004, EMU-005.
-- **Blockers:** Verified boot and cartridge operation are incomplete.
+- **Blockers:** None.
 - **Objective:** Capture reproducible visual evidence from a described scene.
 - **Rationale:** M1 and M2 require before/after evidence.
 - **Acceptance criteria:** Capture action, state, configuration, filename, size, hash, and local storage are recorded; image remains ignored.

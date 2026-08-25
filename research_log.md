@@ -1288,3 +1288,55 @@ recorded.
 Next action:
 Proceed to EMU-008 only; do not begin EMU-009 until EMU-008 is complete. The pause
 unknown may be revisited if a physical Pause/Break keyboard becomes available.
+
+## 2026-08-25 09:08 CDT — EXP-0005
+
+Task: EMU-008
+
+Goal:
+Verify that stock Mednafen 1.32.1 can produce reproducible emulator-generated
+screenshots of a described MSHvSF scene under the project-local runtime configuration.
+
+Observation:
+`EMU-004` and `EMU-005` reached the MSHvSF title/menu scene, and `EMU-007` reported
+that the configured snapshot shortcut worked, but no dedicated EMU-008 screenshot
+record had been completed. The selected profile maps `command.take_snapshot` to F9,
+stores snapshots under `local/mednafen/snaps/`, and uses the `%f-%p.%x` filename
+template.
+
+Hypothesis:
+Pressing F9 with the focused Mednafen window at the title/menu scene will create a
+local screenshot, and the same procedure will succeed after a second cold launch.
+
+Action:
+Verified all 13 source-image component hashes, the stock binary hash, and both
+canonical BIOS hashes before launch. Ran the established project-local launch twice,
+using the validated Enter input to reach the title/menu scene, waiting approximately
+35 seconds, pressing F9 once, and exiting with F12. The source image, BIOS files,
+stock binary, and runtime configuration were not changed.
+
+Result:
+The first capture was `local/mednafen/snaps/Marvel Super Heroes vs. Street Fighter
+(Japan)-0003.png`, 19,270 bytes, 352x240, SHA-256
+`7e20cb6ce62bdb0924d1ce00c1a5ac48e74cebbcd2d6fb7fcbb14902e460dfd7`. The second
+cold capture was `local/mednafen/snaps/Marvel Super Heroes vs. Street Fighter
+(Japan)-0004.png`, 24,589 bytes, 352x240, SHA-256
+`5a655bd264448b796948b9f6c0766c3f160611e5edf6e4f2479863e80775761b`. Both visibly
+show the MSHvSF title screen with `PRESS START BUTTON`; the second has an expected
+animated-background variation. Both run logs were 4,248 bytes with SHA-256
+`c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c` and recorded
+software `T-1238G`, area `J`, and `Cart: 4MiB Extended RAM`. The post-run source
+identity report matched every pre-run component. No emulator process remained; a
+zero-byte stale ignored lock from the previous session was removed after confirming
+that no process owned it.
+
+Conclusion:
+`CONFIRMED`: the established stock Mednafen screenshot action reproducibly captures
+the described title/menu scene into the project-local snapshot directory. The result
+confirms visual-evidence capture only; it does not establish binary provenance beyond
+the separately recorded launch identities, nor does it imply byte-identical captures
+for an animated scene.
+
+Next action:
+Begin EMU-009, verifying repeated save/load-state return to an equivalent documented
+checkpoint. Do not treat save-state files as RAM dumps.
