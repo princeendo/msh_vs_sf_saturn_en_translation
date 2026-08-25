@@ -823,3 +823,78 @@ Next action:
 Run `EMU-002` to acquire or use the exact external source archive, document host
 dependencies and build options, build pristine stock Mednafen, record the binary hash,
 and perform only the specified smoke test. Do not patch Mednafen.
+
+## 2026-08-24 19:28 CDT - SESSION-0011
+
+Task: EMU-002
+
+Goal:
+Build the selected unmodified Mednafen `1.32.1` source release on the macOS arm64
+research host and record reproducible provenance without booting a target image.
+
+Observation:
+The previously retrieved archive was available at the recorded temporary path. Its
+identity matched `EMU-001`: filename `mednafen-1.32.1.tar.xz`, size 3,571,236 bytes,
+and SHA-256 `de7eb94ab66212ae7758376524368a8ab208234b33796625ca630547dbc83832`.
+The host provided Apple Clang 21.0.0, GNU Make 3.81, `pkg-config` 2.5.1, Homebrew
+6.0.18, SDL2 2.32.70 through `sdl2-compat`, libFLAC 1.5.0, and zlib 1.2.12.
+
+Hypothesis:
+The pristine `1.32.1` archive can configure and compile natively on this macOS arm64
+host with the Saturn module and internal debugger enabled, using the detected stock
+dependencies and no source patch.
+
+Controlled change:
+Only the build environment and out-of-tree generated build files changed. The source
+was extracted unchanged under ignored `vendor/mednafen/src/`; no source file was
+patched. Configure options explicitly enabled `--enable-debugger` and `--enable-ss`;
+all other options remained at upstream defaults.
+
+Procedure and exact commands:
+
+```text
+mkdir -p vendor/mednafen/src vendor/mednafen/build
+tar -xJf /var/folders/mm/pxsndw4s4pv_djh93l0yrvc00000gp/T/opencode/mednafen-1.32.1.tar.xz --strip-components=1 -C vendor/mednafen/src
+cd vendor/mednafen/build
+PKG_CONFIG=/opt/homebrew/bin/pkg-config CC=/usr/bin/clang CXX=/usr/bin/clang++ ../src/configure --prefix="$PWD/install" --enable-debugger --enable-ss
+make -j12
+```
+
+The first `make -j12` invocation was terminated by the tooling timeout after 120
+seconds while compiling; it emitted no compiler or linker failure. The same unchanged
+build was resumed with `make -j12` and a 600-second command timeout and completed with
+exit status 0. `./config.status --config` recorded the configure arguments and the
+automatic compiler flags.
+
+Actual result:
+The resulting native arm64 Mach-O binary was
+`vendor/mednafen/build/src/mednafen`, size 21,322,536 bytes, SHA-256
+`ca9bec5fd7bb8fbdec6ff7bf9bbfdac6906b8802e1e50813ae716256e7ca2587`. Its build
+information reported Mednafen `1.32.1`, Apple LLVM 21.0.0, zlib 1.2.12, SDL2 2.32.70,
+libFLAC 1.5.0, and an emulation-module list containing `ss`.
+
+Smoke test:
+
+```text
+MEDNAFEN_HOME="$PWD/../../../local/mednafen" ./src/mednafen -help
+```
+
+Run from `vendor/mednafen/build`, this exited successfully without a BIOS or game
+image and printed the command-line help. The GNU-style `--version` spelling was also
+tested and rejected as `Unrecognized argument: --version`; it is not the smoke-test
+command for this build.
+
+Conclusion:
+`CONFIRMED`: stock Mednafen `1.32.1` configures and builds natively on this macOS
+arm64 host with Saturn and debugger support enabled, and the resulting binary passes
+an isolated no-image smoke test. This does not confirm target boot, 4 MiB cartridge
+behavior, input, screenshots, save states, or debugger semantics.
+
+Uncertainty:
+The build emitted numerous upstream and SDK deprecation/unused-option warnings. No
+target BIOS or game image was used, and no runtime debugger workflow was tested.
+
+Next action:
+Proceed to `EMU-003`, using the verified binary and project-local runtime root. Do not
+begin target boot or debugger experiments before the configuration strategy is
+documented.

@@ -246,7 +246,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-002 - Download/build stock Mednafen
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-001, DOC-004.
 - **Blockers:** None.
@@ -254,14 +254,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Runtime observations must be tied to a known binary.
 - **Acceptance criteria:** Source identity, download/build commands, tool versions, options, binary hash, and smoke-test result are recorded; source and binaries remain ignored.
 - **Outputs:** Local stock source/build; provenance and commands in `vendor/mednafen/README.md`.
-- **Notes:** Apply no local patch.
+- **Notes:** `SESSION-0011` built the unmodified `1.32.1` archive on macOS arm64,
+  recorded the exact toolchain, dependencies, configure/build commands, binary hash,
+  and isolated `-help` smoke test. No local patch was applied. Source and binaries
+  remain ignored.
 
 ### EMU-003 - Create project-local Mednafen configuration strategy
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-002.
-- **Blockers:** No verified stock build exists.
+- **Blockers:** None.
 - **Objective:** Isolate runtime configuration, saves, screenshots, and logs from user-global state.
 - **Rationale:** Hidden global settings make observations irreproducible.
 - **Acceptance criteria:** Launch and reset procedures use an ignored local root; sanitized stable settings can be recorded; secrets and unstable identifiers are excluded.
