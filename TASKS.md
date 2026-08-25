@@ -319,15 +319,19 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-007 - Document fightpad mapping
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-006.
-- **Blockers:** Runtime validation and shortcut evidence are still required.
+- **Blockers:** None. The Mac host has no reliable physical Pause/Break key; this
+  shortcut is explicitly recorded as unavailable in the experiment evidence.
 - **Objective:** Validate and document every required input in game.
 - **Rationale:** Configuration labels do not prove intended runtime behavior.
 - **Acceptance criteria:** Expected and observed behavior are recorded for all mapped controls and useful emulator shortcuts, including save/load, screenshot, pause, frame advance, and slot selection where available.
 - **Outputs:** Verified mapping table and input experiment record.
-- **Notes:** Unavailable shortcuts remain explicit rather than invented.
+- **Notes:** `EXP-0004` records user-observed in-game behavior for the physical M30
+  required controls and available shortcuts. Retained keyboard fallbacks are out of
+  scope. Pause/Break was unavailable on the Mac host and was not inferred from a
+  conflicting temporary binding.
 
 ### EMU-008 - Verify screenshot capture
 

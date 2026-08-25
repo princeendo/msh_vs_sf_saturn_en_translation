@@ -124,6 +124,27 @@ was parsed successfully and a target launch recorded the joystick identity and
 SHA-256 `c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`).
 Runtime control and emulator-shortcut validation remains EMU-007.
 
+## EMU-007 Runtime Validation
+
+`EXP-0004` validated the physical 8BitDo M30 in wired macOS mode against the
+untouched MSHvSF image. The user-observed run confirmed the expected in-game result
+for every required Saturn control in the EMU-006 scope: D-pad, A/B/C, X/Y/Z, and
+Start. L/R and keyboard fallbacks remain out of scope.
+
+The same run confirmed use of the configured screenshot, frame-advance, normal-run,
+save-state, load-state, and state-slot actions. The runtime log is the ignored
+`local/mednafen/logs/emu007-validation.log`, 4,248 bytes, SHA-256
+`c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`. No screenshot
+or state file remained under the configured local `snaps/` or `mcs/` directories
+after the run.
+
+Pause/unpause remains host-specific and unverified on this Mac keyboard. The generated
+profile binds `command.pause` to SDL `Pause` scancode 72, but the host has no reliable
+physical Pause/Break key. A temporary F1 binding opened Mednafen help, and a temporary
+F4 binding produced no pause response; neither is treated as a valid pause mapping.
+The exact expected-versus-observed controls and shortcut results are recorded in
+`research/experiments/EXP-0004/README.md`.
+
 ## Project-Local Configuration Strategy
 
 `EMU-003` confirms that the selected build can be launched with an isolated runtime
