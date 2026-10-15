@@ -7,14 +7,18 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Which remaining M0 runtime observations, beyond the confirmed local configuration
   strategy, are needed for a complete stock Mednafen acceptance?
 - Are stock debugger facilities sufficient for the planned controlled experiments?
+  `EXP-0007` confirmed paused WRAM and VRAM dumps, but the stock memory editor has no
+  cartridge-RAM address space.
+- Do the WRAM, cart RAM, and VRAM arrays stored in a Mednafen save state equal the
+  debugger dumps taken at the same paused instant, and in what byte order?
 - How does stock Mednafen label the SH-2 program counter, expose Saturn address
   aliases, and implement breakpoints relative to the SH7604 hardware semantics?
-- Which CPU selections and memory-editor address spaces does the selected stock
-  Mednafen build expose for Saturn, and which can be dumped reproducibly?
+- Which CPU selections does the stock debugger expose for Saturn? (Memory-editor
+  address spaces are recorded in `docs/mednafen.md` from `EXP-0007`.)
 - Do Saturn read/write breakpoints observe only CPU accesses, or also DMA and device
   activity, and at what point relative to the access do they stop?
-- Does the confirmed 4 MiB cartridge model pass direct RAM read/write and boundary
-  tests through the stock debugger, and which game code paths access it?
+- Which game code paths access the 4 MiB cartridge RAM, and how can its contents be
+  read without a debugger address space?
 
 ## Target Data
 

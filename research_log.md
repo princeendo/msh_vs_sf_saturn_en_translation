@@ -1411,3 +1411,63 @@ slot-0 run.
 Next action:
 Proceed to EMU-010 only. Do not modify Mednafen; debugger access remains a separate
 stock-build verification task.
+
+## 2026-10-15 18:55 CDT — EXP-0007
+
+Task: EMU-010
+
+Goal:
+Verify stock debugger access against MSHvSF and obtain repeatable paused memory dumps
+to serve as reference data for a planned save-state extractor.
+
+Observation:
+EMU-009 was done. Read-only source inspection of stock 1.32.1 showed the Saturn
+memory-editor address spaces, the dump prompt syntax, and that the
+`physical` space is a `TODO` stub with no cartridge-RAM space registered.
+
+Hypothesis:
+The debugger opens and CPU step mode pauses and resumes. During a frame-advance pause,
+the memory editor dumps the full Work RAM spaces repeatably, and a state saved in the
+same pause captures the same instant.
+
+Action:
+Pre-run checks matched all 13 source components, the binary, and both BIOS files.
+Mednafen was launched with the project-local root and log
+`local/mednafen/logs/emu010-exp0007.log`. The user then:
+
+- Opened the debugger and stepped/resumed with `S`/`R`.
+- Froze the game with `Option+A` and saved slot 2 with `F5`.
+- Cycled the memory editor's address spaces and dumped High Work RAM twice and Low
+  Work RAM once.
+- Re-dumped both Work RAM spaces and both VDP VRAMs with inclusive end addresses.
+
+Result:
+- `Option+1` had no visible effect because the CPU view was already active. `S`/`R`
+  froze and resumed emulation.
+- The memory editor listed 13 address spaces and no cartridge RAM.
+- The first dumps were 1,048,577 bytes, most likely because the `+` was omitted while
+  hand-typing. The inclusive form adds the wrapped offset-0 byte, which matched.
+- The two High Work RAM dumps had identical SHA-256
+  `cdc1593260a18e98c3feae4e124bd9b93852176baefe91ec724e834be85ec2f0`.
+- Inclusive re-dumps were exactly 1 MiB and equal to the first 1 MiB of the earlier
+  dumps.
+- The slot-2 state is 3,848,175 bytes, SHA-256
+  `2c735816da8fcb2dbcc63b62da05454a07994f3f08ba56239fbe5fa829c65eb9`.
+- Mednafen exited 0. Post-run source, binary, and BIOS hashes matched.
+
+Conclusion:
+`CONFIRMED` for stock debugger access, CPU pause/resume, the listed address spaces,
+and repeatable paused WRAM/VRAM dumps. The stock memory editor cannot dump the 4 MiB
+cartridge RAM. The prediction of exact 1 MiB `+`-form dumps was not tested as
+intended because of the typing error. The inclusive form is now the documented
+hand-typed form.
+
+Next action:
+Per the approved win-quote plan:
+
+1. Record the save-state extractor task and the AGENTS.md save-state amendment.
+2. Build the extractor.
+3. Validate it against `wram-c.bin`, `wraml-b.bin`, `vdp1vram-a.bin`, and
+   `vdp2vram-a.bin` from the slot-2 state.
+
+EMU-011 is READY.

@@ -243,6 +243,43 @@ The source image manifest matched before and after both runs. Each retained run 
 was 4,248 bytes with SHA-256
 `c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`.
 
+## EMU-010 Debugger Access Result
+
+`EXP-0007` confirmed stock debugger access against MSHvSF on 2026-10-15 in one cold
+launch of the untouched source. On this Mac, the documented `Alt` chords are typed
+with the left Option key.
+
+| Action | Observed result |
+| --- | --- |
+| `Option+D` | Opens the debugger overlay with the CPU view already selected. |
+| `Option+1` | No visible change, because the CPU view was already active. |
+| `S` / `R` (CPU view) | Freezes and steps emulation / resumes emulation. |
+| `Option+A` | Frame advance freezes the scene; the debugger overlay stays usable. |
+| `F5` while frozen | Writes the selected-slot state before any further frame. |
+| `Option+3` | Opens the memory editor. |
+| `.` / `,` | Cycles address spaces without macOS's Ctrl+Arrow conflict. |
+| `D` | Dumps the selected address space to a file relative to the launch directory. |
+
+Memory-editor address spaces, in display order: `SH-2 External Bus (TODO)`,
+`Low Work RAM`, `High Work RAM`, `SCSP RAM`, `SCSP MPROG`,
+`SCSP TEMP Relative Offset`, `SCSP MEMS`, `DSP Program RAM`, `Backup RAM`,
+`VDP1 VRAM`, `VDP1 FB0 RAM (raw no 8bpp/rot addr bit swizzling)`,
+`VDP1 FB1 RAM (raw no 8bpp/rot addr bit swizzling)`, `VDP2 VRAM`. Work RAM spaces
+are offset-based (`00000000`-`000FFFFF`), not Saturn bus addresses. The stock source
+implements `SH-2 External Bus` as `TODO` stubs, and no cartridge-RAM space exists, so
+the 4 MiB cart RAM cannot be dumped through this editor.
+
+Use the inclusive-end form when typing dump specifications by hand, for example:
+
+```text
+00000000 000FFFFF local/mednafen/dumps/wramh.bin
+```
+
+The form without `+` treats the end address as inclusive. Typing
+`00000000 00100000` therefore produces `0x100001` bytes, with the last byte wrapped
+from offset 0. Repeated dumps taken during one frame-advance pause were
+byte-identical. Do not load a state or reset while the CPU debugger is in step mode.
+
 ## EMU-004 Boot Result
 
 `EMU-004` confirmed on 2026-08-24 that the same stock launch reaches a stable
