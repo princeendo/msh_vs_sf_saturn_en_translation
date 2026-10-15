@@ -85,6 +85,30 @@ after `F7` is required when the title scene is the checkpoint criterion. The exa
 screenshots, temporary host mapping, and reproduction procedure are recorded in
 `research/experiments/EXP-0006/README.md`.
 
+## EMU-010: Stock Debugger Access and Repeatable Dumps
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0007`
+
+Stock Mednafen 1.32.1 opens its debugger against the untouched MSHvSF Saturn source
+(`Option+D` on this Mac host). CPU-view `S` pauses and `R` resumes emulation. During
+a frame-advance pause (`Option+A`), the memory editor (`Option+3`) dumped High Work
+RAM, Low Work RAM, VDP1 VRAM, and VDP2 VRAM to files. Two High Work RAM dumps were
+byte-identical, SHA-256
+`cdc1593260a18e98c3feae4e124bd9b93852176baefe91ec724e834be85ec2f0`. The inclusive
+re-dumps `wram-c.bin` (High Work RAM, SHA-256
+`5e7c2347ddf805da44fddafe7f663bbb23d8896a7014bcbea9a4f4790f94ead0`) and
+`wraml-b.bin` (Low Work RAM, SHA-256
+`0cb95fbf577923bfc2729e5d5303b2200a6ea9e9d77dcbdde39dddbecd4f9a5c`) are exactly
+1,048,576 bytes and match the earlier dumps' first 1 MiB.
+
+The memory editor lists 13 address spaces, recorded in `docs/mednafen.md`, and none
+is cartridge RAM. Work RAM spaces are offset-based. The source image, stock binary
+(`ca9bec5f…2587`), and BIOS aliases matched their recorded hashes. Exact commands,
+artifacts, and limits are in `research/experiments/EXP-0007/README.md`. This does not
+establish that a save state's contents equal these dumps, or any caption location.
+
 ## Entry Requirements
 
 Each future entry must include:

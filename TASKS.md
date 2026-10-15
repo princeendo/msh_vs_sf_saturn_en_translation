@@ -9,7 +9,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-010`.
+- Next research task: `EMU-011`. The approved win-quote plan also adds a
+  save-state RAM extractor task before checkpoint capture; record it here before
+  starting it.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -362,7 +364,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-010 - Verify debugger access
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-005, EMU-009.
 - **Blockers:** None.
@@ -370,14 +372,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** M1 requires developer-level memory inspection and controlled writes.
 - **Acceptance criteria:** Exact invocation/actions demonstrate pause/resume and read-only inspection; source/configuration identities are linked; no caption conclusion is drawn.
 - **Outputs:** Debugger smoke-test experiment.
-- **Notes:** EMU-009 established repeated stock checkpoints. Do not modify Mednafen.
+- **Notes:** `EXP-0007` confirmed `Option+D` debugger entry, CPU-view `S`/`R`
+  pause/resume, the listed memory-editor address spaces, and repeatable dumps of
+  High/Low Work RAM and VDP1/VDP2 VRAM during a frame-advance pause. The stock
+  editor has no cartridge-RAM address space. No caption conclusion is drawn.
 
 ### EMU-011 - Document debugger workflow
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-010.
-- **Blockers:** Interactive access has not been observed.
+- **Blockers:** None.
 - **Objective:** Record exact stock actions for memory reads/writes, dumps, registers, stepping, and breakpoints as available.
 - **Rationale:** Later experiments must be reproducible by another session.
 - **Acceptance criteria:** Each command is tied to the tested version and observed outcome; unsupported or unreliable actions are explicit.
