@@ -1711,3 +1711,43 @@ sequences.
 
 Checks: pytest (37 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-15 22:20 CDT — EXP-0013
+
+Task: DBG-014
+
+Goal:
+Locate the glyph font and the quote character codes.
+
+Hypothesis:
+Glyph cells are copied verbatim from a font table resident in WRAM or cart RAM.
+
+Action:
+- Searched WRAM-L, WRAM-H, and cart RAM for the exact 4 bpp glyph cells.
+- Searched for 1 bpp body masks (shifts, bit orders, row slices).
+- Built per-quote glyph-identity patterns.
+- Added `tools/text/pattern_search.py` (equality-pattern search, with tests) and
+  searched 16-bit runs.
+
+Result:
+- Only the last glyph cell of each quote was found, at WRAM-H `0x0601CEEC` (a
+  staging buffer). No 1 bpp font matched.
+- Each quote's 38-cell pattern matched exactly once in WRAM-L of the pre-KO state:
+  Q8 at `0x00209290`, Q10 at `0x0020940C`, Q11 at `0x0020953C`.
+- The table (15 records of 76 bytes from `0x002091F8`) is identical in all states.
+- 44 glyph identities map consistently to codes. 46 of 46 kana fit
+  `0x0800 + (SJIS2 − 0x9F)` (hiragana) and the matching katakana rule.
+- The current quote also appears as `(0x5000|code, 0x0002)` entries at WRAM-H
+  `0x060ED80A`, only on quote screens.
+
+Conclusion:
+A resident font in WRAM/cart as cells or as uncompressed 1 bpp is `DISPROVEN`; do
+not repeat those searches without a new format hypothesis. 16-bit quote-code
+records in WRAM-L plus the per-screen WRAM-H buffer are `SUPPORTED`. Confirmation
+needs the gated `RE-012` mutation.
+
+Next action:
+Complete the remaining GATE-M0 prerequisites, starting with `EMU-011`. Then, in M1,
+change one code in the Q10 record and observe the screen.
+
+Checks: pytest (41 passed), ruff check, ruff format --check, and strict mypy.
+

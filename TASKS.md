@@ -9,9 +9,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DBG-014` (locate the glyph font and quote character codes).
-  `EMU-011` is also `READY`. `REF-003` needs an independent reviewer who reads
-  Japanese.
+- Next research task: `EMU-011` (debugger runbook), then `EMU-012`/`EMU-020`. The
+  M1 mutation candidate is identified (`RE-012` notes), but `GATE-M0` still needs:
+  DOC-007, DOC-008, EMU-011, EMU-012, EMU-020, REF-003, REF-004, and REF-005.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -730,7 +730,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-014 - Locate the glyph font and quote character codes
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DBG-013.
 - **Blockers:** None.
@@ -744,6 +744,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   predicted and actual results.
 - **Outputs:** Experiment record and `research_log.md` entry.
 - **Notes:** A sequence match is at most `SUPPORTED` until a mutation test (M1).
+  `EXP-0013`: no resident font was found. Quotes are 38-cell records of 16-bit codes
+  in a WRAM-L table (Q10 at `0x0020940C`), with the current quote copied to WRAM-H
+  `0x060ED80A` (`SUPPORTED`).
 
 ## M0 Gate
 
@@ -772,6 +775,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** Candidate range is identified; exact original/modified bytes and address are recorded; mutation changes the intended visible caption while unrelated content is assessed; before/after screenshots and deterministic checkpoint are recorded; the result repeats from a clean checkpoint; experiment, log, and confirmed discovery are updated.
 - **Outputs:** `research/experiments/EXP-NNNN/`, local evidence, `research_log.md`, `docs/discoveries.md`.
 - **Notes:** Do not claim whether bytes are source text, glyph indices, or an intermediate buffer without a separate experiment.
+  Candidates from `EXP-0013`: the Q10 record at WRAM-L `0x0020940C` (76 bytes,
+  resident before the KO), and the per-screen buffer at WRAM-H `0x060ED80A`.
 
 ### DISC-001 - Trace confirmed Ryu runtime caption to disc source
 
