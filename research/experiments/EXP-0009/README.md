@@ -134,6 +134,9 @@ Neither the kill move alone nor the opponent alone determines it: the same move 
 different quotes, and the same quotes appeared against different opponents.
 Timing- or RNG-based selection is consistent with this, but is not confirmed.
 
+Per the user's correction, every quote here is a Ryu quote, because Ryu landed every
+KO.
+
 Practical consequence: the C1 (quote A) and C2 (quote B) states can be produced
 from one pre-KO checkpoint, with an identical portrait and scene. A same-quote,
 different-history pair already exists across fights (Q2: snapshots 20 and 26; Q3:
@@ -147,9 +150,13 @@ those screens.
 - Each replay changed both timing and move, so timing and move effects are not
   separated. No exact-input replay was attempted, so whether an identical replay
   reproduces the same quote is untested. That matters for an identical-replay C1′.
-- With Ryu and Ken together, the screen shows a joint portrait and team-voiced quotes
-  (`俺達`, "we"). Whether a Ryu-only quote set exists with other partners is unknown.
-  This affects `REF-001`'s choice of an "ordinary Ryu caption".
+- The win screen shows a joint Ryu/Ken portrait. An earlier draft of this record
+  inferred "team-voiced" quotes from that portrait and the word `俺達`. The user
+  corrected this: there are no team quotes, and the quote is always delivered by
+  the team member who landed the KO. Ryu landed every KO here, and Q4's `俺は`
+  ("I") reads as a single speaker, so all twelve quotes are treated as Ryu's.
+  Whether a Ken KO yields Ken quotes under the same portrait is user-reported but
+  untested here.
 - Background animation and the blinking `PRESS START` are expected noise sources in
   quote-screen state comparisons.
 

@@ -419,9 +419,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** DOC-006, EMU-007, REF-007.
-- **Blockers:** None. `EXP-0009` shows that the Ryu/Ken team produces joint
-  team-voiced quotes. Decide whether the first subject is a team quote or a
-  Ryu-only quote.
+- **Blockers:** None. `EXP-0009` observed nine Ryu quotes (Ryu landed every KO)
+  under a joint Ryu/Ken portrait; slots 3 and 4 are usable pre-KO checkpoints.
 - **Objective:** Select one ordinary Ryu caption with reproducible Japanese and official English contexts.
 - **Rationale:** M1 needs one fixed subject rather than broad quote work.
 - **Acceptance criteria:** Selection rationale, release contexts, route, and unresolved correspondence questions are recorded without inventing a match.
@@ -511,7 +510,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Notes:** The project's planned team is Ryu/Ken. Record which teammate's
   portrait and quote appear. `EXP-0009` disproved a fixed-at-checkpoint quote: one
   pre-KO state gave up to six quotes. Neither the kill move nor the opponent alone
-  determines the quote. Ryu/Ken wins show a joint portrait with team-voiced quotes.
+  determines the quote. Ryu/Ken wins show a joint portrait. Per the user, the quote
+  belongs to whoever landed the KO (Ryu in every replay); this is untested for Ken.
 
 ## Phase E: Checkpoints And Memory Analysis
 
