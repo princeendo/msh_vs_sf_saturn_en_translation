@@ -1,0 +1,22 @@
+{
+  "game": "mshvsf",
+  "character": "ryu",
+  "context": "post_fight win quote; Saturn JP T-1238G; arcade mode; team Ryu/Ken (P1); Ryu on point and landing the KO; joint Ryu/Ken win portrait",
+  "quote_id": "ryu_q3",
+  "status": "UNKNOWN",
+  "saturn_jp_text": "",
+  "arcade_us_text": "",
+  "ps1_us_text": "",
+  "preferred_english": "",
+  "evidence": [
+    {
+      "reference": "research/experiments/EXP-0009 snapshot -0021.png (SHA-256 848dcca626df3f8f2e73f246acda32a78162d95aef3c41b8c781fc5aee61927e), slot 3 replay 3, vs Vega, Hadouken KO",
+      "supports": "Q3 (opening characters この勝負、) is shown after a Ryu KO against Vega"
+    },
+    {
+      "reference": "research/experiments/EXP-0009 snapshot -0024.png (SHA-256 68605cd695f1d0a409fef0171e163945048458c3b833b1e80b5c7d211157fdd3), slot 4 replay 0, vs Sakura, Air Throw KO",
+      "supports": "the same Q3 text is shown after a Ryu KO against a different opponent"
+    }
+  ],
+  "notes": "REF-001 selection. The rationale is technical only: Q3 appeared in both EXP-0009 fights, giving a same-text, different-history pair for memory comparison. Route: load pre-KO slot 3 (state SHA-256 dd08030853d0b4fa1ee1ea7973ab27aebb71f3bc1ef37d90b6e68f4c70d3b5e7) or slot 4 (f3fd6e5a116c9cd2a167e146acad087a8bbef39b5bca4e563ec8308205fafa3d), KO with Ryu, and repeat until Q3 appears. Selection varies after the checkpoint and is not controlled, so several replays may be needed. saturn_jp_text is intentionally empty until REF-003 transcribes and independently reviews it. No English correspondence is asserted. Open questions for REF-004: which official arcade US (mshvsfu/mshvsfu1) and PS1 (SLUS-00793) Ryu win quote corresponds to Q3, given that selection appears random in the Saturn build; whether the Ryu quote pool is the same size and order across releases; and whether the arcade release also shows a joint portrait for Ryu/Ken wins."
+}

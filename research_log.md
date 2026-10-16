@@ -1558,3 +1558,28 @@ Next action:
 `REF-001`: choose the first Ryu quote from Q1-Q9. Then capture quote-screen states
 for DBG-003, saving each with `Option+A` then `F5`.
 
+## 2026-10-15 19:55 CDT — SESSION-0015
+
+Task: REF-001
+
+Goal:
+Choose the first Ryu win quote for M0/M1 work.
+
+Observation:
+`EXP-0009` showed nine Ryu quotes. The user does not read Japanese and expressed no
+preference.
+
+Action:
+Selected Q3 on technical grounds only: it appeared against both Vega (snapshot 21)
+and Sakura (snapshot 24), which supplies a same-text, different-history control.
+Recorded `data/translations/ryu_post_fight_q3.json`, which matches the
+`quote.schema.json` fields. It holds the route, evidence hashes, and open REF-004
+correspondence questions. Japanese text is left empty until REF-003 review.
+
+Result:
+REF-001 is `DONE`; REF-002 and DBG-001 are `READY`.
+
+Next action:
+Capture the pre-KO state (A) and the Q3 quote-screen state (C1) with screenshots,
+saving under frame advance (`DBG-001`, `DBG-003`, `REF-002`).
+

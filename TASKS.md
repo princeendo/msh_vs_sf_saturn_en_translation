@@ -9,8 +9,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `REF-001` (choose the initial quote; note the Ryu/Ken team
-  quote question from `EXP-0009`). `EMU-011` is also `READY`.
+- Next research task: `DBG-001` with `REF-002`. Capture the pre-KO and Q3
+  quote-screen checkpoints with screenshots. `EMU-011` is also `READY`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -416,7 +416,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-001 - Choose initial Ryu post-fight quote
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DOC-006, EMU-007, REF-007.
 - **Blockers:** None. `EXP-0009` observed nine Ryu quotes (Ryu landed every KO)
@@ -426,13 +426,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** Selection rationale, release contexts, route, and unresolved correspondence questions are recorded without inventing a match.
 - **Outputs:** Structured draft under `data/translations/`.
 - **Notes:** Ryu remains preferred unless evidence justifies another fighter.
+  Selected `ryu_q3` (`data/translations/ryu_post_fight_q3.json`) on technical
+  grounds: it appeared against both opponents in `EXP-0009`. The record states the
+  route and the open REF-004 correspondence questions; no wording or match is
+  asserted.
 
 ### REF-002 - Capture Japanese Saturn screenshot
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** REF-001, EMU-008, EMU-009.
-- **Blockers:** Quote selection and capture workflow are incomplete.
+- **Blockers:** None.
 - **Objective:** Capture the selected Japanese caption in a deterministic scene.
 - **Rationale:** Exact visible evidence anchors transcription and memory analysis.
 - **Acceptance criteria:** Release/run/state identity, capture method, image hash, and visible context are recorded; screenshot remains ignored.
@@ -517,10 +521,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-001 - Capture state A before fight end
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** REF-001, EMU-009.
-- **Blockers:** The quote route is not selected.
+- **Blockers:** None. `EXP-0009` slots 3 and 4 are candidate pre-KO states but
+  lack screenshots and reload records.
 - **Objective:** Save a reproducible checkpoint shortly before the fight ends.
 - **Rationale:** State A supplies the pre-caption comparison baseline.
 - **Acceptance criteria:** Route, timing, run/configuration, save hash, screenshot metadata, and two reload observations are recorded.
