@@ -39,8 +39,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - What selects the post-fight win quote? `EXP-0009` showed it varies after a pre-KO
   checkpoint and is not determined by kill move or opponent alone. Is it timing or
   RNG, and does an exact-input replay reproduce the same quote?
-- Do teams other than Ryu/Ken show a Ryu-only portrait and quote set, or are win
-  quotes always pair-specific?
+- The user reports that the win quote always belongs to the team member who landed
+  the KO. Does a Ken KO from the same Ryu/Ken checkpoint show a Ken quote under the
+  same joint portrait? (Untested; every `EXP-0009` KO was Ryu's.)
 
 ## Cross-Release Evidence
 

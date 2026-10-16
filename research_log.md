@@ -1542,6 +1542,11 @@ Q9. Hadouken gave different quotes in the two fights, and Q2/Q3 appeared against
 both opponents. Every screen used the same joint Ryu/Ken portrait. Source identity
 was unchanged.
 
+Correction: an agent inference of "team-voiced" quotes, drawn from the joint
+portrait and `俺達`, was wrong. The user reports that there are no team quotes, and
+the quote belongs to whoever landed the KO, which was Ryu in every replay. That rule
+is consistent with all twelve screens but untested for a Ken KO.
+
 Conclusion:
 The hypothesis is `DISPROVEN`. It is `SUPPORTED` that selection varies after the
 checkpoint and is not determined by move or opponent alone.
@@ -1550,7 +1555,6 @@ Do not retry the "quote is fixed per matchup or checkpoint" assumption. One
 checkpoint can yield both C1 and C2.
 
 Next action:
-`REF-001`: choose the first quote. Decide whether to use a Ryu/Ken team quote or
-look for a Ryu-only quote with another partner. Then capture quote-screen states
+`REF-001`: choose the first Ryu quote from Q1-Q9. Then capture quote-screen states
 for DBG-003, saving each with `Option+A` then `F5`.
 
