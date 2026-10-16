@@ -12,6 +12,7 @@ from tools.memory.mcs_extract import (
     REGIONS,
     RegionSpec,
     StateFormatError,
+    encode_png,
     extract_region,
     main,
     parse_state,
@@ -173,3 +174,33 @@ def test_main_rejects_invalid_state(tmp_path: Path) -> None:
     with pytest.raises(SystemExit) as error:
         main([str(state_path), "--list"])
     assert error.value.code == 2
+
+
+def test_parse_state_keeps_preview_pixels() -> None:
+    state = parse_state(make_state({"MAIN": {"A": b"\x01"}}, preview=(2, 1)))
+
+    assert state.preview_rgb == b"\xaa" * 6
+
+
+def test_encode_png_produces_valid_signature_and_rejects_bad_size() -> None:
+    png = encode_png(2, 1, b"\x00\x01\x02\x03\x04\x05")
+
+    assert png.startswith(b"\x89PNG\r\n\x1a\n")
+    assert png[12:16] == b"IHDR"
+    assert struct.unpack(">II", png[16:24]) == (2, 1)
+    with pytest.raises(StateFormatError):
+        encode_png(2, 2, b"\x00" * 6)
+
+
+def test_main_writes_preview_and_records_it(tmp_path: Path) -> None:
+    state_path = tmp_path / "synthetic.mc5"
+    stored = pattern(REGIONS["wram_l"].size)
+    state_path.write_bytes(make_state({"MAIN": {"WorkRAML": stored}}, preview=(2, 1)))
+    out_dir = tmp_path / "out"
+
+    assert main([str(state_path), "--out-dir", str(out_dir), "--region", "wram_l"]) == 0
+
+    png = (out_dir / "preview.png").read_bytes()
+    manifest = json.loads((out_dir / "manifest.json").read_text())
+    assert manifest["preview"]["sha256"] == hashlib.sha256(png).hexdigest()
+    assert manifest["preview"]["width"] == 2

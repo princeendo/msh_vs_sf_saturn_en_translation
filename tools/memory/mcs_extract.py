@@ -24,6 +24,7 @@ import gzip
 import hashlib
 import json
 import struct
+import zlib
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -124,6 +125,7 @@ class SaveState:
 
     header: StateHeader
     sections: dict[str, dict[str, bytes]]
+    preview_rgb: bytes = b""
 
 
 def decompress(raw: bytes) -> bytes:
@@ -177,6 +179,7 @@ def parse_state(raw: bytes) -> SaveState:
         raise StateFormatError("header length exceeds state data")
 
     pos = HEADER_SIZE + header.preview_width * header.preview_height * 3
+    preview_rgb = data[HEADER_SIZE:pos]
     sections: dict[str, dict[str, bytes]] = {}
     while pos < header.total_length:
         name_end = pos + SECTION_NAME_SIZE
@@ -190,7 +193,29 @@ def parse_state(raw: bytes) -> SaveState:
             raise StateFormatError(f"duplicate section {name!r}")
         sections[name] = _parse_variables(data, body_start, body_end)
         pos = body_end
-    return SaveState(header=header, sections=sections)
+    return SaveState(header=header, sections=sections, preview_rgb=preview_rgb)
+
+
+def encode_png(width: int, height: int, rgb: bytes) -> bytes:
+    """Encode 8-bit RGB pixels as a PNG image."""
+    if len(rgb) != width * height * 3:
+        raise StateFormatError("preview size does not match its dimensions")
+    stride = width * 3
+    scanlines = b"".join(
+        b"\x00" + rgb[row * stride : (row + 1) * stride] for row in range(height)
+    )
+
+    def chunk(kind: bytes, payload: bytes) -> bytes:
+        crc = zlib.crc32(kind + payload) & 0xFFFFFFFF
+        return struct.pack(">I", len(payload)) + kind + payload + struct.pack(">I", crc)
+
+    ihdr = struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0)
+    return (
+        b"\x89PNG\r\n\x1a\n"
+        + chunk(b"IHDR", ihdr)
+        + chunk(b"IDAT", zlib.compress(scanlines))
+        + chunk(b"IEND", b"")
+    )
 
 
 def swap_elements(data: bytes, width: int) -> bytes:
@@ -295,8 +320,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     suffix = "" if args.byte_order == "saturn" else ".state-order"
     outputs = {name: out_dir / f"{name}{suffix}.bin" for name in names}
     manifest_path = out_dir / f"manifest{suffix}.json"
+    header = state.header
+    has_preview = header.preview_width > 0 and header.preview_height > 0
+    preview_path = out_dir / "preview.png"
+    targets = [*outputs.values(), manifest_path]
+    if has_preview:
+        targets.append(preview_path)
     resolved_input = state_path.resolve()
-    for path in [*outputs.values(), manifest_path]:
+    for path in targets:
         if path.resolve() == resolved_input:
             parser.error(f"output would overwrite the input: {path}")
         if path.exists() and not args.overwrite:
@@ -328,6 +359,17 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "provenance": spec.provenance,
             }
         )
+    preview_record: dict[str, object] | None = None
+    if has_preview:
+        png = encode_png(header.preview_width, header.preview_height, state.preview_rgb)
+        preview_path.write_bytes(png)
+        preview_record = {
+            "file": preview_path.name,
+            "width": header.preview_width,
+            "height": header.preview_height,
+            "sha256": sha256(png),
+            "note": "Mednafen save-time screen thumbnail, scaled by the emulator",
+        }
     manifest = {
         "tool": "tools.memory.mcs_extract",
         "byte_order": args.byte_order,
@@ -341,11 +383,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             "big_endian_data": state.header.big_endian_data,
             "preview": [state.header.preview_width, state.header.preview_height],
         },
+        "preview": preview_record,
         "regions": records,
     }
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     for record in records:
         print(f"{record['sha256']}  {out_dir / str(record['file'])}")
+    if has_preview:
+        print(f"preview: {preview_path}")
     print(f"manifest: {manifest_path}")
     return 0
 

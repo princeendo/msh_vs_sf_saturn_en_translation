@@ -7,7 +7,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: none.
+- Current active task: `DBG-001`, `DBG-003`, and `REF-002` in one capture session
+  (`EXP-0010`).
 - Reverse-engineering experiments in progress: none.
 - Next research task: `DBG-001` with `REF-002`. Capture the pre-KO and Q3
   quote-screen checkpoints with screenshots. `EMU-011` is also `READY`.
@@ -433,7 +434,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-002 - Capture Japanese Saturn screenshot
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M0
 - **Dependencies:** REF-001, EMU-008, EMU-009.
 - **Blockers:** None.
@@ -465,7 +466,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** The project uses official text where available.
 - **Acceptance criteria:** Exact text, formatting, release provenance, context, evidence, and correspondence confidence are recorded; unsupported matches are rejected.
 - **Outputs:** Updated translation record and reference evidence.
-- **Notes:** Matching character alone is insufficient evidence.
+- **Notes:** Matching character alone is insufficient evidence. The user reports
+  that US and EU arcade ROMs with English text are available locally. Record their
+  identities against the MAME catalog before use. Because Saturn quote selection
+  varies after the KO (`EXP-0009`), correspondence may need memory-level evidence,
+  such as a quote index, rather than a reproduced context.
 
 ### REF-005 - Record PS1 English equivalent if useful
 
@@ -521,7 +526,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-001 - Capture state A before fight end
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M0
 - **Dependencies:** REF-001, EMU-009.
 - **Blockers:** None. `EXP-0009` slots 3 and 4 are candidate pre-KO states but
@@ -546,7 +551,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-003 - Capture state C with caption fully visible
 
-- **Status:** `BLOCKED`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M0
 - **Dependencies:** DBG-001.
 - **Blockers:** State A is unavailable.
