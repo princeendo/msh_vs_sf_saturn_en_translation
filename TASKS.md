@@ -9,9 +9,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-011` (debugger runbook), then `EMU-012`/`EMU-020`. The
-  M1 mutation candidate is identified (`RE-012` notes), but `GATE-M0` still needs:
-  DOC-007, DOC-008, EMU-011, EMU-012, EMU-020, REF-003, REF-004, and REF-005.
+- Next research task: `EMU-011` via `EXP-0014`, which needs the user at the
+  keyboard. That completes the amended `GATE-M0`; then `RE-012` via `EXP-0015`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -387,7 +386,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Later experiments must be reproducible by another session.
 - **Acceptance criteria:** Each command is tied to the tested version and observed outcome; unsupported or unreliable actions are explicit.
 - **Outputs:** `docs/mednafen.md` capability/runbook update.
-- **Notes:** Documentation is not evidence until actions are tested.
+- **Notes:** Documentation is not evidence until actions are tested. Test design:
+  `EXP-0014` (memory write and revert via `L`/`D` while frozen; write breakpoint on
+  the WRAM-H quote buffer).
 
 ### EMU-012 - Determine stock Mednafen memory-workflow sufficiency
 
@@ -754,13 +755,37 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, DBG-013, DBG-014, REF-007.
-- **Blockers:** Listed M0 prerequisites are not all `DONE`.
+- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, REF-001, REF-002, REF-007, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, DBG-013, DBG-014.
+- **Blockers:** `EMU-011` (debugger workflow, including tested memory writes) is not `DONE`.
 - **Objective:** Make an explicit go/no-go decision before the first live RAM mutation.
 - **Rationale:** Partial setup must not be mistaken for permission to start M1.
 - **Acceptance criteria:** Every dependency is `DONE`; optional `REF-006`, state B, and state D have either evidence or documented rejection/fallback; no unresolved workflow blocker can invalidate M1 evidence.
 - **Outputs:** M0 acceptance entry and updated current state.
 - **Notes:** Do not waive failed criteria to advance the milestone.
+  **Amended 2026-10-15 at the user's direction:** the gate now covers only the
+  technical prerequisites for a live RAM mutation (`RE-012`): the debugger
+  workflow (`EMU-011`) plus validated extraction and checkpoints. Reference and
+  documentation tasks (DOC-007, DOC-008, REF-003, REF-004, REF-005) moved to
+  `GATE-TRANSLATION`. EMU-012 and EMU-020 no longer gate M1. They remain required
+  before any Mednafen modification (`AGENTS.md` rule 16). B and D are deferred to
+  `BACKLOG` per `EXP-0010`, and REF-006 is optional. See the `research_log.md`
+  entry for the decision.
+
+### GATE-TRANSLATION - Confirm reference and translation prerequisites
+
+- **Status:** `BLOCKED`
+- **Milestone:** M0
+- **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
+- **Blockers:** Listed reference and documentation tasks are not all `DONE`.
+- **Objective:** Make an explicit go/no-go decision before any task writes or
+  proposes English replacement text.
+- **Rationale:** The source quote must be reviewed and the official English must be
+  established before translation work. They are not needed to test whether a RAM
+  location drives the display.
+- **Acceptance criteria:** Every dependency is `DONE`. Optional `REF-006` has
+  evidence or a documented rejection.
+- **Outputs:** Gate acceptance entry.
+- **Notes:** Created 2026-10-15 by splitting the original GATE-M0.
 
 ## Gated Reverse Engineering
 
@@ -777,6 +802,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Notes:** Do not claim whether bytes are source text, glyph indices, or an intermediate buffer without a separate experiment.
   Candidates from `EXP-0013`: the Q10 record at WRAM-L `0x0020940C` (76 bytes,
   resident before the KO), and the per-screen buffer at WRAM-H `0x060ED80A`.
+  Mutation pre-registered in `EXP-0015`: line-1 cells 0-2 of all 15 table records
+  set to `0801 0803 0805`, with the prediction that `あいう` is shown whichever
+  quote appears.
 
 ### DISC-001 - Trace confirmed Ryu runtime caption to disc source
 
@@ -794,8 +822,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M2
-- **Dependencies:** DISC-001.
-- **Blockers:** Disc source and constraints are not confirmed.
+- **Dependencies:** DISC-001, GATE-TRANSLATION.
+- **Blockers:** Disc source and constraints are not confirmed; translation
+  prerequisites are incomplete.
 - **Objective:** Patch or rebuild from an untouched, identity-verified source into a distinct `build/` output and reproduce the M1 caption.
 - **Rationale:** M2 proves a deterministic source-to-visible-output pipeline.
 - **Acceptance criteria:** Tool validates source hashes and never overwrites originals; original/modified bytes and file offset/purpose are recorded; repeated builds are deterministic or understood; a fresh boot/checkpoint visibly reproduces the expected English caption; source hashes remain unchanged; tests, experiment, log, and discoveries are updated.
