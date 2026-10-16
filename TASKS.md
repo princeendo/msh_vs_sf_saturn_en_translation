@@ -9,7 +9,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `REF-007` (win-quote selection). `EMU-011` is also `READY`.
+- Next research task: `REF-001` (choose the initial quote; note the Ryu/Ken team
+  quote question from `EXP-0009`). `EMU-011` is also `READY`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -415,10 +416,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-001 - Choose initial Ryu post-fight quote
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** DOC-006, EMU-007, REF-007.
-- **Blockers:** Win-quote selection behavior (`REF-007`) is not yet observed.
+- **Blockers:** None. `EXP-0009` shows that the Ryu/Ken team produces joint
+  team-voiced quotes. Decide whether the first subject is a team quote or a
+  Ryu-only quote.
 - **Objective:** Select one ordinary Ryu caption with reproducible Japanese and official English contexts.
 - **Rationale:** M1 needs one fixed subject rather than broad quote work.
 - **Acceptance criteria:** Selection rationale, release contexts, route, and unresolved correspondence questions are recorded without inventing a match.
@@ -487,7 +490,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-007 - Observe win-quote selection behavior
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-009.
 - **Blockers:** None.
@@ -506,7 +509,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** Experiment record, ignored screenshots and states, and
   `research_log.md` entry.
 - **Notes:** The project's planned team is Ryu/Ken. Record which teammate's
-  portrait and quote appear.
+  portrait and quote appear. `EXP-0009` disproved a fixed-at-checkpoint quote: one
+  pre-KO state gave up to six quotes. Neither the kill move nor the opponent alone
+  determines the quote. Ryu/Ken wins show a joint portrait with team-voiced quotes.
 
 ## Phase E: Checkpoints And Memory Analysis
 

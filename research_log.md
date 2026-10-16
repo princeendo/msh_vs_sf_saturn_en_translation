@@ -1515,3 +1515,42 @@ Next action:
 `REF-007`: observe win-quote selection with Ryu/Ken, saving each pre-KO state under
 frame advance.
 
+## 2026-10-15 19:40 CDT — EXP-0009
+
+Task: REF-007
+
+Goal:
+Determine whether a pre-KO checkpoint fixes the win quote, so that C1/C2/C1′
+quote-screen states can be planned.
+
+Observation:
+Selection behavior was unknown, and the user suspected it might be fixed per
+fighter pairing.
+
+Hypothesis:
+For a fixed pre-KO checkpoint, varying only the KO timing or finisher does not change
+the quote.
+
+Action:
+Ryu/Ken saved pre-KO states in slot 3 (vs Vega) and slot 4 (vs Sakura). The user
+replayed each six times with different finishers, Ryu on point and no tag, and took
+`F9` screenshots 18-29.
+
+Result:
+Slot 3 produced quotes Q1, Q1, Q2, Q3, Q4, Q5. Slot 4 produced Q3, Q6, Q2, Q7, Q8,
+Q9. Hadouken gave different quotes in the two fights, and Q2/Q3 appeared against
+both opponents. Every screen used the same joint Ryu/Ken portrait. Source identity
+was unchanged.
+
+Conclusion:
+The hypothesis is `DISPROVEN`. It is `SUPPORTED` that selection varies after the
+checkpoint and is not determined by move or opponent alone.
+
+Do not retry the "quote is fixed per matchup or checkpoint" assumption. One
+checkpoint can yield both C1 and C2.
+
+Next action:
+`REF-001`: choose the first quote. Decide whether to use a Ryu/Ken team quote or
+look for a Ryu-only quote with another partner. Then capture quote-screen states
+for DBG-003, saving each with `Option+A` then `F5`.
+

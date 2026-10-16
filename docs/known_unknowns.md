@@ -36,8 +36,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - When is caption data loaded, copied, selected, and rendered?
 - Which memory regions and code paths participate?
 - What deterministic checkpoint best isolates one caption change?
-- What selects the post-fight win quote (timing, finisher, opponent, winning
-  teammate, stage)? See `REF-007`.
+- What selects the post-fight win quote? `EXP-0009` showed it varies after a pre-KO
+  checkpoint and is not determined by kill move or opponent alone. Is it timing or
+  RNG, and does an exact-input replay reproduce the same quote?
+- Do teams other than Ryu/Ken show a Ryu-only portrait and quote set, or are win
+  quotes always pair-specific?
 
 ## Cross-Release Evidence
 
