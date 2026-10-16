@@ -9,8 +9,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Are stock debugger facilities sufficient for the planned controlled experiments?
   `EXP-0007` confirmed paused WRAM and VRAM dumps, but the stock memory editor has no
   cartridge-RAM address space.
-- Do the WRAM, cart RAM, and VRAM arrays stored in a Mednafen save state equal the
-  debugger dumps taken at the same paused instant, and in what byte order?
+- Is cartridge-RAM extraction from save states correct? `EXP-0008` validated WRAM and
+  VDP VRAM only, because no stock debugger reference exists for the cart.
 - How does stock Mednafen label the SH-2 program counter, expose Saturn address
   aliases, and implement breakpoints relative to the SH7604 hardware semantics?
 - Which CPU selections does the stock debugger expose for Saturn? (Memory-editor
@@ -36,6 +36,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - When is caption data loaded, copied, selected, and rendered?
 - Which memory regions and code paths participate?
 - What deterministic checkpoint best isolates one caption change?
+- What selects the post-fight win quote (timing, finisher, opponent, winning
+  teammate, stage)? See `REF-007`.
 
 ## Cross-Release Evidence
 

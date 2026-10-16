@@ -280,6 +280,25 @@ The form without `+` treats the end address as inclusive. Typing
 from offset 0. Repeated dumps taken during one frame-advance pause were
 byte-identical. Do not load a state or reset while the CPU debugger is in step mode.
 
+## Save-State Region Extraction
+
+The stock debugger requires hand-typed dumps and has no cartridge-RAM address space.
+`tools/memory/mcs_extract.py` instead extracts WRAM-L, WRAM-H, 4 MiB cartridge RAM,
+VDP1 VRAM, and VDP2 VRAM from a 1.32.1 save state:
+
+```bash
+./invenv.sh python -m tools.memory.mcs_extract STATE --list
+./invenv.sh python -m tools.memory.mcs_extract STATE [--region wram_h ...]
+```
+
+Outputs default to the ignored `research/memory_dumps/<state sha256[:16]>/`, with a
+`manifest.json` recording input and region hashes. Existing outputs are never
+replaced without `--overwrite`.
+
+`EXP-0008` validated the WRAM and VDP VRAM regions byte for byte against debugger
+dumps. Cartridge RAM is not validated. To capture a state with no emulated frames
+after it, freeze with frame advance (`Option+A`) before pressing `F5`.
+
 ## EMU-004 Boot Result
 
 `EMU-004` confirmed on 2026-08-24 that the same stock launch reaches a stable

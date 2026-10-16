@@ -50,6 +50,9 @@ under `EMU-011` and `DBG-006`.
 
 Save states are checkpoints, not analyzable RAM snapshots. For comparisons, dump the
 same explicit regions from each deterministic checkpoint into stable local raw files.
+Use either stock debugger dumps or `tools/memory/mcs_extract.py` for regions
+validated in `docs/discoveries.md`. WRAM-L, WRAM-H, VDP1 VRAM, and VDP2 VRAM were
+validated by `EXP-0008`.
 Record emulator version, source-image identity, checkpoint procedure, range, byte
 count, output hash, command, and timestamp. Keep dumps ignored; track their metadata.
 
