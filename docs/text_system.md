@@ -6,6 +6,15 @@ The MSHvSF Saturn text system is **UNKNOWN**. No encoding, storage structure, po
 scheme, compression method, buffer lifecycle, font mapping, or renderer path is
 confirmed.
 
+`SUPPORTED` (not confirmed) candidates for post-fight win quotes are recorded in
+`research/experiments/EXP-0012` and `EXP-0013`:
+
+- VDP1 sprite glyph cells;
+- 16-bit glyph-code records in a WRAM-L table;
+- a per-screen WRAM-H buffer.
+
+They move here only after a controlled mutation confirms them (`RE-012`).
+
 ## Questions to Resolve
 
 - Where and when does the first Ryu post-fight caption enter memory?

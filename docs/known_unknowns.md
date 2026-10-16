@@ -32,8 +32,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
   `EXP-0011`: the visible quotes are not present as Shift-JIS bytes in WRAM on the
   quote screen. Quote-dependent candidates are WRAM-L 16-bit sequential entries
   and a high-entropy WRAM-H block. `EXP-0012`: the quote is drawn by VDP1 sprites
-  from per-character 16x16 4 bpp font glyph cells (`SUPPORTED`). Where is the font,
-  and what character codes select its glyphs?
+  from per-character 16x16 4 bpp font glyph cells (`SUPPORTED`). `EXP-0013`: quotes
+  are 16-bit custom glyph codes (kana in Shift-JIS order) in a WRAM-L table
+  (`SUPPORTED`). Where is the font stored, what is the kanji code order, and how
+  is the table loaded from disc?
 - What constraints apply to replacement text?
 
 ## Runtime Path
