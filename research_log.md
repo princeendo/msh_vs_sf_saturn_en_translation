@@ -1628,3 +1628,46 @@ DBG-007/DBG-008 (WRAM extraction is already available via the validated tool),
 DBG-009 diff tooling, DBG-010 search tooling, then DBG-011 comparisons
 (C1 vs C2, C1 vs C1′).
 
+## 2026-10-15 21:00 CDT — EXP-0011
+
+Task: DBG-007, DBG-008, DBG-009, DBG-010, DBG-011
+
+Goal:
+Acquire WRAM for each `EXP-0010` checkpoint, build diff and search tooling, and test
+whether the visible quote is stored as Shift-JIS in WRAM.
+
+Hypothesis:
+During the quote screen, the visible quote is present in WRAM-L or WRAM-H as
+Shift-JIS bytes.
+
+Action:
+- Extracted WRAM from A, C1, C1′, C2, and C2b. Repeat extraction was
+  byte-identical.
+- Added `tools/memory/diff.py` (with schema) and `tools/text/search.py`, with
+  synthetic tests.
+- Diffed C1 vs C2 and C1 vs C2b, excluding C1/C1′ changes.
+- Searched eight Shift-JIS fragments from the three quotes.
+
+Result:
+- WRAM-L C1/C1′ changes: 0. WRAM-H C1/C1′ changes: 6,263 bytes.
+- Quote-dependent changes:
+  - WRAM-L: 1,192 bytes (C2) and 1,332 bytes (C2b);
+  - WRAM-H: 14,932 bytes (C2) and 14,482 bytes (C2b).
+- All Shift-JIS fragments had 0 matches in every dump.
+- Structured candidates:
+  - WRAM-L sequential 16-bit entries (`0x0C..`, `0x0D..`, with `FFFF` gaps);
+  - a WRAM-H 28-byte record chain at `0x06014798` with VDP2 VRAM destinations;
+  - a high-entropy WRAM-H block at `0x06014CB5-0x0601677B`.
+
+Conclusion:
+Shift-JIS quote text in WRAM at the quote screen is `DISPROVEN` for the tested
+fragments. Do not retry plain Shift-JIS WRAM searches at this checkpoint without a
+new reason, such as an earlier state B. Quote-dependent WRAM candidates are
+`SUPPORTED` but have no established meaning.
+
+Next action:
+`DBG-013`: compare VDP VRAM across quote checkpoints. Then `EMU-011`: a write
+breakpoint on the candidates.
+
+Checks: pytest (31 passed), ruff check, ruff format --check, and strict mypy.
+

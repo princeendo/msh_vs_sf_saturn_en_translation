@@ -29,6 +29,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
   deterministic, bootable rebuild?
 - Where are Ryu post-fight captions stored on disc and during execution?
 - What encoding, boundaries, indirection, compression, or transformation is used?
+  `EXP-0011`: the visible quotes are not present as Shift-JIS bytes in WRAM on the
+  quote screen. Quote-dependent candidates are WRAM-L 16-bit sequential entries
+  and a high-entropy WRAM-H block. Is the text rendered or stored as graphics?
 - What constraints apply to replacement text?
 
 ## Runtime Path
