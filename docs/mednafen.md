@@ -304,6 +304,13 @@ Compare and search extracted regions with:
   --text TEXT --encoding shift_jis [--hex 82A0] [--json]
 ```
 
+List or render VDP1 sprites (grayscale, for identification) from a VDP1 VRAM dump:
+
+```bash
+./invenv.sh python -m tools.memory.vdp1_sprites vdp1_vram.bin \
+  [--color-word 0x61E0] [--render out.png] [--json]
+```
+
 `EXP-0008` validated the WRAM and VDP VRAM regions byte for byte against debugger
 dumps. Cartridge RAM is not validated. To capture a state with no emulated frames
 after it, freeze with frame advance (`Option+A`) before pressing `F5`.
