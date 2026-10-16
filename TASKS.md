@@ -7,11 +7,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 ## Current State
 
 - Current milestone: **M0**, research environment bootstrap.
-- Current active task: `DBG-001`, `DBG-003`, and `REF-002` in one capture session
-  (`EXP-0010`).
+- Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DBG-001` with `REF-002`. Capture the pre-KO and Q3
-  quote-screen checkpoints with screenshots. `EMU-011` is also `READY`.
+- Next research task: `DBG-007` and `DBG-008` (extract WRAM for each `EXP-0010`
+  state), then `DBG-009` and `DBG-010` tooling, then `REF-003` (transcribe Q10).
+  `EMU-011` is also `READY`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -430,11 +430,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   Selected `ryu_q3` (`data/translations/ryu_post_fight_q3.json`) on technical
   grounds: it appeared against both opponents in `EXP-0009`. The record states the
   route and the open REF-004 correspondence questions; no wording or match is
-  asserted.
+  asserted. `EXP-0010` could not reproduce Q3 from state A, so the working subject
+  moved to Q10 (`data/translations/ryu_post_fight_q10.json`).
 
 ### REF-002 - Capture Japanese Saturn screenshot
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** REF-001, EMU-008, EMU-009.
 - **Blockers:** None.
@@ -442,7 +443,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Exact visible evidence anchors transcription and memory analysis.
 - **Acceptance criteria:** Release/run/state identity, capture method, image hash, and visible context are recorded; screenshot remains ignored.
 - **Outputs:** Local screenshot and tracked metadata.
-- **Notes:** Do not infer storage from appearance.
+- **Notes:** Do not infer storage from appearance. `EXP-0010` captured Q10 from
+  slot-7 reloads (`-0037.png`, `-0038.png`) and its save-time thumbnail.
 
 ### REF-003 - Transcribe Japanese text
 
@@ -526,7 +528,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-001 - Capture state A before fight end
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** REF-001, EMU-009.
 - **Blockers:** None. `EXP-0009` slots 3 and 4 are candidate pre-KO states but
@@ -539,10 +541,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-002 - Capture state B after KO/before caption
 
-- **Status:** `BLOCKED`
+- **Status:** `BACKLOG`
 - **Milestone:** M0
 - **Dependencies:** DBG-001.
-- **Blockers:** State A and practical transition timing are unavailable.
+- **Blockers:** None. Deferred by `EXP-0010`; revisit if the C-set comparison fails.
 - **Objective:** Capture the transition before the caption is fully displayed, if practical.
 - **Rationale:** An intermediate state may distinguish loading from display changes.
 - **Acceptance criteria:** A repeatable state and timing are recorded, or evidence documents why it is impractical and authorizes the three-state strategy.
@@ -551,7 +553,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-003 - Capture state C with caption fully visible
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DBG-001.
 - **Blockers:** State A is unavailable.
@@ -567,13 +569,15 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** Ignored save/screenshot and tracked checkpoint metadata.
 - **Notes:** This capture supplies the screenshot for `REF-002`. `REF-003`
   transcribes it, so transcription follows capture rather than gating it.
+  `EXP-0010` used A = slot 5, C1 = slot 7 (Q10), C1′ = slot 0, C2 = slot 6 (Q8),
+  and C2b = slot 8 (Q11).
 
 ### DBG-004 - Capture state D after caption disappears
 
-- **Status:** `BLOCKED`
+- **Status:** `BACKLOG`
 - **Milestone:** M0
 - **Dependencies:** DBG-003.
-- **Blockers:** State C is unavailable.
+- **Blockers:** None. Deferred by `EXP-0010`; revisit if the C-set comparison fails.
 - **Objective:** Capture a repeatable checkpoint immediately after caption disappearance.
 - **Rationale:** Disappearing data can help rank runtime candidates.
 - **Acceptance criteria:** State, timing, hash, screenshot metadata, and repeatability are recorded; if impractical, the three-state fallback is justified.
@@ -582,10 +586,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-005 - Capture screenshots for each checkpoint
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
-- **Dependencies:** DBG-001, DBG-002, DBG-003, DBG-004.
-- **Blockers:** The final checkpoint set is not established.
+- **Dependencies:** DBG-001, DBG-003. (DBG-002 and DBG-004 were deferred to
+  `BACKLOG` by `EXP-0010`.)
+- **Blockers:** None. `EXP-0010` records save-time thumbnail hashes for A, C1, C1′,
+  C2, and C2b.
 - **Objective:** Tie every used checkpoint to visible evidence.
 - **Rationale:** Dump comparisons need scene and timing context.
 - **Acceptance criteria:** Each retained state has screenshot filename, size, SHA-256, capture action/order, and run identity; binaries remain ignored.

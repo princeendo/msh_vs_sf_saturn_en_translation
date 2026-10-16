@@ -1,0 +1,26 @@
+{
+  "game": "mshvsf",
+  "character": "ryu",
+  "context": "post_fight win quote; Saturn JP T-1238G; arcade mode; team Ryu/Ken (P1) vs Vega; Ryu on point and landing the KO; joint Ryu/Ken win portrait",
+  "quote_id": "ryu_q10",
+  "status": "UNKNOWN",
+  "saturn_jp_text": "",
+  "arcade_us_text": "",
+  "ps1_us_text": "",
+  "preferred_english": "",
+  "evidence": [
+    {
+      "reference": "EXP-0010 slot 7 state (SHA-256 9482880a11269e5ce630179db70bc1833375ee39d30af2ab84161a265a6a47ce), save-time thumbnail f8ea9bb0372f94494456aa7869789c10e86fe386ae4642b8f857e929b0dd2d63",
+      "supports": "Q10 (opening characters 一瞬の迷いが) is on screen in the C1 checkpoint"
+    },
+    {
+      "reference": "EXP-0010 reload screenshots -0037.png (78320b69e213e961ec8527f3f30bd447642352659e116eded5323b4768f05974) and -0038.png (d526c63629268a62ae21c6e06d012d5f74a89c797716a859e6a17ed8c15710c5)",
+      "supports": "the slot-7 checkpoint reloads to the same visible Q10 caption"
+    },
+    {
+      "reference": "EXP-0010 slot 0 state (SHA-256 f02c7177dadcaa43f70147a85c5dd350b8f6e262801ae2b7613868da4a49f93c)",
+      "supports": "a same-quote, frame-offset control (C1′) for Q10 exists"
+    }
+  ],
+  "notes": "Working M0/M1 subject, replacing ryu_q3 because Q10 is the C1 caption of the EXP-0010 checkpoint set (A = slot 5, C1′ = slot 0, C2 = slot 6 Q8, C2b = slot 8 Q11). saturn_jp_text stays empty until REF-003 transcribes and independently reviews it. No English correspondence is asserted. The user reports that US and EU arcade ROMs with English text are available for REF-004. Because selection varies after the KO, correspondence may need memory-level evidence such as a quote index."
+}

@@ -1583,3 +1583,48 @@ Next action:
 Capture the pre-KO state (A) and the Q3 quote-screen state (C1) with screenshots,
 saving under frame advance (`DBG-001`, `DBG-003`, `REF-002`).
 
+## 2026-10-15 20:25 CDT — EXP-0010
+
+Task: DBG-001, DBG-003, DBG-005, REF-002
+
+Goal:
+Capture a pre-KO checkpoint and quote-screen checkpoints for differential memory
+analysis.
+
+Observation:
+Q3, the REF-001 pick, did not recur from state A (slot 5) in about 100 user replays,
+although it appeared in 2 of 12 `EXP-0009` replays.
+
+Hypothesis:
+One pre-KO checkpoint can yield different-quote and same-quote quote-screen states,
+each reloadable to the same scene.
+
+Action:
+- Dropped the Q3 targeting. The user saved the next quote screens in fixed slots
+  without visual matching.
+- A wall-clock same-quote control (2 s wait) produced a black screen. It was redone
+  with 10 counted frame advances.
+- Added save-time thumbnail export to `mcs_extract`, because F9 screenshots were
+  taken seconds away from the saves.
+- Archived slots 0-4 to ignored `research/savestates/archive-2026-10-15/` with
+  verified hashes before reuse.
+
+Result:
+- Checkpoints: A = slot 5, C1 = slot 7 (Q10), C1′ = slot 0 (Q10), C2 = slot 6 (Q8),
+  C2b = slot 8 (Q11).
+- Slot 5 reloads were byte-identical screenshots. Slot 7 reloads both showed Q10.
+- All EXP-0009/0010 pre-KO checkpoints were saved during the game's own pause menu.
+- Quotes Q10 and Q11 were new, for 11 distinct Ryu quotes in total.
+
+Conclusion:
+`CONFIRMED` checkpoint set. The working subject moves from Q3 to Q10. Why Q3 did not
+recur is `UNKNOWN`.
+
+Do not retry targeting a specific quote by replay until selection is understood.
+States B and D are deferred to `BACKLOG`.
+
+Next action:
+DBG-007/DBG-008 (WRAM extraction is already available via the validated tool),
+DBG-009 diff tooling, DBG-010 search tooling, then DBG-011 comparisons
+(C1 vs C2, C1 vs C1′).
+
