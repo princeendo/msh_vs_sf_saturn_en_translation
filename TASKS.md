@@ -9,9 +9,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DBG-007` and `DBG-008` (extract WRAM for each `EXP-0010`
-  state), then `DBG-009` and `DBG-010` tooling, then `REF-003` (transcribe Q10).
-  `EMU-011` is also `READY`.
+- Next research task: `DBG-013` (compare VDP VRAM across quote checkpoints), then
+  `EMU-011` (debugger write-breakpoint workflow). `REF-003` needs an independent
+  reviewer who reads Japanese.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -644,7 +644,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-007 - Dump WRAM-L for each state
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DBG-005, DBG-012.
 - **Blockers:** Checkpoints and validated extraction are unavailable.
@@ -656,7 +656,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-008 - Dump WRAM-H for each state
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DBG-005, DBG-012.
 - **Blockers:** Checkpoints and validated extraction are unavailable.
@@ -668,7 +668,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-009 - Create memory diff tooling
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-004, DBG-007, DBG-008.
 - **Blockers:** Validated paired dumps do not exist.
@@ -680,10 +680,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-010 - Create binary/Shift-JIS search tooling
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
-- **Dependencies:** ENV-004, REF-003.
-- **Blockers:** Validated environment and reviewed Japanese transcription are incomplete.
+- **Dependencies:** ENV-004. (`REF-003` gates claims from a search, not the
+  tool; dependency amended in `EXP-0011`.)
+- **Blockers:** None.
 - **Objective:** Search exact byte patterns and user-specified encoded strings in dumps/files.
 - **Rationale:** Shift-JIS is the first hypothesis, not a built-in conclusion.
 - **Acceptance criteria:** Tool supports raw patterns, explicit encodings including Shift-JIS, multiple/no matches, base address, JSON output, input hashes, hexdump context, and synthetic tests.
@@ -692,7 +693,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-011 - Compare checkpoint memory dumps
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DBG-007, DBG-008, DBG-009, DBG-010.
 - **Blockers:** Dumps and analysis tools are unavailable.
@@ -701,6 +702,28 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** One significant experiment records exact inputs/hashes, one hypothesis, comparisons/searches, predicted and actual results, stable versus noisy observations, conclusion, and next discriminating experiment.
 - **Outputs:** Experiment record, JSON summaries, `research_log.md` update.
 - **Notes:** A match is at most `SUPPORTED` until a controlled visible mutation confirms causality.
+  `EXP-0011` found no Shift-JIS quote fragments in WRAM (`DISPROVEN`). It ranked
+  quote-dependent, time-stable candidates: WRAM-L 16-bit sequential entries and a
+  WRAM-H high-entropy block at `0x06014CB5-0x0601677B`. The next step is a VRAM
+  comparison (`DBG-012`'s validated regions).
+
+### DBG-013 - Compare VDP VRAM across quote checkpoints
+
+- **Status:** `READY`
+- **Milestone:** M0
+- **Dependencies:** DBG-011, DBG-012.
+- **Blockers:** None.
+- **Objective:** Locate quote-dependent, time-stable bytes in VDP1 and VDP2 VRAM
+  for C1, C1′, C2, and C2b. Test whether the `EXP-0011` WRAM-L 16-bit entries index
+  those VRAM tiles.
+- **Rationale:** `EXP-0011` disproved Shift-JIS text in WRAM, and its WRAM-L
+  entries are consistent with text rendered into tiles. `AGENTS.md` allows VRAM
+  expansion with this recorded rationale.
+- **Acceptance criteria:** One experiment records inputs and hashes, one hypothesis,
+  control-excluded diffs, the predicted and actual results, and the next
+  discriminating experiment.
+- **Outputs:** Experiment record and `research_log.md` entry.
+- **Notes:** No meaning is assigned without a controlled test.
 
 ## M0 Gate
 
@@ -708,7 +731,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, REF-007.
+- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, DBG-013, REF-007.
 - **Blockers:** Listed M0 prerequisites are not all `DONE`.
 - **Objective:** Make an explicit go/no-go decision before the first live RAM mutation.
 - **Rationale:** Partial setup must not be mistaken for permission to start M1.

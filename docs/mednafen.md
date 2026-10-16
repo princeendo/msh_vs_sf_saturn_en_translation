@@ -295,6 +295,15 @@ Outputs default to the ignored `research/memory_dumps/<state sha256[:16]>/`, wit
 `manifest.json` recording input and region hashes. Existing outputs are never
 replaced without `--overwrite`.
 
+Compare and search extracted regions with:
+
+```bash
+./invenv.sh python -m tools.memory.diff A.bin B.bin --base 0x06000000 \
+  --control C1.bin C1prime.bin [--json]
+./invenv.sh python -m tools.text.search DUMP.bin --base 0x06000000 \
+  --text TEXT --encoding shift_jis [--hex 82A0] [--json]
+```
+
 `EXP-0008` validated the WRAM and VDP VRAM regions byte for byte against debugger
 dumps. Cartridge RAM is not validated. To capture a state with no emulated frames
 after it, freeze with frame advance (`Option+A`) before pressing `F5`.

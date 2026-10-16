@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/mshvsf/diff_result.schema.json",
+  "title": "Raw memory dump comparison result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "a",
+    "b",
+    "base_address",
+    "size_bytes",
+    "merge_gap",
+    "controls",
+    "raw_changed_bytes",
+    "excluded_bytes",
+    "changed_bytes",
+    "changed_ranges"
+  ],
+  "$defs": {
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": { "type": "string" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end", "offset", "length"],
+      "properties": {
+        "start": { "type": "string", "pattern": "^0x[0-9A-F]{8}$" },
+        "end": { "type": "string", "pattern": "^0x[0-9A-F]{8}$" },
+        "offset": { "type": "integer", "minimum": 0 },
+        "length": { "type": "integer", "minimum": 1 }
+      }
+    }
+  },
+  "properties": {
+    "schema": { "const": "tools/memory/diff_result.schema.json" },
+    "a": { "$ref": "#/$defs/file" },
+    "b": { "$ref": "#/$defs/file" },
+    "base_address": { "type": "string", "pattern": "^0x[0-9A-F]{8}$" },
+    "size_bytes": { "type": "integer", "minimum": 0 },
+    "merge_gap": { "type": "integer", "minimum": 0 },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["a", "b", "changed_bytes"],
+        "properties": {
+          "a": { "$ref": "#/$defs/file" },
+          "b": { "$ref": "#/$defs/file" },
+          "changed_bytes": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "raw_changed_bytes": { "type": "integer", "minimum": 0 },
+    "excluded_bytes": { "type": "integer", "minimum": 0 },
+    "changed_bytes": { "type": "integer", "minimum": 0 },
+    "changed_ranges": { "type": "array", "items": { "$ref": "#/$defs/range" } },
+    "unchanged_ranges": { "type": "array", "items": { "$ref": "#/$defs/range" } }
+  }
+}
