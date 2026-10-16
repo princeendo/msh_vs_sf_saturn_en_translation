@@ -1671,3 +1671,43 @@ breakpoint on the candidates.
 
 Checks: pytest (31 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-15 21:40 CDT — EXP-0012
+
+Task: DBG-013
+
+Goal:
+Locate the quote glyph pixels in VDP VRAM.
+
+Hypothesis:
+The rendered quote glyph pixels are in VDP2 VRAM, at addresses that differ between
+quotes and are stable between C1 and C1′.
+
+Action:
+- Diffed VDP2 and VDP1 VRAM across C1, C1′, C2, and C2b.
+- Added `tools/memory/vdp1_sprites.py` to walk VDP1 command lists and render
+  sprites, with tests.
+- Rendered all sprites, then only the text-area color groups.
+
+Result:
+- VDP2 VRAM is identical in C1, C2, and C2b. It changes only in C1′, in one ~146 KB
+  block that looks like a transition, so C1′ is not a clean VRAM control.
+- Rendering VDP1 sprites alone reproduces the win screen.
+- Sprites with color word `0x61E0` (38 per state, two rows) draw exactly the quote
+  text.
+- Glyph cells are 16x16, 4 bpp, one per distinct character, at about
+  `0x05C4B080-0x05C4BEFF`. Shared characters (`の い 拳 を る え な ！ !!`) are
+  byte-identical across quotes at different addresses.
+- State A has no `0x61E0` sprites.
+
+Conclusion:
+VDP2 as the text location is `DISPROVEN`. Text drawn by VDP1 sprites from
+per-character font glyph cells is `SUPPORTED`. Do not search VDP2 VRAM for quote
+text on this screen.
+
+Next action:
+`DBG-014`: search WRAM (and, labeled `HYPOTHESIS`, cart RAM) for the exact glyph
+cells to locate the font. Derive character codes, then search for quote code
+sequences.
+
+Checks: pytest (37 passed), ruff check, ruff format --check, and strict mypy.
+

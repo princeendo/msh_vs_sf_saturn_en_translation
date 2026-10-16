@@ -9,9 +9,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DBG-013` (compare VDP VRAM across quote checkpoints), then
-  `EMU-011` (debugger write-breakpoint workflow). `REF-003` needs an independent
-  reviewer who reads Japanese.
+- Next research task: `DBG-014` (locate the glyph font and quote character codes).
+  `EMU-011` is also `READY`. `REF-003` needs an independent reviewer who reads
+  Japanese.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -709,7 +709,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-013 - Compare VDP VRAM across quote checkpoints
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DBG-011, DBG-012.
 - **Blockers:** None.
@@ -723,7 +723,27 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   control-excluded diffs, the predicted and actual results, and the next
   discriminating experiment.
 - **Outputs:** Experiment record and `research_log.md` entry.
-- **Notes:** No meaning is assigned without a controlled test.
+- **Notes:** No meaning is assigned without a controlled test. `EXP-0012`: VDP2
+  VRAM is identical across quotes (`DISPROVEN`). The quote is drawn by VDP1 sprites
+  (color word `0x61E0`) from per-character 16x16 4 bpp glyph cells that are
+  byte-identical across quotes for shared characters (`SUPPORTED`).
+
+### DBG-014 - Locate the glyph font and quote character codes
+
+- **Status:** `READY`
+- **Milestone:** M0
+- **Dependencies:** DBG-013.
+- **Blockers:** None.
+- **Objective:** Find where the 128-byte glyph cells come from (a font in WRAM, or
+  in cart RAM, which is unvalidated). Derive candidate character codes from glyph
+  indices, and test whether the Q10, Q8, and Q11 code sequences occur in memory.
+- **Rationale:** Per-character glyph reuse implies an upstream character sequence,
+  which is the representation a translation must change.
+- **Acceptance criteria:** One experiment records exact glyph byte searches, the
+  font hypothesis, code derivation, sequence searches across quote states, and the
+  predicted and actual results.
+- **Outputs:** Experiment record and `research_log.md` entry.
+- **Notes:** A sequence match is at most `SUPPORTED` until a mutation test (M1).
 
 ## M0 Gate
 
@@ -731,7 +751,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, DBG-013, REF-007.
+- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, DBG-013, DBG-014, REF-007.
 - **Blockers:** Listed M0 prerequisites are not all `DONE`.
 - **Objective:** Make an explicit go/no-go decision before the first live RAM mutation.
 - **Rationale:** Partial setup must not be mistaken for permission to start M1.
