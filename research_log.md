@@ -1751,3 +1751,33 @@ change one code in the Q10 record and observe the screen.
 
 Checks: pytest (41 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-15 22:45 CDT — SESSION-0016
+
+Task: GATE-M0 amendment; EMU-011 and RE-012 preparation
+
+Decision (user, verbatim): "Amend GATE-M0 so the live RAM mutation (RE-012) depends
+only on the technical prerequisites (EMU-011 debugger workflow plus validated
+extraction); keep the reference/doc tasks as prerequisites for translation work.
+Record the change, then prepare the mutation test."
+
+Action:
+- Gate split:
+  - `GATE-M0` now depends on ENV, EMU-001..011, REF-001/002/007, and the DBG tasks.
+  - New `GATE-TRANSLATION` (DOC-007, DOC-008, REF-003..005) gates `DISC-002`.
+  - EMU-012/020 remain required before any Mednafen modification, per `AGENTS.md`
+    rule 16.
+- Mapped the WRAM-L table. It has 15 records, all 11 observed quotes included
+  (Q3 = record 1), plus 4 not yet seen.
+- Added `tools/memory/make_patch.py` (with tests) and built
+  `re012-aiu-{original,patched,manifest}` (45 writes; manifest SHA-256
+  `2df36119…d125`).
+- Pre-registered `EXP-0014` (EMU-011) and `EXP-0015` (RE-012).
+
+Result:
+No emulator run. The tooling and experiment designs are ready.
+
+Next action:
+Run `EXP-0014` with the user at the keyboard.
+
+Checks: pytest (49 passed), ruff check, ruff format --check, and strict mypy.
+
