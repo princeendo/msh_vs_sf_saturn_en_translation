@@ -1471,3 +1471,47 @@ Per the approved win-quote plan:
    `vdp2vram-a.bin` from the slot-2 state.
 
 EMU-011 is READY.
+
+## 2026-10-15 19:20 CDT — EXP-0008
+
+Task: DBG-006, DBG-012
+
+Goal:
+Build a save-state region extractor and validate it against the `EXP-0007` paused
+debugger dumps.
+
+Observation:
+The stock debugger dumps only through hand-typed prompts and has no cartridge-RAM
+space. Save states contain `MAIN/WorkRAML`, `MAIN/WorkRAMH`, `CART_EXTRAM/LO` and
+`HI`, `VDP1/VRAM`, and `VDP2/VRAM`, written per `src/state.cpp`.
+
+Hypothesis:
+Swapping each stored 16-bit element reproduces the debugger dumps. The unswapped
+stored bytes do not.
+
+Action:
+- Amended `AGENTS.md` (validated extraction only) and re-sequenced `TASKS.md`:
+  - redefined `DBG-006`;
+  - added `DBG-012` and `REF-007`;
+  - moved transcription after checkpoint capture;
+  - added the C1′ noise-control and C2 states.
+- Implemented `tools/memory/mcs_extract.py` with 11 synthetic tests.
+- Extracted the slot-2 state in both byte orders and compared each region with
+  `cmp`.
+
+Result:
+- WRAM-H, WRAM-L, VDP1 VRAM, and VDP2 VRAM in `saturn` order were identical to
+  `wram-c.bin`, `wraml-b.bin`, `vdp1vram-a.bin`, and `vdp2vram-a.bin`.
+- The `state` order differed by 554,066, 574,942, 214,932, and 172,764 bytes,
+  respectively.
+- Re-extraction was byte-identical.
+- Checks passed: pytest (15), ruff check, ruff format, and strict mypy.
+
+Conclusion:
+`CONFIRMED` for the four validated regions. Unswapped state order is `DISPROVEN`
+as Saturn byte order. Cartridge-RAM extraction remains `HYPOTHESIS`.
+
+Next action:
+`REF-007`: observe win-quote selection with Ryu/Ken, saving each pre-KO state under
+frame advance.
+

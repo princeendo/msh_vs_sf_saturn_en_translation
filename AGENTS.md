@@ -92,8 +92,19 @@ result, conclusion, and uncertainty.
 
 Save states are checkpoints, not analyzable RAM snapshots. Dump identical Saturn
 memory regions from each checkpoint into stable raw files before differential
-analysis. Begin with WRAM-L `0x00200000-0x002FFFFF` and WRAM-H
-`0x06000000-0x060FFFFF`; expand only if evidence warrants it.
+analysis. There are two sources for those raw files:
+
+- stock debugger dumps;
+- the save-state extractor (`tools/memory/mcs_extract.py`).
+
+Use extracted data for a region only after that region's extraction has matched,
+byte for byte, a stock debugger dump of the same paused instant, as recorded in
+`docs/discoveries.md`. Unvalidated regions remain `HYPOTHESIS` evidence. Never
+analyze the compressed state file directly.
+
+Begin with WRAM-L `0x00200000-0x002FFFFF` and WRAM-H `0x06000000-0x060FFFFF`.
+Expand to cartridge RAM or VDP VRAM only with the rationale recorded in the
+experiment.
 
 `docs/discoveries.md` contains only durable `CONFIRMED` findings. Put hypotheses and
 failures in `research_log.md`; put unresolved questions in

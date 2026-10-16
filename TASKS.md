@@ -9,9 +9,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M0**, research environment bootstrap.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-011`. The approved win-quote plan also adds a
-  save-state RAM extractor task before checkpoint capture; record it here before
-  starting it.
+- Next research task: `REF-007` (win-quote selection). `EMU-011` is also `READY`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -419,8 +417,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** DOC-006, EMU-007.
-- **Blockers:** Quote-reference provenance and a reliable route to captions are unavailable.
+- **Dependencies:** DOC-006, EMU-007, REF-007.
+- **Blockers:** Win-quote selection behavior (`REF-007`) is not yet observed.
 - **Objective:** Select one ordinary Ryu caption with reproducible Japanese and official English contexts.
 - **Rationale:** M1 needs one fixed subject rather than broad quote work.
 - **Acceptance criteria:** Selection rationale, release contexts, route, and unresolved correspondence questions are recorded without inventing a match.
@@ -487,14 +485,37 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** Reference experiment and translation-record update if run.
 - **Notes:** This is optional evidence, not a gate when unnecessary.
 
+### REF-007 - Observe win-quote selection behavior
+
+- **Status:** `READY`
+- **Milestone:** M0
+- **Dependencies:** EMU-009.
+- **Blockers:** None.
+- **Objective:** Determine empirically what changes which post-fight win quote
+  appears. Candidates include replay timing, finisher, opponent, the winning
+  teammate, and stage.
+- **Rationale:** Differential checkpoints need two different quotes from the same
+  winner in otherwise similar scenes. Selection behavior is unknown and must not
+  be assumed.
+- **Acceptance criteria:**
+  - From one pre-KO checkpoint, at least five replays vary only KO timing or
+    finisher, and each records winner, opponent, quote screenshot hash, and quote
+    identity.
+  - At least one controlled change of opponent or stage is recorded the same way.
+  - The observed selection behavior is stated with a confidence label.
+- **Outputs:** Experiment record, ignored screenshots and states, and
+  `research_log.md` entry.
+- **Notes:** The project's planned team is Ryu/Ken. Record which teammate's
+  portrait and quote appear.
+
 ## Phase E: Checkpoints And Memory Analysis
 
 ### DBG-001 - Capture state A before fight end
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** REF-003, EMU-009.
-- **Blockers:** Selected scene and validated save-state workflow are unavailable.
+- **Dependencies:** REF-001, EMU-009.
+- **Blockers:** The quote route is not selected.
 - **Objective:** Save a reproducible checkpoint shortly before the fight ends.
 - **Rationale:** State A supplies the pre-caption comparison baseline.
 - **Acceptance criteria:** Route, timing, run/configuration, save hash, screenshot metadata, and two reload observations are recorded.
@@ -517,13 +538,20 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** DBG-001, REF-003.
-- **Blockers:** Reproducible route and selected transcription are incomplete.
+- **Dependencies:** DBG-001.
+- **Blockers:** State A is unavailable.
 - **Objective:** Save a stable checkpoint with the target caption fully visible.
 - **Rationale:** This is the primary M1 mutation checkpoint.
-- **Acceptance criteria:** Scene identity, timing, save hash, screenshot metadata, and two reload observations are recorded.
+- **Acceptance criteria:**
+  - Scene identity, timing, save hash, screenshot metadata, and two reload
+    observations are recorded.
+  - A same-quote control state (C1′), replayed from state A, is captured the same
+    way.
+  - When `REF-007` shows how, a different-quote state (C2) from the same winner is
+    also captured.
 - **Outputs:** Ignored save/screenshot and tracked checkpoint metadata.
-- **Notes:** Ensure the selected visible text matches `REF-003`.
+- **Notes:** This capture supplies the screenshot for `REF-002`. `REF-003`
+  transcribes it, so transcription follows capture rather than gating it.
 
 ### DBG-004 - Capture state D after caption disappears
 
@@ -549,24 +577,56 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** Local screenshots and tracked evidence manifest.
 - **Notes:** Rejected optional states need no fabricated screenshot.
 
-### DBG-006 - Create Python utility to dump defined memory regions
+### DBG-006 - Create save-state memory-region extractor
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
-- **Dependencies:** ENV-004, EMU-011.
-- **Blockers:** The tested stock debugger export mechanism is unknown.
-- **Objective:** Script repeatable acquisition of explicitly defined address ranges where stock facilities permit it.
-- **Rationale:** Identical raw ranges are required for meaningful differential analysis.
-- **Acceptance criteria:** The utility validates address/length and output path, defaults away from tracked/source paths, records metadata, has synthetic tests where practical, and documents any unavoidable manual debugger step.
-- **Outputs:** `tools/memory/` utility, tests, usage documentation.
-- **Notes:** Do not invent an emulator interface.
+- **Dependencies:** ENV-004, EMU-010.
+- **Blockers:** None.
+- **Objective:** Script repeatable acquisition of defined Saturn memory regions by
+  parsing stock Mednafen 1.32.1 save states. Regions are WRAM-L, WRAM-H, 4 MiB
+  cartridge RAM, VDP1 VRAM, and VDP2 VRAM.
+- **Rationale:** `EXP-0007` showed that the stock debugger can dump only through
+  hand-typed in-window prompts, and that it exposes no cartridge-RAM space. Save
+  states contain these regions and can be processed without manual steps.
+- **Acceptance criteria:**
+  - The state layout is implemented from cited `state.cpp` behavior.
+  - Region names, sizes, and element widths are checked, and outputs default to an
+    ignored path and never overwrite inputs.
+  - Raw Saturn-order files are emitted with a JSON manifest (input hash, region,
+    base address, size, SHA-256).
+  - Synthetic tests, ruff, and mypy pass.
+- **Outputs:** `tools/memory/mcs_extract.py`, tests, usage documentation.
+- **Notes:** Extracted data is not trusted until `DBG-012` validates each region.
+  The tool exists with 11 synthetic tests and parses the real `EXP-0007` state.
+
+### DBG-012 - Validate save-state extractor against debugger dumps
+
+- **Status:** `DONE`
+- **Milestone:** M0
+- **Dependencies:** DBG-006, EMU-010.
+- **Blockers:** None.
+- **Objective:** Test whether extracted regions equal stock debugger dumps of the same
+  paused instant.
+- **Rationale:** `AGENTS.md` permits extracted data only for regions validated byte
+  for byte.
+- **Acceptance criteria:**
+  - Using the `EXP-0007` slot-2 state and its paused dumps, each of WRAM-H, WRAM-L,
+    VDP1 VRAM, and VDP2 VRAM is compared and the result recorded.
+  - Byte-order hypotheses are tested explicitly, not assumed.
+  - Cartridge RAM's validation status is stated (no stock debugger dump exists).
+- **Outputs:** `EXP-0008`, `research_log.md`, and `docs/discoveries.md` entries for
+  confirmed regions.
+- **Notes:** A match confirms extraction only, not caption meaning. `EXP-0008`
+  confirmed WRAM-H, WRAM-L, VDP1 VRAM, and VDP2 VRAM byte for byte. The unswapped
+  order is disproven. Cartridge RAM remains `HYPOTHESIS`.
 
 ### DBG-007 - Dump WRAM-L for each state
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** DBG-005, DBG-006.
-- **Blockers:** Checkpoints and dump utility/workflow are unavailable.
+- **Dependencies:** DBG-005, DBG-012.
+- **Blockers:** Checkpoints and validated extraction are unavailable.
 - **Objective:** Export `0x00200000-0x002FFFFF` identically from every retained state.
 - **Rationale:** Stable raw dumps, not compressed save files, support comparison.
 - **Acceptance criteria:** Every dump has expected/actual size, SHA-256, exact command/action, checkpoint linkage, and repeat acquisition; binaries remain ignored.
@@ -577,8 +637,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** DBG-005, DBG-006.
-- **Blockers:** Checkpoints and dump utility/workflow are unavailable.
+- **Dependencies:** DBG-005, DBG-012.
+- **Blockers:** Checkpoints and validated extraction are unavailable.
 - **Objective:** Export `0x06000000-0x060FFFFF` identically from every retained state.
 - **Rationale:** Both initially prioritized work-RAM regions must be tested before expansion.
 - **Acceptance criteria:** Every dump has expected/actual size, SHA-256, exact command/action, checkpoint linkage, and repeat acquisition; binaries remain ignored.
@@ -615,7 +675,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Milestone:** M0
 - **Dependencies:** DBG-007, DBG-008, DBG-009, DBG-010.
 - **Blockers:** Dumps and analysis tools are unavailable.
-- **Objective:** Compare A->B, B->C, C->D, or justified three-state equivalents and run the first Shift-JIS search hypothesis.
+- **Objective:** Compare C1 vs C2 (different quote) and C1 vs C1′ (same-quote noise control) first, then A->B->C->D where useful, and run the first Shift-JIS search hypothesis.
 - **Rationale:** Controlled temporal differences can rank candidate caption representations.
 - **Acceptance criteria:** One significant experiment records exact inputs/hashes, one hypothesis, comparisons/searches, predicted and actual results, stable versus noisy observations, conclusion, and next discriminating experiment.
 - **Outputs:** Experiment record, JSON summaries, `research_log.md` update.
@@ -627,7 +687,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011.
+- **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007, DOC-008, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, EMU-012, EMU-020, REF-001, REF-002, REF-003, REF-004, REF-005, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, REF-007.
 - **Blockers:** Listed M0 prerequisites are not all `DONE`.
 - **Objective:** Make an explicit go/no-go decision before the first live RAM mutation.
 - **Rationale:** Partial setup must not be mistaken for permission to start M1.

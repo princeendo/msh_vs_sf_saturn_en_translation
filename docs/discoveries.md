@@ -109,6 +109,33 @@ is cartridge RAM. Work RAM spaces are offset-based. The source image, stock bina
 artifacts, and limits are in `research/experiments/EXP-0007/README.md`. This does not
 establish that a save state's contents equal these dumps, or any caption location.
 
+## DBG-012: Validated Save-State Region Extraction
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0008`
+
+`tools/memory/mcs_extract.py` parses stock Mednafen 1.32.1 Saturn save states. With
+its default `saturn` byte order (each stored 16-bit element swapped on this
+little-endian host), it reproduced the stock debugger dumps of the same paused
+instant byte for byte:
+
+| Region | Base | Size | SHA-256 (EXP-0007 slot 2) |
+| --- | --- | ---: | --- |
+| WRAM-H | `0x06000000` | 1,048,576 | `5e7c2347ddf805da44fddafe7f663bbb23d8896a7014bcbea9a4f4790f94ead0` |
+| WRAM-L | `0x00200000` | 1,048,576 | `0cb95fbf577923bfc2729e5d5303b2200a6ea9e9d77dcbdde39dddbecd4f9a5c` |
+| VDP1 VRAM | `0x05C00000` | 524,288 | `173764195179ce178ff8475c7c82d51dd17bd7e3014fa2e025f58d2a18a8894d` |
+| VDP2 VRAM | `0x05E00000` | 524,288 | `fa94f7ca4c62267bf05f97a492ef91c3f82aa6a3b7ec676215446b7724360b0f` |
+
+The input state is 3,848,175 bytes, SHA-256
+`2c735816da8fcb2dbcc63b62da05454a07994f3f08ba56239fbe5fa829c65eb9`. The unswapped
+stored order differed from every dump. Repeated extraction was byte-identical. Under
+`AGENTS.md`, these four regions may now be acquired from save states.
+
+Cartridge RAM (`0x02400000`, 4 MiB) is extracted with the same method but is **not**
+validated; the stock debugger has no reference for it. Reproduction commands are in
+`research/experiments/EXP-0008/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
