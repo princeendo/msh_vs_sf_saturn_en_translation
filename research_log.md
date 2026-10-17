@@ -1823,3 +1823,37 @@ Next action:
 
 Checks: pytest, ruff check, ruff format --check, and strict mypy (run at commit).
 
+## 2026-10-17 13:50 CDT — EXP-0015
+
+Task: RE-012 (M1)
+
+Goal:
+Confirm that the WRAM-L quote table drives the displayed caption.
+
+Hypothesis:
+Changing record codes before the quote screen changes the displayed glyphs.
+
+Action:
+From state A, loaded `p.bin` (45 writes: line-1 cells 0-2 of the 15 records at
+`0x002091F8+` set to `0801 0803 0805`) or `o.bin` (control) with `L`, verified by
+`D`, then KO'd Vega with Ryu. Ran patched ×4 and control ×2, saving each state
+and screenshot. One `L` attempt hit an EOF warning from a mistyped end address and
+was restarted.
+
+Result:
+- Patched runs 1, 3, and 4 showed `あいう` in the predicted cells: Q8 twice, and Q5
+  with `もっ` overwritten.
+- Patched run 2 selected the unpatched record at `0x002091AC`, a Ken-addressed
+  quote with a `0000` placeholder that is shown as ケン.
+- Both controls were normal.
+- Every saved patched state still contained the patch.
+
+Conclusion:
+`CONFIRMED`; M1 reached. The table is 16 records from `0x002091AC`. The `0000`
+partner-name placeholder is a `HYPOTHESIS`.
+
+Next action:
+`DISC-001` (M2): find what writes the table and where it comes from on disc. A
+write breakpoint on `0x002091AC-0x0020966B` during a load is the first candidate
+experiment.
+

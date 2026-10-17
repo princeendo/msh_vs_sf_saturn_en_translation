@@ -160,6 +160,34 @@ replay from state A, before the quote was drawn. The debugger opened at PC
 Commands and limits are in `docs/mednafen.md` (EMU-011 runbook). This confirms the
 workflow only; what the written bytes mean is `RE-012` work.
 
+## RE-012: Ryu Win-Quote Table in WRAM-L Drives the Displayed Caption
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0015` (structure from `EXP-0013`, workflow from `EXP-0014`)
+
+During a Ryu/Ken vs Vega arcade fight (stock Mednafen 1.32.1, untouched source),
+WRAM-L holds Ryu's win quotes as 16 records of 38 big-endian 16-bit glyph codes
+(76 bytes each). The records cover `0x002091AC-0x0020966B`: two lines of 19 cells,
+with `0x0020` as a blank cell.
+
+Loading a patch into state A (slot 5, SHA-256 `ab60af86…dce6`) changed line-1 cells
+0-2 of the 15 records at `0x002091F8-0x0020966B` to `0801 0803 0805`. The patch was
+loaded with the memory editor `L` command into `0x000091F8-0x0000966B` and verified
+by dump (`08a1a3aa…ab06bf`). After the KO, the displayed quote showed `あ い う` in
+those cells in all three patched runs that selected a patched record:
+
+- Q8 at `0x00209290`, twice (`-0039.png`, `-0043.png`);
+- Q5 at `0x002094F0` (`-0044.png`), with the original `もっ` replaced.
+
+Two controls loading the original bytes showed unmodified quotes. Original and
+modified bytes for all 45 writes are in the `re012-aiu-manifest.json` record
+described in `EXP-0015`.
+
+Scope: line-1 cells 0-2 of two records, codes `0801`, `0803`, and `0805`
+(`あ`, `い`, `う`). Other code meanings, the partner-name placeholder (`0000` at
+`0x002091BC`), and the disc source of the table are not confirmed here.
+
 ## Entry Requirements
 
 Each future entry must include:

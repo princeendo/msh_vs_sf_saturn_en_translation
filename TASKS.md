@@ -6,12 +6,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ## Current State
 
-- Current milestone: **M1**: one Ryu post-fight caption visibly modified in live
-  RAM. M0 was accepted on 2026-10-17 under the amended technical gate.
+- Current milestone: **M2**: reproduce the same Ryu caption change from an
+  untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `RE-012` via `EXP-0015` (live mutation of the quote table).
-  `GATE-TRANSLATION` remains open for translation work.
+- Next research task: `DISC-001`: trace what loads the WRAM-L quote table
+  (`0x002091AC-0x0020966B`) and locate its disc source. `DISC-002` also needs
+  `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -797,10 +798,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-012 - Identify and modify runtime buffer for one Ryu quote
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M1
 - **Dependencies:** GATE-M0.
-- **Blockers:** None. `GATE-M0` was accepted on 2026-10-17. Design: `EXP-0015`.
+- **Blockers:** None. `GATE-M0` was accepted on 2026-10-17.
 - **Objective:** Identify the runtime representation responsible for the selected Ryu caption and visibly change it with one controlled RAM mutation.
 - **Rationale:** This is the minimum causal proof linking runtime bytes to the caption.
 - **Acceptance criteria:** Candidate range is identified; exact original/modified bytes and address are recorded; mutation changes the intended visible caption while unrelated content is assessed; before/after screenshots and deterministic checkpoint are recorded; the result repeats from a clean checkpoint; experiment, log, and confirmed discovery are updated.
@@ -810,14 +811,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   resident before the KO), and the per-screen buffer at WRAM-H `0x060ED80A`.
   Mutation pre-registered in `EXP-0015`: line-1 cells 0-2 of all 15 table records
   set to `0801 0803 0805`, with the prediction that `あいう` is shown whichever
-  quote appears.
+  quote appears. **Result:** `CONFIRMED` in three of three patched runs that
+  selected a patched record (Q8 twice, Q5 once); both controls were unmodified. M1
+  was reached on 2026-10-17. The table is 16 records from `0x002091AC`; the first
+  holds a `0000` partner-name placeholder (`HYPOTHESIS`).
 
 ### DISC-001 - Trace confirmed Ryu runtime caption to disc source
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M2
 - **Dependencies:** RE-012.
-- **Blockers:** No M1-confirmed runtime representation exists.
+- **Blockers:** None. M1 was confirmed by `RE-012` / `EXP-0015`.
 - **Objective:** Determine what populates the confirmed runtime bytes and identify the source file, offset/structure, and transformations.
 - **Rationale:** A RAM mutation is not a reproducible disc localization.
 - **Acceptance criteria:** Controlled tracing links runtime data to source; pointers, lengths, compression, checksums, and alignment are tested as applicable; all factual offsets/bytes and uncertainty are recorded.
