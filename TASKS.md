@@ -8,10 +8,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Current active task: `LAYOUT-001` (`EXP-0022` Phase C boot test).
+- Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `LAYOUT-001` via `EXP-0022` (Phase A, offline: font disc
-  source; Phase B, offline: layout constants). Also `RE-020` (M3 planning).
+- Next research task: `RE-020` (M3 planning), or a font-storage expansion
+  experiment (growing `MEMFIX.PAC` entry 4 for many pair glyphs). `DISC-020` stays
+  behind `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -947,7 +948,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### LAYOUT-001 - Determine English capacity of win quotes
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M3 (prerequisite for `DISC-020`)
 - **Dependencies:** FONT-002, DISC-002.
 - **Blockers:** None.
@@ -964,6 +965,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - A capacity model and a recommended route are recorded.
 - **Outputs:** `EXP-0022` and its tooling.
 - **Notes:** Phases A and B are offline; Phase C needs the user.
+  **Result (`EXP-0022`):**
+  - The font is `MEMFIX.PAC` entry 4 (load path confirmed).
+  - A pair glyph (`Th`) displays from a rebuilt image (`CONFIRMED`).
+  - Recommended route: pair glyphs, for 76 characters per quote.
+  - Layout-change constants are `HYPOTHESIS` only.
+  - Open: storage for many pair glyphs (grow `MEMFIX` entry 4 or recompress).
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 

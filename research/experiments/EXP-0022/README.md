@@ -2,8 +2,8 @@
 
 Task: `LAYOUT-001`
 Date: 2026-10-17
-Status: IN_PROGRESS
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: CONFIRMED (font source and load path; pair glyph display); HYPOTHESIS (alternate layout set)
 
 ## Question
 
@@ -242,4 +242,70 @@ It was run twice into `build/mshvsf_exp0022c_{a,b}`.
 On a cold boot of the derived image, Ryu's win quote shows `Th` in line-1 cell 0,
 solid with a shadow, with the rest of the quote unchanged. The `EXP-0015`/`EXP-0021`
 runs on the original image are the controls.
+
+## Phase C Result: Cold Boot (2026-10-17)
+
+The derived image `build/mshvsf_exp0022c_a` was booted cold in stock Mednafen 1.32.1:
+
+- process 76746;
+- log `local/mednafen/logs/layout001-exp0022c-boot.log`, reporting `T-1238G` and
+  `Cart: 4MiB Extended RAM`.
+
+The user played arcade mode (Ryu/Ken), won twice with Ryu landing the KO, and
+reported no glitches. No save state was loaded.
+
+| Win | Screenshot | State | Shown |
+| --- | --- | --- | --- |
+| 1 | `-0054.png` `96f09973…f21c` | slot 7 `f043430b5c2c687c…8919` | `Thうした、もっと打て！…` (Q6; `ど` replaced by the pair glyph) |
+| 2 | `-0055.png` `78a6beba…5afd` | slot 8 `724b2288ab7039dd…048e` | `Th` then `おれは・・・` (Q11; blank cell 0 replaced) |
+
+From both states:
+
+- cart RAM font glyph `0x0725` equals the composed pair cell;
+- WRAM-L `0x002091AC-0x0020966B` equals the patched decoded table.
+
+States are archived as `exp0022c-slot{7,8}`. Source identity was unchanged.
+
+## Conclusion
+
+`CONFIRMED`:
+
+- **(1) Font load path.** `MEMFIX.PAC` entry 4 is the source of the cart-RAM quote
+  font. Changing it on disc changes the in-memory font, which upgrades Phase A's
+  load path from `SUPPORTED`.
+- **(2) Pair glyph.** A custom two-letter quote-style pair glyph, written over a raw
+  glyph and referenced from the quote table, displays legibly in Ryu's win quote
+  from a rebuilt image. This held on two records in two independent wins.
+- **(3) Re-encoding.** Fully re-encoding `MC09.PAC` with 446 zero-fill bytes is
+  accepted by the game.
+
+## Capacity Model and Recommended Route
+
+**Route R1 (pair glyphs): viable and recommended.**
+
+- Capacity is 2 × 19 cells × 2 letters = **76 characters per quote**, mixing pair
+  glyphs and full-width glyphs as needed.
+- **Main constraint: glyph storage.**
+  - Same-size replacement is limited to the 30 raw glyphs, whose original uses are
+    unknown.
+  - Scaling to many distinct pairs needs new storage. Options: grow `MEMFIX.PAC`
+    entry 4 (which shifts entries 5-11 and may move their cart load addresses), or
+    recompress existing glyphs to free space.
+  - That is a separate investigation. The loader's use of the `MEMFIX` header is
+    untested.
+- Free codes are plentiful: 712 empty codes, including runs of 88, 80, 80, and 417.
+
+**Route R2 (layout change): deferred.** Phase B found a flag-selected alternate
+constant set (38 vs 50 line offset, 16 vs 12, 17 vs 23), which is `HYPOTHESIS`.
+It would also need solid half-width glyphs and a new record format.
+
+**Not yet known:** how many distinct pairs the official English needs
+(`REF-004`/`GATE-TRANSLATION`).
+
+## Remaining Uncertainty
+
+- The original use of raw glyph `0x0725` is unknown, so its replacement's side
+  effect was not observed.
+- Only one pair glyph was tested.
+- The pair glyph's compressed form is untested; it was stored raw.
 

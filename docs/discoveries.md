@@ -287,7 +287,8 @@ evidence only.
 
 ## LAYOUT-001 Phase A: Quote Font Stored Verbatim in `MEMFIX.PAC`
 
-Confidence: **CONFIRMED** (storage); **SUPPORTED** (load path)
+Confidence: **CONFIRMED** (storage and load path; load path confirmed by `EXP-0022`
+Phase C)
 
 Experiment: `EXP-0022`
 
@@ -297,8 +298,30 @@ Experiment: `EXP-0022`
 - 12 uncompressed entries back to back.
 
 Entry 4 (offset `0x6A558`, size `0x32740` = 206,656 bytes) is byte-identical to the
-quote font image in cart RAM at `0x0278CF60` (`EXP-0020`). The loader is not
+quote font image in cart RAM at `0x0278CF60` (`EXP-0020`). Changing it on disc
+changes the in-memory font (`EXP-0022` Phase C). The loader routine itself is not
 traced.
+
+## LAYOUT-001 Phase C: Two-Letter Pair Glyph Displays in Win Quotes
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0022`
+
+A derived image rebuilt from the untouched source showed the pair glyph legibly in
+Ryu's win quotes in two independent cold-boot wins, on records Q6 and Q11. The
+image had two changes:
+
+- **`MEMFIX.PAC`:** raw font glyph `0x0725` (file offset `0x82692`, 128 bytes)
+  replaced with a quote-style `Th` pair glyph;
+- **`MC09.PAC`:** fully re-encoded so line-1 cell 0 of all 16 Ryu records uses
+  `0x0725`.
+
+Only LSN 4,214 and 8,246-8,258 changed, all with valid EDC/ECC. The saved states'
+cart font and quote table matched the patch.
+
+Route: pair glyphs give up to 76 characters per quote. Storing many pairs needs a
+font-storage expansion that has not been tested.
 
 ## Entry Requirements
 
