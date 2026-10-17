@@ -1,4 +1,4 @@
-"""Patch decoded bytes of a PAC file and re-encode it (splice method).
+"""Patch decoded bytes of a PAC file and re-encode it (splice or full).
 
 The original compressed stream is kept unchanged up to the last flag group that
 starts at or before the first changed decoded offset. Only the rest is
@@ -32,7 +32,10 @@ def parse_write(text: str) -> tuple[int, int]:
 
 
 def patch(
-    data: bytes, writes: Sequence[tuple[int, int]], keep_size: bool = True
+    data: bytes,
+    writes: Sequence[tuple[int, int]],
+    keep_size: bool = True,
+    full: bool = False,
 ) -> tuple[bytes, dict[str, object]]:
     """Return the patched PAC file and a description of every change."""
     header, decoded, _ = decode_file(data)
@@ -52,10 +55,13 @@ def patch(
             }
         )
     first = min(offset for offset, _ in writes)
-    stream_offset, output_offset = max(
-        (item for item in group_starts(stream, len(decoded)) if item[1] <= first),
-        key=lambda item: item[1],
-    )
+    if full:
+        stream_offset, output_offset = 0, 0
+    else:
+        stream_offset, output_offset = max(
+            (item for item in group_starts(stream, len(decoded)) if item[1] <= first),
+            key=lambda item: item[1],
+        )
     new_stream = stream[:stream_offset] + encode(bytes(patched), output_offset)
     new_file = build_pac(
         new_stream, header.decompressed_length, len(data) if keep_size else None
@@ -91,6 +97,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, required=True, help="new PAC path")
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument(
+        "--full",
+        action="store_true",
+        help="re-encode the whole stream instead of splicing",
+    )
+    parser.add_argument(
         "--allow-size-change",
         action="store_true",
         help="do not zero-fill to the original size",
@@ -102,7 +113,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("output would overwrite the input")
     try:
         new_file, info = patch(
-            args.pac.read_bytes(), args.write, not args.allow_size_change
+            args.pac.read_bytes(), args.write, not args.allow_size_change, args.full
         )
     except (OSError, ValueError) as error:
         parser.error(str(error))
