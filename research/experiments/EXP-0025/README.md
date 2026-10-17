@@ -114,7 +114,8 @@ Slot 5 (state A) was loaded and the opponent KO'd with Ryu.
   identical). F9 does not capture the debugger overlay, so no registers were
   recorded.
 - **Attempt 2.** Halts were captured with macOS screenshots in `~/Downloads`
-  (`Screenshot 2026-10-17 at 4.34.18 PM.png`, `… 4.34.43 PM.png`):
+  (`Screenshot 2026-10-17 at 4.34.18 PM.png` `da79d4122eb04be1…`, `… 4.34.43 PM.png`
+  `34a9b6ac378a8c94…`):
 
 | Halt | PC | Instruction | R0 | R1 | Other |
 | --- | --- | --- | --- | --- | --- |
