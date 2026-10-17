@@ -1880,3 +1880,33 @@ Action:
 Next action:
 `EXP-0016`, which needs no user input.
 
+## 2026-10-17 14:40 CDT — EXP-0016 / EXP-0017
+
+Task: DISC-010, DISC-001
+
+EXP-0016:
+- Built `tools/disc/iso9660.py` (Mode 1 sector validation, PVD, directory walk,
+  extraction, user-data stream) with synthetic tests.
+- Track 01: 192,346 valid Mode 1 sectors, LSN = index.
+- PVD: `SEGA SEGASATURN` / `MSH_VS_STREET_FIGHTER`, block size 2,048, root at
+  LSN 20, volume space size 216,839 (more than track 01).
+- 414 flat, non-interleaved, non-overlapping files.
+- Source hashes were unchanged. Result: `CONFIRMED`. The metadata is in
+  `references/mshvsf/saturn_jp/iso9660_files.json`.
+
+EXP-0017:
+- Hypothesis: the table is stored verbatim on disc.
+- Searched the full table, the 16 records, the longest code runs, and byte-swapped
+  forms in the 393,924,608-byte user stream: 0 of 66 hits.
+- Searched 12 quote fragments as Shift-JIS, EUC-JP, and UTF-16BE: 0 hits.
+- Result: `DISPROVEN`. Do not repeat verbatim or plain-encoding disc searches for
+  this table.
+- Observation: WRAM-H `0x06094FD8` holds the only pointer (`002091AC`). It is
+  `00000000` at the title screen, inside a run of `99 00 NN 99` placeholders and
+  WRAM-L addresses.
+
+Next action:
+`EXP-0018`: a live write-breakpoint trace from a character-select checkpoint.
+
+Checks: pytest (53 passed), ruff check, ruff format --check, and strict mypy.
+

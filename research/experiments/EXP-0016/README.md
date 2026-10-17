@@ -2,8 +2,8 @@
 
 Task: `DISC-010` (prerequisite for `DISC-001` file mapping)
 Date: 2026-10-17
-Status: READY
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: CONFIRMED
 
 ## Observation
 
@@ -51,6 +51,67 @@ verified before and after.
 Extracted file contents go only to ignored `research/extracted_files/`. Only factual
 metadata (names, LSNs, sizes, hashes) is tracked.
 
+## Command
+
+```bash
+./invenv.sh python -m tools.disc.iso9660 \
+  "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
+  --check --extract research/extracted_files/mshvsf_saturn_jp \
+  --user-stream research/extracted_files/mshvsf_saturn_jp_track01_user.bin \
+  > research/extracted_files/exp0016_report.json
+```
+
+Python 3.12.13 via `./invenv.sh`. Source identity (13 components) matched the
+manifest before and after the run.
+
 ## Actual Result
 
-Pending.
+Sector check:
+
+- 452,397,792 bytes = 192,346 sectors.
+- `bad_sync` 0, `non_mode1` 0, `address_mismatch` 0.
+- Header FAD runs from 150 to 192,495, so LSN = sector index = FAD − 150.
+
+Primary volume descriptor at LSN 16:
+
+| Field | Value |
+| --- | --- |
+| System ID | `SEGA SEGASATURN` |
+| Volume ID | `MSH_VS_STREET_FIGHTER` |
+| Logical block size | 2,048 |
+| Root directory | LSN 20, 20,480 bytes |
+| Volume space size | 216,839 blocks |
+
+The volume space size exceeds track 01's 192,346 sectors. That is recorded as an
+observation, not interpreted.
+
+Directory:
+
+- 414 entries, all files, with no subdirectories.
+- The first extent is `MVS_CPY.TXT;1` at LSN 30, and the last is `MVDEMOFF.ST2;1` at
+  LSN 191,957.
+- Every extent lies within track 01. Extents do not overlap, and no file uses
+  interleave (file unit size and gap are 0).
+- By extension: 235 `ST2`, 79 `PAC`, 71 `ADP`, 14 `BIN`, 3 `I16`, 3 `TXT`, 2 `DAT`,
+  and one each of `CPK`, `MAP`, `TSK`, `PRS`, and `SHX`.
+
+Outputs:
+
+- Tracked metadata: `references/mshvsf/saturn_jp/iso9660_files.json`, with each
+  file's path, LSN, size, flags, and SHA-256 (no contents).
+- Ignored:
+  - the extracted files (376 MB);
+  - the user-data stream (393,924,608 bytes, SHA-256 `dea7bd65f668…fd0adef`);
+  - the full report (SHA-256 `f58e0553944c…c817550a`).
+
+## Conclusion
+
+`CONFIRMED`. Track 01 is a clean Mode 1/2352 track, LSN = index, with a flat ISO 9660
+filesystem of 414 non-interleaved files. Any user-data offset can be mapped to a
+file and file offset as `(offset // 2048 − extent LSN) × 2048 + offset % 2048`.
+
+## Uncertainty and Alternatives
+
+- EDC/ECC bytes were not verified.
+- The system area (LSN 0-15) and IP fields were not parsed.
+- The volume-space-size discrepancy is unexplained.
