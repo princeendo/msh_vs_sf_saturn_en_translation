@@ -11,9 +11,10 @@ The script:
    (default: the bonus-tally clearing loop), overwriting it so the last one before
    the quote is kept; later runs then need no gameplay;
 5. records every hit;
-6. once a pointer into the quote table (``--table-base``, 16 records) is stored,
-   runs ``--quote-frames`` frames, then saves a screenshot and a quote-screen
-   state.
+6. once a record pointer into work RAM low is stored (any table, so team order
+   and character do not matter; ``--table-base`` narrows it to one 16-record
+   table), runs ``--quote-frames`` frames, then saves a screenshot and a
+   quote-screen state. The table base in use (``0x060F9E4A``) is recorded.
 
 Optional forcing (``--force-index N``) queues a write of N to the index word after
 each hit at the setter PCs, as pre-registered in `EXP-0025` Part 2.
@@ -31,6 +32,7 @@ from tools.mednafen.agent import Agent, AgentError, parse_pairs
 
 INDEX_WORD = 0x060F9E66
 POINTER = 0x060F249C
+TABLE_POINTER = 0x060F9E4A  # r12 + 52 in the pointer routine (EXP-0025)
 POINTER_PCS = {0x060AF724, 0x060AF728}
 BREAKPOINTS = [
     "060F9E66-060F9E67",
@@ -59,7 +61,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--checkpoint", action="store_true", help="save post-KO state")
     parser.add_argument("--checkpoint-pcs", default="060490EC")
-    parser.add_argument("--table-base", type=lambda v: int(v, 0), default=0x002091AC)
+    parser.add_argument("--table-base", type=lambda v: int(v, 0))
     parser.add_argument("--quote-frames", type=int, default=240)
     parser.add_argument("--timeout", type=float, default=900.0)
     parser.add_argument("--force-index", type=int)
@@ -82,7 +84,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.state is not None:
             agent.loadstate(args.state)
         checkpoint_pcs = {int(p, 16) for p in args.checkpoint_pcs.split(",") if p}
-        table = range(args.table_base, args.table_base + 16 * 76, 76)
+        table = (
+            range(args.table_base, args.table_base + 16 * 76, 76)
+            if args.table_base is not None
+            else range(0x00200000, 0x00300000)
+        )
         last_pointer = -1
         deadline = time.monotonic() + args.timeout
         seen = 0
@@ -107,6 +113,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             time.sleep(0.05)
         report["pointer"] = f"0x{agent.bus_read(POINTER, 4).hex().upper()}"
         report["index"] = int.from_bytes(agent.bus_read(INDEX_WORD, 2), "big")
+        report["table_base"] = f"0x{agent.bus_read(TABLE_POINTER, 4).hex().upper()}"
         agent.frames(args.quote_frames)
         agent.wait_halted(60)
         agent.screenshot(out / "quote.png")
