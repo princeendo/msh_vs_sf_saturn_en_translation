@@ -2309,3 +2309,32 @@ Task: FONT-003
 
 Next action:
 `RE-020` (M3 planning). English text waits on `GATE-TRANSLATION`.
+
+## 2026-10-17 — RE-020 M3 planning
+
+Task: RE-020
+
+Observations used:
+- Ryu's `MC09.PAC` table has 16 records. Only record 0 holds a `0000` placeholder
+  (line 1 is 9 cells). Lines in records 1-15 use 12-19 cells.
+- `Q1`-`Q11` are observation-order labels from `EXP-0009`/`EXP-0010`, not record
+  indices. `EXP-0023` matched its two wins to records 4 and 5 through the WRAM-H
+  display buffer.
+- Selection looked random across replays (`EXP-0009`). Seeing all 16 records by
+  chance would need about 50 wins (coupon-collector estimate), which is
+  impractical for manual play.
+
+Decisions:
+- RE-020 is now `IN_PROGRESS` as the umbrella. Subtasks:
+  - `RE-021`: record map and offline renderer.
+  - `RE-022`: caption compiler.
+  - `RE-023` / `EXP-0024`: selection mechanism, a hypothesis about the counter
+    `@(76,r12)`.
+  - `RE-024` / `EXP-0025`: all 16 records live from one compiled image.
+  - `RE-025` / `EXP-0026`: variants (Ryu not on point; another partner; versus
+    mode).
+- M3 captions are record-identifying markers, not translations, so M3 stays
+  independent of `GATE-TRANSLATION`.
+
+Next action:
+`RE-021` (offline).

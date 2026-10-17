@@ -49,7 +49,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
   - Does the alternate layout constant set (12-pixel step, about 25 cells per
     line), selected by a flag at `r11+0xCC90`, exist and work for quotes?
   - Does quote selection use the counter at `@(76,r12)`? This may explain Q3's
-    non-recurrence.
+    non-recurrence. (`RE-023` / `EXP-0024`.)
+  - Which record index is each observed quote (`Q1`-`Q11`)? (`RE-021`.)
+  - Is Ryu's table used unchanged when Ryu is the second team member, with a
+    partner other than Ken, or in versus mode? What does the record 0 `0000`
+    placeholder render beside Latin text? (`RE-024`, `RE-025`.)
   - Do the other `MCxx.PAC` files hold other characters' quote tables?
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?
