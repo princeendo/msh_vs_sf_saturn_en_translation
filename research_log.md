@@ -2203,3 +2203,22 @@ User cold-boot test of `build/mshvsf_exp0022c_a`.
 
 Checks: pytest (105 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 16:55 CDT — EXP-0022 Phase C boot
+
+Task: LAYOUT-001
+
+Result:
+- Cold boot of `build/mshvsf_exp0022c_a`: two Ryu wins showed `Th` in line-1 cell
+  0 (Q6 `Thうした…`, Q11 `Th おれは…`).
+- No glitches reported.
+- Saved states' cart font glyph `0x0725` equals the pair cell, and the WRAM-L table
+  equals the patch.
+
+Conclusion:
+Pair glyphs are `CONFIRMED`. The `MEMFIX` entry 4 load path is now `CONFIRMED`.
+LAYOUT-001 is DONE; recommended route R1, for 76 characters per quote. The open
+item is storage for many glyphs.
+
+Next action:
+RE-020 planning, or a font-storage expansion experiment.
+
