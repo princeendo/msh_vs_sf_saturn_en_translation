@@ -39,8 +39,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
     re-encoding with 14 fill bytes works, per `EXP-0019`.)
   - Full-width quote-style Latin displays correctly (`EXP-0021`, `CONFIRMED` for
     the tested codes). ASCII codes display only faintly.
-  - How should English fit 2 × 19 cells? Which disc file loads the font into cart
-    RAM?
+  - How should English fit 2 × 19 cells? The font is `MEMFIX.PAC` entry 4
+    (`EXP-0022`). Does the alternate layout constant set (12-pixel step, about 25
+    cells per line), selected by a flag at `r11+0xCC90`, exist and work for quotes?
+  - Does quote selection use the counter at `@(76,r12)`? This may explain Q3's
+    non-recurrence.
   - Do the other `MCxx.PAC` files hold other characters' quote tables?
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?

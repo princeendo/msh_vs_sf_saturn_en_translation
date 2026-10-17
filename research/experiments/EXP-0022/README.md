@@ -2,7 +2,7 @@
 
 Task: `LAYOUT-001`
 Date: 2026-10-17
-Status: READY
+Status: IN_PROGRESS
 Confidence: HYPOTHESIS
 
 ## Question
@@ -97,6 +97,79 @@ Otherwise R1 is the recommended route.
 | Phase C fails | Diagnose: font table semantics, the empty-block skip, or glyph caching. |
 | Phase B shows R2 is cheap and safe | Prototype R2 as a separate task. |
 
-## Actual Result
+## Actual Result: Phase A (2026-10-17)
 
-Pending.
+The font image is the 206,656 bytes of cart RAM at `0x0278CF60` in state A
+(`ab60af86…`, unvalidated region, but `EXP-0020` reproduced all 79 glyphs from it).
+
+**Search.** 64-byte fragments at font offsets 0, 0x10, 0x390, 0x8000, 0x10000,
+0x20000, and 0x30000 were searched across the 414 extracted files plus 52 decoded
+PACs. Every one was found in `MEMFIX.PAC`, at file offsets with the same relative
+spacing.
+
+**Full comparison.** `MEMFIX.PAC[0x6A558:0x6A558+206656]` **equals the font image
+byte for byte**. The file is LSN 3,954, 1,744,100 bytes, SHA-256 `fdbc871a…65d9`.
+
+**`MEMFIX.PAC` container** (big-endian):
+
+- **Header.** Thirteen `(word0, size)` pairs, with the 13th `(0, 0)` as terminator
+  (0x68 bytes).
+- **Entries.** Twelve entries follow back to back, uncompressed (`word0` = 0). Their
+  sizes are `4FEF0 EBB0 96A0 23B0 32740 86BC0 360 3BC0 18A44 22512 40000 7614`.
+- **Entry 4.** Starts at `0x6A558` with size `0x32740` = 206,656: the font.
+- **Size check.** The entries end at `0x1A9CE2`; the file is `0x1A9CE4` (2 trailing
+  bytes).
+
+Elsewhere in the file, 88 of 107 sampled 64-byte chunks of `MEMFIX.PAC` also occur
+in cart RAM, consistent with the file being loaded largely verbatim into the cart.
+The loader was not traced.
+
+**Phase A conclusion.** `CONFIRMED`: the font image is stored verbatim as
+`MEMFIX.PAC` entry 4. That this entry is the source loaded into cart RAM is
+`SUPPORTED` (byte equality; the loader is not traced). Phase A2 (a cart write
+breakpoint) is not needed.
+
+## Actual Result: Phase B (partial)
+
+`tools/sh2/disasm.py` (new, with tests) was used on WRAM-H of `EXP-0010` C1
+(`9482880a…`).
+
+- **Pointer literals.** `0x060ED900` at `0x060AF7F8` and `0x060ED800` at
+  `0x060AF7F4` (and `0x060AEE00`) are in code that writes 16-bit entries through
+  R6/R7 with GBR-relative counters (`@(26,gbr)`, `@(30,gbr)`, `@(6,gbr)`,
+  `@(10,gbr)`).
+- **Calls.** Subroutines are called via `trapa #62` followed by an inline address
+  (`060AF81E`), with `trapa #63` as a return or end marker. That is an unusual
+  convention and is not yet traced.
+- **Two constant sets**, chosen by a flag at `@(r0=0xCC90, r11)`:
+  - `add #38,r8` vs `add #50,r8` (38 = 19 × 2 bytes; 50 = 25 × 2);
+  - `mov #16` vs `mov #12` stored to `@(6,gbr)`;
+  - `mov #17` vs `mov #23` stored to `@(24,gbr)`.
+
+  This is consistent with an alternate denser text layout (12-pixel step, about 25
+  cells per line). It is `HYPOTHESIS`: neither the flag's meaning nor any use of
+  the second set has been observed.
+- **Selection code.** The routine before the buffer writer (`0x060AF820-0x060AF8C8`)
+  increments and wraps a byte counter at `@(76,r12)` against byte tables at
+  `0x060AF8E8`/`0x060AF908`. So `EXP-0014`'s reading of `#76` as the record stride
+  is withdrawn; there, `#76` is a struct field offset. The routine looks like quote
+  selection, which may bear on `EXP-0010`'s Q3 non-recurrence (`HYPOTHESIS`).
+
+## Phase C Refinement (pre-registration update)
+
+Because the font is an uncompressed entry inside `MEMFIX.PAC` (852 sectors, 796
+bytes of slack), growing the entry would shift later entries. The smallest change
+is therefore a same-size glyph replacement:
+
+- overwrite the 128 bytes of one existing **raw** glyph (raw codes:
+  `0x0090-0x009E`, `0x02C5`, `0x02C7`, `0x02CB`, `0x02CD`, `0x02CF`, `0x02E7`,
+  `0x02ED`, `0x02EF`, `0x0301`, `0x0323`, `0x0326`, `0x0340`, `0x0700`, `0x0708`,
+  `0x0725`) with a two-letter quote-style pair glyph;
+- reference that code from a quote record.
+
+Delivery: rebuild `MEMFIX.PAC` with only that 128-byte span changed, using a
+generalized `patch_image`, together with a `MC09.PAC` table patch that uses the
+code. Both go into one derived image via the `DISC-002` pipeline, booted cold.
+
+Side effect to record: the replaced raw glyph's original use (for example the
+`0x009x` continue-screen artwork) will show the pair glyph instead.

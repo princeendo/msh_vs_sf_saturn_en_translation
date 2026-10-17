@@ -2154,3 +2154,29 @@ Added `LAYOUT-001` (now a dependency of `DISC-020`). Pre-registered `EXP-0022`:
 Next action:
 `EXP-0022` Phases A and B (offline).
 
+## 2026-10-17 16:10 CDT — EXP-0022 Phases A-B
+
+Task: LAYOUT-001
+
+Phase A:
+- Hypothesis: the font is on disc verbatim.
+- Font fragments were found only in `MEMFIX.PAC`. Its entry 4 (`0x6A558`, 206,656
+  bytes) equals the cart font byte for byte.
+- `MEMFIX.PAC` has a 13-pair header and 12 uncompressed entries.
+- Result: `CONFIRMED`. Load path `SUPPORTED`.
+
+Phase B (partial):
+- Added `tools/sh2/disasm.py` with tests.
+- Code at `0x060AF740-0x060AF81A` writes quote buffer entries using GBR counters
+  and the `trapa #62`/`#63` call convention.
+- A flag at `r11+0xCC90` selects line offset 38 or 50, spacing 16 or 12, and count
+  17 or 23 (`HYPOTHESIS`: an alternate denser layout).
+- `#76` in `EXP-0014` is a struct field offset, not the record stride; that earlier
+  reading is withdrawn.
+
+Next action:
+Phase C, a same-size raw-glyph replacement in `MEMFIX.PAC` plus an `MC09.PAC`
+reference, built into a derived image (refined plan in `EXP-0022`).
+
+Checks: pytest (100 passed), ruff check, ruff format --check, and strict mypy.
+

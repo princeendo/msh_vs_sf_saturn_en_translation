@@ -95,6 +95,10 @@ under `build/`.
   `MC09.PAC` with regenerated Mode 1 EDC/ECC (`tools/disc/sector.py`, which
   validates against all source sectors) boots and works in stock Mednafen. The
   game accepted a recomputed PAC header and a 14-byte zero fill.
+- **`MEMFIX.PAC`** (`EXP-0022`). Header of `(0, size)` pairs terminated by
+  `(0, 0)`, then 12 uncompressed entries. Entry 4 (`0x6A558`, `0x32740` bytes) is
+  the quote font, byte-identical to cart RAM `0x0278CF60`. The file occupies 852
+  sectors with 796 slack bytes.
 
 
 Record filesystems, tracks, files, extents, offsets, sector modes, checksums, and
