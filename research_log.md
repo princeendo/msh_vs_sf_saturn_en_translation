@@ -2222,3 +2222,28 @@ item is storage for many glyphs.
 Next action:
 RE-020 planning, or a font-storage expansion experiment.
 
+## 2026-10-17 17:10 CDT — SESSION-0021
+
+Task: FONT-003 design
+
+Observation:
+- `MEMFIX` entries load to table-driven destinations: WRAM-H literal tables at
+  `0x06040274…` and `0x06041260…`, plus the per-entry structures at `0x0601D7F4…`.
+- Entry 10 (256 KB) follows the font in cart RAM, leaving about 2.4 KB of
+  headroom.
+- The disc has no free sectors between files, and 150 sectors free at the track
+  end.
+- Recompression gains nothing (glyphs are already minimal; raw glyphs would grow).
+- A pair glyph compresses to 37 bytes. Kanji glyphs occupy 76,664 bytes.
+
+Action:
+Added `FONT-003`. Pre-registered `EXP-0023`:
+
+- Phase A: lossless repacker;
+- Phase B: usage census of all MC*.PAC quote tables;
+- Phase C: same-size repack with many pair glyphs, cold-boot tested;
+- Phase D: deferred growth or second font region.
+
+Next action:
+`EXP-0023` Phases A and B (offline).
+
