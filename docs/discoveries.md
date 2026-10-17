@@ -403,6 +403,26 @@ saved-state display buffer. Records are 0-based, at decoded `0x91AC + 76·r`.
 The matcher-only labels (`SUPPORTED`, not confirmed) are Q1 = 13, Q3 = 2, Q4 = 10,
 Q7 = 9, and Q9 = 15. All data is in `data/text/ryu_quote_records.json`.
 
+## RE-023: Win-Quote Record Selection and Forcing
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0025` (agent interface, `EMU-021`)
+
+- **Index.** At PC `060AF282` the game stores the quote index as a word at WRAM-H
+  `0x060F9E66` (normally `@(2,gbr) & 0x0F`).
+- **Pointer.** The routine at `060AF6E0` stores the record pointer to
+  `0x060F249C`, as table base (`@0x060F9E4A`, `0x002091AC` for Ryu) plus
+  76 × index (100 when `r11+0xCC8E` is set). The text builder renders that
+  record.
+- **Evidence.** Breakpoint logs and screenshot matching agree in a natural run
+  (index 0). Overwriting the index right after `060AF282` (agent `onhit`) showed
+  exactly records 6, 7, and 14 from a post-KO checkpoint, with no input.
+- **Partner name.** Record 0's `0000` placeholder rendered as the partner's
+  name (ケン with Ken as partner), consistent with the name-expansion routine.
+- **Open.** The source of `@(2,gbr)`, the special value 39 (table
+  `0x06095544`), and the `0xCC90` remap stay `HYPOTHESIS`.
+
 ## Entry Requirements
 
 Each future entry must include:

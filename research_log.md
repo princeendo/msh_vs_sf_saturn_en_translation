@@ -2457,3 +2457,22 @@ Tasks: EMU-012, EMU-020, EMU-021
   `tools/mednafen/ko_capture.py`, with tests.
 
 Checks: pytest (134 passed), ruff check, ruff format --check, and strict mypy.
+
+## 2026-10-17 — EMU-021 V4 and EXP-0025 completed with the agent interface
+
+Tasks: EMU-021, RE-023
+
+- One user KO under `ko_capture.py` (log-mode breakpoints): pointer hits matched
+  the manual Part 1 halts. Natural selection gave index 0, and record 0 was shown
+  (the matcher agrees; the placeholder rendered as ケン). A post-KO checkpoint
+  replayed the transition exactly with no input. EMU-021 DONE.
+- New index writer: PC `060AF282` (`index = @(2,gbr) & 0x0F`, special value 39,
+  `0xCC90` remap).
+- Forcing indices 6, 7, and 14 via `onhit 060AF282` from the checkpoint showed
+  exactly those records. RE-023 DONE (`CONFIRMED`). All 16 records have now been
+  seen live.
+- My pre-registered pointer for index 6 (`0x002093D4`) was an arithmetic slip;
+  the correct value `0x00209374` was observed. Recorded in EXP-0025.
+
+Next action:
+`RE-024`: boot the `RE-022` marker image and force all 16 records automatically.

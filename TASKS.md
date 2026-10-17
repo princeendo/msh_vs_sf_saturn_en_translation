@@ -8,12 +8,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Reverse-engineering experiments in progress: `EXP-0025` (`RE-023`).
+- Reverse-engineering experiments in progress: none.
 - Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
-- Next research task: `RE-023` (selection, `EXP-0025`; live debugger session),
-  then `RE-024` (all 16 records live from the `RE-022` marker image) and
-  `RE-025`.
-  Full English text still waits on `GATE-TRANSLATION`.
+- Next research task: `RE-024` (all 16 marker records live, automated with the
+  agent interface), then `RE-025`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -424,7 +422,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-021 - Implement and validate the minimal agent interface
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M3 (tooling)
 - **Dependencies:** EMU-020 and the user's authorization (2026-10-17).
 - **Blockers:** None.
@@ -445,6 +443,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Evidence:** `docs/mednafen_agent_interface.md` (2026-10-17). It proposes a
   minimal frontend-only patch, which the user explicitly authorized on
   2026-10-17. Implementation is tracked in `EMU-021`.
+- **Evidence:** V4 passed (2026-10-17). The log-mode breakpoint run matched the
+  manual halts, and a no-input replay from the post-KO checkpoint was exact.
+  See `docs/mednafen_agent_interface.md`.
+
 ### REF-001 - Choose initial Ryu post-fight quote
 
 - **Status:** `DONE`
@@ -1145,7 +1147,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-023 - Identify the win-quote selection mechanism (EXP-0025)
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M3
 - **Dependencies:** RE-021.
 - **Blockers:** None (`RE-021` done; screenshots can be scored with
@@ -1171,13 +1173,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   evidence.
 - **Outputs:** `EXP-0025`, a debugger runbook (step table) for forcing a record.
 - **Notes:** The forcing is a debug harness only. It never ships in a build.
+- **Evidence:** `EXP-0025` (2026-10-17). Index store at `060AF282` (word
+  `0x060F9E66`); pointer at `0x060F249C`. Forcing indices 6, 7, and 14 from the
+  post-KO checkpoint showed exactly those records (`CONFIRMED`).
 
 ### RE-024 - Verify all 16 Ryu records from one compiled image (EXP-0026)
 
-- **Status:** `BACKLOG`
+- **Status:** `READY`
 - **Milestone:** M3
 - **Dependencies:** RE-022, RE-023.
-- **Blockers:** Compiler and selection control.
+- **Blockers:** None (`RE-022`, `RE-023` done). It can run fully automated
+  with `tools/mednafen/ko_capture.py --force-index` from the post-KO checkpoint.
 - **Objective:** Cold-boot a compiled image where each record shows its own marker
   caption on both lines. Confirm every record live.
 - **Acceptance criteria:**

@@ -124,7 +124,7 @@ The Python client is `tools/mednafen/agent.py`, with tests.
 | V1 smoke | `status`, `spaces`, `regs` on the original image | 13 address spaces; SH-2 registers returned. Boot log: `T-1238G`, 4 MiB cart. |
 | V2 read = state | `loadstate` slot 5 (`ab60af86…`), then one command file: `read workramh`, `read workraml`, `savestate`, `screenshot` | Both reads are **byte-identical** to `mcs_extract` of the state saved in the same poll (WRAM-H `7dabeef8…`, WRAM-L `8feacb42…`). The screenshot shows the paused fight. |
 | V3 write and halt control | `pause`; write `1234` to `0x060F9E66`, read back, restore; `step`, `run`, `frames 30` | Round trip exact and restored. `savestate` is refused while halted. `frames 30` halted 30 frames later. |
-| V4 breakpoint log | `tools/mednafen/ko_capture.py` during one human KO from slot 5 | Pending |
+| V4 breakpoint log | `tools/mednafen/ko_capture.py` during one human KO from slot 5 | **Pass**: hits at `060AF724`/`060AF728` with R1 `060F249E`, matching the manual halts. A post-KO checkpoint replays the transition exactly with no input. Forcing writes verified in `EXP-0025` Part 2. |
 
 Note: the register named `PC` reads 0 when halted by `pause`, but is valid inside
 breakpoint hits, as logged in `events.log`. `RPC` is the SH-2 pipeline PC.

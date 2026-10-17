@@ -257,14 +257,13 @@
   }
  },
  "unlabeled_seen": {
-  "4": "EXP-0023 slot 7 state 9230247559018389: display buffer line 2 equals record 4"
+  "4": "EXP-0023 slot 7 state 9230247559018389: display buffer line 2 equals record 4",
+  "0": "EXP-0025 V4 run: pointer 0x002091AC, display matches record 0; partner placeholder rendered as Ken's name",
+  "6": "EXP-0025 Part 2: forced index 6; pointer 0x00209374; matcher best record 6 (screenshot 8d4fca65...)",
+  "7": "EXP-0025 Part 2: forced index 7; pointer 0x002093C0; matcher best record 7 (screenshot 603924ca...)",
+  "14": "EXP-0025 Part 2: forced index 14; pointer 0x002095D4; matcher best record 14 (screenshot 9345d6e4...)"
  },
- "never_seen": [
-  0,
-  6,
-  7,
-  14
- ],
+ "never_seen": [],
  "records": [
   {
    "record": 0,
