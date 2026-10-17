@@ -32,6 +32,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Where are Ryu post-fight captions stored on disc? (During execution: WRAM-L
   `0x002091AC-0x0020966B` drives the display, `CONFIRMED` by `EXP-0015`.) What
   loads that table, and is it per character, per partner, or per match?
+  `EXP-0017`: it is not stored verbatim, or as plain Shift-JIS/EUC/UTF-16, on disc.
+  Which file holds it, and what transformation produces it?
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?
 - What encoding, boundaries, indirection, compression, or transformation is used?

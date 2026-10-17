@@ -2,8 +2,8 @@
 
 Task: `DISC-001`
 Date: 2026-10-17
-Status: BLOCKED (requires `EXP-0016` / `DISC-010`)
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: DISPROVEN
 
 ## Observation
 
@@ -60,4 +60,56 @@ This needs the user at the keyboard and the `EXP-0014` runbook.
 
 ## Actual Result
 
-Pending.
+Inputs:
+
+- The 1,216-byte table `0x002091AC-0x0020966B` from state A's validated WRAM-L
+  extraction (`research/memory_dumps/ab60af86089a9575/wram_l.bin`).
+- The `EXP-0016` user-data stream, 393,924,608 bytes, SHA-256 `dea7bd65…fd0adef`.
+
+Searched with Python `bytes.find`, mapping offsets to files via
+`references/mshvsf/saturn_jp/iso9660_files.json`:
+
+1. the full table;
+2. each of the 16 records (76 bytes);
+3. each record's longest run without `0x0020`/`0x0000` (up to 18 codes);
+4. all of the above with 16-bit byte order swapped.
+
+**Hits: 0 of 66 patterns.** Because no file is interleaved (`EXP-0016`), every file's
+bytes are contiguous in the stream, so this also covers the contents of each file.
+
+A follow-on check (separate hypothesis: the disc stores plain text that is
+converted at load) searched 12 short fragments from the agent's unreviewed
+readings in Shift-JIS, EUC-JP, and UTF-16BE. The fragments included `まだまだお前達は`,
+`技を極めろ`, `会いに来た`, `だった`, and `ケン`. **Hits: 0.**
+
+Observation for the next experiment: state A's WRAM-H holds exactly one big-endian
+pointer to the table start, `002091AC` at **`0x06094FD8`**.
+
+- The neighbouring 4-byte entries are either placeholders of the form
+  `99 00 NN 99` (`NN` increasing) or WRAM-L addresses: `00229FF0` at `0x06094FCC`,
+  `0021A59C` at `0x06094FDC`, and `00239BDC` at `0x06094FEC`.
+- At the `EXP-0007` title state the entry is `00000000`.
+- In both `EXP-0009` fights it is `002091AC`, while some neighbouring entries
+  differ between fights.
+
+The interpretation as a loaded-resource slot table is a `HYPOTHESIS`.
+
+## Conclusion
+
+`DISPROVEN`: the quote table is not stored verbatim on disc. Neither its records,
+its long code runs, nor a byte-swapped form occur in the track 01 user data. Plain
+Shift-JIS, EUC-JP, or UTF-16BE storage of the tested fragments is also not
+supported.
+
+The table is therefore produced at load time from a transformed source, for example
+compressed data or a different encoding. That is the subject of the dynamic trace
+in `EXP-0018`.
+
+## Uncertainty and Alternatives
+
+- **Transcription.** The fragments are unreviewed readings; misreadings would cause
+  false negatives in the encoding check only.
+- **Not searched.** CD-DA tracks and the region of the volume beyond track 01
+  (volume space size 216,839) were not searched.
+- **Untested sources.** The table could also be generated from smaller pieces, such
+  as per-line strings in another layout. Only the tested layouts are excluded.

@@ -8,11 +8,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M2**: reproduce the same Ryu caption change from an
   untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
-- Current active task: none.
+- Current active task: `DISC-001` (next experiment `EXP-0018`, not yet started).
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DISC-010` (`EXP-0016`, disc inspection), then `DISC-001`
-  (`EXP-0017` verbatim search, `EXP-0018` dynamic trace if needed). `DISC-002`
-  also needs `GATE-TRANSLATION`.
+- Next research task: `DISC-001` via `EXP-0018` (write-breakpoint trace of the
+  table load from a character-select checkpoint). `DISC-002` also needs
+  `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -818,7 +818,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DISC-001 - Trace confirmed Ryu runtime caption to disc source
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M2
 - **Dependencies:** RE-012.
 - **Blockers:** None. M1 was confirmed by `RE-012` / `EXP-0015`.
@@ -834,11 +834,14 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
      a pre-match checkpoint.
 
   Known so far: the table is absent at the title screen and present, identical, in
-  every in-fight state.
+  every in-fight state. `EXP-0017` (`DISPROVEN`): the table is not stored verbatim
+  on disc, and plain Shift-JIS/EUC/UTF-16 fragments were not found. WRAM-H
+  `0x06094FD8` holds the only pointer to it. Next: `EXP-0018` (live trace; needs a
+  pre-load checkpoint and the user).
 
 ### DISC-010 - Document source disc data track and ISO 9660 layout
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M2
 - **Dependencies:** ENV-007, DOC-003.
 - **Blockers:** None.
@@ -854,6 +857,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** `EXP-0016`, `tools/disc/iso9660.py`, and `docs/disc_layout.md`
   findings.
 - **Notes:** Extracted contents stay in ignored `research/extracted_files/`.
+  `EXP-0016`: 192,346 valid Mode 1 sectors; a flat ISO 9660 filesystem with 414
+  non-interleaved files; the file list is in
+  `references/mshvsf/saturn_jp/iso9660_files.json`.
 
 ### DISC-002 - Reproduce same Ryu caption from patched disc
 

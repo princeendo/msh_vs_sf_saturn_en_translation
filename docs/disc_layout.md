@@ -2,8 +2,9 @@
 
 ## Status
 
-The source identity is recorded, but the target disc layout has not been documented or
-confirmed in this repository.
+The source identity is recorded. The track 01 sector format and ISO 9660 directory
+are confirmed by `EXP-0016` (see Target Findings). Other properties remain
+unmeasured.
 
 ## Recorded Source Identity
 
@@ -73,6 +74,20 @@ must read from the source and write to distinct ignored paths; derived images be
 under `build/`.
 
 ## Target Findings
+
+`EXP-0016` (`CONFIRMED`; tool `tools/disc/iso9660.py`):
+
+- **Sectors.** Track 01 is 192,346 valid Mode 1/2352 sectors. Header FAD 150-192,495
+  gives LSN = index. Tracks 02-12 are audio per the CUE (not inspected).
+- **Volume.** The ISO 9660 primary volume descriptor at LSN 16 reads system
+  `SEGA SEGASATURN`, volume `MSH_VS_STREET_FIGHTER`, block size 2,048, and root at
+  LSN 20 (20,480 bytes). The volume space size is 216,839, which exceeds track 01;
+  this is unexplained.
+- **Files.** The filesystem is flat: 414 files, no subdirectories, no interleave,
+  and no overlapping extents. They are listed in
+  `references/mshvsf/saturn_jp/iso9660_files.json`.
+- **Not yet checked.** EDC/ECC and IP fields are unverified.
+
 
 Record filesystems, tracks, files, extents, offsets, sector modes, checksums, and
 rebuild constraints only after measurement. Each claim needs the exact tool version,
