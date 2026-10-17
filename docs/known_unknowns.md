@@ -65,7 +65,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
     (port 2 is unbound); whether `0x060F9E4A` briefly holds the other member's
     base; whether `0x002091AC` holds Ken's table in V1. What does the record 0 `0000`
     placeholder render beside Latin text? (`RE-025`. `RE-024` answered the last
-    question: katakana ケン inline after the Latin text.) Must the partner-name
+    question: katakana ケン inline after the Latin text.)
+  - What is the WRAM-H list at `0x06094FD8`? It held per-team table pointers
+    (`0x002091AC`/`0x0021A59C`, or `0x002191AC`/`0x0020A59C`), but `0x99000E99`
+    in its second entry with partner Gouki (`EXP-0027` V2). Must the partner-name
     table (`0x06095EC4`) be localized for English? What is the undrawn extra
     39th display entry?
   - Do the other `MCxx.PAC` files hold other characters' quote tables?
