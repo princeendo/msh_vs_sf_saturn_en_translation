@@ -8,10 +8,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Current active task: `FONT-001` (`EXP-0020`; font decoded, ASCII glyphs found; Phase 2 display test next).
+- Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `FONT-001` via `EXP-0020` (Phase 1 offline font search). Then
-  `RE-020` (M3 planning). `DISC-020` stays behind `FONT-001` and
+- Next research task: confirm in-quote display of the full-width Latin set (a
+  short live test), then `RE-020` (M3 planning). `DISC-020` stays behind
   `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
@@ -903,7 +903,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### FONT-001 - Identify Latin glyphs in the quote font and their codes
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M3 (prerequisite for `DISC-020`)
 - **Dependencies:** DBG-013, DBG-014, DISC-001, EMU-011.
 - **Blockers:** None.
@@ -921,6 +921,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   and a `research_log.md` entry.
 - **Notes:** Phase 1 is offline. Phase 1b and Phase 2 need the user at the
   keyboard.
+  **Result (`EXP-0020`):**
+  - The font is compressed in cart RAM (base pointer `0x0601D8E4`), decoded
+    exactly by `tools/text/font.py`.
+  - ASCII codes `0x41-0x43` display, but faint (8x8 gradient).
+  - Full-width quote-style A-Z `0x08E8-0x0901`, a-z `0x0902-0x091B`, and 0-9
+    `0x091C-0x0925` exist (atlas; display untested).
+  - Code table: `data/text/font_codes.json`.
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 

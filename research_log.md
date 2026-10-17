@@ -2081,3 +2081,30 @@ Phase 2, a live test showing `ABC` via the table patch.
 
 Checks: pytest (78 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 15:20 CDT — EXP-0020 Phase 2
+
+Task: FONT-001
+
+Hypothesis (H2):
+Codes `0041-0043` display Latin A, B, C in a win quote.
+
+Action:
+Loaded `abc.bin` (line-1 cells 0-2 of all 16 records = `0041 0042 0043`) with `L`
+at state A. Ran patched twice and the original once (control), saving states and
+screenshots.
+
+Result:
+- Both patched runs showed the Ken-template quote with `A B C` in cells 0-2, but
+  faint (8x8 gradient glyphs).
+- The control was normal.
+- The atlas also revealed full-width quote-style A-Z `0x08E8-0x0901`, a-z
+  `0x0902-0x091B`, and 0-9 `0x091C-0x0925`, consistent with the known `！`/`!!`
+  codes.
+
+Conclusion:
+H2 `CONFIRMED` for `0041-0043`; full-width Latin `SUPPORTED`. FONT-001 is DONE.
+The code table is in `data/text/font_codes.json`.
+
+Next action:
+A short live test of full-width Latin codes; then RE-020 planning.
+

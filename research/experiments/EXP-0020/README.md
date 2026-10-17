@@ -2,8 +2,8 @@
 
 Task: `FONT-001`
 Date: 2026-10-17
-Status: IN_PROGRESS
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: CONFIRMED (font format; ASCII display) / SUPPORTED (full-width Latin)
 
 ## Observation
 
@@ -254,3 +254,77 @@ with at most 19 letters per line. Display in a quote is not yet tested (Phase 2)
   (`A B C`), loaded with `L` at state A, using the `EXP-0015` procedure.
 - **Prediction.** `ABC` (half-width, gapped) appears at the start of line 1.
 - **Control.** The original table.
+
+## Phase 2 Run Setup (2026-10-17)
+
+Patch built with `tools.memory.make_patch` from state A's validated WRAM-L, range
+`0x002091AC-0x0020966B` (1,216 bytes, all 16 records). It makes 48 writes:
+`0x002091AC + 76·r + 2·c` = `0041`/`0042`/`0043`.
+
+| File (ignored, `local/mednafen/dumps/`) | SHA-256 prefix |
+| --- | --- |
+| `f2-abc-patched.bin` = `abc.bin` | `0124f0b7e7fec042` |
+| `f2-abc-original.bin` = `org.bin` | `6aaf1f8883642a17` |
+| `f2-abc-manifest.json` (original and modified values per write) | `c6ae3ec512dc492e` |
+
+Procedure: the same as `EXP-0015`, with load range `000091AC 0000966B`.
+
+| Run | Load | Verification dump | Slot |
+| --- | --- | --- | --- |
+| Patched 1 | `abc.bin` | `a1.bin` | 1 |
+| Patched 2 | `abc.bin` | `a2.bin` | 2 |
+| Control | `org.bin` | `k1.bin` | 3 |
+
+Slots 1-3 were archived in `research/savestates/archive-2026-10-17/` beforehand.
+
+## Phase 2 Result (2026-10-17)
+
+| Run | Verification dump | Slot / state SHA-256 | Screenshot | Shown |
+| --- | --- | --- | --- | --- |
+| Patched 1 | `a1.bin` = `abc.bin` (`0124f0b7…`) | 1 / `55523b5f179bd30e…6158` | `-0048.png` `25f89623…f51e` | Ken-template quote (record 0) with `A B C` in cells 0-2, replacing two blanks and `教` |
+| Patched 2 | `a2.bin` = `abc.bin` | 2 / `7c2fa0a9e88ffe20…5b84` | `-0049.png` `c6ff1421…0a87` | same record, `A B C` |
+| Control | `k1.bin` = `org.bin` (`6aaf1f88…`) | 3 / `a63d846ca30b24c8…c5a7` | `-0050.png` `87689e8d…a6f3` | Q8, unchanged |
+
+States are archived as `exp0020p2-slot{1,2,3}`. An enlarged crop of `-0048.png`
+(ignored `crop_0048.png`) shows `A`, `B`, `C`.
+
+**H2: `CONFIRMED`** for codes `0041-0043`: they display A, B, and C in quote cells.
+They render **faint**, because ASCII glyphs are 8x8 gradient shapes (values 2-8, top
+half of the cell, no body `1` or shadow `F`), which the quote color table shows as
+pale tones.
+
+### Further atlas finding (`SUPPORTED`; display not tested)
+
+The font also has **full-width** Latin glyphs in the quote style (body `1` plus
+shadow `F`), checked against the known punctuation codes (`08DD` `！`, `08DF` `!!`):
+
+| Characters | Codes |
+| --- | --- |
+| `A-Z` | `0x08E8-0x0901` |
+| `a-z` | `0x0902-0x091B` |
+| `0-9` | `0x091C-0x0925` |
+| Full-width punctuation | around `0x08A9-0x08DF` |
+
+They are recorded in `data/text/font_codes.json`.
+
+## Conclusion
+
+FONT-001's acceptance criteria are met:
+
+- the font source and format are identified and validated (79/79 glyphs);
+- Latin codes are confirmed by a live display test with a control.
+
+For English, the full-width set (`0x08E8+`) is the stronger candidate and needs its
+own live display test.
+
+Layout constraint for English (`HYPOTHESIS`, to test later): a quote is 2 × 19
+cells at one glyph per cell, so at most 38 full-width characters.
+
+## Uncertainty and Alternatives
+
+- Only `0041-0043` were displayed; the rest of the ASCII range and the full-width
+  set are atlas-only.
+- Both patched runs selected record 0; other records were covered by `EXP-0015`.
+- The font's disc source and load path are unknown, so editing glyphs for better
+  English would need a new investigation.
+
