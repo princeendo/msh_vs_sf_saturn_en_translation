@@ -185,3 +185,27 @@ while the quote is on screen.
 
 **Refuted if:** R0 is not `0x002093D4`, or another record is shown. That would
 mean the index is re-read or re-written after the forcing point.
+
+## Part 2 Attempt 1 (2026-10-17): aborted
+
+With breakpoints on the index word and the pointer, the index word `0x060F9E66`
+halted in **structure-initialization loops** before the pointer store. From the
+user's macOS screenshots:
+
+- **PC `060490EC`** (`mov.w r0,@r10`, R10 `060F9E66`): a word-clearing loop
+  (`060490E6` ×11) during the post-fight VITAL/TIME/BONUS tally.
+- **PC `06047CCA`** (`mov.w r0,@r10`, R10 `060F9E66`): a fill loop
+  (`06047CC4` ×5) over the same structure on the win-pose screen.
+
+The "force at every non-pointer halt" rule therefore meant many manual
+step/load cycles, and the user could not tell which write was final. Whether
+`i6.bin` was ever loaded at the right offset is unknown, because the memory-editor
+screenshot shows position `0x00000`. The run was abandoned with no result.
+
+Lessons:
+
+- several routines write the index word;
+- forcing must target the last writer, the setter at `060AF6DA` (to be confirmed)
+  or the pointer itself;
+- manual debugger work at this granularity is not practical. See `EMU-012` /
+  `EMU-020`.
