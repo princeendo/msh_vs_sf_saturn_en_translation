@@ -2,15 +2,18 @@
 
 The script:
 
-1. loads a pre-KO state;
+1. loads a pre-KO state (or, without ``--state``, waits while the user plays from
+   the running game);
 2. sets write breakpoints in log mode on the quote index word and record pointer
    (`EXP-0025`);
 3. waits while the user plays the KO;
-4. saves a **post-KO checkpoint** at the first index-word hit that is not the
-   pointer store, so later runs need no gameplay;
+4. saves a **post-KO checkpoint** at each hit from a ``--checkpoint-pcs`` writer
+   (default: the bonus-tally clearing loop), overwriting it so the last one before
+   the quote is kept; later runs then need no gameplay;
 5. records every hit;
-6. after the pointer store, runs ``--quote-frames`` frames, then saves a screenshot
-   and a quote-screen state.
+6. once a pointer into the quote table (``--table-base``, 16 records) is stored,
+   runs ``--quote-frames`` frames, then saves a screenshot and a quote-screen
+   state.
 
 Optional forcing (``--force-index N``) queues a write of N to the index word after
 each hit at the setter PCs, as pre-registered in `EXP-0025` Part 2.
@@ -52,9 +55,11 @@ def parse_hit(line: str) -> dict[str, int] | None:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--state", type=Path, required=True, help="state to load first")
+    parser.add_argument("--state", type=Path, help="state to load first (optional)")
     parser.add_argument("--out-dir", type=Path, required=True)
     parser.add_argument("--checkpoint", action="store_true", help="save post-KO state")
+    parser.add_argument("--checkpoint-pcs", default="060490EC")
+    parser.add_argument("--table-base", type=lambda v: int(v, 0), default=0x002091AC)
     parser.add_argument("--quote-frames", type=int, default=240)
     parser.add_argument("--timeout", type=float, default=900.0)
     parser.add_argument("--force-index", type=int)
@@ -74,8 +79,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         if args.force_index is not None:
             for pc in [int(p, 16) for p in args.setter_pcs.split(",") if p]:
                 agent.onhit_write(pc, INDEX_WORD, args.force_index.to_bytes(2, "big"))
-        agent.loadstate(args.state)
-        checkpoint_saved = False
+        if args.state is not None:
+            agent.loadstate(args.state)
+        checkpoint_pcs = {int(p, 16) for p in args.checkpoint_pcs.split(",") if p}
+        table = range(args.table_base, args.table_base + 16 * 76, 76)
+        last_pointer = -1
         deadline = time.monotonic() + args.timeout
         seen = 0
         pointer_done = False
@@ -88,15 +96,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                 if hit is None:
                     continue
                 hits.append(hit)
-                if (
-                    args.checkpoint
-                    and not checkpoint_saved
-                    and hit["PC"] not in POINTER_PCS
-                ):
+                if args.checkpoint and hit["PC"] in checkpoint_pcs:
                     agent.savestate(out / "postko.mc")
-                    checkpoint_saved = True
                     report["checkpoint_after_hit"] = hit["n"]
-                if hit["PC"] == 0x060AF728:
+                if hit["PC"] == 0x060AF724:
+                    last_pointer = hit["R0"]
+                if hit["PC"] == 0x060AF728 and last_pointer in table:
                     pointer_done = True
             seen = len(events)
             time.sleep(0.05)
