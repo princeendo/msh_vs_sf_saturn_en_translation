@@ -43,7 +43,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
     repacks losslessly (`EXP-0023`). About 321 kanji (30 KB) are unseen in any
     record-shaped text table, enough for about 800 pair glyphs. Is any other text
     format (endings, story) using those kanji? Which UI code uses the
-    `0x01xx-0x07xx` artwork glyphs?
+    `0x01xx-0x07xx` artwork glyphs? (`EXP-0023` Phase C emptied `0x0C5E`,
+    `0x0C5D`, `0x0C5C`, `0x0C54` and used free codes `0x00A8-0x00B1`; no other
+    use of either set has been checked.)
   - Does the alternate layout constant set (12-pixel step, about 25 cells per
     line), selected by a flag at `r11+0xCC90`, exist and work for quotes?
   - Does quote selection use the counter at `@(76,r12)`? This may explain Q3's

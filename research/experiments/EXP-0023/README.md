@@ -300,3 +300,51 @@ repack fits. The rest of the entry is zero-filled to 206,656 bytes, so the heade
 On a cold boot, every Ryu win quote line 1 reads `Is that all you got!` (10 cells),
 with the original Japanese line 2 intact. A line-1 blank or garbage cell
 refutes H-C for that code.
+
+## Phase C Result: Cold Boot (2026-10-17)
+
+`build/mshvsf_exp0023c_a` booted cold in stock Mednafen 1.32.1 (process 79959,
+log `local/mednafen/logs/font003-exp0023c-boot.log`, `T-1238G`, `Cart: 4MiB
+Extended RAM`). The user played arcade mode (Ryu/Ken) and won twice with Ryu
+landing the KO. No save state was loaded.
+
+| Win | Screenshot | State (archived `exp0023c-slot{7,8}`) | Shown |
+| --- | --- | --- | --- |
+| 1 | `-0056.png` `a24f5db2…8e09` | slot 7 `9230247559018389…2876` | line 1 `Is that all you got!`; line 2 original Japanese of record 4 |
+| 2 | `-0057.png` `8ac938ae…a85a` | slot 8 `9351f7d8775ea19f…86c9` | line 1 `Is that all you got!`; line 2 original Japanese of record 5 |
+
+Records are 0-based (decoded `0x91AC + 76·r`). They were identified by matching
+line 2 of the WRAM-H display buffer `0x060ED80A` to the table.
+
+From both states (extractor regions `cart_ram`, `wram_l`, `wram_h`):
+
+- The cart RAM font at `0x0278CF60` (206,656 bytes) equals the repacked image.
+  Pair codes `0x00A8-0x00B1` decode to the composed cells, and the 4 sacrificed
+  codes are empty.
+- WRAM-L `0x002091AC-0x0020966B` equals the patched decoded table.
+- The display buffer begins `50A8 … 50B1`, then `5020` blanks.
+
+All 10 pair glyphs rendered legibly in the game's style. In both wins the
+original kana and kanji on line 2 (two different records) rendered normally.
+
+**H-C: `CONFIRMED`.** A same-size repack that adds glyphs at free codes below the
+code count, funded by emptying unseen kanji, loads and displays correctly.
+
+Limitations:
+
+- Only 4 kanji were sacrificed. Whether untested text (menus, story, endings) uses
+  them is still unknown, as is any other use of codes `0x00A8-0x00B1`.
+- Only 2 of 16 records were seen live; the other 14 were verified offline and in
+  RAM.
+
+## Conclusion
+
+`FONT-003` acceptance criteria are met:
+
+- lossless repack (Phase A);
+- census (Phase B);
+- 10 new pair glyphs displayed from a cold boot, with the original glyphs intact
+  and the sacrifices recorded (Phase C).
+
+Capacity: the 321 unseen kanji fund about 800 pair glyphs. Phase D (growth or a
+second font region) is not needed unless the full English set exceeds that.

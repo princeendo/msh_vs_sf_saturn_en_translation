@@ -340,6 +340,36 @@ The quote font image (`MEMFIX.PAC` entry 4) is laid out as:
 `tools/text/font_pack.py` unpacks and repacks it **byte-identically** (SHA-256
 `3d8e9a26…4efb`). That validates the format model and the canonical encoder.
 
+## FONT-003 Phase C: Same-Size Font Repack Adds Displayable Pair Glyphs
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0023`
+
+A repack of the quote font (`MEMFIX.PAC` entry 4) at the same size (206,656
+bytes):
+
+- adds 10 new pair glyphs at free codes `0x00A8-0x00B1`;
+- empties 4 kanji (`0x0C5E`, `0x0C5D`, `0x0C5C`, `0x0C54`) that the census found
+  in no record-shaped text;
+- zero-fills the remaining 46 bytes;
+- leaves the header (code count `0x0C60`) unchanged.
+
+It was booted cold from a derived image with that font and `MC09.PAC` line 1 of
+all 16 Ryu records set to those codes. Two independent wins showed `Is that all
+you got!` with the original line-2 Japanese intact. Saved-state cart RAM and
+WRAM-L matched the built font and table byte for byte.
+
+- Source `MEMFIX.PAC` `fdbc871a…65d9` became `90ff759c…3137`.
+- `MC09.PAC` became `a4a0e2c1…d870`.
+- Derived track 01 is `5f5ef651…8d46`. Only LSN 4166-4267 (excluding 4169-4170)
+  and 8246, 8255-8258 changed, all with valid EDC/ECC.
+- Reproduce: the commands in `EXP-0023` "Phase C Build" (`tools/text/pair_font.py`,
+  `tools/disc/pac_patch.py`, `tools/disc/patch_image.py`).
+
+Limitation: other uses of the sacrificed kanji (menus, story, endings) are not
+yet ruled out.
+
 ## Entry Requirements
 
 Each future entry must include:

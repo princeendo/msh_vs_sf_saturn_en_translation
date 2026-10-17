@@ -8,10 +8,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Current active task: `FONT-003` (`EXP-0023`; Phase C image built, cold boot next).
+- Current active task: none. `FONT-003` is `DONE` (`EXP-0023` Phase C confirmed).
 - Reverse-engineering experiments in progress: none.
-- Next research task: `FONT-003` via `EXP-0023` (Phase A, lossless font repacker;
-  Phase B, usage census; both offline). Also `RE-020` (M3 planning).
+- Next research task: `RE-020` (M3 planning). Full English text still waits on
+  `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -973,7 +973,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### FONT-003 - Expand quote-font capacity for many pair glyphs
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M3 (prerequisite for `DISC-020` at scale)
 - **Dependencies:** LAYOUT-001.
 - **Blockers:** None.
@@ -988,7 +988,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - The census of win-quote codes is recorded.
   - A same-size repack with at least 8 new pair glyphs displays them and sampled
     original glyphs from a cold boot, with the sacrificed codes recorded.
-- **Outputs:** `EXP-0023`, `tools/text/font_pack.py`, and a census report.
+- **Outputs:** `EXP-0023`, `tools/text/font_pack.py`, `tools/text/quote_census.py`,
+  `tools/text/pair_font.py`, and a census report.
+- **Evidence:** `EXP-0023` Phase C cold boot (2026-10-17): 10 pair glyphs shown in
+  two wins, with the original glyphs intact and 4 sacrificed kanji recorded.
 - **Notes:** Growth or a second font region is deferred to Phase D.
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
