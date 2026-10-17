@@ -2,7 +2,7 @@
 
 Task: `RE-023`
 Date: 2026-10-17
-Status: IN_PROGRESS (Part 1 pre-registered)
+Status: IN_PROGRESS (Part 1 run; Part 2 pre-registered)
 Confidence: HYPOTHESIS
 
 ## Question
@@ -103,3 +103,84 @@ upstream to the code found in Part 1.
 - Checkpoint: slot 5, `EXP-0010` state A (`ab60af86089a9575…`, archived as
   `exp0010-slot5`): pre-KO, Ryu/Ken team.
 - Stock Mednafen 1.32.1.
+
+## Part 1 Result (2026-10-17)
+
+Original image, process 87687, log `local/mednafen/logs/re023-exp0025-part1.log`.
+Slot 5 (state A) was loaded and the opponent KO'd with Ryu.
+
+- **Attempt 1.** The breakpoint stopped twice during the transition, on the
+  Ryu/Ken win portraits before the text box appeared (F9 `-0058`, `-0059`,
+  identical). F9 does not capture the debugger overlay, so no registers were
+  recorded.
+- **Attempt 2.** Halts were captured with macOS screenshots in `~/Downloads`
+  (`Screenshot 2026-10-17 at 4.34.18 PM.png`, `… 4.34.43 PM.png`):
+
+| Halt | PC | Instruction | R0 | R1 | Other |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `060AF724` | `mov.w r0,@r1` | `00209290` | `060F249E` | R8 `00209290`, MACL `000000E4`, R11 `060F8000`, R12 `060F9E16` |
+| 2 | `060AF728` | `mov.w r0,@-r1` | `00000020` | `060F249E` | same |
+
+The halts show the instruction about to store (halt 2's R0 already holds the
+result of `shlr16` at `060AF726`). So a Mednafen write breakpoint stops **before**
+the store executes.
+
+The quote itself was not captured. After the second `R`, the game runs while the
+debugger is open, and the user was still clearing the breakpoint when the quote
+passed. The written value, `0x00209290`, is record **3** (Q8).
+
+### Code that forms the pointer
+
+Disassembled offline from the `exp0023c-slot7` WRAM-H extraction, entry
+`060AF6E0`:
+
+```text
+060AF6E0  r6 = 0x060ED800, r7 = 0x060ED900     ; screen buffer
+060AF6E4  @(0,gbr).l = 0
+060AF6E8  @(2,gbr).w = @(r12 + 80).w            ; record index
+060AF6EE  r8 = @(r12 + 52).l                    ; table base (0x002091AC)
+060AF6FC  stride = 76, or 100 if @(r11 + 0xCC8E).w != 0
+060AF712  @(0,gbr).l = index * stride           ; mulu.w
+060AF71C  r8 += low word
+060AF720  @(r11 - 0x5B62) = r8                  ; 0x060F249C (two word stores)
+```
+
+- With `r12 = 0x060F9E16`, the index word is **`0x060F9E66`** and the table
+  pointer is `0x060F9E4A`. The latter holds `0x002091AC`, the same data hit seen
+  in the two-state search.
+- `0x060F9E66` is among the two-state index-word hits (4 vs 5).
+- The alternate stride of **100** (2 × 25 cells × 2 bytes) matches the alternate
+  25-cell layout set. That supports the latent alternate text mode
+  (`HYPOTHESIS`).
+- A setter at `060AF6B8-060AF6DC` writes `@(2,gbr)` to `@(r7 + 80)`, with `r7`
+  loaded from `0x060F2498`. That is a candidate writer of the index. The source
+  of its `@(2,gbr)` (random or otherwise) is not yet traced.
+
+**H (Part 1): `SUPPORTED`.** One routine stores `table + 76·index` to
+`0x060F249C` during the transition, with the index read from `0x060F9E66`. The
+written value has not yet been compared with a captured quote.
+
+## Part 2 (revised before the run): forcing the index
+
+**Single change:** write index 6 (`0x0006`, file `local/mednafen/dumps/i6.bin`,
+SHA-256 `40d88127…a3fd`) to `0x060F9E66` after every store to that word during
+the transition. The procedure:
+
+- step once (`S`), because the breakpoint stops before the store;
+- `L` the file into High Work RAM `000F9E66-000F9E67`;
+- verify with `D`.
+
+Breakpoints: `060F9E66-060F9E67 260F9E66-260F9E67 060F249C-060F249F
+260F249C-260F249F`. Halts at `060AF724`/`060AF728` are only captured, not
+changed. The breakpoints stay set until the quote is saved, so no typing happens
+while the quote is on screen.
+
+**Prediction:**
+
+- the halt at `060AF724` shows R0 = `0x002093D4` (`0x002091AC + 6·76`);
+- the quote shown is record 6, never seen in any earlier run;
+- saved-state WRAM-H holds `0x060F249C = 002093D4` and `0x060F9E66 = 0006`;
+- `quote_render --match` picks record 6.
+
+**Refuted if:** R0 is not `0x002093D4`, or another record is shown. That would
+mean the index is re-read or re-written after the forcing point.
