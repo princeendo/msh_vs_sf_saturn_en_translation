@@ -10,8 +10,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Reverse-engineering experiments in progress: none.
 - Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
-- Next research task: `RE-021` (record map and offline renderer; offline). Then
-  `RE-022` (compiler), `RE-023` (selection, `EXP-0024`), `RE-024`, and `RE-025`.
+- Next research task: `RE-022` (caption compiler; offline). `RE-023`
+  (selection, `EXP-0025`) is also `READY`. Then `RE-024` and `RE-025`.
   Full English text still waits on `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
@@ -1052,7 +1052,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-021 - Map Ryu quote records and render them offline
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M3
 - **Dependencies:** FONT-003.
 - **Blockers:** None.
@@ -1072,13 +1072,16 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Placeholder and line-length metadata for all 16 records are recorded.
 - **Outputs:** Tool and tests, mapping metadata, and preview PNGs (ignored).
 - **Notes:** Offline only; no live session.
+- **Evidence:** `EXP-0024` (2026-10-17). Renderer `CONFIRMED` on 10 of 10
+  RAM-known screenshots. Mapping in `data/text/ryu_quote_records.json`. Records
+  0, 6, 7, and 14 have never been seen.
 
 ### RE-022 - Build a caption compiler for Ryu's table
 
-- **Status:** `BACKLOG`
+- **Status:** `READY`
 - **Milestone:** M3
 - **Dependencies:** RE-021.
-- **Blockers:** `RE-021` (renderer used for verification).
+- **Blockers:** None (`RE-021` done).
 - **Objective:** One command turns a structured caption file (record index →
   line 1, line 2) plus the untouched source into a derived image.
 - **Rationale:** `EXP-0023` hand-assembled one phrase. M3 needs all 16 records
@@ -1106,12 +1109,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   and `patch_image`), tests, and a schema.
 - **Notes:** No English translation text. Markers and synthetic stress text only.
 
-### RE-023 - Identify the win-quote selection mechanism (EXP-0024)
+### RE-023 - Identify the win-quote selection mechanism (EXP-0025)
 
-- **Status:** `BACKLOG`
+- **Status:** `READY`
 - **Milestone:** M3
 - **Dependencies:** RE-021.
-- **Blockers:** `RE-021` (record identities needed to score predictions).
+- **Blockers:** None (`RE-021` done; screenshots can be scored with
+  `quote_render --match`).
 - **Objective:** Test whether the routine at `0x060AF820-0x060AF8C8`, with its byte
   counter `@(76,r12)` and the tables at `0x060AF8E8`/`0x060AF908`, chooses the
   record.
@@ -1128,10 +1132,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** the prediction holds for at least 3 distinct values,
   with the control, or the hypothesis is recorded as `DISPROVEN` with the
   evidence.
-- **Outputs:** `EXP-0024`, a debugger runbook (step table) for forcing a record.
+- **Outputs:** `EXP-0025`, a debugger runbook (step table) for forcing a record.
 - **Notes:** The forcing is a debug harness only. It never ships in a build.
 
-### RE-024 - Verify all 16 Ryu records from one compiled image (EXP-0025)
+### RE-024 - Verify all 16 Ryu records from one compiled image (EXP-0026)
 
 - **Status:** `BACKLOG`
 - **Milestone:** M3
@@ -1148,9 +1152,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Fallback:** if `RE-023` is `DISPROVEN`, natural wins until at least 8
   distinct records are seen. Then all 16 are verified in RAM, with the rest
   marked as offline evidence.
-- **Outputs:** `EXP-0025` and the build manifest.
+- **Outputs:** `EXP-0026` and the build manifest.
 
-### RE-025 - Test variant contexts for Ryu's captions (EXP-0026)
+### RE-025 - Test variant contexts for Ryu's captions (EXP-0027)
 
 - **Status:** `BACKLOG`
 - **Milestone:** M3
@@ -1166,7 +1170,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** each variant has a prediction (same table and same
   markers, or a different source), a result with screenshot, state, and RAM
   check, and a confidence label. Any second source is recorded as a new unknown.
-- **Outputs:** `EXP-0026`. Closes `RE-020` together with `RE-024`.
+- **Outputs:** `EXP-0027`. Closes `RE-020` together with `RE-024`.
 - **Notes:** Ken-landed KOs are outside M3 (another fighter's table).
 
 ### RE-030 - Apply generalized mechanism to a second fighter

@@ -370,6 +370,39 @@ WRAM-L matched the built font and table byte for byte.
 Limitation: other uses of the sacrificed kanji (menus, story, endings) are not
 yet ruled out.
 
+## RE-021: Offline Quote Renderer and Ryu Record Map
+
+Confidence: **CONFIRMED** (renderer; 6 RAM-backed labels)
+
+Experiment: `EXP-0024`
+
+`tools/text/quote_render.py` draws a record from decoded `MC09.PAC` and the font
+image:
+
+- 2 lines x 19 cells on a 16-pixel grid;
+- line-1 cell 0 at `(26, 186)` in a 352x240 Mednafen screenshot;
+- body nibble 1 drawn as `(240,240,240)`.
+
+Its body-pixel matcher picked the RAM-known record in 10 of 10 test screenshots,
+across four builds (IoU 0.83-0.89, margin at least 0.63).
+
+RAM-backed labels:
+
+| Label | Record |
+| --- | ---: |
+| Q2 | 5 |
+| Q5 | 11 |
+| Q6 | 1 |
+| Q8 | 3 |
+| Q10 | 8 |
+| Q11 | 12 |
+
+`EXP-0019`'s "Q2, record 4" is corrected to record 5, per that experiment's own
+saved-state display buffer. Records are 0-based, at decoded `0x91AC + 76·r`.
+
+The matcher-only labels (`SUPPORTED`, not confirmed) are Q1 = 13, Q3 = 2, Q4 = 10,
+Q7 = 9, and Q9 = 15. All data is in `data/text/ryu_quote_records.json`.
+
 ## Entry Requirements
 
 Each future entry must include:

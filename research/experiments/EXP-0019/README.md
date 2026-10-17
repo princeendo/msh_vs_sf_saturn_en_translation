@@ -218,3 +218,13 @@ integrity check rejected the file.
   sectors or the directory) is untested.
 - Whether the header word-1 relation is checked by the game is unknown. The rebuilt
   file kept it consistent.
+
+## Correction (2026-10-17, `EXP-0024`)
+
+The win-1 row above labels `-0046.png` "Q2, record 4". That record index is wrong:
+
+- the slot 7 state's WRAM-H display buffer (`0x060ED80A`) equals table record
+  **5** (0-based);
+- the `EXP-0024` offline matcher agrees.
+
+Q2 is record 5. The patched-image result and its conclusions are unaffected.

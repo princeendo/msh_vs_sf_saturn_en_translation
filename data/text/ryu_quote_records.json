@@ -1,0 +1,400 @@
+{
+ "source": "decoded MC09.PAC table at 0x91AC, 16 records x 76 bytes; record indices are 0-based",
+ "method": "tools/text/quote_render.py --match (body-pixel IoU, origin (26, 186), window 3) on Mednafen screenshots; each screenshot scored against all 16 records of the build it was taken from",
+ "labels": {
+  "Q1": {
+   "record": 13,
+   "confidence": "SUPPORTED",
+   "ram_evidence": null,
+   "screenshots": [
+    {
+     "screenshot": "-0018.png",
+     "sha256": "1f1a03425237d0ce5799da59c2dc770a65aa909779d597506d6bd05efdd92f02",
+     "build": "original",
+     "best_record": 13,
+     "iou": 0.8723,
+     "margin": 0.6905
+    },
+    {
+     "screenshot": "-0019.png",
+     "sha256": "db27fec300daa3a09e916b4281c56ba876299d3e68cd601f401d1eeae1cb61bc",
+     "build": "original",
+     "best_record": 13,
+     "iou": 0.8723,
+     "margin": 0.6905
+    }
+   ]
+  },
+  "Q2": {
+   "record": 5,
+   "confidence": "CONFIRMED",
+   "ram_evidence": "EXP-0019 slot 7 state fa2f1b607cdc50a9: WRAM-H display buffer equals record 5 (RE-021)",
+   "screenshots": [
+    {
+     "screenshot": "-0020.png",
+     "sha256": "a6c82264ae797449df16bd75af16959612433da523274a8572f96f49396de2a2",
+     "build": "original",
+     "best_record": 5,
+     "iou": 0.886,
+     "margin": 0.7178
+    },
+    {
+     "screenshot": "-0026.png",
+     "sha256": "5d4036f0676230b718fc19630b238e537be18d7ba9c5ce96d7e47215062ede25",
+     "build": "original",
+     "best_record": 5,
+     "iou": 0.886,
+     "margin": 0.7178
+    },
+    {
+     "screenshot": "-0046.png",
+     "sha256": "923c775db0ffc827d110c691f284ca571ec60ab7a222c788e455e7191c02297f",
+     "build": "disc002",
+     "best_record": 5,
+     "iou": 0.8833,
+     "margin": 0.6708
+    }
+   ]
+  },
+  "Q3": {
+   "record": 2,
+   "confidence": "SUPPORTED",
+   "ram_evidence": null,
+   "screenshots": [
+    {
+     "screenshot": "-0021.png",
+     "sha256": "848dcca626df3f8f2e73f246acda32a78162d95aef3c41b8c781fc5aee61927e",
+     "build": "original",
+     "best_record": 2,
+     "iou": 0.8735,
+     "margin": 0.728
+    },
+    {
+     "screenshot": "-0024.png",
+     "sha256": "68605cd695f1d0a409fef0171e163945048458c3b833b1e80b5c7d211157fdd3",
+     "build": "original",
+     "best_record": 2,
+     "iou": 0.8735,
+     "margin": 0.728
+    }
+   ]
+  },
+  "Q4": {
+   "record": 10,
+   "confidence": "SUPPORTED",
+   "ram_evidence": null,
+   "screenshots": [
+    {
+     "screenshot": "-0022.png",
+     "sha256": "b93758b47d1cbcb21a1fbe95a91b6d196385415e361db7ef92d537edfd55785b",
+     "build": "original",
+     "best_record": 10,
+     "iou": 0.8695,
+     "margin": 0.7228
+    }
+   ]
+  },
+  "Q5": {
+   "record": 11,
+   "confidence": "CONFIRMED",
+   "ram_evidence": "EXP-0015 record address 0x002094F0 = record 11",
+   "screenshots": [
+    {
+     "screenshot": "-0023.png",
+     "sha256": "8e4ee132cf5b77c544fad15938a75c219fa943ff905e9d4e2a3402080e431632",
+     "build": "original",
+     "best_record": 11,
+     "iou": 0.8521,
+     "margin": 0.7209
+    },
+    {
+     "screenshot": "-0042.png",
+     "sha256": "0069c182c513dc8929f39204b65cd5e7788d3a44be39a48367d0419676eb5e70",
+     "build": "original",
+     "best_record": 11,
+     "iou": 0.8521,
+     "margin": 0.7209
+    },
+    {
+     "screenshot": "-0053.png",
+     "sha256": "432ef9d7bfe3ce954f9ea850de1e10d39ac56f6ee6621cb7ef7a10953af9966a",
+     "build": "original",
+     "best_record": 11,
+     "iou": 0.8521,
+     "margin": 0.7209
+    }
+   ]
+  },
+  "Q6": {
+   "record": 1,
+   "confidence": "CONFIRMED",
+   "ram_evidence": "EXP-0019 slot 8 state 49e6cb536f2ba481: display buffer equals record 1 (RE-021)",
+   "screenshots": [
+    {
+     "screenshot": "-0025.png",
+     "sha256": "92d25488904f661bf7d645b605c15d28ad94e97347cd768a4521bf22e31caed6",
+     "build": "original",
+     "best_record": 1,
+     "iou": 0.8315,
+     "margin": 0.6708
+    },
+    {
+     "screenshot": "-0047.png",
+     "sha256": "c4a2b5cbf468af0380abe60b0b49b203d5c9647e141735a16c6e8a05fe327251",
+     "build": "disc002",
+     "best_record": 1,
+     "iou": 0.8331,
+     "margin": 0.6339
+    },
+    {
+     "screenshot": "-0054.png",
+     "sha256": "96f09973874ab694e5da498729999ebe0b78af33741f22b8ed29d78eb6e9f21c",
+     "build": "exp0022c",
+     "best_record": 1,
+     "iou": 0.8391,
+     "margin": 0.6534
+    }
+   ]
+  },
+  "Q7": {
+   "record": 9,
+   "confidence": "SUPPORTED",
+   "ram_evidence": null,
+   "screenshots": [
+    {
+     "screenshot": "-0027.png",
+     "sha256": "c256f82263b548ad849bc0f5e667c1ab56a4c9400699307303e9407edbc660f4",
+     "build": "original",
+     "best_record": 9,
+     "iou": 0.8727,
+     "margin": 0.7026
+    }
+   ]
+  },
+  "Q8": {
+   "record": 3,
+   "confidence": "CONFIRMED",
+   "ram_evidence": "EXP-0013/EXP-0015 record address 0x00209290 = record 3",
+   "screenshots": [
+    {
+     "screenshot": "-0028.png",
+     "sha256": "b78e1a4ffe025c338f6ce271774eaf4fed694242db7f03021e1a64fbb6e01e91",
+     "build": "original",
+     "best_record": 3,
+     "iou": 0.8742,
+     "margin": 0.7004
+    }
+   ]
+  },
+  "Q9": {
+   "record": 15,
+   "confidence": "SUPPORTED",
+   "ram_evidence": null,
+   "screenshots": [
+    {
+     "screenshot": "-0029.png",
+     "sha256": "ccddfcf5d4f0fcf12c531ebda953b356279bf9b2e23459a6699752e4111602f6",
+     "build": "original",
+     "best_record": 15,
+     "iou": 0.8706,
+     "margin": 0.7249
+    }
+   ]
+  },
+  "Q10": {
+   "record": 8,
+   "confidence": "CONFIRMED",
+   "ram_evidence": "EXP-0013 record address 0x0020940C = record 8",
+   "screenshots": [
+    {
+     "screenshot": "-0030.png",
+     "sha256": "15ccd17a1dc8e28688d79ca8297b58833a11f86d3d1233a0d52d5a958599642a",
+     "build": "original",
+     "best_record": 8,
+     "iou": 0.8849,
+     "margin": 0.7113
+    },
+    {
+     "screenshot": "-0034.png",
+     "sha256": "56f608c0de2b1e6d0bc073a0394ec6188a6f4a09ae9ec8f537f439c58bd563ca",
+     "build": "original",
+     "best_record": 8,
+     "iou": 0.8849,
+     "margin": 0.7113
+    },
+    {
+     "screenshot": "-0037.png",
+     "sha256": "78320b69e213e961ec8527f3f30bd447642352659e116eded5323b4768f05974",
+     "build": "original",
+     "best_record": 8,
+     "iou": 0.8849,
+     "margin": 0.7113
+    },
+    {
+     "screenshot": "-0038.png",
+     "sha256": "d526c63629268a62ae21c6e06d012d5f74a89c797716a859e6a17ed8c15710c5",
+     "build": "original",
+     "best_record": 8,
+     "iou": 0.8849,
+     "margin": 0.7113
+    }
+   ]
+  },
+  "Q11": {
+   "record": 12,
+   "confidence": "CONFIRMED",
+   "ram_evidence": "EXP-0013 record address 0x0020953C = record 12",
+   "screenshots": [
+    {
+     "screenshot": "-0055.png",
+     "sha256": "78a6bebac7e4c24096527b55c4c6bb67976ea6ebdeecc3ba95041fbcc8655afd",
+     "build": "exp0022c",
+     "best_record": 12,
+     "iou": 0.8684,
+     "margin": 0.7085
+    }
+   ]
+  }
+ },
+ "unlabeled_seen": {
+  "4": "EXP-0023 slot 7 state 9230247559018389: display buffer line 2 equals record 4"
+ },
+ "never_seen": [
+  0,
+  6,
+  7,
+  14
+ ],
+ "records": [
+  {
+   "record": 0,
+   "placeholder_cells": [
+    8
+   ],
+   "line_lengths": [
+    9,
+    18
+   ]
+  },
+  {
+   "record": 1,
+   "placeholder_cells": [],
+   "line_lengths": [
+    18,
+    19
+   ]
+  },
+  {
+   "record": 2,
+   "placeholder_cells": [],
+   "line_lengths": [
+    17,
+    15
+   ]
+  },
+  {
+   "record": 3,
+   "placeholder_cells": [],
+   "line_lengths": [
+    16,
+    17
+   ]
+  },
+  {
+   "record": 4,
+   "placeholder_cells": [],
+   "line_lengths": [
+    14,
+    16
+   ]
+  },
+  {
+   "record": 5,
+   "placeholder_cells": [],
+   "line_lengths": [
+    18,
+    16
+   ]
+  },
+  {
+   "record": 6,
+   "placeholder_cells": [],
+   "line_lengths": [
+    17,
+    18
+   ]
+  },
+  {
+   "record": 7,
+   "placeholder_cells": [],
+   "line_lengths": [
+    15,
+    16
+   ]
+  },
+  {
+   "record": 8,
+   "placeholder_cells": [],
+   "line_lengths": [
+    15,
+    15
+   ]
+  },
+  {
+   "record": 9,
+   "placeholder_cells": [],
+   "line_lengths": [
+    17,
+    15
+   ]
+  },
+  {
+   "record": 10,
+   "placeholder_cells": [],
+   "line_lengths": [
+    15,
+    16
+   ]
+  },
+  {
+   "record": 11,
+   "placeholder_cells": [],
+   "line_lengths": [
+    18,
+    19
+   ]
+  },
+  {
+   "record": 12,
+   "placeholder_cells": [],
+   "line_lengths": [
+    12,
+    19
+   ]
+  },
+  {
+   "record": 13,
+   "placeholder_cells": [],
+   "line_lengths": [
+    14,
+    19
+   ]
+  },
+  {
+   "record": 14,
+   "placeholder_cells": [],
+   "line_lengths": [
+    17,
+    17
+   ]
+  },
+  {
+   "record": 15,
+   "placeholder_cells": [],
+   "line_lengths": [
+    15,
+    19
+   ]
+  }
+ ]
+}
