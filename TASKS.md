@@ -10,9 +10,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `RE-020` (M3 planning), or a font-storage expansion
-  experiment (growing `MEMFIX.PAC` entry 4 for many pair glyphs). `DISC-020` stays
-  behind `GATE-TRANSLATION`.
+- Next research task: `FONT-003` via `EXP-0023` (Phase A, lossless font repacker;
+  Phase B, usage census; both offline). Also `RE-020` (M3 planning).
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -971,6 +970,26 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Recommended route: pair glyphs, for 76 characters per quote.
   - Layout-change constants are `HYPOTHESIS` only.
   - Open: storage for many pair glyphs (grow `MEMFIX` entry 4 or recompress).
+
+### FONT-003 - Expand quote-font capacity for many pair glyphs
+
+- **Status:** `READY`
+- **Milestone:** M3 (prerequisite for `DISC-020` at scale)
+- **Dependencies:** LAYOUT-001.
+- **Blockers:** None.
+- **Objective:** Make room for hundreds of pair glyphs without breaking existing
+  text: a lossless font repacker, a usage census, and a same-size repack with
+  many pair glyphs, live-tested.
+- **Rationale:** Only 30 raw glyphs can be replaced in place. Growing the font is
+  constrained by table-driven cart destinations, about 2.4 KB of cart headroom,
+  and a full disc.
+- **Acceptance criteria:**
+  - The repacker reproduces `MEMFIX.PAC` entry 4 byte for byte.
+  - The census of win-quote codes is recorded.
+  - A same-size repack with at least 8 new pair glyphs displays them and sampled
+    original glyphs from a cold boot, with the sacrificed codes recorded.
+- **Outputs:** `EXP-0023`, `tools/text/font_pack.py`, and a census report.
+- **Notes:** Growth or a second font region is deferred to Phase D.
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 
