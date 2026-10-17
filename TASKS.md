@@ -10,9 +10,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `RE-020` (M3 planning: multiple Ryu captions
-  programmatically). English output (`DISC-020`) stays behind `GATE-TRANSLATION`.
-  The 2 × 19-cell capacity limit is an open layout question.
+- Next research task: `LAYOUT-001` via `EXP-0022` (Phase A, offline: font disc
+  source; Phase B, offline: layout constants). Also `RE-020` (M3 planning).
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -946,11 +945,31 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Notes:** `EXP-0021` (`CONFIRMED`): `RYUa1` was displayed solid and full-width on
   two records; the control was unchanged.
 
+### LAYOUT-001 - Determine English capacity of win quotes
+
+- **Status:** `READY`
+- **Milestone:** M3 (prerequisite for `DISC-020`)
+- **Dependencies:** FONT-002, DISC-002.
+- **Blockers:** None.
+- **Objective:** Establish whether a win quote can show more than 38 full-width
+  characters, through pair glyphs (two Latin letters per cell) or a layout change,
+  and choose the English route.
+- **Rationale:** Full-width Latin works (`EXP-0021`), but 2 × 19 cells may be too
+  small for official English quotes.
+- **Acceptance criteria:**
+  - The font's disc source is located, or the experiment documents why not.
+  - The layout constants and buffer limits are recorded.
+  - At least one custom pair glyph displays in a live quote with a control, or a
+    documented failure analysis is given.
+  - A capacity model and a recommended route are recorded.
+- **Outputs:** `EXP-0022` and its tooling.
+- **Notes:** Phases A and B are offline; Phase C needs the user.
+
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 
 - **Status:** `BLOCKED`
 - **Milestone:** M2
-- **Dependencies:** DISC-002, FONT-001, GATE-TRANSLATION.
+- **Dependencies:** DISC-002, FONT-001, FONT-002, LAYOUT-001, GATE-TRANSLATION.
 - **Blockers:** Translation prerequisites (`GATE-TRANSLATION`) and Latin glyph
   codes (`FONT-001`) are incomplete.
 - **Objective:** Using the confirmed `DISC-002` pipeline, replace one Ryu quote

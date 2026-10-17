@@ -2133,3 +2133,24 @@ RE-020 planning; English layout capacity is an open question.
 
 Checks: pytest (78 passed) and ruff format --check (run before commit).
 
+## 2026-10-17 15:35 CDT — SESSION-0020
+
+Task: LAYOUT-001 design
+
+Observation:
+- The font in cart RAM spans `0x0278CF60-0x027BF6A0` (206,656 bytes).
+- There are 712 empty codes, with free runs `0x00A8-0x00FF`, `0x0190-0x01DF`,
+  `0x0260-0x02AF`, and `0x0C5F-0x0DFF` (417).
+- Quotes are a fixed 2 × 19 cells with a 38-entry buffer.
+
+Action:
+Added `LAYOUT-001` (now a dependency of `DISC-020`). Pre-registered `EXP-0022`:
+
+- Phase A: font disc source search;
+- Phase B: layout-constant disassembly;
+- Phase C: a live pair-glyph test using an appended raw glyph in an empty block;
+- Phase D: deferred layout change.
+
+Next action:
+`EXP-0022` Phases A and B (offline).
+
