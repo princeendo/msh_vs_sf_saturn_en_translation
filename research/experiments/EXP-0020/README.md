@@ -168,3 +168,89 @@ address and the code being drawn.
   tests.
 - If the source is cart RAM, the debugger cannot dump it, so a save state taken
   after resuming will be extracted (unvalidated region, `HYPOTHESIS` strength).
+
+## Phase 1b Run
+
+The run started 2026-10-17 on the original image (log
+`local/mednafen/logs/font001-exp0020-1b.log`, process 70836), with source identity
+verified before launch.
+
+### Breakpoint
+
+From state A (slot 5, `ab60af86…`), write breakpoints
+`0601CEEC-0601CF6B 2601CEEC-2601CF6B` fired immediately after the debugger was
+hidden, before the KO. The staging cell is also used outside the quote screen.
+
+Values from the user's screenshot (digits read from the debugger font):
+
+- PC `0601CEB2`, `mov.b r3,@r10`;
+- R9 `0279192A` (stream pointer, in cart RAM) and R8 `0278D4F2`;
+- R10 `0601CEEC` (staging cell), R12 `0601CF6D`;
+- PR `0601D9BE`.
+
+### Dump
+
+`local/mednafen/dumps/f1b-wramh.bin`, High Work RAM, 1,048,576 bytes, SHA-256
+`0f364591415db396a1b3ec5919802b1e05611670af27be28b2c6d97a7e359dbc`. The Low Work RAM
+dump requested in the same session was not written; it is not needed for this
+result.
+
+### Disassembly
+
+A scratch SH-2 decoder was used over `0x0601CDB8-0x0601CEE2` of the dump.
+
+- **Caller.** Around `0x0601CDDC`, R3 = `@(24,r10)` (the glyph code); then
+  `bsr 0x0601CE00`, then `jsr 0x0601BA76` with R9 = `0601CEEC` and R11 = `0x80`
+  (the cell transfer).
+- **Glyph routine `0x0601CE00`.**
+  - Font base = `@(4, 0x0601D8E0)` = `0x0278CF60`. The next word in the same
+    structure is `0x0000B5D0`.
+  - Locating a glyph uses a block table at base+16 (one long per 16 codes, an
+    offset from base+16), plus a size table at base+16+`0x380` (one byte per
+    code) summed over the earlier codes in the block.
+  - A negative size means a raw 128-byte copy, and zero means clearing the cell.
+  - A positive size means a two-stage mask decompression, filled column by
+    column. The exact semantics are in `tools/text/font.py`.
+
+### Offline decoder validation
+
+`tools/text/font.py` (new, with tests), run on state A's cart RAM extraction
+(`research/memory_dumps/ab60af86089a9575/cart_ram.bin`, unvalidated region):
+
+```bash
+./invenv.sh python -m tools.text.font research/memory_dumps/ab60af86089a9575/cart_ram.bin \
+  --first 0 --count 3584 --check research/memory_dumps/exp0020/known_glyphs.json
+```
+
+- Codes `0x000-0xDFF`: 2,842 compressed, 30 raw, 712 empty.
+- **79 / 79 known glyph cells reproduced byte for byte**, including the shadow.
+
+### Atlas
+
+`research/memory_dumps/exp0020/atlas/` (ignored; for example
+`tool_font_000.png`, prefix `2182e228`):
+
+- **ASCII set.** Codes `0x0020-0x007E` hold a complete ASCII set at the ASCII
+  values: space, punctuation, `0-9`, `A-Z`, `a-z`, and `{|}~`.
+- **Other glyphs.** Codes `0x0000-0x000F` show hex-digit glyphs. Some later codes
+  in the `0x00xx` range hold artwork resembling "QUICK CONTINUE".
+- **Half width.** Latin glyphs occupy columns 0-8 of the 16-pixel cell. Kana and
+  kanji occupy columns 1-14.
+
+## Phase 1b Conclusion
+
+`CONFIRMED`: the quote font is a compressed glyph table in cartridge RAM at
+`0x0278CF60` (in this session), in the format implemented by `tools/text/font.py`.
+Decoding it reproduces every observed quote glyph exactly. This also gives indirect
+support that cart RAM extraction is correct for the font region.
+
+`SUPPORTED` (H2 pending): codes `0x0020-0x007E` select ASCII-shaped Latin glyphs.
+They are half-width, so one Latin letter per 16-pixel cell would leave wide gaps,
+with at most 19 letters per line. Display in a quote is not yet tested (Phase 2).
+
+## Phase 2 Plan (unchanged design, now with concrete codes)
+
+- **Patch.** Line-1 cells 0-2 of all 16 records set to `0041 0042 0043`
+  (`A B C`), loaded with `L` at state A, using the `EXP-0015` procedure.
+- **Prediction.** `ABC` (half-width, gapped) appears at the start of line 1.
+- **Control.** The original table.

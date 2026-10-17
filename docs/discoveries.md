@@ -246,6 +246,27 @@ table. The source image was unchanged.
 
 Limits: tested only in Mednafen and only with same-size placement.
 
+## FONT-001: Quote Font Location and Format
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0020` (Phase 1b)
+
+Win-quote glyphs are drawn by a routine at WRAM-H `0x0601CE00` (code in R3) into a
+staging cell at `0x0601CEEC`. It reads a font whose base pointer is at
+`0x0601D8E4`, which was `0x0278CF60` (cartridge RAM) in the tested session.
+
+- **Glyph location.** A block table at base+16 (one long per 16 codes) and a size
+  table at base+16+`0x380` (one byte per code).
+- **Size byte.** Negative means a raw 128-byte cell, and zero means empty.
+- **Compression.** Positive sizes use a two-stage mask, column-major run fill.
+  `tools/text/font.py` decodes it.
+
+Decoding state A's cart RAM reproduces all 79 known quote glyph cells byte for
+byte, including the drop shadow. Latin glyphs exist at ASCII codes
+`0x0020-0x007E`, but their in-quote display is not yet confirmed (Phase 2). The
+disc source of the font is unknown.
+
 ## Entry Requirements
 
 Each future entry must include:
