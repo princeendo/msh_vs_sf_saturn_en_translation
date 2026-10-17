@@ -2433,3 +2433,27 @@ Task: RE-023
 
 Next action:
 User decision on the workflow (see the session for options).
+
+## 2026-10-17 — EMU-012, EMU-020, and EMU-021 (agent interface)
+
+Tasks: EMU-012, EMU-020, EMU-021
+
+- `EMU-012` DONE: capability matrix. Stock Mednafen is sufficient for manual work
+  and insufficient for agent-driven work.
+- `EMU-020` DONE: a minimal, frontend-only patch is proposed; the user explicitly
+  authorized the Mednafen modification.
+- `EMU-021`: patch `0001-agent-interface.patch` (`c30146ef…`) applied to a
+  separate copy, `src-agent`. The binary `fe0edb99…` is built in `build-agent`;
+  stock `ca9bec5f…` is untouched.
+- Validation:
+  - V1 (smoke): pass.
+  - V2: agent reads of WRAM-H and WRAM-L are byte-identical to the extractor on a
+    same-instant state.
+  - V3 (write and halt controls): pass.
+  - V4 (breakpoint log): pending one human KO.
+- A failure found and fixed: paths with spaces broke `loadstate` (first binary
+  `a463ca28…`).
+- New client `tools/mednafen/agent.py` and capture script
+  `tools/mednafen/ko_capture.py`, with tests.
+
+Checks: pytest (134 passed), ruff check, ruff format --check, and strict mypy.

@@ -527,3 +527,26 @@ Do not modify Mednafen before `EMU-012` is complete and `EMU-020` documents why 
 Mednafen is insufficient. If modification is authorized, make the smallest useful
 change and preserve upstream provenance, rationale, patch, and reproducible build
 steps in `vendor/mednafen/`.
+
+## EMU-012 Stock Memory-Workflow Sufficiency (2026-10-17)
+
+Decision: **stock Mednafen 1.32.1 is sufficient for manual, human-driven
+checkpoints (M1 and M2 were reached with it). It is insufficient for agent-driven
+M3 experiments.** Confidence: `SUPPORTED`, from the sessions listed below.
+
+| Requirement | Stock mechanism | Evidence | Result | Reliability / cost | Blocker for M3 |
+| --- | --- | --- | --- | --- | --- |
+| Dump a memory range | Memory editor `D`, hand-typed `start end file` | `EXP-0007`, `EXP-0008`, `EXP-0014`, `EXP-0018` | Works, byte-exact | Typing errors occurred: a missing `+` gave 1,048,577 bytes, an end address was wrong, and long names were mistyped. No paste in prompts. | Needs the user for every dump |
+| Write memory from a file | `L`, hand-typed | `EXP-0014`, `EXP-0015`, `EXP-0020`, `EXP-0021` | Works | One dump came out 80 bytes long (`f2.bin`). Each write needs the user. | Needs the user |
+| Write breakpoint | CPU view `Shift+W` | `EXP-0014`, `EXP-0018`, `EXP-0025` | Works; halts **before** the store (source: `CheckRWBreakpoints` pre-decodes) | Each hit needs a human `R`. Hits in init loops multiply the stops (`EXP-0025` Part 2). | Needs the user per hit |
+| Registers at a hit | CPU view only | `EXP-0025` | Visible only | F9 snapshots exclude the debugger overlay; macOS screenshots must be relayed by hand. | No file output |
+| Act after a hit (for example, write after the store) | Manual `S`, then `L` | `EXP-0025` Part 2 | Failed in practice | Many manual cycles, and it was unclear which write was final | Not achievable reliably |
+| Save/load state to a chosen path | Slot hotkeys only | `EXP-0006`, `EMU-009` | Works, slots 0-9 | Slot reuse needs archiving, and loading during a halt is unsafe | Needs the user |
+| Screenshot | `F9`, counter-named | all sessions | Works | Game frame only | Needs the user |
+| Unattended or remote control | `-remote` exposes only `get_setting`/`set_setting` (source `drivers/remote.cpp`); its help text is commented out as incomplete | source review | None for memory, breakpoints, or states | — | No agent path |
+| Cartridge RAM | No address space | `EXP-0020` | Not exposed | Workaround: the save-state extractor | Not blocking |
+| Instruction trace | CPU view `L` (trace-log prompt `filename end_pc`) | not tested | Unknown | Logs every instruction to a file; untested here | Not evaluated |
+
+The user reported the manual loop (typing, relaying screenshots, timing races with
+the running game) as unsustainable on 2026-10-17. Per `AGENTS.md` rule 16, this
+insufficiency leads to `EMU-020`.
