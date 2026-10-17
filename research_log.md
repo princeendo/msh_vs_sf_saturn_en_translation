@@ -1857,3 +1857,26 @@ Next action:
 write breakpoint on `0x002091AC-0x0020966B` during a load is the first candidate
 experiment.
 
+## 2026-10-17 14:10 CDT — SESSION-0017
+
+Task: DISC-001 design
+
+Observation:
+- The WRAM-L quote table is absent in the `EXP-0006`/`EXP-0007` title states.
+- It is present and byte-identical in both `EXP-0009` fights and all `EXP-0010`
+  states.
+- The Q8 record does not occur in WRAM-H, or in cart RAM (unvalidated), at the title
+  screen or during fight 1.
+- The CUE declares track 01 as `MODE1/2352` (192,346 sectors) and tracks 02-12 as
+  audio.
+
+Action:
+- Added `DISC-010` (disc layout) as the file-mapping prerequisite.
+- Pre-registered `EXP-0016` (Mode 1 / ISO 9660 inspection plus tooling) and
+  `EXP-0017` (verbatim table search).
+- Outlined `EXP-0018` (write-breakpoint trace of the table load) for the case
+  where `EXP-0017` is negative.
+
+Next action:
+`EXP-0016`, which needs no user input.
+

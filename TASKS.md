@@ -10,9 +10,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DISC-001`: trace what loads the WRAM-L quote table
-  (`0x002091AC-0x0020966B`) and locate its disc source. `DISC-002` also needs
-  `GATE-TRANSLATION`.
+- Next research task: `DISC-010` (`EXP-0016`, disc inspection), then `DISC-001`
+  (`EXP-0017` verbatim search, `EXP-0018` dynamic trace if needed). `DISC-002`
+  also needs `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -826,7 +826,34 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** A RAM mutation is not a reproducible disc localization.
 - **Acceptance criteria:** Controlled tracing links runtime data to source; pointers, lengths, compression, checksums, and alignment are tested as applicable; all factual offsets/bytes and uncertainty are recorded.
 - **Outputs:** Source-trace experiment and confirmed documentation where warranted.
-- **Notes:** A string-like disc match alone is insufficient.
+- **Notes:** A string-like disc match alone is insufficient. Plan, one hypothesis
+  at a time:
+  1. `EXP-0016` / `DISC-010`: track and ISO 9660 inspection.
+  2. `EXP-0017`: verbatim search for the 1,216-byte table and its records.
+  3. If (2) is negative, `EXP-0018`: write-breakpoint trace of the table load from
+     a pre-match checkpoint.
+
+  Known so far: the table is absent at the title screen and present, identical, in
+  every in-fight state.
+
+### DISC-010 - Document source disc data track and ISO 9660 layout
+
+- **Status:** `READY`
+- **Milestone:** M2
+- **Dependencies:** ENV-007, DOC-003.
+- **Blockers:** None.
+- **Objective:** Measure the track 01 sector format and ISO 9660 directory of the
+  untouched source, and build reusable read-only tooling for it.
+- **Rationale:** Any disc offset found for the quote table must map to a named file
+  extent before patching. `docs/disc_layout.md` records no measurements yet.
+- **Acceptance criteria:**
+  - Sector validation, PVD fields, and the file list (path, extent LSN, length,
+    hash) are recorded with tool version, command, and source hashes, unchanged
+    before and after.
+  - `tools/disc/iso9660.py` has synthetic tests.
+- **Outputs:** `EXP-0016`, `tools/disc/iso9660.py`, and `docs/disc_layout.md`
+  findings.
+- **Notes:** Extracted contents stay in ignored `research/extracted_files/`.
 
 ### DISC-002 - Reproduce same Ryu caption from patched disc
 
