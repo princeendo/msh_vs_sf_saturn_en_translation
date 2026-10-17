@@ -283,7 +283,7 @@ Slots 1-3 were archived in `research/savestates/archive-2026-10-17/` beforehand.
 | --- | --- | --- | --- | --- |
 | Patched 1 | `a1.bin` = `abc.bin` (`0124f0b7…`) | 1 / `55523b5f179bd30e…6158` | `-0048.png` `25f89623…f51e` | Ken-template quote (record 0) with `A B C` in cells 0-2, replacing two blanks and `教` |
 | Patched 2 | `a2.bin` = `abc.bin` | 2 / `7c2fa0a9e88ffe20…5b84` | `-0049.png` `c6ff1421…0a87` | same record, `A B C` |
-| Control | `k1.bin` = `org.bin` (`6aaf1f88…`) | 3 / `a63d846ca30b24c8…c5a7` | `-0050.png` `87689e8d…a6f3` | Q8, unchanged |
+| Control | `k1.bin` = `org.bin` (`6aaf1f88…`) | 3 / `a63d846ca30b24c8…ea7c5` | `-0050.png` `87689e8d…a6f3` | Q8, unchanged |
 
 States are archived as `exp0020p2-slot{1,2,3}`. An enlarged crop of `-0048.png`
 (ignored `crop_0048.png`) shows `A`, `B`, `C`.
