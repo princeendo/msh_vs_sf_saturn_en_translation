@@ -29,7 +29,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
   tree, extents, and IP fields does the exact target source contain?
 - Which disc material must be preserved outside ordinary file contents for a
   deterministic, bootable rebuild?
-- Where are Ryu post-fight captions stored on disc and during execution?
+- Where are Ryu post-fight captions stored on disc? (During execution: WRAM-L
+  `0x002091AC-0x0020966B` drives the display, `CONFIRMED` by `EXP-0015`.) What
+  loads that table, and is it per character, per partner, or per match?
+- Is `0000` in a quote record a partner-name placeholder, and how is the name
+  chosen and laid out?
 - What encoding, boundaries, indirection, compression, or transformation is used?
   `EXP-0011`: the visible quotes are not present as Shift-JIS bytes in WRAM on the
   quote screen. Quote-dependent candidates are WRAM-L 16-bit sequential entries
