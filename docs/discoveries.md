@@ -136,6 +136,30 @@ Cartridge RAM (`0x02400000`, 4 MiB) is extracted with the same method but is **n
 validated; the stock debugger has no reference for it. Reproduction commands are in
 `research/experiments/EXP-0008/README.md`.
 
+## EMU-011: Stock Debugger Write, Revert, and Write Breakpoints
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0014`
+
+With stock Mednafen 1.32.1 and the untouched MSHvSF source, frozen by frame advance
+at state A (slot 5, SHA-256 `ab60af86…dce6`), the memory editor's `L` command wrote
+a 1,140-byte file into Low Work RAM `0x000091F8-0x0000966B`. Dumps verified each
+step:
+
+- after the write: `08a1a3aa1d9d759ff9dc849e227fa2bf79df6175f49cf37ca8453466c0ab06bf`,
+  equal to the loaded file;
+- after loading the original back:
+  `78fd5a38c1e545ca04a6bf3d5f460c57d100821c2a7a8d35d20345cb083ebce3`, equal to the
+  pre-write dump.
+
+A CPU write breakpoint on `060ED80A-060ED8A1 260ED80A-260ED8A1` fired during a
+replay from state A, before the quote was drawn. The debugger opened at PC
+`0x060AF8C6`.
+
+Commands and limits are in `docs/mednafen.md` (EMU-011 runbook). This confirms the
+workflow only; what the written bytes mean is `RE-012` work.
+
 ## Entry Requirements
 
 Each future entry must include:

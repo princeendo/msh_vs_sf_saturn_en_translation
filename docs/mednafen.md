@@ -243,6 +243,32 @@ The source image manifest matched before and after both runs. Each retained run 
 was 4,248 bytes with SHA-256
 `c8e2ff0aec4d9535f3fe4e5d25bbe09f5ee49d19fdccba016461c004ffc7699c`.
 
+## EMU-011 Debugger Workflow Runbook
+
+Tested against stock 1.32.1 and MSHvSF in `EXP-0007` and `EXP-0014`. Use left Option
+for Alt on this Mac.
+
+| Need | Tested action | Observed result |
+| --- | --- | --- |
+| Freeze without stepping | `Option+A` (frame advance) | Game loop paused; debugger usable; `F5` saves the same instant |
+| Open the CPU view | `Option+D` (opens on the CPU view) | Disassembly, SH-2 registers, and device registers |
+| Step / run | `S` / `R` in the CPU view | Stops and steps / resumes |
+| Memory editor | `Option+3`, then `.` / `,` to change space | 13 Saturn address spaces; no cart RAM |
+| Read to file | `D`, `start end file` (inclusive) | Exact bytes; repeat dumps identical while frozen |
+| Write from file | `L`, `start end file` (inclusive) | Exact bytes written; verified by `D` |
+| Revert | `L` the original bytes, then `D` | Restored exactly |
+| Write breakpoint | CPU view `Shift+W`, ranges like `060ED80A-060ED8A1` | Fires on CPU stores with the debugger hidden; debugger opens and pauses |
+| Clear breakpoint | `Shift+W`, empty field, Return, then `R` | Resumes |
+
+Not tested or not usable:
+
+- read breakpoints, PC breakpoints, edit mode, and `P` / `Shift+P` pokes;
+- the CPU view's memory pane shows `0xAA` (stock `DBG_MemPeek` stub);
+- `SH-2 External Bus (TODO)` is a stub.
+
+Never load a state or reset while the debugger is paused by stepping or a
+breakpoint. Type short paths; a mistyped `L` filename fails.
+
 ## EMU-010 Debugger Access Result
 
 `EXP-0007` confirmed stock debugger access against MSHvSF on 2026-10-15 in one cold
