@@ -2247,3 +2247,28 @@ Added `FONT-003`. Pre-registered `EXP-0023`:
 Next action:
 `EXP-0023` Phases A and B (offline).
 
+## 2026-10-17 17:40 CDT — EXP-0023 Phases A-B
+
+Task: FONT-003
+
+Phase A:
+- Hypothesis: a lossless repack is possible.
+- Measured the header (code count `0x0C60`), the block table (0 above the count),
+  the size table (raw = `0x80`), and data filling the entry exactly.
+- `tools/text/font_pack.py` rebuilds entry 4 **byte-identically** (`3d8e9a26…`).
+- Result: `CONFIRMED`.
+
+Phase B:
+- `tools/text/quote_census.py` (validated on MC09: one 16-record table at `0x91AC`)
+  found quote-shaped tables in all 23 MC files (700 codes), plus record-shaped
+  runs in ME.PAC/ME.SHX/MM.BIN (516 codes). The union is 839 of 2,872 glyphs.
+- Unseen: 1,922 glyphs and 131 KB in total, but `0x01-0x07xx` is UI artwork.
+- Unseen kanji: 321 glyphs, 30,235 bytes (about 817 pair glyphs).
+- Result: `SUPPORTED` (record-shaped text only).
+
+Next action:
+Phase C, a same-size repack sacrificing unseen kanji to add at least 8 pair glyphs
+in free codes below `0x0C60`, then a cold-boot test.
+
+Checks: pytest (109 passed), ruff check, ruff format --check, and strict mypy.
+

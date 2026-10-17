@@ -39,10 +39,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
     re-encoding with 14 fill bytes works, per `EXP-0019`.)
   - Full-width quote-style Latin displays correctly (`EXP-0021`, `CONFIRMED` for
     the tested codes). ASCII codes display only faintly.
-  - Pair glyphs work (`EXP-0022`, `CONFIRMED`), for up to 76 characters per quote.
-    How can many new glyphs be stored? Options: grow `MEMFIX.PAC` entry 4 (are the
-    later entries' load addresses derived from the header?) or recompress existing
-    glyphs.
+  - Pair glyphs work (`EXP-0022`), for up to 76 characters per quote. The font
+    repacks losslessly (`EXP-0023`). About 321 kanji (30 KB) are unseen in any
+    record-shaped text table, enough for about 800 pair glyphs. Is any other text
+    format (endings, story) using those kanji? Which UI code uses the
+    `0x01xx-0x07xx` artwork glyphs?
   - Does the alternate layout constant set (12-pixel step, about 25 cells per
     line), selected by a flag at `r11+0xCC90`, exist and work for quotes?
   - Does quote selection use the counter at `@(76,r12)`? This may explain Q3's
