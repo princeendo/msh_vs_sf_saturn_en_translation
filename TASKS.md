@@ -8,7 +8,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M2**: reproduce the same Ryu caption change from an
   untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
-- Current active task: none.
+- Current active task: `DISC-002` (`EXP-0019`).
 - Reverse-engineering experiments in progress: none.
 - Next research task: `DISC-002` via `EXP-0019` (marker disc patch). English
   output is `DISC-020`, behind `GATE-TRANSLATION`.
@@ -865,7 +865,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DISC-002 - Reproduce the M1 marker from a patched disc
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M2
 - **Dependencies:** DISC-001.
 - **Blockers:** None.

@@ -84,6 +84,127 @@ def decompress(stream: bytes, length: int) -> tuple[bytes, int]:
     return bytes(out[:length]), pos
 
 
+def group_starts(stream: bytes, length: int) -> list[tuple[int, int]]:
+    """Return (stream offset, output position) at the start of each flag group."""
+    starts: list[tuple[int, int]] = []
+    out_pos = 0
+    pos = 0
+    while out_pos < length:
+        starts.append((pos, out_pos))
+        flags = stream[pos]
+        pos += 1
+        for bit in range(7, -1, -1):
+            if out_pos >= length:
+                break
+            if not (flags >> bit) & 1:
+                pos += 1
+                out_pos += 1
+            else:
+                value = (stream[pos] << 8) | stream[pos + 1]
+                pos += 2
+                out_pos += (value & 0xF) + 3
+    return starts
+
+
+MIN_MATCH = 3
+MAX_MATCH = 18
+MAX_CANDIDATES = 512
+
+
+def encode(data: bytes, start: int = 0) -> bytes:
+    """LZSS-encode ``data[start:]``, assuming ``data[:start]`` is already output.
+
+    Matches never reach before output position 0, and their distance is between 1
+    and ``WINDOW``. Encoding is greedy with one-step lazy evaluation, and
+    deterministic.
+    """
+    chains: dict[bytes, list[int]] = {}
+
+    def insert(position: int) -> None:
+        if position + MIN_MATCH <= len(data):
+            chains.setdefault(data[position : position + MIN_MATCH], []).append(
+                position
+            )
+
+    for position in range(max(0, start - WINDOW), start):
+        insert(position)
+
+    def best_match(position: int) -> tuple[int, int]:
+        if position + MIN_MATCH > len(data):
+            return 0, 0
+        candidates = chains.get(data[position : position + MIN_MATCH], [])
+        best_length = best_distance = 0
+        limit = min(MAX_MATCH, len(data) - position)
+        for candidate in reversed(candidates[-MAX_CANDIDATES:]):
+            distance = position - candidate
+            if distance > WINDOW:
+                break
+            length = 0
+            while (
+                length < limit and data[candidate + length] == data[position + length]
+            ):
+                length += 1
+            if length > best_length:
+                best_length, best_distance = length, distance
+                if length == limit:
+                    break
+        return best_length, best_distance
+
+    out = bytearray()
+    tokens: list[bytes] = []
+    flags = 0
+    position = start
+    while position < len(data):
+        length, distance = best_match(position)
+        if length >= MIN_MATCH:
+            next_length, _ = best_match(position + 1)
+            if next_length > length:
+                length = 0
+        if length >= MIN_MATCH:
+            field = WINDOW - distance
+            value = (field << 4) | (length - MIN_MATCH)
+            tokens.append(value.to_bytes(2, "big"))
+            flags |= 0x80 >> (len(tokens) - 1)
+            for offset in range(length):
+                insert(position + offset)
+            position += length
+        else:
+            tokens.append(data[position : position + 1])
+            insert(position)
+            position += 1
+        if len(tokens) == 8:
+            out.append(flags)
+            out += b"".join(tokens)
+            tokens = []
+            flags = 0
+    if tokens:
+        out.append(flags)
+        out += b"".join(tokens)
+    return bytes(out)
+
+
+def build_pac(
+    stream: bytes, decompressed_length: int, size: int | None = None
+) -> bytes:
+    """Return a PAC file: header, stream, 4-byte alignment, optional zero fill."""
+    header = struct.pack(
+        ">6I",
+        0,
+        0x80000000 | (len(stream) + 8),
+        0,
+        0,
+        len(stream),
+        decompressed_length,
+    )
+    body = header + stream
+    body += bytes(-len(body) % 4)
+    if size is not None:
+        if len(body) > size:
+            raise PacFormatError(f"encoded file {len(body)} exceeds size {size}")
+        body += bytes(size - len(body))
+    return body
+
+
 def decode_file(data: bytes) -> tuple[PacHeader, bytes, int]:
     header = read_header(data)
     end = HEADER_SIZE + header.compressed_length

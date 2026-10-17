@@ -2,7 +2,7 @@
 
 Task: `DISC-002` (M2)
 Date: 2026-10-17
-Status: READY
+Status: IN_PROGRESS
 Confidence: HYPOTHESIS
 
 ## Observation
@@ -111,6 +111,64 @@ Fixed:
   outputs outside `build/` or overlapping a source path, and emit a JSON manifest of
   changed LSNs and hashes.
 
-## Actual Result
+## Actual Result: Tooling and Offline Build (2026-10-17)
 
-Pending.
+Tools, each with synthetic tests (73 passed in total; ruff and strict mypy clean):
+
+- `tools/disc/sector.py`: Mode 1 EDC/ECC.
+- `tools/disc/pac_lzss.py`: `encode`, `group_starts`, and `build_pac` added.
+- `tools/disc/pac_patch.py`: splice patch.
+- `tools/disc/patch_image.py`: same-size in-place file replacement, refusing
+  outputs outside `build/`.
+
+**EDC/ECC routine validation.** `./invenv.sh python -m tools.disc.sector <source
+Track 01>` reproduced the stored EDC/ECC of **all 192,346 source sectors** (0
+invalid).
+
+**PAC patch.** Command:
+
+```bash
+./invenv.sh python -m tools.disc.pac_patch research/extracted_files/mshvsf_saturn_jp/MC09.PAC \
+  --write 0x91AC=0x0801 ... (48 writes) --out build/disc002/MC09.PAC \
+  --manifest build/disc002/mc09_patch.json
+```
+
+The writes are `0x91AC + 76·r + 2·c` = `0801`/`0803`/`0805` for r = 0-15 and
+c = 0-2.
+
+- **Splice.** The splice is at stream offset 20,411, output 37,284. The first
+  20,411 compressed bytes are unchanged.
+- **Stream.** The new stream is 25,090 bytes (original 25,101).
+- **Header.** `00000000 8000620A 00000000 00000000 00006202 0000B548`.
+- **Fill.** The file is 25,128 bytes, the same as the original, with **14
+  zero-fill bytes**. That is a recorded deviation: the observed range was 0-3.
+- **Hashes.** New file `c9b6fcce02f71cc1…`; decoded original `6a6d8119…`; decoded
+  patched `bc470c7bf090396a…`. Manifest `mc09_patch.json` is `9aa9fb73…`.
+
+**Image build** (run twice, into `build/mshvsf_disc002_a` and `_b`):
+
+```bash
+./invenv.sh python -m tools.disc.patch_image --source-dir local/disc_images/mshvsf_saturn_jp \
+  --manifest references/mshvsf/saturn_jp/README.md \
+  --track "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
+  --file "MC09.PAC;1" --data build/disc002/MC09.PAC --out-dir build/mshvsf_disc002_a
+```
+
+- Changed sectors: LSN **8246** (header) and **8255-8258** (spliced tail). All
+  other sectors are byte-identical.
+- Derived track 01 SHA-256:
+  `742aa0bdeb109a32c868e192f4ab539f3c818495b721020a468e15ae0ba23730`.
+- Builds `_a` and `_b` are identical for all 13 components.
+- Tracks 02-12 and the CUE are byte-identical to the source.
+- `build_manifest.json` is `5e42d1b1…`.
+
+**Offline verification of the derived image:**
+
+- `iso9660 --check`: 0 bad sync, mode, or address; 414 files with the same names.
+  Only `MC09.PAC;1` has a different hash.
+- `sector` verify: 0 invalid of 192,346.
+- The decoded new `MC09.PAC` differs from the original in 85 bytes, all inside the
+  48 target cells. All 48 cells hold the expected codes.
+- Source identity was unchanged before and after.
+
+All offline predictions held. The runtime test is pending.
