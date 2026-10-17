@@ -2,8 +2,8 @@
 
 Task: `RE-023`
 Date: 2026-10-17
-Status: IN_PROGRESS (Part 1 run; Part 2 pre-registered)
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: CONFIRMED (record pointer and forcing); HYPOTHESIS (index source, special value 39)
 
 ## Question
 
@@ -257,3 +257,39 @@ match-specific quote).
   matches record 6 (never seen before).
 - **Control:** the replay above with no action (record 0).
 - **Refuted if:** another record is shown, or the pointer differs.
+
+## Part 2 Result (2026-10-17): forcing works
+
+Each run started from `postko.mc` (`3f18717b…`) with no input. The action is
+`onhit 060AF282 write workramh F9E66 <index>`; it executed at PC `060AF284`, right
+after the game's own index store.
+
+| Forced index | Pointer written (`060AF724`) | Expected `0x002091AC + 76·i` | Matcher best (IoU / margin) | Screenshot / state |
+| --- | --- | --- | --- | --- |
+| none (control) | `0x002091AC` | record 0 | 0 (0.81 / 0.65) | `9c2350ac…` / `7e8a68ca…` |
+| 6 | `0x00209374` | `0x00209374` | **6** (0.87 / 0.69) | `8d4fca65…` / `6f2df579…` |
+| 7 | `0x002093C0` | `0x002093C0` | **7** (0.88 / 0.73) | `603924ca…` / `94583f97…` |
+| 14 | `0x002095D4` | `0x002095D4` | **14** (0.87 / 0.71) | `9345d6e4…` / `55db3fe1…` |
+
+- **Correction.** The pre-registered pointer for index 6 (`0x002093D4`) was an
+  arithmetic slip: `0x2091AC + 6·76 = 0x00209374`. The prediction's substance,
+  `table + 76·index` with record 6 shown, is what was tested, and it held.
+- Records 6, 7, and 14 had never been seen. All three rendered as new quotes,
+  and the shown record matched the forced index every time.
+
+## Conclusion
+
+**`CONFIRMED`:**
+
+- The routine at `060AF220-060AF282` stores the quote index (normally
+  `@(2,gbr) & 0x0F`) to `0x060F9E66`.
+- The routine at `060AF6E0` turns it into the record pointer `0x060F249C` =
+  table base `@(0x060F9E4A)` + 76 × index, which the text builder renders.
+- Overwriting the index right after `060AF282` selects any record,
+  reproducibly, from the post-KO checkpoint, with no gameplay.
+
+Still open:
+
+- the source of `@(2,gbr)` (random or otherwise);
+- the special value 39 and its table at `0x06095544`;
+- the `0xCC90` remap table at `0x060AF310`.
