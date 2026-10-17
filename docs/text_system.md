@@ -47,6 +47,9 @@ They move here only after a controlled mutation confirms them (`RE-012`).
   - Disc patching (`CONFIRMED`, `EXP-0019`): re-encoding `MC09.PAC` at the same size
     with `tools/disc/pac_patch.py` and `tools/disc/patch_image.py` reproduces code
     changes in-game from a rebuilt image.
+  - Font (`CONFIRMED`, `EXP-0020`): a compressed glyph table in cart RAM (base
+    pointer at `0x0601D8E4`), decoded by `tools/text/font.py`. ASCII-shaped Latin
+    glyphs exist at codes `0x0020-0x007E` (display `SUPPORTED`, pending a test).
 
 ## Questions to Resolve
 

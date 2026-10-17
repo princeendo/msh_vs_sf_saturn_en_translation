@@ -2053,3 +2053,31 @@ Phase 1b, a staging-cell write breakpoint, which needs the user.
 
 Checks: pytest (75 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 15:45 CDT — EXP-0020 Phase 1b
+
+Task: FONT-001
+
+Hypothesis:
+A write breakpoint on the staging cell halts in the glyph renderer and reveals the
+font source.
+
+Result:
+- The breakpoint fired before the KO, at PC `0601CEB2`, with R9 = `0279192A` (cart
+  RAM).
+- Disassembling `0x0601CE00` gave the font format: block and size tables, raw,
+  empty, or two-stage mask, column-major run fill.
+- The font base is `0x0278CF60`, via the pointer at `0x0601D8E4`.
+- `tools/text/font.py` decoded all 79 known glyphs byte for byte from state A's
+  cart RAM.
+- The atlas shows an ASCII set at codes `0x20-0x7E` (half-width).
+
+Conclusion:
+Font location and format are `CONFIRMED`; Latin display is `SUPPORTED`, pending
+Phase 2. Bitmap searches failed earlier because glyphs are compressed. Do not
+repeat bitmap font searches.
+
+Next action:
+Phase 2, a live test showing `ABC` via the table patch.
+
+Checks: pytest (78 passed), ruff check, ruff format --check, and strict mypy.
+
