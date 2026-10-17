@@ -1945,3 +1945,27 @@ test re-encoding, size limits, and boot behavior first.
 
 Checks: pytest (58 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 15:30 CDT — SESSION-0018
+
+Task: DISC-002 amendment and EXP-0019 design
+
+Decision (user, verbatim): "Amend DISC-002 to reproduce the M1 あいう marker from a
+patched disc (no English needed), keep English for later translation tasks behind
+GATE-TRANSLATION, and design the experiment."
+
+Action:
+- Rewrote `DISC-002` as the marker disc patch (deps: DISC-001 only).
+- Added `DISC-020` (official English caption from disc), which depends on DISC-002
+  and GATE-TRANSLATION.
+- Gathered design facts:
+  - all 23 `MC*.PAC` files use word 1 = `0x80000000 | (word 4 + 8)`, with words
+    0/2/3 = 0 and 0-3 pad bytes;
+  - `MC09.PAC` uses 13 sectors with no free sectors after (next file `PL0A.PAC` at
+    LSN 8,259), and 1,496 slack bytes in its last sector;
+  - sectors carry real EDC/ECC.
+- Pre-registered `EXP-0019`: splice re-encode, same-size placement, regenerated
+  EDC/ECC validated against all source sectors, and cold-boot verification.
+
+Next action:
+Build the encoder, sector, and patch tooling, then run `EXP-0019`.
+

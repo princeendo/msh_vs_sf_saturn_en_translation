@@ -10,9 +10,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DISC-002`, which is blocked by `GATE-TRANSLATION` (it
-  requires the expected English caption). A non-English disc patch (the `あいう`
-  marker) would test the rebuild pipeline first; that needs a task decision.
+- Next research task: `DISC-002` via `EXP-0019` (marker disc patch). English
+  output is `DISC-020`, behind `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -864,18 +863,58 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   non-interleaved files; the file list is in
   `references/mshvsf/saturn_jp/iso9660_files.json`.
 
-### DISC-002 - Reproduce same Ryu caption from patched disc
+### DISC-002 - Reproduce the M1 marker from a patched disc
+
+- **Status:** `READY`
+- **Milestone:** M2
+- **Dependencies:** DISC-001.
+- **Blockers:** None.
+- **Objective:** Rebuild a derived image from the untouched, identity-verified source
+  into `build/`, with `MC09.PAC` re-encoded so its quote table carries the M1
+  marker (line-1 cells 0-2 = `0801 0803 0805`, all 16 records). A cold boot of the
+  derived image must reproduce `あいう` in Ryu's win quotes.
+- **Rationale:** M2 proves a deterministic source-to-visible-output pipeline. The
+  M1 marker isolates the pipeline (LZSS re-encoding, PAC header, sector EDC/ECC, and
+  ISO placement) from translation questions.
+- **Acceptance criteria:**
+  - **Source safety.** The tool validates source hashes, never overwrites
+    originals, and writes only under `build/`.
+  - **Byte records.** For every change, the decoded offset, original and modified
+    codes, and resulting PAC/LSN/sector changes are recorded.
+  - **Round trip.** Re-encoding round-trips (`decode(encode(x)) == x`), and no match
+    reaches before the output start.
+  - **Sector integrity.** Rebuilt sectors have regenerated EDC/ECC, validated by
+    the same routine that reproduces every original sector's EDC/ECC.
+  - **No collateral changes.** All other files and sectors are byte-identical to
+    the source.
+  - **Determinism.** Two builds produce identical hashes.
+  - **Runtime.** A cold boot of the derived image shows `あいう` in at least two
+    independent Ryu wins, with screenshots. The original image is the control.
+  - **Closeout.** Source hashes are unchanged, and tests, experiment, log, and
+    discoveries are updated.
+- **Outputs:** Encoder and image-patch tooling with synthetic tests, a local
+  derived image and evidence, and tracked metadata and documentation.
+- **Notes:** Amended 2026-10-17 at the user's direction: no English text is needed.
+  English captions moved to `DISC-020` behind `GATE-TRANSLATION`. Do not generalize
+  during M2. Design: `EXP-0019`.
+
+### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 
 - **Status:** `BLOCKED`
 - **Milestone:** M2
-- **Dependencies:** DISC-001, GATE-TRANSLATION.
-- **Blockers:** Disc source and constraints are not confirmed; translation
-  prerequisites are incomplete.
-- **Objective:** Patch or rebuild from an untouched, identity-verified source into a distinct `build/` output and reproduce the M1 caption.
-- **Rationale:** M2 proves a deterministic source-to-visible-output pipeline.
-- **Acceptance criteria:** Tool validates source hashes and never overwrites originals; original/modified bytes and file offset/purpose are recorded; repeated builds are deterministic or understood; a fresh boot/checkpoint visibly reproduces the expected English caption; source hashes remain unchanged; tests, experiment, log, and discoveries are updated.
-- **Outputs:** Patch/build tool, synthetic tests, local derived image/evidence, tracked metadata and documentation.
-- **Notes:** Do not generalize during M2.
+- **Dependencies:** DISC-002, GATE-TRANSLATION.
+- **Blockers:** The marker pipeline is not confirmed; translation prerequisites are
+  incomplete.
+- **Objective:** Using the confirmed `DISC-002` pipeline, replace one Ryu quote
+  with its verified official English wording and reproduce it from a cold boot.
+- **Rationale:** This is the first translation deliverable. It depends on
+  reference provenance (`REF-003` to `REF-005`) and on which glyph codes exist for
+  Latin text.
+- **Acceptance criteria:** Same as `DISC-002`, with the expected English caption
+  as the visible result and its provenance recorded.
+- **Outputs:** Patched build, evidence, and translation record.
+- **Notes:** Whether the font has Latin glyphs, and which codes select them, is
+  unknown. Investigate it as its own experiment before this task.
 
 ### RE-020 - Handle multiple Ryu captions programmatically
 
