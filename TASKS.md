@@ -10,8 +10,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Reverse-engineering experiments in progress: none.
 - Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
-- Next research task: `RE-022` (caption compiler; offline). `RE-023`
-  (selection, `EXP-0025`) is also `READY`. Then `RE-024` and `RE-025`.
+- Next research task: `RE-023` (selection, `EXP-0025`; live debugger session),
+  then `RE-024` (all 16 records live from the `RE-022` marker image) and
+  `RE-025`.
   Full English text still waits on `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
@@ -1078,7 +1079,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-022 - Build a caption compiler for Ryu's table
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M3
 - **Dependencies:** RE-021.
 - **Blockers:** None (`RE-021` done).
@@ -1108,6 +1109,15 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** `tools/text/caption_compiler.py` (reusing `pair_font`, `pac_patch`,
   and `patch_image`), tests, and a schema.
 - **Notes:** No English translation text. Markers and synthetic stress text only.
+- **Evidence (2026-10-17):**
+  - `tools/text/caption_compiler.py` with 7 tests, and
+    `data/captions/caption_spec.schema.json`.
+  - Marker image `build/re022_markers/image_{a,b}`: 51 pairs, 21 kanji
+    sacrificed, splice re-encode. All checks pass, both builds and a rerun are
+    identical, and track 01 is `fd007d13…`.
+  - Stress set: 227 pairs and 101 sacrifices; it fits only with the full
+    re-encode, leaving 155 bytes of `MC09.PAC` slack.
+  - Recorded in `research_log.md`. The live display test is `RE-024`.
 
 ### RE-023 - Identify the win-quote selection mechanism (EXP-0025)
 

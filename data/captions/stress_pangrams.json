@@ -1,0 +1,118 @@
+{
+  "schema": "mshvsf-captions/1",
+  "description": "RE-022 capacity stress set: neutral English pangram text (not translations), every line at the full 38 characters.",
+  "records": [
+    {
+      "record": 0,
+      "lines": [
+        "The quick brown fox jumps over the laz",
+        "y dog Pack my box with five dozen liqu"
+      ]
+    },
+    {
+      "record": 1,
+      "lines": [
+        "or jugs How vexingly quick daft zebras",
+        " jump Sphinx of black quartz judge my "
+      ]
+    },
+    {
+      "record": 2,
+      "lines": [
+        "vow The five boxing wizards jump quick",
+        "ly Jackdaws love my big sphinx of quar"
+      ]
+    },
+    {
+      "record": 3,
+      "lines": [
+        "tz Waltz bad nymph for quick jigs vex ",
+        "Glib jocks quiz nymph to vex dwarf Bri"
+      ]
+    },
+    {
+      "record": 4,
+      "lines": [
+        "ght vixens jump dozy fowl quack Quick ",
+        "zephyrs blow vexing daft Jim Two drive"
+      ]
+    },
+    {
+      "record": 5,
+      "lines": [
+        "n jocks help fax my big quiz Five quac",
+        "king zephyrs jolt my wax bed Big July "
+      ]
+    },
+    {
+      "record": 6,
+      "lines": [
+        "earthquakes confound zany experimental",
+        " vow Crazy Fredrick bought many very e"
+      ]
+    },
+    {
+      "record": 7,
+      "lines": [
+        "xquisite opal jewels We promptly judge",
+        "d antique ivory buckles for the next p"
+      ]
+    },
+    {
+      "record": 8,
+      "lines": [
+        "rize A mad boxer shot a quick gloved j",
+        "ab to the jaw of his dizzy opponent Ja"
+      ]
+    },
+    {
+      "record": 9,
+      "lines": [
+        "ded zombies acted quaintly but kept dr",
+        "iving their oxen forward The job requi"
+      ]
+    },
+    {
+      "record": 10,
+      "lines": [
+        "res extra pluck and zeal from every yo",
+        "ung wage earnerThe quick brown fox jum"
+      ]
+    },
+    {
+      "record": 11,
+      "lines": [
+        "ps over the lazy dog Pack my box with ",
+        "five dozen liquor jugs How vexingly qu"
+      ]
+    },
+    {
+      "record": 12,
+      "lines": [
+        "ick daft zebras jump Sphinx of black q",
+        "uartz judge my vow The five boxing wiz"
+      ]
+    },
+    {
+      "record": 13,
+      "lines": [
+        "ards jump quickly Jackdaws love my big",
+        " sphinx of quartz Waltz bad nymph for "
+      ]
+    },
+    {
+      "record": 14,
+      "lines": [
+        "quick jigs vex Glib jocks quiz nymph t",
+        "o vex dwarf Bright vixens jump dozy fo"
+      ]
+    },
+    {
+      "record": 15,
+      "lines": [
+        "wl quack Quick zephyrs blow vexing daf",
+        "t Jim Two driven jocks help fax my big"
+      ]
+    }
+  ]
+}

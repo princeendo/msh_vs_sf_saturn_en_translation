@@ -2362,3 +2362,39 @@ Checks: pytest (121 passed), ruff check, ruff format --check, and strict mypy.
 
 Next action:
 `RE-022` (caption compiler, offline). `RE-023` (selection) is also `READY`.
+
+## 2026-10-17 — RE-022 caption compiler
+
+Task: RE-022
+
+- Added `tools/text/caption_compiler.py`, `data/captions/caption_spec.schema.json`,
+  `data/captions/ryu_markers.json` (record-identifying markers, not
+  translations), and `data/captions/stress_pangrams.json` (neutral pangrams at
+  full length). Tests: `tests/unit/test_caption_compiler.py`.
+- `pair_font.build` now takes an explicit code list. Its CLI still reproduces
+  EXP-0023's `MEMFIX.PAC` (`90ff759c…`).
+- Correction: record 0's placeholder is at **cell 8**, not cell 0 (my `EXP-0024`
+  text was wrong; fixed there). The compiler caught it, because `{P}` is
+  allowed only where the original record has `0000`.
+- Marker build (`build/re022_markers`, manifest `35bab336…`):
+  - 51 distinct pairs at `0x00A8-0x00DA`, 2,095 bytes;
+  - 21 kanji sacrificed (`0x0C5E` … `0x0C24`);
+  - `MC09.PAC` splice re-encode with 456 fill bytes.
+  - Checks: font and table verified; 414 files with only the two targets
+    differing; 0 invalid sectors; both images identical (track 01 `fd007d13…`);
+    a `--files-only` rerun is byte-identical.
+  - The `records.png` render shows all 16 markers legibly.
+- Stress build (`--files-only`, manifest `90e745b5…`):
+  - 227 distinct pairs (`0x00A8-0x029A`, using all three free ranges);
+  - 9,637 bytes, with 101 kanji sacrificed of 321;
+  - the splice overflowed, so the full re-encode was used, leaving 155 bytes of
+    fill.
+  - So `MC09.PAC`'s compressed size, not font space, is the tighter limit for a
+    full-length English set.
+- New unknowns: English punctuation codes, `MC09.PAC` margin for real text, and
+  display of the untested free code ranges.
+
+Checks: pytest (128 passed), ruff check, ruff format --check, and strict mypy.
+
+Next action:
+`RE-023` (selection mechanism, `EXP-0025`; live debugger session).

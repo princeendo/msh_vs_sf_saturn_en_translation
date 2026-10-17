@@ -51,6 +51,24 @@ They move here only after a controlled mutation confirms them (`RE-012`).
     pointer at `0x0601D8E4`), decoded by `tools/text/font.py`. ASCII-shaped Latin
     glyphs exist at codes `0x0020-0x007E` (display `SUPPORTED`, pending a test).
 
+## Caption Compiler (`RE-022`)
+
+`tools/text/caption_compiler.py` builds a derived image from a caption spec
+(`data/captions/caption_spec.schema.json`), reading both inputs from the untouched
+source track:
+
+```bash
+./invenv.sh python -m tools.text.caption_compiler data/captions/ryu_markers.json \
+  --out-dir build/re022_markers            # files, two images, all checks
+./invenv.sh python -m tools.text.caption_compiler SPEC --out-dir build/X --capacity
+```
+
+- Lines are cut into two-letter pair glyphs. Distinct pairs go to free codes
+  (`0x00A8+`), and unseen kanji are emptied only as needed.
+- `{P}` keeps record 0's placeholder at cell 8.
+- Outputs go to `OUT/files/`, `OUT/image_{a,b}/`, `OUT/records.png` (offline
+  render), and `OUT/compile_manifest.json`.
+
 ## Questions to Resolve
 
 - Where and when does the first Ryu post-fight caption enter memory?

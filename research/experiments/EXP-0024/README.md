@@ -104,8 +104,9 @@ Every screenshot matched with IoU between 0.83 and 0.89 and a margin of at least
   all of its screenshots.
 - A visual check of rendered records 13 and 2 against `-0018`/`-0021` shows the
   same glyphs.
-- Only record 0 has a `0000` placeholder (cell 0). Its line 1 is 9 cells. Lines
-  of records 1-15 use 12-19 cells. All values are in the data file.
+- Only record 0 has a `0000` placeholder: cell 8, the last used cell of its
+  9-cell line 1. Lines of records 1-15 use 12-19 cells. All values are in the data
+  file.
 
 **Correction.** `EXP-0019` labelled `-0046` as "Q2, record 4". Its own state's
 display buffer equals record **5**, and the matcher agrees. The record-4 label was
