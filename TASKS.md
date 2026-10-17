@@ -10,8 +10,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Reverse-engineering experiments in progress: none.
 - Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
-- Next research task: `RE-024` (all 16 marker records live, automated with the
-  agent interface), then `RE-025`.
+- Next research task: `RE-025` (variant contexts, `EXP-0027`). It closes
+  `RE-020` and M3.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -1179,7 +1179,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-024 - Verify all 16 Ryu records from one compiled image (EXP-0026)
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M3
 - **Dependencies:** RE-022, RE-023.
 - **Blockers:** None (`RE-022`, `RE-023` done). It can run fully automated
@@ -1196,13 +1196,18 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   distinct records are seen. Then all 16 are verified in RAM, with the rest
   marked as offline evidence.
 - **Outputs:** `EXP-0026` and the build manifest.
+- **Evidence:** `EXP-0026` (2026-10-17). All 16 marker records were forced and
+  verified on screen and in RAM from one cold-booted marker image. Records 1-15
+  are pixel-exact. Record 0 shows ケン after the Latin text.
 
 ### RE-025 - Test variant contexts for Ryu's captions (EXP-0027)
 
-- **Status:** `BACKLOG`
+- **Status:** `READY`
 - **Milestone:** M3
 - **Dependencies:** RE-024.
-- **Blockers:** A verified compiled image.
+- **Blockers:** None (`RE-024` done). Variants still need gameplay for each
+  new context (team order, partner, mode); forcing then makes each check
+  automatic.
 - **Objective:** Decide which behavior is shared and which varies, using the
   `RE-024` image.
 - **Variants (one change each, against the Ryu-on-point, Ken-partner, arcade

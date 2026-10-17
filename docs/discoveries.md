@@ -423,6 +423,26 @@ Experiment: `EXP-0025` (agent interface, `EMU-021`)
 - **Open.** The source of `@(2,gbr)`, the special value 39 (table
   `0x06095544`), and the `0xCC90` remap stay `HYPOTHESIS`.
 
+## RE-024: All 16 Ryu Records Display Compiled Captions
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0026`
+
+- **Build.** `tools/text/caption_compiler.py` built the marker image
+  (`data/captions/ryu_markers.json` → track 01 `fd007d13…`) from the untouched
+  source.
+- **Result.** After one cold boot and one KO, all 16 records were forced (agent
+  `onhit 060AF282`) and verified:
+  - pointer;
+  - screen match: pixel-exact for records 1-15;
+  - cart-RAM font, WRAM-L table, and display buffer.
+- **Glyphs.** All 51 pair glyphs at `0x00A8-0x00DA` render as compiled.
+- **Record 0.** The `0000` placeholder renders the partner name in katakana
+  (ケン) directly after Latin text. Line 1 keeps 19 display entries.
+- **Reproduce.** `EXP-0026` Procedure: `ko_capture.py` once with a KO, then 16
+  forced runs and `verify_records.py`.
+
 ## Entry Requirements
 
 Each future entry must include:

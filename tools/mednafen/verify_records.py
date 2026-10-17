@@ -46,29 +46,38 @@ def buffer_codes(wram_h: bytes, count: int) -> list[int]:
 
 def expected_buffer(
     codes: Sequence[int], shown: Sequence[int]
-) -> tuple[bool, list[int]]:
-    """Match a record against displayed entries; return (ok, placeholder glyphs).
+) -> tuple[bool, list[int], list[int]]:
+    """Match a record against displayed entries.
 
-    Entries end at the first raw ``0x0000``. A record without a placeholder must
-    match entry for entry. With a placeholder, the expanded name shifts the
-    blank cells (`RE-024`), so the non-blank glyphs are compared in order, with
-    the name glyphs taking the placeholder's place.
+    Returns (ok, placeholder glyphs, extra entries). Entries end at the first raw
+    ``0x0000``.
+
+    - A record without a placeholder matches entry for entry.
+    - With a placeholder (`RE-024`, `EXP-0026`), line 1 still holds 19 entries:
+      the expanded name glyphs replace the placeholder, and line 1's trailing
+      cells are dropped to make room. Line 2 follows unchanged.
+    - Entries after line 2 are returned as extras. Every record observed in
+      `EXP-0026` had one extra entry equal to line 2's first cell; it was not
+      drawn on screen.
     """
     used = list(shown[: shown.index(0)]) if 0 in shown else list(shown)
     entries = [c & 0x0FFF for c in used]
+    line = len(codes) // 2
     if PLACEHOLDER not in codes:
-        return entries[: len(codes)] == list(codes), []
+        return entries[: len(codes)] == list(codes), [], entries[len(codes) :]
     cut = codes.index(PLACEHOLDER)
-    if entries[:cut] != list(codes[:cut]):
-        return False, []
-    after = [c for c in codes[cut + 1 :] if c != BLANK]
-    for length in range(1, 17):
+    if cut >= line or entries[:cut] != list(codes[:cut]):
+        return False, [], []
+    for length in range(1, line - cut + 1):
         name = entries[cut : cut + length]
-        if BLANK in name:
-            break
-        if [c for c in entries[cut + length :] if c != BLANK] == after:
-            return True, name
-    return False, []
+        kept = list(codes[cut + 1 : line - length + 1])
+        if (
+            BLANK not in name
+            and entries[cut + length : line] == kept
+            and entries[line : 2 * line] == list(codes[line:])
+        ):
+            return True, name, entries[2 * line :]
+    return False, [], []
 
 
 def verify_run(run: Path, font_image: bytes, decoded: bytes) -> dict[str, object]:
@@ -85,7 +94,7 @@ def verify_run(run: Path, font_image: bytes, decoded: bytes) -> dict[str, object
     wram_h = extract_region(state, REGIONS["wram_h"], "saturn")
     cart_offset = FONT_CART - REGIONS["cart_ram"].base_address
     table_offset = 0x002091AC - REGIONS["wram_l"].base_address
-    buffer_ok, name = expected_buffer(codes, buffer_codes(wram_h, 60))
+    buffer_ok, name, extra = expected_buffer(codes, buffer_codes(wram_h, 60))
     checks: dict[str, object] = {
         "index": index,
         "pointer": f"0x{pointer:08X}",
@@ -101,6 +110,8 @@ def verify_run(run: Path, font_image: bytes, decoded: bytes) -> dict[str, object
     }
     if name:
         checks["placeholder_glyphs"] = [f"0x{c:04X}" for c in name]
+    if extra:
+        checks["extra_entries"] = [f"0x{c:04X}" for c in extra]
     checks["all_ok"] = all(
         checks[k]
         for k in (

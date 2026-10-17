@@ -62,7 +62,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
     like `0x00A8-0x00B1`? Only the latter were shown on screen (`EXP-0023`).
   - Is Ryu's table used unchanged when Ryu is the second team member, with a
     partner other than Ken, or in versus mode? What does the record 0 `0000`
-    placeholder render beside Latin text? (`RE-024`, `RE-025`.)
+    placeholder render beside Latin text? (`RE-025`. `RE-024` answered the last
+    question: katakana ケン inline after the Latin text.) Must the partner-name
+    table (`0x06095EC4`) be localized for English? What is the undrawn extra
+    39th display entry?
   - Do the other `MCxx.PAC` files hold other characters' quote tables?
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?
