@@ -33,7 +33,7 @@ def test_char_code_and_split() -> None:
 def test_build_adds_pairs_and_sacrifices_only_as_needed() -> None:
     image = base_image()
     candidates = list(range(0x0A0F, 0x09FF, -1))
-    new, info = build(image, ["Th", "e "], 0x00A8, candidates)
+    new, info = build(image, ["Th", "e "], [0x00A8, 0x00A9], candidates)
 
     assert len(new) == len(image)
     _, glyphs = unpack(new)
@@ -51,10 +51,12 @@ def test_build_adds_pairs_and_sacrifices_only_as_needed() -> None:
 
 def test_build_with_slack_sacrifices_nothing() -> None:
     image = base_image(extra=4096)
-    _, info = build(image, ["Th"], 0x00A8, [0x0A00])
+    _, info = build(image, ["Th"], [0x00A8], [0x0A00])
     assert info["sacrificed"] == []
 
 
 def test_build_rejects_occupied_code() -> None:
     with pytest.raises(ValueError):
-        build(base_image(), ["Th"], 0x0A00, [])
+        build(base_image(), ["Th"], [0x0A00], [])
+    with pytest.raises(ValueError):
+        build(base_image(), ["Th", "is"], [0x00A8, 0x00A8], [])

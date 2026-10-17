@@ -59,13 +59,15 @@ def stored_size(glyph: Glyph) -> int:
 def build(
     image: bytes,
     pairs: Sequence[str],
-    first_code: int,
+    codes: Sequence[int],
     candidates: Sequence[int],
 ) -> tuple[bytes, dict[str, object]]:
+    """Store ``pairs[i]`` at ``codes[i]``, emptying candidates only as needed."""
+    if len(pairs) != len(codes) or len(set(codes)) != len(codes):
+        raise ValueError("need one distinct code per pair")
     header, glyphs = unpack(image)
     glyphs = list(glyphs)
     count = int.from_bytes(header[12:16], "big")
-    codes = list(range(first_code, first_code + len(pairs)))
     for code in codes:
         if code >= count or glyphs[code].kind != "empty":
             raise ValueError(
@@ -132,9 +134,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     data = bytearray(args.memfix.read_bytes())
     image = bytes(data[args.entry_offset : args.entry_offset + args.entry_size])
     try:
-        new_image, info = build(
-            image, split_pairs(args.text), args.first_code, candidates
-        )
+        pairs = split_pairs(args.text)
+        codes = range(args.first_code, args.first_code + len(pairs))
+        new_image, info = build(image, pairs, list(codes), candidates)
     except ValueError as error:
         parser.error(str(error))
     data[args.entry_offset : args.entry_offset + args.entry_size] = new_image
