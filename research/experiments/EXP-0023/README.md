@@ -217,3 +217,86 @@ Phase C (cold boot):
 - add at least 8 new pair glyphs in free codes below `0x0C60` (for example
   `0x00A8+`), so the header is unchanged;
 - show them in a Ryu quote and sample unchanged glyphs.
+
+## Phase C Build and Offline Checks (2026-10-17)
+
+### Font repack
+
+`tools/text/pair_font.py` (new, with tests) unpacks entry 4, composes pair glyphs
+with `glyph_patch.compose` from the full-width Latin glyphs, and stores them at
+consecutive free codes. It then empties sacrificial glyphs, highest code first,
+from the unseen kanji (`0x0926-0x0C5F` in `unseen_codes.json`), only until the
+repack fits. The rest of the entry is zero-filled to 206,656 bytes, so the header
+(code count `0x0C60`) and every other `MEMFIX.PAC` entry are unchanged.
+
+```bash
+./invenv.sh python -m tools.text.pair_font research/extracted_files/mshvsf_saturn_jp/MEMFIX.PAC \
+  --text "Is that all you got!" --first-code 0x00A8 \
+  --candidates research/memory_dumps/exp0023/unseen_codes.json \
+  --out build/exp0023c/MEMFIX.PAC --manifest build/exp0023c/font_manifest.json
+```
+
+| Code | Pair | Code | Pair |
+| --- | --- | --- | --- |
+| `0x00A8` | `Is` | `0x00AD` | `l␣` |
+| `0x00A9` | `␣t` | `0x00AE` | `yo` |
+| `0x00AA` | `ha` | `0x00AF` | `u␣` |
+| `0x00AB` | `t␣` | `0x00B0` | `go` |
+| `0x00AC` | `al` | `0x00B1` | `t!` |
+
+- 10 distinct pair glyphs, 341 bytes in total. All 10 codes were empty in the
+  original font.
+- **Sacrificed (4 unseen kanji, 387 bytes):** `0x0C5E`, `0x0C5D`, `0x0C5C`,
+  `0x0C54`.
+- Packed size is 206,610 bytes, with 46 zero-fill bytes.
+- Font image `23c5c2f5…`, `MEMFIX.PAC` `90ff759c1cb8016f…`, manifest
+  `d9fab066…`.
+- Preview `build/exp0023c/pair_preview.png` (ignored) reads "Is that all you got!".
+
+**Offline font check:**
+
+- Changed bytes lie only inside entry 4 (`0x6A596-0x9CC96`).
+- Unpacked, the only changed codes are the 10 pairs and the 4 sacrifices.
+- Each pair equals its composed cell, the sacrifices are empty, and the header is
+  identical.
+
+### Quote table
+
+`MC09.PAC`, all 16 records (decoded `0x91AC + 76·r`):
+
+- line-1 cells 0-9 = `0x00A8-0x00B1`;
+- line-1 cells 10-18 = `0x0020` (blank);
+- line 2 (cells 19-37) unchanged as the control sample: 87 distinct original
+  kana and kanji codes, none of them sacrificed.
+
+`tools/disc/pac_patch.py` splice re-encode (304 writes, listed in
+`build/exp0023c/mc09_writes.txt`, `565a4f5f…`):
+
+- Stream kept unchanged up to byte 20,411 (decoded `0x91A4`). New stream 24,904
+  bytes, with 200 zero-fill bytes.
+- File `a4a0e2c1…`, decoded `21aa7d9d…`, manifest `a29c85a5…`.
+
+### Image
+
+`patch_image` was run twice with both files into `build/mshvsf_exp0023c_{a,b}`.
+
+- Builds identical. Track 01 SHA-256 `5f5ef65134b47853587845272fcf4c9eba53eaa1245175c16ede5254a3298d46`.
+- Tracks 02-12 and the CUE are byte-identical to the source.
+- Changed sectors: LSN 4166-4168 and 4171-4267 (`MEMFIX.PAC` entry 4; 4169-4170
+  hold unshifted glyph data) and 8246, 8255-8258 (`MC09.PAC`).
+- Build manifest `f024958b…`.
+
+### Offline verification
+
+- `iso9660 --check`: 0 bad sync, mode, or address; 414 files. Only `MEMFIX.PAC`
+  and `MC09.PAC` differ, and both equal the build inputs.
+- `sector` verify: 0 of 192,346 invalid.
+- Decoded `MC09.PAC` differs in 445 bytes, all inside the 304 target cells, and
+  all of those cells hold the expected codes.
+- Source identity unchanged.
+
+### Boot prediction
+
+On a cold boot, every Ryu win quote line 1 reads `Is that all you got!` (10 cells),
+with the original Japanese line 2 intact. A line-1 blank or garbage cell
+refutes H-C for that code.
