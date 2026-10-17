@@ -1,0 +1,57 @@
+{
+  "source": "EXP-0020 (FONT-001); font decoded from cart RAM by tools/text/font.py; MSHvSF Saturn JP T-1238G",
+  "confidence": {
+    "ascii_0x20_0x7E": "CONFIRMED display for 0x41-0x43 (EXP-0020 Phase 2); rest SUPPORTED by atlas",
+    "fullwidth_latin": "SUPPORTED by atlas (in-quote display not yet tested)"
+  },
+  "ranges": [
+    {
+      "name": "ascii_halfwidth",
+      "first": "0x0020",
+      "last": "0x007E",
+      "rule": "code = ASCII value",
+      "style": "8x8 gradient (values 2-8), top half of cell, no shadow; faint in quote palette"
+    },
+    {
+      "name": "fullwidth_upper",
+      "first": "0x08E8",
+      "last": "0x0901",
+      "rule": "A + (code - 0x08E8)",
+      "style": "16x16 quote style (body 1 + shadow F)"
+    },
+    {
+      "name": "fullwidth_lower",
+      "first": "0x0902",
+      "last": "0x091B",
+      "rule": "a + (code - 0x0902)",
+      "style": "16x16 quote style"
+    },
+    {
+      "name": "fullwidth_digits",
+      "first": "0x091C",
+      "last": "0x0925",
+      "rule": "0 + (code - 0x091C)",
+      "style": "16x16 quote style"
+    },
+    {
+      "name": "hiragana",
+      "first": "0x0800",
+      "last": "0x0852",
+      "rule": "0x0800 + (Shift-JIS second byte - 0x9F)",
+      "style": "quote style",
+      "confidence": "SUPPORTED (EXP-0013, 46/46 kana) and CONFIRMED for 0801/0803/0805 (EXP-0015)"
+    },
+    {
+      "name": "blank",
+      "first": "0x0020",
+      "last": "0x0020",
+      "rule": "blank cell in quote records",
+      "style": "empty"
+    }
+  ],
+  "known_symbols": {
+    "0x08AE": "・",
+    "0x08DD": "！",
+    "0x08DF": "!! (single glyph)"
+  }
+}

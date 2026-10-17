@@ -263,9 +263,12 @@ staging cell at `0x0601CEEC`. It reads a font whose base pointer is at
   `tools/text/font.py` decodes it.
 
 Decoding state A's cart RAM reproduces all 79 known quote glyph cells byte for
-byte, including the drop shadow. Latin glyphs exist at ASCII codes
-`0x0020-0x007E`, but their in-quote display is not yet confirmed (Phase 2). The
-disc source of the font is unknown.
+byte, including the drop shadow.
+
+Phase 2 confirmed that ASCII codes `0041-0043` display as `A B C` in a quote, with
+two patched runs and an unchanged control. They are faint 8x8 gradient glyphs.
+Full-width quote-style Latin (`0x08E8-0x0925`) exists in the font (atlas). The disc
+source of the font is unknown.
 
 ## Entry Requirements
 
