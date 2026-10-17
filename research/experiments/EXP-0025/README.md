@@ -209,3 +209,51 @@ Lessons:
   or the pointer itself;
 - manual debugger work at this granularity is not practical. See `EMU-012` /
   `EMU-020`.
+
+## Part 1 Rerun Through the Agent Interface (2026-10-17, `EMU-021` V4)
+
+The patched Mednafen (`fe0edb99…`) ran `tools/mednafen/ko_capture.py` from slot 5,
+and the user played one KO with no debugger interaction. Breakpoints in log mode
+on the index word and the pointer recorded 8 hits:
+
+| n | Frame | PC | R0 | R1 | Meaning |
+| --- | --- | --- | --- | --- | --- |
+| 1, 3 | 10067, 10076 | `060490EC` | `0` | `00000604` | clearing loop (bonus tally) |
+| 2, 5 | 10069, 10207 | `06047AC4` | `0` | `3E`/`3B` | structure fill |
+| 4 | 10088 | `06047CCA` | `0` | `3E` | structure fill |
+| 6 | 10207 | **`060AF282`** | `0` | `060F9E66` | **index store** (`mov.w r0,@r1`, r1 = r6+80) |
+| 7 | 10207 | `060AF724` | `002091AC` | `060F249E` | pointer low word |
+| 8 | 10207 | `060AF728` | `00000020` | `060F249E` | pointer high word |
+
+- **Result.** Pointer `0x002091AC`, index 0. The screenshot (`quote.png`,
+  `9c2350ac…`) shows **record 0**: the matcher scores it IoU 0.81 against 0.16
+  for the runner-up. The partner placeholder (cell 8) renders as **ケン**.
+  So the written pointer equals the shown record, and **Part 1's prediction
+  holds** (H: `CONFIRMED` for this run). Record 0 was seen live for the first time.
+- **Checkpoint.** A post-KO checkpoint was saved at hit 1 (`postko.mc`,
+  `3f18717b…`). Replaying it with no input reproduced hits 3-8 exactly: the same
+  PCs and values, and 131 frames from the clearing loop to the pointer. Quote
+  transitions are now reproducible without gameplay.
+
+### Selection code (static, `060AF220-060AF282`)
+
+```text
+@(2,gbr) == 39 → special path: index = @(6,gbr) >> 1, table = 0x06095544
+otherwise      → index = @(2,gbr) & 0x0F
+if @(r11 + 0xCC90) != 0 → index = byte table 0x060AF310[index]
+060AF282: @(r6 + 80).w = index        ; r6 = 0x060F9E16 → 0x060F9E66
+```
+
+The source of `@(2,gbr)` (random or otherwise) is not traced yet. The special
+value 39 and its table at `0x06095544` are `HYPOTHESIS` (for example, a
+match-specific quote).
+
+## Part 2 (revised pre-registration, 2026-10-17): agent-driven forcing
+
+- **Single change:** `onhit 060AF282 write workramh F9E66 0006`. After the index
+  store executes, the index word becomes 6.
+- **Start:** `postko.mc` (`3f18717b…`), so no input is needed.
+- **Prediction:** the pointer store writes `0x002093D4`, and the quote screen
+  matches record 6 (never seen before).
+- **Control:** the replay above with no action (record 0).
+- **Refuted if:** another record is shown, or the pointer differs.
