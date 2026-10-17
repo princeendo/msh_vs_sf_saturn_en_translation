@@ -6,11 +6,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ## Current State
 
-- Current milestone: **M0**, research environment bootstrap.
+- Current milestone: **M1**: one Ryu post-fight caption visibly modified in live
+  RAM. M0 was accepted on 2026-10-17 under the amended technical gate.
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `EMU-011` via `EXP-0014`, which needs the user at the
-  keyboard. That completes the amended `GATE-M0`; then `RE-012` via `EXP-0015`.
+- Next research task: `RE-012` via `EXP-0015` (live mutation of the quote table).
+  `GATE-TRANSLATION` remains open for translation work.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -378,7 +379,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-011 - Document debugger workflow
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-010.
 - **Blockers:** None.
@@ -386,16 +387,18 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Rationale:** Later experiments must be reproducible by another session.
 - **Acceptance criteria:** Each command is tied to the tested version and observed outcome; unsupported or unreliable actions are explicit.
 - **Outputs:** `docs/mednafen.md` capability/runbook update.
-- **Notes:** Documentation is not evidence until actions are tested. Test design:
-  `EXP-0014` (memory write and revert via `L`/`D` while frozen; write breakpoint on
-  the WRAM-H quote buffer).
+- **Notes:** Documentation is not evidence until actions are tested. `EXP-0014`
+  confirmed `L` write, `D` read-back, revert, register display, and a CPU write
+  breakpoint (fired at PC `0x060AF8C6`). The runbook is in `docs/mednafen.md`.
+  Untested: read breakpoints, PC breakpoints, edit mode, and pokes. The CPU-view
+  memory pane is a `0xAA` stub.
 
 ### EMU-012 - Determine stock Mednafen memory-workflow sufficiency
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** EMU-011, DBG-011.
-- **Blockers:** Stock debugger and checkpoint/dump workflow have not been exercised end to end.
+- **Blockers:** None.
 - **Objective:** Decide whether repeatable memory dump/read/write workflows needed for M1 are satisfactory.
 - **Rationale:** Custom emulator work is prohibited until a concrete stock limitation is demonstrated.
 - **Acceptance criteria:** A capability matrix records each requirement, experiment, result, reliability, and blocker; conclusion is `SUPPORTED` by observed workflows.
@@ -753,10 +756,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### GATE-M0 - Confirm environment and checkpoint prerequisites
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-001, ENV-002, ENV-003, ENV-004, ENV-005, ENV-006, ENV-007, EMU-001, EMU-002, EMU-003, EMU-004, EMU-005, EMU-006, EMU-007, EMU-008, EMU-009, EMU-010, EMU-011, REF-001, REF-002, REF-007, DBG-001, DBG-003, DBG-005, DBG-006, DBG-007, DBG-008, DBG-009, DBG-010, DBG-011, DBG-012, DBG-013, DBG-014.
-- **Blockers:** `EMU-011` (debugger workflow, including tested memory writes) is not `DONE`.
+- **Blockers:** None. Accepted 2026-10-17: every dependency is `DONE`. States B and
+  D are deferred (`EXP-0010`); REF-006 is optional. The tested write, revert, and
+  breakpoint workflow (`EXP-0014`) leaves no known workflow blocker for M1
+  evidence.
 - **Objective:** Make an explicit go/no-go decision before the first live RAM mutation.
 - **Rationale:** Partial setup must not be mistaken for permission to start M1.
 - **Acceptance criteria:** Every dependency is `DONE`; optional `REF-006`, state B, and state D have either evidence or documented rejection/fallback; no unresolved workflow blocker can invalidate M1 evidence.
@@ -791,10 +797,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-012 - Identify and modify runtime buffer for one Ryu quote
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M1
 - **Dependencies:** GATE-M0.
-- **Blockers:** M0 is not confirmed.
+- **Blockers:** None. `GATE-M0` was accepted on 2026-10-17. Design: `EXP-0015`.
 - **Objective:** Identify the runtime representation responsible for the selected Ryu caption and visibly change it with one controlled RAM mutation.
 - **Rationale:** This is the minimum causal proof linking runtime bytes to the caption.
 - **Acceptance criteria:** Candidate range is identified; exact original/modified bytes and address are recorded; mutation changes the intended visible caption while unrelated content is assessed; before/after screenshots and deterministic checkpoint are recorded; the result repeats from a clean checkpoint; experiment, log, and confirmed discovery are updated.

@@ -1781,3 +1781,45 @@ Run `EXP-0014` with the user at the keyboard.
 
 Checks: pytest (49 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 13:25 CDT — EXP-0014
+
+Task: EMU-011 (and GATE-M0 acceptance)
+
+Goal:
+Test stock debugger writes, revert, registers, and write breakpoints before the
+first live mutation.
+
+Hypothesis:
+`L` writes a file into Low Work RAM while frozen, `D` reads it back exactly, loading
+the original restores it, and a write breakpoint on the WRAM-H quote buffer fires
+during a replay.
+
+Action:
+User session from state A:
+
+- Dumped the table range, loaded the patch, dumped, loaded the original, dumped.
+- Set write breakpoints `060ED80A-060ED8A1 260ED80A-260ED8A1` and replayed the KO.
+
+The first `L` attempt failed, most likely from a mistyped long filename; the
+retry used short identical copies.
+
+Result:
+- Dumps were `78fd5a38…` (before), `08a1a3aa…` (after patch, equal to `p.bin`), and
+  `78fd5a38…` (after revert).
+- The breakpoint fired before the quote was drawn:
+  - PC `060AF8C6`, `mov.w r0,@r6`;
+  - R6 is about `060ED80A`, R7 `060ED900`, and R8 `002091FA` (inside the WRAM-L
+    table);
+  - nearby constants `#76` and `0x5000`.
+- The CPU-view memory pane shows `0xAA` (stub).
+
+Conclusion:
+The workflow is `CONFIRMED`; EMU-011 is DONE. `GATE-M0` (amended) is accepted, and
+the milestone is now M1. That the code reads the WRAM-L table into the WRAM-H
+buffer is `SUPPORTED`.
+
+Next action:
+`RE-012` via `EXP-0015`.
+
+Checks: pytest, ruff check, ruff format --check, and strict mypy (run at commit).
+

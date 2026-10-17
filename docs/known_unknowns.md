@@ -17,6 +17,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
   address spaces are recorded in `docs/mednafen.md` from `EXP-0007`.)
 - Do Saturn read/write breakpoints observe only CPU accesses, or also DMA and device
   activity, and at what point relative to the access do they stop?
+  `EXP-0014`: a CPU write breakpoint fired on a CPU store (`mov.w r0,@r6`). DMA
+  visibility is still untested.
 - Which game code paths access the 4 MiB cartridge RAM, and how can its contents be
   read without a debugger address space?
 
