@@ -10,9 +10,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `RE-020` (detail M3 subtasks from M2 evidence). For English
-  output, first establish whether the font has Latin glyphs and which codes select
-  them; `DISC-020` stays behind `GATE-TRANSLATION`.
+- Next research task: `FONT-001` via `EXP-0020` (Phase 1 offline font search). Then
+  `RE-020` (M3 planning). `DISC-020` stays behind `FONT-001` and
+  `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -901,13 +901,34 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   image showed `あいう` in two independent Ryu wins; only MC09.PAC sectors changed.
   M2 reached.
 
+### FONT-001 - Identify Latin glyphs in the quote font and their codes
+
+- **Status:** `READY`
+- **Milestone:** M3 (prerequisite for `DISC-020`)
+- **Dependencies:** DBG-013, DBG-014, DISC-001, EMU-011.
+- **Blockers:** None.
+- **Objective:** Determine whether the win-quote font contains Latin letters and
+  digits, and which 16-bit codes select them.
+- **Rationale:** English captions need displayable glyphs. No Latin glyph has been
+  observed in any quote, and the font's location and code mapping are unknown.
+- **Acceptance criteria:**
+  - The font source is identified with its format and index↔code rule, validated
+    on held-out known glyphs; or the experiment documents why the source could
+    not be found and what limits that places.
+  - At least one candidate Latin code is confirmed by a live display test with a
+    control, or the font is shown to have no Latin glyphs.
+- **Outputs:** `EXP-0020`, an ignored font atlas, a code table (factual metadata),
+  and a `research_log.md` entry.
+- **Notes:** Phase 1 is offline. Phase 1b and Phase 2 need the user at the
+  keyboard.
+
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 
 - **Status:** `BLOCKED`
 - **Milestone:** M2
-- **Dependencies:** DISC-002, GATE-TRANSLATION.
-- **Blockers:** Translation prerequisites (`GATE-TRANSLATION`) are incomplete.
-  Latin glyph availability in the font is unknown.
+- **Dependencies:** DISC-002, FONT-001, GATE-TRANSLATION.
+- **Blockers:** Translation prerequisites (`GATE-TRANSLATION`) and Latin glyph
+  codes (`FONT-001`) are incomplete.
 - **Objective:** Using the confirmed `DISC-002` pipeline, replace one Ryu quote
   with its verified official English wording and reproduce it from a cold boot.
 - **Rationale:** This is the first translation deliverable. It depends on

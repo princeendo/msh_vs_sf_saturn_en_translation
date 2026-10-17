@@ -2000,3 +2000,24 @@ RE-020 (M3) planning, and a Latin-glyph/font-code investigation for English.
 
 Checks: pytest (73 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 14:55 CDT — SESSION-0019
+
+Task: FONT-001 design
+
+Observation:
+- Ryu's 16 records use 112 distinct codes (blocks `0x00`, `0x04`, `0x08`,
+  `0x09-0x0C`), with no Latin letters or digits.
+- The `EXP-0013` font search covered only WRAM and cart RAM, not disc files.
+
+Action:
+- Added `FONT-001`, now a dependency of `DISC-020`.
+- Pre-registered `EXP-0020`:
+  - Phase 1: an offline search of all extracted files and decoded PACs for
+    known glyph shapes, then fitting the index↔code rule and rendering an atlas;
+  - Phase 1b: a staging-cell write breakpoint if Phase 1 fails;
+  - Phase 2: a live display test of candidate Latin codes, plus a separate ASCII
+    probe.
+
+Next action:
+`EXP-0020` Phase 1, which needs no user input.
+
