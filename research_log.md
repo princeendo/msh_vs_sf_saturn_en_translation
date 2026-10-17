@@ -2416,3 +2416,20 @@ Task: RE-023
 
 Next action:
 User runs EXP-0025 Part 1.
+
+## 2026-10-17 — EXP-0025 Part 1 result and Part 2 abort
+
+Task: RE-023
+
+- Part 1 (`SUPPORTED`): the pointer store at `060AF724`/`060AF728` writes
+  `table + 76·index`, with the index word at `0x060F9E66` (stride 100 when
+  `r11+0xCC8E` is set). The run chose record 3 (Q8). The quote was not captured,
+  because the game runs while the debugger is open.
+- Part 2 attempt 1 was aborted. Breakpoints on `0x060F9E66` fire inside struct-init
+  loops (`060490EC`, `06047CCA`), so the manual forcing procedure was impractical.
+- The user reported the manual workflow is too tedious: no paste, everything
+  hand-typed, F9 excludes the debugger, and screenshots must be relayed. This is
+  concrete evidence for `EMU-012` (stock sufficiency) and `EMU-020`.
+
+Next action:
+User decision on the workflow (see the session for options).
