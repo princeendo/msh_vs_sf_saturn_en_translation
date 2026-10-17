@@ -2,7 +2,7 @@
 
 Task: `FONT-001`
 Date: 2026-10-17
-Status: READY
+Status: IN_PROGRESS
 Confidence: HYPOTHESIS
 
 ## Observation
@@ -82,6 +82,89 @@ Confidence: HYPOTHESIS
 - `research/memory_dumps/exp0012/`, `exp0013/`, and the `EXP-0010` VDP1
   extractions.
 
-## Actual Result
+## Actual Result: Phase 1 (2026-10-17)
 
-Pending.
+### Known-glyph catalog
+
+`tools/memory/glyph_codes.py` (new, with tests) pairs each quote sprite cell with
+its code from the WRAM-H buffer:
+
+```bash
+./invenv.sh python -m tools.memory.glyph_codes research/savestates/archive-2026-10-17/*.mc* \
+  --out research/memory_dumps/exp0020/known_glyphs.json
+```
+
+- **79 codes, 0 conflicts**, from 12 quote-screen states. Output (ignored) SHA-256
+  prefix `a1bf8324e47dd886`.
+- Codes covered: `0402-0403`, 46 `08xx` (kana and punctuation), and 30 kanji
+  `093A-0C42`.
+
+### Glyph pixel format
+
+- Pixel nibbles are `0` (empty), `1` (body), `2`-`A` (intermediate shading), and
+  `F` (shadow, equal to the body shifted by +1 column, +1 row, and +1 diagonal).
+  Overall counts: `0` 12,054; `1` 2,970; `2-A` 2,101; `F` 3,099.
+- Bodies occupy rows 1-13 and columns 1-14 of the 16x16 cell.
+
+### Searches (all zero unless noted)
+
+The search covered 466 files, 397,416,080 bytes: all 414 extracted files plus 52
+LZSS-decoded PAC payloads.
+
+| Form | Hits |
+| --- | ---: |
+| Exact 4 bpp cell | 0 |
+| 1 bpp body mask, MSB or LSB, unshifted | 0 |
+| Shadow-free 4 bpp cell (`F` → 0), 0-3 px left shifts, 0-2 row shifts | 0 |
+| Densest two shadow-free rows per glyph, 0-3 px shifts | 3 (see below) |
+
+The 3 two-row hits were all for the same horizontal-stroke glyph, `093D`, in
+`BG03`, `BG0D`, and `BGSEL` background graphics. They are coincidental.
+
+The shadow-free two-row search was repeated on WRAM-L, WRAM-H, and cart RAM
+(unvalidated) of states C1 and A: 0 hits.
+
+### Static observation
+
+WRAM-H holds `0601CEEC` (the staging-cell address) in two places:
+
+- `0x0601CEE8`, next to `0601CF6C` at `0x0601CEE4`, immediately after an
+  `000B 0009` (`rts; nop`) sequence at `0x0601CEE0`;
+- `0x0601D9E0`, after `000B 0009` at `0x0601D9DA`.
+
+Both look like SH-2 literal pools at the end of routines. These are candidates for
+the glyph renderer and the cell copy (`HYPOTHESIS`; not disassembled).
+
+## Phase 1 Conclusion
+
+H1 is not supported for the tested formats. The font is not stored as 4 bpp,
+shadow-free 4 bpp, or 1 bpp 16x16 glyphs in any disc file, decoded PAC payload, or
+work RAM.
+
+The intermediate shading suggests that glyphs are generated from another
+representation, for example a compressed font, a non-decodable PAC, or a different
+resolution. That remains unknown. Phase 1b follows.
+
+## Phase 1b Design (interactive)
+
+**Hypothesis.** A CPU write breakpoint on the staging cell
+`0601CEEC-0601CF6B 2601CEEC-2601CF6B`, set during a replay from state A on the
+original image, halts in the glyph renderer. Its registers identify the font source
+address and the code being drawn.
+
+**Procedure.**
+
+1. Boot the original image and load slot 5 (state A).
+2. Set the write breakpoint, unpause, and KO with Ryu.
+3. At the halt, record PC, R0-R15, and PR (screenshot).
+4. With `D`, dump High Work RAM and Low Work RAM.
+5. Clear the breakpoint and press `R`.
+
+**Predictions.**
+
+- A register holds a source address outside the staging cell (font data or a
+  decompression buffer).
+- The bytes there relate to the glyph being drawn, which the next offline step
+  tests.
+- If the source is cart RAM, the debugger cannot dump it, so a save state taken
+  after resuming will be extracted (unvalidated region, `HYPOTHESIS` strength).

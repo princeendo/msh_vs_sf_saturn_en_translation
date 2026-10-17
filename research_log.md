@@ -2021,3 +2021,35 @@ Action:
 Next action:
 `EXP-0020` Phase 1, which needs no user input.
 
+## 2026-10-17 15:15 CDT — EXP-0020 Phase 1
+
+Task: FONT-001
+
+Hypothesis:
+The quote font is in a disc file (raw or PAC-decoded) as glyph bitmaps that match
+the known glyph cells.
+
+Action:
+- Added `tools/memory/glyph_codes.py` (79 code→cell pairs from 12 states, no
+  conflicts).
+- Searched 466 files (397 MB) for exact 4 bpp cells, 1 bpp body masks (MSB/LSB),
+  and shadow-free 4 bpp cells and row pairs with shifts. Repeated the shadow-free
+  row search on WRAM-L/H and cart RAM.
+
+Result:
+- 0 meaningful hits; only 3 coincidental hits on a horizontal-stroke glyph in
+  background graphics.
+- Glyph cells contain shading values `2`-`A` in addition to body `1` and shadow
+  `F`.
+- WRAM-H literal pools at `0x0601CEE8` and `0x0601D9E0` reference the staging cell
+  (candidate renderer and copy routines).
+
+Conclusion:
+H1 is not supported for these formats; do not repeat plain 4 bpp, 1 bpp, or
+shadow-free bitmap searches of disc files or work RAM.
+
+Next action:
+Phase 1b, a staging-cell write breakpoint, which needs the user.
+
+Checks: pytest (75 passed), ruff check, ruff format --check, and strict mypy.
+
