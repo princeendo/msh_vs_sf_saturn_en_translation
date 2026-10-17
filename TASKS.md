@@ -8,10 +8,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Current active task: none. `FONT-003` is `DONE` (`EXP-0023` Phase C confirmed).
 - Reverse-engineering experiments in progress: none.
-- Next research task: `RE-020` (M3 planning). Full English text still waits on
-  `GATE-TRANSLATION`.
+- Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
+- Next research task: `RE-021` (record map and offline renderer; offline). Then
+  `RE-022` (compiler), `RE-023` (selection, `EXP-0024`), `RE-024`, and `RE-025`.
+  Full English text still waits on `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -1014,15 +1015,159 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-020 - Handle multiple Ryu captions programmatically
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS` (planning done 2026-10-17; work proceeds through
+  `RE-021`-`RE-025`)
 - **Milestone:** M3
 - **Dependencies:** DISC-002.
 - **Blockers:** None. M2 was confirmed by `DISC-002` / `EXP-0019`.
-- **Objective:** Extend the confirmed mechanism to multiple Ryu captions through structured data and tooling.
+- **Objective:** Extend the confirmed mechanism to multiple Ryu captions through
+  structured data and tooling.
 - **Rationale:** Generalization begins only after untouched-source reproduction.
-- **Acceptance criteria:** Detailed subtasks are added from M2 evidence; multiple Ryu cases build and verify reproducibly; shared and variant behavior are experimentally supported.
+- **Acceptance criteria:**
+  - Detailed subtasks are added from M2 evidence (done: `RE-021`-`RE-025`).
+  - Multiple Ryu cases build and verify reproducibly (`RE-022`, `RE-024`).
+  - Shared and variant behavior are experimentally supported (`RE-025`).
 - **Outputs:** M3 experiments, structured records, justified tooling.
-- **Notes:** Do not include another fighter yet.
+- **Notes:**
+  - Do not include another fighter yet.
+  - M3 test captions are **record-identifying markers** (for example
+    `RYU 07 LINE A`), not translations, so M3 does not depend on
+    `GATE-TRANSLATION`. Official English is substituted only after that gate.
+  - **Evidence the plan builds on (all `CONFIRMED`):**
+    - Ryu's table: 16 records × 38 cells in decoded `MC09.PAC` at `0x91AC`
+      (`EXP-0018`). Only record 0 holds the `0000` placeholder.
+    - Same-size `MC09.PAC` re-encoding, both splice (`EXP-0019`) and full
+      (`EXP-0022`).
+    - Full-width Latin (`EXP-0021`).
+    - Pair glyphs (`EXP-0022`) and same-size font repack with sacrificed unseen
+      kanji (`EXP-0023`).
+  - **Main unknowns for M3:**
+    - How a record is selected. Selection is random-looking (`EXP-0009`); the
+      counter `@(76,r12)` is a `HYPOTHESIS`. Live coverage of 16 records by
+      chance alone would need about 50 wins.
+    - What `0000` renders beside Latin text.
+    - Whether the table is used the same way when Ryu is not on point, with
+      another partner, or in another mode.
+    - Which observed quote (`Q1`-`Q11`, observation labels) is which record.
+
+### RE-021 - Map Ryu quote records and render them offline
+
+- **Status:** `READY`
+- **Milestone:** M3
+- **Dependencies:** FONT-003.
+- **Blockers:** None.
+- **Objective:** Give each of the 16 records a stable identity (record index
+  `0-15`), and render any record (original or patched) offline in the game's
+  2 × 19 layout.
+- **Rationale:** Observation labels (`Q1`-`Q11`) are not record indices. An offline
+  renderer lets every build be checked visually before a boot, and lets screenshots
+  be matched to records without a debugger.
+- **Acceptance criteria:**
+  - A tested renderer (`tools/text/quote_render.py`) draws a record from a decoded
+    PAC plus a font image. Its output for at least two records matches existing
+    cold-boot screenshots by glyph sequence (a WRAM-H display buffer `0x060ED80A`
+    match, as in `EXP-0023`).
+  - A mapping from `Q` labels to record indices is recorded, with evidence for
+    each pair: committed hashes and indices only, not text.
+  - Placeholder and line-length metadata for all 16 records are recorded.
+- **Outputs:** Tool and tests, mapping metadata, and preview PNGs (ignored).
+- **Notes:** Offline only; no live session.
+
+### RE-022 - Build a caption compiler for Ryu's table
+
+- **Status:** `BACKLOG`
+- **Milestone:** M3
+- **Dependencies:** RE-021.
+- **Blockers:** `RE-021` (renderer used for verification).
+- **Objective:** One command turns a structured caption file (record index →
+  line 1, line 2) plus the untouched source into a derived image.
+- **Rationale:** `EXP-0023` hand-assembled one phrase. M3 needs all 16 records
+  built and verified reproducibly from data.
+- **Acceptance criteria:**
+  - **Input schema** (JSON, committed with fixtures). Per line, the compiler:
+    - validates the character set;
+    - enforces 19 cells per line (38 characters with pairs);
+    - keeps a declared `0000` placeholder cell only where the record has one.
+  - **Output:**
+    - deduplicated pair glyphs at free codes;
+    - sacrifices drawn only from the declared unseen-kanji set, each one
+      recorded;
+    - `MEMFIX.PAC` and `MC09.PAC` (splice, with full re-encode as fallback);
+    - an image built by `patch_image`;
+    - a manifest of every code, sacrifice, and hash.
+  - **Verification built in:**
+    - the font and decoded table differ only where intended;
+    - the iso check and sector verify pass;
+    - two builds are identical;
+    - offline renders are written for all 16 records.
+  - **Capacity report:** distinct pairs, bytes, and sacrifices for a worst-case
+    stress set (all 16 records at full length).
+- **Outputs:** `tools/text/caption_compiler.py` (reusing `pair_font`, `pac_patch`,
+  and `patch_image`), tests, and a schema.
+- **Notes:** No English translation text. Markers and synthetic stress text only.
+
+### RE-023 - Identify the win-quote selection mechanism (EXP-0024)
+
+- **Status:** `BACKLOG`
+- **Milestone:** M3
+- **Dependencies:** RE-021.
+- **Blockers:** `RE-021` (record identities needed to score predictions).
+- **Objective:** Test whether the routine at `0x060AF820-0x060AF8C8`, with its byte
+  counter `@(76,r12)` and the tables at `0x060AF8E8`/`0x060AF908`, chooses the
+  record.
+- **Rationale:** Forcing a chosen record makes live verification of all 16 records
+  practical, and may explain `EXP-0010`'s Q3 non-recurrence.
+- **Hypothesis:** writing value `v` to the counter before the routine runs makes
+  record `f(v)` display, with `f` read from the byte tables.
+- **Discriminating test:**
+  - break before the routine;
+  - set the counter to two different predicted values in replays from one
+    checkpoint;
+  - compare the shown record with the prediction.
+  - Control: the same replay without a write.
+- **Acceptance criteria:** the prediction holds for at least 3 distinct values,
+  with the control, or the hypothesis is recorded as `DISPROVEN` with the
+  evidence.
+- **Outputs:** `EXP-0024`, a debugger runbook (step table) for forcing a record.
+- **Notes:** The forcing is a debug harness only. It never ships in a build.
+
+### RE-024 - Verify all 16 Ryu records from one compiled image (EXP-0025)
+
+- **Status:** `BACKLOG`
+- **Milestone:** M3
+- **Dependencies:** RE-022, RE-023.
+- **Blockers:** Compiler and selection control.
+- **Objective:** Cold-boot a compiled image where each record shows its own marker
+  caption on both lines. Confirm every record live.
+- **Acceptance criteria:**
+  - All 16 records are seen on screen, by forcing (`RE-023`) or naturally. Each
+    has a screenshot, state, and RAM check (cart font, WRAM-L table, display
+    buffer).
+  - Record 0's placeholder behavior beside Latin text is recorded.
+  - The image is rebuilt from the untouched source twice, identically.
+- **Fallback:** if `RE-023` is `DISPROVEN`, natural wins until at least 8
+  distinct records are seen. Then all 16 are verified in RAM, with the rest
+  marked as offline evidence.
+- **Outputs:** `EXP-0025` and the build manifest.
+
+### RE-025 - Test variant contexts for Ryu's captions (EXP-0026)
+
+- **Status:** `BACKLOG`
+- **Milestone:** M3
+- **Dependencies:** RE-024.
+- **Blockers:** A verified compiled image.
+- **Objective:** Decide which behavior is shared and which varies, using the
+  `RE-024` image.
+- **Variants (one change each, against the Ryu-on-point, Ken-partner, arcade
+  baseline):**
+  - V1: Ryu is the second team member but lands the KO.
+  - V2: a partner other than Ken (record 0 placeholder name).
+  - V3: versus mode instead of arcade, if it shows win quotes.
+- **Acceptance criteria:** each variant has a prediction (same table and same
+  markers, or a different source), a result with screenshot, state, and RAM
+  check, and a confidence label. Any second source is recorded as a new unknown.
+- **Outputs:** `EXP-0026`. Closes `RE-020` together with `RE-024`.
+- **Notes:** Ken-landed KOs are outside M3 (another fighter's table).
 
 ### RE-030 - Apply generalized mechanism to a second fighter
 
