@@ -49,6 +49,8 @@ build/
 *.so
 vendor/mednafen/src/
 vendor/mednafen/build/
+vendor/mednafen/src-agent/
+vendor/mednafen/build-agent/
 
 # Copyrighted or machine-local research evidence
 research/screenshots/*

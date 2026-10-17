@@ -1,0 +1,592 @@
+diff --git a/src/drivers/agent.inc b/src/drivers/agent.inc
+new file mode 100644
+index 0000000..d00b9c0
+--- /dev/null
++++ b/src/drivers/agent.inc
+@@ -0,0 +1,487 @@
++/* agent.inc - file-based agent command interface for the debugger driver.
++**
++** MSHvSF Saturn research patch (EMU-020). Included at the end of debugger.cpp so it
++** can use that file's breakpoint, stepping, and register helpers. Disabled unless
++** the environment variable MEDNAFEN_AGENT_DIR names a directory.
++**
++** Protocol (all file operations happen on the game thread):
++**  - client writes <dir>/cmd (atomically, via rename); one command per line;
++**  - Mednafen deletes cmd, runs the commands, writes <dir>/resp (via rename);
++**  - breakpoint hits and post-hit actions are appended to <dir>/events.log.
++**
++** This program is free software; you can redistribute it and/or modify
++** it under the terms of the GNU General Public License as published by
++** the Free Software Foundation; either version 2 of the License, or
++** (at your option) any later version.
++*/
++
++#include <mednafen/video/png.h>
++#include <sys/stat.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <sstream>
++
++struct AgentAction
++{
++ bool any_pc;
++ uint32 pc;
++ std::string space;
++ uint32 addr;
++ std::vector<uint8> bytes;
++};
++
++static bool Agent_Checked = false;
++static std::string Agent_Dir;
++static uint64 Agent_Frame = 0;
++static uint64 Agent_Hits = 0;
++static bool Agent_LogMode = false;
++static int64 Agent_HaltAtFrame = -1;
++static std::vector<AgentAction> Agent_Actions;
++static std::vector<AgentAction> Agent_Pending;
++
++static bool Agent_Enabled(void)
++{
++ if(!Agent_Checked)
++ {
++  const char* d = getenv("MEDNAFEN_AGENT_DIR");
++
++  Agent_Checked = true;
++  if(d && *d)
++   Agent_Dir = d;
++ }
++ return !Agent_Dir.empty();
++}
++
++static std::string Agent_Path(const char* name)
++{
++ return Agent_Dir + "/" + name;
++}
++
++static void Agent_Event(const std::string& line)
++{
++ FILE* fp = fopen(Agent_Path("events.log").c_str(), "ab");
++
++ if(fp)
++ {
++  fputs(line.c_str(), fp);
++  fputc('\n', fp);
++  fclose(fp);
++ }
++}
++
++static std::string Agent_Regs(void)
++{
++ std::string out;
++ const RegGroupType* rg = (*CurGame->Debugger->RegGroups)[0];
++
++ for(unsigned i = 0; rg->Regs[i].bsize > 0; i++)
++ {
++  const RegType* rt = &rg->Regs[i];
++  char buf[96];
++
++  if(rt->bsize == 0xFFFF || rt->bsize > 4)
++   continue;
++
++  trio_snprintf(buf, sizeof(buf), "%s%s=%0*X", out.empty() ? "" : " ", rt->name, (int)(rt->bsize * 2), (unsigned)rg->GetRegister(rt->id, NULL, 0));
++  out += buf;
++ }
++ return out;
++}
++
++static const AddressSpaceType* Agent_Space(const std::string& name)
++{
++ for(auto const& as : *CurGame->Debugger->AddressSpaces)
++  if(as.name == name)
++   return &as;
++
++ return NULL;
++}
++
++// The rest of the line, trimmed: paths may contain spaces.
++static std::string Agent_Rest(std::istringstream& in)
++{
++ std::string rest;
++
++ std::getline(in, rest);
++ while(!rest.empty() && (rest[0] == ' ' || rest[0] == '\t'))
++  rest.erase(0, 1);
++ while(!rest.empty() && (rest.back() == ' ' || rest.back() == '\r'))
++  rest.pop_back();
++ return rest;
++}
++
++static bool Agent_ParseHexBytes(const std::string& hex, std::vector<uint8>* out)
++{
++ if(hex.empty() || (hex.size() & 1))
++  return false;
++
++ out->clear();
++ for(size_t i = 0; i < hex.size(); i += 2)
++ {
++  unsigned v;
++
++  if(trio_sscanf(hex.substr(i, 2).c_str(), "%2x", &v) != 1)
++   return false;
++  out->push_back(v);
++ }
++ return true;
++}
++
++static bool Agent_Write(const AgentAction& a)
++{
++ const AddressSpaceType* as = Agent_Space(a.space);
++
++ if(!as || a.bytes.empty())
++  return false;
++
++ as->PutAddressSpaceBytes(as->name.c_str(), a.addr, a.bytes.size(), 1, true, &a.bytes[0]);
++ return true;
++}
++
++static std::string Agent_Describe(const AgentAction& a)
++{
++ char buf[64];
++ std::string hex;
++
++ for(uint8 b : a.bytes)
++ {
++  trio_snprintf(buf, sizeof(buf), "%02X", b);
++  hex += buf;
++ }
++ trio_snprintf(buf, sizeof(buf), " %08X ", a.addr);
++ return a.space + buf + hex;
++}
++
++// Called from CPUCallback for every hook call. Applies writes queued by a previous
++// hit, now that the hitting instruction has executed.
++static void Agent_InstructionHook(uint32 PC)
++{
++ if(!Agent_PendingArmed)
++  return;
++
++ for(auto const& a : Agent_Pending)
++ {
++  char buf[64];
++
++  trio_snprintf(buf, sizeof(buf), "action frame=%llu pc=%08X ", (unsigned long long)Agent_Frame, PC);
++  Agent_Event(std::string(buf) + (Agent_Write(a) ? "write " : "failed ") + Agent_Describe(a));
++ }
++ Agent_Pending.clear();
++ Agent_PendingArmed = false;
++ UpdateCoreHooks();
++}
++
++// Called from CPUCallback on a breakpoint hit, before the hitting instruction runs.
++// Returns true when the hit should not halt (log mode).
++static bool Agent_BreakpointHit(uint32 PC)
++{
++ char buf[96];
++
++ Agent_Hits++;
++ trio_snprintf(buf, sizeof(buf), "hit n=%llu frame=%llu mode=%s ", (unsigned long long)Agent_Hits, (unsigned long long)Agent_Frame, Agent_LogMode ? "log" : "halt");
++ Agent_Event(std::string(buf) + Agent_Regs());
++
++ for(auto const& a : Agent_Actions)
++ {
++  if(a.any_pc || a.pc == PC)
++  {
++   Agent_Pending.push_back(a);
++   Agent_PendingArmed = true;
++  }
++ }
++
++ if(Agent_LogMode && !Agent_PendingArmed)
++  UpdateCoreHooks();
++
++ return Agent_LogMode;
++}
++
++void Debugger_GT_AgentFrame(void)
++{
++ if(!Agent_Enabled())
++  return;
++
++ Agent_Frame++;
++ if(Agent_HaltAtFrame >= 0 && (int64)Agent_Frame >= Agent_HaltAtFrame)
++ {
++  Agent_HaltAtFrame = -1;
++  Debugger_GT_ForceSteppingMode();
++ }
++}
++
++static std::string Agent_Command(const std::string& line, const MDFN_Surface* surface, const MDFN_Rect* rect, const int32* lw)
++{
++ std::istringstream in(line);
++ std::string cmd;
++ char buf[160];
++
++ in >> cmd;
++
++ if(cmd.empty() || cmd[0] == '#')
++  return "";
++
++ if(cmd == "id")
++ {
++  std::string token;
++  in >> token;
++  return "id " + token;
++ }
++
++ if(cmd == "status")
++ {
++  trio_snprintf(buf, sizeof(buf), "ok halted=%d frame=%llu hits=%llu pc=%08X pending=%d", (int)InSteppingMode, (unsigned long long)Agent_Frame, (unsigned long long)Agent_Hits, GetPC(), (int)Agent_PendingArmed);
++  return buf;
++ }
++
++ if(cmd == "spaces")
++ {
++  std::string out = "ok";
++
++  for(auto const& as : *CurGame->Debugger->AddressSpaces)
++   out += " " + as.name;
++  return out;
++ }
++
++ if(cmd == "regs")
++  return "ok " + Agent_Regs();
++
++ if(cmd == "read")
++ {
++  std::string space, path;
++  unsigned addr = 0, len = 0;
++  const AddressSpaceType* as;
++
++  in >> space >> std::hex >> addr >> std::dec >> len;
++  path = Agent_Rest(in);
++  if(!(as = Agent_Space(space)) || !len || path.empty() || len > 0x4000000)
++   return "err read: usage read <space> <hexaddr> <len> <path>";
++
++  std::vector<uint8> data(len);
++  as->GetAddressSpaceBytes(as->name.c_str(), addr, len, &data[0]);
++
++  FILE* fp = fopen(path.c_str(), "wb");
++  if(!fp || fwrite(&data[0], 1, len, fp) != len)
++  {
++   if(fp)
++    fclose(fp);
++   return "err read: cannot write " + path;
++  }
++  fclose(fp);
++  trio_snprintf(buf, sizeof(buf), "ok read %u bytes", len);
++  return buf;
++ }
++
++ if(cmd == "write")
++ {
++  AgentAction a;
++  std::string hex;
++  unsigned addr = 0;
++
++  in >> a.space >> std::hex >> addr >> hex;
++  a.addr = addr;
++  if(!Agent_ParseHexBytes(hex, &a.bytes) || !Agent_Write(a))
++   return "err write: usage write <space> <hexaddr> <hexbytes>";
++  return "ok write " + Agent_Describe(a);
++ }
++
++ if(cmd == "bp")
++ {
++  std::string type, rest;
++
++  in >> type;
++  std::getline(in, rest);
++  while(!rest.empty() && rest[0] == ' ')
++   rest.erase(0, 1);
++
++  if(type == "write")
++  {
++   WriteBreakpoints = rest;
++   UpdateBreakpoints(WriteBreakpoints, BPOINT_WRITE);
++  }
++  else if(type == "read")
++  {
++   ReadBreakpoints = rest;
++   UpdateBreakpoints(ReadBreakpoints, BPOINT_READ);
++  }
++  else if(type == "pc")
++  {
++   std::istringstream pcs(rest);
++   unsigned pc;
++
++   PCBreakPoints.clear();
++   while(pcs >> std::hex >> pc)
++    PCBreakPoints.push_back(pc);
++   UpdatePCBreakpoints();
++   UpdateCoreHooks();
++  }
++  else
++   return "err bp: type must be write, read, or pc";
++  return "ok bp " + type + " " + rest;
++ }
++
++ if(cmd == "bpmode")
++ {
++  std::string mode;
++
++  in >> mode;
++  if(mode != "halt" && mode != "log")
++   return "err bpmode: halt or log";
++  Agent_LogMode = (mode == "log");
++  return "ok bpmode " + mode;
++ }
++
++ if(cmd == "onhit")
++ {
++  std::string filter, op, hex;
++  AgentAction a;
++  unsigned addr = 0;
++
++  in >> filter;
++  if(filter == "clear")
++  {
++   Agent_Actions.clear();
++   return "ok onhit clear";
++  }
++  in >> op >> a.space >> std::hex >> addr >> hex;
++  a.addr = addr;
++  a.any_pc = (filter == "any");
++  a.pc = 0;
++  if(!a.any_pc && trio_sscanf(filter.c_str(), "%x", &a.pc) != 1)
++   return "err onhit: filter must be a hex PC or any";
++  if(op != "write" || !Agent_Space(a.space) || !Agent_ParseHexBytes(hex, &a.bytes))
++   return "err onhit: usage onhit <pc|any> write <space> <hexaddr> <hexbytes>";
++  Agent_Actions.push_back(a);
++  return "ok onhit " + filter + " write " + Agent_Describe(a);
++ }
++
++ if(cmd == "pause")
++ {
++  Debugger_GT_ForceSteppingMode();
++  return "ok pause";
++ }
++
++ if(cmd == "step")
++ {
++  if(!InSteppingMode)
++   return "err step: not halted";
++  NeedStep = 2;
++  UpdateCoreHooks();
++  return "ok step";
++ }
++
++ if(cmd == "run")
++ {
++  if(InSteppingMode)
++   NeedRun = true;
++  return "ok run";
++ }
++
++ if(cmd == "frames")
++ {
++  long long n = 0;
++
++  in >> n;
++  if(n <= 0)
++   return "err frames: N must be positive";
++  Agent_HaltAtFrame = (int64)Agent_Frame + n;
++  if(InSteppingMode)
++   NeedRun = true;
++  trio_snprintf(buf, sizeof(buf), "ok frames halt_at=%lld", (long long)Agent_HaltAtFrame);
++  return buf;
++ }
++
++ if(cmd == "savestate" || cmd == "loadstate")
++ {
++  std::string path = Agent_Rest(in);
++
++  if(path.empty())
++   return "err " + cmd + ": path required";
++  if(InSteppingMode)
++   return "err " + cmd + ": not allowed while halted";
++  if(cmd == "savestate")
++   return MDFNI_SaveState(path.c_str(), NULL, surface, rect, lw) ? "ok savestate" : "err savestate failed";
++  if(!MDFNI_LoadState(path.c_str(), NULL))
++   return "err loadstate failed";
++  Debugger_GT_SyncDisToPC();
++  return "ok loadstate";
++ }
++
++ if(cmd == "screenshot")
++ {
++  std::string path = Agent_Rest(in);
++
++  if(path.empty() || !surface || !rect)
++   return "err screenshot: path required";
++  try
++  {
++   PNGWrite(path, surface, *rect, lw);
++  }
++  catch(std::exception& e)
++  {
++   return std::string("err screenshot: ") + e.what();
++  }
++  return "ok screenshot";
++ }
++
++ return "err unknown command " + cmd;
++}
++
++// Called from MDFND_Update() on the game thread: every emulated frame, and
++// repeatedly while the debugger is halted.
++void Debugger_GT_AgentPoll(const MDFN_Surface* surface, const MDFN_Rect* rect, const int32* lw)
++{
++ struct stat st;
++
++ if(!CurGame || !CurGame->Debugger || !Agent_Enabled())
++  return;
++
++ const std::string cmd_path = Agent_Path("cmd");
++
++ if(stat(cmd_path.c_str(), &st) != 0)
++  return;
++
++ std::string text;
++ {
++  FILE* fp = fopen(cmd_path.c_str(), "rb");
++  char chunk[4096];
++  size_t n;
++
++  if(!fp)
++   return;
++  while((n = fread(chunk, 1, sizeof(chunk), fp)) > 0)
++   text.append(chunk, n);
++  fclose(fp);
++ }
++ unlink(cmd_path.c_str());
++
++ std::string resp;
++ std::istringstream lines(text);
++ std::string line;
++
++ while(std::getline(lines, line))
++ {
++  std::string r;
++
++  try
++  {
++   r = Agent_Command(line, surface, rect, lw);
++  }
++  catch(std::exception& e)
++  {
++   r = std::string("err exception: ") + e.what();
++  }
++  if(!r.empty())
++   resp += r + "\n";
++ }
++
++ const std::string tmp_path = Agent_Path("resp.tmp");
++ FILE* fp = fopen(tmp_path.c_str(), "wb");
++
++ if(fp)
++ {
++  fwrite(resp.data(), 1, resp.size(), fp);
++  fclose(fp);
++  rename(tmp_path.c_str(), Agent_Path("resp").c_str());
++ }
++}
+diff --git a/src/drivers/debugger.cpp b/src/drivers/debugger.cpp
+index 347482c..739fb41 100644
+--- a/src/drivers/debugger.cpp
++++ b/src/drivers/debugger.cpp
+@@ -48,6 +48,13 @@ static int NeedStep;	// 0 =, 1 = , 2 =
+ static int NeedRun;
+ static bool InSteppingMode;
+ 
++// Agent interface (agent.inc, EMU-020): declared here because CPUCallback and
++// UpdateCoreHooks use them.
++static bool Agent_PendingArmed = false;
++static bool Agent_Enabled(void);
++static bool Agent_BreakpointHit(uint32 PC);
++static void Agent_InstructionHook(uint32 PC);
++
+ static std::vector<uint32> PCBreakPoints;
+ static std::string ReadBreakpoints, IOReadBreakpoints, AuxReadBreakpoints;
+ static std::string WriteBreakpoints, IOWriteBreakpoints, AuxWriteBreakpoints;
+@@ -162,10 +169,10 @@ static void UpdateCoreHooks(void)
+ {
+  bool BPInUse = PCBreakPoints.size() || ReadBreakpoints.size() || WriteBreakpoints.size() || IOReadBreakpoints.size() ||
+ 	IOWriteBreakpoints.size() || AuxReadBreakpoints.size() || AuxWriteBreakpoints.size() || OpBreakpoints.size();
+- bool CPUCBNeeded = BPInUse || TraceLog || InSteppingMode || (NeedStep == 2);
++ bool CPUCBNeeded = BPInUse || TraceLog || InSteppingMode || (NeedStep == 2) || Agent_PendingArmed;
+ 
+  CurGame->Debugger->EnableBranchTrace(BPInUse || TraceLog || IsActive);
+- CurGame->Debugger->SetCPUCallback(CPUCBNeeded ? CPUCallback : NULL, TraceLog || InSteppingMode || (NeedStep == 2));
++ CurGame->Debugger->SetCPUCallback(CPUCBNeeded ? CPUCallback : NULL, TraceLog || InSteppingMode || (NeedStep == 2) || Agent_PendingArmed);
+ }
+ 
+ static void UpdatePCBreakpoints(void)
+@@ -1318,6 +1325,16 @@ static void DoTraceLog(const uint32 PC)
+ // Function called from game thread
+ static void CPUCallback(uint32 PC, bool bpoint)
+ {
++ if(Agent_PendingArmed)
++  Agent_InstructionHook(PC);
++
++ if(bpoint && Agent_Enabled() && Agent_BreakpointHit(PC))
++ {
++  if(TraceLog)
++   DoTraceLog(PC);
++  return;
++ }
++
+  if((NeedStep == 2 && !InSteppingMode) || bpoint)
+  {
+   if(bpoint)
+@@ -1932,3 +1949,5 @@ void Debugger_Kill(void)
+ 	 }
+ 	}
+ }
++
++#include "agent.inc"
+diff --git a/src/drivers/debugger.h b/src/drivers/debugger.h
+index 096ef7f..890ed19 100644
+--- a/src/drivers/debugger.h
++++ b/src/drivers/debugger.h
+@@ -36,6 +36,10 @@ void Debugger_GT_ForceSteppingMode(void);
+ void Debugger_GT_ForceStepIfStepping(void); // For synchronizations with save state loading and reset/power toggles.
+ void Debugger_GT_SyncDisToPC(void);	// Synch disassembly address to current PC/IP/whatever.
+ 
++// Agent interface (agent.inc, EMU-020); no-ops unless MEDNAFEN_AGENT_DIR is set.
++void Debugger_GT_AgentPoll(const MDFN_Surface* surface, const MDFN_Rect* rect, const int32* lw);
++void Debugger_GT_AgentFrame(void);
++
+ // Must be called in a specific place in the game thread's execution path.
+ void Debugger_GTR_PassBlit(void);
+ 
+@@ -57,6 +61,8 @@ static INLINE bool Debugger_GT_IsInSteppingMode(void) { return(false); }
+ static INLINE void Debugger_GT_ForceSteppingMode(void) { }
+ static INLINE void Debugger_GT_ForceStepIfStepping(void) { }
+ static INLINE void Debugger_GT_SyncDisToPC(void) { }
++static INLINE void Debugger_GT_AgentPoll(const MDFN_Surface* surface, const MDFN_Rect* rect, const int32* lw) { }
++static INLINE void Debugger_GT_AgentFrame(void) { }
+ static INLINE void Debugger_GTR_PassBlit(void) { }
+ static INLINE void Debugger_MT_DrawToScreen(const MDFN_PixelFormat& pf, signed screen_w, signed screen_h) { }
+ static INLINE bool Debugger_IsActive(void) { return(false); }
+diff --git a/src/drivers/main.cpp b/src/drivers/main.cpp
+index fe6b7f9..8ab3652 100644
+--- a/src/drivers/main.cpp
++++ b/src/drivers/main.cpp
+@@ -1403,6 +1403,7 @@ static int GameLoop(void *arg)
+ 
+ 	 SoftFB[SoftFB_BackBuffer].rect = espec.DisplayRect;
+ 	 SoftFB[SoftFB_BackBuffer].field = espec.InterlaceOn ? espec.InterlaceField : -1;
++	 Debugger_GT_AgentFrame();
+ 
+ 	 sound = espec.SoundBuf + (espec.SoundBufSize_DriverProcessed * CurGame->soundchan);
+ 	 ssize = espec.SoundBufSize - espec.SoundBufSize_DriverProcessed;
+@@ -2677,6 +2678,8 @@ static bool MDFND_Update(int WhichVideoBuffer, int16 *Buffer, int Count)
+    MDFNI_SaveMovie(NULL, surface, rect, lw);
+ 
+   pending_save_movie = pending_snapshot = pending_save_state = false;
++
++  Debugger_GT_AgentPoll(surface, rect, lw);
+  }
+ 
+  if(false == sc_blit_timesync)

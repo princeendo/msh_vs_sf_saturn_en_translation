@@ -397,7 +397,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### EMU-012 - Determine stock Mednafen memory-workflow sufficiency
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-011, DBG-011.
 - **Blockers:** None.
@@ -407,20 +407,44 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** Sufficiency decision in `docs/mednafen.md` and `research_log.md`.
 - **Notes:** Insufficiency does not itself authorize modification.
 
+- **Evidence:** capability matrix in `docs/mednafen.md` (2026-10-17). Stock is
+  sufficient for manual M1/M2 work and insufficient for agent-driven M3
+  experiments (`SUPPORTED`).
 ### EMU-020 - Evaluate agent automation limitations
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** EMU-012.
-- **Blockers:** Stock capability assessment is incomplete.
+- **Blockers:** None (`EMU-012` done).
 - **Objective:** If needed, document current versus required capability, why stock is inadequate, smallest modification, maintenance cost, and alternatives.
 - **Rationale:** Any custom interface must solve a demonstrated problem with minimal scope.
 - **Acceptance criteria:** The review either rejects modification or proposes one minimal, explicitly authorized follow-up; upstream provenance and patch workflow requirements are stated.
 - **Outputs:** `docs/mednafen_agent_interface.md`, decision log.
 - **Notes:** No Mednafen edit occurs in this task.
 
+### EMU-021 - Implement and validate the minimal agent interface
+
+- **Status:** `IN_PROGRESS`
+- **Milestone:** M3 (tooling)
+- **Dependencies:** EMU-020 and the user's authorization (2026-10-17).
+- **Blockers:** None.
+- **Objective:** Build the authorized frontend patch so the agent can drive
+  memory, breakpoints, halts, states, and screenshots without manual typing.
+- **Acceptance criteria:**
+  - The patch is tracked and reproduces the built tree.
+  - The stock tree and binary are unchanged.
+  - V1-V3 pass (done 2026-10-17).
+  - V4: a breakpoint log of a real quote transition matches `EXP-0025` Part 1
+    (PC `060AF724`/`060AF728`, R1 `060F249E`).
+- **Outputs:** `vendor/mednafen/patches/0001-agent-interface.patch`,
+  `tools/mednafen/agent.py`, `tools/mednafen/ko_capture.py`,
+  `docs/mednafen_agent_interface.md`.
+
 ## Phase D: Reference Text
 
+- **Evidence:** `docs/mednafen_agent_interface.md` (2026-10-17). It proposes a
+  minimal frontend-only patch, which the user explicitly authorized on
+  2026-10-17. Implementation is tracked in `EMU-021`.
 ### REF-001 - Choose initial Ryu post-fight quote
 
 - **Status:** `DONE`
