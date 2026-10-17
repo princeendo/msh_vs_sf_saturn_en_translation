@@ -91,6 +91,10 @@ under `build/`.
   header (word 4 = compressed length, word 5 = decompressed length) followed by an
   LZSS stream, decoded by `tools/disc/pac_lzss.py`. All 23 `MC*.PAC` files decode
   this way; 52 of 79 `.PAC` files do overall. The rest use unknown layouts.
+- **Rebuild** (`EXP-0019`, `CONFIRMED`). An in-place same-size replacement of
+  `MC09.PAC` with regenerated Mode 1 EDC/ECC (`tools/disc/sector.py`, which
+  validates against all source sectors) boots and works in stock Mednafen. The
+  game accepted a recomputed PAC header and a 14-byte zero fill.
 
 
 Record filesystems, tracks, files, extents, offsets, sector modes, checksums, and

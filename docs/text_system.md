@@ -44,6 +44,9 @@ They move here only after a controlled mutation confirms them (`RE-012`).
   - Disc source (`CONFIRMED`, `EXP-0018`): LZSS-compressed `MC09.PAC`, decoded to
     WRAM-L `0x00200000` when Ryu is picked. The table is decoded offset
     `0x91AC`. The decoder is `tools/disc/pac_lzss.py`.
+  - Disc patching (`CONFIRMED`, `EXP-0019`): re-encoding `MC09.PAC` at the same size
+    with `tools/disc/pac_patch.py` and `tools/disc/patch_image.py` reproduces code
+    changes in-game from a rebuilt image.
 
 ## Questions to Resolve
 

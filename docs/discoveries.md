@@ -217,6 +217,35 @@ Evidence:
 Limits: the other header words, the trailing bytes, and any integrity check are
 unknown. Disc patching is not yet tested.
 
+## DISC-002: Marker Caption Reproduced from a Rebuilt Disc Image (M2)
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0019`
+
+`tools/disc/pac_patch.py` re-encoded `MC09.PAC` using the `EXP-0018` LZSS format:
+
+- The original stream was kept for its first 20,411 bytes, and the rest was
+  re-encoded.
+- The header became `00000000 8000620A 00000000 00000000 00006202 0000B548`.
+- The file was zero-filled to its original 25,128 bytes (SHA-256 `c9b6fcce…`).
+- The decoded payload carries `0801 0803 0805` in line-1 cells 0-2 of all 16 Ryu
+  quote records.
+
+`tools/disc/patch_image.py` wrote a derived image under `build/`:
+
+- Track 01 SHA-256 `742aa0bdeb109a32c868e192f4ab539f3c818495b721020a468e15ae0ba23730`.
+- Only LSN 8,246 and 8,255-8,258 changed, all with regenerated EDC/ECC. The
+  generator reproduces all 192,346 source sectors exactly.
+- All other files and tracks are byte-identical to the source.
+- Builds are deterministic.
+
+A cold boot in stock Mednafen 1.32.1 showed `あいう` at the start of Ryu's win quote
+in two independent wins (Q2 and Q6). Saved-state WRAM-L held exactly the patched
+table. The source image was unchanged.
+
+Limits: tested only in Mednafen and only with same-size placement.
+
 ## Entry Requirements
 
 Each future entry must include:

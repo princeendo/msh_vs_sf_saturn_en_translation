@@ -6,12 +6,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ## Current State
 
-- Current milestone: **M2**: reproduce the same Ryu caption change from an
-  untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
-- Current active task: `DISC-002` (`EXP-0019`).
+- Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
+  confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
+- Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DISC-002` via `EXP-0019` (marker disc patch). English
-  output is `DISC-020`, behind `GATE-TRANSLATION`.
+- Next research task: `RE-020` (detail M3 subtasks from M2 evidence). For English
+  output, first establish whether the font has Latin glyphs and which codes select
+  them; `DISC-020` stays behind `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -865,7 +866,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DISC-002 - Reproduce the M1 marker from a patched disc
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M2
 - **Dependencies:** DISC-001.
 - **Blockers:** None.
@@ -896,15 +897,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   derived image and evidence, and tracked metadata and documentation.
 - **Notes:** Amended 2026-10-17 at the user's direction: no English text is needed.
   English captions moved to `DISC-020` behind `GATE-TRANSLATION`. Do not generalize
-  during M2. Design: `EXP-0019`.
+  during M2. Design: `EXP-0019`. **Result:** `CONFIRMED` on 2026-10-17. The rebuilt
+  image showed `あいう` in two independent Ryu wins; only MC09.PAC sectors changed.
+  M2 reached.
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 
 - **Status:** `BLOCKED`
 - **Milestone:** M2
 - **Dependencies:** DISC-002, GATE-TRANSLATION.
-- **Blockers:** The marker pipeline is not confirmed; translation prerequisites are
-  incomplete.
+- **Blockers:** Translation prerequisites (`GATE-TRANSLATION`) are incomplete.
+  Latin glyph availability in the font is unknown.
 - **Objective:** Using the confirmed `DISC-002` pipeline, replace one Ryu quote
   with its verified official English wording and reproduce it from a cold boot.
 - **Rationale:** This is the first translation deliverable. It depends on
@@ -918,10 +921,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-020 - Handle multiple Ryu captions programmatically
 
-- **Status:** `BACKLOG`
+- **Status:** `READY`
 - **Milestone:** M3
 - **Dependencies:** DISC-002.
-- **Blockers:** M2 is not confirmed.
+- **Blockers:** None. M2 was confirmed by `DISC-002` / `EXP-0019`.
 - **Objective:** Extend the confirmed mechanism to multiple Ryu captions through structured data and tooling.
 - **Rationale:** Generalization begins only after untouched-source reproduction.
 - **Acceptance criteria:** Detailed subtasks are added from M2 evidence; multiple Ryu cases build and verify reproducibly; shared and variant behavior are experimentally supported.
