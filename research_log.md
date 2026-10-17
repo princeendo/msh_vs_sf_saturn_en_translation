@@ -2272,3 +2272,24 @@ in free codes below `0x0C60`, then a cold-boot test.
 
 Checks: pytest (109 passed), ruff check, ruff format --check, and strict mypy.
 
+
+## 2026-10-17 — EXP-0023 Phase C build (offline)
+
+Task: FONT-003
+
+- Hypothesis H-C: a same-size font repack can add pair glyphs at free codes below
+  `0x0C60` by emptying unseen kanji.
+- Added `tools/text/pair_font.py` (tests in `tests/unit/test_pair_font.py`).
+- 10 pairs "Is that all you got!" at `0x00A8-0x00B1`. Sacrificed `0x0C5E`,
+  `0x0C5D`, `0x0C5C`, `0x0C54` (387 bytes freed for 341 needed).
+- `MC09.PAC` line 1 of all 16 records patched by splice (200 fill bytes).
+- Derived image `build/mshvsf_exp0023c_{a,b}`, identical builds, track 01
+  `5f5ef651…`.
+- Offline: iso check clean, 0 invalid sectors, only the target files and cells
+  changed.
+- Result so far: offline predictions held; the live result is pending a cold boot.
+
+Checks: pytest (113 passed), ruff check, ruff format --check, and strict mypy.
+
+Next action:
+Cold boot of `build/mshvsf_exp0023c_a`; two Ryu wins.
