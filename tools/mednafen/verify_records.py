@@ -2,18 +2,19 @@
 
 For each capture directory (written by ``ko_capture.py``) this checks:
 
-- **Pointer.** The stored record pointer equals ``table + 76·index``, and the
-  index equals the forced index.
+- **Pointer.** The stored record pointer equals ``table + 76·index``, with the
+  table base read from the state (``0x060F9E4A``).
 - **Screen.** ``quote_render.match`` on ``quote.png`` against the build's font and
   table picks the forced record.
 - **RAM** (from ``quote.mc``, extractor regions validated in `EXP-0008` and
   `EMU-021` V2):
   - the cart-RAM font image equals the build's font entry;
-  - WRAM-L holds the build's decoded quote table;
+  - WRAM-L holds the build's decoded quote table at that base;
   - the WRAM-H display buffer (``0x060ED80A``, `EXP-0014`) holds the record's
     codes as ``0x5000|code`` entries.
 - **Placeholder.** For a record with a ``0000`` placeholder, the buffer holds the
-  expanded name glyphs in its place. These are reported, not assumed.
+  expanded name glyphs in its place. They are reported, together with the
+  matching entry of the partner-name table.
 """
 
 from __future__ import annotations
@@ -33,6 +34,10 @@ FONT_ENTRY = (0x6A558, 0x32740)
 FONT_CART = 0x0278CF60
 BUFFER = 0x060ED80A
 PLACEHOLDER = 0x0000
+TABLE_POINTER = 0x060F9E4A  # long: quote table base (EXP-0025)
+NAME_TABLE = 0x06095EC4  # partner-name glyphs, 32 bytes per entry (EXP-0025)
+NAME_LENGTHS = 0x060AF8E8  # one byte per entry
+NAME_ENTRIES = 26
 BLANK = 0x0020
 
 
@@ -80,6 +85,21 @@ def expected_buffer(
     return False, [], []
 
 
+def name_entry(wram_h: bytes, glyphs: Sequence[int]) -> int | None:
+    """Index of the partner-name table entry equal to ``glyphs`` (None if none)."""
+    base = REGIONS["wram_h"].base_address
+    for entry in range(NAME_ENTRIES):
+        length = wram_h[NAME_LENGTHS - base + entry]
+        start = NAME_TABLE - base + 32 * entry
+        codes = [
+            int.from_bytes(wram_h[start + 2 * i : start + 2 * i + 2], "big")
+            for i in range(length)
+        ]
+        if codes == list(glyphs):
+            return entry
+    return None
+
+
 def verify_run(run: Path, font_image: bytes, decoded: bytes) -> dict[str, object]:
     capture = json.loads((run / "capture.json").read_text())
     index = int(capture["index"])
@@ -93,12 +113,15 @@ def verify_run(run: Path, font_image: bytes, decoded: bytes) -> dict[str, object
     wram_l = extract_region(state, REGIONS["wram_l"], "saturn")
     wram_h = extract_region(state, REGIONS["wram_h"], "saturn")
     cart_offset = FONT_CART - REGIONS["cart_ram"].base_address
-    table_offset = 0x002091AC - REGIONS["wram_l"].base_address
+    base_start = TABLE_POINTER - REGIONS["wram_h"].base_address
+    base = int.from_bytes(wram_h[base_start : base_start + 4], "big")
+    table_offset = base - REGIONS["wram_l"].base_address
     buffer_ok, name, extra = expected_buffer(codes, buffer_codes(wram_h, 60))
     checks: dict[str, object] = {
         "index": index,
         "pointer": f"0x{pointer:08X}",
-        "pointer_ok": pointer == 0x002091AC + RECORD * index,
+        "table_base": f"0x{base:08X}",
+        "pointer_ok": pointer == base + RECORD * index,
         "screen_best": ranked[0]["record"],
         "screen_iou": ranked[0]["iou"],
         "screen_margin": round(float(ranked[0]["iou"]) - float(ranked[1]["iou"]), 4),  # type: ignore[arg-type]
@@ -110,6 +133,7 @@ def verify_run(run: Path, font_image: bytes, decoded: bytes) -> dict[str, object
     }
     if name:
         checks["placeholder_glyphs"] = [f"0x{c:04X}" for c in name]
+        checks["placeholder_name_entry"] = name_entry(wram_h, name)
     if extra:
         checks["extra_entries"] = [f"0x{c:04X}" for c in extra]
     checks["all_ok"] = all(
