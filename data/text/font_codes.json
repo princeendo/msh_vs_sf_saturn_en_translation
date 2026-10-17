@@ -2,7 +2,7 @@
   "source": "EXP-0020 (FONT-001); font decoded from cart RAM by tools/text/font.py; MSHvSF Saturn JP T-1238G",
   "confidence": {
     "ascii_0x20_0x7E": "CONFIRMED display for 0x41-0x43 (EXP-0020 Phase 2); rest SUPPORTED by atlas",
-    "fullwidth_latin": "SUPPORTED by atlas (in-quote display not yet tested)"
+    "fullwidth_latin": "CONFIRMED display for 08F9 0900 08FC 0902 091D (EXP-0021); remaining codes SUPPORTED by atlas"
   },
   "ranges": [
     {

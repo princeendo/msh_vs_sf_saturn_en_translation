@@ -2108,3 +2108,28 @@ The code table is in `data/text/font_codes.json`.
 Next action:
 A short live test of full-width Latin codes; then RE-020 planning.
 
+## 2026-10-17 15:25 CDT — EXP-0021
+
+Task: FONT-002
+
+Hypothesis:
+Codes `08F9 0900 08FC 0902 091D` display full-width `R Y U a 1`.
+
+Action:
+Loaded `ryu.bin` (80 writes, line-1 cells 0-4 of all 16 records) at state A. Ran
+patched ×2 and control ×1. One dump end address was mistyped (80 bytes too long);
+its prefix equals the patch.
+
+Result:
+- Patched runs showed `RYUa1くれ、ケン…` (record 0) and `RYUa1前達と闘えて…` (Q9),
+  solid and shadowed.
+- The control was unchanged. Slot extractions confirm the table state.
+
+Conclusion:
+`CONFIRMED`; FONT-002 DONE. `data/text/font_codes.json` updated.
+
+Next action:
+RE-020 planning; English layout capacity is an open question.
+
+Checks: pytest (78 passed) and ruff format --check (run before commit).
+

@@ -37,9 +37,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
   - Do PAC header words 1-3 or the trailing bytes act as size or integrity checks?
   - Does the game accept a re-encoded file of a different length? (Same-size
     re-encoding with 14 fill bytes works, per `EXP-0019`.)
-  - ASCII codes display (faint 8x8). Full-width quote-style Latin exists at
-    `0x08E8-0x0925` (`EXP-0020`). Does the full-width set display correctly in
-    quotes?
+  - Full-width quote-style Latin displays correctly (`EXP-0021`, `CONFIRMED` for
+    the tested codes). ASCII codes display only faintly.
   - How should English fit 2 × 19 cells? Which disc file loads the font into cart
     RAM?
   - Do the other `MCxx.PAC` files hold other characters' quote tables?

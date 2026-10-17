@@ -10,9 +10,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
 - Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: confirm in-quote display of the full-width Latin set (a
-  short live test), then `RE-020` (M3 planning). `DISC-020` stays behind
-  `GATE-TRANSLATION`.
+- Next research task: `RE-020` (M3 planning: multiple Ryu captions
+  programmatically). English output (`DISC-020`) stays behind `GATE-TRANSLATION`.
+  The 2 × 19-cell capacity limit is an open layout question.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -928,6 +928,23 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Full-width quote-style A-Z `0x08E8-0x0901`, a-z `0x0902-0x091B`, and 0-9
     `0x091C-0x0925` exist (atlas; display untested).
   - Code table: `data/text/font_codes.json`.
+
+### FONT-002 - Confirm full-width Latin display in win quotes
+
+- **Status:** `DONE`
+- **Milestone:** M3 (prerequisite for `DISC-020`)
+- **Dependencies:** FONT-001.
+- **Blockers:** None.
+- **Objective:** Confirm that the quote-style full-width Latin codes
+  (`0x08E8-0x0925`) display correctly in Ryu's win quote.
+- **Rationale:** ASCII glyphs display only faintly. The full-width set matches the
+  quote style and is the candidate for English.
+- **Acceptance criteria:** A live display with a control shows the predicted
+  glyphs for uppercase, lowercase, and digit codes, with evidence and hashes
+  recorded.
+- **Outputs:** `EXP-0021` and a `data/text/font_codes.json` confidence update.
+- **Notes:** `EXP-0021` (`CONFIRMED`): `RYUa1` was displayed solid and full-width on
+  two records; the control was unchanged.
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 

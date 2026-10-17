@@ -270,6 +270,21 @@ two patched runs and an unchanged control. They are faint 8x8 gradient glyphs.
 Full-width quote-style Latin (`0x08E8-0x0925`) exists in the font (atlas). The disc
 source of the font is unknown.
 
+## FONT-002: Full-Width Latin Glyph Codes Display in Win Quotes
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0021`
+
+A live WRAM-L table patch (line-1 cells 0-4 of all 16 Ryu records =
+`08F9 0900 08FC 0902 091D`) showed full-width, shadowed `R Y U a 1` in Ryu's win
+quote. This held on two different records (`-0051.png`, `-0052.png`), and the
+control was unchanged.
+
+The ranges A-Z `0x08E8-0x0901`, a-z `0x0902-0x091B`, and 0-9 `0x091C-0x0925` are
+recorded in `data/text/font_codes.json`. The other codes in these ranges are atlas
+evidence only.
+
 ## Entry Requirements
 
 Each future entry must include:
