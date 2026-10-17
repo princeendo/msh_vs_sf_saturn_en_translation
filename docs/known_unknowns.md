@@ -48,6 +48,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
     use of either set has been checked.)
   - Does the alternate layout constant set (12-pixel step, about 25 cells per
     line), selected by a flag at `r11+0xCC90`, exist and work for quotes?
+    A second partner-name path (flag `r11+0xCC8E`) has name lengths 15, 4, 9, 3, 3,
+    … consistent with English names (`EXP-0025`, `HYPOTHESIS`). Is there a latent
+    alternate text mode, and does the disc contain English text for it?
   - Does quote selection use the counter at `@(76,r12)`? This may explain Q3's
     non-recurrence. (`RE-023` / `EXP-0024`.)
   - Which full-width codes hold English punctuation (`?`, `.`, `,`, `'`, `-`)?
