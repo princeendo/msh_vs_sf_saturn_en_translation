@@ -60,8 +60,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
     `RE-022` pangram stress set left 155 bytes after a full re-encode.
   - Do free codes `0x00B2-0x00FF`, `0x0190-0x01DF`, and `0x0260-0x02AF` display
     like `0x00A8-0x00B1`? Only the latter were shown on screen (`EXP-0023`).
-  - Is Ryu's table used unchanged when Ryu is the second team member, with a
-    partner other than Ken, or in versus mode? What does the record 0 `0000`
+  - Ryu's table is unchanged as the second team member (at slot-2 base
+    `0x002191AC`) and with other partners (`EXP-0027`). Open: versus mode
+    (port 2 is unbound); whether `0x060F9E4A` briefly holds the other member's
+    base; whether `0x002091AC` holds Ken's table in V1. What does the record 0 `0000`
     placeholder render beside Latin text? (`RE-025`. `RE-024` answered the last
     question: katakana ケン inline after the Latin text.) Must the partner-name
     table (`0x06095EC4`) be localized for English? What is the undrawn extra

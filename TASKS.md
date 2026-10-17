@@ -6,12 +6,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ## Current State
 
-- Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
-  confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
+- Current milestone: **M4**: a second fighter through the same mechanism. M3 was
+  completed on 2026-10-17 (`RE-020`; `EXP-0026`, `EXP-0027`).
 - Reverse-engineering experiments in progress: none.
-- Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
-- Next research task: `RE-025` (variant contexts, `EXP-0027`). It closes
-  `RE-020` and M3.
+- Current active task: none.
+- Next research task: `RE-030` (second fighter; `READY`, not started). Full
+  English still waits on `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -1042,8 +1042,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-020 - Handle multiple Ryu captions programmatically
 
-- **Status:** `IN_PROGRESS` (planning done 2026-10-17; work proceeds through
-  `RE-021`-`RE-025`)
+- **Status:** `DONE`
 - **Milestone:** M3
 - **Dependencies:** DISC-002.
 - **Blockers:** None. M2 was confirmed by `DISC-002` / `EXP-0019`.
@@ -1076,6 +1075,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     - Whether the table is used the same way when Ryu is not on point, with
       another partner, or in another mode.
     - Which observed quote (`Q1`-`Q11`, observation labels) is which record.
+- **Evidence (M3 complete, 2026-10-17):**
+  - `RE-021`-`RE-025` are DONE.
+  - Multiple records build reproducibly (`RE-022`) and display verified
+    (`EXP-0026`).
+  - Shared and variant behaviour are confirmed (`EXP-0027`).
 
 ### RE-021 - Map Ryu quote records and render them offline
 
@@ -1202,7 +1206,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-025 - Test variant contexts for Ryu's captions (EXP-0027)
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M3
 - **Dependencies:** RE-024.
 - **Blockers:** None (`RE-024` done). Variants still need gameplay for each
@@ -1220,13 +1224,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   check, and a confidence label. Any second source is recorded as a new unknown.
 - **Outputs:** `EXP-0027`. Closes `RE-020` together with `RE-024`.
 - **Notes:** Ken-landed KOs are outside M3 (another fighter's table).
+- **Evidence:** `EXP-0027` (2026-10-17). V1 (Ryu second): table at `0x002191AC`;
+  16/16 records verified. V2 (partner Gouki): base `0x002091AC`; 16/16; the
+  placeholder shows ゴウキ. V3 (versus) was not tested (no port 2 bindings).
 
 ### RE-030 - Apply generalized mechanism to a second fighter
 
-- **Status:** `BACKLOG`
+- **Status:** `READY`
 - **Milestone:** M4
 - **Dependencies:** RE-020.
-- **Blockers:** Multiple Ryu captions are not handled programmatically.
+- **Blockers:** None (`RE-020` done). Gated on choosing an ordinary second
+  fighter from M3 evidence; not started.
 - **Objective:** Demonstrate the same evidence-backed mechanism for one ordinary second fighter.
 - **Rationale:** A second fighter tests whether Ryu-specific assumptions were generalized prematurely.
 - **Acceptance criteria:** Fighter selection and detailed tests are based on M3 evidence; fresh builds and visible results reproduce; exceptions remain explicit.

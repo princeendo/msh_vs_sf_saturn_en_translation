@@ -2496,3 +2496,19 @@ Task: RE-024
 - RE-024 DONE. Next: RE-025 (variants), which closes RE-020 and M3.
 
 Checks: pytest (135 passed), ruff check, ruff format --check, and strict mypy.
+
+## 2026-10-17 — RE-025 / EXP-0027 variants; M3 complete
+
+Task: RE-025 (closes RE-020)
+
+- One boot of the marker image and two user fights:
+  - V1: Ken on point, Ryu second, Ryu KO;
+  - V2: Ryu with partner Gouki.
+- 32 forced runs, plus the 2 natural ones, all verified.
+- V1: Ryu's table is at `0x002191AC` (team slot 2); 16/16 verified there.
+- V2: base `0x002091AC`; 16/16 verified; record 0 shows ゴウキ (name entry 15).
+- V3 (versus mode) deferred: port 2 has no bindings.
+- Anomaly: a live read of `0x060F9E4A` just after V2's pointer store gave
+  `0x002191AC`, while the state at quote time gave `0x002091AC`. Recorded as an
+  unknown.
+- RE-025 DONE; RE-020 DONE (M3). RE-030 READY (not started).

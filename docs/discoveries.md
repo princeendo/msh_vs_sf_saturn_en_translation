@@ -443,6 +443,23 @@ Experiment: `EXP-0026`
 - **Reproduce.** `EXP-0026` Procedure: `ko_capture.py` once with a KO, then 16
   forced runs and `verify_records.py`.
 
+## RE-025: Ryu's Captions Across Team Contexts
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0027`
+
+- **V1.** With Ryu as the **second** team member, his `MC09.PAC` table is decoded
+  to WRAM-L **`0x002191AC`** (slot 2), not `0x002091AC` (slot 1). The pointer
+  routine takes the base from the text structure (`0x060F9E4A`). All 16 marker
+  records verified from that base.
+- **V2.** With partner Gouki, the base and table are unchanged. Record 0's
+  placeholder expands to ゴウキ (name-table entry 15), as Ken gives ケン
+  (entry 10).
+- **Implication.** The disc caption pipeline works in every tested context. Fixed
+  RAM addresses do not.
+- **Not tested.** Versus mode.
+
 ## Entry Requirements
 
 Each future entry must include:
