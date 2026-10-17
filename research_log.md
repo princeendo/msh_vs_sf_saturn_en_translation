@@ -2338,3 +2338,27 @@ Decisions:
 
 Next action:
 `RE-021` (offline).
+
+## 2026-10-17 — RE-021 / EXP-0024 record map and offline renderer
+
+Task: RE-021
+
+- Hypothesis: an offline render of a record on a 16-pixel grid reproduces the text
+  box, so screenshots can be matched to records.
+- Built `tools/common/png.py` (stdlib decoder) and `tools/text/quote_render.py`
+  (render, match, summary), with tests.
+- Calibrated origin `(26, 186)` on the `EXP-0023` screenshots (records known from
+  the display buffer).
+- Validation: 10 of 10 RAM-known screenshots matched the right record, IoU
+  0.83-0.89, margin at least 0.63. Result: `CONFIRMED`.
+- Mapping: Q1 = 13, Q2 = 5, Q3 = 2, Q4 = 10, Q5 = 11, Q6 = 1, Q7 = 9, Q8 = 3,
+  Q9 = 15, Q10 = 8, Q11 = 12. Record 4 seen unlabeled. 0, 6, 7, 14 never seen.
+- **Correction:** `EXP-0019`'s "Q2, record 4" is wrong. Its own state's display
+  buffer equals record 5. Recorded in `EXP-0019`, not silently edited.
+- Experiment numbers for RE-023, RE-024, and RE-025 shifted to `EXP-0025`,
+  `EXP-0026`, and `EXP-0027`.
+
+Checks: pytest (121 passed), ruff check, ruff format --check, and strict mypy.
+
+Next action:
+`RE-022` (caption compiler, offline). `RE-023` (selection) is also `READY`.

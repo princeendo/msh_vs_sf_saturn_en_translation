@@ -22,5 +22,5 @@
       "supports": "a same-quote, frame-offset control (C1′) for Q10 exists"
     }
   ],
-  "notes": "Working M0/M1 subject, replacing ryu_q3 because Q10 is the C1 caption of the EXP-0010 checkpoint set (A = slot 5, C1′ = slot 0, C2 = slot 6 Q8, C2b = slot 8 Q11). saturn_jp_text stays empty until REF-003 transcribes and independently reviews it. No English correspondence is asserted. The user reports that US and EU arcade ROMs with English text are available for REF-004. Because selection varies after the KO, correspondence may need memory-level evidence such as a quote index."
+  "notes": "Working M0/M1 subject, replacing ryu_q3 because Q10 is the C1 caption of the EXP-0010 checkpoint set (A = slot 5, C1′ = slot 0, C2 = slot 6 Q8, C2b = slot 8 Q11). saturn_jp_text stays empty until REF-003 transcribes and independently reviews it. No English correspondence is asserted. The user reports that US and EU arcade ROMs with English text are available for REF-004. Because selection varies after the KO, correspondence may need memory-level evidence such as a quote index. Table record (RE-021, EXP-0024): Q10 is decoded MC09.PAC record 8 (0-based), CONFIRMED by its EXP-0013 address 0x0020940C and the offline matcher."
 }
