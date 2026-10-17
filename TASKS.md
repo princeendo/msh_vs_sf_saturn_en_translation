@@ -8,11 +8,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M2**: reproduce the same Ryu caption change from an
   untouched source image. M1 was confirmed on 2026-10-17 (`RE-012`, `EXP-0015`).
-- Current active task: `DISC-001` (next experiment `EXP-0018`, not yet started).
+- Current active task: none.
 - Reverse-engineering experiments in progress: none.
-- Next research task: `DISC-001` via `EXP-0018` (write-breakpoint trace of the
-  table load from a character-select checkpoint). `DISC-002` also needs
-  `GATE-TRANSLATION`.
+- Next research task: `DISC-002`, which is blocked by `GATE-TRANSLATION` (it
+  requires the expected English caption). A non-English disc patch (the `あいう`
+  marker) would test the rebuild pipeline first; that needs a task decision.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -818,7 +818,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DISC-001 - Trace confirmed Ryu runtime caption to disc source
 
-- **Status:** `IN_PROGRESS`
+- **Status:** `DONE`
 - **Milestone:** M2
 - **Dependencies:** RE-012.
 - **Blockers:** None. M1 was confirmed by `RE-012` / `EXP-0015`.
@@ -837,7 +837,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   every in-fight state. `EXP-0017` (`DISPROVEN`): the table is not stored verbatim
   on disc, and plain Shift-JIS/EUC/UTF-16 fragments were not found. WRAM-H
   `0x06094FD8` holds the only pointer to it. Next: `EXP-0018` (live trace; needs a
-  pre-load checkpoint and the user).
+  pre-load checkpoint and the user). `EXP-0018` (`CONFIRMED`): the table is
+  LZSS-compressed in `MC09.PAC` (stream at `0x18`, length `0x620D`, output
+  `0xB548`), decoded to WRAM-L `0x00200000` when Ryu is picked. Table = decoded
+  offset `0x91AC`. Decoder: `tools/disc/pac_lzss.py`.
 
 ### DISC-010 - Document source disc data track and ISO 9660 layout
 

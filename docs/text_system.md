@@ -41,7 +41,9 @@ They move here only after a controlled mutation confirms them (`RE-012`).
   - The per-screen WRAM-H buffer (`0x060ED80A`), the builder code (PC
     `0x060AF8C6`), and the VDP1 glyph path are `SUPPORTED` but not separately
     confirmed.
-  - The disc source and loader are unknown (`DISC-001`).
+  - Disc source (`CONFIRMED`, `EXP-0018`): LZSS-compressed `MC09.PAC`, decoded to
+    WRAM-L `0x00200000` when Ryu is picked. The table is decoded offset
+    `0x91AC`. The decoder is `tools/disc/pac_lzss.py`.
 
 ## Questions to Resolve
 

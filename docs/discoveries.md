@@ -188,6 +188,35 @@ Scope: line-1 cells 0-2 of two records, codes `0801`, `0803`, and `0805`
 (`あ`, `い`, `う`). Other code meanings, the partner-name placeholder (`0000` at
 `0x002091BC`), and the disc source of the table are not confirmed here.
 
+## DISC-001: Ryu Quote Table Source Is LZSS-Compressed `MC09.PAC`
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0018` (with `EXP-0016` disc layout)
+
+Picking Ryu at character select decompresses `MC09.PAC;1` into WRAM-L
+`0x00200000`. The file is at LSN 8,246, 25,128 bytes, SHA-256
+`6c096573622a515ceb81436dacbe9ed732adab11fde87a43c4e497e4b56a0016`.
+
+- **Layout.** A 0x18-byte header; big-endian word 4 = compressed length
+  `0x620D`, word 5 = decompressed length `0xB548`.
+- **Stream.** LZSS from `0x18`. Flags are MSB-first, 0 = literal byte, 1 = two-byte
+  match with length `(v & 0xF) + 3` and source `pos − 0x1000 + ((v >> 4) & 0xFFF)`.
+- **Quote table.** The `RE-012` table is decoded offset `0x91AC-0x966B`.
+
+Evidence:
+
+- A write breakpoint on the table halted inside the in-game decompressor (PC
+  `0x0603E446`), whose context names `mc09.pac`.
+- Its 2 KB input buffer equals file bytes `0x4800-0x4FFF`.
+- `tools/disc/pac_lzss.py` decodes the file to 46,408 bytes (SHA-256
+  `6a6d8119…065a`), consuming exactly `0x620D` stream bytes. The output equals WRAM-L
+  for all 37,292 bytes written at the breakpoint, and for the table in the pre-KO
+  state.
+
+Limits: the other header words, the trailing bytes, and any integrity check are
+unknown. Disc patching is not yet tested.
+
 ## Entry Requirements
 
 Each future entry must include:

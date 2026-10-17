@@ -87,6 +87,10 @@ under `build/`.
   and no overlapping extents. They are listed in
   `references/mshvsf/saturn_jp/iso9660_files.json`.
 - **Not yet checked.** EDC/ECC and IP fields are unverified.
+- **PAC files** (`EXP-0018`). `MC09.PAC` (LSN 8,246, 25,128 bytes) is a 0x18-byte
+  header (word 4 = compressed length, word 5 = decompressed length) followed by an
+  LZSS stream, decoded by `tools/disc/pac_lzss.py`. All 23 `MC*.PAC` files decode
+  this way; 52 of 79 `.PAC` files do overall. The rest use unknown layouts.
 
 
 Record filesystems, tracks, files, extents, offsets, sector modes, checksums, and
