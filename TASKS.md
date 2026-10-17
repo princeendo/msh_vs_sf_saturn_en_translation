@@ -9,9 +9,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M4**: a second fighter through the same mechanism. M3 was
   completed on 2026-10-17 (`RE-020`; `EXP-0026`, `EXP-0027`).
 - Reverse-engineering experiments in progress: none.
-- Current active task: none.
-- Next research task: `RE-030` (second fighter; `READY`, not started). Full
-  English still waits on `GATE-TRANSLATION`.
+- Current active task: `RE-030` (`EXP-0028` design recorded; Phase A offline next).
+- Next research task: `EXP-0028` Phase A (offline tooling and Ryu + Ken marker
+  image). Full English still waits on `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -1230,16 +1230,21 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-030 - Apply generalized mechanism to a second fighter
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS` (design recorded 2026-10-17; `EXP-0028` Phase A next)
 - **Milestone:** M4
 - **Dependencies:** RE-020.
-- **Blockers:** None (`RE-020` done). Gated on choosing an ordinary second
-  fighter from M3 evidence; not started.
+- **Blockers:** None.
 - **Objective:** Demonstrate the same evidence-backed mechanism for one ordinary second fighter.
 - **Rationale:** A second fighter tests whether Ryu-specific assumptions were generalized prematurely.
 - **Acceptance criteria:** Fighter selection and detailed tests are based on M3 evidence; fresh builds and visible results reproduce; exceptions remain explicit.
 - **Outputs:** M4 experiment and documentation updates.
 - **Notes:** Exclude special cases.
+- **Plan (`EXP-0028`):**
+  - Fighter: **Ken** (`MC0A.PAC`, table at decoded `0xA59C`).
+  - Phase A, offline: multi-file caption compiler with a shared font;
+    per-file table offsets; line-2 placeholders; Ryu + Ken marker image.
+  - Phase B, live: one session, team Ken + Ryu, KO with Ken, then KO with Ryu.
+    Then 32 forced records are verified automatically.
 
 ### RE-040 - Systematize ordinary post-fight localization
 

@@ -2512,3 +2512,21 @@ Task: RE-025 (closes RE-020)
   `0x002191AC`, while the state at quote time gave `0x002091AC`. Recorded as an
   unknown.
 - RE-025 DONE; RE-020 DONE (M3). RE-030 READY (not started).
+
+## 2026-10-17 — RE-030 planning (EXP-0028)
+
+Task: RE-030
+
+- Chose **Ken** (`MC0A.PAC`): an ordinary single 16-record table.
+  - Identity is supported by the name-table index (entry 10 = ケン) and by the
+    game's slot pointer list `0x06094FD8` (`0x0021A59C` / `0x0020A59C` = slot
+    base + `0xA59C`).
+  - Ken's placeholders are on **line 2** (records 11 and 12), and three records
+    are one-line. Both break M3's Ryu-only assumptions.
+- **Correction:** the `EXP-0023` census offset `0xA59A` for `MC0A` is off by one
+  word. The table starts at `0xA59C`. Census offsets are candidates only.
+- Observation: in `EXP-0027` V2 (partner Gouki), the second entry of the pointer
+  list was not a table pointer (`0x99000E99`). Its meaning is `UNKNOWN`.
+- Phase A next (offline): multi-file compiler with a shared font, generalized
+  verifier, Ryu + Ken marker image. Phase B needs one session: team Ken + Ryu, KO
+  with Ken, then KO with Ryu.
