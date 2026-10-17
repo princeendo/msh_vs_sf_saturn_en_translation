@@ -285,6 +285,21 @@ The ranges A-Z `0x08E8-0x0901`, a-z `0x0902-0x091B`, and 0-9 `0x091C-0x0925` are
 recorded in `data/text/font_codes.json`. The other codes in these ranges are atlas
 evidence only.
 
+## LAYOUT-001 Phase A: Quote Font Stored Verbatim in `MEMFIX.PAC`
+
+Confidence: **CONFIRMED** (storage); **SUPPORTED** (load path)
+
+Experiment: `EXP-0022`
+
+`MEMFIX.PAC;1` (LSN 3,954, 1,744,100 bytes, SHA-256 `fdbc871a…65d9`) is a container:
+
+- a header of 13 `(0, size)` pairs ending with `(0, 0)`, 0x68 bytes;
+- 12 uncompressed entries back to back.
+
+Entry 4 (offset `0x6A558`, size `0x32740` = 206,656 bytes) is byte-identical to the
+quote font image in cart RAM at `0x0278CF60` (`EXP-0020`). The loader is not
+traced.
+
 ## Entry Requirements
 
 Each future entry must include:
