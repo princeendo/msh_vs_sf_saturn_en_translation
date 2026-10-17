@@ -128,3 +128,13 @@ def test_cli(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
                 str(manifest),
             ]
         )
+
+
+def test_patch_full_reencode_round_trips() -> None:
+    data = sample(4000, seed=5)
+    source = make_source(data) + bytes(64)
+    new, info = patch(source, [(10, 0x0725)], full=True)
+    expected = bytearray(data)
+    expected[10:12] = b"\x07\x25"
+    assert decode_file(new)[1] == bytes(expected)
+    assert info["unchanged_stream_prefix_bytes"] == 0

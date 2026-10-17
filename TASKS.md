@@ -8,7 +8,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Current active task: `LAYOUT-001` (`EXP-0022`; Phase A done, Phase B partial, Phase C next).
+- Current active task: `LAYOUT-001` (`EXP-0022` Phase C boot test).
 - Reverse-engineering experiments in progress: none.
 - Next research task: `LAYOUT-001` via `EXP-0022` (Phase A, offline: font disc
   source; Phase B, offline: layout constants). Also `RE-020` (M3 planning).

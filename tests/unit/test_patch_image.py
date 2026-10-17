@@ -6,7 +6,7 @@ import pytest
 
 from tests.unit.test_iso9660 import make_image
 from tools.disc.iso9660 import RAW_SECTOR
-from tools.disc.patch_image import find_entry, replace_file
+from tools.disc.patch_image import find_entry, replace_file, replace_files
 from tools.disc.sector import is_valid, regenerate
 
 
@@ -56,3 +56,20 @@ def test_replace_file_requires_same_size(tmp_path: Path) -> None:
     source.write_bytes(valid_image())
     with pytest.raises(ValueError):
         replace_file(source, tmp_path / "o.bin", 20, 5, b"too long")
+
+
+def test_replace_files_handles_two_files_and_rejects_overlap(tmp_path: Path) -> None:
+    source = tmp_path / "track.bin"
+    source.write_bytes(valid_image())
+    a = find_entry(source, "A.BIN;1")
+    b = find_entry(source, "SUB/B.DAT;1")
+    target = tmp_path / "out.bin"
+
+    changed = replace_files(
+        source, target, [(a[0], a[1], b"HELLO"), (b[0], b[1], b"Z" * 2050)]
+    )
+
+    assert [c["lsn"] for c in changed] == [20, 21, 22]
+    assert target.read_bytes()[20 * RAW_SECTOR + 16 : 20 * RAW_SECTOR + 21] == b"HELLO"
+    with pytest.raises(ValueError):
+        replace_files(source, target, [(a[0], a[1], b"HELLO"), (a[0], a[1], b"WORLD")])

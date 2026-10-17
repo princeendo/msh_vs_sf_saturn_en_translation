@@ -2180,3 +2180,26 @@ reference, built into a derived image (refined plan in `EXP-0022`).
 
 Checks: pytest (100 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 16:40 CDT — EXP-0022 Phase C build
+
+Task: LAYOUT-001
+
+Action:
+- Added `tools/text/glyph_patch.py` and a `pac_patch --full` option, and extended
+  `patch_image` to multiple files, all with tests.
+- Built a `Th` pair glyph over raw glyph `0x0725` in `MEMFIX.PAC`, and an
+  `MC09.PAC` table patch with cell 0 = `0x0725`.
+- The splice re-encode overflowed by 4 bytes, so a full re-encode (446-byte fill)
+  was used.
+- Built the derived image twice.
+
+Result:
+- Offline checks pass: only LSN 4,214 and 8,246-8,258 changed, valid EDC/ECC,
+  only the two files differ, exactly one glyph and 16 cells changed, builds
+  identical, source unchanged.
+
+Next action:
+User cold-boot test of `build/mshvsf_exp0022c_a`.
+
+Checks: pytest (105 passed), ruff check, ruff format --check, and strict mypy.
+

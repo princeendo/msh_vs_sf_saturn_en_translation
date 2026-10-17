@@ -173,3 +173,73 @@ code. Both go into one derived image via the `DISC-002` pipeline, booted cold.
 
 Side effect to record: the replaced raw glyph's original use (for example the
 `0x009x` continue-screen artwork) will show the pair glyph instead.
+
+## Phase C Build and Offline Checks (2026-10-17)
+
+### Pair glyph
+
+`tools/text/glyph_patch.py` (new, with tests) builds the glyph:
+
+- **Ink.** Ink from full-width `T` (`0x08FB`) and `h` (`0x0909`), squeezed 2:1
+  horizontally and placed side by side.
+- **Style.** Body `1` with a recomputed shadow `F` at +1 column, +1 row, and +1
+  diagonal.
+- **Placement.** Written over raw glyph **`0x0725`** (font address `0x027A509A`,
+  `MEMFIX.PAC` file offset `0x82692`). 127 of 128 bytes changed. Original and
+  modified bytes are in `build/exp0022c/memfix_patch.json` (`f1edd602…`).
+
+Patched `MEMFIX.PAC` SHA-256 prefix: `70e4f95fd72f5aa6`. The ignored preview
+`build/exp0022c/pair_preview.png` shows a legible `Th`.
+
+### Raw-glyph inventory (for side effects)
+
+| Codes | Content |
+| --- | --- |
+| `0x0090-0x009E` | Dither or gradient tiles |
+| `0x02C5-0x0326` | Large stylized digit pieces |
+| `0x0340`, `0x0700`, `0x0708`, `0x0725` | Artwork fragments |
+
+`0x0725` was chosen as the least likely to appear during a fight or win screen. Its
+original use is unknown.
+
+### Quote table
+
+`MC09.PAC` patch: decoded `0x91AC + 76·r` (line-1 cell 0 of all 16 records) =
+`0x0725` (16 writes).
+
+- **Splice failed.** The splice re-encode exceeded the file size by 4 bytes (25,132
+  vs 25,128).
+- **Full re-encode.** `tools/disc/pac_patch.py --full` (new option, tested) was used
+  instead. Stream: 24,658 bytes. File: 25,128 bytes, with **446 zero-fill bytes**.
+  That is a deviation from `EXP-0019`'s splice and its 14-byte fill.
+- **Hashes.** Patched file `3a99ecb1…`, decoded `3af26268…`, manifest
+  `c96c8d95…`.
+
+### Image
+
+`tools/disc/patch_image.py` now accepts repeated `--file`/`--data` pairs (tested).
+It was run twice into `build/mshvsf_exp0022c_{a,b}`.
+
+- Changed sectors: LSN **4,214** (`MEMFIX.PAC`, one sector) and **8,246-8,258**
+  (all of `MC09.PAC`).
+- Builds identical. Track 01 SHA-256 `40f250fe5b2caa56…787e`.
+- Tracks 02-12 and the CUE are byte-identical to the source.
+- Build manifest `c3de51c1…`.
+
+### Offline verification
+
+- `iso9660 --check` reports 0 errors, 414 files. Only `MEMFIX.PAC` and `MC09.PAC`
+  differ.
+- `sector` verify: 0 of 192,346 invalid.
+- Decoded `MC09.PAC` differs from the original in exactly the 16 target cells, all
+  `0x0725`.
+- In the decoded font, only glyph `0x0725` changed, and it equals the pair cell. No
+  other `MEMFIX.PAC` byte changed.
+- Source identity unchanged.
+
+### Boot prediction
+
+On a cold boot of the derived image, Ryu's win quote shows `Th` in line-1 cell 0,
+solid with a shadow, with the rest of the quote unchanged. The `EXP-0015`/`EXP-0021`
+runs on the original image are the controls.
+
