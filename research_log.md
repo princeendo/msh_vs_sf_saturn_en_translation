@@ -2398,3 +2398,21 @@ Checks: pytest (128 passed), ruff check, ruff format --check, and strict mypy.
 
 Next action:
 `RE-023` (selection mechanism, `EXP-0025`; live debugger session).
+
+## 2026-10-17 — EXP-0025 design (RE-023)
+
+Task: RE-023
+
+- Static reading of `0x060AF81E-0x060AF8D0`: `@(76,r12)` is the partner-name glyph
+  counter (expands `0000`). The original RE-023 hypothesis (that it selects the
+  quote) is **DISPROVEN** by code reading. Name entry 9 = リュウ (Ryu), matching
+  `MC09`.
+- Alternate name-length table `0x060AF908` (flag `r11+0xCC8E`) fits English names:
+  `HYPOTHESIS`. Logged as an unknown.
+- Two-state search: WRAM-H `0x060F249C` holds `0x002091AC + 76·r` for the shown
+  record (`0x002092DC` / `0x00209328`), and is the only such hit.
+- Pre-registered Part 1 (write breakpoint on that pointer from state A, slot 5,
+  original image) and Part 2 (forcing record 6).
+
+Next action:
+User runs EXP-0025 Part 1.

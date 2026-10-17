@@ -8,7 +8,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Reverse-engineering experiments in progress: none.
+- Reverse-engineering experiments in progress: `EXP-0025` (`RE-023`).
 - Current active task: `RE-020` (M3 umbrella; plan recorded 2026-10-17).
 - Next research task: `RE-023` (selection, `EXP-0025`; live debugger session),
   then `RE-024` (all 16 records live from the `RE-022` marker image) and
@@ -1121,7 +1121,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-023 - Identify the win-quote selection mechanism (EXP-0025)
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M3
 - **Dependencies:** RE-021.
 - **Blockers:** None (`RE-021` done; screenshots can be scored with
@@ -1131,8 +1131,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   record.
 - **Rationale:** Forcing a chosen record makes live verification of all 16 records
   practical, and may explain `EXP-0010`'s Q3 non-recurrence.
-- **Hypothesis:** writing value `v` to the counter before the routine runs makes
-  record `f(v)` display, with `f` read from the byte tables.
+- **Hypothesis (original, `DISPROVEN` by code reading in `EXP-0025`):** writing
+  value `v` to the counter makes record `f(v)` display. The counter is in fact the
+  partner-name glyph counter. The replacement hypothesis, a record pointer at WRAM-H
+  `0x060F249C` written during the KO-to-quote transition, is tested in
+  `EXP-0025` Part 1.
 - **Discriminating test:**
   - break before the routine;
   - set the counter to two different predicted values in replays from one
