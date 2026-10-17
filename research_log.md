@@ -2476,3 +2476,23 @@ Tasks: EMU-021, RE-023
 
 Next action:
 `RE-024`: boot the `RE-022` marker image and force all 16 records automatically.
+
+## 2026-10-17 — RE-024 / EXP-0026: all 16 marker records live
+
+Task: RE-024
+
+- Booted the `RE-022` marker image in the patched Mednafen. The user played one
+  arcade KO with Ryu. Natural index 10 displayed its marker correctly. The
+  post-KO checkpoint was saved automatically.
+- Forced indices 0-15 from the checkpoint with no input. `verify_records.py`
+  passed all 16: pointer, screen (records 1-15 pixel-exact), cart font, WRAM-L
+  table, and display buffer.
+- All 51 pair codes (`0x00A8-0x00DA`) render.
+- Record 0: the placeholder expands to ケン after the Latin text.
+- Verifier refinement: the placeholder shifts line 1's trailing blanks. Every
+  record has one undrawn extra 39th buffer entry, equal to line 2's first cell.
+  The first verifier model was too strict; it was refined from the observed
+  buffers and checked again against the `EXP-0025` captures (still passing).
+- RE-024 DONE. Next: RE-025 (variants), which closes RE-020 and M3.
+
+Checks: pytest (135 passed), ruff check, ruff format --check, and strict mypy.

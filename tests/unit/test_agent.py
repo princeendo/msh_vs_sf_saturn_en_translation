@@ -113,10 +113,11 @@ def test_parse_hit_line() -> None:
 def test_expected_buffer_plain_and_placeholder() -> None:
     from tools.mednafen.verify_records import expected_buffer
 
-    codes = [0x0801, 0x0802, 0x0020]
-    assert expected_buffer(codes, [0x5801, 0x5802, 0x5020, 0x5000]) == (True, [])
-    assert expected_buffer(codes, [0x5801, 0x5803, 0x5020]) == (False, [])
-    record = [0x0801, 0x0000, 0x0020, 0x0020, 0x0805, 0x0020]
-    shown = [0x5801, 0x5863, 0x58A5, 0x5020, 0x5805, 0x5020, 0x5020, 0x0000, 0x0000]
-    assert expected_buffer(record, shown) == (True, [0x0863, 0x08A5])
+    codes = [0x0801, 0x0802, 0x0020, 0x0803]
+    assert expected_buffer(codes, [0x5801, 0x5802, 0x5020, 0x5803, 0]) == (True, [], [])
+    assert expected_buffer(codes, [0x5801, 0x5803, 0x5020, 0x5803])[0] is False
+    # Two lines of 3 cells: placeholder at cell 1, name of 2 glyphs, one extra.
+    record = [0x0801, 0x0000, 0x0020, 0x0805, 0x0806, 0x0807]
+    shown = [0x5801, 0x5863, 0x58A5, 0x5805, 0x5806, 0x5807, 0x5805, 0x0000]
+    assert expected_buffer(record, shown) == (True, [0x0863, 0x08A5], [0x0805])
     assert expected_buffer(record, [0x5801, 0x5863, 0x5806, 0x0000])[0] is False
