@@ -8,7 +8,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - Current milestone: **M3**: handle multiple Ryu captions programmatically. M2 was
   confirmed on 2026-10-17 (`DISC-002`, `EXP-0019`).
-- Current active task: none.
+- Current active task: `FONT-001` (`EXP-0020`; Phase 1 negative, Phase 1b next).
 - Reverse-engineering experiments in progress: none.
 - Next research task: `FONT-001` via `EXP-0020` (Phase 1 offline font search). Then
   `RE-020` (M3 planning). `DISC-020` stays behind `FONT-001` and
@@ -903,7 +903,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### FONT-001 - Identify Latin glyphs in the quote font and their codes
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS`
 - **Milestone:** M3 (prerequisite for `DISC-020`)
 - **Dependencies:** DBG-013, DBG-014, DISC-001, EMU-011.
 - **Blockers:** None.
