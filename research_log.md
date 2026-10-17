@@ -2293,3 +2293,19 @@ Checks: pytest (113 passed), ruff check, ruff format --check, and strict mypy.
 
 Next action:
 Cold boot of `build/mshvsf_exp0023c_a`; two Ryu wins.
+
+## 2026-10-17 — EXP-0023 Phase C cold boot
+
+Task: FONT-003
+
+- Booted `build/mshvsf_exp0023c_a` cold (no state loaded). Two Ryu wins (screenshots
+  `-0056`, `-0057`; states archived `exp0023c-slot7`/`slot8`).
+- Both showed `Is that all you got!` on line 1, with the original line 2 of records
+  4 and 5.
+- Cart font, WRAM-L table, and WRAM-H display buffer matched the build in both
+  states.
+- Result: H-C `CONFIRMED`. FONT-003 `DONE`.
+- Open: other uses of the sacrificed kanji and of codes `0x00A8-0x00B1`.
+
+Next action:
+`RE-020` (M3 planning). English text waits on `GATE-TRANSLATION`.
