@@ -2,8 +2,8 @@
 
 Task: `DISC-002` (M2)
 Date: 2026-10-17
-Status: IN_PROGRESS
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: CONFIRMED
 
 ## Observation
 
@@ -171,4 +171,50 @@ c = 0-2.
   48 target cells. All 48 cells hold the expected codes.
 - Source identity was unchanged before and after.
 
-All offline predictions held. The runtime test is pending.
+All offline predictions held.
+
+## Actual Result: Cold Boot (2026-10-17)
+
+The derived CUE was booted in stock Mednafen 1.32.1:
+
+- process 67379;
+- log `local/mednafen/logs/disc002-exp0019-boot.log`, reporting `T-1238G`, area
+  `J`, and `Cart: 4MiB Extended RAM`, with the same harmless missing
+  `.sbi`/config/cheat messages as the source.
+
+The user played arcade mode from boot (Ryu, then Ken), won two fights with Ryu
+landing the KO, and saved and screenshotted each fully drawn quote. No hang, crash,
+or visual corruption was reported.
+
+| Win | Screenshot | State (slot) | Quote shown |
+| --- | --- | --- | --- |
+| 1 | `-0046.png`, 20,204 B, `923c775d…297f` | 7, `fa2f1b607cdc50a9…2256` | `あいう。一つ間違えば…` (Q2, record 4: `くはっ` replaced) |
+| 2 | `-0047.png`, 20,649 B, `c4a2b5cb…7251` | 8, `49e6cb536f2ba481…1441` | `あいうた、もっと打て！…` (Q6, record 1: `どうし` replaced) |
+
+- Both states' WRAM-L `0x002091AC-0x0020966B` equals the patched decoded table
+  exactly.
+- Over the full decoded range, 45,999 of 46,408 bytes match, the same in-fight
+  difference count as the original image in `EXP-0018`.
+- States are archived as `exp0019-slot7.mc7` and `exp0019-slot8.mc8`.
+- The derived disc uses the same Mednafen state filename ID (`0eac041d…`) as the
+  source; the overwritten `EXP-0010` slots were archived beforehand.
+- Source identity was unchanged after the run.
+
+## Conclusion
+
+`CONFIRMED` (M2): a derived image built from the untouched source differs only in
+`MC09.PAC`. That file is re-encoded, kept at the same size, placed in the same
+sectors, and given regenerated EDC/ECC. The image boots, and it reproduces the M1
+`あいう` marker in Ryu's win quotes in two independent wins (two different
+records).
+
+The game accepted the recomputed header and the 14-byte zero fill. No size or
+integrity check rejected the file.
+
+## Uncertainty and Alternatives
+
+- Only stock Mednafen was tested. Real hardware and other emulators are untested.
+- Only the same-size placement policy was exercised. Growing the file (moving
+  sectors or the directory) is untested.
+- Whether the header word-1 relation is checked by the game is unknown. The rebuilt
+  file kept it consistent.

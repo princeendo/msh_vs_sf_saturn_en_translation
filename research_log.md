@@ -1969,3 +1969,34 @@ Action:
 Next action:
 Build the encoder, sector, and patch tooling, then run `EXP-0019`.
 
+## 2026-10-17 14:40 CDT — EXP-0019
+
+Task: DISC-002 (M2)
+
+Hypothesis:
+A derived image that differs only in a re-encoded, same-size `MC09.PAC` (48 marker
+codes) boots and shows `あいう` in Ryu's win quotes.
+
+Action:
+- Added `tools/disc/sector.py` (EDC/ECC, validated on all 192,346 source sectors),
+  the encoder, `pac_patch.py`, and `patch_image.py`, with tests.
+- Built the patched MC09.PAC (splice at 20,411; stream 25,090; 14 fill bytes) and
+  the derived image (changed LSN 8,246 and 8,255-8,258), twice.
+- Ran the offline checks.
+- The user cold-booted the derived CUE and won twice with Ryu.
+
+Result:
+- Offline: identical builds, valid sectors, only MC09.PAC changed, and the decoded
+  payload carries exactly the 48 codes.
+- Runtime: `あいう。一つ間違えば…` (Q2) and `あいうた、もっと打て！…` (Q6). Both
+  saved states' WRAM-L table equals the patched table.
+- Source unchanged.
+
+Conclusion:
+`CONFIRMED`; M2 reached.
+
+Next action:
+RE-020 (M3) planning, and a Latin-glyph/font-code investigation for English.
+
+Checks: pytest (73 passed), ruff check, ruff format --check, and strict mypy.
+
