@@ -323,6 +323,23 @@ cart font and quote table matched the patch.
 Route: pair glyphs give up to 76 characters per quote. Storing many pairs needs a
 font-storage expansion that has not been tested.
 
+## FONT-003 Phase A: Quote Font Image Layout (Lossless Repack)
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0023`
+
+The quote font image (`MEMFIX.PAC` entry 4) is laid out as:
+
+- a 16-byte header whose last word is the code count `0x0C60`;
+- 224 block-table longs (running data offset relative to 0x010 for blocks below the
+  count, 0 above);
+- a 0xE00-byte size table (0 empty, `0x80` raw, else compressed length);
+- glyph data in code order, filling the entry exactly.
+
+`tools/text/font_pack.py` unpacks and repacks it **byte-identically** (SHA-256
+`3d8e9a26…4efb`). That validates the format model and the canonical encoder.
+
 ## Entry Requirements
 
 Each future entry must include:

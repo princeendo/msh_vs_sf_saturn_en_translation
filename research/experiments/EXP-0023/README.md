@@ -2,7 +2,7 @@
 
 Task: `FONT-003`
 Date: 2026-10-17
-Status: READY
+Status: IN_PROGRESS
 Confidence: HYPOTHESIS
 
 ## Question
@@ -120,6 +120,100 @@ Both require tracing the loader and address tables.
 | Phase B shows large reclaimable space | Phase C at scale |
 | Phase B shows little | Phase D |
 
-## Actual Result
+## Actual Result: Phase A (2026-10-17)
 
-Pending.
+### Measured layout
+
+- **Header** (16 bytes): `00…00 00000C60`. The last word, `0x0C60`, is the code
+  count (codes `0x000-0xC5F`).
+- **Block table** (224 longs at 0x010): the 198 blocks below the count hold the
+  running data offset (relative to 0x010). The 26 blocks at or above it hold 0.
+- **Size table** (0xE00 bytes at 0x390): raw glyphs always use `0x80`.
+- **Data** fills the entry exactly (end = 0x32730 relative to 0x010), with no slack.
+
+### Repacker
+
+`tools/text/font_pack.py` (new, with tests): unpack all 3,584 codes, then pack
+with the canonical column-run encoder.
+
+```bash
+./invenv.sh python -m tools.text.font_pack research/extracted_files/mshvsf_saturn_jp/MEMFIX.PAC
+```
+
+The rebuild is **byte-identical** to `MEMFIX.PAC` entry 4: 206,656 bytes, SHA-256
+`3d8e9a26a2021d8ba44e0b920930a1e338785d96606a573cfbc0364bffc44efb`. Counts:
+2,842 compressed, 30 raw, 712 empty.
+
+**H-A: `CONFIRMED`.**
+
+## Actual Result: Phase B
+
+`tools/text/quote_census.py` (new) finds runs of at least 4 consecutive 76-byte
+records whose words are all blank (`0020`), placeholder (`0000`), or non-empty
+font codes (at least 3 text cells and 1 blank per record). Validated on
+`MC09.PAC`: exactly one table, 16 records at `0x91AC`.
+
+### All 23 decoded `MC*.PAC`
+
+Report `census_mc.json`, SHA-256 prefix `00e58009`:
+
+| Files | Tables found |
+| --- | --- |
+| `MC01`, `03`-`06`, `09`-`0B`, `0D`-`12`, `14`-`16` | one 16-record table each |
+| `MC07` | 15 records |
+| `MC02`, `MC08` | two 16-record tables each |
+| `MC0C` | 4 + 8 + 8 records |
+| `MC00` | 26 + 14 + 9 + 43 records |
+| `MC13` | 120 records |
+
+The union is **700 codes**.
+
+### Other files
+
+Report `census_other.json`, prefix `809f0303`. Other decoded PACs and raw
+non-audio/non-ST2 files:
+
+| File | Record-shaped runs |
+| --- | --- |
+| `ME.PAC`, `ME.SHX` | 15, 17, 40, 25 |
+| `MM.BIN` | 5, 6, 4, 4, 7, 46 |
+
+The union is **516 codes**. The combined union is **839** of 2,872 non-empty glyphs.
+
+### Reclaimable space
+
+`unseen_codes.json`, prefix `32e513ae`. Non-empty glyphs in no found table,
+excluding ASCII `0x20-0x7E` and full-width punctuation, Latin, and digits
+`0x8A9-0x925`, total 1,922 glyphs and 131,307 bytes:
+
+| Code range | Glyphs | Bytes |
+| --- | ---: | ---: |
+| `0x00xx` | 52 | 2,929 |
+| `0x01xx-0x03xx` | 571 | 38,860 |
+| `0x04xx-0x07xx` | 959 | 57,944 |
+| `0x08xx` | 19 | 1,339 |
+| Kanji `0x0926-0x0C5F` | 321 | 30,235 |
+
+The `0x01xx-0x07xx` ranges contain UI artwork (for example "PRESS START",
+"INSERT COIN", stylized digits; `EXP-0020` atlas) drawn by non-table code, so
+"unseen" there does **not** imply unused. Kanji are plausibly text-only. 504 of
+825 kanji are used by the found tables, and **321 kanji (30,235 bytes) are unseen,
+enough for about 817 pair glyphs** at 37 bytes.
+
+**H-B: `SUPPORTED`.** The win-quote code set is measured. "Unused" is an
+inference limited to record-shaped text: endings or story text in another format
+would not be detected.
+
+## Phase A-B Conclusion
+
+- The font can be repacked losslessly at the same size.
+- A low-risk reclaim set (unseen kanji) funds about 800 pair glyphs, comfortably
+  more than one character's English quote set.
+- The broader set (about 131 KB) needs a UI-usage census first.
+
+Phase C (cold boot):
+
+- repack with a declared sacrificial set drawn from the unseen kanji;
+- add at least 8 new pair glyphs in free codes below `0x0C60` (for example
+  `0x00A8+`), so the header is unchanged;
+- show them in a Ryu quote and sample unchanged glyphs.
