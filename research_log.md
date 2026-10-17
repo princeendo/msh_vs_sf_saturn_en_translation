@@ -1910,3 +1910,38 @@ Next action:
 
 Checks: pytest (53 passed), ruff check, ruff format --check, and strict mypy.
 
+## 2026-10-17 15:10 CDT — EXP-0018
+
+Task: DISC-001
+
+Hypothesis:
+A CPU routine writes the quote table during the pre-fight load from transformed
+source data; a write breakpoint identifies it and its source.
+
+Action:
+- Saved a character-select checkpoint (slot 6).
+- Set write breakpoints on the table and picked Ryu.
+- Dumped WRAM-H and WRAM-L while halted.
+- Added `tools/disc/pac_lzss.py`, with tests.
+
+The first process stalled after a state load during a breakpoint stop. It was
+terminated and relaunched; the checkpoint was unaffected.
+
+Result:
+- The breakpoint fired right after Ryu was picked, inside an LZSS decompressor
+  (PC `0x0603E446`). Its context names `mc09.pac`.
+- The 2 KB input buffer equals `MC09.PAC` bytes `0x4800-0x4FFF`.
+- Decoding `MC09.PAC` from `0x18` consumes exactly the header length `0x620D` and
+  outputs `0xB548` bytes, equal to WRAM-L (all 37,292 bytes written at the break,
+  and the full table in state A).
+- All 23 `MC*.PAC` files decode with this format.
+
+Conclusion:
+`CONFIRMED`; DISC-001 DONE.
+
+Next action:
+DISC-002 is blocked by GATE-TRANSLATION. Propose a marker-only disc patch task to
+test re-encoding, size limits, and boot behavior first.
+
+Checks: pytest (58 passed), ruff check, ruff format --check, and strict mypy.
+

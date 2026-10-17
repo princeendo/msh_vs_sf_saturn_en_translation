@@ -32,8 +32,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Where are Ryu post-fight captions stored on disc? (During execution: WRAM-L
   `0x002091AC-0x0020966B` drives the display, `CONFIRMED` by `EXP-0015`.) What
   loads that table, and is it per character, per partner, or per match?
-  `EXP-0017`: it is not stored verbatim, or as plain Shift-JIS/EUC/UTF-16, on disc.
-  Which file holds it, and what transformation produces it?
+  `EXP-0018` (`CONFIRMED`): it is LZSS-compressed in `MC09.PAC`, decoded at
+  character select. Open questions:
+  - Do PAC header words 1-3 or the trailing bytes act as size or integrity checks?
+  - Does the game accept a re-encoded file of a different length?
+  - Do the other `MCxx.PAC` files hold other characters' quote tables?
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?
 - What encoding, boundaries, indirection, compression, or transformation is used?
