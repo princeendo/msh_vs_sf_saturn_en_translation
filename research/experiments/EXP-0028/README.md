@@ -162,3 +162,46 @@ Manifest: `build/exp0028a/compile_manifest.json` (`620f7fc6b4d53fb6…`).
 **Phase A: done.** All offline predictions held. Phase B (live) needs one
 session: team **Ken first, Ryu second**. Fight 1: KO with Ken. Fight 2: tag in
 Ryu and KO with Ryu.
+
+## Resume: Phase B (on hold since 2026-10-23, at the user's request)
+
+Phase B is the only open step of `RE-030`. Everything it needs is committed or
+reproducible.
+
+1. **Rebuild the image if `build/` was cleaned** (ignored, deterministic; expect
+   track 01 `c3990fa5…`):
+
+   ```bash
+   ./invenv.sh python -m tools.text.caption_compiler data/captions/ryu_ken_markers.json --out-dir build/exp0028a
+   ```
+
+2. **Rebuild the patched Mednafen if needed:** see `vendor/mednafen/README.md`
+   (patch `0001-agent-interface.patch`; expect binary `fe0edb99…`).
+3. **Launch with the agent enabled** (background):
+
+   ```bash
+   MEDNAFEN_HOME="$PWD/local/mednafen" MEDNAFEN_AGENT_DIR="$PWD/local/mednafen/agent" \
+     vendor/mednafen/build-agent/src/mednafen "build/exp0028a/image_a/Marvel Super Heroes vs. Street Fighter (Japan).cue"
+   ```
+
+4. **Arm two captures in sequence** (background), before the user plays:
+
+   ```bash
+   R=local/mednafen/agent/runs
+   ./invenv.sh python -m tools.mednafen.ko_capture --out-dir $R/exp0028-ken --checkpoint --timeout 2400
+   ./invenv.sh python -m tools.mednafen.ko_capture --out-dir $R/exp0028-ryu --checkpoint --timeout 2400
+   ```
+
+5. **User gameplay** (one session, no reset, no F-keys): arcade mode, pick **Ken
+   first, Ryu second**.
+   - **Fight 1:** KO with **Ken**.
+   - **Fight 2:** the next opponent; tag in Ryu and KO with **Ryu**.
+6. **Force and verify, automatically**, for each of `exp0028-ken` and
+   `exp0028-ryu`:
+   - for i in 0-15: `ko_capture --state <run>/postko.mc --out-dir <run>-rNN
+     --force-index i --setter-pcs 060AF282`;
+   - then `verify_records --compile-dir build/exp0028a <run>-r?? <run>`.
+   - Expect `table_file` `MC0A.PAC` with base `0x0020A59C` for Ken, and
+     `MC09.PAC` with base `0x002191AC` for Ryu.
+7. Record the results against this file's predictions. Then update `TASKS.md`
+   (`RE-030`, M4), `docs/discoveries.md`, and `research_log.md`.
