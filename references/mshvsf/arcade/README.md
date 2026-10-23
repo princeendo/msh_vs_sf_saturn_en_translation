@@ -99,16 +99,20 @@ The user has heard that the Japanese set contains quotes for Norimaro and for
 secret characters that the English sets may lack. `REF-008` collected sources on
 this (2026-10-23). **Every row below is a `HYPOTHESIS`.** None has been observed in
 a captured frame of these sets. Sources are listed in `docs/references.md` under
-"Regional Arcade Content Claims".
+"Regional Arcade Content Claims". "TCRF" means the Wayback Machine snapshot
+`20261011115711` of the arcade page; the live page's bot check could not be passed,
+and the user approved using the snapshot.
 
 | ID | Claim | Source (reliability) | Matters for |
 | --- | --- | --- | --- |
-| RC-1 | Norimaro is selectable only in Japan. Elsewhere his select-screen slot shows the game logo. | Wikipedia, citing GameSpot (1998) and GamesRadar (2011) (secondary); RQ87 fan site | The user's report |
-| RC-2 | Norimaro's data is still in the US and European ROMs, and his win quotes **were translated** into English. His US ending is untranslated and reuses Dan's text. | RQ87 fan site (undated) | Partly contradicts "JP only" |
-| RC-3 | The six secret characters (Armored Spider-Man, Mephisto, U.S. Agent, Dark Sakura, Mech-Zangief, Shadow) have unique win quotes only in Japan. Elsewhere they reuse their base characters' quotes. | TCRF arcade page, **search snippet only** (unread; the page shows a bot check) | Supports the user's report |
-| RC-4 | Dark Sakura, Shadow, and Mech-Zangief have real endings in Japan. The US shows a generic "Congratulations" screen. | RQ87 fan site; TCRF snippet agrees | Endings (M6+, out of scope) |
-| RC-5 | Some names differ by region: Mech-Gouki becomes Cyber-Akuma, one of Bison's hyper names changes, and "variable" becomes "cross-over". | RQ87 fan site; snippets | Terminology |
-| RC-6 | In Japan, Norimaro's availability may depend on the coin setting. | RQ87 FAQ (author unsure) | Capture routes |
+| RC-1 | Norimaro is normally selectable only in the Japanese sets. Elsewhere his slot shows the game logo. TCRF says international sets unlock him when byte `0xCD` is `01` (a MAME cheat). | TCRF (fan wiki); Wikipedia, citing GameSpot and GamesRadar (secondary); RQ87 (fan site) | The user's report |
+| RC-2 | International ROMs still hold translated Norimaro text: his win quotes, his Apocalypse pre-fight lines, his taunt bubble, and his hyper-combo caption. The quotes also exist in Spanish and Portuguese. His international ending shows only the first line of Dan's ending text. | TCRF; RQ87 | **Contradicts "JP only"** for Norimaro's win quotes |
+| RC-3 | All secret characters (Capcom and Marvel) have unique win quotes only in the Japanese version. International versions reuse the normal character's quotes; for Shadow, the quotes are from the previous game. TCRF lists the Japanese quotes as a to-do and does not transcribe them. | TCRF | **Supports** the user's report for secret characters |
+| RC-4 | Dark Sakura, Mech-Zangief, and Shadow have real endings in Japan. International versions show the generic secret-character screen, which is in English in all regions. TCRF gives fan translations of the Japanese endings. | TCRF; RQ87 | Endings (M6+, out of scope) |
+| RC-5 | Some names differ by region: Dictator's "Knee Press Nightmare" (JP) becomes "Scissors Kick Nightmare", and "Variable" becomes "Cross-Over Combinations". Mech-Gouki versus Cyber-Akuma comes from search snippets only. | TCRF; RQ87 | Terminology |
+| RC-6 | In Japan 970702 and 970707, Norimaro can be selected only at "1 Coin = 1 Credit" or Free Play. Japan 970625 has no such restriction. The local `mshvsfj` is 970707. | TCRF (refines the uncertain RQ87 claim) | Capture settings |
+| RC-7 | The game has a language setting beyond English: the TCRF text mentions setting it to Spanish, Portuguese, or Japanese. In the Hispanic set, the location-test ending text stays in English. Which languages each local set offers is unknown. | TCRF | Whether one set can show several languages |
+| RC-8 | Shadow's win quotes are identical to Charlie's in *X-Men vs. Street Fighter* and are left-aligned, except in Japanese. | TCRF | Reference-text oddity |
 
 Regional facts from the primary MAME driver (checked in the pinned 0.289 source):
 
@@ -126,8 +130,12 @@ Working conclusions until captures settle them:
 - An English line missing from the US or European set is not evidence that no
   official English exists. For the secret characters (RC-3), the English sets may
   simply have no unique line.
-- If RC-2 holds, official English for Norimaro's win quotes may exist in non-JP
-  ROMs even though he is not selectable there. Finding it is `SPECIAL-001` work.
+- If RC-2 holds, official English for Norimaro's win quotes exists in the US and
+  European ROMs even though he is not normally selectable there (RC-1). If RC-3
+  holds, the secret characters' unique quotes have **no** official English
+  counterpart. Both are `SPECIAL-001` work.
+- If RC-7 holds, a language setting may show other languages from the same set.
+  Each capture must record the language setting as well as the set.
 - Norimaro, secret characters, and endings are out of scope until their gated
   tasks (`SPECIAL-001` for M9, `END-001` for M6). `REF-008` only records these
   claims; it does not extract, translate, or modify that content.
