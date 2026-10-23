@@ -9,7 +9,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M4**: a second fighter through the same mechanism. M3 was
   completed on 2026-10-17 (`RE-020`; `EXP-0026`, `EXP-0027`).
 - Reverse-engineering experiments in progress: none.
-- Current active task: `RE-030` (`EXP-0028` Phase A done; Phase B live next).
+- Current active task: `RE-030`. `EXP-0028` Phase A is done; **Phase B is on hold
+  at the user's request (2026-10-23)**. Resume steps are in
+  `research/experiments/EXP-0028/README.md`, under "Resume: Phase B".
 - Next research task: `EXP-0028` Phase B: one session, team Ken + Ryu, KO with
   Ken, then KO with Ryu. Full English still waits on `GATE-TRANSLATION`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
@@ -1230,7 +1232,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-030 - Apply generalized mechanism to a second fighter
 
-- **Status:** `IN_PROGRESS` (`EXP-0028` Phase A done 2026-10-23; Phase B live next)
+- **Status:** `IN_PROGRESS` (`EXP-0028` Phase A done 2026-10-23; Phase B on hold, see
+  its "Resume: Phase B" section)
 - **Milestone:** M4
 - **Dependencies:** RE-020.
 - **Blockers:** None.
