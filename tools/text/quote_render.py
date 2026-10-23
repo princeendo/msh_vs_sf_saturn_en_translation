@@ -149,10 +149,10 @@ def match(
     return sorted(results, key=lambda item: -float(item["iou"]))  # type: ignore[arg-type]
 
 
-def summary(decoded: bytes) -> list[dict[str, object]]:
+def summary(decoded: bytes, table: int = TABLE) -> list[dict[str, object]]:
     rows = []
     for index in range(RECORDS):
-        codes = record_codes(decoded, index)
+        codes = record_codes(decoded, index, table)
         lengths = []
         for line in (codes[:LINE_CELLS], codes[LINE_CELLS:]):
             used = [i + 1 for i, code in enumerate(line) if code != 0x0020]
@@ -189,6 +189,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--memfix", type=Path, required=True, help="MEMFIX.PAC")
     parser.add_argument("--entry-offset", type=lambda v: int(v, 0), default=0x6A558)
     parser.add_argument("--entry-size", type=lambda v: int(v, 0), default=0x32740)
+    parser.add_argument(
+        "--table", type=lambda v: int(v, 0), default=TABLE, help="decoded offset"
+    )
     parser.add_argument("--records", default="0-15")
     parser.add_argument("--render", type=Path, help="write a PNG (ignored path)")
     parser.add_argument("--match", type=Path, nargs="*", default=[], help="screenshots")
@@ -196,8 +199,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     decoded, font = load(args.pac, args.memfix, args.entry_offset, args.entry_size)
     indices = parse_records(args.records)
-    records = [record_codes(decoded, i) for i in range(RECORDS)]
-    report: dict[str, object] = {"records": summary(decoded)}
+    records = [record_codes(decoded, i, args.table) for i in range(RECORDS)]
+    report: dict[str, object] = {"records": summary(decoded, args.table)}
     if args.render:
         args.render.write_bytes(render(font, [records[i] for i in indices]))
     matches: dict[str, object] = {}

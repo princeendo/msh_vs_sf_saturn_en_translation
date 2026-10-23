@@ -13,10 +13,13 @@ from tools.text.caption_compiler import (
     Caption,
     SpecError,
     capacity,
+    capacity_tables,
     compile_files,
+    compile_tables,
     distinct_pairs,
     line_cells,
     parse_spec,
+    parse_tables,
     record_cells,
     verify_font,
     verify_table,
@@ -41,15 +44,16 @@ def font_image() -> bytes:
     return pack(header(0x0C60), glyphs)
 
 
-def pac_file() -> bytes:
-    decoded = bytearray(TABLE + 16 * RECORD + 64)
+def pac_file(table: int = TABLE, placeholder_cell: int = 0) -> bytes:
+    decoded = bytearray(table + 16 * RECORD + 64)
     for record in range(16):
         for cell in range(38):
-            offset = TABLE + record * RECORD + 2 * cell
+            offset = table + record * RECORD + 2 * cell
             decoded[offset : offset + 2] = (0x0801 + (record + cell) % 40).to_bytes(
                 2, "big"
             )
-    decoded[TABLE : TABLE + 2] = PLACEHOLDER.to_bytes(2, "big")  # record 0, cell 0
+    cell0 = table + 2 * placeholder_cell  # record 0 placeholder
+    decoded[cell0 : cell0 + 2] = PLACEHOLDER.to_bytes(2, "big")
     stream = encode(bytes(decoded))
     return build_pac(stream, len(decoded), 0x18 + len(stream) + 2048)
 
@@ -138,3 +142,72 @@ def test_too_many_pairs_is_rejected() -> None:
         compile_files(
             captions, font_image(), pac_file(), CANDIDATES, ranges=[(0xA8, 0xA8)]
         )
+
+
+KEN_TABLE = 0xA59C
+
+
+def spec_v2() -> dict[str, object]:
+    return {
+        "schema": "mshvsf-captions/2",
+        "tables": [
+            {
+                "file": "MC09.PAC",
+                "table": "0x91AC",
+                "records": [{"record": 1, "lines": ["Ryu one", "Shared"]}],
+            },
+            {
+                "file": "mc0a.pac",
+                "table": "0xA59C",
+                "records": [
+                    {"record": 0, "lines": ["Ken zero", "Partner is{P}"]},
+                    {"record": 2, "lines": ["Shared", ""]},
+                ],
+            },
+        ],
+    }
+
+
+def test_parse_tables_v1_and_v2() -> None:
+    v1 = parse_tables(spec((3, "a", "b")))
+    assert [(t.file, t.table) for t in v1] == [("MC09.PAC", TABLE)]
+    v2 = parse_tables(spec_v2())
+    assert [(t.file, t.table) for t in v2] == [
+        ("MC09.PAC", TABLE),
+        ("MC0A.PAC", KEN_TABLE),
+    ]
+    bad = spec_v2()
+    bad["tables"] = [bad["tables"][0], bad["tables"][0]]  # type: ignore[index]
+    with pytest.raises(SpecError):
+        parse_tables(bad)
+    with pytest.raises(SpecError):
+        parse_tables(
+            {"schema": "mshvsf-captions/2", "tables": [{"file": "X", "table": "1"}]}
+        )
+
+
+def test_compile_tables_shares_pairs_across_files() -> None:
+    tables = parse_tables(spec_v2())
+    pacs = {
+        "MC09.PAC": pac_file(),
+        "MC0A.PAC": pac_file(KEN_TABLE, placeholder_cell=24),
+    }
+    compiled = compile_tables(tables, font_image(), pacs, CANDIDATES)
+
+    assert set(compiled.files) == {"MC09.PAC", "MC0A.PAC"}
+    assert verify_font(font_image(), compiled.font_image, compiled)[
+        "pairs_equal_composed"
+    ]
+    ryu = decode_file(compiled.files["MC09.PAC"].pac)[1]
+    ken = decode_file(compiled.files["MC0A.PAC"].pac)[1]
+    shared = compiled.codes["Sh"]
+    assert record_codes(ryu, 1)[19] == shared
+    assert record_codes(ken, 2, KEN_TABLE)[0] == shared  # one code for both files
+    ken0 = record_codes(ken, 0, KEN_TABLE)
+    assert ken0[24] == PLACEHOLDER  # {P} on line 2, where the original has it
+    assert ken0[25:] == [BLANK] * 13
+    assert record_codes(ken, 2, KEN_TABLE)[19:] == [BLANK] * 19  # one-line record
+    for name, f in compiled.files.items():
+        assert verify_table(pacs[name], f.pac, f.writes)["target_cells_expected"]
+    report = capacity_tables(tables, font_image(), pacs, CANDIDATES)
+    assert report["distinct_pairs"] == len(compiled.codes)

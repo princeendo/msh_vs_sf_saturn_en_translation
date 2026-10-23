@@ -1,0 +1,242 @@
+{
+  "schema": "mshvsf-captions/2",
+  "description": "EXP-0028 record-identifying markers for Ryu (MC09) and Ken (MC0A); not translations. Ken keeps his line-2 placeholders (records 11, 12) and one-line records (0, 1, 13).",
+  "tables": [
+    {
+      "file": "MC09.PAC",
+      "table": "0x91AC",
+      "records": [
+        {
+          "record": 0,
+          "lines": [
+            "Ryu record 00 is{P}",
+            "00 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 1,
+          "lines": [
+            "Ryu record 01 line one",
+            "01 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 2,
+          "lines": [
+            "Ryu record 02 line one",
+            "02 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 3,
+          "lines": [
+            "Ryu record 03 line one",
+            "03 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 4,
+          "lines": [
+            "Ryu record 04 line one",
+            "04 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 5,
+          "lines": [
+            "Ryu record 05 line one",
+            "05 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 6,
+          "lines": [
+            "Ryu record 06 line one",
+            "06 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 7,
+          "lines": [
+            "Ryu record 07 line one",
+            "07 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 8,
+          "lines": [
+            "Ryu record 08 line one",
+            "08 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 9,
+          "lines": [
+            "Ryu record 09 line one",
+            "09 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 10,
+          "lines": [
+            "Ryu record 10 line one",
+            "10 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 11,
+          "lines": [
+            "Ryu record 11 line one",
+            "11 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 12,
+          "lines": [
+            "Ryu record 12 line one",
+            "12 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 13,
+          "lines": [
+            "Ryu record 13 line one",
+            "13 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 14,
+          "lines": [
+            "Ryu record 14 line one",
+            "14 Line two fills cells up to nineteen"
+          ]
+        },
+        {
+          "record": 15,
+          "lines": [
+            "Ryu record 15 line one",
+            "15 Line two fills cells up to nineteen"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "MC0A.PAC",
+      "table": "0xA59C",
+      "records": [
+        {
+          "record": 0,
+          "lines": [
+            "Ken record 00 line one",
+            ""
+          ]
+        },
+        {
+          "record": 1,
+          "lines": [
+            "Ken record 01 line one",
+            ""
+          ]
+        },
+        {
+          "record": 2,
+          "lines": [
+            "Ken record 02 line one",
+            "02 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 3,
+          "lines": [
+            "Ken record 03 line one",
+            "03 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 4,
+          "lines": [
+            "Ken record 04 line one",
+            "04 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 5,
+          "lines": [
+            "Ken record 05 line one",
+            "05 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 6,
+          "lines": [
+            "Ken record 06 line one",
+            "06 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 7,
+          "lines": [
+            "Ken record 07 line one",
+            "07 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 8,
+          "lines": [
+            "Ken record 08 line one",
+            "08 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 9,
+          "lines": [
+            "Ken record 09 line one",
+            "09 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 10,
+          "lines": [
+            "Ken record 10 line one",
+            "10 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 11,
+          "lines": [
+            "Ken record 11 line one",
+            "11 Ken partner{P}"
+          ]
+        },
+        {
+          "record": 12,
+          "lines": [
+            "Ken record 12 line one",
+            "12 Ken buddy{P}"
+          ]
+        },
+        {
+          "record": 13,
+          "lines": [
+            "Ken record 13 line one",
+            ""
+          ]
+        },
+        {
+          "record": 14,
+          "lines": [
+            "Ken record 14 line one",
+            "14 Ken line two fills all cells to 19!"
+          ]
+        },
+        {
+          "record": 15,
+          "lines": [
+            "Ken record 15 line one",
+            "15 Ken line two fills all cells to 19!"
+          ]
+        }
+      ]
+    }
+  ]
+}

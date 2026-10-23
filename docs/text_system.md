@@ -65,7 +65,11 @@ source track:
 
 - Lines are cut into two-letter pair glyphs. Distinct pairs go to free codes
   (`0x00A8+`), and unseen kanji are emptied only as needed.
-- `{P}` keeps record 0's placeholder at cell 8.
+- `{P}` keeps a record's `0000` placeholder, only at the cell where the
+  original has one (Ryu record 0, cell 8; Ken records 11 and 12, cells 26 and 25).
+- Schema `mshvsf-captions/2` lists several tables (`file`, decoded `table`
+  offset). Pairs are shared across them in one font. Known tables: `MC09` Ryu
+  `0x91AC`; `MC0A` Ken `0xA59C`.
 - Outputs go to `OUT/files/`, `OUT/image_{a,b}/`, `OUT/records.png` (offline
   render), and `OUT/compile_manifest.json`.
 

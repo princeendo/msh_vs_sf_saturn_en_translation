@@ -2,7 +2,7 @@
 
 Task: `RE-030`
 Date: 2026-10-17
-Status: IN_PROGRESS (design; Phase A next)
+Status: IN_PROGRESS (Phase A done; Phase B live next)
 Confidence: HYPOTHESIS
 
 ## Fighter Choice: Ken (`MC0A.PAC`)
@@ -104,3 +104,61 @@ verify all 32 records.
 ## Gate
 
 Markers only. No translation text; `GATE-TRANSLATION` still applies.
+
+## Phase A Result (2026-10-23, offline)
+
+### Tooling
+
+- **`tools/text/caption_compiler.py`** accepts schema `mshvsf-captions/2`: a
+  list of `{file, table, records}`, in `data/captions/caption_spec.schema.json`.
+  - It allocates distinct pairs **jointly** into one font, patches every listed
+    PAC (splice, with full re-encode as fallback), and builds and verifies the
+    image with all replacements.
+  - It writes one offline render per table (`records-<file>.png`).
+  - v1 specs still work: rebuilding `ryu_markers.json` reproduces the `RE-022`
+    `MEMFIX.PAC` and `MC09.PAC` byte for byte.
+- **`tools/text/quote_render.py`** takes `--table` (decoded offset) for
+  rendering, matching, and summaries.
+- **`tools/mednafen/verify_records.py`**:
+  - it reads every compiled table from the manifest, and checks each capture
+    against the table that WRAM-L holds at the state's base (reported as
+    `table_file`);
+  - the buffer model handles a placeholder on either line.
+  Regression: all 51 earlier captures (`EXP-0026`, `EXP-0027` V1/V2) still
+  pass, each identified as `MC09.PAC`.
+- **Tests:** v1/v2 parsing, joint pair allocation across two files, a line-2
+  placeholder, a one-line record, and the line-2 buffer model. 137 tests pass;
+  ruff and strict mypy are clean.
+
+### Marker spec and build
+
+`data/captions/ryu_ken_markers.json` (`c6d7118e210daf05…`):
+
+- **Ryu:** the `RE-022` markers.
+- **Ken:** line 1 `Ken record NN line one`.
+  - Line 2 is `NN Ken line two fills all cells to 19!` (38 characters).
+  - Records 0, 1, and 13 stay one-line.
+  - Record 11's line 2 is `11 Ken partner{P}` (placeholder at cell 26), and
+    record 12's is `12 Ken buddy{P}` (cell 25), at the original placeholder
+    cells.
+
+```bash
+./invenv.sh python -m tools.text.caption_compiler data/captions/ryu_ken_markers.json --out-dir build/exp0028a
+```
+
+| Item | Result |
+| --- | --- |
+| Pairs | 66 distinct at `0x00A8-0x00E9`, 2,653 bytes; 27 unseen kanji sacrificed (2,716 bytes freed); font zero-fill 63 |
+| `MEMFIX.PAC` | `1d3b0de497f3836f…` |
+| `MC09.PAC` | `e3582deba0bef84e…`, **identical to `RE-022`** (Ryu's pairs are allocated first, in the same order); splice; 456 fill |
+| `MC0A.PAC` | `fe7d468b04bd4fbf…`; splice from stream byte 23,505; 418 fill bytes; 876 decoded bytes changed, all in target cells |
+| Font check | header unchanged; only pair and sacrificed codes changed; pairs equal composed cells |
+| Image | builds A and B identical; track 01 `c3990fa568dbbd6d…76de`; 414 files, only `MEMFIX`, `MC09`, and `MC0A` differ; 0 bad sync, mode, or address; **0 invalid EDC/ECC**; 109 changed sectors (LSN 4166-8505) |
+| Determinism | a `--files-only` rerun is byte-identical for all three files |
+| Renders | `records-MC09.png`, `records-MC0A.png` (ignored): all 32 records legible; Ken's one-line records and line-2 placeholders as designed |
+
+Manifest: `build/exp0028a/compile_manifest.json` (`620f7fc6b4d53fb6…`).
+
+**Phase A: done.** All offline predictions held. Phase B (live) needs one
+session: team **Ken first, Ryu second**. Fight 1: KO with Ken. Fight 2: tag in
+Ryu and KO with Ryu.
