@@ -100,6 +100,15 @@ These questions are unresolved unless a later entry links to reproducible eviden
 
 - Which official English line corresponds to each Japanese caption?
 - Do any reference releases share behavior relevant to a specific experiment?
+- Do the local European (`mshvsf`), US (`mshvsfu`), and Japanese (`mshvsfj`) arcade
+  sets contain the same post-fight quotes? The user has heard that only the
+  Japanese set includes Norimaro and secret-character quotes (untested; `REF-008`).
+- Do the European and US English wordings agree line for line?
+- Which arcade ROM members hold post-fight text, and in what encoding? Shared CRCs
+  show that only `03`/`04`/`05` program members differ between the local sets. That
+  does not locate the text.
+- Do the local sets pass a full MAME 0.289 audit, and do they need a separate
+  CPS-II key file?
 
 Record competing explanations and the smallest discriminating experiment in
 `research_log.md`. Move only confirmed answers to the appropriate technical document

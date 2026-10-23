@@ -2548,3 +2548,23 @@ Task: RE-030
 - Phase B next (live): team Ken + Ryu; KO with Ken, then KO with Ryu.
 
 Checks: pytest (137 passed), ruff check, ruff format --check, and strict mypy.
+
+## 2026-10-23 — Local arcade ROM sets recorded (REF-008 created)
+
+Task: reference provenance (no reverse engineering; `RE-030` stays on hold).
+
+- The user supplied `mshvsf.zip` (EU), `mshvsfu.zip` (US), and `mshvsfj.zip` (JP)
+  from `~/Downloads/mshvsf/`. They were copied with `cp -p` to the ignored
+  `local/arcade_roms/mshvsf/`.
+- `shasum -a 256` gave identical values for the originals and the copies. Sizes and
+  hashes are in `references/mshvsf/arcade/README.md`.
+- `git check-ignore -v` showed the zips are ignored by `.gitignore:20:local/`.
+- `unzip -v`: each set has 20 members (46,399,488 bytes). Only the `03`/`04`/`05`
+  program members differ by region. The `mvsu.03g`/`mvsu.04g` CRC-32 values match
+  MAME 0.289 `mshvsfu` (USA 970827): `SUPPORTED`, not a full audit.
+- User report, recorded as a `HYPOTHESIS`: only the JP set contains the Norimaro
+  and secret-character quotes. It is untested, and special cases stay gated to M9.
+- Created `REF-008` (`READY`) to audit the sets and document regional differences
+  before any arcade capture. The user asked for a separate documentation task.
+
+Checks: documentation only; no code changed.
