@@ -470,9 +470,9 @@ Task: `REF-008` (reference audit, not a reverse-engineering experiment)
   MAME 0.289 sets `mshvsf` (Europe 970625), `mshvsfu` (USA 970827), and `mshvsfj`
   (Japan 970707). All 20 ROM files in each zip match by name, size, CRC-32, and
   SHA-1, and no other set in the family matches more than 18 of 21.
-- **Gap.** Each zip lacks its 20-byte CPS-II key file (`<set>.key`). The expected
-  effect is that MAME 0.289 will not run the sets. That is not observed; no MAME
-  build is installed.
+- **Gap.** Each zip lacks its 20-byte CPS-II key file (`<set>.key`). MAME 0.289
+  `-verifyroms` rejects all three sets for that key and for the shared QSound ROM
+  `dl-1425.bin` (observed 2026-10-23).
 - **Sources.** Zip hashes are in `references/mshvsf/arcade/README.md`. The driver
   `cps2.cpp` is pinned at commit `f34f02505e32c1993c6a782b6814232cbfc74e36`,
   977,277 bytes, SHA-256 `a8c09ef8…e861602`.
@@ -480,6 +480,28 @@ Task: `REF-008` (reference audit, not a reverse-engineering experiment)
   (`tools/reference/mame_audit.py`, Python 3.12.13). The output is
   `references/mshvsf/arcade/mame0289_audit.json`.
 - **Limits.** Identity only. This says nothing about the text these sets display.
+
+## EXP-0029: Arcade Win-Quote Text Layout in Raw Program ROM
+
+Confidence: **CONFIRMED** for the data layout; display is not yet observed
+
+Experiment: `EXP-0029`
+
+- **Finding.** In all three local arcade sets, the Latin-script win quotes
+  (English, Spanish, Portuguese) are stored unencrypted in `mvs.07b`. Each
+  character is one 16-bit code: `0x0161`+ is `a`-`z`, `0x0140`+ is `A`-`Z`,
+  `0x0020` is a space, and punctuation and accents use the codes listed in the
+  experiment.
+- **Table.** The pointer table at program `0x20C014` has 78 longwords: 3 languages
+  × 26 slots. Each points to a `0x320`-byte block of 8 quotes × 2 lines × 25 codes.
+- **Same in every region.** The text digest (`5ede5615…`) and quote-table digest
+  (`29db2b67…`) are identical for `mshvsf`, `mshvsfu`, and `mshvsfj`. The Japanese
+  set therefore holds the same English text.
+- **Reproduce.** Rebuild with `tools/reference/cps2_text.py`; the commands and full
+  hashes are in `research/experiments/EXP-0029/README.md`.
+- **Limits.** Data only. The slot-to-character mapping (Ryu = slot 9) is
+  `SUPPORTED`, not confirmed. Wording becomes a quote source only after a MAME
+  capture (`REF-010`).
 
 ## Entry Requirements
 

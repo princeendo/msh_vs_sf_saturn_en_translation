@@ -545,6 +545,9 @@ a bot check; nothing was done to get past them.
   Wikipedia, versus his creator's rights, per a TCRF PlayStation-page snippet), and
   Armored Spider-Man's base character (Ryu versus Spider-Man). Neither affects
   ordinary-caption work.
+- ROM data (`EXP-0029`) supports RC-2, RC-4, and RC-7, and RC-3 for the palette-swap
+  secrets only. It does not establish display; see
+  `references/mshvsf/arcade/README.md`.
 
 ### Official Arcade Context
 

@@ -15,8 +15,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Next research task: `EXP-0028` Phase B: one session, team Ken + Ryu, KO with
   Ken, then KO with Ryu. Full English still waits on `GATE-TRANSLATION`.
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
-  claims are recorded. Arcade capture needs `REF-009` (MAME plus key files), which
-  is blocked on user-supplied files.
+  claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
+  from ROM data (Ryu = slot 9, `SUPPORTED`). Confirming them on screen needs
+  `REF-009` and then `REF-010`. MAME 0.289 is installed, but the user must supply
+  the `.key` files and `dl-1425.bin`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -509,7 +511,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   that US and EU arcade ROMs with English text are available locally. Record their
   identities against the MAME catalog before use. The sets (EU, US, and JP) are now
   in `local/arcade_roms/mshvsf/`; see `references/mshvsf/arcade/README.md`. Their
-  audit and regional-difference documentation is `REF-008`. Because Saturn quote
+  audit and regional-difference documentation is `REF-008`. `EXP-0029` decoded the
+  arcade English win quotes from ROM data. Ryu is likely slot 9, block `0x21BA20`
+  (`SUPPORTED`); on-screen confirmation is `REF-010`. Because Saturn quote
   selection varies after the KO (`EXP-0009`), correspondence may need memory-level
   evidence, such as a quote index, rather than a reproduced context.
 
@@ -598,8 +602,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Identities are `CONFIRMED`: `mshvsf` (Europe 970625), `mshvsfu`
     (USA 970827), and `mshvsfj` (Japan 970707). Each matches 20/21 files, has
     no unexpected files, and matches no other set.
-  - Each zip lacks its 20-byte `.key` file. MAME is not installed, so the
-    refusal is expected, not observed.
+  - Each zip lacks its 20-byte `.key` file. MAME later confirmed the refusal
+    (`REF-009` notes).
   - Regional claims RC-1 to RC-6 are recorded as `HYPOTHESIS`, with sources, in
     `references/mshvsf/arcade/README.md` and `docs/references.md`. The TCRF arcade
     page was read from Wayback snapshot `20261011115711`, with user approval. It
@@ -613,9 +617,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Status:** `BLOCKED`
 - **Milestone:** M0 (reference tooling; no reverse engineering)
 - **Dependencies:** REF-008.
-- **Blockers:** No MAME build is installed, and the three CPS-II `.key` files are
-  missing. The user must supply legal copies; agents must not download ROM or key
-  files.
+- **Blockers:** The three CPS-II `.key` files and the QSound device ROM
+  `dl-1425.bin` (`qsound.zip`) are missing. The user must supply legal copies;
+  agents must not download ROM or key files.
 - **Objective:** Make the local European, US, and Japanese sets run in a pinned,
   recorded MAME build, so `REF-004` can capture English quotes.
 - **Rationale:** Wording counts as evidence only from a captured frame of an
@@ -629,6 +633,38 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     supplied and audited, or its absence is recorded as a limit.
 - **Outputs:** `references/mshvsf/arcade/README.md`, `research_log.md` entry.
 - **Notes:** Keys and ROMs stay in the ignored `local/arcade_roms/mshvsf/`.
+- **Progress (2026-10-23):**
+  - MAME 0.289 was installed with `brew install mame` (bottle
+    `mame--0.289.arm64_tahoe`; `/opt/homebrew/Cellar/mame/0.289/bin/mame` SHA-256
+    `6d40df87963c58cdd3857d203e186af854fea49ae03b2ab555e30ef1029636d9`;
+    `mame -version` prints `0.289 (unknown)`). It matches the audited driver
+    version.
+  - `mame -rompath local/arcade_roms/mshvsf -verifyroms mshvsf mshvsfu mshvsfj`
+    reports 0 of 3 sets OK. Each lacks `<set>.key` and `dl-1425.bin` (24,576
+    bytes).
+
+### REF-010 - Confirm the arcade win-quote slot mapping on screen
+
+- **Status:** `BLOCKED`
+- **Milestone:** M0 (reference text; no reverse engineering)
+- **Dependencies:** REF-009, EXP-0029.
+- **Blockers:** MAME cannot run the sets until `REF-009` is done.
+- **Objective:** Turn the `EXP-0029` ROM-data quotes into capture-backed official
+  English. Confirm that slot order follows the name list (Ryu = slot 9), and that
+  displayed lines match the decoded blocks.
+- **Rationale:** Data in ROM is not proof of display. Wording becomes evidence only
+  from a captured frame.
+- **Acceptance criteria:**
+  - In `mshvsfu`, at least two Ryu win quotes and one quote from a different slot
+    are captured. Each matches its decoded block line for line, or the differences
+    are recorded.
+  - The capture records MAME version, settings (including language and region),
+    route, and screenshot hashes.
+  - The European set is compared on at least one of the same quotes.
+- **Outputs:** Experiment record, `references/mshvsf/arcade/README.md`, and
+  translation-record updates under `REF-004`.
+- **Notes:** Keep Norimaro and secret-character captures out of scope
+  (`SPECIAL-001`).
 
 ## Phase E: Checkpoints And Memory Analysis
 

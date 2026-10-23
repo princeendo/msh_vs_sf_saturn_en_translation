@@ -106,14 +106,20 @@ These questions are unresolved unless a later entry links to reproducible eviden
   - Norimaro is selectable only in Japan, yet international ROMs hold his
     translated English, Spanish, and Portuguese win quotes (RC-1, RC-2).
   - The secret characters have unique quotes only in Japan (RC-3).
-- Which display languages does each local set offer, and does one set store
-  several languages' quote text (RC-7)?
+- Which display languages does each local set offer? All three store identical
+  English, Spanish, and Portuguese quote text (`EXP-0029`); what selects one is
+  untested.
+- Does the arcade win-quote slot order match the name list (Ryu = slot 9)? How are
+  the 8 quotes in a slot chosen? How is the arcade Japanese text (`0x08xx`) encoded,
+  and where is its quote table?
+- Do the arcade's 8 quotes per character relate to the Saturn's 16 Ryu records?
+  The counts differ; nothing is assumed.
 - Do the European and US English wordings agree line for line?
-- Which arcade ROM members hold post-fight text, and in what form? Only
-  `03`/`04`/`05` differ between the local sets. MAME decrypts opcodes only, so data
-  may be stored raw, but nothing has been tested.
-- Does stock MAME 0.289 refuse the local sets without their `.key` files? The audit
-  (`REF-008`) confirmed the keys are absent; the effect has not been observed.
+- Which arcade ROM members hold post-fight text, and in what form? Answered for
+  Latin text by `EXP-0029` (`mvs.07b`, 16-bit codes); still open for Japanese.
+- Stock MAME 0.289 (`-verifyroms`) rejects all three local sets. Each is missing
+  its `.key` file and the QSound device ROM `dl-1425.bin`. Would the sets boot once
+  both are supplied?
 
 Record competing explanations and the smallest discriminating experiment in
 `research_log.md`. Move only confirmed answers to the appropriate technical document

@@ -2619,3 +2619,29 @@ files), all passing.
 - All remain `HYPOTHESIS`: TCRF gives no set or hash for its evidence.
 
 Checks: documentation only; no code changed.
+
+## 2026-10-23 — MAME 0.289 installed; EXP-0029 arcade quote text from ROM data
+
+Tasks: `REF-009` (progress), `EXP-0029` (done), `REF-010` (created).
+
+- `brew install mame` poured bottle `mame--0.289.arm64_tahoe`. The binary SHA-256
+  is `6d40df87…029636d9`.
+  `mame -rompath local/arcade_roms/mshvsf -verifyroms mshvsf mshvsfu mshvsfj` shows
+  0/3 OK: each set is missing `<set>.key` and the QSound ROM `dl-1425.bin`.
+  Blocked on user-supplied files.
+- `EXP-0029`: the Latin win quotes are unencrypted 16-bit codes in `mvs.07b`. The
+  pointer table at `0x20C014` holds 3 languages × 26 slots of 8 × 2 × 25-code
+  quotes. The text and quote digests are identical in the EU, US, and JP sets.
+  Slot order appears to follow a name list (Ryu = 9), which is `SUPPORTED`.
+- Disproven along the way, so do not retry:
+  - Win quotes are not plain 8-bit ASCII; only credits and warnings are.
+  - The first punctuation guess (`0x0120` = `,`, `0x0185` = `!`) was swapped. A
+    test of the following word's case gave 680/681 and 216/277.
+- Added `tools/reference/cps2_text.py` (with `tests/unit/test_cps2_text.py`). Also
+  extended the `mame_audit` parser with ROM region, offset, and loader; the audit
+  JSON is unchanged.
+- Decoded text stays in the ignored `local/arcade_text/`. No quote text was
+  committed.
+
+Checks: pytest (148 passed), ruff check, ruff format --check, and strict mypy (60
+files), all passing.

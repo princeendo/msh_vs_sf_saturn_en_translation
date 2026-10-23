@@ -18,8 +18,9 @@ from pathlib import Path
 
 ROM_START = re.compile(r"^ROM_START\(\s*(\w+)\s*\)")
 ROM_END = re.compile(r"^ROM_END\b")
+ROM_REGION = re.compile(r'^ROM_REGION\w*\(\s*[^,]+,\s*"([^"]+)"')
 ROM_LOAD = re.compile(
-    r'^ROM_LOAD\w*\(\s*"([^"]+)"\s*,\s*(0x[0-9a-fA-F]+|\d+)\s*,'
+    r'^(ROM_LOAD\w*)\(\s*"([^"]+)"\s*,\s*(0x[0-9a-fA-F]+|\d+)\s*,'
     r"\s*(0x[0-9a-fA-F]+|\d+)\s*,\s*CRC\(([0-9a-fA-F]{8})\)"
     r"\s*SHA1\(([0-9a-fA-F]{40})\)"
 )
@@ -40,6 +41,9 @@ class RomEntry:
     size: int
     crc32: str
     sha1: str
+    region: str = ""
+    offset: int = 0
+    loader: str = ""
 
 
 @dataclass
@@ -88,6 +92,7 @@ def parse_driver(source: str) -> dict[str, RomSet]:
     """Parse ROM_START blocks and GAME() lines from MAME driver text."""
     sets: dict[str, RomSet] = {}
     current: RomSet | None = None
+    region = ""
     for raw_line in source.splitlines():
         line = raw_line.strip()
         if match := ROM_START.match(line):
@@ -95,10 +100,20 @@ def parse_driver(source: str) -> dict[str, RomSet]:
             sets[current.name] = current
         elif current is not None and ROM_END.match(line):
             current = None
+        elif current is not None and (match := ROM_REGION.match(line)):
+            region = match.group(1)
         elif current is not None and (match := ROM_LOAD.match(line)):
-            name, _offset, length, crc, sha1 = match.groups()
+            loader, name, offset, length, crc, sha1 = match.groups()
             current.roms.append(
-                RomEntry(name, int(length, 0), crc.lower(), sha1.lower())
+                RomEntry(
+                    name,
+                    int(length, 0),
+                    crc.lower(),
+                    sha1.lower(),
+                    region,
+                    int(offset, 0),
+                    loader,
+                )
             )
         elif current is not None and (match := ROM_CONTINUE.match(line)):
             if not current.roms:
