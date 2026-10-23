@@ -2568,3 +2568,37 @@ Task: reference provenance (no reverse engineering; `RE-030` stays on hold).
   before any arcade capture. The user asked for a separate documentation task.
 
 Checks: documentation only; no code changed.
+
+## 2026-10-23 — REF-008: arcade set audit and regional claims
+
+Task: `REF-008` (reference documentation; `RE-030` stays on hold).
+
+- Fetched the pinned MAME 0.289 `cps2.cpp`:
+  `curl … f34f0250…/src/mame/capcom/cps2.cpp`. It is 977,277 bytes, and its
+  SHA-256 `a8c09ef8…e861602` matches `docs/references.md`.
+- Added `tools/reference/mame_audit.py` with tests
+  (`tests/unit/test_mame_audit.py`). It parses ROM_START/ROM_LOAD/ROM_CONTINUE
+  and GAME() blocks, then hashes zip members in memory.
+- The first run showed empty titles, caused by a GAME() regex that skipped one
+  field too many. Fixed and covered by a test.
+- Audit (command in `references/mshvsf/arcade/README.md`):
+  - All three sets match their MAME 0.289 sets on all 20 ROM files (CRC-32 and
+    SHA-1), and match no other set (at most 18/21).
+  - Every zip lacks its `.key` file.
+  - `CONFIRMED` in `docs/discoveries.md`.
+- A first draft said encryption makes raw members unsearchable. The driver
+  contradicts this: `decrypted_opcodes_map` decrypts opcodes only, and data reads
+  are raw. Corrected to `UNKNOWN`.
+- No MAME is installed (`which mame` is empty). The key-file refusal is expected,
+  not observed.
+- A research subagent collected regional claims RC-1 to RC-6. Most strong sources
+  returned 403 or a bot check. TCRF also showed a bot check in the built-in
+  browser, and no attempt was made to get past it. All claims are `HYPOTHESIS`.
+  Notable: RC-2 (fan site) says Norimaro's win quotes **were** translated in the US
+  ROM. That partly contradicts the "JP only" report. RC-3 (TCRF snippet only) says
+  the secret characters' unique quotes are JP-only.
+- Created `REF-009` (`BLOCKED`): pin a MAME build and add legal key files. Added it
+  as a `REF-004` dependency.
+
+Checks: pytest (142 passed), ruff check, ruff format --check, and strict mypy (58
+files), all passing.

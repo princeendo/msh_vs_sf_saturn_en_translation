@@ -460,6 +460,27 @@ Experiment: `EXP-0027`
   RAM addresses do not.
 - **Not tested.** Versus mode.
 
+## REF-008: Local Arcade ROM Set Identities
+
+Confidence: **CONFIRMED** (identity only; no game behavior)
+
+Task: `REF-008` (reference audit, not a reverse-engineering experiment)
+
+- **Finding.** The local `mshvsf.zip`, `mshvsfu.zip`, and `mshvsfj.zip` are the
+  MAME 0.289 sets `mshvsf` (Europe 970625), `mshvsfu` (USA 970827), and `mshvsfj`
+  (Japan 970707). All 20 ROM files in each zip match by name, size, CRC-32, and
+  SHA-1, and no other set in the family matches more than 18 of 21.
+- **Gap.** Each zip lacks its 20-byte CPS-II key file (`<set>.key`). The expected
+  effect is that MAME 0.289 will not run the sets. That is not observed; no MAME
+  build is installed.
+- **Sources.** Zip hashes are in `references/mshvsf/arcade/README.md`. The driver
+  `cps2.cpp` is pinned at commit `f34f02505e32c1993c6a782b6814232cbfc74e36`,
+  977,277 bytes, SHA-256 `a8c09ef8…e861602`.
+- **Reproduce.** The commands are in `references/mshvsf/arcade/README.md`
+  (`tools/reference/mame_audit.py`, Python 3.12.13). The output is
+  `references/mshvsf/arcade/mame0289_audit.json`.
+- **Limits.** Identity only. This says nothing about the text these sets display.
+
 ## Entry Requirements
 
 Each future entry must include:

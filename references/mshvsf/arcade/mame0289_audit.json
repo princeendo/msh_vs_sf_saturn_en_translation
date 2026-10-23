@@ -1,0 +1,725 @@
+{
+  "driver_sha256": "a8c09ef83841d75b81a4b2ee8ac029ebf8eecb6a743b016abb33e3d46e861602",
+  "audits": [
+    {
+      "archive": "mshvsf.zip",
+      "set_name": "mshvsf",
+      "title": "Marvel Super Heroes Vs. Street Fighter (Europe 970625)",
+      "members": [
+        {
+          "name": "mvse.03f",
+          "status": "ok",
+          "expected_crc32": "b72dc199",
+          "expected_sha1": "61bd581ea4b969298f8a39fe03023b5456cac750",
+          "actual_crc32": "b72dc199",
+          "actual_sha1": "61bd581ea4b969298f8a39fe03023b5456cac750"
+        },
+        {
+          "name": "mvse.04f",
+          "status": "ok",
+          "expected_crc32": "6ef799f9",
+          "expected_sha1": "2d45dbf7bc277b84c6bcd9615ab3b80c42af7781",
+          "actual_crc32": "6ef799f9",
+          "actual_sha1": "2d45dbf7bc277b84c6bcd9615ab3b80c42af7781"
+        },
+        {
+          "name": "mvs.05a",
+          "status": "ok",
+          "expected_crc32": "1a5de0cb",
+          "expected_sha1": "738a27f83704c208d36d73bf766d861ef2d51a89",
+          "actual_crc32": "1a5de0cb",
+          "actual_sha1": "738a27f83704c208d36d73bf766d861ef2d51a89"
+        },
+        {
+          "name": "mvs.06a",
+          "status": "ok",
+          "expected_crc32": "959f3030",
+          "expected_sha1": "fbbaa915324815246738f3426232e623f039ce26",
+          "actual_crc32": "959f3030",
+          "actual_sha1": "fbbaa915324815246738f3426232e623f039ce26"
+        },
+        {
+          "name": "mvs.07b",
+          "status": "ok",
+          "expected_crc32": "7f915bdb",
+          "expected_sha1": "683da09c5ba55e31b59aa95a8e13c45dc574ab3c",
+          "actual_crc32": "7f915bdb",
+          "actual_sha1": "683da09c5ba55e31b59aa95a8e13c45dc574ab3c"
+        },
+        {
+          "name": "mvs.08a",
+          "status": "ok",
+          "expected_crc32": "c2813884",
+          "expected_sha1": "49e5d4bc48f90c8146cb6aafb9240aff0119f1a7",
+          "actual_crc32": "c2813884",
+          "actual_sha1": "49e5d4bc48f90c8146cb6aafb9240aff0119f1a7"
+        },
+        {
+          "name": "mvs.09b",
+          "status": "ok",
+          "expected_crc32": "3ba08818",
+          "expected_sha1": "9ab132a3cac55fcccebe6c99b6fb0ba1305f8f6e",
+          "actual_crc32": "3ba08818",
+          "actual_sha1": "9ab132a3cac55fcccebe6c99b6fb0ba1305f8f6e"
+        },
+        {
+          "name": "mvs.10b",
+          "status": "ok",
+          "expected_crc32": "cf0dba98",
+          "expected_sha1": "f4c1f8a6e7a79ecc6241d5268b3039f8a09ea516",
+          "actual_crc32": "cf0dba98",
+          "actual_sha1": "f4c1f8a6e7a79ecc6241d5268b3039f8a09ea516"
+        },
+        {
+          "name": "mvs.13m",
+          "status": "ok",
+          "expected_crc32": "29b05fd9",
+          "expected_sha1": "e8fdb1ee5515a560eb4256ae4fd99bb1192e1a87",
+          "actual_crc32": "29b05fd9",
+          "actual_sha1": "e8fdb1ee5515a560eb4256ae4fd99bb1192e1a87"
+        },
+        {
+          "name": "mvs.15m",
+          "status": "ok",
+          "expected_crc32": "faddccf1",
+          "expected_sha1": "4ed03ea91883a0413325f57edcc1614120b5922c",
+          "actual_crc32": "faddccf1",
+          "actual_sha1": "4ed03ea91883a0413325f57edcc1614120b5922c"
+        },
+        {
+          "name": "mvs.17m",
+          "status": "ok",
+          "expected_crc32": "97aaf4c7",
+          "expected_sha1": "6a054921cc14fe080cb3f62c391f8ae3cc7e8ba9",
+          "actual_crc32": "97aaf4c7",
+          "actual_sha1": "6a054921cc14fe080cb3f62c391f8ae3cc7e8ba9"
+        },
+        {
+          "name": "mvs.19m",
+          "status": "ok",
+          "expected_crc32": "cb70e915",
+          "expected_sha1": "da4d2480d348ac6dfd01256a88f4f3db8357ae46",
+          "actual_crc32": "cb70e915",
+          "actual_sha1": "da4d2480d348ac6dfd01256a88f4f3db8357ae46"
+        },
+        {
+          "name": "mvs.14m",
+          "status": "ok",
+          "expected_crc32": "b3b1972d",
+          "expected_sha1": "0f2c3fb7de014181ee481ec35d0578b2c116c2dc",
+          "actual_crc32": "b3b1972d",
+          "actual_sha1": "0f2c3fb7de014181ee481ec35d0578b2c116c2dc"
+        },
+        {
+          "name": "mvs.16m",
+          "status": "ok",
+          "expected_crc32": "08aadb5d",
+          "expected_sha1": "3a2c222eca3e7df80ce69951b3db6442312751a4",
+          "actual_crc32": "08aadb5d",
+          "actual_sha1": "3a2c222eca3e7df80ce69951b3db6442312751a4"
+        },
+        {
+          "name": "mvs.18m",
+          "status": "ok",
+          "expected_crc32": "c1228b35",
+          "expected_sha1": "7afdfb552888c79d0fbb30242b3d917b87fad57a",
+          "actual_crc32": "c1228b35",
+          "actual_sha1": "7afdfb552888c79d0fbb30242b3d917b87fad57a"
+        },
+        {
+          "name": "mvs.20m",
+          "status": "ok",
+          "expected_crc32": "366cc6c2",
+          "expected_sha1": "6f2a789087c8e404c5227b927fa8328c03593243",
+          "actual_crc32": "366cc6c2",
+          "actual_sha1": "6f2a789087c8e404c5227b927fa8328c03593243"
+        },
+        {
+          "name": "mvs.01",
+          "status": "ok",
+          "expected_crc32": "68252324",
+          "expected_sha1": "138ef320ef27956b2ab5591d49a1315b7b0a194c",
+          "actual_crc32": "68252324",
+          "actual_sha1": "138ef320ef27956b2ab5591d49a1315b7b0a194c"
+        },
+        {
+          "name": "mvs.02",
+          "status": "ok",
+          "expected_crc32": "b34e773d",
+          "expected_sha1": "3bcf44bf06c35814cff29d244142db7abe05bd39",
+          "actual_crc32": "b34e773d",
+          "actual_sha1": "3bcf44bf06c35814cff29d244142db7abe05bd39"
+        },
+        {
+          "name": "mvs.11m",
+          "status": "ok",
+          "expected_crc32": "86219770",
+          "expected_sha1": "4e5b68d382a5aa37f8b0b6434c53a2b95f5f9a4d",
+          "actual_crc32": "86219770",
+          "actual_sha1": "4e5b68d382a5aa37f8b0b6434c53a2b95f5f9a4d"
+        },
+        {
+          "name": "mvs.12m",
+          "status": "ok",
+          "expected_crc32": "f2fd7f68",
+          "expected_sha1": "28a30d55d3eaf963006c7cbe7c288099cd3ba536",
+          "actual_crc32": "f2fd7f68",
+          "actual_sha1": "28a30d55d3eaf963006c7cbe7c288099cd3ba536"
+        },
+        {
+          "name": "mshvsf.key",
+          "status": "missing",
+          "expected_crc32": "64660867",
+          "expected_sha1": "448eb440494c971800370f103b4d1f21a7266c6c",
+          "actual_crc32": "",
+          "actual_sha1": ""
+        }
+      ],
+      "unexpected": [],
+      "matched": 20,
+      "complete": false,
+      "candidates": [
+        [
+          "mshvsf",
+          20,
+          21
+        ],
+        [
+          "mshvsfa",
+          18,
+          21
+        ],
+        [
+          "mshvsfb1",
+          18,
+          21
+        ],
+        [
+          "mshvsfh",
+          18,
+          21
+        ],
+        [
+          "mshvsfj2",
+          18,
+          21
+        ],
+        [
+          "mshvsfu1",
+          18,
+          21
+        ],
+        [
+          "mshvsfa1",
+          17,
+          21
+        ],
+        [
+          "mshvsfb",
+          17,
+          21
+        ],
+        [
+          "mshvsfj",
+          17,
+          21
+        ],
+        [
+          "mshvsfj1",
+          17,
+          21
+        ],
+        [
+          "mshvsfu",
+          17,
+          21
+        ],
+        [
+          "mshvsfu1d",
+          17,
+          21
+        ]
+      ]
+    },
+    {
+      "archive": "mshvsfu.zip",
+      "set_name": "mshvsfu",
+      "title": "Marvel Super Heroes Vs. Street Fighter (USA 970827)",
+      "members": [
+        {
+          "name": "mvsu.03g",
+          "status": "ok",
+          "expected_crc32": "0664ab15",
+          "expected_sha1": "939fb1e3c06c33fc212b26ecfceac3180e108e9d",
+          "actual_crc32": "0664ab15",
+          "actual_sha1": "939fb1e3c06c33fc212b26ecfceac3180e108e9d"
+        },
+        {
+          "name": "mvsu.04g",
+          "status": "ok",
+          "expected_crc32": "97e060ee",
+          "expected_sha1": "787924e04508c83ecd4c3a872882d2be9e57eb50",
+          "actual_crc32": "97e060ee",
+          "actual_sha1": "787924e04508c83ecd4c3a872882d2be9e57eb50"
+        },
+        {
+          "name": "mvs.05d",
+          "status": "ok",
+          "expected_crc32": "921fc542",
+          "expected_sha1": "b813082a480d42d663c713062892245faabe9101",
+          "actual_crc32": "921fc542",
+          "actual_sha1": "b813082a480d42d663c713062892245faabe9101"
+        },
+        {
+          "name": "mvs.06a",
+          "status": "ok",
+          "expected_crc32": "959f3030",
+          "expected_sha1": "fbbaa915324815246738f3426232e623f039ce26",
+          "actual_crc32": "959f3030",
+          "actual_sha1": "fbbaa915324815246738f3426232e623f039ce26"
+        },
+        {
+          "name": "mvs.07b",
+          "status": "ok",
+          "expected_crc32": "7f915bdb",
+          "expected_sha1": "683da09c5ba55e31b59aa95a8e13c45dc574ab3c",
+          "actual_crc32": "7f915bdb",
+          "actual_sha1": "683da09c5ba55e31b59aa95a8e13c45dc574ab3c"
+        },
+        {
+          "name": "mvs.08a",
+          "status": "ok",
+          "expected_crc32": "c2813884",
+          "expected_sha1": "49e5d4bc48f90c8146cb6aafb9240aff0119f1a7",
+          "actual_crc32": "c2813884",
+          "actual_sha1": "49e5d4bc48f90c8146cb6aafb9240aff0119f1a7"
+        },
+        {
+          "name": "mvs.09b",
+          "status": "ok",
+          "expected_crc32": "3ba08818",
+          "expected_sha1": "9ab132a3cac55fcccebe6c99b6fb0ba1305f8f6e",
+          "actual_crc32": "3ba08818",
+          "actual_sha1": "9ab132a3cac55fcccebe6c99b6fb0ba1305f8f6e"
+        },
+        {
+          "name": "mvs.10b",
+          "status": "ok",
+          "expected_crc32": "cf0dba98",
+          "expected_sha1": "f4c1f8a6e7a79ecc6241d5268b3039f8a09ea516",
+          "actual_crc32": "cf0dba98",
+          "actual_sha1": "f4c1f8a6e7a79ecc6241d5268b3039f8a09ea516"
+        },
+        {
+          "name": "mvs.13m",
+          "status": "ok",
+          "expected_crc32": "29b05fd9",
+          "expected_sha1": "e8fdb1ee5515a560eb4256ae4fd99bb1192e1a87",
+          "actual_crc32": "29b05fd9",
+          "actual_sha1": "e8fdb1ee5515a560eb4256ae4fd99bb1192e1a87"
+        },
+        {
+          "name": "mvs.15m",
+          "status": "ok",
+          "expected_crc32": "faddccf1",
+          "expected_sha1": "4ed03ea91883a0413325f57edcc1614120b5922c",
+          "actual_crc32": "faddccf1",
+          "actual_sha1": "4ed03ea91883a0413325f57edcc1614120b5922c"
+        },
+        {
+          "name": "mvs.17m",
+          "status": "ok",
+          "expected_crc32": "97aaf4c7",
+          "expected_sha1": "6a054921cc14fe080cb3f62c391f8ae3cc7e8ba9",
+          "actual_crc32": "97aaf4c7",
+          "actual_sha1": "6a054921cc14fe080cb3f62c391f8ae3cc7e8ba9"
+        },
+        {
+          "name": "mvs.19m",
+          "status": "ok",
+          "expected_crc32": "cb70e915",
+          "expected_sha1": "da4d2480d348ac6dfd01256a88f4f3db8357ae46",
+          "actual_crc32": "cb70e915",
+          "actual_sha1": "da4d2480d348ac6dfd01256a88f4f3db8357ae46"
+        },
+        {
+          "name": "mvs.14m",
+          "status": "ok",
+          "expected_crc32": "b3b1972d",
+          "expected_sha1": "0f2c3fb7de014181ee481ec35d0578b2c116c2dc",
+          "actual_crc32": "b3b1972d",
+          "actual_sha1": "0f2c3fb7de014181ee481ec35d0578b2c116c2dc"
+        },
+        {
+          "name": "mvs.16m",
+          "status": "ok",
+          "expected_crc32": "08aadb5d",
+          "expected_sha1": "3a2c222eca3e7df80ce69951b3db6442312751a4",
+          "actual_crc32": "08aadb5d",
+          "actual_sha1": "3a2c222eca3e7df80ce69951b3db6442312751a4"
+        },
+        {
+          "name": "mvs.18m",
+          "status": "ok",
+          "expected_crc32": "c1228b35",
+          "expected_sha1": "7afdfb552888c79d0fbb30242b3d917b87fad57a",
+          "actual_crc32": "c1228b35",
+          "actual_sha1": "7afdfb552888c79d0fbb30242b3d917b87fad57a"
+        },
+        {
+          "name": "mvs.20m",
+          "status": "ok",
+          "expected_crc32": "366cc6c2",
+          "expected_sha1": "6f2a789087c8e404c5227b927fa8328c03593243",
+          "actual_crc32": "366cc6c2",
+          "actual_sha1": "6f2a789087c8e404c5227b927fa8328c03593243"
+        },
+        {
+          "name": "mvs.01",
+          "status": "ok",
+          "expected_crc32": "68252324",
+          "expected_sha1": "138ef320ef27956b2ab5591d49a1315b7b0a194c",
+          "actual_crc32": "68252324",
+          "actual_sha1": "138ef320ef27956b2ab5591d49a1315b7b0a194c"
+        },
+        {
+          "name": "mvs.02",
+          "status": "ok",
+          "expected_crc32": "b34e773d",
+          "expected_sha1": "3bcf44bf06c35814cff29d244142db7abe05bd39",
+          "actual_crc32": "b34e773d",
+          "actual_sha1": "3bcf44bf06c35814cff29d244142db7abe05bd39"
+        },
+        {
+          "name": "mvs.11m",
+          "status": "ok",
+          "expected_crc32": "86219770",
+          "expected_sha1": "4e5b68d382a5aa37f8b0b6434c53a2b95f5f9a4d",
+          "actual_crc32": "86219770",
+          "actual_sha1": "4e5b68d382a5aa37f8b0b6434c53a2b95f5f9a4d"
+        },
+        {
+          "name": "mvs.12m",
+          "status": "ok",
+          "expected_crc32": "f2fd7f68",
+          "expected_sha1": "28a30d55d3eaf963006c7cbe7c288099cd3ba536",
+          "actual_crc32": "f2fd7f68",
+          "actual_sha1": "28a30d55d3eaf963006c7cbe7c288099cd3ba536"
+        },
+        {
+          "name": "mshvsfu.key",
+          "status": "missing",
+          "expected_crc32": "4c04797b",
+          "expected_sha1": "dc1d59862d07112b75348ae5ad925d3716099e82",
+          "actual_crc32": "",
+          "actual_sha1": ""
+        }
+      ],
+      "unexpected": [],
+      "matched": 20,
+      "complete": false,
+      "candidates": [
+        [
+          "mshvsfu",
+          20,
+          21
+        ],
+        [
+          "mshvsfb",
+          18,
+          21
+        ],
+        [
+          "mshvsf",
+          17,
+          21
+        ],
+        [
+          "mshvsfa",
+          17,
+          21
+        ],
+        [
+          "mshvsfa1",
+          17,
+          21
+        ],
+        [
+          "mshvsfb1",
+          17,
+          21
+        ],
+        [
+          "mshvsfh",
+          17,
+          21
+        ],
+        [
+          "mshvsfj",
+          17,
+          21
+        ],
+        [
+          "mshvsfj1",
+          17,
+          21
+        ],
+        [
+          "mshvsfj2",
+          17,
+          21
+        ],
+        [
+          "mshvsfu1",
+          17,
+          21
+        ],
+        [
+          "mshvsfu1d",
+          17,
+          21
+        ]
+      ]
+    },
+    {
+      "archive": "mshvsfj.zip",
+      "set_name": "mshvsfj",
+      "title": "Marvel Super Heroes Vs. Street Fighter (Japan 970707)",
+      "members": [
+        {
+          "name": "mvsj.03i",
+          "status": "ok",
+          "expected_crc32": "d8cbb691",
+          "expected_sha1": "16820cf3bc7285477e61bd598a3ed4ea5e0e770d",
+          "actual_crc32": "d8cbb691",
+          "actual_sha1": "16820cf3bc7285477e61bd598a3ed4ea5e0e770d"
+        },
+        {
+          "name": "mvsj.04i",
+          "status": "ok",
+          "expected_crc32": "32741ace",
+          "expected_sha1": "36db3a3aeaf29369977593c051bf5665cffefb2d",
+          "actual_crc32": "32741ace",
+          "actual_sha1": "36db3a3aeaf29369977593c051bf5665cffefb2d"
+        },
+        {
+          "name": "mvs.05h",
+          "status": "ok",
+          "expected_crc32": "77870dc3",
+          "expected_sha1": "924a7c82456bb44d7b0be65af11dbe1a2420a3f0",
+          "actual_crc32": "77870dc3",
+          "actual_sha1": "924a7c82456bb44d7b0be65af11dbe1a2420a3f0"
+        },
+        {
+          "name": "mvs.06a",
+          "status": "ok",
+          "expected_crc32": "959f3030",
+          "expected_sha1": "fbbaa915324815246738f3426232e623f039ce26",
+          "actual_crc32": "959f3030",
+          "actual_sha1": "fbbaa915324815246738f3426232e623f039ce26"
+        },
+        {
+          "name": "mvs.07b",
+          "status": "ok",
+          "expected_crc32": "7f915bdb",
+          "expected_sha1": "683da09c5ba55e31b59aa95a8e13c45dc574ab3c",
+          "actual_crc32": "7f915bdb",
+          "actual_sha1": "683da09c5ba55e31b59aa95a8e13c45dc574ab3c"
+        },
+        {
+          "name": "mvs.08a",
+          "status": "ok",
+          "expected_crc32": "c2813884",
+          "expected_sha1": "49e5d4bc48f90c8146cb6aafb9240aff0119f1a7",
+          "actual_crc32": "c2813884",
+          "actual_sha1": "49e5d4bc48f90c8146cb6aafb9240aff0119f1a7"
+        },
+        {
+          "name": "mvs.09b",
+          "status": "ok",
+          "expected_crc32": "3ba08818",
+          "expected_sha1": "9ab132a3cac55fcccebe6c99b6fb0ba1305f8f6e",
+          "actual_crc32": "3ba08818",
+          "actual_sha1": "9ab132a3cac55fcccebe6c99b6fb0ba1305f8f6e"
+        },
+        {
+          "name": "mvs.10b",
+          "status": "ok",
+          "expected_crc32": "cf0dba98",
+          "expected_sha1": "f4c1f8a6e7a79ecc6241d5268b3039f8a09ea516",
+          "actual_crc32": "cf0dba98",
+          "actual_sha1": "f4c1f8a6e7a79ecc6241d5268b3039f8a09ea516"
+        },
+        {
+          "name": "mvs.13m",
+          "status": "ok",
+          "expected_crc32": "29b05fd9",
+          "expected_sha1": "e8fdb1ee5515a560eb4256ae4fd99bb1192e1a87",
+          "actual_crc32": "29b05fd9",
+          "actual_sha1": "e8fdb1ee5515a560eb4256ae4fd99bb1192e1a87"
+        },
+        {
+          "name": "mvs.15m",
+          "status": "ok",
+          "expected_crc32": "faddccf1",
+          "expected_sha1": "4ed03ea91883a0413325f57edcc1614120b5922c",
+          "actual_crc32": "faddccf1",
+          "actual_sha1": "4ed03ea91883a0413325f57edcc1614120b5922c"
+        },
+        {
+          "name": "mvs.17m",
+          "status": "ok",
+          "expected_crc32": "97aaf4c7",
+          "expected_sha1": "6a054921cc14fe080cb3f62c391f8ae3cc7e8ba9",
+          "actual_crc32": "97aaf4c7",
+          "actual_sha1": "6a054921cc14fe080cb3f62c391f8ae3cc7e8ba9"
+        },
+        {
+          "name": "mvs.19m",
+          "status": "ok",
+          "expected_crc32": "cb70e915",
+          "expected_sha1": "da4d2480d348ac6dfd01256a88f4f3db8357ae46",
+          "actual_crc32": "cb70e915",
+          "actual_sha1": "da4d2480d348ac6dfd01256a88f4f3db8357ae46"
+        },
+        {
+          "name": "mvs.14m",
+          "status": "ok",
+          "expected_crc32": "b3b1972d",
+          "expected_sha1": "0f2c3fb7de014181ee481ec35d0578b2c116c2dc",
+          "actual_crc32": "b3b1972d",
+          "actual_sha1": "0f2c3fb7de014181ee481ec35d0578b2c116c2dc"
+        },
+        {
+          "name": "mvs.16m",
+          "status": "ok",
+          "expected_crc32": "08aadb5d",
+          "expected_sha1": "3a2c222eca3e7df80ce69951b3db6442312751a4",
+          "actual_crc32": "08aadb5d",
+          "actual_sha1": "3a2c222eca3e7df80ce69951b3db6442312751a4"
+        },
+        {
+          "name": "mvs.18m",
+          "status": "ok",
+          "expected_crc32": "c1228b35",
+          "expected_sha1": "7afdfb552888c79d0fbb30242b3d917b87fad57a",
+          "actual_crc32": "c1228b35",
+          "actual_sha1": "7afdfb552888c79d0fbb30242b3d917b87fad57a"
+        },
+        {
+          "name": "mvs.20m",
+          "status": "ok",
+          "expected_crc32": "366cc6c2",
+          "expected_sha1": "6f2a789087c8e404c5227b927fa8328c03593243",
+          "actual_crc32": "366cc6c2",
+          "actual_sha1": "6f2a789087c8e404c5227b927fa8328c03593243"
+        },
+        {
+          "name": "mvs.01",
+          "status": "ok",
+          "expected_crc32": "68252324",
+          "expected_sha1": "138ef320ef27956b2ab5591d49a1315b7b0a194c",
+          "actual_crc32": "68252324",
+          "actual_sha1": "138ef320ef27956b2ab5591d49a1315b7b0a194c"
+        },
+        {
+          "name": "mvs.02",
+          "status": "ok",
+          "expected_crc32": "b34e773d",
+          "expected_sha1": "3bcf44bf06c35814cff29d244142db7abe05bd39",
+          "actual_crc32": "b34e773d",
+          "actual_sha1": "3bcf44bf06c35814cff29d244142db7abe05bd39"
+        },
+        {
+          "name": "mvs.11m",
+          "status": "ok",
+          "expected_crc32": "86219770",
+          "expected_sha1": "4e5b68d382a5aa37f8b0b6434c53a2b95f5f9a4d",
+          "actual_crc32": "86219770",
+          "actual_sha1": "4e5b68d382a5aa37f8b0b6434c53a2b95f5f9a4d"
+        },
+        {
+          "name": "mvs.12m",
+          "status": "ok",
+          "expected_crc32": "f2fd7f68",
+          "expected_sha1": "28a30d55d3eaf963006c7cbe7c288099cd3ba536",
+          "actual_crc32": "f2fd7f68",
+          "actual_sha1": "28a30d55d3eaf963006c7cbe7c288099cd3ba536"
+        },
+        {
+          "name": "mshvsfj.key",
+          "status": "missing",
+          "expected_crc32": "565eeebb",
+          "expected_sha1": "762844b59b2fcf529a26ad3dde8282415db926b3",
+          "actual_crc32": "",
+          "actual_sha1": ""
+        }
+      ],
+      "unexpected": [],
+      "matched": 20,
+      "complete": false,
+      "candidates": [
+        [
+          "mshvsfj",
+          20,
+          21
+        ],
+        [
+          "mshvsf",
+          17,
+          21
+        ],
+        [
+          "mshvsfa",
+          17,
+          21
+        ],
+        [
+          "mshvsfa1",
+          17,
+          21
+        ],
+        [
+          "mshvsfb",
+          17,
+          21
+        ],
+        [
+          "mshvsfb1",
+          17,
+          21
+        ],
+        [
+          "mshvsfh",
+          17,
+          21
+        ],
+        [
+          "mshvsfj1",
+          17,
+          21
+        ],
+        [
+          "mshvsfj2",
+          17,
+          21
+        ],
+        [
+          "mshvsfu",
+          17,
+          21
+        ],
+        [
+          "mshvsfu1",
+          17,
+          21
+        ],
+        [
+          "mshvsfu1d",
+          17,
+          21
+        ]
+      ]
+    }
+  ]
+}
