@@ -2602,3 +2602,20 @@ Task: `REF-008` (reference documentation; `RE-030` stays on hold).
 
 Checks: pytest (142 passed), ruff check, ruff format --check, and strict mypy (58
 files), all passing.
+
+## 2026-10-23 — REF-008 addendum: TCRF read via Wayback Machine
+
+- The live TCRF arcade page still showed its bot check after reload, and the user
+  could not pass it either. The Wayback snapshot `20261011115711` loaded in full,
+  and the user approved using it.
+- Its text was read in the built-in browser and replaced the snippet-only claims:
+  - RC-1 (Norimaro unlock byte `0xCD` on international sets).
+  - RC-2: translated Norimaro win quotes, also in Spanish and Portuguese.
+  - RC-3: secret characters have unique quotes in Japan only. TCRF does not
+    transcribe them.
+  - RC-6 refined: Japan 970702/970707 need 1C1C or Free Play for Norimaro. The
+    local set is 970707.
+  - New claims RC-7 (language setting) and RC-8 (Shadow's quotes come from XvSF).
+- All remain `HYPOTHESIS`: TCRF gives no set or hash for its evidence.
+
+Checks: documentation only; no code changed.

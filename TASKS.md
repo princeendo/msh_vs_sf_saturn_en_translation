@@ -602,7 +602,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     refusal is expected, not observed.
   - Regional claims RC-1 to RC-6 are recorded as `HYPOTHESIS`, with sources, in
     `references/mshvsf/arcade/README.md` and `docs/references.md`. The TCRF arcade
-    page could not be read (bot check) and remains a lead.
+    page was read from Wayback snapshot `20261011115711`, with user approval. It
+    added RC-7 and RC-8.
   - Text location and form remain `UNKNOWN`.
   - Follow-up proposed: `REF-009`. Captures stay under `REF-004`, which also needs
     `REF-003`.

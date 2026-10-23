@@ -529,16 +529,22 @@ a bot check; nothing was done to get past them.
   ending pages under <https://rq87.flyingomelette.com/RQ/Marvel/MSHSF/>, including
   `nor.html`, `FAQ.html`, and `sec.html`. Also
   <https://rq87.flyingomelette.com/RQ/R/ARC/MSHSF/1.html>. Supports RC-1, RC-2,
-  RC-4, RC-5, and RC-6. It gives no ROM revision or capture evidence.
+  RC-4, RC-5, and RC-6 (RC-6 more weakly than TCRF). It gives no ROM revision or capture evidence.
 - KLOV, <https://www.arcade-museum.com/Videogame/marvel-super-heroes-vs-street-fighter>
   (secondary): the secret-character roster.
-- The Cutting Room Floor, arcade page,
-  <https://tcrf.net/Marvel_Super_Heroes_vs._Street_Fighter_(Arcade)>. **Not read**:
-  the page shows a bot check. RC-3 and the RC-4 agreement come only from search
-  snippets. A person should read this page and record what it says.
+- The Cutting Room Floor, *Marvel Super Heroes vs. Street Fighter (Arcade)*
+  (fan wiki; contributors include "Rage Quitter 87" and "felineki"),
+  <https://tcrf.net/Marvel_Super_Heroes_vs._Street_Fighter_(Arcade)>. The live page
+  shows a bot check that neither the agent nor the user could pass. It was read
+  from the Wayback Machine snapshot
+  <https://web.archive.org/web/20261011115711/https://tcrf.net/Marvel_Super_Heroes_vs._Street_Fighter_(Arcade)>
+  on 2026-10-23, with the user's approval. Supports RC-1 to RC-8. It names no MAME
+  set or ROM hash for its screenshots, so every claim needs capture against the
+  local sets. Its fan translations of Japanese endings are not official text.
 - Conflicts noted: the reason Norimaro was cut (Marvel licensing, per GameSpot via
-  Wikipedia, versus his creator's rights, per a TCRF snippet), and Armored
-  Spider-Man's base character (Ryu versus Spider-Man).
+  Wikipedia, versus his creator's rights, per a TCRF PlayStation-page snippet), and
+  Armored Spider-Man's base character (Ryu versus Spider-Man). Neither affects
+  ordinary-caption work.
 
 ### Official Arcade Context
 
