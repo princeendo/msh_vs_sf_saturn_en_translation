@@ -493,6 +493,53 @@ Saturn text. Sources were accessed on 2026-08-24.
   `970625` and `970827` are program version labels, not proven retail dates. Whether
   the two revisions show identical quotes is unknown until both are captured.
 
+### European And Japanese Arcade Sets In MAME 0.289
+
+Same pinned driver as above. Added 2026-10-23 for `REF-008`.
+
+- `mshvsf` (parent set): *Marvel Super Heroes Vs. Street Fighter (Europe 970625)*.
+  Distinguishing program files: `mvse.03f` CRC-32 `b72dc199`, SHA-1
+  `61bd581ea4b969298f8a39fe03023b5456cac750`; `mvse.04f` CRC-32 `6ef799f9`,
+  SHA-1 `2d45dbf7bc277b84c6bcd9615ab3b80c42af7781`.
+- `mshvsfj`: *Marvel Super Heroes Vs. Street Fighter (Japan 970707)*.
+  Distinguishing program files: `mvsj.03i` CRC-32 `d8cbb691`, SHA-1
+  `16820cf3bc7285477e61bd598a3ed4ea5e0e770d`; `mvsj.04i` CRC-32 `32741ace`,
+  SHA-1 `36db3a3aeaf29369977593c051bf5665cffefb2d`.
+- MAME also catalogs Japan `970702` and `970625`, Hispanic, Asia (two), and Brazil
+  (two) sets. None is held locally.
+- Every set has a 20-byte CPS-II key in a `key` region. For example,
+  `mshvsfu.key` is CRC-32 `4c04797b`, SHA-1
+  `dc1d59862d07112b75348ae5ad925d3716099e82`.
+- Local copies of `mshvsf`, `mshvsfu`, and `mshvsfj` passed a full audit, except
+  for the missing key files. See `references/mshvsf/arcade/README.md`.
+
+### Regional Arcade Content Claims
+
+Collected 2026-10-23 for `REF-008`. These are leads only; each claim is a
+`HYPOTHESIS` until it is captured (claim IDs RC-1 to RC-6 are in
+`references/mshvsf/arcade/README.md`). Many stronger sources returned HTTP 403 or
+a bot check; nothing was done to get past them.
+
+- Wikipedia, *Marvel Super Heroes vs. Street Fighter*,
+  <https://en.wikipedia.org/wiki/Marvel_Super_Heroes_vs._Street_Fighter>
+  (secondary). It cites GameSpot (Gerstmann, 1998-11-30) and GamesRadar (Elston,
+  2011-02-12) for Norimaro being Japan-only, and a GameRevolution review for the
+  six secret characters. Supports RC-1.
+- RQ87 fan shrine (author "RQ87", undated; fan site): character, FAQ, secret, and
+  ending pages under <https://rq87.flyingomelette.com/RQ/Marvel/MSHSF/>, including
+  `nor.html`, `FAQ.html`, and `sec.html`. Also
+  <https://rq87.flyingomelette.com/RQ/R/ARC/MSHSF/1.html>. Supports RC-1, RC-2,
+  RC-4, RC-5, and RC-6. It gives no ROM revision or capture evidence.
+- KLOV, <https://www.arcade-museum.com/Videogame/marvel-super-heroes-vs-street-fighter>
+  (secondary): the secret-character roster.
+- The Cutting Room Floor, arcade page,
+  <https://tcrf.net/Marvel_Super_Heroes_vs._Street_Fighter_(Arcade)>. **Not read**:
+  the page shows a bot check. RC-3 and the RC-4 agreement come only from search
+  snippets. A person should read this page and record what it says.
+- Conflicts noted: the reason Norimaro was cut (Marvel licensing, per GameSpot via
+  Wikipedia, versus his creator's rights, per a TCRF snippet), and Armored
+  Spider-Man's base character (Ryu versus Spider-Man).
+
 ### Official Arcade Context
 
 - Capcom Coin-Op, Inc., *Marvel Super Heroes Vs. Street Fighter Operator's Manual*;

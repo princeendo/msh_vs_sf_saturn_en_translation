@@ -14,8 +14,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `research/experiments/EXP-0028/README.md`, under "Resume: Phase B".
 - Next research task: `EXP-0028` Phase B: one session, team Ken + Ryu, KO with
   Ken, then KO with Ryu. Full English still waits on `GATE-TRANSLATION`.
-- Unblocked documentation task: `REF-008`. Audit the local EU, US, and JP arcade
-  ROM sets and document how their text differs by region before any capture.
+- `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
+  claims are recorded. Arcade capture needs `REF-009` (MAME plus key files), which
+  is blocked on user-supplied files.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -498,7 +499,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 - **Status:** `BLOCKED`
 - **Milestone:** M0
-- **Dependencies:** REF-003, DOC-006.
+- **Dependencies:** REF-003, DOC-006, REF-009.
 - **Blockers:** Japanese context and authoritative English-reference access are incomplete.
 - **Objective:** Establish the official arcade English counterpart using contextual evidence.
 - **Rationale:** The project uses official text where available.
@@ -564,11 +565,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-008 - Document the local arcade ROM sets and their regional differences
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0 (reference documentation; no reverse engineering)
 - **Dependencies:** DOC-006.
-- **Blockers:** None for documentation. Any capture needs a pinned MAME build,
-  which is not yet recorded.
+- **Blockers:** None.
 - **Objective:** Before any arcade quote is captured, establish exactly what each
   local arcade set is and what text each one can be expected to contain.
 - **Rationale:** The user supplied European, US, and Japanese sets
@@ -591,9 +591,43 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** `references/mshvsf/arcade/README.md`, `docs/references.md`,
   `docs/known_unknowns.md`, and a `research_log.md` entry.
 - **Notes:** Documentation only. Do not extract, translate, or modify Norimaro or
-  secret-character content (`SPECIAL-001`, M9). The local US set's `mvsu.03g` and
-  `mvsu.04g` CRC-32 values match MAME `mshvsfu` (USA 970827). That is
-  `SUPPORTED`, not a full audit.
+  secret-character content (`SPECIAL-001`, M9).
+- **Evidence (2026-10-23):**
+  - `tools/reference/mame_audit.py` checked every set against the pinned
+    `cps2.cpp` (SHA-256 verified). Output: `references/mshvsf/arcade/mame0289_audit.json`.
+  - Identities are `CONFIRMED`: `mshvsf` (Europe 970625), `mshvsfu`
+    (USA 970827), and `mshvsfj` (Japan 970707). Each matches 20/21 files, has
+    no unexpected files, and matches no other set.
+  - Each zip lacks its 20-byte `.key` file. MAME is not installed, so the
+    refusal is expected, not observed.
+  - Regional claims RC-1 to RC-6 are recorded as `HYPOTHESIS`, with sources, in
+    `references/mshvsf/arcade/README.md` and `docs/references.md`. The TCRF arcade
+    page could not be read (bot check) and remains a lead.
+  - Text location and form remain `UNKNOWN`.
+  - Follow-up proposed: `REF-009`. Captures stay under `REF-004`, which also needs
+    `REF-003`.
+
+### REF-009 - Pin a MAME build and complete the arcade sets for capture
+
+- **Status:** `BLOCKED`
+- **Milestone:** M0 (reference tooling; no reverse engineering)
+- **Dependencies:** REF-008.
+- **Blockers:** No MAME build is installed, and the three CPS-II `.key` files are
+  missing. The user must supply legal copies; agents must not download ROM or key
+  files.
+- **Objective:** Make the local European, US, and Japanese sets run in a pinned,
+  recorded MAME build, so `REF-004` can capture English quotes.
+- **Rationale:** Wording counts as evidence only from a captured frame of an
+  identity-verified set (`docs/references.md`).
+- **Acceptance criteria:**
+  - MAME version, source or binary provenance, and SHA-256 are recorded.
+  - Key file hashes match MAME 0.289, and `-verifyroms` output passes for all three
+    sets.
+  - Each set boots to its title screen, and a screenshot hash is recorded locally.
+  - The missing `mshvsfu1` (USA 970625) needed by the capture protocol is either
+    supplied and audited, or its absence is recorded as a limit.
+- **Outputs:** `references/mshvsf/arcade/README.md`, `research_log.md` entry.
+- **Notes:** Keys and ROMs stay in the ignored `local/arcade_roms/mshvsf/`.
 
 ## Phase E: Checkpoints And Memory Analysis
 

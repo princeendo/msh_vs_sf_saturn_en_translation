@@ -101,14 +101,17 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Which official English line corresponds to each Japanese caption?
 - Do any reference releases share behavior relevant to a specific experiment?
 - Do the local European (`mshvsf`), US (`mshvsfu`), and Japanese (`mshvsfj`) arcade
-  sets contain the same post-fight quotes? The user has heard that only the
-  Japanese set includes Norimaro and secret-character quotes (untested; `REF-008`).
+  sets contain the same post-fight quotes? `REF-008` found sourced but uncaptured
+  claims (RC-1 to RC-6 in `references/mshvsf/arcade/README.md`):
+  - Norimaro is selectable only in Japan, yet his English win quotes exist in the
+    US ROM (RC-1, RC-2).
+  - The secret characters have unique quotes only in Japan (RC-3).
 - Do the European and US English wordings agree line for line?
-- Which arcade ROM members hold post-fight text, and in what encoding? Shared CRCs
-  show that only `03`/`04`/`05` program members differ between the local sets. That
-  does not locate the text.
-- Do the local sets pass a full MAME 0.289 audit, and do they need a separate
-  CPS-II key file?
+- Which arcade ROM members hold post-fight text, and in what form? Only
+  `03`/`04`/`05` differ between the local sets. MAME decrypts opcodes only, so data
+  may be stored raw, but nothing has been tested.
+- Does stock MAME 0.289 refuse the local sets without their `.key` files? The audit
+  (`REF-008`) confirmed the keys are absent; the effect has not been observed.
 
 Record competing explanations and the smallest discriminating experiment in
 `research_log.md`. Move only confirmed answers to the appropriate technical document
