@@ -2530,3 +2530,21 @@ Task: RE-030
 - Phase A next (offline): multi-file compiler with a shared font, generalized
   verifier, Ryu + Ken marker image. Phase B needs one session: team Ken + Ryu, KO
   with Ken, then KO with Ryu.
+
+## 2026-10-23 — EXP-0028 Phase A (offline)
+
+Task: RE-030
+
+- Generalized the caption compiler: schema v2, multiple tables, one shared font.
+  v1 is backward compatible; it reproduces RE-022 byte for byte.
+- Generalized the renderer (`--table`) and verifier: table chosen by matching
+  WRAM-L at the state's base; line-2 placeholder model. Regression: 51 earlier
+  captures still pass.
+- Built the Ryu + Ken marker image `build/exp0028a`:
+  - 66 pairs; 27 kanji sacrificed;
+  - `MC0A` splice with 418 fill bytes; `MC09` identical to RE-022;
+  - track 01 `c3990fa5…`; builds identical; 0 invalid sectors;
+  - only the 3 target files differ.
+- Phase B next (live): team Ken + Ryu; KO with Ken, then KO with Ryu.
+
+Checks: pytest (137 passed), ruff check, ruff format --check, and strict mypy.

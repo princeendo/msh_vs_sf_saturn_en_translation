@@ -1,48 +1,120 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "MSHvSF Saturn caption spec (Ryu win-quote table)",
-  "description": "Input to tools/text/caption_compiler.py. Lines use A-Z, a-z, 0-9, space and '!'; each line is at most 19 cells (two characters per cell). '{P}' keeps the record's 0000 partner-name placeholder cell and is allowed only where the original record has it.",
-  "type": "object",
-  "required": [
-    "schema",
-    "records"
-  ],
-  "properties": {
-    "schema": {
-      "const": "mshvsf-captions/1"
+  "title": "MSHvSF Saturn caption spec (win-quote tables)",
+  "description": "Input to tools/text/caption_compiler.py. Lines use A-Z, a-z, 0-9, space and '!'; each line is at most 19 cells (two characters per cell). '{P}' keeps the record's 0000 partner-name placeholder cell and is allowed only where the original record has it. Schema v2 (EXP-0028) lists several quote tables; all share one font.",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "schema",
+        "records"
+      ],
+      "properties": {
+        "schema": {
+          "const": "mshvsf-captions/1"
+        },
+        "description": {
+          "type": "string"
+        },
+        "records": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "required": [
+              "record",
+              "lines"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "record": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15
+              },
+              "lines": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "string",
+                  "pattern": "^([A-Za-z0-9 !]|\\{P\\})*$",
+                  "maxLength": 41
+                }
+              }
+            }
+          }
+        }
+      }
     },
-    "description": {
-      "type": "string"
-    },
-    "records": {
-      "type": "array",
-      "minItems": 1,
-      "maxItems": 16,
-      "items": {
-        "type": "object",
-        "required": [
-          "record",
-          "lines"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "record": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 15
-          },
-          "lines": {
-            "type": "array",
-            "minItems": 2,
-            "maxItems": 2,
-            "items": {
-              "type": "string",
-              "pattern": "^([A-Za-z0-9 !]|\\{P\\})*$",
-              "maxLength": 41
+    {
+      "type": "object",
+      "required": [
+        "schema",
+        "tables"
+      ],
+      "properties": {
+        "schema": {
+          "const": "mshvsf-captions/2"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tables": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "file",
+              "table",
+              "records"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "file": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_]+\\.(PAC|pac)$"
+              },
+              "table": {
+                "type": "string",
+                "pattern": "^0x[0-9A-Fa-f]+$"
+              },
+              "records": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 16,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "record",
+                    "lines"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "record": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 15
+                    },
+                    "lines": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": {
+                        "type": "string",
+                        "pattern": "^([A-Za-z0-9 !]|\\{P\\})*$",
+                        "maxLength": 41
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     }
-  }
+  ]
 }
