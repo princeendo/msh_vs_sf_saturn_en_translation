@@ -14,6 +14,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `research/experiments/EXP-0028/README.md`, under "Resume: Phase B".
 - Next research task: `EXP-0028` Phase B: one session, team Ken + Ryu, KO with
   Ken, then KO with Ryu. Full English still waits on `GATE-TRANSLATION`.
+- Unblocked documentation task: `REF-008`. Audit the local EU, US, and JP arcade
+  ROM sets and document how their text differs by region before any capture.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -504,9 +506,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Outputs:** Updated translation record and reference evidence.
 - **Notes:** Matching character alone is insufficient evidence. The user reports
   that US and EU arcade ROMs with English text are available locally. Record their
-  identities against the MAME catalog before use. Because Saturn quote selection
-  varies after the KO (`EXP-0009`), correspondence may need memory-level evidence,
-  such as a quote index, rather than a reproduced context.
+  identities against the MAME catalog before use. The sets (EU, US, and JP) are now
+  in `local/arcade_roms/mshvsf/`; see `references/mshvsf/arcade/README.md`. Their
+  audit and regional-difference documentation is `REF-008`. Because Saturn quote
+  selection varies after the KO (`EXP-0009`), correspondence may need memory-level
+  evidence, such as a quote index, rather than a reproduced context.
 
 ### REF-005 - Record PS1 English equivalent if useful
 
@@ -557,6 +561,39 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   pre-KO state gave up to six quotes. Neither the kill move nor the opponent alone
   determines the quote. Ryu/Ken wins show a joint portrait. Per the user, the quote
   belongs to whoever landed the KO (Ryu in every replay); this is untested for Ken.
+
+### REF-008 - Document the local arcade ROM sets and their regional differences
+
+- **Status:** `READY`
+- **Milestone:** M0 (reference documentation; no reverse engineering)
+- **Dependencies:** DOC-006.
+- **Blockers:** None for documentation. Any capture needs a pinned MAME build,
+  which is not yet recorded.
+- **Objective:** Before any arcade quote is captured, establish exactly what each
+  local arcade set is and what text each one can be expected to contain.
+- **Rationale:** The user supplied European, US, and Japanese sets
+  (`references/mshvsf/arcade/README.md`). They may not hold the same quotes. The
+  user has heard that only the Japanese set has Norimaro and secret-character
+  quotes. If that is not documented first, a missing line could be misread as
+  "no official English".
+- **Acceptance criteria:**
+  - Each set is audited against the pinned MAME 0.289 catalog: set name, title,
+    version label, and per-member CRC-32 and SHA-1, with a scripted, reproducible
+    command and its output.
+  - Any extra file MAME needs, such as a key, is recorded or ruled out.
+  - Regional content differences (characters, quote availability, language) are
+    listed from cited sources. Each is labelled `HYPOTHESIS` until it is observed
+    in a captured frame.
+  - The text-bearing ROMs and encoding remain `UNKNOWN` unless a recorded
+    experiment shows otherwise.
+  - Follow-up capture tasks are proposed with the regions they need, and no
+    capture is started here.
+- **Outputs:** `references/mshvsf/arcade/README.md`, `docs/references.md`,
+  `docs/known_unknowns.md`, and a `research_log.md` entry.
+- **Notes:** Documentation only. Do not extract, translate, or modify Norimaro or
+  secret-character content (`SPECIAL-001`, M9). The local US set's `mvsu.03g` and
+  `mvsu.04g` CRC-32 values match MAME `mshvsfu` (USA 970827). That is
+  `SUPPORTED`, not a full audit.
 
 ## Phase E: Checkpoints And Memory Analysis
 

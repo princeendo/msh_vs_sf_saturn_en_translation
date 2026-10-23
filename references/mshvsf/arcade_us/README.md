@@ -12,3 +12,6 @@ is separate and does not replace either original set.
 Record exact MAME build, ROM audit, route/context, screenshot hash, transcription,
 repeat result, and revision comparison. No arcade quote is verified in this repository
 yet.
+
+A local US set (`mshvsfu.zip`) is recorded in `../arcade/README.md`. Its two
+distinguishing program CRC-32 values match `mshvsfu`; no local `mshvsfu1` exists.
