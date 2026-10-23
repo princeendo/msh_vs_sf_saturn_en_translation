@@ -55,9 +55,13 @@ Python 3.12.13 via `uv`. The results:
 - **Missing from every zip:** the CPS-II decryption key that MAME 0.289 lists in
   its `key` region: `mshvsf.key` (CRC-32 `64660867`), `mshvsfu.key`
   (`4c04797b`), and `mshvsfj.key` (`565eeebb`), each 20 bytes. MAME's definitions
-  list it as a required ROM, so a stock MAME 0.289 should refuse to run these
-  sets as supplied. That is expected, not yet observed: no MAME build is installed
-  locally. A legal key file is a prerequisite for any arcade capture.
+  list it as a required ROM.
+- **Observed with MAME 0.289** (Homebrew, 2026-10-23): running
+  `mame -rompath local/arcade_roms/mshvsf -verifyroms mshvsf mshvsfu mshvsfj`
+  reports all three sets as bad. Each is missing its `.key` file and also
+  `dl-1425.bin` (24,576 bytes), the QSound device ROM (`qsound_hle`), which is
+  normally kept in a separate `qsound.zip`. Legal copies of both are a
+  prerequisite for any arcade capture (`REF-009`).
 
 ### Member Layout
 
@@ -76,15 +80,18 @@ Python 3.12.13 via `uv`. The results:
 - In MAME 0.289, the key decrypts only a separate opcode address space
   (`decrypted_opcodes_map`; `cps2_decrypt` in `cps2.cpp`). Data reads use the raw
   program ROM. The driver loads these files with `ROM_LOAD16_WORD_SWAP`, so their
-  byte order is swapped relative to 68000 memory. Whether quote text can be read
-  from the raw members is **UNKNOWN** and needs its own experiment.
-- Which members hold text, and how it is encoded, is **UNKNOWN**. Do not infer it
-  from member names, from shared CRCs, or from other CPS-II games.
+  byte order is swapped relative to 68000 memory. `EXP-0029` read the quote text
+  directly from the raw members.
+- The Latin win quotes, the endings, and their pointer tables are in `mvs.07b`,
+  which all sets share (`EXP-0029`, **CONFIRMED** as data). How the Japanese text
+  is encoded is **UNKNOWN**.
 
 ## What They Are For
 
-1. **Exact English quotes.** The US and European sets are expected to display the
-   official English post-fight text (`REF-004`). Wording counts as evidence only
+1. **Exact English quotes.** All three sets hold the official English post-fight
+   text, which `tools/reference/cps2_text.py` decodes to the ignored
+   `local/arcade_text/` (`EXP-0029`). This gives a full candidate text per
+   character slot (`REF-004`). Wording counts as evidence only
    from a captured, transcribed frame of an identity-verified set, following the
    capture protocol in `docs/references.md`.
 2. **Cross-region comparison.** Check whether the European and US English agree,
@@ -114,6 +121,22 @@ and the user approved using the snapshot.
 | RC-7 | The game has a language setting beyond English: the TCRF text mentions setting it to Spanish, Portuguese, or Japanese. In the Hispanic set, the location-test ending text stays in English. Which languages each local set offers is unknown. | TCRF | Whether one set can show several languages |
 | RC-8 | Shadow's win quotes are identical to Charlie's in *X-Men vs. Street Fighter* and are left-aligned, except in Japanese. | TCRF | Reference-text oddity |
 
+ROM data (`EXP-0029`, 2026-10-23) tests several of these without MAME. The program
+data shows what each set **contains**, not what it displays:
+
+- RC-2 is **SUPPORTED**: slot 17 (NORIMARO) has its own block of 8 English quotes,
+  plus Spanish and Portuguese.
+- RC-3 is **SUPPORTED** for the palette-swap secrets: Mech-Zangief, Dark Sakura,
+  and Armored Spider-Man reuse their base characters' blocks. Shadow, U.S. Agent,
+  and Mephisto have their own blocks, so "all secret characters borrow" is too
+  broad. The Japanese-only unique quotes are not checked; the Japanese text is not
+  decoded.
+- RC-4 is **SUPPORTED**: in the endings table, Norimaro shares Dan's block, and
+  Cyber-Akuma plus all six secret characters share one generic block.
+- RC-7 is **SUPPORTED**: the English, Spanish, and Portuguese text is identical in
+  all three sets, including Japan. What a set displays must therefore depend on its
+  region code or language setting, not on which text it holds.
+
 Regional facts from the primary MAME driver (checked in the pinned 0.289 source):
 
 - The region letter is printed on the program ROM labels: J = Japan, U = USA,
@@ -126,7 +149,8 @@ English matches the US English.
 
 Working conclusions until captures settle them:
 
-- Do not assume the three sets contain the same quotes, characters, or lines.
+- The three sets **contain** the same Latin text (`EXP-0029`). Do not assume they
+  **display** the same quotes, characters, or lines.
 - An English line missing from the US or European set is not evidence that no
   official English exists. For the secret characters (RC-3), the English sets may
   simply have no unique line.
