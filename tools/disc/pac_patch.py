@@ -63,8 +63,15 @@ def patch(
             key=lambda item: item[1],
         )
     new_stream = stream[:stream_offset] + encode(bytes(patched), output_offset)
+    # EXP-0036: a shorter declared compressed length can crash the game when the
+    # file loads (an opponent's MC file). Keep the original declared length and
+    # zero-pad up to it whenever the new stream fits.
+    declared = max(len(new_stream), header.compressed_length) if keep_size else None
     new_file = build_pac(
-        new_stream, header.decompressed_length, len(data) if keep_size else None
+        new_stream,
+        header.decompressed_length,
+        len(data) if keep_size else None,
+        declared,
     )
     check_header, check_decoded, used = decode_file(new_file)
     if check_decoded != bytes(patched) or used != len(new_stream):
@@ -76,6 +83,7 @@ def patch(
         "splice_stream_offset": stream_offset,
         "splice_output_offset": output_offset,
         "new_compressed_length": len(new_stream),
+        "declared_compressed_length": check_header.compressed_length,
         "new_header_words": [f"0x{w:08X}" for w in check_header.words],
         "new_size": len(new_file),
         "zero_fill_bytes": len(new_file) - HEADER_SIZE - len(new_stream),

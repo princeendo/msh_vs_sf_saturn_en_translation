@@ -643,6 +643,26 @@ Experiment: `EXP-0035` (task `RE-045`)
 - **Renders.** All are legible.
 - **Reproduce.** See `research/experiments/EXP-0035/README.md`.
 
+## EXP-0036: Patched PAC Files Must Keep Their Declared Compressed Length
+
+Confidence: **CONFIRMED** (for `MC12.PAC` loaded as an opponent; the mechanism is
+`HYPOTHESIS`)
+
+Experiment: `EXP-0036` (task `RE-046`)
+
+- **Finding.** When a re-encoded `MC12.PAC` declares a compressed length about 270
+  bytes or more shorter than the original, loading it as a CPU opponent sends the
+  game to the BIOS.
+- **Test.** Restoring only the header length words (`+0x04` = `0x80000000 |
+  (length + 8)`, `+0x10` = length) to the original values, with the stream
+  zero-padded, fixes it. The game decodes such a file correctly.
+- **Evidence.** The file-read descriptor at WRAM-H `0x0603E8E9` holds the
+  declared length + 8. The reset follows a threaded-interpreter jump to 0.
+- **Fix.** `tools/disc/pac_patch.py` now always declares the original compressed
+  length when the new stream is shorter.
+- **Reproduce.** See `research/experiments/EXP-0036/README.md`; the tool is
+  `tools/mednafen/replay_state.py`.
+
 ## Entry Requirements
 
 Each future entry must include:

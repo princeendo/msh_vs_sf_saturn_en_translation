@@ -1749,7 +1749,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-046 - Verify a representative set of characters live
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS` (`EXP-0036`; a load reset was diagnosed and fixed, and
+  run 2 is pending)
 - **Milestone:** M5
 - **Dependencies:** RE-045.
 - **Blockers:** None. The roster image is `build/re045` (`EXP-0035`).
@@ -1766,6 +1767,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     the compiled tables, and renders equal the spec.
   - The gameplay plan is agreed with the user before the session.
 - **Outputs:** An experiment record and the verification report.
+- **Progress (2026-10-24):**
+  - Run 1 on `build/re045` reset to the BIOS at the fight load. Diagnosed without
+    more gameplay: the opponent Dan's `MC12` declared a shorter compressed length.
+  - Fixed in `pac_patch.py` (keep the original declared length).
+  - The rebuilt roster `build/re046_roster` (`351254c4…`) passes the replay test.
 - **Notes:** Each live character needs a KO with that character, which costs user
   time. Automating character select (for example, agent input injection) would be
   a Mednafen change. It needs separate user authorization and an `EMU-020`-style

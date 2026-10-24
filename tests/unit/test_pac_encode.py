@@ -138,3 +138,31 @@ def test_patch_full_reencode_round_trips() -> None:
     expected[10:12] = b"\x07\x25"
     assert decode_file(new)[1] == bytes(expected)
     assert info["unchanged_stream_prefix_bytes"] == 0
+
+
+def test_build_pac_declared_length_pads_with_zeros() -> None:
+    pac = build_pac(b"\x00abc\x00", 3, size=40, declared_length=9)
+    words = struct.unpack_from(">6I", pac)
+    assert words == (0, 0x80000000 | 17, 0, 0, 9, 3)
+    assert pac[HEADER_SIZE + 5 : HEADER_SIZE + 9] == bytes(4)
+    _, decoded, used = decode_file(pac)
+    _, plain_decoded, plain_used = decode_file(build_pac(b"\x00abc\x00", 3))
+    assert (decoded, used) == (plain_decoded, plain_used)
+    with pytest.raises(PacFormatError):
+        build_pac(b"\x00abc\x00", 3, declared_length=4)
+
+
+def test_patch_keeps_original_declared_length_when_stream_shrinks() -> None:
+    data = sample(4096, seed=7)  # random data; the zero writes make it shrink
+    source = make_source(data)
+    original_length = struct.unpack_from(">6I", source)[4]
+    writes = [(off, 0x0000) for off in range(2048, 4096, 2)]
+
+    new, info = patch(source, writes)
+
+    words = struct.unpack_from(">6I", new)
+    assert int(str(info["new_compressed_length"])) < original_length
+    assert words[4] == original_length == info["declared_compressed_length"]
+    assert words[1] == 0x80000000 | (original_length + 8)
+    _, decoded, _ = decode_file(new)
+    assert decoded[2048:4096] == bytes(2048)
