@@ -3131,3 +3131,61 @@ strict mypy, all passing.
   arcade mode, lose, and save a state at continue / character select. Whether
   continuing keeps the final stage is a `HYPOTHESIS` to check first.
 - No code changed.
+
+## 2026-10-24 — END-001 / EXP-0037: final-boss checkpoint and first look at Ryu's ending
+
+Task: END-001
+
+Goal: Make the final-boss checkpoint, test the continue hypothesis, and observe
+Ryu's ending without assuming any win-quote structure.
+
+Observation, action, and result:
+
+- **Setup.**
+  - The untouched image (track 01 `8274307f…`, hash checked) ran on the agent
+    build (`fe0edb99…`).
+  - The roster image was not used, because it repacks the quote font, which
+    the ending might share.
+  - New `tools/mednafen/session_recorder.py`: a screenshot every second and a
+    state every 3 s, frame-named, ring-buffered. It needs no hotkeys.
+- **Gameplay (user).** Ryu/Ken, lost to Mech-Gouki, continued, then Ryu/Gouki
+  beat Mech-Gouki with Ryu.
+- **Continue hypothesis: `SUPPORTED`** (one run). The countdown led to a
+  Ryu/Ken portrait screen, then character select, then `STAGE-08` against
+  Mech-Gouki.
+- **Checkpoints.**
+  - A no-input replay of `select_after_continue.mcs` held on select for at least
+    50 s.
+  - Nine checkpoints (`local/end001/checkpoints/`) are listed with hashes in
+    `EXP-0037`.
+- **Ending observations.**
+  - A four-box post-boss dialogue at the top of the stage, after the partner
+    Gouki drops in. Each box shows about 230 frames, appears whole, and has no
+    speaker cue.
+  - Three ending pages, two pictures, and a bottom box. Each page shows about
+    470-700 frames. Then the credits, which are already romanized.
+  - Measured: 13-row glyphs, 16-px pitch and line pitch, and line starts on a
+    16-px grid (x ≡ 12 mod 16), not simple centering.
+  - The transcription is local only (`local/end001/transcription.json`,
+    `ca7de11d…`) and not independently reviewed.
+
+Method pitfalls (no game hypothesis involved):
+
+1. **Contact-sheet indexing.** Counting tiles from
+   `ffmpeg -pattern_type glob` did not match the `ls` order of the frame-named
+   files, so the first select state (frame 59,809) was really on the
+   countdown. A no-input replay exposed it: `GAME OVER`. States were re-picked
+   by reading frame-named screenshots, and sheets now use the `concat` demuxer
+   over an explicit list.
+2. **Replay steps are not exact frames.** `replay_state.py` steps drift, so
+   timing comes from the live frame-named screenshots, and checkpoint names
+   follow their saved screenshots. Three were renamed after reading them.
+
+Conclusion: `END-001` is `DONE`. Tasks `END-002` to `END-006` were created
+with hypotheses, checkpoint needs, and designs (`EXP-0037`), and `END-010`
+now depends on them. Unknowns were added to `docs/known_unknowns.md`. No
+discovery is confirmed, so `docs/discoveries.md` is unchanged.
+
+Next action: `END-002` (renderer) or `END-003` (RAM structure search). Both
+need no gameplay. `END-005` needs one boss fight from `select_after_continue.mcs`.
+
