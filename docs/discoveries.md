@@ -580,6 +580,23 @@ Experiment: `EXP-0033` (task `TR-001`)
   - Build with `tools/text/caption_compiler.py`.
   - Verify as in `research/experiments/EXP-0033/README.md`.
 
+## RE-030: Ken Through the Generalized Caption Mechanism (M4)
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0028` Phase B
+
+- **Finding.** One rebuilt image (`build/exp0028a`, track 01 `c3990fa5…`) holds
+  compiled Ryu (`MC09`, `0x91AC`) and Ken (`MC0A`, `0xA59C`) tables with one
+  shared pair font.
+- **Verified live.** After one session (Ken KO, then Ryu KO), all 32 forced
+  records verified in RAM and on screen. The bases were `0x0020A59C` for Ken
+  (slot 1) and `0x002191AC` for Ryu (slot 2).
+- **Placeholders.** Ken's line-2 placeholders (records 11 and 12) expand to the
+  partner's name (リュウ). Ryu's record 0 gives ケン.
+- **Reproduce.** See `research/experiments/EXP-0028/README.md` ("Resume: Phase B"
+  steps and "Phase B Result").
+
 ## Entry Requirements
 
 Each future entry must include:

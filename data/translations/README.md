@@ -24,8 +24,10 @@ Each record should identify:
 - Apply this to a character only after its Saturn table and arcade remap are
   verified (`tools/reference/quote_pairing.py`).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). For Ryu, `preferred_english` is
-  the paired `arcade_us_text`. Other characters wait for their own pairing
-  verification.
+  the paired `arcade_us_text`.
+- Ken's pairing is verified (table identity with arcade Japanese slot 10, in
+  `data/text/ken_arcade_pairing.json`), so the policy may now apply to Ken.
+  Other characters wait for their own verification.
 
 Do not assume line ordering or correspondence across releases. Keep hypotheses in
 `research_log.md` until supported, and do not represent a translation as final without

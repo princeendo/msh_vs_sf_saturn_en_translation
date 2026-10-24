@@ -2,8 +2,8 @@
 
 Task: `RE-030`
 Date: 2026-10-17
-Status: IN_PROGRESS (Phase A done; Phase B live next)
-Confidence: HYPOTHESIS
+Status: DONE
+Confidence: CONFIRMED
 
 ## Fighter Choice: Ken (`MC0A.PAC`)
 
@@ -205,3 +205,49 @@ reproducible.
      `MC09.PAC` with base `0x002191AC` for Ryu.
 7. Record the results against this file's predictions. Then update `TASKS.md`
    (`RE-030`, M4), `docs/discoveries.md`, and `research_log.md`.
+
+## Phase B Result (2026-10-24, live)
+
+- **Setup.**
+  - Patched Mednafen `fe0edb99…` on `build/exp0028a/image_a`. Track 01 is
+    `c3990fa5…`; a fresh rebuild today was byte-identical after the TR-001 code
+    changes.
+  - Two `ko_capture.py --checkpoint` runs were armed in sequence, with an agent
+    `run` between them.
+- **Session.** One user session: Ken first, Ryu second.
+  - **Fight 1 (Ken KO).** Pointer `0x0020A894` = `0x0020A59C` + 76 × 10, with
+    table base `0x0020A59C` (`MC0A`, slot 1). The natural pick was record 10.
+    `postko.mc` SHA-256 `f9bb8ef4…2c7c`; the screen shows "Ken record 10" with
+    Ken's portrait on the left.
+  - **Fight 2 (Ryu KO, second member).** Pointer `0x002194F0` = `0x002191AC` +
+    76 × 11, with table base `0x002191AC` (`MC09`, slot 2). The natural pick was
+    record 11. `postko.mc` SHA-256 `88576318…b24d`.
+- **Forced records.** All 16 records of each fighter were forced
+  (`--force-index i --setter-pcs 060AF282`).
+- **Verification.** `verify_records.py --compile-dir build/exp0028a` gives **34 of
+  34 OK** (32 forced plus 2 natural; report SHA-256 `24e29eed…25f5`). For every
+  run:
+  - the pointer is correct;
+  - the table file is chosen by RAM content (`MC0A` for Ken, `MC09` for Ryu);
+  - the shared cart-RAM font matches;
+  - the WRAM-L table and display buffer match;
+  - the screen match picks the forced record (IoU at least 0.92; margins down to
+    0.008, because the markers differ by digits).
+- **Placeholders.** Ken's records 11 and 12 expand to name entry 9 (リュウ) after
+  "Ken partner" and "Ken buddy". Ryu's record 0 expands to entry 10 (ケン). Both
+  are as predicted.
+- **Visual check.** All 32 screenshots were read and match their markers. Ken's
+  records 0, 1, and 13 are one-line by design (the spec keeps the original
+  single-line layout).
+
+### Conclusion
+
+**CONFIRMED.** The generalized mechanism works for a second ordinary fighter:
+- several tables in one image, with a shared pair font;
+- a per-file table offset;
+- slot-dependent table bases;
+- line-2 placeholders;
+- one-line records.
+
+All predictions held. `RE-030` and milestone M4 are complete.
+

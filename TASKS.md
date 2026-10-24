@@ -6,14 +6,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ## Current State
 
-- Current milestone: **M4**: a second fighter through the same mechanism. M3 was
-  completed on 2026-10-17 (`RE-020`; `EXP-0026`, `EXP-0027`).
+- **M4 completed on 2026-10-24** (`RE-030`, `EXP-0028` Phase B): Ken works
+  through the same generalized mechanism, with all 32 Ryu and Ken records verified
+  live from one image. M3 was completed on 2026-10-17.
 - Reverse-engineering experiments in progress: none.
-- Current active task: `RE-030`. `EXP-0028` Phase A is done; **Phase B is on hold
-  at the user's request (2026-10-23)**. Resume steps are in
-  `research/experiments/EXP-0028/README.md`, under "Resume: Phase B".
-- Next research task: `EXP-0028` Phase B: one session, team Ken + Ryu, KO with
-  Ken, then KO with Ryu. Full English still waits on `GATE-TRANSLATION`.
+- Next milestone: M5 (`RE-040`, `BACKLOG`). It needs its detailed tasks defined
+  before work begins.
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1507,8 +1505,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-030 - Apply generalized mechanism to a second fighter
 
-- **Status:** `IN_PROGRESS` (`EXP-0028` Phase A done 2026-10-23; Phase B on hold, see
-  its "Resume: Phase B" section)
+- **Status:** `DONE` (2026-10-24)
 - **Milestone:** M4
 - **Dependencies:** RE-020.
 - **Blockers:** None.
@@ -1522,12 +1519,27 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Phase A, offline: multi-file caption compiler with a shared font;
     per-file table offsets; line-2 placeholders; Ryu + Ken marker image.
   - Phase B, live: one session, team Ken + Ryu, KO with Ken, then KO with Ryu.
+- **Evidence (2026-10-24, `EXP-0028` Phase B):**
+  - From the image `build/exp0028a` (track 01 `c3990fa5…`, rebuilt identically
+    today), one user session gave a Ken KO (natural record 10, `MC0A` at
+    `0x0020A59C`, slot 1) and a Ryu KO (natural record 11, `MC09` at `0x002191AC`,
+    slot 2).
+  - All 16 records per fighter were forced and verified (`verify_records.py`: 34
+    of 34 OK, including the natural captures).
+  - Ken's records 11 and 12 expand to リュウ (name entry 9), and Ryu's record 0 to
+    ケン (entry 10). Ken's one-line records 0, 1, and 13 stay one-line.
+  - Every screenshot was read. All predictions held, so no Ryu-specific
+    assumption survived.
+  - Separately, Ken's Saturn table is byte-identical to the arcade Japanese slot
+    10 (`data/text/ken_arcade_pairing.json`).
     Then 32 forced records are verified automatically.
 
 ### RE-040 - Systematize ordinary post-fight localization
 
 - **Status:** `BACKLOG`
 - **Milestone:** M5
+- **Unblocked by:** RE-030 (`DONE` 2026-10-24). Detailed tasks are still to be
+  defined; do not begin without them.
 - **Dependencies:** RE-030.
 - **Blockers:** A second fighter has not validated the generalized mechanism.
 - **Objective:** Build and validate the ordinary-character post-fight workflow.
