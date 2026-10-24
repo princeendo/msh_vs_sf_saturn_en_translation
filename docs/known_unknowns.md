@@ -121,15 +121,23 @@ then three ending pages (a picture panel and a bottom text box).
   partner alone, or the point character, or is it always shown? Does the ending
   follow the point character, the KO character, the survivor, or the team? Ryu
   was point and landed the KO, so these were confounded. Test in `END-005`.
-- **Renderer.** Are the dialogue and page glyphs VDP1 sprites, VDP2 cells, or
-  parts of bitmaps? Do the dialogue and the pages share a path? Test in
-  `END-002`.
-- **Text in RAM.** Is the text held in work RAM as fixed-width per-character
-  values, and in what encoding? Test in `END-003`.
+- **Renderer.** Answered for box 1 and page 1 (`EXP-0038`, discoveries
+  `END-002`): VDP1 sprites of byte-exact quote-font glyphs, built by
+  `0x0601CE00` from 16-bit codes. Still open: whether pages 2-3, boxes 3-4, and
+  other characters' endings use the same path; what the `0x50xx`/`0x51xx` tiles
+  behind the page 1 text box are; and which layer draws the logo background.
+- **Text in RAM.** Where are the codes held before the routine reads them? Are
+  they stored as plain 16-bit codes, and what fills the slot table at WRAM-L
+  `0x00260E5E` ahead of each box? Test in `END-003`/`END-004`.
+- **Capacity.** Ending lines use the same 19-cell grid as win quotes, and the
+  longest seen is 16 glyphs. Can a line use all 19 cells, and can a box hold
+  more than two lines? How many distinct glyphs fit in the per-screen VRAM
+  slots (relevant for composed pair glyphs)?
 - **Source.** Which disc file supplies the text, and is it compressed?
   (`END-004`)
-- **Font.** Do the glyphs come from the win-quote font (`MEMFIX.PAC` entry 4 in
-  cart RAM) or another? This is a visual resemblance only, so far.
+- **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`). Still open:
+  whether the composed pair glyphs of the roster image (`FONT-003`) would
+  display in endings unchanged.
 - **Layout.** Line starts sit on a 16-px grid (x ≡ 12 mod 16) but do not follow
   simple centering by character count. Is the position set by leading spaces,
   per-line offsets, or something else? What is a line's capacity (about 19-20
