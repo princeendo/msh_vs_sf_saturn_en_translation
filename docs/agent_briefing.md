@@ -14,7 +14,9 @@ reference facts** (what outside documents say).
   mechanism (`RE-030`, `EXP-0028`).
 - M5 (`RE-040`) is broken down into `RE-041` to `RE-047`. `RE-041` is done
   (`EXP-0034`): Saturn file `MCnn` = arcade slot `nn`, with 18 files ordinary and
-  5 irregular. Next is `RE-043` (exceptions), then `RE-042` (pairing).
+  5 irregular. `RE-043` is done: the 17-character roster is in
+  `data/text/m5_roster.json`, and exclusions are in `docs/coverage_exceptions.md`.
+  Next is `RE-042` (pairing).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

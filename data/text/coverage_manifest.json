@@ -11,7 +11,7 @@
   "ordinary": "one whole slot block; every Saturn table lies within it",
   "irregular": "a whole block plus other blocks or tables"
  },
- "character_roles": "not assigned here (RE-043)",
+ "character_roles": "assigned in docs/coverage_exceptions.md (RE-043); M5 roster in data/text/m5_roster.json",
  "files": [
   {
    "file": "MC00.PAC",

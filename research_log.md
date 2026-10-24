@@ -2914,3 +2914,18 @@ Checks: planning only; no code changed.
 Checks: pytest (164 passed), ruff check, ruff format --check, and strict mypy (71
 files), all passing.
 
+## 2026-10-24 — RE-043: M5 roster and exceptions register
+
+- User decision: a 17-character roster, namely the 14 ordinary playable
+  characters plus Captain America, Blackheart, and Dhalsim (their own blocks
+  only). Norimaro, secret characters, Shadow, and bosses are excluded. Spider-Man's
+  English also covering Armored Spider-Man (shared block) is accepted.
+- Wrote `data/text/m5_roster.json` from the coverage manifest (file, slot, table
+  offset) and `docs/coverage_exceptions.md` (in-scope table, untouched blocks, and
+  the exceptions with evidence and owner).
+- Added the rule that M5 builds may write only roster blocks, and must check
+  that bytes outside them are unchanged.
+- `RE-042` is now `READY`.
+
+Checks: documentation and JSON only.
+
