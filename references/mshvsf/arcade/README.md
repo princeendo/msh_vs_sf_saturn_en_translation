@@ -86,6 +86,44 @@ Python 3.12.13 via `uv`. The results:
   which all sets share (`EXP-0029`, **CONFIRMED** as data). How the Japanese text
   is encoded is **UNKNOWN**.
 
+## Running in MAME (`REF-009`)
+
+The user supplied the missing files on 2026-10-24. They were copied (originals kept
+in `~/Downloads/mshvsf/`), and the zips were left unchanged. MAME also reads
+`<rompath>/<set>/` folders:
+
+| Local path (ignored) | Size | SHA-256 | Matches MAME 0.289 |
+| --- | ---: | --- | --- |
+| `mshvsf/mshvsf.key` | 20 | `cc4f8d714cc747f84fde20eb440c5542837b55076e4144fcb82116d00a94fb4f` | CRC `64660867`, SHA-1 match |
+| `mshvsfu/mshvsfu.key` | 20 | `838fc71e642c4f9a84e6c2bf9fbec202625683df9c00b9c3674941c756586b48` | CRC `4c04797b`, SHA-1 match |
+| `mshvsfj/mshvsfj.key` | 20 | `0981af466a7ef34356b11712f0d07a43de7ee104db2e464e0cc4e78907886a31` | CRC `565eeebb`, SHA-1 match |
+| `qsound.zip` | 2676 | `55feb9b70dacb7364f0310ed16cc9281b5b0a31318b9e2e0587ae06d15f95356` | `dl-1425.bin`: CRC `d6cf5ef5`, SHA-1 `555f50fe…a0c501` (`src/devices/sound/qsoundhle.cpp`) |
+
+- `mame -rompath local/arcade_roms/mshvsf -verifyroms mshvsf mshvsfu mshvsfj`
+  reports "3 romsets found, 3 were OK".
+- Each set boots headless to its title screen and attract mode. The command uses
+  `tools/reference/mame_snap_frames.lua`, and MAME state goes to the ignored
+  `local/mame_arcade/`:
+
+```bash
+SNAP_FRAMES="1200 3000" mame mshvsfu -rompath local/arcade_roms/mshvsf -video none -sound none -nothrottle -skip_gameinfo -nomouse -cfg_directory local/mame_arcade/cfg -nvram_directory local/mame_arcade/nvram -snapshot_directory local/mame_arcade/snap -homepath local/mame_arcade -autoboot_script tools/reference/mame_snap_frames.lua
+```
+
+| Set | Frame 3000 (title screen) snapshot SHA-256 |
+| --- | --- |
+| `mshvsf` | `9f8c1b755b4a59e538961cb6e8f74a580f29365385029ec6ae9ae78ff4d68d16` |
+| `mshvsfu` | `6ca0173600fd3424fcc20cd14b45e95522412b8c3f3615eb3878ea803b87b45e` |
+| `mshvsfj` | `32c1b52e4cb07d6b369b00aca3b2b3e9d4cc9cf25d8dd2a46d024f0179fdb23b` |
+
+- A second `mshvsfu` run reproduced frames 1200 and 3000 bit for bit. Both runs
+  used the EEPROM that the first boot created in `local/mame_arcade/nvram/`.
+- Observed in attract mode (not yet analyzed):
+  - The US set shows its "Recycle it" and "Parental Advisory Warning" screens.
+  - The Japanese set's license screen credits Noritaro Kinashi, Arrival, and NTV,
+    and its intro uses "Variable" naming (consistent with RC-5).
+- No local `mshvsfu1` (USA 970625) exists. The capture protocol's two-revision
+  comparison is limited to `mshvsfu` until one is supplied.
+
 ## What They Are For
 
 1. **Exact English quotes.** All three sets hold the official English post-fight

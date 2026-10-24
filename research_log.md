@@ -2645,3 +2645,23 @@ Tasks: `REF-009` (progress), `EXP-0029` (done), `REF-010` (created).
 
 Checks: pytest (148 passed), ruff check, ruff format --check, and strict mypy (60
 files), all passing.
+
+## 2026-10-24 — REF-009 done: arcade sets verify and boot in MAME 0.289
+
+- The user put `mshvsf.key`, `mshvsfu.key`, `mshvsfj.key`, and `qsound.zip` in
+  `~/Downloads/mshvsf/`. CRC-32 and SHA-1 match MAME 0.289: the keys against
+  `cps2.cpp`, and `dl-1425.bin` against `src/devices/sound/qsoundhle.cpp` at the
+  pinned commit.
+- Copied with `cp -p` to `local/arcade_roms/mshvsf/<set>/<set>.key` and
+  `qsound.zip`. Keys went into per-set folders instead of the zips, so the recorded
+  zip hashes stay valid.
+- `-verifyroms`: 3/3 OK. Headless boots used the autoboot Lua script
+  `tools/reference/mame_snap_frames.lua` with `-video none -nothrottle`, at about
+  2000% speed.
+- Snapshots at frames 1200-6000 show the title screen and attract mode for all
+  three sets. A repeat run reproduced the `mshvsfu` frames bit for bit. The hashes
+  are in `references/mshvsf/arcade/README.md`.
+- `REF-010` is now `READY`. Next: design a route to a win-quote screen, by scripted
+  inputs or user gameplay.
+
+Checks: no Python code changed; the Lua script ran as shown.
