@@ -2780,3 +2780,20 @@ Checks: documentation only; pytest (153 passed).
 
 Checks: documentation and metadata only.
 
+## 2026-10-24 — XvSF keys verified; Saturn rip completeness
+
+- The user added `xmvsf.key`, `xmvsfa.key`, `xmvsfh.key`, `xmvsfj.key`,
+  `xmvsfu.key`, and `phoenix.key`. All match MAME 0.289 by CRC-32 and SHA-1.
+  `phoenix.key` serves only bootleg `…d` sets. The XvSF zips were unchanged
+  (SHA-256 diff).
+- Built `local/arcade_roms/xmvsf_mame0289/` with zip copies renamed to 0.289 set
+  names and keys in per-set folders. `-verifyroms`: 10/11 OK (`xmvsfb.key`
+  missing).
+- Booted `xmvsfu` and `xmvsfjr2` headless (`mame_snap_frames.lua`). Frame 3000:
+  `e8a8ab8e…` (title) and `e19f6bae…` (attract).
+- XvSF Saturn ISO: the PVD declares 214,396 sectors against 71,906 in the image.
+  All 236 file extents end by sector 71,758, so the file data is complete. A
+  better image is only needed for verified identity or emulation.
+
+Checks: documentation and metadata only.
+
