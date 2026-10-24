@@ -695,6 +695,38 @@ Experiment: `EXP-0036` run 2
   48 forced records verified through it.
 - **Use.** `ko_capture.py --quote-state` and `verify_records.py` handle both.
 
+## END-002: Ryu's Ending Text Is VDP1 Sprites of Quote-Font Glyphs
+
+Confidence: **CONFIRMED** (dialogue box 1 and ending page 1 of Ryu's run; box 2
+through the routine log)
+
+Experiment: `EXP-0038`
+
+- **Finding.** The post-boss dialogue and the ending-page text are drawn by VDP1
+  normal sprites (16 × 16, 4 bpp, color mode 0), one per cell, on a
+  19-cell × 2-line grid at x = 26 + 16k.
+  - Dialogue: color word `0x6030`, VDP1 y 14/30.
+  - Page: color word `0x61F0`, y 178/194.
+  - Screenshot row = VDP1 y + 8.
+- **Glyphs.** Each glyph cell is a byte-exact quote-font cell. All 40 glyph cells
+  matched one code each (font base `0x0278CF60`, the pointer at `0x0601D8E4`).
+- **Build path.** The `FONT-001` routine at `0x0601CE00` builds each glyph, with
+  its code in R3, the VDP1 destination in R9, and caller return `0x0601CDE2`.
+  Glyphs pass through the staging cell `0x0601CEEC`. Each distinct glyph is
+  uploaded once per screen.
+- **Evidence.** Zeroing one VDP1 cell removed exactly that glyph:
+  - box 1, line 2 cell 6: 69 px, the same after 2 and after 60 frames;
+  - page 1, line 1 first glyph: 150 px;
+  - nothing else in either box changed (no-write controls).
+- **Codes.** They follow the known scheme: hiragana `0x0800+n`, katakana in
+  Shift-JIS order, ・ `0x08AE`, 、 `0x08A9`, 。 `0x08AA`.
+- **Limits.**
+  - Where the codes come from, the disc source, and line capacity are unknown.
+  - Pages 2-3 and boxes 3-4 were not inspected.
+  - The cart-RAM extraction is still unvalidated outside the matched glyph
+    bytes.
+- **Reproduce.** `research/experiments/EXP-0038/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:

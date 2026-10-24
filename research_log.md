@@ -3189,3 +3189,58 @@ discovery is confirmed, so `docs/discoveries.md` is unchanged.
 Next action: `END-002` (renderer) or `END-003` (RAM structure search). Both
 need no gameplay. `END-005` needs one boss fight from `select_after_continue.mcs`.
 
+## 2026-10-24 — END-002 / EXP-0038: the ending text is VDP1 sprites of quote-font glyphs
+
+Task: END-002
+
+Goal: Identify the video path that draws the ending text, with no gameplay.
+
+Hypothesis 1: the glyphs of dialogue box 1 are VDP1 normal sprites, one per
+cell.
+
+Hypothesis 2, formed from the passive result: the glyph cells are quote-font
+cells from the `FONT-001` routine.
+
+Action and result:
+
+- **Passive.**
+  - `mcs_extract` of `ending_dialogue_box1.mcs` and `ending_page1.mcs`.
+  - `vdp1_sprites`: 38 sprites each (`0x6030` and `0x61F0`), 16 × 16 4 bpp, on
+    a 19 × 2 grid at x = 26 + 16k. Screenshot row = VDP1 y + 8.
+  - There is one cell per distinct glyph. Page 1 has 23 distinct glyphs, which
+    matches the transcription.
+- **Font.** The new `tools/text/glyph_match.py` matched 40 of 40 glyph cells
+  byte-exact to decoded quote-font cells (base `0x0278CF60`), one code each.
+  The codes fit the known scheme. Raw cells are not in RAM; the staging cell
+  `0x0601CEEC` holds each screen's last glyph.
+- **Active.** The new `tools/mednafen/write_trial.py` zeroed one VDP1 cell:
+  - box 1 cell `0x0A780`: only those 69 px changed in the box, at 2 and at 60
+    frames (the write survived);
+  - page 1 cell `0x0BD80`: only its 150 px changed.
+- **Routine.** A PC breakpoint on `0x0601CE00` across the box 1 → 2 change gave
+  12 hits in one frame:
+  - R3 = box 2's distinct codes in order;
+  - R9 = the VDP1 destination, `+0x80` per glyph;
+  - PR = `0x0601CDE2`;
+  - R1 = a pre-filled slot table in WRAM-L `0x00260E5E` (not the text).
+
+Pitfall (method): screenshots of separate launches differ by 1,865 px over the
+idle fighters. The pause after `loadstate` is asynchronous, so the animation
+phase varies. Compare control and trial inside the text box, or by diff
+bounding box, never by whole-frame hash.
+
+Deviation: the task's design said to skip the candidate commands. A cell write
+was used instead, because it tests the same claim and the game does not rebuild
+glyph cells during a screen. It is recorded in `END-002`.
+
+Conclusion: `CONFIRMED` for box 1 and page 1, recorded in discoveries
+(`END-002`). `END-004` is now `READY`, because there is a trace start (the
+caller of `0x0601CE00`). `END-003` can search for the known code sequences
+directly.
+
+Checks: pytest, ruff check, ruff format --check, and strict mypy (see the
+commit).
+
+Next action: `END-003` (code search in RAM) or `END-004` (trace R3 to its RAM
+source, then to the disc).
+

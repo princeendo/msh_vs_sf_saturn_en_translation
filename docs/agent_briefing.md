@@ -26,9 +26,11 @@ reference facts** (what outside documents say).
 - M6 has started. `END-001` is done (`EXP-0037`):
   - final-boss checkpoints are in `local/end001/checkpoints/`;
   - Ryu's run shows a four-box post-boss dialogue plus three ending pages;
-  - the ending's storage, encoding, renderer, and font are `UNKNOWN`.
+  - `END-002` is done (`EXP-0038`): the ending text is VDP1 sprites of
+    byte-exact quote-font glyphs, built by `0x0601CE00` from 16-bit codes;
+  - the codes' RAM and disc source are `UNKNOWN`.
 
-  Next are `END-002`/`END-003` (no gameplay), `END-005`, and `END-006`.
+  Next are `END-003`/`END-004` (no gameplay), `END-005`, and `END-006`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
@@ -142,8 +144,8 @@ Authorities are cataloged in `docs/references.md`.
 | --- | --- | --- |
 | Disc | `tools/disc/pac_lzss.py`, `pac_patch.py`, `patch_image.py`, `iso9660.py` | Decode, re-encode, and rebuild |
 | Memory | `tools/memory/mcs_extract.py` | Save-state regions (validated ones only) |
-| Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py` | Render, compile, font |
-| Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py`, `session_recorder.py` | Headless runs, checks, and recording gameplay |
+| Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py`, `glyph_match.py` | Render, compile, font, match VDP1 glyph cells to codes |
+| Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py`, `session_recorder.py`, `write_trial.py` | Headless runs, checks, gameplay recording, and write trials |
 | Regression | `tools/regression/reference_builds.py` | Rebuild reference images, compare hashes |
 | Arcade | `tools/reference/mame_audit.py`, `cps2_text.py`, `quote_pairing.py` | Identity, text, pairing |
 | MAME | `tools/reference/mame_timeline.lua`, `arcade_route.py`, `mame_snap_frames.lua` | Scripted runs |

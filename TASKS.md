@@ -12,13 +12,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Reverse-engineering experiments in progress: none.
 - **M6 started on 2026-10-24.** `END-001` is done (`EXP-0037`): the final-boss
   checkpoint is made, and Ryu's ending was observed (a post-boss dialogue plus
-  three ending pages). The next tasks are:
-  - `END-002`: the renderer (no gameplay);
-  - `END-003`: a RAM structure search (no gameplay);
+  three ending pages). `END-002` is done (`EXP-0038`): the ending text is VDP1
+  sprites of byte-exact quote-font glyphs, built by the `FONT-001` routine
+  from 16-bit codes. The next tasks are:
+  - `END-003`: find the codes in RAM (no gameplay);
+  - `END-004`: trace them to the disc (no gameplay; now `READY`);
   - `END-005`: what selects the dialogue and ending (one gameplay session);
   - `END-006`: the arcade reference.
-
-  `END-004` waits on `END-002` or `END-003`.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -1990,7 +1990,7 @@ the user asks or when it unblocks other work.
 
 ### END-002 - Identify the video path that draws ending text
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-24, `EXP-0038`)
 - **Milestone:** M6
 - **Dependencies:** END-001.
 - **Blockers:** None. No gameplay is needed (`EXP-0037` checkpoints).
@@ -2008,6 +2008,22 @@ the user asks or when it unblocks other work.
     the next task, or the refuted alternatives.
 - **Outputs:** Experiment record, local dumps and screenshots.
 - **Notes:** If VDP1 is refuted, test VDP2 as a separate hypothesis.
+- **Evidence (2026-10-24, `EXP-0038`; `CONFIRMED`, discoveries `END-002`):**
+  - Dialogue box 1 and page 1 are VDP1 normal sprites (16 × 16, 4 bpp), one per
+    cell, on a 19 × 2 grid at x = 26 + 16k. Color words: `0x6030` (dialogue)
+    and `0x61F0` (page).
+  - All 40 glyph cells are byte-exact quote-font cells (base `0x0278CF60`).
+    The `FONT-001` routine `0x0601CE00` builds each one, with the code in R3,
+    the VDP1 destination in R9, and caller return `0x0601CDE2`.
+  - **Glyph source:** quote-font codes, decoded per screen into VDP1 VRAM
+    (box 1 from `0x0A700`, page 1 from `0x0BD00`).
+  - **Active change.** Zeroing one character cell (not skipping commands)
+    removed exactly that glyph on both screens, and the box was otherwise
+    unchanged. Reason for the deviation: a cell write tests the same claim, and
+    the game does not rebuild glyph cells during a screen, so it persists. A
+    command list is likely rebuilt every frame.
+  - Not inspected: pages 2-3, boxes 3-4, and the background layer (presumably
+    VDP2).
 
 ### END-003 - Search work RAM for the ending text structure
 
@@ -2034,14 +2050,24 @@ the user asks or when it unblocks other work.
   - Compare hits with the win-quote codes only afterwards, as a separate test.
   - Review the local transcription independently (as in `REF-003`) before
     trusting the patterns.
+  - Since `EXP-0038`, the codes of box 1, box 2, and page 1 are known from the
+    glyph matches and the R3 log. A direct search for those 16-bit sequences
+    (for example box 2's
+    `0970 080B 09F8 082A 0823 0803 0825 080E 084A 0827`) is now a sharper first
+    test. The structure-only search remains the fallback if codes are
+    transformed.
+  - The pre-filled slot table at WRAM-L `0x00260E5E` (R1 in `EXP-0038`) is not
+    the text, so do not mistake it for a hit.
 
 ### END-004 - Locate the disc source of Ryu's ending text
 
-- **Status:** `BLOCKED`
+- **Status:** `READY` (unblocked by `END-002`, 2026-10-24)
 - **Milestone:** M6
 - **Dependencies:** END-002 or END-003.
-- **Blockers:** Needs a RAM address (`END-003`) or a glyph source address
-  (`END-002`) to trace.
+- **Blockers:** None. `EXP-0038` gives a trace start: the glyph routine
+  `0x0601CE00` is called with the code in R3, returning to `0x0601CDE2`. Its
+  caller's code source can be followed back to RAM, and then to a disc load.
+  An `END-003` RAM address would make this faster.
 - **Objective:** Find which disc file supplies the dialogue and the ending-page
   text, and in what format.
 - **Rationale:** M7 must change the source image, not live RAM (as M2 did for
