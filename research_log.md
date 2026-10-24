@@ -2755,3 +2755,28 @@ Checks: documentation and JSON only; the Q10 record re-parsed as valid JSON.
 
 Checks: documentation only; pytest (153 passed).
 
+## 2026-10-24 — REF-011: second arcade batch, PS1 image, XvSF material
+
+- Inventoried `~/Downloads/mshvsf/v2` (11 zips), `~/Downloads/mshvsf/Marvel Super
+  Heroes vs. Street Fighter (USA).7z` (the stated `~/Downloads/msfhvsf` folder does
+  not exist), and `~/Downloads/xmvsf` (11 zips, two PS1 `.7z` files, one Saturn
+  `.rar`).
+- Archives were listed with `bsdtar -tvf` first, then each was extracted with
+  `bsdtar -xf` into its own new, empty, ignored folder. No 7z or unar tools are
+  installed; macOS `bsdtar` read both 7z and RAR.
+- MSHvSF PS1: size, CRC-32, MD5, and SHA-1 equal Redump 12632 and MAME `psx.xml`,
+  so identity is `CONFIRMED`.
+- Arcade identity by member SHA-1 against MAME 0.289 (`v2_manifest.json`,
+  `xmvsf/arcade/manifest.json`):
+  - All MSHvSF sets match. After copying held keys to `mshvsfu1`, `mshvsfj1`, and
+    `mshvsfj2`, `-verifyroms` shows 6/11 OK.
+  - The XvSF zips use older names (for example `xmvsfj.zip` is 0.289's
+    `xmvsfjr2`), and `xmvsfur1.zip` has relabelled members. No XvSF keys are held.
+- XvSF Saturn: a CoolROM rip (ISO plus 40 MP3 tracks). Its IP header reads
+  `T-1226G V1.002 19970925`, which MAME lists as Doukonban. It cannot be matched
+  to MAME's CHD hashes.
+- XvSF PS1: the US image matches MAME `psx.xml`; the JP EX Edition is not listed.
+- `REF-005` is unblocked: its image is held.
+
+Checks: documentation and metadata only.
+

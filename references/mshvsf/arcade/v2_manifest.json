@@ -1,0 +1,128 @@
+{
+ "source": "user-supplied 2026-10-24, ~/Downloads/mshvsf/v2 (MAME split set); copied to local/arcade_roms/mshvsf_v2/",
+ "driver": "MAME 0.289 cps2.cpp f34f02505e32c1993c6a782b6814232cbfc74e36 (SHA-256 a8c09ef8...e861602)",
+ "method": "each zip's members matched by CRC-32 and SHA-1 against every set in the family; mame_set = best match",
+ "zips": [
+  {
+   "file": "mshvsf.zip",
+   "size": 23124697,
+   "sha256": "0cfd373de0db3517d2dab0e468dbbe7947d3717ace70944daf23d726cb768091",
+   "mame_set": "mshvsf",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Europe 970625)",
+   "members": 20,
+   "members_matched_sha1": 20,
+   "renamed_members": [],
+   "missing_key": "mshvsf.key"
+  },
+  {
+   "file": "mshvsfa.zip",
+   "size": 781888,
+   "sha256": "da76deeefe9fe3fb049ce21450c136b2bad99bad984ad4ad7c5ddb1eedf36996",
+   "mame_set": "mshvsfa",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Asia 970625)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "mshvsfa.key"
+  },
+  {
+   "file": "mshvsfa1.zip",
+   "size": 896803,
+   "sha256": "2a621087f1c2d06dd609fc389c7adb008b26a475f79d5e9a73f6a5c92bc6aafb",
+   "mame_set": "mshvsfa1",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Asia 970620)",
+   "members": 3,
+   "members_matched_sha1": 3,
+   "renamed_members": [],
+   "missing_key": "mshvsfa.key"
+  },
+  {
+   "file": "mshvsfb.zip",
+   "size": 897499,
+   "sha256": "3ae301404919d65742a960035c98a67a123ebab929aecf04eb2eab8e36cb9966",
+   "mame_set": "mshvsfb",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Brazil 970827)",
+   "members": 3,
+   "members_matched_sha1": 3,
+   "renamed_members": [],
+   "missing_key": "mshvsfb.key"
+  },
+  {
+   "file": "mshvsfb1.zip",
+   "size": 781934,
+   "sha256": "e1eb779a40da82b50a4fc2a949f640287e2a595a8dd3aa7d67e9fb76a931a6a0",
+   "mame_set": "mshvsfb1",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Brazil 970625)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "mshvsfb.key"
+  },
+  {
+   "file": "mshvsfh.zip",
+   "size": 781909,
+   "sha256": "798301f1f0a89dd31c57299b4d1b92b4ad7389613a5c97dca728c087dfed1779",
+   "mame_set": "mshvsfh",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Hispanic 970625)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "mshvsfh.key"
+  },
+  {
+   "file": "mshvsfj.zip",
+   "size": 897494,
+   "sha256": "8a3b4ea1fc967aa6b41026291b82229dd9d6a6eb6e9de7c6487b1f43d537193d",
+   "mame_set": "mshvsfj",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Japan 970707)",
+   "members": 3,
+   "members_matched_sha1": 3,
+   "renamed_members": [],
+   "missing_key": "mshvsfj.key"
+  },
+  {
+   "file": "mshvsfj1.zip",
+   "size": 897348,
+   "sha256": "76c4488db0b947cd336eb0cd48ef3cb294a87968f270139067497b22e377037e",
+   "mame_set": "mshvsfj1",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Japan 970702)",
+   "members": 3,
+   "members_matched_sha1": 3,
+   "renamed_members": [],
+   "missing_key": "mshvsfj.key"
+  },
+  {
+   "file": "mshvsfj2.zip",
+   "size": 781913,
+   "sha256": "60731c7cf1b6b361636a784a8df149e9e2175e0462790a8831b7a9225e134e67",
+   "mame_set": "mshvsfj2",
+   "title": "Marvel Super Heroes Vs. Street Fighter (Japan 970625)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "mshvsfj.key"
+  },
+  {
+   "file": "mshvsfu.zip",
+   "size": 897521,
+   "sha256": "83ad53deda2a4c14f063abd52c4aa87a3ce96200fb8da879d675c4b26a0909f3",
+   "mame_set": "mshvsfu",
+   "title": "Marvel Super Heroes Vs. Street Fighter (USA 970827)",
+   "members": 3,
+   "members_matched_sha1": 3,
+   "renamed_members": [],
+   "missing_key": "mshvsfu.key"
+  },
+  {
+   "file": "mshvsfu1.zip",
+   "size": 781940,
+   "sha256": "68485412b8b361d3a51fdeb74f89d2709aa7f47e849e033768bcf30df16352d4",
+   "mame_set": "mshvsfu1",
+   "title": "Marvel Super Heroes Vs. Street Fighter (USA 970625)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "mshvsfu.key"
+  }
+ ]
+}

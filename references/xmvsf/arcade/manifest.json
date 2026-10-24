@@ -1,0 +1,131 @@
+{
+ "source": "user-supplied 2026-10-24, ~/Downloads/xmvsf (MAME split set, older set names); copied to local/arcade_roms/xmvsf/",
+ "driver": "MAME 0.289 cps2.cpp f34f02505e32c1993c6a782b6814232cbfc74e36 (SHA-256 a8c09ef8...e861602)",
+ "method": "each zip's members matched by CRC-32 and SHA-1 against every set in the family; mame_set = best match",
+ "zips": [
+  {
+   "file": "xmvsf.zip",
+   "size": 19605532,
+   "sha256": "137e4740a47e7867da83734cef3d13e8d7be6ca27e37370e5420c267758f6c5f",
+   "mame_set": "xmvsf",
+   "title": "X-Men Vs. Street Fighter (Europe 961004)",
+   "members": 19,
+   "members_matched_sha1": 19,
+   "renamed_members": [],
+   "missing_key": "xmvsf.key"
+  },
+  {
+   "file": "xmvsfa.zip",
+   "size": 624094,
+   "sha256": "cd8320dc876219fae70d4382910295e871dae251196ce9687d7765d898ee8ee9",
+   "mame_set": "xmvsfa",
+   "title": "X-Men Vs. Street Fighter (Asia 961023)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfa.key"
+  },
+  {
+   "file": "xmvsfar1.zip",
+   "size": 623953,
+   "sha256": "edb9f3de202da3704ed3a59f22e815e16ca47eccb5d658056e29df46dc8accd8",
+   "mame_set": "xmvsfar2",
+   "title": "X-Men Vs. Street Fighter (Asia 960919)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfa.key"
+  },
+  {
+   "file": "xmvsfb.zip",
+   "size": 624092,
+   "sha256": "3f8ffd3f650e35a2b1c1e4bb674253a666f0ae9ba8992c9521919def98785118",
+   "mame_set": "xmvsfb",
+   "title": "X-Men Vs. Street Fighter (Brazil 961023)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfb.key"
+  },
+  {
+   "file": "xmvsfh.zip",
+   "size": 624019,
+   "sha256": "eb5938d8ba8e863d8498af8406c03aed85fa740677fad6e32a93c3e9cd054493",
+   "mame_set": "xmvsfh",
+   "title": "X-Men Vs. Street Fighter (Hispanic 961004)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfh.key"
+  },
+  {
+   "file": "xmvsfj.zip",
+   "size": 624001,
+   "sha256": "888e86822063f01cd95e326e40397f8d88292d84ece181a87f7d238b86623760",
+   "mame_set": "xmvsfjr2",
+   "title": "X-Men Vs. Street Fighter (Japan 961004)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfj.key"
+  },
+  {
+   "file": "xmvsfjr1.zip",
+   "size": 623600,
+   "sha256": "c1d91864c032a9fbd4d484938dcd316dfb4e4c54db6faa9e6fbd956feeab3f97",
+   "mame_set": "xmvsfjr3",
+   "title": "X-Men Vs. Street Fighter (Japan 960910)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfj.key"
+  },
+  {
+   "file": "xmvsfjr2.zip",
+   "size": 873615,
+   "sha256": "c2ed7860fa2662e850debc84de44e214751cbbcccf77fbbda8116dae8bc6c06b",
+   "mame_set": "xmvsfjr4",
+   "title": "X-Men Vs. Street Fighter (Japan 960909)",
+   "members": 4,
+   "members_matched_sha1": 4,
+   "renamed_members": [],
+   "missing_key": "xmvsfj.key"
+  },
+  {
+   "file": "xmvsfr1.zip",
+   "size": 623617,
+   "sha256": "9c20514da7422eb675eca1e7875d389b3d7c0d351729fcc0fc29a5e356e9fa08",
+   "mame_set": "xmvsfr1",
+   "title": "X-Men Vs. Street Fighter (Europe 960910)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsf.key"
+  },
+  {
+   "file": "xmvsfu.zip",
+   "size": 624038,
+   "sha256": "a112cf7be8b432a9607cd6d9d332326ecd1ce1d3d1bc41cad082748c8ee8c679",
+   "mame_set": "xmvsfu",
+   "title": "X-Men Vs. Street Fighter (USA 961023)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [],
+   "missing_key": "xmvsfu.key"
+  },
+  {
+   "file": "xmvsfur1.zip",
+   "size": 623991,
+   "sha256": "a21373d6107fecb66465ec57e88b7cc635fcc6851d203d2fd393e9621bcfafba",
+   "mame_set": "xmvsfur1",
+   "title": "X-Men Vs. Street Fighter (USA 961004)",
+   "members": 2,
+   "members_matched_sha1": 2,
+   "renamed_members": [
+    "xvsu.03h = xvsu.03i",
+    "xvsu.04h = xvsu.04i"
+   ],
+   "missing_key": "xmvsfu.key"
+  }
+ ]
+}
