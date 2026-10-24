@@ -12,7 +12,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Reverse-engineering experiments in progress: none.
 - Current milestone: **M5** (`RE-040`). Its breakdown was defined on 2026-10-24 as
   `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
-  against arcade slots).
+  against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
+  `nn`. Next is `RE-043` (exceptions register), which decides `RE-042`'s roster.
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1566,7 +1567,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-041 - Census Saturn quote files against arcade character slots
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M5
 - **Dependencies:** RE-030, REF-004.
 - **Blockers:** None. Offline only.
@@ -1586,13 +1587,23 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Notes:** No file is called a character until it matches. Arcade slots
   17-25 are Norimaro, bosses, and secret characters; a match there is an
   exception for `RE-043`, not scope.
+- **Evidence (2026-10-24, `EXP-0034`):**
+  - Every `MCnn` holds arcade slot `nn`'s whole Japanese block, byte-identical in
+    all three sets. The Saturn name table lists the same 26 characters in arcade
+    slot order.
+  - Structurally ordinary (18): `MC01`, `03`-`07`, `09`-`0B`, `0D`-`12`,
+    `14`-`16`.
+  - Irregular (5): `MC00`, `MC02` (+ slot 23), `MC08` (+ slot 24), `MC0C` (+ a
+    4-record table), and `MC13` (a 120-record table).
+  - The manifest is `data/text/coverage_manifest.json`.
 
 ### RE-042 - Record per-character pairing for the ordinary roster
 
 - **Status:** `BLOCKED`
 - **Milestone:** M5
-- **Dependencies:** RE-041.
-- **Blockers:** The ordinary roster is not yet established.
+- **Dependencies:** RE-041, RE-043.
+- **Blockers:** The roster depends on `RE-043`'s role decisions. Structural classes
+  are in `data/text/coverage_manifest.json`.
 - **Objective:** Apply the `GATE-TRANSLATION` policy to each ordinary character:
   Saturn record `k` gets official English entry `k & 7` of the matched slot.
 - **Rationale:** The policy requires per-character verification (table identity
@@ -1612,10 +1623,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-043 - Maintain the exceptions register
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-041.
-- **Blockers:** Classifications come from `RE-041`.
+- **Blockers:** None.
 - **Objective:** List every quote file or character excluded from M5, with the
   reason and the gated task that may take it up.
 - **Rationale:** Exceptions must stay explicit (`AGENTS.md` rule 24).
@@ -1626,6 +1637,14 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - No exception is translated or modified in M5.
 - **Outputs:** A section in `docs/text_system.md` (or a dedicated doc), linked from
   the coverage manifest.
+- **Input from `RE-041` (a proposal, not a decision):**
+  - Structurally ordinary, but special by role: `MC11` (slot 17, Norimaro),
+    `MC14` and `MC15` (slots 20 and 21, secret palette swaps), and `MC16` (slot 22,
+    Shadow).
+  - Bosses: `MC00` (slot 0) and `MC13` (slot 19), both irregular.
+  - Irregular but playable: `MC02` (Captain America + U.S. Agent), `MC08`
+    (Blackheart + Mephisto), and `MC0C` (Dhalsim + a 4-record table). Each needs
+    an in-or-out decision.
 
 ### RE-044 - Build the roster caption spec and check font capacity
 
