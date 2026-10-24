@@ -26,3 +26,11 @@ extracted unchanged into the ignored `local/disc_images/mshvsf_ps1_us/`.
 
 Identity is **CONFIRMED**: size, CRC-32, MD5, and SHA-1 all match the recorded
 fingerprint. `REF-005` can use it.
+
+## Win-Quote Text (`EXP-0032`)
+
+- `DAT/SELECT.BIN` holds the arcade's 26 English win-quote slot blocks
+  byte-identical, in little-endian code order.
+- The per-slot offsets and hashes are in
+  [`arcade_en_comparison.json`](arcade_en_comparison.json) (no text).
+- For Ryu, the PS1 English equals the arcade English.

@@ -2797,3 +2797,22 @@ Checks: documentation and metadata only.
 
 Checks: documentation and metadata only.
 
+## 2026-10-24 — REF-005 / EXP-0032: PS1 English equals arcade
+
+- Listed the PS1 disc (241 files) by extending `tools/disc/iso9660.py` to Mode 2
+  Form 1, with Form 2 (XA) files reported as unreadable. Added a test.
+- No ASCII win quotes. The arcade 16-bit codes, little-endian, matched in
+  `DAT/SELECT.BIN` and `DAT/SEL.ARC`.
+- All 26 arcade English slot blocks occur byte-identical in `SELECT.BIN`
+  (`tools/reference/ps1_text.py`; output committed as metadata). Ryu's PS1 English
+  equals the arcade's, and the Q10 record now has `ps1_us_text`.
+- Found two extra all-Latin PS1 blocks with no arcade match (`0x1376C`,
+  `0x13A8C`). This is a hypothesis for secret characters; text not read; deferred
+  to SPECIAL-001.
+- The Japanese Ryu table is absent from the US PS1 disc.
+- `GATE-TRANSLATION`: all dependencies are now `DONE`; it awaits the user's
+  go/no-go.
+
+Checks: pytest (156 passed), ruff check, ruff format --check, and strict mypy (66
+files), all passing.
+

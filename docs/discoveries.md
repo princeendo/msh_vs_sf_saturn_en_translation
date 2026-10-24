@@ -545,6 +545,20 @@ Experiment: `EXP-0031` (tasks `REF-003`, `REF-004`)
 - **Reproduce.** Run `tools/reference/quote_pairing.py`; metadata is in
   `data/text/ryu_arcade_pairing.json`.
 
+## EXP-0032: PS1 English Win-Quote Data Equals the Arcade's
+
+Confidence: **CONFIRMED** (data identity; PS1 display not captured)
+
+Experiment: `EXP-0032` (task `REF-005`)
+
+- **Finding.** The US PS1 release (`SLUS-00793`, Redump 12632) stores win quotes
+  in the arcade's 16-bit codes, little-endian, in `DAT/SELECT.BIN`. All 26 arcade
+  English slot blocks occur byte-identical; Ryu's slot 9 is at `0x1150C`.
+- **Extra blocks.** Two all-Latin blocks with no arcade counterpart follow
+  (`0x1376C`, `0x13A8C`).
+- **Reproduce.** Run `tools/reference/ps1_text.py`. The comparison is in
+  `references/mshvsf/ps1_us/arcade_en_comparison.json`.
+
 ## Entry Requirements
 
 Each future entry must include:

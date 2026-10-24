@@ -1,4 +1,4 @@
-"""Read-only inspection of a Mode 1/2352 data track and its ISO 9660 directory.
+"""Read-only inspection of a 2352-byte data track and its ISO 9660 directory.
 
 Raw sector layout (ECMA-130 Mode 1, as summarized in `docs/disc_layout.md`):
 
@@ -7,6 +7,11 @@ Raw sector layout (ECMA-130 Mode 1, as summarized in `docs/disc_layout.md`):
 * byte 15: mode;
 * bytes 16-2063: user data;
 * the remaining bytes: EDC/ECC (not checked here).
+
+Mode 2 Form 1 sectors (CD-ROM XA, used by PlayStation discs) carry an 8-byte
+subheader at bytes 16-23 and user data at bytes 24-2071; the subheader's
+submode bit 5 is clear for Form 1. Form 2 sectors (XA audio or video) have no
+2048-byte user area and are rejected.
 
 ISO 9660 fields follow ECMA-119:
 
@@ -101,9 +106,13 @@ class Track:
             raise DiscFormatError(f"LSN {lsn} is outside the track")
         self.stream.seek(lsn * RAW_SECTOR)
         raw = self.stream.read(RAW_SECTOR)
-        if raw[:12] != SYNC or raw[15] != 1:
-            raise DiscFormatError(f"LSN {lsn} is not a Mode 1 sector")
-        return raw[16 : 16 + USER_DATA]
+        if raw[:12] != SYNC:
+            raise DiscFormatError(f"LSN {lsn} has no sync pattern")
+        if raw[15] == 1:
+            return raw[16 : 16 + USER_DATA]
+        if raw[15] == 2 and not raw[18] & 0x20:
+            return raw[24 : 24 + USER_DATA]
+        raise DiscFormatError(f"LSN {lsn} is not a Mode 1 or Mode 2 Form 1 sector")
 
     def read(self, lsn: int, length: int) -> bytes:
         count = (length + USER_DATA - 1) // USER_DATA
@@ -177,9 +186,11 @@ def walk(track: Track, lsn: int, size: int, parent: str = "") -> Iterator[Entry]
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Inspect a Mode 1/2352 track and list its ISO 9660 files."
+        description="Inspect a 2352-byte data track and list its ISO 9660 files."
     )
-    parser.add_argument("track", type=Path, help="Mode 1/2352 BIN track (read only)")
+    parser.add_argument(
+        "track", type=Path, help="Mode 1 or Mode 2 Form 1 BIN track (read only)"
+    )
     parser.add_argument(
         "--check", action="store_true", help="validate every sector header"
     )
@@ -217,7 +228,13 @@ def main(argv: Sequence[str] | None = None) -> int:
                 record: dict[str, object] = asdict(entry)
                 record["is_dir"] = entry.is_dir
                 if not entry.is_dir:
-                    content = track.read(entry.lsn, entry.size_bytes)
+                    try:
+                        content = track.read(entry.lsn, entry.size_bytes)
+                    except DiscFormatError as error:
+                        record["sha256"] = None
+                        record["unreadable"] = str(error)
+                        files.append(record)
+                        continue
                     record["sha256"] = hashlib.sha256(content).hexdigest()
                     if args.extract is not None:
                         target = args.extract / entry.path.split(";")[0]

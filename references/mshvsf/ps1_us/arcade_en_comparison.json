@@ -1,0 +1,188 @@
+{
+ "ps1_file": "DAT/SELECT.BIN;1",
+ "ps1_file_sha256": "c78b150212b1f1a7d249f99def93ecada338821ce8631cd185a167b1ad452a74",
+ "rows": [
+  {
+   "slot": 0,
+   "arcade_address": "0x219e00",
+   "block_sha256": "c07b07412c6d3465eac3fbe4619330d60b899205145988920079cb10afaf6934",
+   "ps1_offset": "0x0f8ec",
+   "quotes_found": 8
+  },
+  {
+   "slot": 1,
+   "arcade_address": "0x21a120",
+   "block_sha256": "8d5f3e99de8f0ce6263eef553339e0314d39f64af6d2e1774511245b71717894",
+   "ps1_offset": "0x0fc0c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 2,
+   "arcade_address": "0x21a440",
+   "block_sha256": "ef89cc8c2a12ca383999e030d2a26d887806fce32c87bc00a04f772ec24de830",
+   "ps1_offset": "0x0ff2c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 3,
+   "arcade_address": "0x21a760",
+   "block_sha256": "a2507c380ce78db935f01281e8343a783f6c93788cdafc51c36c879f2dd5824d",
+   "ps1_offset": "0x1024c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 4,
+   "arcade_address": "0x21aa80",
+   "block_sha256": "402d493c76c6acc3fc3d775867b09016f4388437e417b5f9baeeb556e18afaed",
+   "ps1_offset": "0x1056c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 5,
+   "arcade_address": "0x21ada0",
+   "block_sha256": "0343571896a83faa2ef4e5d7b25d6ad7a6c64efb20067827c5cdec29e9de5ec4",
+   "ps1_offset": "0x1088c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 6,
+   "arcade_address": "0x21b0c0",
+   "block_sha256": "401fb64d9ee683bcbf9c10e42b8ed46e927022a8402ba1d2009240760d4330e0",
+   "ps1_offset": "0x10bac",
+   "quotes_found": 8
+  },
+  {
+   "slot": 7,
+   "arcade_address": "0x21b3e0",
+   "block_sha256": "0ce2effdfd023547050765268afefcae606ddacb5a48c4e67e63405dd258c58c",
+   "ps1_offset": "0x10ecc",
+   "quotes_found": 8
+  },
+  {
+   "slot": 8,
+   "arcade_address": "0x21b700",
+   "block_sha256": "42f2def505f7b73d65434fe3778e6fdd22cdf6790bbe917c0dac3433ccfb56b9",
+   "ps1_offset": "0x111ec",
+   "quotes_found": 8
+  },
+  {
+   "slot": 9,
+   "arcade_address": "0x21ba20",
+   "block_sha256": "802eb358162521322f455f2f54c8cd3d70106fc11cfc599a8f731d8af7e4d995",
+   "ps1_offset": "0x1150c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 10,
+   "arcade_address": "0x21bd40",
+   "block_sha256": "26e004739f0793a4ed42fe1cc99184f6766504ca8d6be97785ba8ccc473139e0",
+   "ps1_offset": "0x1182c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 11,
+   "arcade_address": "0x21c060",
+   "block_sha256": "67f6f7cb4a0fa06d896a1010c033067410ed7f653129cd8744c46f21d45f8e06",
+   "ps1_offset": "0x11b4c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 12,
+   "arcade_address": "0x21c380",
+   "block_sha256": "ea72b53a1f178f5ad20b89bb58945f5d26193e46d3be2fb8acce4f94bddfbabc",
+   "ps1_offset": "0x11e6c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 13,
+   "arcade_address": "0x21c6a0",
+   "block_sha256": "090c98056682336495d1a5010ec44293f6b8772e117eb4a415be195abbe107dd",
+   "ps1_offset": "0x1218c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 14,
+   "arcade_address": "0x21c9c0",
+   "block_sha256": "26f427ff518402505a422609c4cfda75e9d5e8f61a202f59a1bc5e1c6507e088",
+   "ps1_offset": "0x124ac",
+   "quotes_found": 8
+  },
+  {
+   "slot": 15,
+   "arcade_address": "0x21cce0",
+   "block_sha256": "02b85ff307bad4fa671529e1fdbe2c80de6e976da0d6a3d0bc6491f4c044fe89",
+   "ps1_offset": "0x127cc",
+   "quotes_found": 8
+  },
+  {
+   "slot": 16,
+   "arcade_address": "0x21d000",
+   "block_sha256": "a9f74e6b46b13c0c36c6e23376fa75c00bea7bedaaaaeab0bfdc88a4d0eccd47",
+   "ps1_offset": "0x12aec",
+   "quotes_found": 8
+  },
+  {
+   "slot": 17,
+   "arcade_address": "0x21d320",
+   "block_sha256": "cb2acd6f2527d83181cc4cac9663bd3b8d74607594cf461a08e3cad59b6af975",
+   "ps1_offset": "0x12e0c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 18,
+   "arcade_address": "0x21d640",
+   "block_sha256": "f653ae0a479ff457b449610e8eb08d54a2cb9d025ee6e7c4487ed0d7362ae220",
+   "ps1_offset": "0x1312c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 19,
+   "arcade_address": "0x21d960",
+   "block_sha256": "1e2bf31026fbe1325b5cb26c00359da9b1e10101666eb3feeef89673f71ebc17",
+   "ps1_offset": "0x1344c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 20,
+   "arcade_address": "0x21c6a0",
+   "block_sha256": "090c98056682336495d1a5010ec44293f6b8772e117eb4a415be195abbe107dd",
+   "ps1_offset": "0x1218c",
+   "quotes_found": 8
+  },
+  {
+   "slot": 21,
+   "arcade_address": "0x21d000",
+   "block_sha256": "a9f74e6b46b13c0c36c6e23376fa75c00bea7bedaaaaeab0bfdc88a4d0eccd47",
+   "ps1_offset": "0x12aec",
+   "quotes_found": 8
+  },
+  {
+   "slot": 22,
+   "arcade_address": "0x21dc80",
+   "block_sha256": "c1a0de814825c407b7f66fe8169bf3f28809a13bd9b83f899d4d5a1e33a52d72",
+   "ps1_offset": "0x13dac",
+   "quotes_found": 8
+  },
+  {
+   "slot": 23,
+   "arcade_address": "0x21dfa0",
+   "block_sha256": "66783c33549c7aeda7e796dd78c0a8ea2b479211ce657c5b00e6928e99c277e3",
+   "ps1_offset": "0x140cc",
+   "quotes_found": 8
+  },
+  {
+   "slot": 24,
+   "arcade_address": "0x21e2c0",
+   "block_sha256": "062e97f912cc1df9db59e09fa2fad5de30cab23e27f36ab45c3f391ab7e2154c",
+   "ps1_offset": "0x143ec",
+   "quotes_found": 8
+  },
+  {
+   "slot": 25,
+   "arcade_address": "0x21b3e0",
+   "block_sha256": "0ce2effdfd023547050765268afefcae606ddacb5a48c4e67e63405dd258c58c",
+   "ps1_offset": "0x10ecc",
+   "quotes_found": 8
+  }
+ ]
+}

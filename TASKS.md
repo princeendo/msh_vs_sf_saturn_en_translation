@@ -21,9 +21,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `EXP-0030`): the decoded arcade quotes match the screen, and Ryu's are slot 9.
   `REF-003`, `REF-004`, and `REF-006` are done (2026-10-24, `EXP-0031`). Saturn Ryu
   record `k` pairs with official arcade English entry `k & 7` by game logic.
-  DOC-007 and DOC-008 are done. `GATE-TRANSLATION` now needs only REF-005, whose
-  PS1 image was supplied and verified on 2026-10-24 (`REF-011`). The 16-to-8 policy
-  is decided.
+  DOC-007, DOC-008, and REF-005 are done (`EXP-0032`: PS1 English equals the
+  arcade's). `GATE-TRANSLATION` dependencies are all met; it awaits the user's
+  go/no-go. The 16-to-8 policy is decided.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -559,7 +559,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-005 - Record PS1 English equivalent if useful
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** REF-004.
 - **Blockers:** None. The legal `SLUS-00793` image is now held and matches the
@@ -569,6 +569,14 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** Provenance, exact text/context, comparison, and uncertainty are recorded, or a documented decision explains why it is not useful.
 - **Outputs:** Updated translation record.
 - **Notes:** Do not infer shared binary structures.
+- **Evidence (2026-10-24, `EXP-0032`):**
+  - The US PS1 `DAT/SELECT.BIN` holds all 26 arcade English slot blocks,
+    byte-identical in little-endian code order. Ryu's slot 9 is at `0x1150C`.
+  - So Ryu's PS1 English equals the arcade English (Q10 record updated). This
+    adds no new wording evidence.
+  - The PS1 display was not captured (documented as not useful here).
+  - Two extra PS1-only English blocks (likely secret characters) are deferred to
+    `SPECIAL-001`.
 
 ### REF-006 - Capture Japanese arcade material if useful
 
@@ -1018,8 +1026,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Milestone:** M0
 - **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
 - **Blockers:** Listed reference and documentation tasks are not all `DONE`.
-  REF-003, REF-004, REF-006, DOC-007, and DOC-008 are done (2026-10-24). Only
-  REF-005 remains, and its PS1 image is now held (`REF-011`). The 16-to-8 English policy was decided by the user on
+  Every dependency is `DONE` (REF-005 on 2026-10-24, `EXP-0032`), and optional
+  REF-006 has evidence. The gate's acceptance criteria are met; it awaits the
+  explicit go/no-go decision this task requires. The 16-to-8 English policy was decided by the user on
   2026-10-24: official paired English (see Notes).
 - **Objective:** Make an explicit go/no-go decision before any task writes or
   proposes English replacement text.

@@ -142,3 +142,20 @@ def test_main_reports_and_extracts(
     assert (out / "SUB" / "B.DAT").read_bytes() == b"X" * 2048 + b"YZ"
     assert stream.stat().st_size == 24 * 2048
     assert track_path.read_bytes() == make_image()
+
+
+def mode2_sector(user: bytes, form2: bool = False) -> bytes:
+    header = bytes(3) + b"\x02"
+    submode = 0x20 if form2 else 0x08
+    subheader = bytes([0, 0, submode, 0]) * 2
+    body = user.ljust(2048, b"\x00")
+    return SYNC + header + subheader + body + bytes(RAW_SECTOR - 24 - 2048)
+
+
+def test_track_reads_mode2_form1_and_rejects_form2() -> None:
+    image = mode2_sector(b"form one data") + mode2_sector(b"audio", form2=True)
+    track = Track(io.BytesIO(image), len(image))
+
+    assert track.user(0).startswith(b"form one data")
+    with pytest.raises(DiscFormatError, match="Mode 2 Form 1"):
+        track.user(1)
