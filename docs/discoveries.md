@@ -503,6 +503,26 @@ Experiment: `EXP-0029`
   `SUPPORTED`, not confirmed. Wording becomes a quote source only after a MAME
   capture (`REF-010`).
 
+## EXP-0030: Arcade Win Quotes on Screen Come From the Decoded Table
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0030` (task `REF-010`)
+
+- **Finding.** In MAME 0.289, the arcade win-quote screen draws its two lines
+  directly from the `EXP-0029` table. That includes the centering spaces.
+- **Pointer.** While a quote is shown, work RAM `0xFF249C` holds the displayed
+  entry's ROM address.
+- **Ryu.** Ryu's quotes are slot 9 (`0x21BA20`). Quotes 6 and 7 were captured on
+  `mshvsfu`, and quote 6 is pixel-identical on `mshvsf`.
+- **Slots.** Slots 5, 6, 11, 12, 13, and 16 were also seen, matching the name
+  list.
+- **Reproduce.** The route is scripted with `tools/reference/arcade_route.py` and
+  `tools/reference/mame_timeline.lua`. Snapshot hashes, pointer values, and
+  commands are in `research/experiments/EXP-0030/README.md`.
+- **Limits.** Six of Ryu's eight quotes and the other 19 slots are not observed on
+  screen. English only. The quote-selection rule is unknown.
+
 ## Entry Requirements
 
 Each future entry must include:

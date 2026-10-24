@@ -17,8 +17,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
-  three sets verify and boot in MAME 0.289. Next reference task: `REF-010`
-  (confirm the quotes on screen).
+  three sets verify and boot in MAME 0.289. `REF-010` is done (2026-10-24,
+  `EXP-0030`): the decoded arcade quotes match the screen, and Ryu's are slot 9.
+  The remaining translation gate is `REF-003`, then `REF-004`: pairing Saturn
+  Japanese captions with these English quotes.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -512,8 +514,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   identities against the MAME catalog before use. The sets (EU, US, and JP) are now
   in `local/arcade_roms/mshvsf/`; see `references/mshvsf/arcade/README.md`. Their
   audit and regional-difference documentation is `REF-008`. `EXP-0029` decoded the
-  arcade English win quotes from ROM data. Ryu is likely slot 9, block `0x21BA20`
-  (`SUPPORTED`); on-screen confirmation is `REF-010`. Because Saturn quote
+  arcade English win quotes from ROM data. Ryu's quotes are slot 9, block
+  `0x21BA20`, and are capture-backed by `REF-010` (`EXP-0030`). Pairing them with
+  Saturn Japanese captions is still open. Because Saturn quote
   selection varies after the KO (`EXP-0009`), correspondence may need memory-level
   evidence, such as a quote index, rather than a reproduced context.
 
@@ -654,11 +657,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-010 - Confirm the arcade win-quote slot mapping on screen
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0 (reference text; no reverse engineering)
 - **Dependencies:** REF-009, EXP-0029.
-- **Blockers:** None. `REF-009` is done. Reaching a win-quote screen needs
-  gameplay or scripted inputs, and the route is not yet designed.
+- **Blockers:** None.
 - **Objective:** Turn the `EXP-0029` ROM-data quotes into capture-backed official
   English. Confirm that slot order follows the name list (Ryu = slot 9), and that
   displayed lines match the decoded blocks.
@@ -675,6 +677,15 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   translation-record updates under `REF-004`.
 - **Notes:** Keep Norimaro and secret-character captures out of scope
   (`SPECIAL-001`).
+- **Evidence (2026-10-24, `EXP-0030`):**
+  - Scripted MAME routes (`tools/reference/arcade_route.py` and
+    `mame_timeline.lua`) reached Ryu's win screen on `mshvsfu`.
+  - Slot 9 quotes 6 and 7 matched line for line. RAM `0xFF249C` held each entry's
+    address, and the snapshots are deterministic.
+  - The European `mshvsf` showed quote 6 pixel-identically.
+  - Winners in slots 5, 6, 11, 12, 13, and 16 matched the name list.
+  - Settings: default EEPROM (2 coins per credit; Easy and Normal timed out),
+    English.
 
 ## Phase E: Checkpoints And Memory Analysis
 

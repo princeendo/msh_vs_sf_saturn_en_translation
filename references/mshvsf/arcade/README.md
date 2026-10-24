@@ -124,6 +124,15 @@ SNAP_FRAMES="1200 3000" mame mshvsfu -rompath local/arcade_roms/mshvsf -video no
 - No local `mshvsfu1` (USA 970625) exists. The capture protocol's two-revision
   comparison is limited to `mshvsfu` until one is supplied.
 
+### On-Screen Confirmation (`EXP-0030`)
+
+- Scripted MAME runs reached Ryu's win screen. The displayed quotes matched
+  decoded slot 9 entries 6 and 7 line for line, and RAM pointed at those entries.
+- The European set showed entry 6 pixel-identically to the US set.
+- Winners in slots 5, 6, 11, 12, 13, and 16 also matched the name list. The
+  decoded table is therefore a capture-backed source for official arcade English;
+  unobserved entries rest on the confirmed layout.
+
 ## What They Are For
 
 1. **Exact English quotes.** All three sets hold the official English post-fight
