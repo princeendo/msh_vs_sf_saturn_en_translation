@@ -109,9 +109,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Which display languages does each local set offer? All three store identical
   English, Spanish, and Portuguese quote text (`EXP-0029`); what selects one is
   untested.
-- Does the arcade win-quote slot order match the name list (Ryu = slot 9)? How are
-  the 8 quotes in a slot chosen? How is the arcade Japanese text (`0x08xx`) encoded,
-  and where is its quote table?
+- Slot order matches the name list for 7 observed slots, including Ryu = 9
+  (`EXP-0030`). Still open: how are the 8 quotes in a slot chosen? How is the
+  arcade Japanese text (`0x08xx`) encoded, and where is its quote table? Do inputs
+  held at a quote screen skip it?
 - Do the arcade's 8 quotes per character relate to the Saturn's 16 Ryu records?
   The counts differ; nothing is assumed.
 - Do the European and US English wordings agree line for line?
