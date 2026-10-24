@@ -117,9 +117,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Do the European and US English wordings agree line for line?
 - Which arcade ROM members hold post-fight text, and in what form? Answered for
   Latin text by `EXP-0029` (`mvs.07b`, 16-bit codes); still open for Japanese.
-- Stock MAME 0.289 (`-verifyroms`) rejects all three local sets. Each is missing
-  its `.key` file and the QSound device ROM `dl-1425.bin`. Would the sets boot once
-  both are supplied?
+- Answered (`REF-009`): with the keys and `dl-1425.bin`, all three sets verify
+  and boot in MAME 0.289. Still open: how is the arcade language setting chosen
+  (RC-7), and does the European set offer more than English?
 
 Record competing explanations and the smallest discriminating experiment in
 `research_log.md`. Move only confirmed answers to the appropriate technical document

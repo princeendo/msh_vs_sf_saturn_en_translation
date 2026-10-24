@@ -16,9 +16,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   Ken, then KO with Ryu. Full English still waits on `GATE-TRANSLATION`.
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
-  from ROM data (Ryu = slot 9, `SUPPORTED`). Confirming them on screen needs
-  `REF-009` and then `REF-010`. MAME 0.289 is installed, but the user must supply
-  the `.key` files and `dl-1425.bin`.
+  from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
+  three sets verify and boot in MAME 0.289. Next reference task: `REF-010`
+  (confirm the quotes on screen).
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -614,12 +614,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-009 - Pin a MAME build and complete the arcade sets for capture
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0 (reference tooling; no reverse engineering)
 - **Dependencies:** REF-008.
-- **Blockers:** The three CPS-II `.key` files and the QSound device ROM
-  `dl-1425.bin` (`qsound.zip`) are missing. The user must supply legal copies;
-  agents must not download ROM or key files.
+- **Blockers:** None. The user supplied the keys and `qsound.zip` on 2026-10-24.
+  Agents must not download ROM or key files.
 - **Objective:** Make the local European, US, and Japanese sets run in a pinned,
   recorded MAME build, so `REF-004` can capture English quotes.
 - **Rationale:** Wording counts as evidence only from a captured frame of an
@@ -642,13 +641,24 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - `mame -rompath local/arcade_roms/mshvsf -verifyroms mshvsf mshvsfu mshvsfj`
     reports 0 of 3 sets OK. Each lacks `<set>.key` and `dl-1425.bin` (24,576
     bytes).
+- **Evidence (2026-10-24):**
+  - The key and `dl-1425.bin` hashes match MAME 0.289. They are copied to the
+    ignored `local/arcade_roms/mshvsf/<set>/` and `qsound.zip`; the zips are
+    unchanged.
+  - `-verifyroms`: 3 of 3 OK.
+  - All three sets boot headless to the title screen
+    (`tools/reference/mame_snap_frames.lua`). Frame-3000 snapshot hashes are in
+    `references/mshvsf/arcade/README.md`. A repeat `mshvsfu` run reproduced them
+    bit for bit.
+  - No `mshvsfu1` is held; that is recorded as a limit.
 
 ### REF-010 - Confirm the arcade win-quote slot mapping on screen
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0 (reference text; no reverse engineering)
 - **Dependencies:** REF-009, EXP-0029.
-- **Blockers:** MAME cannot run the sets until `REF-009` is done.
+- **Blockers:** None. `REF-009` is done. Reaching a win-quote screen needs
+  gameplay or scripted inputs, and the route is not yet designed.
 - **Objective:** Turn the `EXP-0029` ROM-data quotes into capture-backed official
   English. Confirm that slot order follows the name list (Ryu = slot 9), and that
   displayed lines match the decoded blocks.
