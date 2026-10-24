@@ -14,8 +14,8 @@ Their details and limits are below and in `docs/discoveries.md`.
 
 Still **UNKNOWN**: endings, menus, and other text surfaces; the per-screen WRAM-H
 buffer (`0x060ED80A`) and the VDP1 glyph path (both `SUPPORTED`, from `EXP-0012` and
-`EXP-0013`); and other characters' tables. Ken's table is located (`MC0A.PAC` at
-`0xA59C`, offline in `EXP-0028` Phase A), but its live check (Phase B) is on hold.
+`EXP-0013`); and other characters' tables beyond Ryu and Ken. Ken's table
+(`MC0A.PAC` at `0xA59C`) was verified live in `EXP-0028` Phase B (RE-030).
 
 ## Confirmed Components
 

@@ -10,8 +10,9 @@ reference facts** (what outside documents say).
 
 ## Where Things Stand
 
-- Milestone M4 (second fighter, Ken). `RE-030` / `EXP-0028` Phase B is on hold;
-  resume steps are in `research/experiments/EXP-0028/README.md`.
+- Milestone M4 is complete (2026-10-24): Ken works through the generalized
+  mechanism (`RE-030`, `EXP-0028`). M5 (`RE-040`) needs detailed tasks before work
+  starts.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
@@ -36,8 +37,8 @@ All are **CONFIRMED** in `docs/discoveries.md` unless marked otherwise.
   select, with the table at decoded `0x91AC` (DISC-001).
   - Same-size re-encoding and image rebuild reproduce edits from an untouched
     source (DISC-002, M2).
-  - Ken's table is in `MC0A.PAC` at `0xA59C`. This is offline only; the live check
-    in `EXP-0028` Phase B is on hold.
+  - Ken's table is in `MC0A.PAC` at `0xA59C`, verified live with Ryu in one image
+    (RE-030). It is byte-identical to the arcade Japanese slot 10.
 - **Font.**
   - The quote font is stored verbatim as `MEMFIX.PAC` entry 4 and loaded into cart
     RAM (FONT-001, LAYOUT-001 A).

@@ -2851,3 +2851,22 @@ Checks: documentation and JSON only; Q10 re-parsed as valid JSON.
 Checks: pytest (161 passed), ruff check, ruff format --check, and strict mypy (69
 files), all passing.
 
+## 2026-10-24 — Ken pairing verified; EXP-0028 Phase B done (M4 complete)
+
+- Ken pairing: `quote_pairing.py --saturn-pac MC0A.PAC --saturn-table 0xA59C
+  --slot 10` shows the table byte-identical to the arcade Japanese slot 10
+  (`0x20F26C`) in all three sets. The remap is slot-independent (`EXP-0031`
+  routine). Metadata is in `data/text/ken_arcade_pairing.json`. Ken-specific
+  arcade display was not captured.
+- Rebuilt `build/exp0028a`; it is identical (`c3990fa5…`) after today's
+  pair-font changes.
+- Phase B live: two sequential captures, with an agent `run` between them so the
+  game doesn't freeze after the first.
+  - The user did one session (Ken KO, then Ryu KO). Natural records: Ken 10 at
+    `0x0020A59C`, Ryu 11 at `0x002191AC`.
+  - 32 forced plus 2 natural captures: 34/34 `verify_records` OK. Placeholders
+    expanded to the partner names, and every screenshot was read.
+- `RE-030` and M4 are `DONE`. M5 (`RE-040`) needs detailed tasks next.
+
+Checks: no code changed in this step; pytest (161 passed).
+
