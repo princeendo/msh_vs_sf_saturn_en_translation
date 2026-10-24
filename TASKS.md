@@ -970,8 +970,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
 - **Blockers:** Listed reference and documentation tasks are not all `DONE`.
   REF-003, REF-004, and REF-006 are done (2026-10-24). DOC-007, DOC-008, and
-  REF-005 remain. The 16-to-8 English policy (`EXP-0031`) also needs a user
-  decision here.
+  REF-005 remain. The 16-to-8 English policy was decided by the user on
+  2026-10-24: official paired English (see Notes).
 - **Objective:** Make an explicit go/no-go decision before any task writes or
   proposes English replacement text.
 - **Rationale:** The source quote must be reviewed and the official English must be
@@ -981,6 +981,16 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   evidence or a documented rejection.
 - **Outputs:** Gate acceptance entry.
 - **Notes:** Created 2026-10-15 by splitting the original GATE-M0.
+- **Policy decision (user, 2026-10-24):** Saturn win-quote record `k` uses the
+  official arcade English entry `k & 7`, the line the arcade shows in the same
+  selection state (`EXP-0031`). Each English line appears for two Saturn records
+  (`k` and `k + 8`), even where the meanings differ.
+  - The policy applies to Ryu now. Other characters follow it only after their
+    table identity and remap are verified the same way.
+  - `preferred_english` is filled from `arcade_us_text` once this gate passes.
+  - Measured constraint: the paired English lines are up to 25 characters, and a
+    Saturn line has 19 cells. Fitting them depends on the pair-glyph work
+    (`LAYOUT-001`, `FONT-003`).
 
 ## Gated Reverse Engineering
 
