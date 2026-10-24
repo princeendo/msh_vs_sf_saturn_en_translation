@@ -13,7 +13,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - Current milestone: **M5** (`RE-040`). Its breakdown was defined on 2026-10-24 as
   `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
   against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
-  `nn`. Next is `RE-043` (exceptions register), which decides `RE-042`'s roster.
+  `nn`. `RE-043` is done (17-character roster, `docs/coverage_exceptions.md`). Next
+  is `RE-042` (per-character pairing).
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1599,11 +1600,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-042 - Record per-character pairing for the ordinary roster
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-041, RE-043.
-- **Blockers:** The roster depends on `RE-043`'s role decisions. Structural classes
-  are in `data/text/coverage_manifest.json`.
+- **Blockers:** None. The roster is `data/text/m5_roster.json` (17 characters).
 - **Objective:** Apply the `GATE-TRANSLATION` policy to each ordinary character:
   Saturn record `k` gets official English entry `k & 7` of the matched slot.
 - **Rationale:** The policy requires per-character verification (table identity
@@ -1623,7 +1623,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-043 - Maintain the exceptions register
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M5
 - **Dependencies:** RE-041.
 - **Blockers:** None.
@@ -1645,6 +1645,13 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Irregular but playable: `MC02` (Captain America + U.S. Agent), `MC08`
     (Blackheart + Mephisto), and `MC0C` (Dhalsim + a 4-record table). Each needs
     an in-or-out decision.
+- **Evidence (2026-10-24):**
+  - The user chose the 17-character roster (slots 1-16 and 18; Captain America,
+    Blackheart, and Dhalsim by their own blocks only). Norimaro, secret
+    characters, Shadow, and bosses are excluded. Slot 25 sharing Spider-Man's
+    English is accepted.
+  - The register is `docs/coverage_exceptions.md`; the roster is
+    `data/text/m5_roster.json`.
 
 ### RE-044 - Build the roster caption spec and check font capacity
 

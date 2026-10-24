@@ -1,0 +1,134 @@
+{
+ "description": "M5 roster (RE-043, user decision 2026-10-24): 14 structurally ordinary playable characters plus Captain America, Blackheart and Dhalsim (their own slot blocks only). Input for RE-042/RE-044.",
+ "decision": "Use the 17-character roster: the 14 ordinary playable characters plus Captain America, Blackheart and Dhalsim (their own blocks only). Exclude Norimaro, secrets, Shadow and bosses; accept that Spider-Man's English also covers Armored Spider-Man.",
+ "source": "data/text/coverage_manifest.json (EXP-0034)",
+ "characters": [
+  {
+   "slot": 1,
+   "arcade_name": "CYCLOPS",
+   "file": "MC01.PAC",
+   "table": "0xAC50",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 2,
+   "arcade_name": "CAPTAIN AMERICA",
+   "file": "MC02.PAC",
+   "table": "0xD6D8",
+   "file_class": "irregular"
+  },
+  {
+   "slot": 3,
+   "arcade_name": "HULK",
+   "file": "MC03.PAC",
+   "table": "0x9C1C",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 4,
+   "arcade_name": "WOLVERINE",
+   "file": "MC04.PAC",
+   "table": "0xC2B4",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 5,
+   "arcade_name": "SHUMA-GORATH",
+   "file": "MC05.PAC",
+   "table": "0xA06C",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 6,
+   "arcade_name": "OMEGA RED",
+   "file": "MC06.PAC",
+   "table": "0x9FF0",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 7,
+   "arcade_name": "SPIDER-MAN",
+   "file": "MC07.PAC",
+   "table": "0xD160",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 8,
+   "arcade_name": "BLACKHEART",
+   "file": "MC08.PAC",
+   "table": "0xAA24",
+   "file_class": "irregular"
+  },
+  {
+   "slot": 9,
+   "arcade_name": "RYU",
+   "file": "MC09.PAC",
+   "table": "0x91AC",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 10,
+   "arcade_name": "KEN",
+   "file": "MC0A.PAC",
+   "table": "0xA59C",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 11,
+   "arcade_name": "CHUN-LI",
+   "file": "MC0B.PAC",
+   "table": "0x9B58",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 12,
+   "arcade_name": "DHALSIM",
+   "file": "MC0C.PAC",
+   "table": "0xAA88",
+   "file_class": "irregular"
+  },
+  {
+   "slot": 13,
+   "arcade_name": "ZANGIEF",
+   "file": "MC0D.PAC",
+   "table": "0xC7F4",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 14,
+   "arcade_name": "BISON",
+   "file": "MC0E.PAC",
+   "table": "0x9BDC",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 15,
+   "arcade_name": "AKUMA",
+   "file": "MC0F.PAC",
+   "table": "0xA658",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 16,
+   "arcade_name": "SAKURA",
+   "file": "MC10.PAC",
+   "table": "0xB718",
+   "file_class": "ordinary"
+  },
+  {
+   "slot": 18,
+   "arcade_name": "DAN",
+   "file": "MC12.PAC",
+   "table": "0x9198",
+   "file_class": "ordinary"
+  }
+ ],
+ "incidental": [
+  {
+   "slot": 25,
+   "arcade_name": "SPIDER-MAN (2nd)",
+   "via": "MC07.PAC block shared with slot 7 (Saturn and arcade)",
+   "accepted": true
+  }
+ ]
+}
