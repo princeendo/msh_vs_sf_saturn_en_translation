@@ -33,7 +33,9 @@ dates.
 
 ## Audit Against MAME 0.289
 
-Reproduce with the pinned driver source (977,277 bytes; the SHA-256 is checked):
+Reproduce with the pinned driver source (977,277 bytes; the SHA-256 is checked).
+Since `RE-047` a copy is kept at the ignored `local/mame_src/cps2.cpp`; use that
+path in place of `/tmp/cps2.cpp` when it is present:
 
 ```bash
 curl -sSfLo /tmp/cps2.cpp https://raw.githubusercontent.com/mamedev/mame/f34f02505e32c1993c6a782b6814232cbfc74e36/src/mame/capcom/cps2.cpp

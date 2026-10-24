@@ -3101,3 +3101,18 @@ files), all passing.
 Checks: pytest (182 passed, 1 skipped by default; the local test passes with
 `MSHVSF_REGRESSION=1`), ruff check, ruff format --check, and strict mypy (79
 files), all passing.
+
+## 2026-10-24 — RE-047 follow-up: spec regeneration checked
+
+- With the user's approval, fetched the pinned MAME 0.289 `cps2.cpp` (commit
+  `f34f0250…`) to the ignored `local/mame_src/cps2.cpp`: 977,277 bytes, SHA-256
+  `a8c09ef8…e861602`, matching `docs/references.md`.
+- `reference_builds --driver local/mame_src/cps2.cpp`: `official_captions.py`
+  regenerated the `tr001` and roster specs from `mshvsfu.zip`, byte-identical to
+  the baseline hashes. All four references pass. The report now shows each spec's
+  source (`stored` for committed marker specs, `regenerated` for arcade-derived
+  ones).
+- The arcade README notes the kept driver path.
+
+Checks: pytest (182 passed, 1 skipped), ruff check, ruff format --check, and
+strict mypy, all passing.
