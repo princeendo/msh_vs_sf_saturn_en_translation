@@ -22,8 +22,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `REF-003`, `REF-004`, and `REF-006` are done (2026-10-24, `EXP-0031`). Saturn Ryu
   record `k` pairs with official arcade English entry `k & 7` by game logic.
   DOC-007, DOC-008, and REF-005 are done (`EXP-0032`: PS1 English equals the
-  arcade's). `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's captions may
-  use the paired official English. `TR-001` (build them) is `READY`.
+  arcade's). `GATE-TRANSLATION` passed on 2026-10-24 (user GO). `TR-001` is done
+  (`EXP-0033`): an image showing all 16 Ryu win quotes in official English was
+  verified live.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -1059,7 +1060,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### TR-001 - Build Ryu's official-English win-quote captions
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M3 follow-up. It applies the confirmed Ryu caption pipeline to
   approved text; no new mechanism is investigated.
 - **Dependencies:** GATE-TRANSLATION, RE-022, RE-024, FONT-003, REF-004.
@@ -1085,6 +1086,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     lines, is "minimal text" under `data/translations/README.md`, or stays local
     with only hashes committed.
   - The Ken work (`RE-030`, M4) stays on hold until resumed.
+- **Evidence (2026-10-24, `EXP-0033`):**
+  - The spec is generated from the local arcade ROM by
+    `tools/text/official_captions.py`. Only the tool and hashes are committed (spec
+    SHA-256 `aa7fa863…04eb`). This resolves the "minimal text" question.
+  - Arcade line breaks are kept and centred in whole blank cells; no wrapping was
+    needed (two characters per cell).
+  - Capacity: 95 pairs in 248 free codes, 3,669 bytes. The build is deterministic
+    (track 01 `2941a9c5…`).
+  - All 16 records were verified live after one user KO, IoU 1.0.
+  - Supporting changes: `.` → `0x08AB` and `,` → `0x08AC` in `pair_font.py` and
+    the schema. `verify_records.py` now accepts code-identical screen ties.
 
 ## Gated Reverse Engineering
 

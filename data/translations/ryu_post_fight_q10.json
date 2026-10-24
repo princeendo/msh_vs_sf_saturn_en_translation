@@ -40,6 +40,10 @@
     {
       "reference": "EXP-0032: SLUS-00793 DAT/SELECT.BIN (SHA-256 c78b150212b1f1a7…) contains arcade slot 9's 800-byte English block byte-identical (16-bit codes, little-endian) at offset 0x1150C",
       "supports": "ps1_us_text equals arcade_us_text (data identity; PS1 display not captured)"
+    },
+    {
+      "reference": "EXP-0033: build/tr001 (track 01 SHA-256 2941a9c5…4719), record 8 forced after one Ryu KO; verify_records all checks OK, screen IoU 1.0",
+      "supports": "preferred_english displays on the Saturn as record 8 from a rebuilt image"
     }
   ],
   "notes": "Saturn record 8 (Q10). Correspondence type: game-logic index, CONFIRMED (EXP-0031). In the same selection state the Japanese arcade shows this record and the English arcade shows slot 9 entry 0. Saturn records 0 and 8 both pair with entry 0, because English has 8 entries per character for Japanese's 16. This is not a claim that the English line translates the Japanese: Capcom's English set is a separate rewrite. Reading only, not evidence: entry 4 ('Unless you believe in yourself, you cannot win!') is closer in meaning to this record. Policy (user decision, 2026-10-24): use the official paired English, so preferred_english = arcade_us_text, filled when GATE-TRANSLATION passed on 2026-10-24 (user GO). Table record (RE-021, EXP-0024): decoded MC09.PAC record 8 at WRAM-L 0x0020940C. ps1_us_text: identical to the arcade by data (EXP-0032); PS1 display not captured."

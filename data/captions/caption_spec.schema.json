@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "MSHvSF Saturn caption spec (win-quote tables)",
-  "description": "Input to tools/text/caption_compiler.py. Lines use A-Z, a-z, 0-9, space and '!'; each line is at most 19 cells (two characters per cell). '{P}' keeps the record's 0000 partner-name placeholder cell and is allowed only where the original record has it. Schema v2 (EXP-0028) lists several quote tables; all share one font.",
+  "description": "Input to tools/text/caption_compiler.py. Lines use A-Z, a-z, 0-9, space, '!', '.' and ','; each line is at most 19 cells (two characters per cell). '{P}' keeps the record's 0000 partner-name placeholder cell and is allowed only where the original record has it. Schema v2 (EXP-0028) lists several quote tables; all share one font.",
   "oneOf": [
     {
       "type": "object",
@@ -39,7 +39,7 @@
                 "maxItems": 2,
                 "items": {
                   "type": "string",
-                  "pattern": "^([A-Za-z0-9 !]|\\{P\\})*$",
+                  "pattern": "^([A-Za-z0-9 !.,]|\\{P\\})*$",
                   "maxLength": 41
                 }
               }
@@ -104,7 +104,7 @@
                       "maxItems": 2,
                       "items": {
                         "type": "string",
-                        "pattern": "^([A-Za-z0-9 !]|\\{P\\})*$",
+                        "pattern": "^([A-Za-z0-9 !.,]|\\{P\\})*$",
                         "maxLength": 41
                       }
                     }

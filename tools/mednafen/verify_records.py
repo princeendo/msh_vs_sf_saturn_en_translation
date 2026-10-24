@@ -112,6 +112,15 @@ def name_entry(wram_h: bytes, glyphs: Sequence[int]) -> int | None:
     return None
 
 
+def screen_matches(records: Sequence[Sequence[int]], best: int, index: int) -> bool:
+    """True if the best-matching record renders the same codes as the forced one.
+
+    Records with identical codes draw identical screens, so a tie between them is
+    a correct match (for example TR-001, where record ``k + 8`` repeats ``k``).
+    """
+    return list(records[best]) == list(records[index])
+
+
 def verify_run(
     run: Path, font_image: bytes, tables: Sequence[CompiledTable]
 ) -> dict[str, object]:
@@ -143,11 +152,13 @@ def verify_run(
         "screen_best": ranked[0]["record"],
         "screen_iou": ranked[0]["iou"],
         "screen_margin": round(float(ranked[0]["iou"]) - float(ranked[1]["iou"]), 4),  # type: ignore[arg-type]
-        "screen_ok": ranked[0]["record"] == index,
+        "screen_ok": screen_matches(records, int(ranked[0]["record"]), index),  # type: ignore[call-overload]
         "cart_font_ok": cart[cart_offset : cart_offset + len(font_image)] == font_image,
         "wram_l_table_ok": bool(matching),
         "display_buffer_ok": buffer_ok,
     }
+    if ranked[0]["record"] != index and checks["screen_ok"]:
+        checks["screen_tie_with_identical_record"] = ranked[0]["record"]
     if name:
         checks["placeholder_glyphs"] = [f"0x{c:04X}" for c in name]
         checks["placeholder_name_entry"] = name_entry(wram_h, name)
