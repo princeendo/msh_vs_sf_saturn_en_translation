@@ -67,6 +67,12 @@ source track:
 
 - Lines are cut into two-letter pair glyphs. Distinct pairs go to free codes
   (`0x00A8+`), and unseen kanji are emptied only as needed.
+- When pairs outnumber free codes, sacrificial kanji codes are reused in place,
+  in candidate order (`RE-044` option A). The roster generator also picks a
+  per-line one-character shift that reduces distinct pairs. Specs that fit
+  without reuse build exactly as before.
+- Supported characters: letters, digits, space, and `! . , ? ' " -` plus the
+  one-cell `‼`. Their glyph codes are in `tools/text/pair_font.py`.
 - `{P}` keeps a record's `0000` placeholder, only at the cell where the
   original has one (Ryu record 0, cell 8; Ken records 11 and 12, cells 26 and 25).
 - Schema `mshvsf-captions/2` lists several tables (`file`, decoded `table`
