@@ -17,7 +17,8 @@ reference facts** (what outside documents say).
   5 irregular. `RE-043` is done: the 17-character roster is in
   `data/text/m5_roster.json`, and exclusions are in `docs/coverage_exceptions.md`.
   `RE-042` is done (all 17 paired, `data/text/roster_pairing.json`). Next is
-  `RE-044` (roster spec and font capacity).
+  `RE-044` (roster spec and font capacity), now done: it fits, using 90 reused
+  kanji codes plus alignment. Next is `RE-045` (build the roster image).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

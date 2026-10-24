@@ -233,6 +233,7 @@ def capacity_tables(
     )
     reclaimable = sum(stored_size(glyphs[c]) for c in candidates)
     free = len(free_codes(font_image, ranges))
+    reuse = max(0, len(pairs) - free)
     return {
         "tables": [t.file for t in tables],
         "records": len(cells),
@@ -241,7 +242,8 @@ def capacity_tables(
         "free_codes": free,
         "pair_bytes": needed,
         "reclaimable_kanji_bytes": reclaimable,
-        "fits": len(pairs) <= free and needed <= reclaimable,
+        "kanji_codes_reused": reuse,
+        "fits": reuse <= len(candidates) and needed <= reclaimable,
         "cells_used": sum(len(c) - c.count("  ") for c in cells),
     }
 
@@ -315,13 +317,18 @@ def compile_tables(
     cells = table_cells(tables, pacs)
     pairs = distinct_pairs([record for table in cells for record in table])
     available = free_codes(font_image, ranges)
-    if len(pairs) > len(available):
+    # RE-044 option A: when pairs outnumber free codes, reuse sacrificial kanji
+    # codes in place, in candidate order. Specs that fit are built exactly as before.
+    extra = [c for c in candidates if c not in available][
+        : max(0, len(pairs) - len(available))
+    ]
+    if len(pairs) > len(available) + len(extra):
         raise SpecError(
-            f"{len(pairs)} distinct pairs, only {len(available)} free codes"
+            f"{len(pairs)} distinct pairs, only {len(available) + len(extra)} codes"
         )
-    codes = dict(zip(pairs, available, strict=False))
+    codes = dict(zip(pairs, available + extra, strict=False))
     new_font, font_info = build_font(
-        font_image, pairs, [codes[p] for p in pairs], candidates
+        font_image, pairs, [codes[p] for p in pairs], candidates, extra
     )
     files: dict[str, CompiledFile] = {}
     for spec, records in zip(tables, cells, strict=True):
@@ -369,6 +376,7 @@ def verify_font(
     old_header, old_glyphs = unpack(old)
     new_header, new_glyphs = unpack(new)
     sacrificed = {int(c, 16) for c in compiled.font_info["sacrificed"]}  # type: ignore[attr-defined]
+    reused = {int(c, 16) for c in compiled.font_info.get("reused", [])}  # type: ignore[attr-defined]
     pair_codes = set(compiled.codes.values())
     changed = {
         c for c, (a, b) in enumerate(zip(old_glyphs, new_glyphs, strict=True)) if a != b
@@ -388,7 +396,10 @@ def verify_font(
         "changed_codes_expected": changed == pair_codes | sacrificed,
         "pairs_equal_composed": pairs_ok,
         "sacrificed_empty": all(new_glyphs[c].kind == "empty" for c in sacrificed),
-        "pair_codes_were_empty": all(old_glyphs[c].kind == "empty" for c in pair_codes),
+        "pair_codes_were_empty": all(
+            old_glyphs[c].kind == "empty" for c in pair_codes - reused
+        ),
+        "reused_codes_in_kanji_range": all(KANJI[0] <= c <= KANJI[1] for c in reused),
     }
     if not all(checks.values()):
         raise SpecError(f"font verification failed: {checks}")

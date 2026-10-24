@@ -14,8 +14,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
   against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
   `nn`. `RE-043` is done (17-character roster, `docs/coverage_exceptions.md`). Next
-  was `RE-042`, now done (all 17 paired; placeholders dropped). Next is `RE-044`
-  (roster spec and font capacity).
+  was `RE-042`, now done (all 17 paired; placeholders dropped). `RE-044` is done:
+  the roster spec fits, with 90 reused kanji codes and per-line alignment. Next
+  is `RE-045` (build the roster image).
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1665,7 +1666,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-044 - Build the roster caption spec and check font capacity
 
-- **Status:** `IN_PROGRESS` (spec generated; awaiting a capacity decision)
+- **Status:** `DONE` (2026-10-24)
 - **Milestone:** M5
 - **Dependencies:** RE-042, RE-043, TR-001.
 - **Blockers:** None.
@@ -1704,13 +1705,27 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       range; same content risk as today's sacrifice); or
     - **(B)** raise the font code count to use `0x0C60`-`0x0DFF` (untested; needs
       a live experiment).
+- **Decision (user, 2026-10-24):** "Use option A: reuse unseen-kanji codes in place
+  as pair codes, plus the per-line alignment optimization to keep the kanji
+  footprint small."
+- **Result (2026-10-24):**
+  - `official_captions.py` chooses a deterministic per-line 0/1 shift (greedy),
+    and `pair_font.build` / `caption_compiler` reuse sacrificial kanji codes in
+    place, only when pairs exceed free codes.
+  - The new font check `reused_codes_in_kanji_range` passes, and the existing
+    checks are unchanged for reused codes. Tests cover both changes.
+  - Regression: the TR-001 spec (`aa7fa863…`) and images `tr001` (`2941a9c5…`)
+    and `exp0028a` (`c3990fa5…`) rebuild byte-identically.
+  - Capacity: 338 distinct pairs (down from 405) = 248 free codes + 90 reused
+    kanji codes; 13,992 of 30,235 bytes. It **fits**.
+  - The roster spec SHA-256 is `b2c097fa…f334` (ignored `local/re044/`).
 
 ### RE-045 - Build the ordinary-roster image deterministically
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-044.
-- **Blockers:** No roster spec yet.
+- **Blockers:** None. The roster spec fits (`RE-044`).
 - **Objective:** Produce one derived image with every ordinary character's official
   English.
 - **Rationale:** Binary traceability and determinism must hold at roster scale.

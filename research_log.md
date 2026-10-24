@@ -2964,3 +2964,25 @@ files), all passing.
 Checks: pytest (168 passed), ruff check, ruff format --check, and strict mypy (73
 files), all passing.
 
+## 2026-10-24 — RE-044 done: option A plus alignment; roster fits
+
+- User decision: option A (reuse unseen-kanji codes in place) plus per-line
+  alignment.
+- Implemented:
+  - a `reusable` parameter in `pair_font.build`, which empties the glyph, then
+    stores the pair;
+  - `caption_compiler` overflow allocation from the candidates, with the
+    capacity field `kanji_codes_reused` and the check
+    `reused_codes_in_kanji_range`;
+  - `official_captions.best_shifts`, a deterministic greedy 0/1 shift per line,
+    applied only in roster mode.
+- Regression: the TR-001 spec and images `tr001` and `exp0028a` rebuild with the
+  recorded hashes.
+- Roster capacity: 338 pairs (248 free + 90 reused kanji codes), 13,992 / 30,235
+  bytes; it fits. Spec `b2c097fa…`.
+- Next: `RE-045` build. Its offline render review will also check the new
+  punctuation glyphs in context.
+
+Checks: pytest (171 passed), ruff check, ruff format --check, and strict mypy (73
+files), all passing.
+

@@ -139,9 +139,18 @@ def test_capacity_reports_without_building() -> None:
 def test_too_many_pairs_is_rejected() -> None:
     captions = parse_spec(spec((1, "Ab", "Cd")))
     with pytest.raises(SpecError):
-        compile_files(
-            captions, font_image(), pac_file(), CANDIDATES, ranges=[(0xA8, 0xA8)]
-        )
+        compile_files(captions, font_image(), pac_file(), [], ranges=[(0xA8, 0xA8)])
+
+
+def test_overflow_pairs_reuse_kanji_codes() -> None:
+    captions = parse_spec(spec((1, "Ab", "Cd")))
+    compiled = compile_files(
+        captions, font_image(), pac_file(), CANDIDATES, ranges=[(0xA8, 0xA8)]
+    )
+    assert sorted(compiled.codes.values()) == [0x00A8, CANDIDATES[0]]
+    assert compiled.font_info["reused"] == [f"0x{CANDIDATES[0]:04X}"]
+    checks = verify_font(font_image(), compiled.font_image, compiled)
+    assert checks["reused_codes_in_kanji_range"] is True
 
 
 KEN_TABLE = 0xA59C

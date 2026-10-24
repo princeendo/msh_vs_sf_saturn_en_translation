@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import pytest
 
-from tools.text.official_captions import centred, roster_spec, spec_records
+from tools.text.official_captions import (
+    best_shifts,
+    centred,
+    line_pairs,
+    roster_spec,
+    spec_records,
+)
 from tools.text.pair_font import char_code
 
 
@@ -57,3 +63,17 @@ def test_new_punctuation_has_glyphs() -> None:
     assert char_code('"') == 0x08BB
     assert char_code("-") == 0x08CB
     assert char_code("\u203c") == 0x08DF
+
+
+def test_shift_changes_pairing_and_stays_centred() -> None:
+    assert line_pairs("abc", 0) == {"ab", "c "}
+    assert line_pairs("abc", 1) == {" a", "bc"}
+    assert centred("abc", cells=5, shift=1) == "   abc"
+
+
+def test_best_shifts_reuses_existing_pairs() -> None:
+    # "bcd" shifted pairs as " b" "cd", sharing "cd" with "cd" (unshifted)
+    shifts = best_shifts(["cdcd", "bcd"])
+    assert shifts["bcd"] == 1
+    pairs = line_pairs("cdcd", shifts["cdcd"]) | line_pairs("bcd", shifts["bcd"])
+    assert len(pairs) == 2

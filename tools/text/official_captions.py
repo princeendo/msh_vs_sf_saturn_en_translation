@@ -24,22 +24,71 @@ from tools.text.caption_compiler import LINE_CELLS
 from tools.text.pair_font import char_code
 
 
-def centred(text: str, cells: int = LINE_CELLS) -> str:
-    """Pad ``text`` with whole blank cells so it sits centred in ``cells``."""
+def centred(text: str, cells: int = LINE_CELLS, shift: int = 0) -> str:
+    """Pad ``text`` with whole blank cells so it sits centred in ``cells``.
+
+    ``shift`` = 1 adds one leading space inside the first cell, which changes how
+    the line splits into pairs (``best_shifts``).
+    """
     for char in text:
         char_code(char)  # raises ValueError for characters without a glyph
-    used = (len(text) + 1) // 2
+    body = " " * shift + text
+    used = (len(body) + 1) // 2
     if used > cells:
         raise ValueError(f"{text!r} needs {used} cells (max {cells})")
-    return "  " * ((cells - used) // 2) + text
+    return "  " * ((cells - used) // 2) + body
+
+
+def line_pairs(text: str, shift: int) -> set[str]:
+    body = " " * shift + text
+    if len(body) % 2:
+        body += " "
+    return {body[i : i + 2] for i in range(0, len(body), 2)} - {"  "}
+
+
+def best_shifts(lines: Sequence[str], cells: int = LINE_CELLS) -> dict[str, int]:
+    """Choose a 0/1 shift per distinct line to reduce distinct pairs (greedy).
+
+    Lines are visited in sorted order, and passes repeat until no line changes,
+    so the result is deterministic.
+    """
+    unique = sorted(set(lines))
+    choice = dict.fromkeys(unique, 0)
+
+    def fits(line: str, shift: int) -> bool:
+        return (len(line) + shift + 1) // 2 <= cells
+
+    changed = True
+    while changed:
+        changed = False
+        for line in unique:
+            others: set[str] = set()
+            for other in unique:
+                if other != line:
+                    others |= line_pairs(other, choice[other])
+            options = [s for s in (0, 1) if fits(line, s)]
+            best = min(options, key=lambda s: (len(others | line_pairs(line, s)), s))
+            if best != choice[line]:
+                choice[line] = best
+                changed = True
+    return choice
 
 
 def spec_records(
-    entries: Sequence[Sequence[str]], remap: Sequence[int] = OBSERVED_REMAP
+    entries: Sequence[Sequence[str]],
+    remap: Sequence[int] = OBSERVED_REMAP,
+    shifts: dict[str, int] | None = None,
 ) -> list[dict[str, object]]:
     """Caption-spec records: record ``k`` shows ``entries[remap[k]]``."""
+    chosen = shifts or {}
     return [
-        {"record": k, "lines": [centred(line.strip()) for line in entries[remap[k]]]}
+        {
+            "record": k,
+            "lines": [
+                centred(line.strip(), shift=chosen.get(line.strip(), 0))
+                for line in entries[remap[k]]
+            ],
+        }
         for k in range(len(remap))
     ]
 
@@ -52,11 +101,19 @@ def roster_spec(
     ``slots[s]`` holds slot ``s``'s English quotes (lines). Placeholders are never
     emitted, because the roster's policy drops them (`RE-042`).
     """
+    used = [
+        line.strip()
+        for entry in roster
+        for quote in slots[int(str(entry["slot"]))]
+        for line in quote
+        if line.strip()
+    ]
+    shifts = best_shifts(used)
     tables = [
         {
             "file": str(entry["file"]),
             "table": str(entry["table"]),
-            "records": spec_records(slots[int(str(entry["slot"]))]),
+            "records": spec_records(slots[int(str(entry["slot"]))], shifts=shifts),
         }
         for entry in roster
     ]

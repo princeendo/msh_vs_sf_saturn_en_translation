@@ -73,18 +73,27 @@ def build(
     pairs: Sequence[str],
     codes: Sequence[int],
     candidates: Sequence[int],
+    reusable: Sequence[int] = (),
 ) -> tuple[bytes, dict[str, object]]:
-    """Store ``pairs[i]`` at ``codes[i]``, emptying candidates only as needed."""
+    """Store ``pairs[i]`` at ``codes[i]``, emptying candidates only as needed.
+
+    A code in ``reusable`` (a sacrificial glyph, RE-044 option A) may be non-empty:
+    its glyph is emptied first and the pair stored in its place.
+    """
     if len(pairs) != len(codes) or len(set(codes)) != len(codes):
         raise ValueError("need one distinct code per pair")
     header, glyphs = unpack(image)
     glyphs = list(glyphs)
     count = int.from_bytes(header[12:16], "big")
+    allowed = set(reusable)
     for code in codes:
-        if code >= count or glyphs[code].kind != "empty":
+        if code >= count or (glyphs[code].kind != "empty" and code not in allowed):
             raise ValueError(
                 f"code 0x{code:04X} is not a free code below 0x{count:04X}"
             )
+    reused = [code for code in codes if glyphs[code].kind != "empty"]
+    for code in reused:
+        glyphs[code] = Glyph("empty", bytes(CELL_BYTES))
 
     def cell(char: str) -> bytes:
         code = char_code(char)
@@ -118,6 +127,8 @@ def build(
         "packed_size": len(packed),
         "zero_fill": len(image) - len(packed),
     }
+    if reused:
+        info["reused"] = [f"0x{c:04X}" for c in reused]
     return result, info
 
 
