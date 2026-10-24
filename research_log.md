@@ -2870,3 +2870,23 @@ files), all passing.
 
 Checks: no code changed in this step; pytest (161 passed).
 
+## 2026-10-24 — M5 breakdown defined (RE-040)
+
+- Mapped RE-040's acceptance criteria one-to-one onto new tasks:
+  - `RE-041` census of quote files against arcade slots (`READY`, offline);
+  - `RE-042` per-character pairing;
+  - `RE-043` exceptions register;
+  - `RE-044` roster spec and font capacity;
+  - `RE-045` deterministic roster image;
+  - `RE-046` representative live verification;
+  - `RE-047` regression controls.
+- Grounded in `EXP-0023`: 23 quote files, 17 ordinary single tables, and 6
+  irregular (`MC00`, `MC02`, `MC07`, `MC08`, `MC0C`, `MC13`). Only `MC09`/`MC0A`
+  are mapped to characters so far.
+- Known risk recorded in `RE-044`: roster pair count against the roughly
+  817-pair unseen-kanji budget.
+- Known cost recorded in `RE-046`: each live character needs a user KO. Input
+  automation would need separate authorization.
+
+Checks: planning only; no code changed.
+

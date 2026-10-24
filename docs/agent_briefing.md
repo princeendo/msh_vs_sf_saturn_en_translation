@@ -11,8 +11,10 @@ reference facts** (what outside documents say).
 ## Where Things Stand
 
 - Milestone M4 is complete (2026-10-24): Ken works through the generalized
-  mechanism (`RE-030`, `EXP-0028`). M5 (`RE-040`) needs detailed tasks before work
-  starts.
+  mechanism (`RE-030`, `EXP-0028`).
+- M5 (`RE-040`) is broken down into `RE-041` to `RE-047`: census, pairing,
+  exceptions, roster spec and capacity, build, live checks, and regression. Start
+  with `RE-041`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
