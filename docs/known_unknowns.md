@@ -142,8 +142,11 @@ then three ending pages (a picture panel and a bottom text box).
   - What do `ME.PAC`'s header and its 30 non-relocation differences mean?
   - Is the relocation rule (file + base + `0x40`) right, given it is inferred
     from deltas only?
-  - Does an edited file load and display, with no checksum or other copy?
-    (`END-007`)
+  - Does an edited file load and display? Answered for the load path
+    (`EXP-0041`): yes, with nothing else changed. A live run from a derived
+    image is still owed.
+  - Are `ME.PAC` and `MC13` re-read after a continue? (The load sequence
+    repeats and opens `END.PAC`.) What does `END.PAC` hold?
 - **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`). Still open:
   whether the composed pair glyphs of the roster image (`FONT-003`) would
   display in endings unchanged.

@@ -19,7 +19,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `STAGE-08`. `END-004` is done (`EXP-0040`): the dialogue comes from LZSS
   `MC13.PAC` (the boss's file), and the pages from raw `ME.PAC`. The next tasks
   are:
-  - `END-007`: a marker build check (no gameplay);
+  - `END-007`: marker builds. Part 1 is done (`EXP-0041`: an edited file loads
+    from a derived image); Part 2 needs one user boss fight on image C;
   - `END-005`: what selects the dialogue and ending (one gameplay session);
   - `END-006`: the arcade reference.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
@@ -2119,11 +2120,13 @@ the user asks or when it unblocks other work.
 
 ### END-007 - Verify that edited ending files load and display (marker build)
 
-- **Status:** `READY`
+- **Status:** `BLOCKED` (Part 1 done 2026-10-24, `EXP-0041`; Part 2 needs one user
+  boss fight)
 - **Milestone:** M6
 - **Dependencies:** END-004.
-- **Blockers:** None. No gameplay is needed (`before_stage08_load.mcs` and
-  `ryu_gouki_post_boss_ko.mcs` replay across images, `replay_state.py`).
+- **Blockers:** A no-input replay from a pre-load checkpoint cannot win the boss
+  fight, so the on-screen check from a derived image needs one user boss fight
+  (Part 2).
 - **Objective:** Show that a derived image built from the untouched source,
   with one marker change per file, displays the changes in Ryu's ending.
 - **Rationale:** `EXP-0040` names the files, but only a rebuilt image proves
@@ -2147,6 +2150,23 @@ the user asks or when it unblocks other work.
   - Replaying a state saved on the untouched image onto a derived image works
     for win quotes (`EXP-0036`). It may not hold if the files were already
     loaded, so start before the `STAGE-08` load.
+- **Evidence (2026-10-24, `EXP-0041` Part 1; `CONFIRMED`, discoveries
+  `END-007 Part 1`):**
+  - Builds A (`ME.PAC`), B (`MC13.PAC`, full re-encode, declared length kept),
+    and C (both). Each track 01 hash is recorded. The other tracks and the CUE
+    are identical to the source.
+  - Replayed from `before_stage08_load.mcs` (600 frames), the loaded
+    `MC13`/`ME.PAC` regions equal the untouched run's, except each marker word.
+  - The RAM marker displays in exactly its cell (page 1 here; box 2 in
+    `EXP-0039`). Neither file is re-read after the KO.
+  - Deviation: the criterion "replay a pre-load checkpoint and screenshot the
+    box or page" cannot be met without gameplay, because the boss fight lies
+    between the load and the ending. It is replaced by the composed
+    load-and-display evidence above, plus Part 2.
+- **Part 2 (pending):** image C from `before_stage08_load.mcs` (Ryu/Ken). The
+  user beats Mech-Gouki with Ryu. Predicted: page 1 shows R at line 1 cell 5.
+  The box 2 marker appears only if Ryu/Ken share the Ryu/Gouki dialogue
+  records (unknown, `END-005`).
 
 ### END-005 - Identify what selects the post-boss dialogue and the ending
 

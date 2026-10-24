@@ -5,6 +5,8 @@ loads ``state``, pauses, and applies each ``--write SPACE:HEXADDR:HEXBYTES``,
 checking each by reading it back. It then runs ``--frames`` frames, saves a
 screenshot to ``out``, and reports whether each write survived (the game may
 rewrite the memory meanwhile). With no ``--write`` it is the control run.
+``--dump DIR`` also saves WRAM-L and WRAM-H after the frames (``workraml.bin``,
+``workramh.bin``), for example to compare what a derived image loads.
 Mednafen is closed afterwards.
 """
 
@@ -18,7 +20,7 @@ import time
 from collections.abc import Sequence
 from pathlib import Path
 
-from tools.mednafen.replay_state import BINARY, connect, wait_halted
+from tools.mednafen.replay_state import BINARY, WRAM_BYTES, connect, wait_halted
 
 
 def parse_write(text: str) -> tuple[str, int, bytes]:
@@ -37,6 +39,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("out", type=Path, help="screenshot path (ignored location)")
     parser.add_argument("--write", action="append", default=[], type=parse_write)
     parser.add_argument("--frames", type=int, default=2)
+    parser.add_argument("--dump", type=Path, help="save work RAM here after the frames")
     parser.add_argument("--agent-dir", type=Path, default=Path("local/mednafen/agent"))
     parser.add_argument("--home", type=Path, default=Path("local/mednafen"))
     args = parser.parse_args(argv)
@@ -81,6 +84,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             for entry, (space, address, data) in zip(report, args.write, strict=True):
                 entry["survived"] = agent.read(space, address, len(data)) == data
             agent.screenshot(args.out.resolve())
+            if args.dump:
+                args.dump.mkdir(parents=True, exist_ok=True)
+                for space in ("workraml", "workramh"):
+                    target = (args.dump / f"{space}.bin").resolve()
+                    agent.command(f"read {space} 0 {WRAM_BYTES} {target}")
             print(json.dumps({"frames": args.frames, "writes": report}, indent=1))
             return 0
         finally:
