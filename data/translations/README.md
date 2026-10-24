@@ -14,6 +14,17 @@ Each record should identify:
 - confidence and unresolved ambiguity;
 - technical constraints only when measured.
 
+## Win-Quote Policy (user decision, 2026-10-24)
+
+- Each Saturn win-quote record `k` uses the official arcade English entry `k & 7`
+  for that character: the line the arcade displays in the same selection state
+  (`EXP-0031`).
+- Two Saturn records share each English line, by design. Meaning-based
+  retranslation is not used where an official paired line exists.
+- Apply this to a character only after its Saturn table and arcade remap are
+  verified (`tools/reference/quote_pairing.py`).
+- `preferred_english` stays empty until `GATE-TRANSLATION` passes.
+
 Do not assume line ordering or correspondence across releases. Keep hypotheses in
 `research_log.md` until supported, and do not represent a translation as final without
 review. Store bulk source material locally under ignored paths; track only permitted

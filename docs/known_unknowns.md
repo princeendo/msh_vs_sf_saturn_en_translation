@@ -119,8 +119,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
     `0xCC90` flag and 100-byte records in `RE-023`)?
   - Do the other characters' Saturn tables match the arcade Japanese tables
     byte for byte?
-  - Should the patch use the paired official English (two Saturn records per
-    English line) or translate by meaning? This is a project policy decision.
+  - Decided by the user on 2026-10-24: use the paired official English (record
+    `k` gets entry `k & 7`). Still open: how 25-character English lines fit
+    19-cell Saturn lines.
 - Do the European and US English wordings agree line for line?
 - Which arcade ROM members hold post-fight text, and in what form? Answered for
   Latin text by `EXP-0029` (`mvs.07b`, 16-bit codes); still open for Japanese.

@@ -2724,3 +2724,16 @@ files), all passing.
 Checks: pytest (153 passed), ruff check, ruff format --check, and strict mypy (64
 files), all passing.
 
+## 2026-10-24 — Translation policy decision (user)
+
+- The user chose the official paired English: Saturn record `k` gets arcade entry
+  `k & 7`, even though each English line appears twice.
+- Recorded in `GATE-TRANSLATION` notes, `data/translations/README.md`, and the Q10
+  record.
+- `preferred_english` stays empty until the gate passes. The remaining blockers are
+  DOC-007, DOC-008, and REF-005.
+- Measured: the paired English lines are at most 25 characters; Saturn lines are 19
+  cells.
+
+Checks: documentation and JSON only; the Q10 record re-parsed as valid JSON.
+
