@@ -2890,3 +2890,27 @@ Checks: no code changed in this step; pytest (161 passed).
 
 Checks: planning only; no code changed.
 
+## 2026-10-24 — RE-041 / EXP-0034: quote-file census against arcade slots
+
+- New `tools/reference/slot_census.py` (with tests). For each decoded `MC*.PAC`:
+  Saturn tables (`find_tables`) plus a byte-identity search for every arcade
+  Japanese slot block and record.
+- Result: `MCnn` holds slot `nn`'s whole block for all 23 files, identical
+  across the three sets. 18 are ordinary; 5 irregular (`MC00`, `MC02` + slot 23,
+  `MC08` + slot 24, `MC0C` + a 4-record table, `MC13` 120 records).
+- The name table (rendered from the `EXP-0028` Ken state) has the same 26
+  characters in arcade slot order.
+- Corrections, so they are not repeated:
+  - My first classifier compared whole blocks to `find_tables` offsets, which
+    can be one word early. It now uses the block offset with 2-byte slack.
+  - It also counted `MC13`'s 120-record table as single and `MC07`'s shared block
+    twice. Both are fixed: blocks are counted by distinct offset, and every table
+    must lie within the block.
+  - `EXP-0023`'s "MC07 = 15 records" was a census split; the whole block is
+    present.
+- Next: `RE-043` decides roles (Norimaro, secrets, Shadow, bosses, and the
+  irregular playable files) before `RE-042`.
+
+Checks: pytest (164 passed), ruff check, ruff format --check, and strict mypy (71
+files), all passing.
+

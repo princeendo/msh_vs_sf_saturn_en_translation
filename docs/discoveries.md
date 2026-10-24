@@ -597,6 +597,22 @@ Experiment: `EXP-0028` Phase B
 - **Reproduce.** See `research/experiments/EXP-0028/README.md` ("Resume: Phase B"
   steps and "Phase B Result").
 
+## EXP-0034: Saturn Quote File Index Equals Arcade Character Slot
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0034` (task `RE-041`)
+
+- **Finding.** Each of the 23 Saturn quote files `MC00`-`MC16` contains arcade
+  slot `nn`'s whole 16-record Japanese block, byte-identical in all three arcade
+  sets.
+- **Name table.** The Saturn name table (WRAM-H `0x06095EC4`) orders the same 26
+  characters as the arcade slots.
+- **Classes.** 18 files are structurally ordinary (one block); 5 are irregular
+  (`MC00`, `MC02`, `MC08`, `MC0C`, `MC13`).
+- **Reproduce.** Run `tools/reference/slot_census.py`. The manifest is
+  `data/text/coverage_manifest.json`.
+
 ## Entry Requirements
 
 Each future entry must include:

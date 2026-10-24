@@ -1,0 +1,503 @@
+{
+ "description": "RE-041 coverage census (EXP-0034): every Saturn MC*.PAC searched for byte-identical arcade Japanese slot blocks (16 x 76 bytes, pointer table 0x20BFAC). Metadata only.",
+ "arcade_sets_checked": [
+  "mshvsf",
+  "mshvsfu",
+  "mshvsfj"
+ ],
+ "arcade_results_identical": true,
+ "name_table_check": "Saturn name table (WRAM-H 0x06095EC4, 26 entries) lists the same characters in the same order as the arcade name list: entry n = slot n.",
+ "classes": {
+  "ordinary": "one whole slot block; every Saturn table lies within it",
+  "irregular": "a whole block plus other blocks or tables"
+ },
+ "character_roles": "not assigned here (RE-043)",
+ "files": [
+  {
+   "file": "MC00.PAC",
+   "file_sha256": "a034b2010b35ff65e02daa2a830d74c12029fd85a98e026601acd841bb87e352",
+   "class": "irregular",
+   "slot_blocks": {
+    "0": {
+     "offset": "0x3174",
+     "arcade_name": "APOCALYPSE"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x3106",
+     "records": 26,
+     "sha256": "d5ef20e832db4211fd0ef64ed97b2ad0b78a0ee349ff693877f7d4b073664550"
+    },
+    {
+     "offset": "0x392E",
+     "records": 14,
+     "sha256": "1eb338166398523d60870fabe94c20312d1196e14d7df8206bf9bf76962e8767"
+    },
+    {
+     "offset": "0x3D7A",
+     "records": 9,
+     "sha256": "e6f8026717f4c75a77f4638f0cd60e3258c94c3fc40218701787bde7e849c4a7"
+    },
+    {
+     "offset": "0x404E",
+     "records": 43,
+     "sha256": "507837dd725d8970f4b44ad188bbe5e4d64f60ebd17feee6cb6487d9d34a8e32"
+    }
+   ]
+  },
+  {
+   "file": "MC01.PAC",
+   "file_sha256": "b4e801c47977aac441a289eb0aeff145bd24fd60ccb622a9acae159ece61336e",
+   "class": "ordinary",
+   "slot_blocks": {
+    "1": {
+     "offset": "0xAC50",
+     "arcade_name": "CYCLOPS"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xAC50",
+     "records": 16,
+     "sha256": "be5d9f7b6b52fcbdf4cd75774d78352f656c5d81cc291198bc6c3ab442c7f37d"
+    }
+   ]
+  },
+  {
+   "file": "MC02.PAC",
+   "file_sha256": "9c285733d5aa0c0a31740833b6984f6dfd4e0811edf3e1b549bfdd956194a52b",
+   "class": "irregular",
+   "slot_blocks": {
+    "2": {
+     "offset": "0xD6D8",
+     "arcade_name": "CAPTAIN AMERICA"
+    },
+    "23": {
+     "offset": "0xDF68",
+     "arcade_name": "U.S.AGENT"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xD6D8",
+     "records": 16,
+     "sha256": "3e16b825da940553dfdf294dce4122fc2ef1e3260bd8725d1a9a504ae47a6e1a"
+    },
+    {
+     "offset": "0xDF68",
+     "records": 16,
+     "sha256": "54b0a5e9f885af29d3587279a70e5c42090b5cb85c5e2e770f6796d53132dbee"
+    }
+   ]
+  },
+  {
+   "file": "MC03.PAC",
+   "file_sha256": "dd890b360c0755f9e9b9923ae3ff613373aea77a6f6b00f06989742e919ad7b5",
+   "class": "ordinary",
+   "slot_blocks": {
+    "3": {
+     "offset": "0x9C1C",
+     "arcade_name": "HULK"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x9C1C",
+     "records": 16,
+     "sha256": "32002790a4f283db4d9bbd54570d70707867fee6eb9b18efffbe7d7b5b3c15f4"
+    }
+   ]
+  },
+  {
+   "file": "MC04.PAC",
+   "file_sha256": "cdc786c3e246ce13894a0d45a4aba2d910fbea8a636d0f33bf36ffb0d9af430c",
+   "class": "ordinary",
+   "slot_blocks": {
+    "4": {
+     "offset": "0xC2B4",
+     "arcade_name": "WOLVERINE"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xC2B4",
+     "records": 16,
+     "sha256": "b9192813da3aa05417110b14b4a5c47454e5e635d00110f0a7fc0d4ff6283c9c"
+    }
+   ]
+  },
+  {
+   "file": "MC05.PAC",
+   "file_sha256": "6cead57574de82c1781b30f2d6c47e7fb8c194a8e842f97a84f052ce1d311896",
+   "class": "ordinary",
+   "slot_blocks": {
+    "5": {
+     "offset": "0xA06C",
+     "arcade_name": "SHUMA-GORATH"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xA06C",
+     "records": 16,
+     "sha256": "b8d1933f4254c67b5279be45560487795d567b0cbf5f0594c6822c5d90502747"
+    }
+   ]
+  },
+  {
+   "file": "MC06.PAC",
+   "file_sha256": "5f991f62bf774c5566bacb1c6b4a890708a70e43ffd0a6ea6b272185cb91dc04",
+   "class": "ordinary",
+   "slot_blocks": {
+    "6": {
+     "offset": "0x9FF0",
+     "arcade_name": "OMEGA RED"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x9FF0",
+     "records": 16,
+     "sha256": "fbc0a8f6fc0d174c2a74dabe09368959aa96876b0e43dab68aca8970cc86b394"
+    }
+   ]
+  },
+  {
+   "file": "MC07.PAC",
+   "file_sha256": "de44ef6396a277baba93c9bd06804d3408acdc8f0a55980b24076b2fb727b177",
+   "class": "ordinary",
+   "slot_blocks": {
+    "7": {
+     "offset": "0xD160",
+     "arcade_name": "SPIDER-MAN"
+    },
+    "25": {
+     "offset": "0xD160",
+     "arcade_name": "SPIDER-MAN (2nd)"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xD162",
+     "records": 15,
+     "sha256": "822af812ef24d178f21459f32f45ca8c02ce1a56c819c78600a68af9b367bfb7"
+    }
+   ]
+  },
+  {
+   "file": "MC08.PAC",
+   "file_sha256": "562b422cc4c815d75d6d37568deba1e2923c9878759aecdc2cb6c5dc1d316390",
+   "class": "irregular",
+   "slot_blocks": {
+    "8": {
+     "offset": "0xAA24",
+     "arcade_name": "BLACKHEART"
+    },
+    "24": {
+     "offset": "0xBE5C",
+     "arcade_name": "MEPHISTO"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xAA24",
+     "records": 16,
+     "sha256": "8ae070ac719f068497baaccdfdecb1bd6e81454c5907c1c71536ea019fa4f807"
+    },
+    {
+     "offset": "0xBE56",
+     "records": 16,
+     "sha256": "f08f411a2e0e506fd134c47ebc9e3c3618f8fa9574f23aa7faea42b913573d71"
+    }
+   ]
+  },
+  {
+   "file": "MC09.PAC",
+   "file_sha256": "6c096573622a515ceb81436dacbe9ed732adab11fde87a43c4e497e4b56a0016",
+   "class": "ordinary",
+   "slot_blocks": {
+    "9": {
+     "offset": "0x91AC",
+     "arcade_name": "RYU"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x91AC",
+     "records": 16,
+     "sha256": "6aaf1f8883642a175537f775e30087fa2c911d73ab97a9a0f5fb6b0f715c3023"
+    }
+   ]
+  },
+  {
+   "file": "MC0A.PAC",
+   "file_sha256": "5f65706fbfcc9c2a5577a490234820cc08d149d6acb0c09ff70506e7143dbab9",
+   "class": "ordinary",
+   "slot_blocks": {
+    "10": {
+     "offset": "0xA59C",
+     "arcade_name": "KEN"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xA59A",
+     "records": 16,
+     "sha256": "a84512b299a50790ea3a835256250e34ae619d1d1d00dddc1130732ad1c29a86"
+    }
+   ]
+  },
+  {
+   "file": "MC0B.PAC",
+   "file_sha256": "57d1e861327513f75c2a927265b668a98151f3f2ded89867f5e8bdc1f6220550",
+   "class": "ordinary",
+   "slot_blocks": {
+    "11": {
+     "offset": "0x9B58",
+     "arcade_name": "CHUN-LI"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x9B58",
+     "records": 16,
+     "sha256": "fc2037f077a30383303fc85e50cc9167ba04b1ffcdf4848e99577487cb432a95"
+    }
+   ]
+  },
+  {
+   "file": "MC0C.PAC",
+   "file_sha256": "6f00df15bef70dd3ecc43f84433fe159f783416b09d3f833faffe7f4ed0d3301",
+   "class": "irregular",
+   "slot_blocks": {
+    "12": {
+     "offset": "0xAA88",
+     "arcade_name": "DHALSIM"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x3B88",
+     "records": 4,
+     "sha256": "b412231ce7a68565930da30cb6faf7b12ba6b54da269d97c14d03875a6e562f5"
+    },
+    {
+     "offset": "0xAA88",
+     "records": 8,
+     "sha256": "187976e7eb03da19f7386c3f627660150f57cc271953a84b8312db27dc18de02"
+    },
+    {
+     "offset": "0xACEA",
+     "records": 8,
+     "sha256": "b6517432ee9f0b3296e97085db36fbdf79e876108eb0f9c79f2b55ee6a161d0c"
+    }
+   ]
+  },
+  {
+   "file": "MC0D.PAC",
+   "file_sha256": "95403029c82858d5bbe798ecc91848458bcab1f45b6fe45eb249adfee3e37676",
+   "class": "ordinary",
+   "slot_blocks": {
+    "13": {
+     "offset": "0xC7F4",
+     "arcade_name": "ZANGIEF"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xC7F2",
+     "records": 16,
+     "sha256": "44d1e5a4a6c1dd29e4e793c3ad414bf8ff752e61a023a37d4e633bc1da2ffcdc"
+    }
+   ]
+  },
+  {
+   "file": "MC0E.PAC",
+   "file_sha256": "744305fd748853bc7be966f48dcf16e01887d85ae9acd29a11d0740c74a073dc",
+   "class": "ordinary",
+   "slot_blocks": {
+    "14": {
+     "offset": "0x9BDC",
+     "arcade_name": "BISON"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x9BDC",
+     "records": 16,
+     "sha256": "fc03eb7b4e712eb5c857f28b3e31f79b1af3b107c07b1c3ec80122bdcc4c93d6"
+    }
+   ]
+  },
+  {
+   "file": "MC0F.PAC",
+   "file_sha256": "ae49445bb540edcc09dd405a010f3d104e56e2b6f7d16b3af67671fc2c227686",
+   "class": "ordinary",
+   "slot_blocks": {
+    "15": {
+     "offset": "0xA658",
+     "arcade_name": "AKUMA"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xA658",
+     "records": 16,
+     "sha256": "e3530b65156a07fb4d30f05c3cd7f42d2b57ca76f41fe5064b0129591c3c1c93"
+    }
+   ]
+  },
+  {
+   "file": "MC10.PAC",
+   "file_sha256": "6967f3ad1502e79db367de05fe0f171025b70fc537d86d4414806a7b30893f29",
+   "class": "ordinary",
+   "slot_blocks": {
+    "16": {
+     "offset": "0xB718",
+     "arcade_name": "SAKURA"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xB716",
+     "records": 16,
+     "sha256": "ce2c7e0c5ddf833b3ef07d7d5ab42cfed3aee25987b1f3fe774d55419f1e4c08"
+    }
+   ]
+  },
+  {
+   "file": "MC11.PAC",
+   "file_sha256": "5720f8808cbe42abe8229687c47814290500c8fe513dfcc20c9a1c8fd2602583",
+   "class": "ordinary",
+   "slot_blocks": {
+    "17": {
+     "offset": "0xA158",
+     "arcade_name": "NORIMARO"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xA156",
+     "records": 16,
+     "sha256": "8b62fe0a9e2e4adb4cc95a060d0ca34c8a22ca1de329a3659f2b3e319d61bcdf"
+    }
+   ]
+  },
+  {
+   "file": "MC12.PAC",
+   "file_sha256": "75bd92bdcd872f920dc84a20bbd72766681a93e573ebea16235dc105a4d2c758",
+   "class": "ordinary",
+   "slot_blocks": {
+    "18": {
+     "offset": "0x9198",
+     "arcade_name": "DAN"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x9198",
+     "records": 16,
+     "sha256": "0f69f49a5fcf98a0caf2692622b14b681845ea65ae70f7b7fb3dc6621db8e108"
+    }
+   ]
+  },
+  {
+   "file": "MC13.PAC",
+   "file_sha256": "05263ab681ac2da2b922390c8ab8662f277cad8a29021602bb75ed4b8a210b00",
+   "class": "irregular",
+   "slot_blocks": {
+    "19": {
+     "offset": "0xA06C",
+     "arcade_name": "CYBER-AKUMA"
+    }
+   },
+   "partial_slots": {
+    "15": 1
+   },
+   "saturn_tables": [
+    {
+     "offset": "0xA06C",
+     "records": 120,
+     "sha256": "954c1622c536edecbbfd5e6b6e6b0c67dc6742e9a43de047908175aee69040c8"
+    }
+   ]
+  },
+  {
+   "file": "MC14.PAC",
+   "file_sha256": "6fcdff55d9a235c7b501a38c7d979b1f85e09252af968219edae3c2eb1fc73a9",
+   "class": "ordinary",
+   "slot_blocks": {
+    "20": {
+     "offset": "0xCCEC",
+     "arcade_name": "ZANGIEF (2nd)"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xCCEA",
+     "records": 16,
+     "sha256": "6ca740e4ee759fbda5b7144f01512b997582ee16d936dbb5935a8b0dea16ade6"
+    }
+   ]
+  },
+  {
+   "file": "MC15.PAC",
+   "file_sha256": "522f312cab0cee8b88491dc986bd57cb27ac8e242f32452e052f23fd607ac744",
+   "class": "ordinary",
+   "slot_blocks": {
+    "21": {
+     "offset": "0xBCB0",
+     "arcade_name": "SAKURA (2nd)"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0xBCAE",
+     "records": 16,
+     "sha256": "ac68edf29ee8220bb54554d488eda0f38960476d8e4b03716d38f008ba965f7f"
+    }
+   ]
+  },
+  {
+   "file": "MC16.PAC",
+   "file_sha256": "550501418fdb36748d783840f1161cf5f5b8bb3778e3e22e536c1b99e15e272c",
+   "class": "ordinary",
+   "slot_blocks": {
+    "22": {
+     "offset": "0x984C",
+     "arcade_name": "SHADOW"
+    }
+   },
+   "partial_slots": {},
+   "saturn_tables": [
+    {
+     "offset": "0x984C",
+     "records": 16,
+     "sha256": "f4f860de4c8c2d45b617b8b46616178d22b6238532f5a4074e85e7d7000a95e3"
+    }
+   ]
+  }
+ ]
+}

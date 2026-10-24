@@ -71,7 +71,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
     in its second entry with partner Gouki (`EXP-0027` V2). Must the partner-name
     table (`0x06095EC4`) be localized for English? What is the undrawn extra
     39th display entry?
-  - Do the other `MCxx.PAC` files hold other characters' quote tables?
+  - Do the other `MCxx.PAC` files hold other characters' quote tables? Yes:
+    `MCnn` holds arcade slot `nn`'s table (`EXP-0034`). Runtime use is confirmed
+    for `MC09` and `MC0A` only.
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?
 - What encoding, boundaries, indirection, compression, or transformation is used?
@@ -118,8 +120,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
   - Does the Saturn keep the arcade's English remap and data path vestigially (the
     `0xCC90` flag and 100-byte records in `RE-023`)? Does the disc hold dormant
     English text, as Vampire Savior's does (`DOC-007` idea only)?
-  - Do the other characters' Saturn tables match the arcade Japanese tables
-    byte for byte?
+  - Do the other characters' Saturn tables match the arcade Japanese tables byte
+    for byte? Answered by `EXP-0034`: yes, for all 23 files (file `nn` = slot
+    `nn`). Still open: what the extra tables in `MC00`, `MC0C`, and `MC13` are.
   - Decided by the user on 2026-10-24: use the paired official English (record
     `k` gets entry `k & 7`). Still open: how 25-character English lines fit
     19-cell Saturn lines.
