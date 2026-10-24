@@ -628,6 +628,21 @@ Task: `RE-042`
 - **Reproduce.** Run `tools/reference/roster_pairing.py`. The output is
   `data/text/roster_pairing.json` (hashes only).
 
+## EXP-0035: 17-Character Official-English Roster Image (Offline)
+
+Confidence: **CONFIRMED** (build and offline render; live check pending,
+`RE-046`)
+
+Experiment: `EXP-0035` (task `RE-045`)
+
+- **Finding.** One deterministic image (track 01 `f5044e8a…`) holds the paired
+  official English for all 17 roster characters in one shared font: 338 pairs,
+  of which 90 reuse kanji codes.
+- **No collateral changes.** Only the roster PACs and `MEMFIX` change, and the
+  register's untouched blocks are byte-identical.
+- **Renders.** All are legible.
+- **Reproduce.** See `research/experiments/EXP-0035/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

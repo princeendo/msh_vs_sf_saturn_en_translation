@@ -15,8 +15,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
   `nn`. `RE-043` is done (17-character roster, `docs/coverage_exceptions.md`). Next
   was `RE-042`, now done (all 17 paired; placeholders dropped). `RE-044` is done:
-  the roster spec fits, with 90 reused kanji codes and per-line alignment. Next
-  is `RE-045` (build the roster image).
+  the roster spec fits, with 90 reused kanji codes and per-line alignment.
+  `RE-045` is done (`EXP-0035`): the deterministic roster image is reviewed
+  offline. Next are `RE-046` (live checks; a gameplay plan comes first) and
+  `RE-047` (regression).
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1722,10 +1724,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-045 - Build the ordinary-roster image deterministically
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-24, `EXP-0035`)
 - **Milestone:** M5
 - **Dependencies:** RE-044.
-- **Blockers:** None. The roster spec fits (`RE-044`).
+- **Blockers:** None.
 - **Objective:** Produce one derived image with every ordinary character's official
   English.
 - **Rationale:** Binary traceability and determinism must hold at roster scale.
@@ -1737,13 +1739,20 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Output hashes are recorded.
 - **Outputs:** The `build/` image (ignored), compile manifest hashes, and an
   experiment record.
+- **Evidence (2026-10-24, `EXP-0035`):**
+  - Two identical builds (track 01 `f5044e8a…`); every font, table, and image
+    check is true.
+  - Only the 17 roster PACs and `MEMFIX` differ. The exception blocks are
+    byte-identical, records `k + 8` equal records `k`, and no placeholders
+    remain.
+  - All renders were reviewed and are legible, including the new punctuation.
 
 ### RE-046 - Verify a representative set of characters live
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-045.
-- **Blockers:** No roster image yet.
+- **Blockers:** None. The roster image is `build/re045` (`EXP-0035`).
 - **Objective:** Show on screen that the roster image works across the layout
   variants found in `RE-041`, with minimal user gameplay.
 - **Rationale:** Live checks catch runtime effects that offline checks miss, such
@@ -1764,10 +1773,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-047 - Add regression controls for the roster pipeline
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-045.
-- **Blockers:** No roster image yet.
+- **Blockers:** None. The roster image is `build/re045` (`EXP-0035`).
 - **Objective:** Keep confirmed outputs from drifting as the pipeline grows.
 - **Rationale:** Roster changes must not silently alter Ryu, Ken, or earlier
   builds.
