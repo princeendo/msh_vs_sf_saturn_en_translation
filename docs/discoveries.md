@@ -727,6 +727,35 @@ Experiment: `EXP-0038`
     bytes.
 - **Reproduce.** `research/experiments/EXP-0038/README.md`, Procedure.
 
+## END-003: Ryu's Ending Dialogue Is a Live Code Table with a Name Placeholder
+
+Confidence: **CONFIRMED** (boxes 1-2 and the placeholder); boxes 3-4 and the
+pages are located but not live-tested
+
+Experiment: `EXP-0039`
+
+- **Finding.** The post-boss dialogue is read live from WRAM-L records of 38
+  big-endian 16-bit quote-font codes (2 lines × 19 cells, 76 bytes), padded
+  with `0x0020`, with line positions explicit in the record.
+  - Ryu/Gouki box 1 is at `0x0022AE14` and box 2 at `0x0022AE60`.
+  - Boxes 3-4 (`0x0022B9F4`, `0x0022BA40`) and the three ending pages
+    (`0x00233664` + `0x4C`·k) were located with all 13 line positions matching
+    the screen.
+- **Name placeholder.** Code `0x0000` inserts a character name from a WRAM-H
+  name table (32-byte entries; Ryu's codes are at `0x06095FE4`).
+- **Load time.** The tables load with the final stage (`STAGE-08`) and are
+  identical through the ending.
+- **Evidence.** Single writes into `ryu_gouki_post_boss_ko.mcs`, before the
+  scene, each against a no-write control:
+  - box 2 cell 1 `0970` → `08F9`: only that cell changed, showing R;
+  - box 1's `0x0000` → `08F9`: R then ・・・ with no name;
+  - Ryu's name entry → R Y U: box 1 showed RYU.
+- **Limits.**
+  - What selects the records, and which name fills a placeholder, are unknown.
+  - The table bases may move with team or load order.
+  - The disc source is unknown.
+- **Reproduce.** `research/experiments/EXP-0039/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:

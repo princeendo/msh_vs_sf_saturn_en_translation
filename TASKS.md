@@ -14,9 +14,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   checkpoint is made, and Ryu's ending was observed (a post-boss dialogue plus
   three ending pages). `END-002` is done (`EXP-0038`): the ending text is VDP1
   sprites of byte-exact quote-font glyphs, built by the `FONT-001` routine
-  from 16-bit codes. The next tasks are:
-  - `END-003`: find the codes in RAM (no gameplay);
-  - `END-004`: trace them to the disc (no gameplay; now `READY`);
+  from 16-bit codes. `END-003` is done (`EXP-0039`): the text is a live WRAM-L
+  table of 19 × 2 code records with a `0x0000` name placeholder, loaded with
+  `STAGE-08`. The next tasks are:
+  - `END-004`: trace the table to the disc (no gameplay);
   - `END-005`: what selects the dialogue and ending (one gameplay session);
   - `END-006`: the arcade reference.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
@@ -2027,7 +2028,7 @@ the user asks or when it unblocks other work.
 
 ### END-003 - Search work RAM for the ending text structure
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-24, `EXP-0039`)
 - **Milestone:** M6
 - **Dependencies:** END-001.
 - **Blockers:** None. No gameplay is needed.
@@ -2058,16 +2059,35 @@ the user asks or when it unblocks other work.
     transformed.
   - The pre-filled slot table at WRAM-L `0x00260E5E` (R1 in `EXP-0038`) is not
     the text, so do not mistake it for a hit.
+- **Evidence (2026-10-24, `EXP-0039`; boxes 1-2 and the placeholder are
+  `CONFIRMED`, discoveries `END-003`):**
+  - Every line was found once in WRAM-L as plain big-endian codes, in 76-byte
+    records of 19 × 2 cells with explicit positions. All 13 line starts match
+    the screen.
+    - Dialogue: `0x0022AE14`/`0x0022AE60` and `0x0022B9F4`/`0x0022BA40`.
+    - Pages: `0x00233664` + `0x4C`·k.
+  - Code `0x0000` is a name placeholder, filled from a WRAM-H name table (Ryu
+    at `0x06095FE4`).
+  - Three single-write trials met their predictions: box 2 cell, box 1
+    placeholder, and Ryu's name entry.
+  - The tables load at the `STAGE-08` transition (run 1, frames
+    53,481-53,651) and include Gouki's lines while the team was Ryu/Ken.
+  - Pattern-only search was not needed: the direct code search hit. The
+    corrected local transcription is `5718880a…`.
 
 ### END-004 - Locate the disc source of Ryu's ending text
 
 - **Status:** `READY` (unblocked by `END-002`, 2026-10-24)
 - **Milestone:** M6
 - **Dependencies:** END-002 or END-003.
-- **Blockers:** None. `EXP-0038` gives a trace start: the glyph routine
-  `0x0601CE00` is called with the code in R3, returning to `0x0601CDE2`. Its
-  caller's code source can be followed back to RAM, and then to a disc load.
-  An `END-003` RAM address would make this faster.
+- **Blockers:** None. Trace starts:
+  - `EXP-0039`: the tables arrive in WRAM-L between frames 53,481 and 53,651 of
+    run 1 (the `STAGE-08` transition). Records sit at `0x0022AE14`,
+    `0x0022B9F4`, and `0x00233664`.
+  - A write breakpoint on one of these addresses, replayed from a run 1 state
+    at or before frame 53,481 (kept as
+    `local/end001/checkpoints/before_stage08_load.mcs`, `bed2673fb2e47201…`), finds the writer with no gameplay.
+  - `EXP-0038`: the glyph routine `0x0601CE00`, returning to `0x0601CDE2`.
 - **Objective:** Find which disc file supplies the dialogue and the ending-page
   text, and in what format.
 - **Rationale:** M7 must change the source image, not live RAM (as M2 did for

@@ -3244,3 +3244,43 @@ commit).
 Next action: `END-003` (code search in RAM) or `END-004` (trace R3 to its RAM
 source, then to the disc).
 
+## 2026-10-24 — END-003 / EXP-0039: the ending text is a live WRAM-L code table
+
+Task: END-003
+
+Goal: Find where the ending's 16-bit codes live in work RAM, with no gameplay.
+
+Hypothesis: the dialogue and page text are held in work RAM as the same 16-bit
+codes and read from there.
+
+Action and result:
+
+- **Direct search.** It used the codes known from `EXP-0038`, with `?` for
+  unknown kanji, over WRAM-L/H of eight `EXP-0037` checkpoints.
+  - Every line hit exactly once in WRAM-L, inside 76-byte records (19 × 2
+    cells, `0x0020` padding).
+  - Box records: 1 `0x0022AE14`, 2 `0x0022AE60`, 3 `0x0022B9F4`,
+    4 `0x0022BA40`. Page records: `0x00233664` + `0x4C`·k.
+  - All 13 line starts match the screen, so positions are explicit, not
+    computed centering.
+  - Page 3's "bracket gaps" are glyph whitespace. The transcription was
+    corrected locally.
+- **Placeholder.** Box 1 line 2 and box 3 line 1 hold `0x0000` where a name
+  shows (Ryu, then Gouki). A WRAM-H name table from about `0x06095FC0` holds
+  32-byte name entries (Ryu at `0x06095FE4`). `0x08A8` is the long-vowel mark.
+- **Live trials** (`write_trial.py` into the post-KO state, with controls):
+  - box 2 cell 1 → R: only that cell changed;
+  - box 1's `0x0000` → R: R then ・・・, no name;
+  - Ryu's name entry → R Y U: box 1 showed RYU.
+- **Load time.** Bisection of the run 1 states: absent at frame 53,481, present
+  at 53,651 (the `STAGE-08` transition, team still Ryu/Ken). The records are
+  identical through the ending.
+- **New tool:** `tools/text/code_search.py`, with tests.
+
+Conclusion: `CONFIRMED` for boxes 1-2 and the placeholder, `SUPPORTED` for
+boxes 3-4 and the pages (discoveries `END-003`). `END-004` now has a concrete
+trace start: a write breakpoint on a record address, replayed from
+`f00053481.mcs`.
+
+Next action: `END-004` (no gameplay).
+
