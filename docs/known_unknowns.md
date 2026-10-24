@@ -111,6 +111,37 @@ These questions are unresolved unless a later entry links to reproducible eviden
   the KO. Does a Ken KO from the same Ryu/Ken checkpoint show a Ken quote under the
   same joint portrait? (Untested; every `EXP-0009` KO was Ryu's.)
 
+## Endings (M6, from `EXP-0037`)
+
+Nothing about win quotes may be assumed for endings (`AGENTS.md` rules 13-14).
+Ryu's run showed a four-box post-boss dialogue at the top of the frozen stage,
+then three ending pages (a picture panel and a bottom text box).
+
+- **Selection.** Does the post-boss dialogue depend on the team pair, the
+  partner alone, or the point character, or is it always shown? Does the ending
+  follow the point character, the KO character, the survivor, or the team? Ryu
+  was point and landed the KO, so these were confounded. Test in `END-005`.
+- **Renderer.** Are the dialogue and page glyphs VDP1 sprites, VDP2 cells, or
+  parts of bitmaps? Do the dialogue and the pages share a path? Test in
+  `END-002`.
+- **Text in RAM.** Is the text held in work RAM as fixed-width per-character
+  values, and in what encoding? Test in `END-003`.
+- **Source.** Which disc file supplies the text, and is it compressed?
+  (`END-004`)
+- **Font.** Do the glyphs come from the win-quote font (`MEMFIX.PAC` entry 4 in
+  cart RAM) or another? This is a visual resemblance only, so far.
+- **Layout.** Line starts sit on a 16-px grid (x ≡ 12 mod 16) but do not follow
+  simple centering by character count. Is the position set by leading spaces,
+  per-line offsets, or something else? What is a line's capacity (about 19-20
+  cells by width), and how many lines fit in a box or page? Page 3's bracket
+  spacing is narrower than a 16-px pitch.
+- **Speakers.** Who speaks each dialogue box? No speaker cue is shown.
+- **Continue.** Continuing after a final-boss loss went to character select and
+  then `STAGE-08` (`SUPPORTED`, one run). Does that hold for every pick order and
+  side?
+- **Arcade.** Do the arcade sets show the same dialogue and pages, and does
+  official English exist for each line? (`END-006`)
+
 ## Cross-Release Evidence
 
 - Which official English line corresponds to each Japanese caption?

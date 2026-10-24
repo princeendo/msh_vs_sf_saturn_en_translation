@@ -10,8 +10,17 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   through the same generalized mechanism, with all 32 Ryu and Ken records verified
   live from one image. M3 was completed on 2026-10-17.
 - Reverse-engineering experiments in progress: none.
+- **M6 started on 2026-10-24.** `END-001` is done (`EXP-0037`): the final-boss
+  checkpoint is made, and Ryu's ending was observed (a post-boss dialogue plus
+  three ending pages). The next tasks are:
+  - `END-002`: the renderer (no gameplay);
+  - `END-003`: a RAM structure search (no gameplay);
+  - `END-005`: what selects the dialogue and ending (one gameplay session);
+  - `END-006`: the arcade reference.
+
+  `END-004` waits on `END-002` or `END-003`.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
-  same day: `END-001` is `READY` and next. Low-priority win-quote follow-ups
+  same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
   are recorded in the backlog.
 - M5 history: its breakdown was defined on 2026-10-24 as
@@ -1939,7 +1948,7 @@ the user asks or when it unblocks other work.
 
 ### END-001 - Begin ending-text investigation
 
-- **Status:** `READY` (user GO on 2026-10-24)
+- **Status:** `DONE` (2026-10-24, `EXP-0037`)
 - **Milestone:** M6
 - **Dependencies:** RE-040 (`DONE`).
 - **Blockers:** None. The user lifted the former blocker ("the ordinary post-fight
@@ -1960,18 +1969,152 @@ the user asks or when it unblocks other work.
   - Save states are local checkpoints (ignored), not RAM evidence (`AGENTS.md`).
   - Start with Ryu (`END-010` targets a Ryu ending), and treat the ending's text,
     storage, and renderer as unknown.
+- **Evidence (2026-10-24, `EXP-0037`):**
+  - The run used the untouched image, because the roster image changes the
+    quote font, which the ending might share. The user played Ryu/Ken, lost to
+    Mech-Gouki, then continued with Ryu/Gouki and won.
+    `tools/mednafen/session_recorder.py` recorded screenshots and states with no
+    hotkeys.
+  - The continue result is `SUPPORTED` (one run): continuing went to character
+    select and then straight to `STAGE-08` against Mech-Gouki.
+    `select_after_continue.mcs` holds on select with no input for at least 50 s.
+  - The run showed two text scenes after the boss:
+    - a four-box post-boss dialogue at the top of the frozen stage, after the
+      partner Gouki drops in;
+    - three ending pages, each with a picture panel and a bottom text box.
+  - Measured: 13-row glyphs, a 16-px pitch and line pitch, and line starts on a
+    16-px grid (x ≡ 12 mod 16), but not simple centering. Timing and checkpoint
+    hashes are in `EXP-0037`. The transcription is local only.
+  - Storage, encoding, renderer, and font are all still `UNKNOWN`. The task
+    breakdown is `END-002` to `END-006` below; `END-010` depends on it.
+
+### END-002 - Identify the video path that draws ending text
+
+- **Status:** `READY`
+- **Milestone:** M6
+- **Dependencies:** END-001.
+- **Blockers:** None. No gameplay is needed (`EXP-0037` checkpoints).
+- **Objective:** Establish whether the dialogue and the ending-page glyphs are
+  VDP1 sprites, VDP2 layer cells, or parts of bitmaps.
+- **Rationale:** The renderer decides what a patch must change: glyph codes,
+  tile data, or images. The win-quote renderer may not be assumed.
+- **Acceptance criteria:**
+  - One hypothesis at a time, as designed in `EXP-0037`. First test "one VDP1
+    sprite per glyph" on `ending_dialogue_box1.mcs`: passive VDP1/VDP2
+    extraction (validated regions), then a single active change (skip only the
+    candidate commands), with before/after screenshots.
+  - The same check on `ending_page1.mcs`, since the pages may differ.
+  - The result records either the glyph source address (character data) for
+    the next task, or the refuted alternatives.
+- **Outputs:** Experiment record, local dumps and screenshots.
+- **Notes:** If VDP1 is refuted, test VDP2 as a separate hypothesis.
+
+### END-003 - Search work RAM for the ending text structure
+
+- **Status:** `READY`
+- **Milestone:** M6
+- **Dependencies:** END-001.
+- **Blockers:** None. No gameplay is needed.
+- **Objective:** Test whether the visible dialogue and page text exist in work
+  RAM as one fixed-width value per character.
+- **Rationale:** An encoding-agnostic hit gives an address to trace to the disc,
+  with no code table assumed.
+- **Acceptance criteria:**
+  - Run `tools/text/pattern_search.py` over WRAM-L and WRAM-H from the dialogue
+    and page checkpoints, at 8- and 16-bit widths. The patterns come from the
+    repeat structure in the local transcription (`EXP-0037` design: the box 1
+    pattern, plus the name that box 1 shares with pages 1 and 2).
+  - Each hit is checked for consistency: the same symbol has the same value
+    across boxes and pages.
+  - A no-hit result is recorded as evidence against per-character text in RAM.
+  - Cart RAM is searched only with the rationale recorded, because its
+    extraction is unvalidated.
+- **Outputs:** Experiment record with hit addresses and values, or the negative.
+- **Notes:**
+  - Compare hits with the win-quote codes only afterwards, as a separate test.
+  - Review the local transcription independently (as in `REF-003`) before
+    trusting the patterns.
+
+### END-004 - Locate the disc source of Ryu's ending text
+
+- **Status:** `BLOCKED`
+- **Milestone:** M6
+- **Dependencies:** END-002 or END-003.
+- **Blockers:** Needs a RAM address (`END-003`) or a glyph source address
+  (`END-002`) to trace.
+- **Objective:** Find which disc file supplies the dialogue and the ending-page
+  text, and in what format.
+- **Rationale:** M7 must change the source image, not live RAM (as M2 did for
+  captions).
+- **Acceptance criteria:**
+  - A write breakpoint (log mode), replayed with no input from
+    `ryu_gouki_post_boss_ko.mcs`, finds the writer. The trace leads back to a
+    disc read.
+  - The file is named with its ISO 9660 entry.
+  - An offline decode that reproduces the RAM bytes exactly shows the format
+    (compression, layout).
+- **Outputs:** Experiment record, decoder evidence, and a discoveries entry if
+  confirmed.
+- **Notes:** Do not assume `MCnn`, PAC, or LZSS until observed.
+
+### END-005 - Identify what selects the post-boss dialogue and the ending
+
+- **Status:** `READY`
+- **Milestone:** M6
+- **Dependencies:** END-001.
+- **Blockers:** None. Needs one user gameplay session per team.
+- **Objective:** Separate the effects of the point character, the partner, and
+  the KO character on the dialogue and on the ending pages.
+- **Rationale:** M7 needs to know which text belongs to "Ryu's ending" and
+  whether the dialogue is team-specific.
+- **Acceptance criteria:**
+  - The first run changes only the partner: from `select_after_continue.mcs`,
+    pick Ryu (point) + Ken and beat the boss with Ryu.
+  - Prediction (`EXP-0037`): the ending pages are identical in the text boxes,
+    and the dialogue differs or is absent. The result is recorded either way.
+  - Later runs swap the order or the KO character, one variable each.
+  - Each run also records whether the boss stage was kept, as a second
+    observation of the continue result.
+- **Outputs:** Experiment record, new checkpoints, and screenshots that have
+  been read.
+- **Notes:** Ask the user only for the boss fight. The recorder captures
+  everything else.
+
+### END-006 - Arcade reference for Ryu's ending and the post-boss dialogue
+
+- **Status:** `READY`
+- **Milestone:** M6 (reference; no Saturn change)
+- **Dependencies:** END-001, REF-009.
+- **Blockers:** None.
+- **Objective:** Capture the arcade Japanese and official English versions of
+  the same ending pages and dialogue.
+- **Rationale:** The arcade is the primary translation oracle
+  (`GATE-TRANSLATION`); the PS1 release is secondary.
+- **Acceptance criteria:**
+  - Scripted MAME runs reach Ryu's ending in `mshvsfj` and in
+    `mshvsfu`/`mshvsf`, with a Ryu/Gouki team if one is reachable.
+  - The screens are compared to the Saturn transcription.
+  - The English source is located in ROM if possible (as in `EXP-0029`).
+  - Gaps are recorded: lines with no English, and team-dependent dialogue.
+- **Outputs:** Reference metadata and hashes. The text stays local.
+- **Notes:** Do not assume the arcade text format equals the Saturn's
+  (rule 14).
 
 ### END-010 - Localize one Ryu ending
 
 - **Status:** `BACKLOG`
 - **Milestone:** M7
-- **Dependencies:** END-001.
-- **Blockers:** Ending investigation has not established an actionable pipeline.
+- **Dependencies:** END-001, END-002, END-004, END-005, END-006.
+- **Blockers:** The renderer, source file, selection logic, and official English
+  for Ryu's ending are not yet established (`END-002` to `END-006`).
 - **Objective:** Reproduce one Ryu ending localization from untouched source.
 - **Rationale:** One complete case is required before generalizing endings.
 - **Acceptance criteria:** Live/source behavior is experimentally established; official text provenance, exact modifications, deterministic build, and visible verification are documented.
 - **Outputs:** M7 experiments, tools, local evidence, confirmed discoveries.
 - **Notes:** Do not generalize from the first ending in this task.
+  - Scope to settle first, as a user decision after `END-005`: does "Ryu's
+    ending" include the post-boss dialogue, which may be team-specific, or only
+    the three ending pages (`EXP-0037`)?
 
 ### END-020 - Generalize ending-localization pipeline
 
