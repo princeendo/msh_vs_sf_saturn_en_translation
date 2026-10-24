@@ -3116,3 +3116,18 @@ files), all passing.
 
 Checks: pytest (182 passed, 1 skipped), ruff check, ruff format --check, and
 strict mypy, all passing.
+
+## 2026-10-24 — Backlog housekeeping and M6 opened
+
+- `DISC-020` closed as `DONE`, superseded by `TR-001` (`EXP-0033`): an
+  official-English Ryu image booted from scratch and was verified live.
+- Recorded as low-priority `BACKLOG`, per the user: `RE-048` (lowercase
+  descenders), `RE-049` (second quote state selector), `RE-050` (more live
+  roster checks), `REL-001` (distributable patch), and `REF-012`. `REF-012`
+  investigates the user's observation that the US/EU arcade sets use a different
+  win-quote font, and whether it could serve the Saturn (`HYPOTHESIS`; a user
+  decision if viable).
+- User GO for M6: `END-001` is `READY`. Checkpoint plan: reach the final boss in
+  arcade mode, lose, and save a state at continue / character select. Whether
+  continuing keeps the final stage is a `HYPOTHESIS` to check first.
+- No code changed.
