@@ -68,12 +68,12 @@ def test_report_lists_every_reference_and_its_last_check() -> None:
     skipped = reference() | {"name": "absent"}
     baseline: dict[str, object] = {"references": [reference(), skipped]}
     results: list[dict[str, object]] = [
-        {"name": "ref", "status": "pass", "spec_source": "cached", "problems": []},
+        {"name": "ref", "status": "pass", "spec_source": "stored", "problems": []},
     ]
 
     text = report_markdown(baseline, results, "2026-10-24")
 
     assert "| `ref` | `EXP-0000` |" in text
-    assert "pass (cached spec)" in text
+    assert "pass (stored spec)" in text
     assert "| `absent` |" in text and "not run" in text
     assert "| `MC09.PAC` | `m9` |" in text

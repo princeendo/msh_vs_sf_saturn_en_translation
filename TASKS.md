@@ -1828,8 +1828,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     and the PAC header sector equals the source again. The roster rebuild equals
     `build/re046_roster` exactly.
   - Report: `docs/regression_report.md` (all four pass).
-  - Not run this session: spec regeneration (needs the pinned `cps2.cpp`, absent
-    locally). The cached specs were checked by hash.
+  - Spec regeneration also passes: with the pinned driver
+    (`local/mame_src/cps2.cpp`, SHA-256 `a8c09ef8…`), `official_captions.py`
+    regenerates the `tr001` and roster specs byte-identical to their recorded
+    hashes.
 
 ### END-001 - Begin ending-text investigation
 
