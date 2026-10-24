@@ -1,0 +1,183 @@
+{
+ "description": "Ryu win quotes: Saturn MC09.PAC record k pairs with arcade slot 9 English entry remap[k] by game logic (EXP-0031). Metadata and hashes only; no game text.",
+ "saturn_source": "MC09.PAC SHA-256 6c096573622a515ceb81436dacbe9ed732adab11fde87a43c4e497e4b56a0016, decoded table offset 0x91AC, 16 x 76 bytes",
+ "arcade_sets": [
+  "mshvsf",
+  "mshvsfu",
+  "mshvsfj"
+ ],
+ "arcade_tables": {
+  "jp_pointer_table": "0x20BFAC",
+  "en_pointer_table": "0x20C014",
+  "slot": 9
+ },
+ "correspondence": "game-logic index (CONFIRMED): the arcade shows Japanese record k in Japanese mode and English entry remap[k] in English mode for the same selected index. Not a semantic translation claim.",
+ "transcription_review": "REF-003: two independent transcriptions identical; kana, punctuation, blanks and cell counts machine-checked against codes",
+ "arcade_jp_base": "0x20edac",
+ "arcade_en_base": "0x21ba20",
+ "remap": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "tables_identical": true,
+ "rows": [
+  {
+   "saturn_record": 0,
+   "arcade_jp_address": "0x20edac",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "cb5468bad0fd80689a9c7441a928edbe47af58395a75fbe921c5431124cbf997",
+   "arcade_en_entry": 0,
+   "arcade_en_address": "0x21ba20",
+   "en_codes_sha256": "d5bae54b761cd1d86081933124a37d955577af991ef562a40f7902dae3efb38f"
+  },
+  {
+   "saturn_record": 1,
+   "arcade_jp_address": "0x20edf8",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "c0dd7302aa1e7eaee38989a390a238f586976ab97454eadc892e04fc5983c442",
+   "arcade_en_entry": 1,
+   "arcade_en_address": "0x21ba84",
+   "en_codes_sha256": "6487cc25ce48707f16451f6591d8b96f42977ac1501fd8e48a54ab726db8d9cd"
+  },
+  {
+   "saturn_record": 2,
+   "arcade_jp_address": "0x20ee44",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "ee56bff297cbee078ad5e9aabf4785a286078dc4de7f610d3fbcb3c4a4ba3705",
+   "arcade_en_entry": 2,
+   "arcade_en_address": "0x21bae8",
+   "en_codes_sha256": "be818c5cc66739473b10216187383b5811ddf7cb3afccbc9caf6b970c63d192a"
+  },
+  {
+   "saturn_record": 3,
+   "arcade_jp_address": "0x20ee90",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "fa26fd3108428985eeae3a1169204d470d331c4266f8dd081274aaa57d0bb824",
+   "arcade_en_entry": 3,
+   "arcade_en_address": "0x21bb4c",
+   "en_codes_sha256": "d8586ad83f1b564e6fac50c3bcd3fa135108ccad86511148e1204e10c200fdfc"
+  },
+  {
+   "saturn_record": 4,
+   "arcade_jp_address": "0x20eedc",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "7be4758a12a63132a6e8758928d0304c5517cd96bdb60729407f3bd93f52818f",
+   "arcade_en_entry": 4,
+   "arcade_en_address": "0x21bbb0",
+   "en_codes_sha256": "c1baf838f912a9c3834bf3e4384902b7871c70780bf18b4ba6c9032ad14aa1b2"
+  },
+  {
+   "saturn_record": 5,
+   "arcade_jp_address": "0x20ef28",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "8b1891fee14822556dce13c352b635ddc9ddb0b0df0e55fd9c505a4a97dbc64d",
+   "arcade_en_entry": 5,
+   "arcade_en_address": "0x21bc14",
+   "en_codes_sha256": "fdf10d3f0a764aa2813ec4906d2d8ea750ee93df62a82ebd0706223e439af720"
+  },
+  {
+   "saturn_record": 6,
+   "arcade_jp_address": "0x20ef74",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "7bfa2f92a76845fce91f62073462fc2261379a584b10244bff5b1d7d3b90bada",
+   "arcade_en_entry": 6,
+   "arcade_en_address": "0x21bc78",
+   "en_codes_sha256": "fffd70bbe3f8232ed507e9cfbecab285ae67676223db6e56757c71582141af19"
+  },
+  {
+   "saturn_record": 7,
+   "arcade_jp_address": "0x20efc0",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "adff5f8e59badef66827c39193522a28aca19ded21f92420257fe66ec28f4161",
+   "arcade_en_entry": 7,
+   "arcade_en_address": "0x21bcdc",
+   "en_codes_sha256": "d453e78728d97a31a86e63c28aeb1cfa1edf6f5ad2b3be6be6aab5a8ce5a9a55"
+  },
+  {
+   "saturn_record": 8,
+   "arcade_jp_address": "0x20f00c",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "80c1bc2b6c3cf1d6375b58bbd4393ea375c0519defd94f0cc3c501d8ad16beef",
+   "arcade_en_entry": 0,
+   "arcade_en_address": "0x21ba20",
+   "en_codes_sha256": "d5bae54b761cd1d86081933124a37d955577af991ef562a40f7902dae3efb38f"
+  },
+  {
+   "saturn_record": 9,
+   "arcade_jp_address": "0x20f058",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "7e4f6c873a8e0e8f5c9c20bab19b7827ef2f14c38bfac8e4fc46d623a531c809",
+   "arcade_en_entry": 1,
+   "arcade_en_address": "0x21ba84",
+   "en_codes_sha256": "6487cc25ce48707f16451f6591d8b96f42977ac1501fd8e48a54ab726db8d9cd"
+  },
+  {
+   "saturn_record": 10,
+   "arcade_jp_address": "0x20f0a4",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "1faf7f879983b8e3ed664a6b8a1ca93f9b7d8d9bbedb5963fc93cecdf68b34af",
+   "arcade_en_entry": 2,
+   "arcade_en_address": "0x21bae8",
+   "en_codes_sha256": "be818c5cc66739473b10216187383b5811ddf7cb3afccbc9caf6b970c63d192a"
+  },
+  {
+   "saturn_record": 11,
+   "arcade_jp_address": "0x20f0f0",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "0083ffb7969806c017a97d0f7dcfacc91584174e18ba0855e89a5a7aec1c209d",
+   "arcade_en_entry": 3,
+   "arcade_en_address": "0x21bb4c",
+   "en_codes_sha256": "d8586ad83f1b564e6fac50c3bcd3fa135108ccad86511148e1204e10c200fdfc"
+  },
+  {
+   "saturn_record": 12,
+   "arcade_jp_address": "0x20f13c",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "bde05814e78cf28199e1aae1dc6ac53cf6fa54861dd19da366f5239bfb1e730c",
+   "arcade_en_entry": 4,
+   "arcade_en_address": "0x21bbb0",
+   "en_codes_sha256": "c1baf838f912a9c3834bf3e4384902b7871c70780bf18b4ba6c9032ad14aa1b2"
+  },
+  {
+   "saturn_record": 13,
+   "arcade_jp_address": "0x20f188",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "b5982da285d73ec5beb2166057e5a6f9a4b02c4d9931bd7e7f50570c67afc416",
+   "arcade_en_entry": 5,
+   "arcade_en_address": "0x21bc14",
+   "en_codes_sha256": "fdf10d3f0a764aa2813ec4906d2d8ea750ee93df62a82ebd0706223e439af720"
+  },
+  {
+   "saturn_record": 14,
+   "arcade_jp_address": "0x20f1d4",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "53ccf7269980282ea138bf64398edb72685ec75a374065222e90028ba98448a1",
+   "arcade_en_entry": 6,
+   "arcade_en_address": "0x21bc78",
+   "en_codes_sha256": "fffd70bbe3f8232ed507e9cfbecab285ae67676223db6e56757c71582141af19"
+  },
+  {
+   "saturn_record": 15,
+   "arcade_jp_address": "0x20f220",
+   "arcade_jp_identical": true,
+   "jp_codes_sha256": "38a84aed8e8f274784d0da034f5853a977ad07be9a522c9c263edfcec873d3de",
+   "arcade_en_entry": 7,
+   "arcade_en_address": "0x21bcdc",
+   "en_codes_sha256": "d453e78728d97a31a86e63c28aeb1cfa1edf6f5ad2b3be6be6aab5a8ce5a9a55"
+  }
+ ]
+}

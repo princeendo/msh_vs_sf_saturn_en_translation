@@ -2691,3 +2691,36 @@ Checks: no Python code changed; the Lua script ran as shown.
 
 Checks: pytest (151 passed), ruff check, ruff format --check, and strict mypy (62
 files), all passing.
+
+## 2026-10-24 — REF-003 / REF-004 / EXP-0031: Saturn Ryu ↔ arcade English pairing
+
+- Searched the arcade program for the Saturn Ryu record code lines. All 32 occur
+  once, in order. The 16 × 76 table at `0x20EDAC` is byte-identical to the Saturn's
+  in all three sets. It is slot 9 of a Japanese pointer table at `0x20BFAC`.
+- The arcade index sits at `0xFF9E66`, the same offset as the Saturn
+  `0x060F9E66`. Added `force16`, `logwrites`, and `debug` verbs to
+  `mame_timeline.lua`.
+- MAME's debugger runs headless with `-debug -debugger none` and Lua `command()`
+  for `dasm` and `bpset`. There is no `unidasm` in the Homebrew bottle.
+- Selection routine: random value, `& 0x0F`, then for non-Japanese languages a
+  remap table `00-07 00-07`. Breakpoint tests confirmed it (US 12→4, 9→1; JP
+  12→12, 9→9). Forced indexes displayed all 8 English entries and 16 Japanese
+  records.
+- REF-003: my transcription and a blind subagent transcription are identical. A
+  code-level check (cells, blanks, hiragana, punctuation) found 0 mismatches.
+- Conclusion: Saturn record `k` corresponds to English entry `k & 7`. This is
+  game-logic correspondence, not translation; the English lines are separate
+  rewrites (my reading).
+- Pitfalls:
+  - The routine address differs per region build (US `0x070356` mask, JP
+    `0x070378`). The first JP breakpoint at the US address silently did nothing.
+  - The raw ROM bytes of these PC-relative tables are encrypted; read them from
+    the decrypted opcode space.
+- Only the Q10 record and pairing metadata were committed. Full text stays in
+  `local/ref003/`, per `data/translations/README.md` ("minimal text").
+- Next: REF-005 (needs a legal PS1 image), DOC-007, DOC-008, and the 16-to-8
+  policy decision before `GATE-TRANSLATION`.
+
+Checks: pytest (153 passed), ruff check, ruff format --check, and strict mypy (64
+files), all passing.
+
