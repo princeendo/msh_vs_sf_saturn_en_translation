@@ -8,119 +8,340 @@
    "arcade_name": "CYCLOPS",
    "file": "MC01.PAC",
    "table": "0xAC50",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      11,
+      0
+     ],
+     [
+      12,
+      7
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 2,
    "arcade_name": "CAPTAIN AMERICA",
    "file": "MC02.PAC",
    "table": "0xD6D8",
-   "file_class": "irregular"
+   "file_class": "irregular",
+   "placeholders": {
+    "cells": [
+     [
+      8,
+      2
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 3,
    "arcade_name": "HULK",
    "file": "MC03.PAC",
    "table": "0x9C1C",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      13,
+      26
+     ],
+     [
+      15,
+      6
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 4,
    "arcade_name": "WOLVERINE",
    "file": "MC04.PAC",
    "table": "0xC2B4",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      8,
+      7
+     ],
+     [
+      9,
+      1
+     ],
+     [
+      14,
+      6
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 5,
    "arcade_name": "SHUMA-GORATH",
    "file": "MC05.PAC",
    "table": "0xA06C",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      2,
+      4
+     ],
+     [
+      13,
+      0
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 6,
    "arcade_name": "OMEGA RED",
    "file": "MC06.PAC",
    "table": "0x9FF0",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      13,
+      9
+     ],
+     [
+      14,
+      1
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 7,
    "arcade_name": "SPIDER-MAN",
    "file": "MC07.PAC",
    "table": "0xD160",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      8,
+      9
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 8,
    "arcade_name": "BLACKHEART",
    "file": "MC08.PAC",
    "table": "0xAA24",
-   "file_class": "irregular"
+   "file_class": "irregular",
+   "placeholders": {
+    "cells": [
+     [
+      14,
+      5
+     ],
+     [
+      15,
+      0
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 9,
    "arcade_name": "RYU",
    "file": "MC09.PAC",
    "table": "0x91AC",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      0,
+      8
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 10,
    "arcade_name": "KEN",
    "file": "MC0A.PAC",
    "table": "0xA59C",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      11,
+      26
+     ],
+     [
+      12,
+      25
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 11,
    "arcade_name": "CHUN-LI",
    "file": "MC0B.PAC",
    "table": "0x9B58",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      2,
+      9
+     ],
+     [
+      12,
+      8
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 12,
    "arcade_name": "DHALSIM",
    "file": "MC0C.PAC",
    "table": "0xAA88",
-   "file_class": "irregular"
+   "file_class": "irregular",
+   "placeholders": {
+    "cells": [
+     [
+      7,
+      4
+     ],
+     [
+      13,
+      3
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 13,
    "arcade_name": "ZANGIEF",
    "file": "MC0D.PAC",
    "table": "0xC7F4",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      6
+     ],
+     [
+      9,
+      19
+     ],
+     [
+      12,
+      5
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 14,
    "arcade_name": "BISON",
    "file": "MC0E.PAC",
    "table": "0x9BDC",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      9,
+      6
+     ],
+     [
+      12,
+      4
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 15,
    "arcade_name": "AKUMA",
    "file": "MC0F.PAC",
    "table": "0xA658",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      12,
+      2
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 16,
    "arcade_name": "SAKURA",
    "file": "MC10.PAC",
    "table": "0xB718",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      3,
+      22
+     ],
+     [
+      8,
+      20
+     ],
+     [
+      14,
+      2
+     ]
+    ],
+    "decision": "drop"
+   }
   },
   {
    "slot": 18,
    "arcade_name": "DAN",
    "file": "MC12.PAC",
    "table": "0x9198",
-   "file_class": "ordinary"
+   "file_class": "ordinary",
+   "placeholders": {
+    "cells": [
+     [
+      0,
+      7
+     ],
+     [
+      11,
+      6
+     ]
+    ],
+    "decision": "drop"
+   }
   }
  ],
  "incidental": [
@@ -130,5 +351,6 @@
    "via": "MC07.PAC block shared with slot 7 (Saturn and arcade)",
    "accepted": true
   }
- ]
+ ],
+ "placeholder_policy": "RE-042: every Saturn 0000 partner-name placeholder in a roster table is dropped (the spec omits {P}). The paired official English entries contain no placeholder code (0 cells across all 17 blocks), and TR-001 verified a dropped placeholder live (Ryu record 0)."
 }

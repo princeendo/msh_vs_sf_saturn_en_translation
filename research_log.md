@@ -2929,3 +2929,18 @@ files), all passing.
 
 Checks: documentation and JSON only.
 
+## 2026-10-24 — RE-042: roster pairing
+
+- New `tools/reference/roster_pairing.py` (with tests). It reads the roster, pairs
+  each Saturn table with its arcade slot, compares English blocks across the three
+  arcade sets, looks up the PS1 comparison, and lists placeholders.
+- All 17 tables are identical to their arcade Japanese slots. The English is
+  identical across US, EU, and JP and present in the PS1 release.
+- 33 placeholder cells across the roster; Zangief has the most (4). The arcade
+  English blocks contain no `0000` code, so every placeholder is dropped. This is
+  recorded per cell in `data/text/m5_roster.json`.
+- `RE-044` is now `READY`.
+
+Checks: pytest (166 passed), ruff check, ruff format --check, and strict mypy (73
+files), all passing.
+

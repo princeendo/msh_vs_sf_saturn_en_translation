@@ -1,0 +1,3239 @@
+{
+ "arcade_sets": [
+  "mshvsfu",
+  "mshvsf",
+  "mshvsfj"
+ ],
+ "characters": [
+  {
+   "slot": 1,
+   "arcade_name": "CYCLOPS",
+   "file": "MC01.PAC",
+   "table": "0xAC50",
+   "tables_identical": true,
+   "arcade_en_base": "0x21a120",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "f0f8b4d4790f34fa0e236b2f05d53f2252b9186350a3b4196979c6a6c03a117b",
+    "mshvsf": "f0f8b4d4790f34fa0e236b2f05d53f2252b9186350a3b4196979c6a6c03a117b",
+    "mshvsfj": "f0f8b4d4790f34fa0e236b2f05d53f2252b9186350a3b4196979c6a6c03a117b"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x0fc0c",
+   "placeholders": [
+    {
+     "record": 11,
+     "cell": 0
+    },
+    {
+     "record": 12,
+     "cell": 7
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20c7ac",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "940ff52f0011efaa2061303017c967373792c1d8689b9bc722e0718819f16b0f",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21a120",
+     "en_codes_sha256": "091a3b806f50bc32d05e3bda23bcc4bd3ea043e92bea5c54dcaf2985c2562900"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20c7f8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7f6052eb0e75c1fb1d8e6f4385ec9116eb14f56daff437ba531f5fe561b754aa",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21a184",
+     "en_codes_sha256": "712874ad0ff221dcbb3cdaaddfae57c08b1ffdd587d57296e4662974606fb84f"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20c844",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "716b4bb33796e4f8067331373d4851cd69dcfd17feb85cf858f8faee0970ec1c",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21a1e8",
+     "en_codes_sha256": "32f2c6d1b9c5a8e27ea7e969f8bb47fc0d831f48facada5c5de1edcb51e213e2"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20c890",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "0555d0666d45986df4de5f5b3692d41f3e6ea606cc463d20f0ee1dd84024e819",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21a24c",
+     "en_codes_sha256": "dcf7e5c20f83d1e56c4487b20c7ba614c81822fd15bfdfa01c55e6faa06e6b42"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20c8dc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8d296f2b68c2442ea3ede00ae79e7e6d8c588b85ba3768d3ff0f9fc45ab50cdd",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21a2b0",
+     "en_codes_sha256": "e7e51caf94909b616f15dd2956e8e5cc680b68b4cc41deb365b96c73af65501b"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20c928",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9bae8943037ece63f0f7af788e8b16bd68da16816badb4068624615cbe8aa60e",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21a314",
+     "en_codes_sha256": "b19df3f135dca3f4c5cf6ea69ab611e0ecdb169618d63ed9e6aca5a17fb70b37"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20c974",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "de054a704ff7bd301fc39588e6ee0665ccdc0025bb9003692fd5d565bc948b0b",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21a378",
+     "en_codes_sha256": "f49b0a4f169c28ca3fe2f836365e2c80853bdd433dc0db415786ce99767badbe"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20c9c0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1677c7d08e1ea89e52f97dcd42ddbe2987a39d6a0e40c1cf62969ce7f3cdf46e",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21a3dc",
+     "en_codes_sha256": "3a996929c55f435b594046a9cf0695b780e318fb1fe0a7f89be242abf5d7dac0"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20ca0c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d8a70cf04f1c40a16241494780c6b0634818b03c864cf15af1a1c5864d740097",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21a120",
+     "en_codes_sha256": "091a3b806f50bc32d05e3bda23bcc4bd3ea043e92bea5c54dcaf2985c2562900"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20ca58",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7e5fdfb10dbaf1b02aede42597001a6cf4a95d7cc93c465e86e74002174195cd",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21a184",
+     "en_codes_sha256": "712874ad0ff221dcbb3cdaaddfae57c08b1ffdd587d57296e4662974606fb84f"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20caa4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "22b31c000697d4fcacc5484880d4f9ef4cc7e6903de3531da08343551f09c8f0",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21a1e8",
+     "en_codes_sha256": "32f2c6d1b9c5a8e27ea7e969f8bb47fc0d831f48facada5c5de1edcb51e213e2"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20caf0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7037eb60ff65a55023561e72f6de9fd6d13e406f6b2d5c1d54aaa97388504d6f",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21a24c",
+     "en_codes_sha256": "dcf7e5c20f83d1e56c4487b20c7ba614c81822fd15bfdfa01c55e6faa06e6b42"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20cb3c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d89519a69df4beb34e46892d8808ae875f1bce75ce611aea69b9c850019be8a1",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21a2b0",
+     "en_codes_sha256": "e7e51caf94909b616f15dd2956e8e5cc680b68b4cc41deb365b96c73af65501b"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20cb88",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6267aa1f7be9cd0bede9dadb00770878b6b0915693271594c1ef81b313f0c549",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21a314",
+     "en_codes_sha256": "b19df3f135dca3f4c5cf6ea69ab611e0ecdb169618d63ed9e6aca5a17fb70b37"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20cbd4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9a50b2dd0e5acfc24c7ba1c58661ca1d53f20b52de7c68565ec1e6dc748990b0",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21a378",
+     "en_codes_sha256": "f49b0a4f169c28ca3fe2f836365e2c80853bdd433dc0db415786ce99767badbe"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20cc20",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f1c173e951f13027dfe655ae717c41e412979c6b795bf5d8644220370a19b391",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21a3dc",
+     "en_codes_sha256": "3a996929c55f435b594046a9cf0695b780e318fb1fe0a7f89be242abf5d7dac0"
+    }
+   ]
+  },
+  {
+   "slot": 2,
+   "arcade_name": "CAPTAIN AMERICA",
+   "file": "MC02.PAC",
+   "table": "0xD6D8",
+   "tables_identical": true,
+   "arcade_en_base": "0x21a440",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "2388e552a129f75ff6dac6ff3988ed20e475e3cfd66857ea9540f609f4bc4e85",
+    "mshvsf": "2388e552a129f75ff6dac6ff3988ed20e475e3cfd66857ea9540f609f4bc4e85",
+    "mshvsfj": "2388e552a129f75ff6dac6ff3988ed20e475e3cfd66857ea9540f609f4bc4e85"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x0ff2c",
+   "placeholders": [
+    {
+     "record": 8,
+     "cell": 2
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20cc6c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4932c64a52d169ade086c6e44d70c66539a2b47fe0c4556b19813af5812cae9a",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21a440",
+     "en_codes_sha256": "892121e1fb38b21d24767ec0b02f22645b7f492d922f2ccdd99149ea71683cb8"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20ccb8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "cdab64e25f81722c84d8d962f3a46b920858dd9de7b5f2dbf005785edb86743e",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21a4a4",
+     "en_codes_sha256": "e21ee538872c19d461f25a81e23cebcf115ec5d361389073651f17975509cceb"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20cd04",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3e7f649862b2d506e718fdc39429e35f7241aec7b293bffc6e9eb3c4f4e8f90a",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21a508",
+     "en_codes_sha256": "6d3eb44dd522ce1b6a45d5ac5c3bf94c61e570ccede4352b4c0fab31ac5ec180"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20cd50",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ca6c383722091261b7a28718ec67ef4e85d39ca2ee71f7f37e15cdb1cec3b583",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21a56c",
+     "en_codes_sha256": "86abd42a58c23df46e918f31444f0316d7ae46194d53ef691992e4b34e422aa3"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20cd9c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "388192fd625dec5d3a4a8d5a069a59076c3227f4d71e3ac300476e2c81ece7c2",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21a5d0",
+     "en_codes_sha256": "a3a8bed33e81bd2a8c826590a62c1b1a9b7534b22c48d66b452861536e4708ff"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20cde8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "756aa4dbed2c7d7bd7abc7a76a1d8a3f324a56fb1d9257bb261a4d7bb27691da",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21a634",
+     "en_codes_sha256": "fbaa3097eaf506bd1b4c238e68ddc7b83f578573c30fa7655d54de6ecd840ab7"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20ce34",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8fcba48200e31b96ecc492108ed1cb48bf2fe01d8cd53b38f794cd33cd8b5ae8",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21a698",
+     "en_codes_sha256": "64cf3fa76c4b00f8f6f87972e8c42252b88345c4d630f1c49e7ff4f68dd710be"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20ce80",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f405f4eb330b2b27a6ec01bdefa429fc04cc79cb87821768e63b2c59ea09f9a4",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21a6fc",
+     "en_codes_sha256": "16d9b9a2ad28fb925f233ccd36dfda69440fea58ae68adcbf6431ee4f2ed7f59"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20cecc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "41c1203a73965d8dc79e2d442ba6d4c31af619a4b65e666b92320c36d20fc096",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21a440",
+     "en_codes_sha256": "892121e1fb38b21d24767ec0b02f22645b7f492d922f2ccdd99149ea71683cb8"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20cf18",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "83c39bc18fb134a12bd51e48dff24528549293e78e31867bf6b8f0569153c29c",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21a4a4",
+     "en_codes_sha256": "e21ee538872c19d461f25a81e23cebcf115ec5d361389073651f17975509cceb"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20cf64",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a5d6beb65798f1f0ad625f2b4213ba6f61e6a1ac98e32ffb49b571deb6759699",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21a508",
+     "en_codes_sha256": "6d3eb44dd522ce1b6a45d5ac5c3bf94c61e570ccede4352b4c0fab31ac5ec180"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20cfb0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1ac5ac1119ce9ef50b8a9d220a0c59aa4926cdd2015ded77ba0556e6e55dad01",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21a56c",
+     "en_codes_sha256": "86abd42a58c23df46e918f31444f0316d7ae46194d53ef691992e4b34e422aa3"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20cffc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e76abf034df81b8e5e8acc0c5d50c242adec83d6d33ce54d797eb94c9442a9d1",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21a5d0",
+     "en_codes_sha256": "a3a8bed33e81bd2a8c826590a62c1b1a9b7534b22c48d66b452861536e4708ff"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20d048",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "039200ee4b4a038327e852beddaece279dcb3c953d727ad35f601ade6be0c096",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21a634",
+     "en_codes_sha256": "fbaa3097eaf506bd1b4c238e68ddc7b83f578573c30fa7655d54de6ecd840ab7"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20d094",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a364007ce4b708163234ce214f4e715f06e4d5c619f9083954cd2ba692f755f1",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21a698",
+     "en_codes_sha256": "64cf3fa76c4b00f8f6f87972e8c42252b88345c4d630f1c49e7ff4f68dd710be"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20d0e0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4f950824f4b9c9e7e8eab2ac55b5de235be0582c88ab008d892f2ec8d6ccde7e",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21a6fc",
+     "en_codes_sha256": "16d9b9a2ad28fb925f233ccd36dfda69440fea58ae68adcbf6431ee4f2ed7f59"
+    }
+   ]
+  },
+  {
+   "slot": 3,
+   "arcade_name": "HULK",
+   "file": "MC03.PAC",
+   "table": "0x9C1C",
+   "tables_identical": true,
+   "arcade_en_base": "0x21a760",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "66bf1e0bbd9028e4ae361f249b27365e11a772bfb841632171ca30cab10ed70e",
+    "mshvsf": "66bf1e0bbd9028e4ae361f249b27365e11a772bfb841632171ca30cab10ed70e",
+    "mshvsfj": "66bf1e0bbd9028e4ae361f249b27365e11a772bfb841632171ca30cab10ed70e"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1024c",
+   "placeholders": [
+    {
+     "record": 13,
+     "cell": 26
+    },
+    {
+     "record": 15,
+     "cell": 6
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20d12c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e27b36ac7d1f7de5c7fc3e8b427c18ef7b9b9722d13013326f2e5f2da179d7a6",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21a760",
+     "en_codes_sha256": "265bc4581b73f185b3ecdc4cdb23cf99e47eea7cec9d64736959cffc7536acf2"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20d178",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b3060e77f6051734fc4c3437df825ae1bb4cec326dc72f5279e7fb1d72a21d57",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21a7c4",
+     "en_codes_sha256": "1abb61c752b43bf5999616d9241f00bc83b93c873c84ac8882eb845556afb107"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20d1c4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c91a529194e42deed1f36097be292dd5172fd6a9599e52fea9c5681ffd8e342a",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21a828",
+     "en_codes_sha256": "169567754819fcdc6590fb8503d5c6210764afe4303020b7caffedc577c5d847"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20d210",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "20cc9d48ad2d98d1791590a1d5ed0f3f2778510048c3c651cc924bfb9756de51",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21a88c",
+     "en_codes_sha256": "e0b27201b6081e1a8329db9439fd56a27250e902c6fa5b14acb36b791e23fa5a"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20d25c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5a9102c3a1e607aa2f300d0d44501bd3693c503a2631931adf7e96d283e93e0d",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21a8f0",
+     "en_codes_sha256": "051dbb9b2a8067da9b28a7d10d4c2be7b05fd6d27d3864434240c9b80b4d228c"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20d2a8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "520c5822450be430ecddacbceecd994228d35d15a4f98d0befcae5d157d1d256",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21a954",
+     "en_codes_sha256": "abbdf8c00350b2eedd413b22b8986d13d4dfe157b2cde9b66022c53e5db8e33b"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20d2f4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "faf843c527d7f1a9710d822ddf22f97fee9c15df05f58562ce34ad13b805a81a",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21a9b8",
+     "en_codes_sha256": "911842146d3f3155589eb6257cf415489ff9b3a85094426f33d203a292fb33c3"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20d340",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ee57fceb720c39678185290275ee46b5d91043ebea737659b73a34f446eda21d",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21aa1c",
+     "en_codes_sha256": "64e28cb4869144e23d3949a4a81eef6f925620de47a057735658ebf81f11bfcc"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20d38c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1fd9f0dc3535d7c3a35ce049366e3cc0e9a94ba40f96a9eb134a0c97f3fdf367",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21a760",
+     "en_codes_sha256": "265bc4581b73f185b3ecdc4cdb23cf99e47eea7cec9d64736959cffc7536acf2"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20d3d8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b4ffacc34a8d0a3ada48841b4cb57f65fcd6c027d903efc66d7eefec64f6dcbf",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21a7c4",
+     "en_codes_sha256": "1abb61c752b43bf5999616d9241f00bc83b93c873c84ac8882eb845556afb107"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20d424",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ffd2e773b7d34774ea6a09f14b826b0eab93cafe9ca8a1a3df0a42e2c4bc12d0",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21a828",
+     "en_codes_sha256": "169567754819fcdc6590fb8503d5c6210764afe4303020b7caffedc577c5d847"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20d470",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7977a96ed67a934ce58e634271034d9975d5acc6772b076ff515fd7f9783d90f",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21a88c",
+     "en_codes_sha256": "e0b27201b6081e1a8329db9439fd56a27250e902c6fa5b14acb36b791e23fa5a"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20d4bc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5b9c131839037bd257fc98baaefa77b9214154fff603625b1b651c4102781994",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21a8f0",
+     "en_codes_sha256": "051dbb9b2a8067da9b28a7d10d4c2be7b05fd6d27d3864434240c9b80b4d228c"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20d508",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "005f1e8080b87f85cb960e7a2b2bb2dae25975d877f5c1436d9a915404de95a0",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21a954",
+     "en_codes_sha256": "abbdf8c00350b2eedd413b22b8986d13d4dfe157b2cde9b66022c53e5db8e33b"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20d554",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6660f4cbd28996bf9ccc83c671e1f34761f407bfc135b7497e408d8891542c34",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21a9b8",
+     "en_codes_sha256": "911842146d3f3155589eb6257cf415489ff9b3a85094426f33d203a292fb33c3"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20d5a0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8fa5960d4ba92276eda58ed1e354ac7a6658c368b4fce4e54f73d204150e911b",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21aa1c",
+     "en_codes_sha256": "64e28cb4869144e23d3949a4a81eef6f925620de47a057735658ebf81f11bfcc"
+    }
+   ]
+  },
+  {
+   "slot": 4,
+   "arcade_name": "WOLVERINE",
+   "file": "MC04.PAC",
+   "table": "0xC2B4",
+   "tables_identical": true,
+   "arcade_en_base": "0x21aa80",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "64dcb928ef916d741408accdb5f442b46323532ff4cc3ef91b143063540da157",
+    "mshvsf": "64dcb928ef916d741408accdb5f442b46323532ff4cc3ef91b143063540da157",
+    "mshvsfj": "64dcb928ef916d741408accdb5f442b46323532ff4cc3ef91b143063540da157"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1056c",
+   "placeholders": [
+    {
+     "record": 8,
+     "cell": 7
+    },
+    {
+     "record": 9,
+     "cell": 1
+    },
+    {
+     "record": 14,
+     "cell": 6
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20d5ec",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "62429392be02e6f113adaa9d76b183b99623967f66c7fa928ca7e85d49b274f1",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21aa80",
+     "en_codes_sha256": "a5f9ea72b5b397ebc32dd6f7b16cbfc3a66a9ca8347347f3cbfff6e6775b4fab"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20d638",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "10474191c9ae2bdd86c1354325143eb20713d522aaec9a9b01e5112566f22283",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21aae4",
+     "en_codes_sha256": "a1cd903bbab983ea0ff8a7f68f09ca1d547b3f8898892eaab8d8abd53cb96011"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20d684",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "58031c6875f553d435044fc329a11dfadfe82361b73c112a8d58ec643e7ba0f0",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21ab48",
+     "en_codes_sha256": "1772dd625141216d80c32d0d754990858527d330c8722328ce5075fb09cabfdb"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20d6d0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "300ebe1c1ac80e4043a585a84cb8a1255f97e875340d80b5cd357f453eccb246",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21abac",
+     "en_codes_sha256": "49a3f33c00b5a989ee7fc5d10b8cad9fb2594aa92033733dab1b4948420a5456"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20d71c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "045f21526ec433cc4521f16bad5371c0d319bfb41201a125eb9ac20853442912",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21ac10",
+     "en_codes_sha256": "dee45d552914e203424e1a7fa536624f52e9662b2b4fc3e7b44a48352a0ad9d3"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20d768",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "17ab0c12625744e98868813ee0f58a51d94fe629d6bf07397e0160f52fe09b40",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21ac74",
+     "en_codes_sha256": "33b34ce448f7c7a116420ded966dffb880198281d0feafb43925eaa81273403b"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20d7b4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e4a3742f2cd412cdd4b89b580b05968520eb8f2bf878e04abe74320d79f828cf",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21acd8",
+     "en_codes_sha256": "c2ef16fb8f10a1b318aadd40aaddfecc52cd45db4377e3f918234b8da9c17b99"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20d800",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3d95648a6f58ff056b60b46e459527e5593bdf6990bbc40d05ee5ce3547d24e1",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21ad3c",
+     "en_codes_sha256": "38c564dd987b75df58d3f9b0099d12228086eeab7c4f0bdedde298a448522541"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20d84c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ab78effbb1514560da4562f21da307d70f4a1394e254f0256a443671803f53b7",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21aa80",
+     "en_codes_sha256": "a5f9ea72b5b397ebc32dd6f7b16cbfc3a66a9ca8347347f3cbfff6e6775b4fab"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20d898",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e425c95d52d6151493fb77f2256361633d1d81bfd6cf6762d43f65d1338e63e2",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21aae4",
+     "en_codes_sha256": "a1cd903bbab983ea0ff8a7f68f09ca1d547b3f8898892eaab8d8abd53cb96011"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20d8e4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "988f4e6094711326931651e0d9264a6f41f8767d9c970af69c0173c09bb95556",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21ab48",
+     "en_codes_sha256": "1772dd625141216d80c32d0d754990858527d330c8722328ce5075fb09cabfdb"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20d930",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8e70dffce69e45d13d24199661237fd5e2af90f5e76b9abc308dfd93e88602b5",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21abac",
+     "en_codes_sha256": "49a3f33c00b5a989ee7fc5d10b8cad9fb2594aa92033733dab1b4948420a5456"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20d97c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9b7b2f367f43a954e3665bd30e28db6d3a370db07cbec4a0fed47be9cdd7755c",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21ac10",
+     "en_codes_sha256": "dee45d552914e203424e1a7fa536624f52e9662b2b4fc3e7b44a48352a0ad9d3"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20d9c8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "fcdd3f35b5d157b8aa378a95ecf0f07648e705566ce53c33bd03cd049d0bebf3",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21ac74",
+     "en_codes_sha256": "33b34ce448f7c7a116420ded966dffb880198281d0feafb43925eaa81273403b"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20da14",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5212c1cbe64cac5822e7e29625d1c3421183707b785ffd71afab0686203f818a",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21acd8",
+     "en_codes_sha256": "c2ef16fb8f10a1b318aadd40aaddfecc52cd45db4377e3f918234b8da9c17b99"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20da60",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1ac4f1df6de27311a802b63af1c070599acef012dc804a822065a6b168457f5e",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21ad3c",
+     "en_codes_sha256": "38c564dd987b75df58d3f9b0099d12228086eeab7c4f0bdedde298a448522541"
+    }
+   ]
+  },
+  {
+   "slot": 5,
+   "arcade_name": "SHUMA-GORATH",
+   "file": "MC05.PAC",
+   "table": "0xA06C",
+   "tables_identical": true,
+   "arcade_en_base": "0x21ada0",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "5c32ba027bb9cfdbde2b9d77db00f5256dd1afb3163eacc9adfaac567d71f7f4",
+    "mshvsf": "5c32ba027bb9cfdbde2b9d77db00f5256dd1afb3163eacc9adfaac567d71f7f4",
+    "mshvsfj": "5c32ba027bb9cfdbde2b9d77db00f5256dd1afb3163eacc9adfaac567d71f7f4"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1088c",
+   "placeholders": [
+    {
+     "record": 2,
+     "cell": 4
+    },
+    {
+     "record": 13,
+     "cell": 0
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20daac",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4315c044ab1b327f21a0c60d387b9a4c57924eb600504521f2ea4a5d1b3abf4e",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21ada0",
+     "en_codes_sha256": "0e20af50ff2c26ff0b7d9737344294cbf129614e6622954e5518922795629345"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20daf8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "68c8fae72abb47b090664a4df7bc6a949d8a0843f2a06049c8afbc64e12e3f02",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21ae04",
+     "en_codes_sha256": "6245ac2cf0eb9a85a698a1450c8c67eddf357ed32d1b8dca84b8f59d04c426b8"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20db44",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f7e6a1fd503d53c64553375be49d1c1a5df8f4c692ff6159b0b728e80ecd5903",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21ae68",
+     "en_codes_sha256": "1b0052c53ba5e93beba5fa7ba792ce076216af1eae0625eb1115518a301799ec"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20db90",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b69516b53dc5109561d225291b1f053f32741b435d40fb3ef961c9b85af0fd3f",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21aecc",
+     "en_codes_sha256": "60a26af8ef19e0b729889d832133d88e22c3067781b7123e9a99afe73b20b2ff"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20dbdc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d4882ef6dd7322603bf991a828669c1260c3991a31d7d6e966c307b99bc72c4d",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21af30",
+     "en_codes_sha256": "87eeb20e70df89d6bcbc895a4d33b2c5ac07261fe10a6306c186674e9e99cc33"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20dc28",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "43ed1ebe327becdb85b87f52200d6ad8276ca70de2edec963607a669fad1bfa0",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21af94",
+     "en_codes_sha256": "7ceef47406b9ce4d275899468c94358092907e9213eecad8f7229f2bebced99e"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20dc74",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9de950475859703ffaef9d2d01a8f9c3efaac9ba82f36e50751870b1eb1c5f69",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21aff8",
+     "en_codes_sha256": "e6110fda16d5b3daebcdfc1516637a7ebad0bf5664c12630e0990038a570406a"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20dcc0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1d9146992d6511b6948c0235e3f57fe1f035320156efd55abf574ce039268d31",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b05c",
+     "en_codes_sha256": "f81df4bff2cbbb5beb37049bb4853ee6a7290133e1163bcff8e2ed447ef2fe3c"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20dd0c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "61f2e265c0ad86d50ad83bd1694d1b3ebf0e7bff6d05a5239e85d6f1379d7272",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21ada0",
+     "en_codes_sha256": "0e20af50ff2c26ff0b7d9737344294cbf129614e6622954e5518922795629345"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20dd58",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6c9756118ed5b85ce56466e38a3a812c51e748652fedd0d0425ff14469277eaa",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21ae04",
+     "en_codes_sha256": "6245ac2cf0eb9a85a698a1450c8c67eddf357ed32d1b8dca84b8f59d04c426b8"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20dda4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f33974105276b58f3ff1d5c12465c9ef46dad00c36b6d26d728afe03b9fc1ece",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21ae68",
+     "en_codes_sha256": "1b0052c53ba5e93beba5fa7ba792ce076216af1eae0625eb1115518a301799ec"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20ddf0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3c037f37c9666f19b73dfaa280f593d5a7508ec36e7a18d7c74403f716239de7",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21aecc",
+     "en_codes_sha256": "60a26af8ef19e0b729889d832133d88e22c3067781b7123e9a99afe73b20b2ff"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20de3c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b0ba81ff7ac33ef15fa04c6ebf3ade3f8792d582aaed3e51ac3143bce7349445",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21af30",
+     "en_codes_sha256": "87eeb20e70df89d6bcbc895a4d33b2c5ac07261fe10a6306c186674e9e99cc33"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20de88",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "25c24a2532b63b008c109e3bde018da5975c1a43aa775739d3242419609ae615",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21af94",
+     "en_codes_sha256": "7ceef47406b9ce4d275899468c94358092907e9213eecad8f7229f2bebced99e"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20ded4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "de55f9a20cead43aa5128ea14466bf09c0a1d373981ead39f7365262a8f05f85",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21aff8",
+     "en_codes_sha256": "e6110fda16d5b3daebcdfc1516637a7ebad0bf5664c12630e0990038a570406a"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20df20",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f621bac65782a29a0b8342a35dedea945bc09db4d8733ecc3540d2b965d51ede",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b05c",
+     "en_codes_sha256": "f81df4bff2cbbb5beb37049bb4853ee6a7290133e1163bcff8e2ed447ef2fe3c"
+    }
+   ]
+  },
+  {
+   "slot": 6,
+   "arcade_name": "OMEGA RED",
+   "file": "MC06.PAC",
+   "table": "0x9FF0",
+   "tables_identical": true,
+   "arcade_en_base": "0x21b0c0",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "702929f18c007c1d359d2c933ff691c866002ba2d29c56a51da03d39e5055107",
+    "mshvsf": "702929f18c007c1d359d2c933ff691c866002ba2d29c56a51da03d39e5055107",
+    "mshvsfj": "702929f18c007c1d359d2c933ff691c866002ba2d29c56a51da03d39e5055107"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x10bac",
+   "placeholders": [
+    {
+     "record": 13,
+     "cell": 9
+    },
+    {
+     "record": 14,
+     "cell": 1
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20df6c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "0275322dabc7d39021cbebf3a75440d04c1ce980c3ca88b64adcfa88a0bb6285",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21b0c0",
+     "en_codes_sha256": "50395c7502680786ffa31a765e8f0783336e52266eb4a8e5a3b04fe182177360"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20dfb8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "148d4552e3ff8119cd91c0c691e14aede8b7a6dc6d4ba588f72a9c748ec9dfce",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21b124",
+     "en_codes_sha256": "de719025b9ea045fb670e96116362cb42cec0b959a9c326b66c90268f73c8def"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20e004",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "eefc5d9590a788d52569ac45860b585111a5faf35576f40622df4d80edcb8259",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21b188",
+     "en_codes_sha256": "0c9bbd8d7f66724f63403fd6c074a69970a313f4214b3f28e964c2c603e82ae2"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20e050",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a7c52cce0ea04f7e937468f3f3105f8cb78a0a06e3386164938031d01fa4d25f",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21b1ec",
+     "en_codes_sha256": "2e3c0dae099d7bfbbe4e54635a806ae8117430a63f90af8cdf7ee439808fb497"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20e09c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "531e395ab2117d79b7200bdf49811c1c01d4bae6cc1bd42b5d64c0be2b2ebcc4",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21b250",
+     "en_codes_sha256": "7c7048c8a3bbb6480cbfc3e6b54741f1c5f2faca995438dc86c4b2ee02d37a79"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20e0e8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "2389cb4a93c2bde0196e833229301f0e744b10a6fe6a3f16e2fb7bf83d0e65b8",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21b2b4",
+     "en_codes_sha256": "960ac5772d44160e2be78a73e18d92d6062b17cae1a954148e6d8dfe24035bf4"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20e134",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b24f10e6f03651eba81fa7675e12c3955ff28287f408c2e0daafda1205253f3f",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21b318",
+     "en_codes_sha256": "9a9db4c3314b8c428ada429f753eb034fd634d625eaa0cd25178af7ffddc3946"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20e180",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "737ce92ab2040b4f472649f2025c2e7750c0947335116dbed578a24d4707c71e",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b37c",
+     "en_codes_sha256": "9edc03db8f3d0ddfa2b6188d23839090049be045aa191a4fa166aab3688196ad"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20e1cc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1fd97412b29fbece1c42ef91adde38a3d129cb2dcc87114f0b1323fa4c6d2947",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21b0c0",
+     "en_codes_sha256": "50395c7502680786ffa31a765e8f0783336e52266eb4a8e5a3b04fe182177360"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20e218",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "66aa43330d49a53df4b75eb51d2de620642b24d1e6c89eaa800b8ad09077d81b",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21b124",
+     "en_codes_sha256": "de719025b9ea045fb670e96116362cb42cec0b959a9c326b66c90268f73c8def"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20e264",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b22cc3ad68d361ccde2db4b28609ca5a85db35b3d7eeeed484fde4050081ffd5",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21b188",
+     "en_codes_sha256": "0c9bbd8d7f66724f63403fd6c074a69970a313f4214b3f28e964c2c603e82ae2"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20e2b0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "69b78a1b171fcbbf633667a7dc95ab8f1f4474a57d3980663a0f6b45fb27abef",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21b1ec",
+     "en_codes_sha256": "2e3c0dae099d7bfbbe4e54635a806ae8117430a63f90af8cdf7ee439808fb497"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20e2fc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c4766f5004fc480bc6d0683c95c5c95cb0f44d6a606fe3e74ebf63657f7aaf3b",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21b250",
+     "en_codes_sha256": "7c7048c8a3bbb6480cbfc3e6b54741f1c5f2faca995438dc86c4b2ee02d37a79"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20e348",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f6e902bd5fe9eb0ff3dda10632a11753794dc02709df6d51f56e2f3c3ba6a920",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21b2b4",
+     "en_codes_sha256": "960ac5772d44160e2be78a73e18d92d6062b17cae1a954148e6d8dfe24035bf4"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20e394",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e68ece00bd7499317f5cd90a721cec2c42dd8122c82ba366b73bf90d4bc192ef",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21b318",
+     "en_codes_sha256": "9a9db4c3314b8c428ada429f753eb034fd634d625eaa0cd25178af7ffddc3946"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20e3e0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "26b034d6c86b72e578c11d877c42ac7cb88f24694b1792c3fecabc583b1787df",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b37c",
+     "en_codes_sha256": "9edc03db8f3d0ddfa2b6188d23839090049be045aa191a4fa166aab3688196ad"
+    }
+   ]
+  },
+  {
+   "slot": 7,
+   "arcade_name": "SPIDER-MAN",
+   "file": "MC07.PAC",
+   "table": "0xD160",
+   "tables_identical": true,
+   "arcade_en_base": "0x21b3e0",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "7fba0b8344acf1d7b2e7f1a6db07b8550bb7cc60f3213b7840828e60228ff0f1",
+    "mshvsf": "7fba0b8344acf1d7b2e7f1a6db07b8550bb7cc60f3213b7840828e60228ff0f1",
+    "mshvsfj": "7fba0b8344acf1d7b2e7f1a6db07b8550bb7cc60f3213b7840828e60228ff0f1"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x10ecc",
+   "placeholders": [
+    {
+     "record": 8,
+     "cell": 9
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20e42c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "2dd042f8168e27e79d499685736006b2fab9af2923dd8d100227ea5c61049561",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21b3e0",
+     "en_codes_sha256": "5975af28ad7eb5b9f3ea9e6ac12bfc6e0692eaa84e3f9cdf78c96a54da4046d3"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20e478",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "42c66493f0ec566e4e35e7d7b8df95c56085068e998eb0a8a4fefeb2292c57fd",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21b444",
+     "en_codes_sha256": "cc8e0a628eea331870cf9545f4cbacc7c9b3394236a337c9066bf734eaa6b60a"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20e4c4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a62e6ce2339da63c77120ca48fd0cb06c8dc73b393b9ffe1259ca87c69c7b1ea",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21b4a8",
+     "en_codes_sha256": "cd541265fe7a7d7dd8cce1237a38cb127c4750b391cc76e3b00ebcb45619d25d"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20e510",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8ac7ff060abb6aa23c166694a7351bb00437125bb4848c7b3dcb2ac1e3fad2f0",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21b50c",
+     "en_codes_sha256": "b65e7076dccb4192afb63a12ef6afa607a6250852375ab051c5e220fdff02338"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20e55c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "db70077619eaf92b0e03464715fee4749d9363579c8d0533e602e427944552e5",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21b570",
+     "en_codes_sha256": "9e6d3b3869af3fa32c2c18af62a68225c51ffb61186d601f9dae6aec4c04a6bc"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20e5a8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "fd385c679778bd0f62d8a1cf5d0794ecdbd120f62d23bb41829cbce73aa577ea",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21b5d4",
+     "en_codes_sha256": "2332cb4c8ba11e27df9e699f4b8d187064afef1a47818dd53d1b62c5b3198190"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20e5f4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ec5d2a12b5b0251fac3c18a72aef301278e171fe8d3632ba87ed3bb03a45278f",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21b638",
+     "en_codes_sha256": "b8e51373867e4808921f14a08710a3ccec1a0e9fe33865d63a2894dcf0d0144e"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20e640",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5aef17886da0d99c6cbbec1e973f67d8389d79ad4d5fc7ef2a3275359d337bc0",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b69c",
+     "en_codes_sha256": "ce76ecab4d1f371fae14c1c250f4b2c47686c5056847444a18520b0ae8f9c66e"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20e68c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "69411f6f89530acc98c702470b0a0834d04b83280b04d752100066108a4128da",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21b3e0",
+     "en_codes_sha256": "5975af28ad7eb5b9f3ea9e6ac12bfc6e0692eaa84e3f9cdf78c96a54da4046d3"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20e6d8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "43dd130ac75a39845f673eec9efb32f73558d563f004d0ae7c54d92bd53fbc1b",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21b444",
+     "en_codes_sha256": "cc8e0a628eea331870cf9545f4cbacc7c9b3394236a337c9066bf734eaa6b60a"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20e724",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5a001fca4dbdac708b0f279b26501322e1ffdea01d42878f118176a6bd0b11d4",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21b4a8",
+     "en_codes_sha256": "cd541265fe7a7d7dd8cce1237a38cb127c4750b391cc76e3b00ebcb45619d25d"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20e770",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b1c7755fc956ee24d233230310afcf1df497cc191cc290ace5fb8814e6268a66",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21b50c",
+     "en_codes_sha256": "b65e7076dccb4192afb63a12ef6afa607a6250852375ab051c5e220fdff02338"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20e7bc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c5e8e319126b66d2628d36a44304f833c79bb6ca0da7925b174a30e0d873479e",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21b570",
+     "en_codes_sha256": "9e6d3b3869af3fa32c2c18af62a68225c51ffb61186d601f9dae6aec4c04a6bc"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20e808",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1c28ff2892bcf343e4909deabc9b4a8ee380155e85437d8848560987ce74c8c9",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21b5d4",
+     "en_codes_sha256": "2332cb4c8ba11e27df9e699f4b8d187064afef1a47818dd53d1b62c5b3198190"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20e854",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "263f143516e6c8f65dd82f3da35e108f72a2e8cb2f68768329d3723adfb989c2",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21b638",
+     "en_codes_sha256": "b8e51373867e4808921f14a08710a3ccec1a0e9fe33865d63a2894dcf0d0144e"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20e8a0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "438dc8f0d1f620170720b33b616780130f44174f78fed27d3f9b0ba1309560c2",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b69c",
+     "en_codes_sha256": "ce76ecab4d1f371fae14c1c250f4b2c47686c5056847444a18520b0ae8f9c66e"
+    }
+   ]
+  },
+  {
+   "slot": 8,
+   "arcade_name": "BLACKHEART",
+   "file": "MC08.PAC",
+   "table": "0xAA24",
+   "tables_identical": true,
+   "arcade_en_base": "0x21b700",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "8f0ce8d693d45210522d55b47aac0788f0bb332ce8c2fef469baa1dd0d4b1f50",
+    "mshvsf": "8f0ce8d693d45210522d55b47aac0788f0bb332ce8c2fef469baa1dd0d4b1f50",
+    "mshvsfj": "8f0ce8d693d45210522d55b47aac0788f0bb332ce8c2fef469baa1dd0d4b1f50"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x111ec",
+   "placeholders": [
+    {
+     "record": 14,
+     "cell": 5
+    },
+    {
+     "record": 15,
+     "cell": 0
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20e8ec",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7e055648ecacd4284c2dfb32dbba14fdb7d31af58981943754fe69e23cb2c564",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21b700",
+     "en_codes_sha256": "6ec593b17fc3251cbe4680aebd3d63a7c7742c1d9a784057892f7843ada5b08c"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20e938",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5e2e2962efcb5b4d889b629bf5d117ac8e6b0d05cc83dddafdf667740bea48c5",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21b764",
+     "en_codes_sha256": "ce9e0092a839d3e253cc91f27b6d7e9e455cc45a17a6725503a79bb2114041d2"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20e984",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e8a2f9965833ff11ce74e66489016a18472df6b620c13856380e21686332b220",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21b7c8",
+     "en_codes_sha256": "670cf4f7af8989b54d968343eb5d458379cee7e48b9eeecacbbaba62ba7b4ac4"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20e9d0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8b9648442ee83b29e22d00a6df42373af6d0e45073a8f2bae034434d0bca90f7",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21b82c",
+     "en_codes_sha256": "a3726165694526027d8779d91e3d94c4dcdd1fe8dad29af39766480b458b0e20"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20ea1c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3af5284df36893a703725433e1e30142c04a49b624601da7cc33ffe2ca6dca97",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21b890",
+     "en_codes_sha256": "b064238b0723c0cf1bff86cd28eb13b970f555b4bea7ed470386259bfa35db9c"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20ea68",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c9f6afd1a52434fa9c3806c9a1a0fa1a9336821c194c9676d3d1e41680b3c875",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21b8f4",
+     "en_codes_sha256": "064e3a96b05b59c833b8cfe3ec3c31abc7d0dd1df2996d0d58040c85c07087e0"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20eab4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "55798f77e4a8198a2107b9e8c0a18d9638b0eaee71a61074dd557e4549b58cce",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21b958",
+     "en_codes_sha256": "31eb254d56923ecfdabb8f7ef32253bc905f26a2290e18cab72e5d39f73f2542"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20eb00",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "68ad739526fc1def9603a2e216b8c69a9203ae75a6b44cce5f97251f18f37fb1",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b9bc",
+     "en_codes_sha256": "84d5deccc9ea50b91795acf33aa84567dc7ae89ddbd27e955ff9ba246dd56f19"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20eb4c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c4e10d7301caf11d0b9cdeeaab41babe417a7ce352c4f8582f50fe55fe76faf0",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21b700",
+     "en_codes_sha256": "6ec593b17fc3251cbe4680aebd3d63a7c7742c1d9a784057892f7843ada5b08c"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20eb98",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "18100280f554203cfa2eaf38960499e377ab6b713f8a7b2a0ab1c32b73199448",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21b764",
+     "en_codes_sha256": "ce9e0092a839d3e253cc91f27b6d7e9e455cc45a17a6725503a79bb2114041d2"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20ebe4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "0fd7d2bf6b4e79a0b9c5ed5a90c2c67814d0b4d70d87e30745ad676a27e75bf8",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21b7c8",
+     "en_codes_sha256": "670cf4f7af8989b54d968343eb5d458379cee7e48b9eeecacbbaba62ba7b4ac4"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20ec30",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "442a58147ac056a31d2c271e628c43635547810e891dd3e07cf6bd7662be298b",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21b82c",
+     "en_codes_sha256": "a3726165694526027d8779d91e3d94c4dcdd1fe8dad29af39766480b458b0e20"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20ec7c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c823593389410584972354e1d285af2877b3c4350fd4ef31c690292c99112b2a",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21b890",
+     "en_codes_sha256": "b064238b0723c0cf1bff86cd28eb13b970f555b4bea7ed470386259bfa35db9c"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20ecc8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "acddaa65325d5e507ee36031da37161f543fa5921b0d7c00ef65ad0b4fa64e06",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21b8f4",
+     "en_codes_sha256": "064e3a96b05b59c833b8cfe3ec3c31abc7d0dd1df2996d0d58040c85c07087e0"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20ed14",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "51b133550db90c06b748a4d0f21eead65b3f656d66df22b575a85351b0640b7f",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21b958",
+     "en_codes_sha256": "31eb254d56923ecfdabb8f7ef32253bc905f26a2290e18cab72e5d39f73f2542"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20ed60",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "64dd4adfc0d38e6140859b8c981f942c2a041b8b14814bb001fca2d81f0b4d86",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21b9bc",
+     "en_codes_sha256": "84d5deccc9ea50b91795acf33aa84567dc7ae89ddbd27e955ff9ba246dd56f19"
+    }
+   ]
+  },
+  {
+   "slot": 9,
+   "arcade_name": "RYU",
+   "file": "MC09.PAC",
+   "table": "0x91AC",
+   "tables_identical": true,
+   "arcade_en_base": "0x21ba20",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "21abab3605f7f9b1b5cdddfe1adf3b58ae8bddc7718bfcc5eec4fe92e677ec01",
+    "mshvsf": "21abab3605f7f9b1b5cdddfe1adf3b58ae8bddc7718bfcc5eec4fe92e677ec01",
+    "mshvsfj": "21abab3605f7f9b1b5cdddfe1adf3b58ae8bddc7718bfcc5eec4fe92e677ec01"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1150c",
+   "placeholders": [
+    {
+     "record": 0,
+     "cell": 8
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20edac",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "cb5468bad0fd80689a9c7441a928edbe47af58395a75fbe921c5431124cbf997",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21ba20",
+     "en_codes_sha256": "d5bae54b761cd1d86081933124a37d955577af991ef562a40f7902dae3efb38f"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20edf8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c0dd7302aa1e7eaee38989a390a238f586976ab97454eadc892e04fc5983c442",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21ba84",
+     "en_codes_sha256": "6487cc25ce48707f16451f6591d8b96f42977ac1501fd8e48a54ab726db8d9cd"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20ee44",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ee56bff297cbee078ad5e9aabf4785a286078dc4de7f610d3fbcb3c4a4ba3705",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21bae8",
+     "en_codes_sha256": "be818c5cc66739473b10216187383b5811ddf7cb3afccbc9caf6b970c63d192a"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20ee90",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "fa26fd3108428985eeae3a1169204d470d331c4266f8dd081274aaa57d0bb824",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21bb4c",
+     "en_codes_sha256": "d8586ad83f1b564e6fac50c3bcd3fa135108ccad86511148e1204e10c200fdfc"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20eedc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7be4758a12a63132a6e8758928d0304c5517cd96bdb60729407f3bd93f52818f",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21bbb0",
+     "en_codes_sha256": "c1baf838f912a9c3834bf3e4384902b7871c70780bf18b4ba6c9032ad14aa1b2"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20ef28",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8b1891fee14822556dce13c352b635ddc9ddb0b0df0e55fd9c505a4a97dbc64d",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21bc14",
+     "en_codes_sha256": "fdf10d3f0a764aa2813ec4906d2d8ea750ee93df62a82ebd0706223e439af720"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20ef74",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7bfa2f92a76845fce91f62073462fc2261379a584b10244bff5b1d7d3b90bada",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21bc78",
+     "en_codes_sha256": "fffd70bbe3f8232ed507e9cfbecab285ae67676223db6e56757c71582141af19"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20efc0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "adff5f8e59badef66827c39193522a28aca19ded21f92420257fe66ec28f4161",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21bcdc",
+     "en_codes_sha256": "d453e78728d97a31a86e63c28aeb1cfa1edf6f5ad2b3be6be6aab5a8ce5a9a55"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20f00c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "80c1bc2b6c3cf1d6375b58bbd4393ea375c0519defd94f0cc3c501d8ad16beef",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21ba20",
+     "en_codes_sha256": "d5bae54b761cd1d86081933124a37d955577af991ef562a40f7902dae3efb38f"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20f058",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7e4f6c873a8e0e8f5c9c20bab19b7827ef2f14c38bfac8e4fc46d623a531c809",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21ba84",
+     "en_codes_sha256": "6487cc25ce48707f16451f6591d8b96f42977ac1501fd8e48a54ab726db8d9cd"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20f0a4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1faf7f879983b8e3ed664a6b8a1ca93f9b7d8d9bbedb5963fc93cecdf68b34af",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21bae8",
+     "en_codes_sha256": "be818c5cc66739473b10216187383b5811ddf7cb3afccbc9caf6b970c63d192a"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20f0f0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "0083ffb7969806c017a97d0f7dcfacc91584174e18ba0855e89a5a7aec1c209d",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21bb4c",
+     "en_codes_sha256": "d8586ad83f1b564e6fac50c3bcd3fa135108ccad86511148e1204e10c200fdfc"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20f13c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "bde05814e78cf28199e1aae1dc6ac53cf6fa54861dd19da366f5239bfb1e730c",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21bbb0",
+     "en_codes_sha256": "c1baf838f912a9c3834bf3e4384902b7871c70780bf18b4ba6c9032ad14aa1b2"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20f188",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b5982da285d73ec5beb2166057e5a6f9a4b02c4d9931bd7e7f50570c67afc416",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21bc14",
+     "en_codes_sha256": "fdf10d3f0a764aa2813ec4906d2d8ea750ee93df62a82ebd0706223e439af720"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20f1d4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "53ccf7269980282ea138bf64398edb72685ec75a374065222e90028ba98448a1",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21bc78",
+     "en_codes_sha256": "fffd70bbe3f8232ed507e9cfbecab285ae67676223db6e56757c71582141af19"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20f220",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "38a84aed8e8f274784d0da034f5853a977ad07be9a522c9c263edfcec873d3de",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21bcdc",
+     "en_codes_sha256": "d453e78728d97a31a86e63c28aeb1cfa1edf6f5ad2b3be6be6aab5a8ce5a9a55"
+    }
+   ]
+  },
+  {
+   "slot": 10,
+   "arcade_name": "KEN",
+   "file": "MC0A.PAC",
+   "table": "0xA59C",
+   "tables_identical": true,
+   "arcade_en_base": "0x21bd40",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "32d9ca04a9bc50262b8cca8a942243a909e5f788a657d984f3dc2d1e76cad091",
+    "mshvsf": "32d9ca04a9bc50262b8cca8a942243a909e5f788a657d984f3dc2d1e76cad091",
+    "mshvsfj": "32d9ca04a9bc50262b8cca8a942243a909e5f788a657d984f3dc2d1e76cad091"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1182c",
+   "placeholders": [
+    {
+     "record": 11,
+     "cell": 26
+    },
+    {
+     "record": 12,
+     "cell": 25
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20f26c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a1072825a79425dba7ac1b418b6d409041b69d1ea0efee257343ef951da46b32",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21bd40",
+     "en_codes_sha256": "e4a08048fe45f0ed3828502c9107b0d57584540a9910cfc7572cb9c3a708b173"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20f2b8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "20e3799384d1e315d1bf68b1f2c83d8f41a9b71420cbcb898299827ca14a7a9a",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21bda4",
+     "en_codes_sha256": "14d7f4d5cee08dbabfb59d7e02dcc73f178c45e0b1598fe36327f3b82d9cc6d7"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20f304",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "fe161b4ce5ec7d798ea73e5f26ba7ebec99d1979aa3069e23ca9cee0cfa20e66",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21be08",
+     "en_codes_sha256": "20b52d28886a0eb615eccb84b28f3e2e515935aaf7d2c96323b8490abefbd9c4"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20f350",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "52274181579cd9d3565de7905c47c8368d95c56a903cf88776815790efc20634",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21be6c",
+     "en_codes_sha256": "3dc52513a834bbd5519d3ee4e20a12678f4593d051c378861c48ed1de1081dcb"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20f39c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "72b6effeace32f26b3bbb1b4653bfcd1e139c68ebcee35453d7463c94d6ffc1b",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21bed0",
+     "en_codes_sha256": "9e33159e17fd1d936bdee4d63c9a6e3bb5aba652abb770572de7628149659e8b"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20f3e8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "53e5b59fe05978ef51396c9223df288436146cc71f793fe7040c97ba8e3df930",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21bf34",
+     "en_codes_sha256": "87204f84a773c4b148515929626d4697cd0f904c25cd33de9e65aa66afc2aabe"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20f434",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "86c51272a150671c0c715fa008d8edfebed630687d7b50365e76d817260e449d",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21bf98",
+     "en_codes_sha256": "9ef93b35e8068cfd067af55c03c7acac95d7b5a06f193caeb6c8bcca5923d7eb"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20f480",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b83f4f5d84628d7c895ce41ac34ea122fc54fa395a7facf5c01ccf02be822855",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21bffc",
+     "en_codes_sha256": "77b09269cef63fcbadf401d2db5861d0a3ea1286f24a85f176aab65c5b1e8aff"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20f4cc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e251e7fe448a886898d507549e19aeb30132872a57a19ce26ecbeffad5ad1849",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21bd40",
+     "en_codes_sha256": "e4a08048fe45f0ed3828502c9107b0d57584540a9910cfc7572cb9c3a708b173"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20f518",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4944b7b115c52aefb3682cab60bdea3f8fc7b63037c2b0d09e4b8239e93a5b0e",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21bda4",
+     "en_codes_sha256": "14d7f4d5cee08dbabfb59d7e02dcc73f178c45e0b1598fe36327f3b82d9cc6d7"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20f564",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "343016d8cb21bbd2345ae84157806a1bc5e87e049e8ffbe2315b37bb8dcf2cd0",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21be08",
+     "en_codes_sha256": "20b52d28886a0eb615eccb84b28f3e2e515935aaf7d2c96323b8490abefbd9c4"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20f5b0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a6a8fd5eb8c55a3aa1c1ce733f4055cf74cc32f6bb93e5e918a4f2b95db9e70a",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21be6c",
+     "en_codes_sha256": "3dc52513a834bbd5519d3ee4e20a12678f4593d051c378861c48ed1de1081dcb"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20f5fc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6dbefc44a7e4c5b546c299b581f2c0bbf81cc596e53b04f896455e85edec1602",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21bed0",
+     "en_codes_sha256": "9e33159e17fd1d936bdee4d63c9a6e3bb5aba652abb770572de7628149659e8b"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20f648",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "5f244af56da0f843c06f58071cc318e0e4d7a3fc98efd6ffd3a66eb7b4080b9e",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21bf34",
+     "en_codes_sha256": "87204f84a773c4b148515929626d4697cd0f904c25cd33de9e65aa66afc2aabe"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20f694",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4b12fbfadd9ae81c501f4eb80cdc55fe263fb9a21a66ca4155aed9000ffc6ca2",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21bf98",
+     "en_codes_sha256": "9ef93b35e8068cfd067af55c03c7acac95d7b5a06f193caeb6c8bcca5923d7eb"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20f6e0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7be321940f4c338b358e91f3cbbb9f43da41138ebfb5eac057f83ccadc08f9e6",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21bffc",
+     "en_codes_sha256": "77b09269cef63fcbadf401d2db5861d0a3ea1286f24a85f176aab65c5b1e8aff"
+    }
+   ]
+  },
+  {
+   "slot": 11,
+   "arcade_name": "CHUN-LI",
+   "file": "MC0B.PAC",
+   "table": "0x9B58",
+   "tables_identical": true,
+   "arcade_en_base": "0x21c060",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "1f43c9c9a04fbdcd87531a7b3f84292737269dd66725271226dc12cb7a5662b5",
+    "mshvsf": "1f43c9c9a04fbdcd87531a7b3f84292737269dd66725271226dc12cb7a5662b5",
+    "mshvsfj": "1f43c9c9a04fbdcd87531a7b3f84292737269dd66725271226dc12cb7a5662b5"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x11b4c",
+   "placeholders": [
+    {
+     "record": 2,
+     "cell": 9
+    },
+    {
+     "record": 12,
+     "cell": 8
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20f72c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4ebf9dfc5c88d39c0cf90ab3abf2f60fdc840c25288cc60dc6a162345aeaf2f1",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c060",
+     "en_codes_sha256": "3c3832d9e6c4e719edfc2da4033d659811a05301196fe8614e8074a65f89abaf"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20f778",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "cc3f1702a32b16a5ed3889cc8d1aa581a11069506d295d3ca21f9cf2e3b30e39",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21c0c4",
+     "en_codes_sha256": "7297bf429e382d63e0394a08830f3f587fd6966a2e7cce4fbc64ea60b09c3843"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20f7c4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "bc9146962fe2ab437c9cc4a3ef29722fb3ea85acedac11ac3763519531660e2d",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21c128",
+     "en_codes_sha256": "83270c61c872e81b0154bcffa3c52db71d2ba621d75f9233eb8a47a3bcea6a04"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20f810",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d5ab2f1635917fc9ada321b58ea5db036d41f157bceb5da241108b4c65decd6a",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21c18c",
+     "en_codes_sha256": "5ad861ee65512888126d040f800755f5a7676c696dec4567cbc2d33989971d67"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20f85c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "85d03f4aae2c9b0e67b374061f18e1de2dc0dc7b8c577b49a29578a3d4786c91",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21c1f0",
+     "en_codes_sha256": "1fb6ca9553027f502ff5d74952a921979b1e367d3fc47cef25767c42d2d712c0"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20f8a8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6dddacfe20acc3a7637c83eb7326a2716654d8fa77dcf700112b9628f9e515f8",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21c254",
+     "en_codes_sha256": "5102d244862d6336532a43b3ca428eaf736da5fea5cd92d9d28daad38766e9d6"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20f8f4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1abcbd3b090251aadfd0423c8d1288d535ce6188f43483d0f53d8ff5476f525a",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21c2b8",
+     "en_codes_sha256": "e9f44cca1745df3d0c97c3c8a12932bc3054832482100aaa7e88b75dcc030c47"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20f940",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "468ee8145ea728ab2150b413bcb7b1cfa1bb8edf532135874ef085242c01c370",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21c31c",
+     "en_codes_sha256": "e46ca93afac104770926f4346f0d1010d191bd5c2cd855924ec98525f74e541a"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20f98c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7839f0fcadde0e55267f93cdaeefca075d87821a4c7a352017a71406743e9653",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c060",
+     "en_codes_sha256": "3c3832d9e6c4e719edfc2da4033d659811a05301196fe8614e8074a65f89abaf"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20f9d8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f978b03e16db4efad6a03e79387f854a593a6ad077fb1d4f7193cd4af816ef3f",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21c0c4",
+     "en_codes_sha256": "7297bf429e382d63e0394a08830f3f587fd6966a2e7cce4fbc64ea60b09c3843"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20fa24",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b4a88984250a6382ec1caf718c35e77d290e142cffe4be8a7fc226ae2c3d7c2d",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21c128",
+     "en_codes_sha256": "83270c61c872e81b0154bcffa3c52db71d2ba621d75f9233eb8a47a3bcea6a04"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20fa70",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "bac9f1a0e178f21edfc27bfd2b3b4cf0db4db5bae14eff0aed57769f7bbf755a",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21c18c",
+     "en_codes_sha256": "5ad861ee65512888126d040f800755f5a7676c696dec4567cbc2d33989971d67"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20fabc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8879f76662713e624366088332f52fa12256159144e01eb6fe33e3f6ef5754af",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21c1f0",
+     "en_codes_sha256": "1fb6ca9553027f502ff5d74952a921979b1e367d3fc47cef25767c42d2d712c0"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20fb08",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7a7897689bbd717b592272ee3217ab374936adc2cb1ae88f38c49f5f08992713",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21c254",
+     "en_codes_sha256": "5102d244862d6336532a43b3ca428eaf736da5fea5cd92d9d28daad38766e9d6"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x20fb54",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e6dde7e3eeddbce691b7c7c48ec44527312e4450f04c8a8ed50321c90e4213df",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21c2b8",
+     "en_codes_sha256": "e9f44cca1745df3d0c97c3c8a12932bc3054832482100aaa7e88b75dcc030c47"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x20fba0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6d4fa13054f77f0263050da276c69a16f1a9bafc2a99cbed85b158dd213a1010",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21c31c",
+     "en_codes_sha256": "e46ca93afac104770926f4346f0d1010d191bd5c2cd855924ec98525f74e541a"
+    }
+   ]
+  },
+  {
+   "slot": 12,
+   "arcade_name": "DHALSIM",
+   "file": "MC0C.PAC",
+   "table": "0xAA88",
+   "tables_identical": true,
+   "arcade_en_base": "0x21c380",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "d7e00c9e0f3d67c77ec3683f5b65e0b833c1cd425633b06892f37ae4151c60a1",
+    "mshvsf": "d7e00c9e0f3d67c77ec3683f5b65e0b833c1cd425633b06892f37ae4151c60a1",
+    "mshvsfj": "d7e00c9e0f3d67c77ec3683f5b65e0b833c1cd425633b06892f37ae4151c60a1"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x11e6c",
+   "placeholders": [
+    {
+     "record": 7,
+     "cell": 4
+    },
+    {
+     "record": 13,
+     "cell": 3
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x20fbec",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3b98ff0b536a5eda46f49c9e83935c7c8f20780177ab820337d969419c7021f3",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c380",
+     "en_codes_sha256": "8a1ef5f7e2556248c3ac40cfe474939f66c422d5d6c289f05e5c95e3fb1f5296"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x20fc38",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9c18eec6272ad3bb9c95dc708a9f39e24216153a2ebf6013f6fc1feaf6f9edc8",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21c3e4",
+     "en_codes_sha256": "6af5a75549c9cda38b2c1ce2e40d0dc26a48520b09a1d004b903caf28fef423d"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x20fc84",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "083d0ef83560a55dad944c2282cc85426f4175d3de115dd7452107c33059a5eb",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21c448",
+     "en_codes_sha256": "09f3680d4ecb56927529aa1138d6b2f41f7ccd8337e6faa23e39936badb91118"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x20fcd0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "885a17849c73cb25c79cf1105437617baaed716b048c7d7423eb25a889c21655",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21c4ac",
+     "en_codes_sha256": "00683fd5e841c789f4ae51d6f5ea45a10947ac18ebf23d26bd7eea4493a06988"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x20fd1c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ace980a45b258916bf6f2e0d5e5b16681da1d7db25dcda7f4b9dda074c6448cd",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21c510",
+     "en_codes_sha256": "4cc0bf31f01c6053f8fc10444f67606d22f05985cec1583da4b4fa28e9411618"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x20fd68",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "38f0b3fe423a6d294f1090610ad1156832683a41f00258b9e2e0707cec43194b",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21c574",
+     "en_codes_sha256": "c7207f32e064b37eed233190246ccc472a19c264cafeddb80ee4d7ad6aa97778"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x20fdb4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "35ee5d23817f82fba8bc206e155c4e5adc9ff127adec1e864945a916683557db",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21c5d8",
+     "en_codes_sha256": "a0645c6f9132b891bbd8dd33565ec0257db8ecde4d126872247e7a0323be716d"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x20fe00",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "51ef03a1581368faeba0889f2da2670c9b0730bb197b1072fa06ea0d8797f5a1",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21c63c",
+     "en_codes_sha256": "12fae6ee5b36a9df920f115c2f8e1dfd53948f4933145b52c2f752d1b3ece105"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x20fe4c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f9ec857299c174023199223deba3dc59fcecc5b1dfabe61ef097fe153f2d6b1d",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c380",
+     "en_codes_sha256": "8a1ef5f7e2556248c3ac40cfe474939f66c422d5d6c289f05e5c95e3fb1f5296"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x20fe98",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b171d0d082b68347237d5b7af58cba5e7595e2c1e0f9280dfdde2bf93bf400be",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21c3e4",
+     "en_codes_sha256": "6af5a75549c9cda38b2c1ce2e40d0dc26a48520b09a1d004b903caf28fef423d"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x20fee4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "264ed160674994940946900152b880d94d39d4053857b8dd4ce3d4c228b32c32",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21c448",
+     "en_codes_sha256": "09f3680d4ecb56927529aa1138d6b2f41f7ccd8337e6faa23e39936badb91118"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x20ff30",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "896990f59a3b3ec820fed381e89c8c7816e5df44fbc8db89a149ceac34ff8808",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21c4ac",
+     "en_codes_sha256": "00683fd5e841c789f4ae51d6f5ea45a10947ac18ebf23d26bd7eea4493a06988"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x20ff7c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "2e581d00db7178645bdfc0c4722a183fe7a160df896eda9d7638ce65ea7d9af7",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21c510",
+     "en_codes_sha256": "4cc0bf31f01c6053f8fc10444f67606d22f05985cec1583da4b4fa28e9411618"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x20ffc8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9ee2b2bedb2c870064e4a15800397d4560113ffb80ab99cd8a3862ca6335bb98",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21c574",
+     "en_codes_sha256": "c7207f32e064b37eed233190246ccc472a19c264cafeddb80ee4d7ad6aa97778"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x210014",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b79df5f79ef25d648307fcce19106dca1a3924dc4f8cdc038b289c74e7238302",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21c5d8",
+     "en_codes_sha256": "a0645c6f9132b891bbd8dd33565ec0257db8ecde4d126872247e7a0323be716d"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x210060",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "48c3b3db24dae8070f652efd1301de3aa33a7d153a1e5ba0b5be015ceb31ab02",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21c63c",
+     "en_codes_sha256": "12fae6ee5b36a9df920f115c2f8e1dfd53948f4933145b52c2f752d1b3ece105"
+    }
+   ]
+  },
+  {
+   "slot": 13,
+   "arcade_name": "ZANGIEF",
+   "file": "MC0D.PAC",
+   "table": "0xC7F4",
+   "tables_identical": true,
+   "arcade_en_base": "0x21c6a0",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "3fd6252ca345b56a1ee60a11a99cbccc61784a5effcb12bbf359372a92d873d6",
+    "mshvsf": "3fd6252ca345b56a1ee60a11a99cbccc61784a5effcb12bbf359372a92d873d6",
+    "mshvsfj": "3fd6252ca345b56a1ee60a11a99cbccc61784a5effcb12bbf359372a92d873d6"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1218c",
+   "placeholders": [
+    {
+     "record": 1,
+     "cell": 3
+    },
+    {
+     "record": 2,
+     "cell": 6
+    },
+    {
+     "record": 9,
+     "cell": 19
+    },
+    {
+     "record": 12,
+     "cell": 5
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x2100ac",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7c0ce46bdb8425c10d211f0e58721ebc0011e5b140fd46e370ca2d13a6dedad9",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c6a0",
+     "en_codes_sha256": "7d2c00e2554c5b38b6d05174d4e861227c7e8203070404aab8861167a16d1b14"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x2100f8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "822b6fe13a4c8f472a1afe4b3897191d752be5495932033d9e777c718fcceb77",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21c704",
+     "en_codes_sha256": "3b1dbe6dda7f7da00a10364760f37816816dbdb18586460ce73baafc4905e75c"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x210144",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6dae008ce1fd46d715385309f0e5a87c90bb303e534e964c9a847ad1e56941ee",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21c768",
+     "en_codes_sha256": "287e2c46190806d4eb19bb949c20837eff5f9736256e627eed5866ab7cdc6eaa"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x210190",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f3b5d5f5267c025e22e84150048f901d0f4ef3dbe3947ebab2185722653063e4",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21c7cc",
+     "en_codes_sha256": "c4caf33c17e23a79b7c3fb3f3def977d4c9e33adce0a2ff18c65ded434e01fcb"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x2101dc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "03be7db4ab4c20d7dd4fdb66c13ec60aae604c9c89fb798c84dc455ba8578afc",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21c830",
+     "en_codes_sha256": "9e15925f9376124a03b1136ea89706e2d4b5db3c0ecf078549d367d7c1ff0db4"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x210228",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f3917bac03debf2ac931852691d38814f71d081da67f90ba3fe767ccfa01bbf5",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21c894",
+     "en_codes_sha256": "dad2941bb730adf4cbb610a109601cb1378fac3c002a8a8604ae18275bdaf4c8"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x210274",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7505d21317797f952731581de4cd083f1a58f1e3829a340d00669afb4b4f6966",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21c8f8",
+     "en_codes_sha256": "6fbdbfaed8610429600c57b35a097d07cd38feb370513d83927f3ef2d6f84a76"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x2102c0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "cacde9f38eb98dc5c535daa4a9a900b00dc55b317a1892ea1c9c64890e4c980d",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21c95c",
+     "en_codes_sha256": "b6b1dd918372e7b68e349100661e0ae529d9ddc7036193ddce5f932bcae22435"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x21030c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "766a63831c027396d7cffe1b99d2b3da2f4c1e8f952119a1e75844c8d39f6f76",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c6a0",
+     "en_codes_sha256": "7d2c00e2554c5b38b6d05174d4e861227c7e8203070404aab8861167a16d1b14"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x210358",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "010f73ea7ad8c50947f9a3d264a0f34a4327153356402f0ba139d50a0ecab693",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21c704",
+     "en_codes_sha256": "3b1dbe6dda7f7da00a10364760f37816816dbdb18586460ce73baafc4905e75c"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x2103a4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d02d440939248cb76b928f19b9beceab64c32f9b7310cf60f1ab79e3a0217cac",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21c768",
+     "en_codes_sha256": "287e2c46190806d4eb19bb949c20837eff5f9736256e627eed5866ab7cdc6eaa"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x2103f0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "405e36c3b3a55f2eaca01f6adb172181fefb958d7e0a45b369c38b954251aa50",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21c7cc",
+     "en_codes_sha256": "c4caf33c17e23a79b7c3fb3f3def977d4c9e33adce0a2ff18c65ded434e01fcb"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x21043c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "9ad5ec165344b1471c953c8f99612d4d58a370d87f6cb9abe3fd743a26a73047",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21c830",
+     "en_codes_sha256": "9e15925f9376124a03b1136ea89706e2d4b5db3c0ecf078549d367d7c1ff0db4"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x210488",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c80a1527fcfd423ffb4725af9f41c7e7ac52201d2ac5c178e48fc5821ec65d65",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21c894",
+     "en_codes_sha256": "dad2941bb730adf4cbb610a109601cb1378fac3c002a8a8604ae18275bdaf4c8"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x2104d4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7873eaaa263ca9d3b057888973f435b08020ebd9a8466dc53fbf4097433649f0",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21c8f8",
+     "en_codes_sha256": "6fbdbfaed8610429600c57b35a097d07cd38feb370513d83927f3ef2d6f84a76"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x210520",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d9d5bfb1aff04e30b06b923bf6b5a4c3b08dea6891942379065548dfe9a4827d",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21c95c",
+     "en_codes_sha256": "b6b1dd918372e7b68e349100661e0ae529d9ddc7036193ddce5f932bcae22435"
+    }
+   ]
+  },
+  {
+   "slot": 14,
+   "arcade_name": "BISON",
+   "file": "MC0E.PAC",
+   "table": "0x9BDC",
+   "tables_identical": true,
+   "arcade_en_base": "0x21c9c0",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "3d36eba37701b9c0cca10952ee64dabcf6962548e31619b80f806b073e169341",
+    "mshvsf": "3d36eba37701b9c0cca10952ee64dabcf6962548e31619b80f806b073e169341",
+    "mshvsfj": "3d36eba37701b9c0cca10952ee64dabcf6962548e31619b80f806b073e169341"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x124ac",
+   "placeholders": [
+    {
+     "record": 9,
+     "cell": 6
+    },
+    {
+     "record": 12,
+     "cell": 4
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x21056c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e530ed392c246f2dfa83f147061b36adf3ca76bd3738b784f9aa9a3405ed4373",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c9c0",
+     "en_codes_sha256": "f42cfd0ddcc937f103c28521fd5fdecea7c62934676ee3c647d70299cd068f99"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x2105b8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "21ea39c1f8e21f1cef0d61e0f9f4f18038a96b7975ea6300a6bc7adc034f2ce6",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21ca24",
+     "en_codes_sha256": "046ba0d57685c46a72f2096c845517e3c151c3ce8195d05380cd9c3691001217"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x210604",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "eb50373ce4675244d091efe529cef72efb0e0f7faa5cb820637e66c301d41c39",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21ca88",
+     "en_codes_sha256": "f817ddf2f02a9d23991d82fc646864829322cabcc410f7f37a1ef44f36f1df4b"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x210650",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4082872f5ccb3066433a4b384fc5cb926d9a7d3fabc812fc4846110ff6327d45",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21caec",
+     "en_codes_sha256": "3f5093fcd7f4e45df57b9aabe0245228fd11392a03be72a8c40a6a9b2caf9d17"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x21069c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "98737b654439ed4266208edff3e861f002700bdac08f6263ee8c92a5b6213ab2",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21cb50",
+     "en_codes_sha256": "b0ff226dab1fa4bbda0676d3eca77092dc6c18d90061b169bec839e8d6dad74e"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x2106e8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "108f370ccb3961ea4735fd768810977d5df1a24a231485c9a524007c991a19e7",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21cbb4",
+     "en_codes_sha256": "dd99588f4e407288de71606fb1344e56ad5c0adfeea8184e2cf2166867dfb172"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x210734",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "167b1658b10a8d5f240d6fe59e83417d12fac2b1adfd9b5d494625ed8024ccfd",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21cc18",
+     "en_codes_sha256": "35d7cab450dbd988fa81e1dd11f6a05b5ce42bbb7eebba685cd730b65061d293"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x210780",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "6963adef5a7202488f14931a545204c3aac9420669e4df56561cb7df78cd34d8",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21cc7c",
+     "en_codes_sha256": "53c1167dc2ca064fc3435ca31dc6fc83795c70b35997c8fe0a246664c64dd76f"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x2107cc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8206ddda1642cc951393600380ae038ff7a85793c5f57a4441066cf2295c23d1",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21c9c0",
+     "en_codes_sha256": "f42cfd0ddcc937f103c28521fd5fdecea7c62934676ee3c647d70299cd068f99"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x210818",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "39eca402089c7db471316ca447f3554628ec672d6f5cb0574c78ac4581c7cefa",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21ca24",
+     "en_codes_sha256": "046ba0d57685c46a72f2096c845517e3c151c3ce8195d05380cd9c3691001217"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x210864",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "940493eb725df92bcaacbdb5d7b2c84d90d70adef8142159409e61fa047af940",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21ca88",
+     "en_codes_sha256": "f817ddf2f02a9d23991d82fc646864829322cabcc410f7f37a1ef44f36f1df4b"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x2108b0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "38b9cfdf152d2aca01c859a56e956c4b381968d74097bc4b4d7dd5744a82e14c",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21caec",
+     "en_codes_sha256": "3f5093fcd7f4e45df57b9aabe0245228fd11392a03be72a8c40a6a9b2caf9d17"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x2108fc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "86340f7ef5f0b5996378516cfd2bbce2cd80949eb7dd6186c96d4b1c2b8c03d9",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21cb50",
+     "en_codes_sha256": "b0ff226dab1fa4bbda0676d3eca77092dc6c18d90061b169bec839e8d6dad74e"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x210948",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f6e49ede6ae8e8cbb0747b38095e72e5f165a45b28cd13e9c46dc9d3ecb4a413",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21cbb4",
+     "en_codes_sha256": "dd99588f4e407288de71606fb1344e56ad5c0adfeea8184e2cf2166867dfb172"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x210994",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "f7b93de0c4287cb43b129b038f635a5f88fd1047723ac4d1c43530dd78a539fe",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21cc18",
+     "en_codes_sha256": "35d7cab450dbd988fa81e1dd11f6a05b5ce42bbb7eebba685cd730b65061d293"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x2109e0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "dcf2ae55d01f081c153362c62536201e66ba03ea094f95a243347f3fecbcf573",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21cc7c",
+     "en_codes_sha256": "53c1167dc2ca064fc3435ca31dc6fc83795c70b35997c8fe0a246664c64dd76f"
+    }
+   ]
+  },
+  {
+   "slot": 15,
+   "arcade_name": "AKUMA",
+   "file": "MC0F.PAC",
+   "table": "0xA658",
+   "tables_identical": true,
+   "arcade_en_base": "0x21cce0",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "8889688389df22e575afd269521f9077f26fb76582d4d6586d6eb0a6eff94075",
+    "mshvsf": "8889688389df22e575afd269521f9077f26fb76582d4d6586d6eb0a6eff94075",
+    "mshvsfj": "8889688389df22e575afd269521f9077f26fb76582d4d6586d6eb0a6eff94075"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x127cc",
+   "placeholders": [
+    {
+     "record": 12,
+     "cell": 2
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x210a2c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3ad6e96a3d82bc9dcd3a6eb0b2d4aec4fcda8078ef65d6c48516e43c0920c275",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21cce0",
+     "en_codes_sha256": "36ff6a86b65e86720e6b2c8bcb7af96d3763b485fe280c6bce940efd5ecbc803"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x210a78",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "142fb30c344abf7f00afa5ec17821290040d9ab3af78966c61c7e0358d6f4c2c",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21cd44",
+     "en_codes_sha256": "510b66222bcd902e80337d28ad5cf60e6e7f74fba5056e7aa3bc44962a0e0239"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x210ac4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1a61997a4671aa7556a66d6235b0835958b2ff97b9ca95404b7b8730a42645ad",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21cda8",
+     "en_codes_sha256": "c815ad7142ec628f0064aba227a70fde4b3d4f306e49cd270fde300590bedbbf"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x210b10",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b08ccde5f0d6c9b01df3dedee3c05f281849c73b05973ce3b47dd6a7d4118ad8",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21ce0c",
+     "en_codes_sha256": "e5a102e55aad06ea4d57f3cb080e224aeae198d68d92e8763d4c98b24cae4d18"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x210b5c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "13430bc8969e077707077f9a172ff72d5ce9b137686d4c3b6c387eae66aac28c",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21ce70",
+     "en_codes_sha256": "d24f3f8e9ad1f545ab6db6d21a9f865bc1b6c6e711730bdf4d8d5d379e420d33"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x210ba8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "72bdd635d31624d94884ffa08806cce60595f9cc7cdd8dc41a7b6eca19813f04",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21ced4",
+     "en_codes_sha256": "8c26aa05cb2908c4d0719536ff09c8311ca81c563c8768c5e2ea7f5fe0b72513"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x210bf4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "12c92c121c847c567786e180ab8b9fa2bb76dc521876051c0c609edc459eb459",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21cf38",
+     "en_codes_sha256": "6ff4a6fdbd04f1c943e1611cf232239b3e51445bf52a5ccd3db180129ea0f829"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x210c40",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1e1883e91a87099a444bd63a140c368b37bedd0729deba0ebd2224fac38bde5c",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21cf9c",
+     "en_codes_sha256": "b8fb345e6646d1656819a96f79d3c5c87407262d3583e482390ca257c46a22ed"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x210c8c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "a01673579cd932b38149ce2b1f3d4fe3fc2db2838b959faa92884fd0a86cb169",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21cce0",
+     "en_codes_sha256": "36ff6a86b65e86720e6b2c8bcb7af96d3763b485fe280c6bce940efd5ecbc803"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x210cd8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "7a2dd11bbece2536cb6c74d842991eb13bc9112be882e9177ceda29531d34613",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21cd44",
+     "en_codes_sha256": "510b66222bcd902e80337d28ad5cf60e6e7f74fba5056e7aa3bc44962a0e0239"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x210d24",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1250ec3cc4ce00ecdf6975bfdda7036d890d7fe5280e1937badbf39c691065aa",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21cda8",
+     "en_codes_sha256": "c815ad7142ec628f0064aba227a70fde4b3d4f306e49cd270fde300590bedbbf"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x210d70",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "17541f8f1b648952d2f6d8fc914d56447069ee1cadf524da74cade7430b7f22e",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21ce0c",
+     "en_codes_sha256": "e5a102e55aad06ea4d57f3cb080e224aeae198d68d92e8763d4c98b24cae4d18"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x210dbc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "48e4d8c8cac4e40e547470d87570a8648898eea5bd2ebd393ed93cfe0615fde5",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21ce70",
+     "en_codes_sha256": "d24f3f8e9ad1f545ab6db6d21a9f865bc1b6c6e711730bdf4d8d5d379e420d33"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x210e08",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8077266e5310071c7c7d00da9193d7f04845481823e19d7888b31b1b236d7e89",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21ced4",
+     "en_codes_sha256": "8c26aa05cb2908c4d0719536ff09c8311ca81c563c8768c5e2ea7f5fe0b72513"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x210e54",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "2feae7818645129420b842eb0c47792b7e6865a444c428efb9b442939421b088",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21cf38",
+     "en_codes_sha256": "6ff4a6fdbd04f1c943e1611cf232239b3e51445bf52a5ccd3db180129ea0f829"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x210ea0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3912a33565ed2d414e1d31ba6562bdc447d3e253c592a53c9a4e4820353f1d56",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21cf9c",
+     "en_codes_sha256": "b8fb345e6646d1656819a96f79d3c5c87407262d3583e482390ca257c46a22ed"
+    }
+   ]
+  },
+  {
+   "slot": 16,
+   "arcade_name": "SAKURA",
+   "file": "MC10.PAC",
+   "table": "0xB718",
+   "tables_identical": true,
+   "arcade_en_base": "0x21d000",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "c9f644975c1c3f9018587b829f3fe478459f3c7a98aa470442d7d6e22451a684",
+    "mshvsf": "c9f644975c1c3f9018587b829f3fe478459f3c7a98aa470442d7d6e22451a684",
+    "mshvsfj": "c9f644975c1c3f9018587b829f3fe478459f3c7a98aa470442d7d6e22451a684"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x12aec",
+   "placeholders": [
+    {
+     "record": 3,
+     "cell": 22
+    },
+    {
+     "record": 8,
+     "cell": 20
+    },
+    {
+     "record": 14,
+     "cell": 2
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x210eec",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "fec9a239d52816ae56142833931f4dca5ccc00a95da013b982e37b93eab8335e",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21d000",
+     "en_codes_sha256": "75e85b8129d9d9c248e36e19a68c49488c92ec25bbbc8946fe86d0ea097fdc6d"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x210f38",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c9a7d558c39c5d354dcdf2d2779d1c62656f10c0d7927dfcdde2a45b7c4f7658",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21d064",
+     "en_codes_sha256": "d5b335639068ce54fde0703d6099a34bd58b80b3de754c1293d28a5dae5ad546"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x210f84",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "de602977a9b1d038328cfc52547ce3f164cfa5f11907020aa4babc5911d93447",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21d0c8",
+     "en_codes_sha256": "ec85a77f36912bbc36c4ffb96ec08c92d43a70182ce9a90f3873ef2a55ef79b7"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x210fd0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c09ecfaa0ac5c108ebd917073bf35f27b5baff4c1dd48ec114b4b6b0e2f83f10",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21d12c",
+     "en_codes_sha256": "85d3d4778b3ca304ee372572ebe8b824e78f7f9181de6ee5ff31d8f04db6cb0a"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x21101c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e1a0b4b0223ecb4eec2eb67397dc74daec0bf7dbee48ee669ab2bf61c95010e6",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21d190",
+     "en_codes_sha256": "b5e3c9e9731f2fcf300d2066e5a81410fa4fd2627185e4f5dbc2fec60f9209ad"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x211068",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3d9910e5f76b8f58254ea80a07ba122c46b1a676e5c28573c4d4f01c84bfe14d",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21d1f4",
+     "en_codes_sha256": "cbc8625a94c5115b4073657a300e43dd10c7d43fffbd29f43e52399db5ef46ca"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x2110b4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "e8e9b60c8458229576548682b58680785f12e90b818ef408ecf051e96df9659b",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21d258",
+     "en_codes_sha256": "6e9e158c3bba2165e58642a63103a454980e85181dcfdfbee303cc39180a93be"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x211100",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "32c7b701066edf99f9ca7950064dbc9ef44246e385a00217a661027b91a90260",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21d2bc",
+     "en_codes_sha256": "96b8172d845509b9175d7d8afb19e6b144d3bab93d2b7b29febc50c5691d2079"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x21114c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "0cdda2c392ca18d566bd14473942f488019e1b79c2411780e24c550f47d43785",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21d000",
+     "en_codes_sha256": "75e85b8129d9d9c248e36e19a68c49488c92ec25bbbc8946fe86d0ea097fdc6d"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x211198",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "eb345f462a2bbac04ef9c2549dc0b69444a71c10eac60467d5aad18022c78be6",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21d064",
+     "en_codes_sha256": "d5b335639068ce54fde0703d6099a34bd58b80b3de754c1293d28a5dae5ad546"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x2111e4",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "740558c718069df89167b4145b82e945e15afe7947a56ad8207a8b952d79b1c6",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21d0c8",
+     "en_codes_sha256": "ec85a77f36912bbc36c4ffb96ec08c92d43a70182ce9a90f3873ef2a55ef79b7"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x211230",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "15c32f3d6bc133236e126d47cf9af5be7030a6bbd2fbad990f64c50fee631547",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21d12c",
+     "en_codes_sha256": "85d3d4778b3ca304ee372572ebe8b824e78f7f9181de6ee5ff31d8f04db6cb0a"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x21127c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "3ef1274e98c9c7ce0868a4c52fa5534ee98a3a4826f3301c1e0ce6ab2508adad",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21d190",
+     "en_codes_sha256": "b5e3c9e9731f2fcf300d2066e5a81410fa4fd2627185e4f5dbc2fec60f9209ad"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x2112c8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "af44570b3d3608f27a36bbe8f5bacaebe99d8a0d3a366ed9b49ae161d15f470e",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21d1f4",
+     "en_codes_sha256": "cbc8625a94c5115b4073657a300e43dd10c7d43fffbd29f43e52399db5ef46ca"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x211314",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "1fb591965de7f1efb8a1468671b9477ffd39ab6c99df97dbb6294aa85aab2cbc",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21d258",
+     "en_codes_sha256": "6e9e158c3bba2165e58642a63103a454980e85181dcfdfbee303cc39180a93be"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x211360",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "0909b331034dd5b1ded9a5f07c81bf7b1fb082590aaf499d8ead24f3e7bb91ec",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21d2bc",
+     "en_codes_sha256": "96b8172d845509b9175d7d8afb19e6b144d3bab93d2b7b29febc50c5691d2079"
+    }
+   ]
+  },
+  {
+   "slot": 18,
+   "arcade_name": "DAN",
+   "file": "MC12.PAC",
+   "table": "0x9198",
+   "tables_identical": true,
+   "arcade_en_base": "0x21d640",
+   "remap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "en_block_sha256": {
+    "mshvsfu": "1bfa10ea11d83f939d8d5787690920755d9c967201d2419288c495b8c7e1dec0",
+    "mshvsf": "1bfa10ea11d83f939d8d5787690920755d9c967201d2419288c495b8c7e1dec0",
+    "mshvsfj": "1bfa10ea11d83f939d8d5787690920755d9c967201d2419288c495b8c7e1dec0"
+   },
+   "en_identical_across_sets": true,
+   "ps1_block_found": true,
+   "ps1_offset": "0x1312c",
+   "placeholders": [
+    {
+     "record": 0,
+     "cell": 7
+    },
+    {
+     "record": 11,
+     "cell": 6
+    }
+   ],
+   "rows": [
+    {
+     "saturn_record": 0,
+     "arcade_jp_address": "0x21186c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "4300c42fa79715e1972964b81bb64e207c2083dd86ba4fda6c145a1e3e3dcac1",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21d640",
+     "en_codes_sha256": "a56badc8df1cfccc9556948775ac544c429034b5bbfdbfb191afbeb90c46d082"
+    },
+    {
+     "saturn_record": 1,
+     "arcade_jp_address": "0x2118b8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "96277c40ee1f6de60b4124415fee84fadf6690216509fa28ed7458b5b7d3a25d",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21d6a4",
+     "en_codes_sha256": "977e691baa2501e55dd23d1bd084b400f725f128d2ad6229e247695fa33998cb"
+    },
+    {
+     "saturn_record": 2,
+     "arcade_jp_address": "0x211904",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "cb0728bd38d239eb8b88f5cb7dcf947ebd5fffcc0527fad9f617154870623a8a",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21d708",
+     "en_codes_sha256": "fb8ae6e51b17fe2768055e2cd0b6d92d0364ef659de62a68fb1206cd9aa903a7"
+    },
+    {
+     "saturn_record": 3,
+     "arcade_jp_address": "0x211950",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d1b22cb4e5cc9ec9f04b1b11fee7a2796db6b3ff12f99720ac44345b0acc3bfb",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21d76c",
+     "en_codes_sha256": "789ec53724148132154b917bc6e2f686e94e88756a2fb82665dfb928c3ffcb17"
+    },
+    {
+     "saturn_record": 4,
+     "arcade_jp_address": "0x21199c",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8bd6d9ea486cc96c5e1c437b82bb7306969e6328b7e76a949ee684a5ebd728bc",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21d7d0",
+     "en_codes_sha256": "96d342114e5898f795ff04e15947679f2b71766fa6185ba6dba4ee68625d4da2"
+    },
+    {
+     "saturn_record": 5,
+     "arcade_jp_address": "0x2119e8",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "2eb08505866ddc4bfb10eb81ce709ecede1d8dcd5fbe27a28c13f5c8cef341d0",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21d834",
+     "en_codes_sha256": "734a2c4a6b89c0d2b049c22e0c70e829cdab970e94d8a8c85f9e63461fd18bd4"
+    },
+    {
+     "saturn_record": 6,
+     "arcade_jp_address": "0x211a34",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "8efc76e84f51cd3601c53038fcad7fde499dfa295fb97aaab89540fffa476b6c",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21d898",
+     "en_codes_sha256": "73dcba2c87f537217aaa719e29270380a8213eb12db0eb469eda7b933e62404c"
+    },
+    {
+     "saturn_record": 7,
+     "arcade_jp_address": "0x211a80",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "91ea3d728c77cd158aac844f6e79360c932584314a934e2b3fb0bcc649c54905",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21d8fc",
+     "en_codes_sha256": "837b86c9988c49c39d166b1052faa95c9eb37308240cb50b6d82b34070782201"
+    },
+    {
+     "saturn_record": 8,
+     "arcade_jp_address": "0x211acc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b75394aa5574f75c9572e13f092dd0f4181df1dd6d83e579c56e87294cce888c",
+     "arcade_en_entry": 0,
+     "arcade_en_address": "0x21d640",
+     "en_codes_sha256": "a56badc8df1cfccc9556948775ac544c429034b5bbfdbfb191afbeb90c46d082"
+    },
+    {
+     "saturn_record": 9,
+     "arcade_jp_address": "0x211b18",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "82b24e9a983544a4ace7a16c09fedd320ecfcd7285b36fbdd7d9bbd644851375",
+     "arcade_en_entry": 1,
+     "arcade_en_address": "0x21d6a4",
+     "en_codes_sha256": "977e691baa2501e55dd23d1bd084b400f725f128d2ad6229e247695fa33998cb"
+    },
+    {
+     "saturn_record": 10,
+     "arcade_jp_address": "0x211b64",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "798c734ed78f8a9f931b97387effa82570cfa28fb54b88989dbea83a7e8385da",
+     "arcade_en_entry": 2,
+     "arcade_en_address": "0x21d708",
+     "en_codes_sha256": "fb8ae6e51b17fe2768055e2cd0b6d92d0364ef659de62a68fb1206cd9aa903a7"
+    },
+    {
+     "saturn_record": 11,
+     "arcade_jp_address": "0x211bb0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "77c38e03c1b5c467c5439ca7cd74787b62e481ab562ec2bc754686be38282533",
+     "arcade_en_entry": 3,
+     "arcade_en_address": "0x21d76c",
+     "en_codes_sha256": "789ec53724148132154b917bc6e2f686e94e88756a2fb82665dfb928c3ffcb17"
+    },
+    {
+     "saturn_record": 12,
+     "arcade_jp_address": "0x211bfc",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "b079cf5f1eca9dd3fcaedf3c7d0e31e1b0b129a8e5a384fca6c91fdd74e8e1cd",
+     "arcade_en_entry": 4,
+     "arcade_en_address": "0x21d7d0",
+     "en_codes_sha256": "96d342114e5898f795ff04e15947679f2b71766fa6185ba6dba4ee68625d4da2"
+    },
+    {
+     "saturn_record": 13,
+     "arcade_jp_address": "0x211c48",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "c38fc8763e8302d8363eb658c2c0a10863412e5607bbedc854ecb5fe1ecf3919",
+     "arcade_en_entry": 5,
+     "arcade_en_address": "0x21d834",
+     "en_codes_sha256": "734a2c4a6b89c0d2b049c22e0c70e829cdab970e94d8a8c85f9e63461fd18bd4"
+    },
+    {
+     "saturn_record": 14,
+     "arcade_jp_address": "0x211c94",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "d48c322bbff29abfa66a0a0f89b616d4520b2dc4146c2d7051b4ec44ae1f1e8d",
+     "arcade_en_entry": 6,
+     "arcade_en_address": "0x21d898",
+     "en_codes_sha256": "73dcba2c87f537217aaa719e29270380a8213eb12db0eb469eda7b933e62404c"
+    },
+    {
+     "saturn_record": 15,
+     "arcade_jp_address": "0x211ce0",
+     "arcade_jp_identical": true,
+     "jp_codes_sha256": "ff3e2d878c527f22584b4845dd5cbfa47524169dd0c594ea60e06af46425789b",
+     "arcade_en_entry": 7,
+     "arcade_en_address": "0x21d8fc",
+     "en_codes_sha256": "837b86c9988c49c39d166b1052faa95c9eb37308240cb50b6d82b34070782201"
+    }
+   ]
+  }
+ ]
+}

@@ -27,7 +27,13 @@ Each record should identify:
   the paired `arcade_us_text`.
 - Ken's pairing is verified (table identity with arcade Japanese slot 10, in
   `data/text/ken_arcade_pairing.json`), so the policy may now apply to Ken.
-  Other characters wait for their own verification.
+- `RE-042` (2026-10-24) verified the whole 17-character M5 roster
+  (`data/text/roster_pairing.json`):
+  - every Saturn table is byte-identical to its arcade Japanese slot;
+  - every English block is identical in the US, EU, and JP sets and present in
+    the PS1 release.
+  The policy applies to all 17. Partner-name placeholders are dropped (see
+  `data/text/m5_roster.json`).
 
 Do not assume line ordering or correspondence across releases. Keep hypotheses in
 `research_log.md` until supported, and do not represent a translation as final without
