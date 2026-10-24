@@ -1,11 +1,16 @@
 from __future__ import annotations
 
+import json
+import re
+import string
+from pathlib import Path
+
 import pytest
 
 from tests.unit.test_font_pack import header, letter
 from tools.text.font import CELL_BYTES
 from tools.text.font_pack import CODES, Glyph, pack, unpack
-from tools.text.pair_font import build, char_code, split_pairs
+from tools.text.pair_font import PUNCTUATION, build, char_code, split_pairs
 
 
 def base_image(extra: int = 0) -> bytes:
@@ -60,3 +65,33 @@ def test_build_rejects_occupied_code() -> None:
         build(base_image(), ["Th"], [0x0A00], [])
     with pytest.raises(ValueError):
         build(base_image(), ["Th", "is"], [0x00A8, 0x00A8], [])
+
+
+def schema_patterns(node: object) -> set[str]:
+    if isinstance(node, dict):
+        found = {node["pattern"]} if isinstance(node.get("pattern"), str) else set()
+        return found.union(*(schema_patterns(v) for v in node.values()))
+    if isinstance(node, list):
+        return set().union(*(schema_patterns(v) for v in node))
+    return set()
+
+
+def test_schema_accepts_exactly_the_mapped_characters() -> None:
+    schema = json.loads(Path("data/captions/caption_spec.schema.json").read_text())
+    (line_pattern,) = {
+        p for p in schema_patterns(schema) if "\\{P\\}" in p
+    }  # v1 and v2
+    pattern = re.compile(line_pattern)
+    mapped = string.ascii_letters + string.digits + " " + "".join(PUNCTUATION)
+    for char in mapped:
+        assert pattern.fullmatch(char), char
+    for char in map(chr, range(0x20, 0x7F)):
+        if char not in mapped:
+            assert not pattern.fullmatch(char), char
+    assert pattern.fullmatch("{P}Ab")
+
+
+def test_punctuation_codes_are_distinct_full_width_glyphs() -> None:
+    codes = list(PUNCTUATION.values())
+    assert len(set(codes)) == len(codes)
+    assert all(0x08A0 <= code < 0x08E8 for code in codes)  # below "A"

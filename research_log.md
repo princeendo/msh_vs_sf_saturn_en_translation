@@ -3063,3 +3063,41 @@ files), all passing.
 
 Checks: pytest (174 passed), ruff check, ruff format --check, and strict mypy (74
 files), all passing.
+
+## 2026-10-24 — RE-047: regression controls and re-baselined references (M5 done)
+
+- Synthetic tests:
+  - `roster_spec` for two slots compiles through `parse_tables`, with one
+    alignment for a line shared across characters;
+  - `quote_pairing.pair` reads each slot through its own JP and EN pointers;
+  - the caption schema's line pattern accepts exactly the characters
+    `pair_font` maps; punctuation codes are distinct and below `A`.
+- New `tools/regression/reference_builds.py` and the committed baseline
+  `data/regression/reference_builds.json` (spec, track 01, and file hashes for
+  `re022_markers`, `exp0028a`, `tr001`, `roster`).
+  - With `--driver` (pinned `cps2.cpp`, SHA-256 `a8c09ef8…`) it regenerates the
+    arcade-derived specs; otherwise it checks the cached specs by hash.
+  - `--write-baseline` needs `--reason` and keeps replaced hashes in `previous`.
+- First run (no baseline): all four rebuilt, every compiler check true.
+- Before re-baselining, I compared each rebuild with its old build:
+  - `re022_markers`, `exp0028a`, `tr001`: only PAC header words `+0x04` and
+    `+0x10` differ; compressed streams, file sizes, and decoded data are
+    identical; the new tail bytes are zero padding.
+  - The changed sector sets shrink by each PAC's first sector (LSN 8246 `MC09`,
+    8492 `MC0A`), which equals the source again.
+  - `roster` rebuilds byte-identical to `build/re046_roster` (`351254c4…`).
+- Re-baselined (reason: `EXP-0036` declared-length fix). New track 01 hashes:
+  `re022_markers` `77b11799…`, `exp0028a` `58d0c56b…`, `tr001` `f9daacc1…`,
+  `roster` `351254c4…` (unchanged).
+- `MSHVSF_REGRESSION=1 pytest tests/integration` passed (63 s) against the new
+  baseline. Report: `docs/regression_report.md`.
+- Not done: spec regeneration, because `cps2.cpp` is not on this machine (it
+  was fetched to `/tmp` in `REF-008`).
+- Pitfall: `patch_image` refuses output outside `build/`, so the local test
+  cannot use pytest's `tmp_path`.
+- `RE-047` and `RE-040` are `DONE`, so **M5 is complete**. `END-001` (M6) stays
+  `BACKLOG` until the user lifts its blocker.
+
+Checks: pytest (182 passed, 1 skipped by default; the local test passes with
+`MSHVSF_REGRESSION=1`), ruff check, ruff format --check, and strict mypy (79
+files), all passing.

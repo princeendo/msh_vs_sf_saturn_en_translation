@@ -47,3 +47,35 @@ def test_pair_reports_a_differing_record() -> None:
     rows = report["rows"]
     assert isinstance(rows, list)
     assert [row["arcade_jp_identical"] for row in rows] == [True, False]
+
+
+def test_pair_reads_each_slot_through_its_own_pointers() -> None:
+    one, two = bytes([1]) * JP_RECORD, bytes([2]) * JP_RECORD
+    jp_table, en_table = 0x00, 0x10
+    program = bytearray(0x40 + 2 * JP_RECORD + 2 * EN_ENTRY)
+    for slot, (jp_base, en_base) in enumerate(
+        [
+            (0x40, 0x40 + 2 * JP_RECORD),
+            (0x40 + JP_RECORD, 0x40 + 2 * JP_RECORD + EN_ENTRY),
+        ],
+        start=1,
+    ):
+        program[jp_table + 4 * slot : jp_table + 4 * slot + 4] = jp_base.to_bytes(
+            4, "big"
+        )
+        program[en_table + 4 * slot : en_table + 4 * slot + 4] = en_base.to_bytes(
+            4, "big"
+        )
+        program[jp_base : jp_base + JP_RECORD] = (one, two)[slot - 1]
+        program[en_base : en_base + EN_ENTRY] = bytes([slot + 10]) * EN_ENTRY
+
+    report = pair(two, bytes(program), 2, jp_table, en_table, remap=(0,))
+    wrong = pair(two, bytes(program), 1, jp_table, en_table, remap=(0,))
+
+    assert report["tables_identical"] is True
+    assert wrong["tables_identical"] is False
+    rows = report["rows"]
+    assert isinstance(rows, list)
+    assert (
+        rows[0]["en_codes_sha256"] == hashlib.sha256(bytes([12]) * EN_ENTRY).hexdigest()
+    )

@@ -10,7 +10,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   through the same generalized mechanism, with all 32 Ryu and Ken records verified
   live from one image. M3 was completed on 2026-10-17.
 - Reverse-engineering experiments in progress: none.
-- Current milestone: **M5** (`RE-040`). Its breakdown was defined on 2026-10-24 as
+- **M5 completed on 2026-10-24** (`RE-040`). M6 (`END-001`) stays `BACKLOG`:
+  its blocker ("the ordinary post-fight pipeline is not mature") needs a user
+  decision before it is lifted.
+- M5 history: its breakdown was defined on 2026-10-24 as
   `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
   against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
   `nn`. `RE-043` is done (17-character roster, `docs/coverage_exceptions.md`). Next
@@ -19,8 +22,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `RE-045` is done (`EXP-0035`): the deterministic roster image is reviewed
   offline. `RE-046` is done (`EXP-0036`): Cyclops, Zangief, Captain America, and
   Dhalsim pass all 16 records live on `build/re046_roster`, after a load reset was
-  fixed (keep the declared PAC length). Next is `RE-047` (regression), the last
-  M5 task.
+  fixed (keep the declared PAC length). `RE-047` is done: the reference images
+  rebuild against a committed hash baseline (`docs/regression_report.md`).
+  **M5 was completed on 2026-10-24.**
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1545,10 +1549,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-040 - Systematize ordinary post-fight localization
 
-- **Status:** `READY` (breakdown defined 2026-10-24; work starts with `RE-041`)
+- **Status:** `DONE` (2026-10-24; `RE-041` to `RE-047` are all `DONE`)
 - **Milestone:** M5
 - **Dependencies:** RE-030, RE-041, RE-042, RE-043, RE-044, RE-045, RE-046, RE-047.
-- **Blockers:** None for `RE-041`. Later tasks wait on their own dependencies.
+- **Blockers:** None.
 - **Objective:** Build and validate the ordinary-character post-fight workflow.
 - **Rationale:** Roster-scale work requires evidence-backed coverage and regression controls.
 - **Acceptance criteria:** Detailed tasks define scope, translation provenance, binary traceability, deterministic builds, representative visible verification, exceptions, and regression tests. M5 is complete when `RE-041` to `RE-047` are `DONE`.
@@ -1789,7 +1793,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-047 - Add regression controls for the roster pipeline
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-24)
 - **Milestone:** M5
 - **Dependencies:** RE-045.
 - **Blockers:** None. The roster reference is `build/re046_roster` (`EXP-0036`).
@@ -1806,6 +1810,26 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     recorded hashes.
   - A regression report lists every reference hash and its last check.
 - **Outputs:** Tests, a regression script, and a regression report in `docs/`.
+- **Result (2026-10-24):**
+  - Synthetic tests: a two-character v2 roster spec that the compiler accepts
+    (shared alignment), pairing through each slot's own pointers, and the caption
+    schema accepting exactly the mapped characters (distinct punctuation codes).
+  - `tools/regression/reference_builds.py` with the committed baseline
+    `data/regression/reference_builds.json`. It checks each spec hash (and, with
+    the pinned `cps2.cpp`, regenerates arcade-derived specs first), rebuilds from
+    the untouched source, and compares track 01, every patched file, and every
+    compiler check. Re-baselining needs `--write-baseline --reason`; the replaced
+    hash is kept under `previous`.
+  - Local-only test `tests/integration/test_reference_builds.py`: skipped unless
+    the source image is present and `MSHVSF_REGRESSION=1` (about one minute).
+  - Re-baselined `re022_markers`, `exp0028a`, and `tr001` for the `EXP-0036`
+    declared-length fix after checking the cause: only the PAC header words at
+    `+0x04` and `+0x10` change; streams, sizes, and decoded data are identical,
+    and the PAC header sector equals the source again. The roster rebuild equals
+    `build/re046_roster` exactly.
+  - Report: `docs/regression_report.md` (all four pass).
+  - Not run this session: spec regeneration (needs the pinned `cps2.cpp`, absent
+    locally). The cached specs were checked by hash.
 
 ### END-001 - Begin ending-text investigation
 
