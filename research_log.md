@@ -3284,3 +3284,42 @@ trace start: a write breakpoint on a record address, replayed from
 
 Next action: `END-004` (no gameplay).
 
+## 2026-10-24 — END-004 / EXP-0040: the ending text comes from `MC13.PAC` and `ME.PAC`
+
+Task: END-004
+
+Goal: Trace the `EXP-0039` records to their disc file, with no gameplay.
+
+Hypothesis: a disc read during the `STAGE-08` transition writes the records,
+and an offline decode reproduces them exactly.
+
+Action and result:
+
+- **Write breakpoints** (log, then halt) replayed from
+  `before_stage08_load.mcs`:
+  - dialogue record: first written at replay frame 221 by the LZSS
+    decompressor (PC `0603E446`, `DISC-001`). Context header word
+    `0x8000792B`, destination `0x00220000`;
+  - page record: written at frame 233 by a longword copy (PC `0603E04E`) from
+    `0x0603F000`. Context header word `0x0000ED02`, destination `0x00230000`.
+  - Both name fields read `me.pac`, so the name field is not a reliable
+    per-load name.
+- **Offline.** Cut `ME.PAC` and all `MCnn.PAC` from the untouched track by LSN
+  (hashes match the listing).
+  - `MC13.PAC` header word 1 = `0x8000792B`. Its decode equals the four dialogue
+    records exactly, and 60,584 of 61,042 bytes overall.
+  - `ME.PAC` word 1 = `0x0000ED02`. It is raw from `0x10`: equal to the copied
+    RAM at the halt, and the three page records equal the file in all states.
+  - The differences are pointer relocations (file + base + `0x40`), plus 30
+    unexplained non-text longwords in `ME.PAC`'s region.
+- `MC13` is slot 19 (Cyber-Akuma), whose "120-record table" (`EXP-0034`) holds
+  the post-boss dialogue. That explains why it loads with the boss stage
+  regardless of partner. `docs/coverage_exceptions.md` was updated to separate
+  the boss's quotes (`SPECIAL-001`) from the dialogue records (ending scope).
+
+Conclusion: `CONFIRMED` (discoveries `END-004`). Created `END-007` (M6): a
+marker build per file, replayed from a pre-load checkpoint, before any
+translated text.
+
+Next action: `END-007` (no gameplay), or `END-005` (one gameplay session).
+

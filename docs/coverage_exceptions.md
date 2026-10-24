@@ -38,7 +38,7 @@ Nothing listed here may be translated or modified in M5.
 | `MC08` slot 24 block (`0xBE5C`) | second whole block in `MC08` | secret character | `SPECIAL-001` |
 | `MC0C` 4-record table (`0x3B88`) | matches no arcade slot | content unknown | a future investigation task, to be created only when needed |
 | `MC11` slot 17 (Norimaro) | ordinary file | special case (`AGENTS.md` rule 24) | `SPECIAL-001` |
-| `MC13` slot 19 (Cyber-Akuma), inside a 120-record table that also holds one slot-15 record | irregular file | boss; extra content unidentified | `SPECIAL-001` |
+| `MC13` slot 19 (Cyber-Akuma), inside a 120-record table that also holds one slot-15 record | irregular file; the extra content includes the post-boss dialogue records (`EXP-0040`) | boss; Cyber-Akuma's own quotes stay excluded | `SPECIAL-001` (quotes); the post-boss dialogue records are ending text, owned by `END-007`/`END-010` |
 | `MC14` slot 20 (second Zangief entry) | ordinary file | secret character | `SPECIAL-001` |
 | `MC15` slot 21 (second Sakura entry) | ordinary file | secret character | `SPECIAL-001` |
 | `MC16` slot 22 (Shadow) | ordinary file | secret character | `SPECIAL-001` |

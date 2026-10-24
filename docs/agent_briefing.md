@@ -31,9 +31,12 @@ reference facts** (what outside documents say).
   - `END-003` is done (`EXP-0039`): the text is a live WRAM-L table of 19 × 2
     code records (`0x0000` = name placeholder from a WRAM-H name table),
     loaded with `STAGE-08`;
-  - the disc source is `UNKNOWN`.
+  - `END-004` is done (`EXP-0040`): the dialogue is in LZSS `MC13.PAC` (the
+    boss's file, at `0x00220000`), and the pages are in raw `ME.PAC` (at
+    `0x00230000`).
 
-  Next is `END-004` (no gameplay), then `END-005` and `END-006`.
+  Next is `END-007` (marker build, no gameplay), then `END-005` and
+  `END-006`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

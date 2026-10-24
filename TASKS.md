@@ -16,8 +16,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   sprites of byte-exact quote-font glyphs, built by the `FONT-001` routine
   from 16-bit codes. `END-003` is done (`EXP-0039`): the text is a live WRAM-L
   table of 19 × 2 code records with a `0x0000` name placeholder, loaded with
-  `STAGE-08`. The next tasks are:
-  - `END-004`: trace the table to the disc (no gameplay);
+  `STAGE-08`. `END-004` is done (`EXP-0040`): the dialogue comes from LZSS
+  `MC13.PAC` (the boss's file), and the pages from raw `ME.PAC`. The next tasks
+  are:
+  - `END-007`: a marker build check (no gameplay);
   - `END-005`: what selects the dialogue and ending (one gameplay session);
   - `END-006`: the arcade reference.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
@@ -2077,7 +2079,7 @@ the user asks or when it unblocks other work.
 
 ### END-004 - Locate the disc source of Ryu's ending text
 
-- **Status:** `READY` (unblocked by `END-002`, 2026-10-24)
+- **Status:** `DONE` (2026-10-24, `EXP-0040`)
 - **Milestone:** M6
 - **Dependencies:** END-002 or END-003.
 - **Blockers:** None. Trace starts:
@@ -2102,6 +2104,49 @@ the user asks or when it unblocks other work.
 - **Outputs:** Experiment record, decoder evidence, and a discoveries entry if
   confirmed.
 - **Notes:** Do not assume `MCnn`, PAC, or LZSS until observed.
+- **Evidence (2026-10-24, `EXP-0040`; `CONFIRMED`, discoveries `END-004`):**
+  - Dialogue: `MC13.PAC` (slot 19, the final boss's quote file), LZSS
+    (`DISC-001` format), decoded to `0x00220000` by PC `0603E446`. Ryu/Gouki
+    records are at decoded offsets `0xAE14`, `0xAE60`, `0xB9F4`, and `0xBA40`.
+  - Pages: `ME.PAC`, raw from file offset `0x10`, copied to `0x00230000` by PC
+    `0603E04E`. Ryu's pages are at file offsets `0x3674`, `0x36C0`, and
+    `0x370C`.
+  - The text records are byte-identical to the decode and the file. The other
+    differences are relocated pointers (RAM = file + base + `0x40`), plus 30
+    unexplained non-text longwords in `ME.PAC`'s region.
+  - Both files load at the `STAGE-08` transition. The loader contexts carry
+    each file's header word 1, while their name fields both read `me.pac`.
+
+### END-007 - Verify that edited ending files load and display (marker build)
+
+- **Status:** `READY`
+- **Milestone:** M6
+- **Dependencies:** END-004.
+- **Blockers:** None. No gameplay is needed (`before_stage08_load.mcs` and
+  `ryu_gouki_post_boss_ko.mcs` replay across images, `replay_state.py`).
+- **Objective:** Show that a derived image built from the untouched source,
+  with one marker change per file, displays the changes in Ryu's ending.
+- **Rationale:** `EXP-0040` names the files, but only a rebuilt image proves
+  that the disc copy is the one used, with no other copy, checksum, or length
+  check. This is the ending equivalent of M2.
+- **Acceptance criteria:**
+  - One variable per build:
+    - (a) a same-size change in `ME.PAC` (one code in page 1, raw);
+    - (b) one code in `MC13`'s box 2 record, LZSS re-encoded with the
+      `EXP-0036` declared-length rule.
+  - Each build goes under `build/`, and each records its source and output
+    hashes and its original and modified bytes.
+  - Replay a pre-load checkpoint on each image (no input) and screenshot the
+    box or page, against an untouched-image control.
+  - Nothing outside the marker cell changes in the box or page.
+- **Outputs:** Experiment record, build metadata, and a discoveries entry if
+  confirmed.
+- **Notes:**
+  - Markers only (for example full-width `R`, `FONT-002`). No translated text
+    before `END-005`, `END-006`, and the `END-010` scope decision.
+  - Replaying a state saved on the untouched image onto a derived image works
+    for win quotes (`EXP-0036`). It may not hold if the files were already
+    loaded, so start before the `STAGE-08` load.
 
 ### END-005 - Identify what selects the post-boss dialogue and the ending
 
@@ -2150,9 +2195,11 @@ the user asks or when it unblocks other work.
 
 - **Status:** `BACKLOG`
 - **Milestone:** M7
-- **Dependencies:** END-001, END-002, END-004, END-005, END-006.
-- **Blockers:** The renderer, source file, selection logic, and official English
-  for Ryu's ending are not yet established (`END-002` to `END-006`).
+- **Dependencies:** END-001, END-002, END-004, END-005, END-006, END-007.
+- **Blockers:** Selection logic (`END-005`), official English (`END-006`), and a
+  verified marker build (`END-007`) are not yet established. The renderer
+  (`EXP-0038`), RAM layout (`EXP-0039`), and disc sources (`EXP-0040`) are
+  done.
 - **Objective:** Reproduce one Ryu ending localization from untouched source.
 - **Rationale:** One complete case is required before generalizing endings.
 - **Acceptance criteria:** Live/source behavior is experimentally established; official text provenance, exact modifications, deterministic build, and visible verification are documented.
@@ -2161,6 +2208,13 @@ the user asks or when it unblocks other work.
   - Scope to settle first, as a user decision after `END-005`: does "Ryu's
     ending" include the post-boss dialogue, which may be team-specific, or only
     the three ending pages (`EXP-0037`)?
+  - Route, from `EXP-0038` to `EXP-0040`:
+    - pages are raw codes in `ME.PAC`, so they can be edited in place;
+    - the dialogue is in LZSS `MC13.PAC` and needs a re-encode;
+    - both use quote-font codes in 19 × 2 records, so composed pair glyphs
+      (`FONT-003`) are a candidate for English.
+  - `MC13` is the boss's quote file. Its win quotes stay with `SPECIAL-001`;
+    only the dialogue records are in scope.
 
 ### END-020 - Generalize ending-localization pipeline
 
