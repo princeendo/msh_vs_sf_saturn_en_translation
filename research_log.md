@@ -2986,3 +2986,18 @@ files), all passing.
 Checks: pytest (171 passed), ruff check, ruff format --check, and strict mypy (73
 files), all passing.
 
+## 2026-10-24 — RE-045 / EXP-0035: roster image built and reviewed offline
+
+- Built `build/re045` from the `RE-044` spec. The two builds are identical (track
+  01 `f5044e8a…`), and every compiler check is true.
+- 18 files differ: the 17 roster PACs and `MEMFIX`. Fonts: 338 pairs, 90 reused
+  and 57 sacrificed kanji (147 of 321).
+- Checked by script: the exception blocks (`MC02` `0xDF68`, `MC08` `0xBE5C`,
+  `MC0C` `0x3B88`) are unchanged, record `k + 8` equals `k`, and no placeholders
+  remain.
+- Read all 17 render sheets; the new punctuation is legible in context.
+- `RE-046` and `RE-047` are now `READY`. `RE-046` needs a gameplay plan agreed with
+  the user.
+
+Checks: no code changed in this step; pytest (171 passed).
+
