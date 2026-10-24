@@ -19,8 +19,10 @@ reference facts** (what outside documents say).
   `RE-042` is done (all 17 paired, `data/text/roster_pairing.json`). Next is
   `RE-044` (roster spec and font capacity), now done: it fits, using 90 reused
   kanji codes plus alignment. `RE-045` is done: the roster image (`EXP-0035`) is
-  built and reviewed offline. Next are `RE-046` (live checks) and `RE-047`
-  (regression).
+  built and reviewed offline. `RE-046` is done (`EXP-0036`): four characters
+  verified live. `RE-047` is done: `tools/regression/reference_builds.py` rebuilds
+  the reference images against `data/regression/reference_builds.json`
+  (report: `docs/regression_report.md`). **M5 is complete (2026-10-24).**
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
@@ -135,7 +137,8 @@ Authorities are cataloged in `docs/references.md`.
 | Disc | `tools/disc/pac_lzss.py`, `pac_patch.py`, `patch_image.py`, `iso9660.py` | Decode, re-encode, and rebuild |
 | Memory | `tools/memory/mcs_extract.py` | Save-state regions (validated ones only) |
 | Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py` | Render, compile, font |
-| Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py` | Headless runs and checks |
+| Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py` | Headless runs and checks |
+| Regression | `tools/regression/reference_builds.py` | Rebuild reference images, compare hashes |
 | Arcade | `tools/reference/mame_audit.py`, `cps2_text.py`, `quote_pairing.py` | Identity, text, pairing |
 | MAME | `tools/reference/mame_timeline.lua`, `arcade_route.py`, `mame_snap_frames.lua` | Scripted runs |
 

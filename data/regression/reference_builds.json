@@ -1,0 +1,113 @@
+{
+ "schema": "mshvsf-regression/1",
+ "description": "Reference caption builds (RE-047). tools/regression/reference_builds.py rebuilds each from the untouched source image and compares these hashes. Specs under local/ are generated from the user's arcade ROM and never committed.",
+ "candidates": "research/memory_dumps/exp0023/unseen_codes.json",
+ "candidates_sha256": "32e513aef3a6f41a19d0d925623a6c6d8d9877e17f93c5a637f8bdb46954d99e",
+ "generator": {
+  "driver_sha256": "a8c09ef83841d75b81a4b2ee8ac029ebf8eecb6a743b016abb33e3d46e861602",
+  "archive": "local/arcade_roms/mshvsf/mshvsfu.zip"
+ },
+ "references": [
+  {
+   "name": "re022_markers",
+   "experiment": "EXP-0026",
+   "purpose": "Ryu marker captions; all 16 records verified live (RE-024).",
+   "spec": "data/captions/ryu_markers.json",
+   "spec_sha256": "d0bad58aef424c58524e0489382f3e46809f597d8c6eb607d95afedafac3f6c3",
+   "previous": [
+    {
+     "track01_sha256": "fd007d1398f3b2b61198315db4f2c1aabf2c1f2fa83fc5afb35fde1b6859a472",
+     "replaced_because": "EXP-0036 declared-length fix (RE-047 check): only the PAC header words at +0x04 and +0x10 change; streams, sizes, and decoded data are identical, and the PAC header sector again equals the source"
+    }
+   ],
+   "track01_sha256": "77b117999ad7712f148c51da2eefc97bae7b9315d06c8a802a877c86cfb72343",
+   "files_sha256": {
+    "MC09.PAC": "714dca0d6046e4d4df5a7164d34b3a79866b75e397533bb937a3eb7d6c2aa31a",
+    "MEMFIX.PAC": "1af97837afc5c4027df691db74a7048806d49beaf6c7581fc11417126a473676"
+   },
+   "baselined": "2026-10-24"
+  },
+  {
+   "name": "exp0028a",
+   "experiment": "EXP-0028",
+   "purpose": "Ryu and Ken markers in one image; 32 records verified live (RE-030).",
+   "spec": "data/captions/ryu_ken_markers.json",
+   "spec_sha256": "c6d7118e210daf05c36743ff61cc1d91056716dcc5b0a5e1b132adc0d1309941",
+   "previous": [
+    {
+     "track01_sha256": "c3990fa568dbbd6d179dd2ea780fafd0ffa64701d3e958b61953c5a8587776de",
+     "replaced_because": "EXP-0036 declared-length fix (RE-047 check): only the PAC header words at +0x04 and +0x10 change; streams, sizes, and decoded data are identical, and the PAC header sector again equals the source"
+    }
+   ],
+   "track01_sha256": "58d0c56bedc6d6327a72e02f662abb906d5b5ab996bec6ecda0451d9c92e37a0",
+   "files_sha256": {
+    "MC09.PAC": "714dca0d6046e4d4df5a7164d34b3a79866b75e397533bb937a3eb7d6c2aa31a",
+    "MC0A.PAC": "9c558ee8e06b3439a91703faa7688b034a6a72e84fc90ac37d50679af76d873f",
+    "MEMFIX.PAC": "1d3b0de497f3836f36d6e53bb66a03cf8a0bf7ea66d15e3f6ba22c36b8fe7f24"
+   },
+   "baselined": "2026-10-24"
+  },
+  {
+   "name": "tr001",
+   "experiment": "EXP-0033",
+   "purpose": "Ryu official English; all 16 records verified live (TR-001).",
+   "spec": "local/tr001/ryu_official_en.json",
+   "spec_sha256": "aa7fa86397c198d5547cc0d9b7cf86b6fe8ed656479a59e8e190fc57418004eb",
+   "generate": [
+    "--slot",
+    "9"
+   ],
+   "previous": [
+    {
+     "track01_sha256": "2941a9c521d70585db7063895ae392201a81de1e29540cf6bbee328945d94719",
+     "replaced_because": "EXP-0036 declared-length fix (RE-047 check): only the PAC header words at +0x04 and +0x10 change; streams, sizes, and decoded data are identical, and the PAC header sector again equals the source"
+    }
+   ],
+   "track01_sha256": "f9daacc1211bf423fb6b57576dc34fd2a6ef59a1050af171ca1ca0fcfcb0b4dd",
+   "files_sha256": {
+    "MC09.PAC": "415affaf9a5efe89a33fa37ceb643887a8b6ee9dd31609130ff508162a608a3a",
+    "MEMFIX.PAC": "1ea5d29997ba32755e8e850f65412760d6c3ab7bb55931be98a01f0bfab353be"
+   },
+   "baselined": "2026-10-24"
+  },
+  {
+   "name": "roster",
+   "experiment": "EXP-0036",
+   "purpose": "17-character official English roster; 4 characters verified live, 13 offline (RE-045, RE-046).",
+   "spec": "local/re044/roster_official_en.json",
+   "spec_sha256": "b2c097fa5c28a61b8f6814dd3c3f978d37653af6f50871f99e166391db63f334",
+   "generate": [
+    "--roster",
+    "data/text/m5_roster.json"
+   ],
+   "previous": [
+    {
+     "track01_sha256": "f5044e8ac6102de2333cb27076286f905e4324886b44653e3e694442d46bb6d2",
+     "replaced_because": "EXP-0036 declared-length fix: build/re045 became build/re046_roster; decoded tables, MEMFIX, and renders are identical"
+    }
+   ],
+   "track01_sha256": "351254c4751e0a49b74a34bc6668cce84e41bb22ded62342c472bbcd74c9f3a3",
+   "files_sha256": {
+    "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
+    "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
+    "MC03.PAC": "dfa5dac26531abe03f841a374de4493324c48ae128df986740259de21b54c452",
+    "MC04.PAC": "1a2bdd106bac536ae7f53d2aeaa205fa093ae2e0a2bc324264646e584bc0d8e0",
+    "MC05.PAC": "48a2d6433d03a696fc6aa7dc18a2f1daed7798d1bbed9b6e10602ea2d94db50b",
+    "MC06.PAC": "e334bd299f0993522957cc4c1cc68a31114ebfda959110ffdc1c89cc38137e08",
+    "MC07.PAC": "66a46b151547a8c9817be07d28afa4a06d83362bd1df82d24faa0329163cd767",
+    "MC08.PAC": "a75881b1e55facd63edcf825e6718924b23c5c2e1cc05712046b3d0ae187e693",
+    "MC09.PAC": "697720e6ab46d2c7dad1c53aaf5bdcb3767e4716f7de20c58366f6126b0167e2",
+    "MC0A.PAC": "47ee7fa4c0d1b22d1a34de3b5ed064ccd9561a05e903c7083101aee736a02ab4",
+    "MC0B.PAC": "677c76b85cdae9968750bf50ab4730bfc2bcc2716900ba85540515c5e131fc65",
+    "MC0C.PAC": "f6ec186f9e2a77a4497c1cd89d88df73ca520fa649be7332a0823c4a2aedf460",
+    "MC0D.PAC": "09759413c8d47fdecc9c3d37d2e3e8b432a45afb0742887ee716809243f3324a",
+    "MC0E.PAC": "d94a1ed9d4b161a2e8893b55b584141a0ebc21b116bc709b358ace47c914d21b",
+    "MC0F.PAC": "8b620327982c232813f17ce29952d92e55e4b0fa66779de2a09033ed7193c486",
+    "MC10.PAC": "41c8fa5dd10432a15fae8f21f00f5d038f536349cdc86f836f085bd61b504c41",
+    "MC12.PAC": "e92bd50d35813b1645f5b582bfccec3641535cb3c3e828fb8d969a8da2edff58",
+    "MEMFIX.PAC": "f60e512fd3aa18cc488e558bf6f1bce2e89ccf33ae4ef40a61945b174ab1045a"
+   },
+   "baselined": "2026-10-24"
+  }
+ ]
+}

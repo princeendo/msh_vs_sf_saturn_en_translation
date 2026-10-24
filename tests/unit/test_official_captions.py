@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+from tools.text.caption_compiler import parse_tables
 from tools.text.official_captions import (
     best_shifts,
     centred,
@@ -77,3 +78,28 @@ def test_best_shifts_reuses_existing_pairs() -> None:
     assert shifts["bcd"] == 1
     pairs = line_pairs("cdcd", shifts["cdcd"]) | line_pairs("bcd", shifts["bcd"])
     assert len(pairs) == 2
+
+
+def test_roster_spec_for_two_slots_compiles_with_shared_shifts() -> None:
+    shared = ["bcd", "x"]
+    slots = [
+        [["Zero", "z"]] * 8,
+        [["cdcd", "one"], shared] * 4,
+        [shared, ["Two", "t"]] * 4,
+    ]
+    roster = [
+        {"slot": 1, "file": "MC01.PAC", "table": "0xAC50"},
+        {"slot": 2, "file": "MC02.PAC", "table": "0xD6D8"},
+    ]
+
+    spec = roster_spec(slots, roster)
+    tables = parse_tables(spec)
+
+    assert [(t.file, t.table) for t in tables] == [
+        ("MC01.PAC", 0xAC50),
+        ("MC02.PAC", 0xD6D8),
+    ]
+    first, second = (t.captions for t in tables)
+    assert first[1].lines == second[0].lines  # one line, one alignment
+    assert first[1].lines[0].strip() == "bcd"
+    assert len(first) == len(second) == 16
