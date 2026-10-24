@@ -123,6 +123,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
   - Decided by the user on 2026-10-24: use the paired official English (record
     `k` gets entry `k & 7`). Still open: how 25-character English lines fit
     19-cell Saturn lines.
+  - Do the two PS1-only English blocks (`EXP-0032`) belong to secret characters,
+    and are they official English for lines the arcade never translated? This is
+    deferred to `SPECIAL-001`.
 - Do the European and US English wordings agree line for line?
 - Which arcade ROM members hold post-fight text, and in what form? Answered for
   Latin text by `EXP-0029` (`mvs.07b`, 16-bit codes); still open for Japanese.
