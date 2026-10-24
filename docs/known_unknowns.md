@@ -11,6 +11,10 @@ These questions are unresolved unless a later entry links to reproducible eviden
   cartridge-RAM address space.
 - Is cartridge-RAM extraction from save states correct? `EXP-0008` validated WRAM and
   VDP VRAM only, because no stock debugger reference exists for the cart.
+- Why does a shorter declared PAC compressed length break the opponent load
+  (`EXP-0036`)? The fix is confirmed; the mechanism is not. It may be a buffer
+  layout or read plan derived from the length. The size threshold (about 3 bytes
+  shorter worked, 270+ failed) is also unknown.
 - How does stock Mednafen label the SH-2 program counter, expose Saturn address
   aliases, and implement breakpoints relative to the SH7604 hardware semantics?
 - Which CPU selections does the stock debugger expose for Saturn? (Memory-editor

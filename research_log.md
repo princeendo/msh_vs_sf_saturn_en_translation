@@ -3001,3 +3001,34 @@ files), all passing.
 
 Checks: no code changed in this step; pytest (171 passed).
 
+## 2026-10-24 — RE-046 run 1: BIOS reset diagnosed and fixed (EXP-0036)
+
+- The roster image `build/re045` reset to the BIOS CD player while loading the
+  first fight (Cyclops/Zangief vs Dan/Sakura).
+- Ruled out without gameplay:
+  - attract demos (3 min, no reset);
+  - an idle character select;
+  - the original image (user replay reached the fight; a rolling save-state loop
+    captured the pre-load state).
+- New `tools/mednafen/replay_state.py` loads that state on any image.
+  Single-file images isolate `MC12.PAC` (Dan as opponent).
+- Not the cause: decoding (game RAM = our decoder), dropped placeholders
+  (restoring them still reset), an SH-2 exception (no vector fired), or an SMPC
+  reset (only controller polls).
+- The cause: the file-read descriptor at `0x0603E8E9` carries the header's
+  declared compressed length. Restoring only the header length words fixes it,
+  so a shorter declared length breaks the opponent load.
+- Fix: `pac_patch` keeps the original declared length and zero-pads the stream.
+  The rebuilt roster (`build/re046_roster`, `351254c4…`) passes.
+- Pitfalls:
+  - The agent's `read` length is decimal. My first dumps were 100,000 bytes, not
+    1 MiB.
+  - `xtrct` builds `(w0 << 16) | w1`, so memory order is `A1 00 EA 20`.
+  - zsh treats `$L:f…` as a modifier; quote it as `${L}`.
+  - A record bisect needed a full re-encode when a splice outgrew the file.
+- Reference builds `tr001` and `exp0028a` will now rebuild with new hashes,
+  because their headers change. `RE-047` will re-baseline them.
+
+Checks: pytest (173 passed), ruff check, ruff format --check, and strict mypy (74
+files), all passing.
+
