@@ -35,8 +35,11 @@ reference facts** (what outside documents say).
     boss's file, at `0x00220000`), and the pages are in raw `ME.PAC` (at
     `0x00230000`).
 
-  Next is `END-007` (marker build, no gameplay), then `END-005` and
-  `END-006`.
+  - `END-007` Part 1 is done (`EXP-0041`): marker images built from the
+    untouched source load the edited `ME.PAC`/`MC13` with nothing else
+    changed. Part 2 (one live boss fight on `build/end007_c`) is pending.
+
+  Next are `END-007` Part 2, `END-005` (both need gameplay), and `END-006`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

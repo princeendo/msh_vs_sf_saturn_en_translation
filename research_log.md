@@ -3323,3 +3323,42 @@ translated text.
 
 Next action: `END-007` (no gameplay), or `END-005` (one gameplay session).
 
+## 2026-10-24 — END-007 / EXP-0041 Part 1: marker builds load from a derived image
+
+Task: END-007
+
+Goal: Show that edited ending files on a derived image are what the game
+uses, with no gameplay.
+
+Hypothesis: a one-code marker edit per file loads at `STAGE-08` and reaches
+the ending, with no other copy, checksum, or length check.
+
+Action and result:
+
+- **Builds**, each marker full-width R (`08F9`):
+  - A: `ME.PAC` `0x367E` `09AD` → `08F9`, a raw same-size edit; 1 sector.
+  - B: `MC13.PAC` decoded `0xAE62` `0970` → `08F9`; 16 sectors.
+    - The splice re-encode was refused: 31,044 > 31,036 bytes, because `MC13`
+      has 1 byte of slack.
+    - `--full` gave 30,569 bytes, declared length kept at 31,011, with 443
+      zero-fill bytes; the header is unchanged.
+  - C: both files.
+  - In every build, the other tracks and the CUE equal the source.
+- **Load path** (`write_trial --dump`, new option): `before_stage08_load.mcs`,
+  600 frames, on the untouched image and A/B/C. The loaded regions differ only
+  at each marker word (2/2/4 bytes).
+- **Display.** Page 1 RAM `0x0023366E` → R showed in only that cell (145 px).
+  Box 2 was already shown in `EXP-0039`.
+- **No re-read.** Post-KO replays on A and B equal the controls pixel for
+  pixel.
+- **Loader name field over run 1:** `me.pac` → `end.pac` → `sel.pac` (select
+  after the continue) → `end.pac`. The boss-stage loads repeat after a continue,
+  and `END.PAC` is involved too (not examined).
+
+Deviation: the criterion "replay a pre-load checkpoint and screenshot" cannot be
+met without gameplay, because the boss fight intervenes. Part 1 is `CONFIRMED`
+by composition (disc to RAM, RAM to screen). Part 2 is one user fight on image
+C from `before_stage08_load.mcs`. `END-007` is `BLOCKED` on that run.
+
+Next action: `END-007` Part 2 (user), or `END-006` (no gameplay).
+

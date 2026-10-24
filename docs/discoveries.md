@@ -786,6 +786,31 @@ Experiment: `EXP-0040`
   - Whether edited files load and display is untested (`END-007`).
 - **Reproduce.** `research/experiments/EXP-0040/README.md`, Procedure.
 
+## END-007 Part 1: Edited Ending Files Load from a Derived Image
+
+Confidence: **CONFIRMED** (disc to RAM, and RAM to screen). End to end on screen
+from a derived image is pending (`EXP-0041` Part 2).
+
+Experiment: `EXP-0041`
+
+- **Finding.** Two kinds of edit build from the untouched source with
+  `patch_image`:
+  - a same-size raw edit of `ME.PAC` (file offset `0x367E`, `09AD` → `08F9`);
+  - a full LZSS re-encode of `MC13.PAC` (decoded `0xAE62`, `0970` → `08F9`),
+    keeping the declared length `0x7923` and zero-filling to 31,036 bytes.
+- **Load.** Each image loads the edited file at the `STAGE-08` transition.
+  Replayed from `before_stage08_load.mcs` for 600 frames, the loaded regions
+  (`0x00220000-0x0022EE71`, `0x00230000-0x0023ED03`) equal the untouched
+  image's, except the marker word. The same holds for both edits together.
+- **Display.** The marker word displays as R in exactly its cell: page 1
+  (145 px) here, box 2 in `EXP-0039`.
+- **No re-read.** Neither file is re-read between the KO and the ending.
+- **Track 01 hashes:** A `f2f8f673…`, B `d525e356…`, C (both) `276bd6c7…`.
+- **Limits.**
+  - A single live run from a derived image is owed (Part 2).
+  - The splice re-encode does not fit `MC13`'s 1 byte of slack; use `--full`.
+- **Reproduce.** `research/experiments/EXP-0041/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:
