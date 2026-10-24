@@ -2944,3 +2944,23 @@ Checks: documentation and JSON only.
 Checks: pytest (166 passed), ruff check, ruff format --check, and strict mypy (73
 files), all passing.
 
+## 2026-10-24 — RE-044 (in progress): roster spec; capacity short of codes
+
+- The roster English uses `' ? - "` and `‼`, plus undecoded arcade codes
+  `0x0122` and `0x0160`. MAME runs with the quote pointer forced (write taps on
+  `0xFF249C`/`0xFF249E`) showed them on screen as `‼` and a straight `"`.
+  - Pitfall: forcing the pointer only changed line 2. Line 1 kept the natural
+    quote, presumably because line 1 had already been drawn from the earlier
+    pointer.
+- Picked Saturn glyphs by printed bitmap shape: `?` `0x08DC`, `'` `0x08B9`, `"`
+  `0x08BB`, `-` `0x08CB`, `‼` `0x08DF`. The decoder change moved `EXP-0029`'s
+  digests; an addendum records the new values.
+- `official_captions.py --roster` writes a v2 spec. Capacity: 405 distinct pairs
+  against 248 free codes, so it does not fit. Bytes are fine (17,179 of 30,235).
+- Greedy per-line alignment estimate: 338 pairs, still over. Options are (A)
+  reuse unseen-kanji codes in place, or (B) raise the code count. Awaiting the
+  user's decision; no build yet.
+
+Checks: pytest (168 passed), ruff check, ruff format --check, and strict mypy (73
+files), all passing.
+
