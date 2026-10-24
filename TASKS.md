@@ -21,8 +21,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `EXP-0030`): the decoded arcade quotes match the screen, and Ryu's are slot 9.
   `REF-003`, `REF-004`, and `REF-006` are done (2026-10-24, `EXP-0031`). Saturn Ryu
   record `k` pairs with official arcade English entry `k & 7` by game logic.
-  DOC-007 and DOC-008 are done. `GATE-TRANSLATION` now needs only REF-005 (a legal
-  PS1 image). The 16-to-8 policy is decided.
+  DOC-007 and DOC-008 are done. `GATE-TRANSLATION` now needs only REF-005, whose
+  PS1 image was supplied and verified on 2026-10-24 (`REF-011`). The 16-to-8 policy
+  is decided.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -561,8 +562,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** REF-004.
-- **Blockers:** None. Needs a legal `SLUS-00793` image matching the recorded
-  fingerprint; none is held locally.
+- **Blockers:** None. The legal `SLUS-00793` image is now held and matches the
+  Redump fingerprint (`REF-011`; `local/disc_images/mshvsf_ps1_us/`).
 - **Objective:** Record the official PS1 wording and differences when it adds useful evidence.
 - **Rationale:** A secondary rendering can clarify language but not Saturn implementation.
 - **Acceptance criteria:** Provenance, exact text/context, comparison, and uncertainty are recorded, or a documented decision explains why it is not useful.
@@ -727,6 +728,35 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - Winners in slots 5, 6, 11, 12, 13, and 16 matched the name list.
   - Settings: default EEPROM (2 coins per credit; Easy and Normal timed out),
     English.
+
+### REF-011 - Intake second arcade batch, PS1 image, and XvSF material
+
+- **Status:** `DONE`
+- **Milestone:** M0 (reference provenance; no reverse engineering)
+- **Dependencies:** REF-008.
+- **Blockers:** None.
+- **Objective:** Identify and record every newly supplied reference file before use.
+- **Rationale:** `AGENTS.md` rule 2 requires identity records before research.
+- **Acceptance criteria:** Each file is copied unchanged to an ignored path, with
+  SHA-256 recorded and identity checked against MAME 0.289 or Redump where
+  possible. Gaps are explicit.
+- **Outputs:** `references/mshvsf/arcade/README.md`,
+  `references/mshvsf/arcade/v2_manifest.json`,
+  `references/mshvsf/ps1_us/README.md`, `references/xmvsf/*/README.md`,
+  `references/xmvsf/arcade/manifest.json`.
+- **Evidence (2026-10-24):**
+  - All 11 MAME `mshvsf` sets match by SHA-1. 6 of 11 verify in MAME after
+    reusing held keys (including `mshvsfu1`); 5 lack `mshvsfa.key`,
+    `mshvsfb.key`, or `mshvsfh.key`.
+  - The MSHvSF US PS1 image matches Redump 12632 exactly.
+  - 11 XvSF arcade zips match MAME 0.289 under older set names; no XvSF keys are
+    held.
+  - The XvSF US PS1 image matches MAME `psx.xml`. The JP EX Edition is not in
+    `psx.xml` (identity unverified).
+  - The XvSF Saturn file is a lossy rip (ISO plus MP3 audio) whose header reads
+    `T-1226G V1.002` (Doukonban).
+- **Notes:** XvSF material is reference-only (rules 13 and 25). An MSHvSF PS1
+  image is a PlayStation port, and its structures are not Saturn facts (rule 14).
 
 ## Phase E: Checkpoints And Memory Analysis
 
@@ -984,7 +1014,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
 - **Blockers:** Listed reference and documentation tasks are not all `DONE`.
   REF-003, REF-004, REF-006, DOC-007, and DOC-008 are done (2026-10-24). Only
-  REF-005 remains; it needs a legal `SLUS-00793` image. The 16-to-8 English policy was decided by the user on
+  REF-005 remains, and its PS1 image is now held (`REF-011`). The 16-to-8 English policy was decided by the user on
   2026-10-24: official paired English (see Notes).
 - **Objective:** Make an explicit go/no-go decision before any task writes or
   proposes English replacement text.

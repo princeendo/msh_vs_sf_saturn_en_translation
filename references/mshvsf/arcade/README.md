@@ -133,6 +133,30 @@ SNAP_FRAMES="1200 3000" mame mshvsfu -rompath local/arcade_roms/mshvsf -video no
   decoded table is therefore a capture-backed source for official arcade English;
   unobserved entries rest on the confirmed layout.
 
+## Second Batch: Full MAME Split Set (`REF-011`)
+
+The user supplied all 11 MAME 0.289 `mshvsf` sets on 2026-10-24
+(`~/Downloads/mshvsf/v2`). They were copied unchanged to the ignored
+`local/arcade_roms/mshvsf_v2/`.
+
+- Per-zip identity, size, and SHA-256 are in [`v2_manifest.json`](v2_manifest.json).
+  Every member matches its MAME 0.289 set by CRC-32 and SHA-1. The parent is
+  `mshvsf.zip`; each clone zip holds only its region files.
+- The `v2` `mshvsf.zip` has different zip bytes from the first copy, but the same
+  20 ROM files.
+- Keys: `mshvsfu1` uses `mshvsfu.key`, and `mshvsfj1` and `mshvsfj2` use
+  `mshvsfj.key` (the same CRCs in the driver). Copies of the keys already held were
+  placed in `local/arcade_roms/mshvsf/<set>/`.
+- Run
+  `mame -rompath "local/arcade_roms/mshvsf_v2;local/arcade_roms/mshvsf" -verifyroms "mshvsf*"`.
+  It reports **6 of 11 OK**: `mshvsf`, `mshvsfu`, `mshvsfu1`, `mshvsfj`,
+  `mshvsfj1`, and `mshvsfj2`.
+- The other 5 (`mshvsfa`, `mshvsfa1`, `mshvsfb`, `mshvsfb1`, `mshvsfh`) lack only
+  `mshvsfa.key`, `mshvsfb.key`, and `mshvsfh.key`.
+- `mshvsfu1` (USA 970625) is now available for the capture protocol's
+  two-revision comparison. The earlier "no local `mshvsfu1`" limit no longer
+  applies.
+
 ## What They Are For
 
 1. **Exact English quotes.** All three sets hold the official English post-fight
