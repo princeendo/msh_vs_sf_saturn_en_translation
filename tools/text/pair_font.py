@@ -26,8 +26,19 @@ from tools.text.font_pack import Glyph, compress, pack, unpack
 from tools.text.glyph_patch import compose
 
 UPPER, LOWER, DIGITS = 0x08E8, 0x0902, 0x091C
-# "!" EXP-0021 family; "." and "," chosen by glyph shape for TR-001 (EXP-0033).
-PUNCTUATION = {"!": 0x08DD, ".": 0x08AB, ",": 0x08AC}
+# "!" EXP-0021 family; "." and "," chosen by glyph shape for TR-001 (EXP-0033);
+# the rest chosen by glyph shape for the M5 roster (RE-044). The arcade uses one
+# straight-quote code for both sides, so '"' maps to a single glyph.
+PUNCTUATION = {
+    "!": 0x08DD,
+    ".": 0x08AB,
+    ",": 0x08AC,
+    "?": 0x08DC,
+    "'": 0x08B9,
+    '"': 0x08BB,
+    "-": 0x08CB,
+    "\u203c": 0x08DF,  # double exclamation in one cell
+}
 
 
 def char_code(char: str) -> int | None:

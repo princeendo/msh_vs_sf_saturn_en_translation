@@ -44,6 +44,33 @@ def spec_records(
     ]
 
 
+def roster_spec(
+    slots: Sequence[Sequence[Sequence[str]]], roster: Sequence[dict[str, object]]
+) -> dict[str, object]:
+    """Schema-v2 spec: one table per roster character, in roster order.
+
+    ``slots[s]`` holds slot ``s``'s English quotes (lines). Placeholders are never
+    emitted, because the roster's policy drops them (`RE-042`).
+    """
+    tables = [
+        {
+            "file": str(entry["file"]),
+            "table": str(entry["table"]),
+            "records": spec_records(slots[int(str(entry["slot"]))]),
+        }
+        for entry in roster
+    ]
+    return {
+        "schema": "mshvsf-captions/2",
+        "description": (
+            "M5 roster official arcade English (RE-044): record k = entry remap[k] "
+            "of each character's slot (EXP-0031). Generated from the local arcade "
+            "ROM; not committed."
+        ),
+        "tables": tables,
+    }
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--driver", type=Path, required=True, help="MAME cps2.cpp")
@@ -51,6 +78,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--set", dest="set_name", default="", help="default: zip stem")
     parser.add_argument("--quote-table", type=lambda v: int(v, 0), default=0x20C014)
     parser.add_argument("--slot", type=int, default=9, help="arcade slot (Ryu = 9)")
+    parser.add_argument(
+        "--roster", type=Path, help="roster JSON: emit a schema-v2 spec for all of it"
+    )
     parser.add_argument("--out", type=Path, required=True, help="spec path (ignored)")
     return parser
 
@@ -59,6 +89,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     sets = parse_driver(args.driver.read_text(encoding="utf-8"))
     program = build_program(args.archive, sets[args.set_name or args.archive.stem])
+    if args.roster:
+        roster = json.loads(args.roster.read_text())["characters"]
+        quotes = [s.quotes for s in read_quote_table(program, args.quote_table, 26)]
+        spec = roster_spec(quotes, roster)
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(json.dumps(spec, indent=1) + "\n", encoding="utf-8")
+        print(f"wrote {args.out}: {len(roster)} tables")
+        return 0
     slot = read_quote_table(program, args.quote_table, args.slot + 1)[args.slot]
     records = spec_records(slot.quotes)
     spec = {

@@ -46,6 +46,8 @@ def test_decode_code_maps_observed_codes_and_marks_unknowns() -> None:
     assert decode_code(0x0161) == "a"
     assert decode_code(0x0120) == "!"
     assert decode_code(0x0185) == ","
+    assert decode_code(0x0122) == "\u203c"
+    assert decode_code(0x0160) == '"'
     assert decode_code(0x01E6) == "{01e6}"
     assert decode_code(0x0872) is None
 

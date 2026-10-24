@@ -71,7 +71,7 @@ def test_line_cells() -> None:
     with pytest.raises(SpecError):
         line_cells("x" * 39)
     with pytest.raises(ValueError):
-        line_cells("what?")
+        line_cells("what~")
 
 
 def test_parse_spec_rejects_bad_input() -> None:

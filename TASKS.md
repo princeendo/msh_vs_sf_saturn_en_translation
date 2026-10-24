@@ -1665,7 +1665,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-044 - Build the roster caption spec and check font capacity
 
-- **Status:** `READY`
+- **Status:** `IN_PROGRESS` (spec generated; awaiting a capacity decision)
 - **Milestone:** M5
 - **Dependencies:** RE-042, RE-043, TR-001.
 - **Blockers:** None.
@@ -1685,6 +1685,25 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     font glyph chosen by shape, or rejected with evidence.
 - **Outputs:** The generator extension, a capacity report, and character-map
   additions with their evidence.
+- **Progress (2026-10-24):**
+  - **Character map.** The roster English needs `' ? - "` and `‼`, plus two
+    arcade codes. Those codes were identified on the arcade screen by forcing the
+    quote pointer: `0x0122` = `‼` and `0x0160` = `"` (`EXP-0029` addendum).
+  - Glyphs chosen by bitmap shape: `?` → `0x08DC`, `'` → `0x08B9` (’), `"` →
+    `0x08BB` (”, one glyph for both sides, like the arcade), `-` → `0x08CB`
+    (centred bar), and `‼` → `0x08DF`. They are in `pair_font.py` and the schema.
+  - **Spec.** `official_captions.py --roster` emits a v2 spec (17 tables, 272
+    records) to the ignored `local/re044/`.
+  - **Capacity: does not fit.** There are 405 distinct pairs but 248 free codes.
+    Bytes are fine (17,179 needed of 30,235 reclaimable); the code count is the
+    binding limit.
+  - Per-line alignment (shifting a line's pairing by one character) reduces the
+    pairs to 338 (greedy estimate). That is still too many, so a decision is
+    needed:
+    - **(A)** reuse unseen-kanji codes in place as pair codes (proven display
+      range; same content risk as today's sacrifice); or
+    - **(B)** raise the font code count to use `0x0C60`-`0x0DFF` (untested; needs
+      a live experiment).
 
 ### RE-045 - Build the ordinary-roster image deterministically
 

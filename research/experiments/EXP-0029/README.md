@@ -168,3 +168,17 @@ curl -sSfLo /tmp/cps2.cpp https://raw.githubusercontent.com/mamedev/mame/f34f025
 Repeat with `mshvsf.zip` and `mshvsfj.zip`; the printed text and quote digests
 must match the values above. Outputs contain game text and stay in the ignored
 `local/arcade_text/`.
+
+## Addendum (2026-10-24, RE-044): two more codes decoded
+
+Forcing the arcade quote pointer (`0xFF249C`) to Chun-Li and Akuma entries showed
+`0x0122` as a one-cell double exclamation (`‼`, for example "stuff‼") and `0x0160`
+as a straight double quote. Both were added to `tools/reference/cps2_text.py`.
+That changes the digests above. With the updated map, all three sets give:
+
+- text SHA-256 `5846cf34b857987d0efc69b80fb6478cef311c1470f3fa83e660d2cec945653d`;
+- quote-table SHA-256
+  `6659c4d20d8495e00559f57f13d1d5c697ac1d9fb82724c00cb1fd755aa84d80`.
+
+Program hashes and every other result are unchanged.
+

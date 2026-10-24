@@ -25,6 +25,8 @@ LOWER_BASE = 0x0161  # "a"; lowercase codes are ASCII + 0x100
 PUNCTUATION = {
     0x0120: "!",
     0x0121: "?",
+    0x0122: "\u203c",  # double exclamation, one cell (seen on screen, RE-044)
+    0x0160: '"',  # straight double quote (seen on screen, RE-044)
     0x012A: "-",
     0x0184: ".",
     0x0185: ",",
