@@ -10,8 +10,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   through the same generalized mechanism, with all 32 Ryu and Ken records verified
   live from one image. M3 was completed on 2026-10-17.
 - Reverse-engineering experiments in progress: none.
-- Next milestone: M5 (`RE-040`, `BACKLOG`). It needs its detailed tasks defined
-  before work begins.
+- Current milestone: **M5** (`RE-040`). Its breakdown was defined on 2026-10-24 as
+  `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
+  against arcade slots).
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1536,17 +1537,178 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-040 - Systematize ordinary post-fight localization
 
-- **Status:** `BACKLOG`
+- **Status:** `READY` (breakdown defined 2026-10-24; work starts with `RE-041`)
 - **Milestone:** M5
-- **Unblocked by:** RE-030 (`DONE` 2026-10-24). Detailed tasks are still to be
-  defined; do not begin without them.
-- **Dependencies:** RE-030.
-- **Blockers:** A second fighter has not validated the generalized mechanism.
+- **Dependencies:** RE-030, RE-041, RE-042, RE-043, RE-044, RE-045, RE-046, RE-047.
+- **Blockers:** None for `RE-041`. Later tasks wait on their own dependencies.
 - **Objective:** Build and validate the ordinary-character post-fight workflow.
 - **Rationale:** Roster-scale work requires evidence-backed coverage and regression controls.
-- **Acceptance criteria:** Detailed tasks define scope, translation provenance, binary traceability, deterministic builds, representative visible verification, exceptions, and regression tests.
+- **Acceptance criteria:** Detailed tasks define scope, translation provenance, binary traceability, deterministic builds, representative visible verification, exceptions, and regression tests. M5 is complete when `RE-041` to `RE-047` are `DONE`.
 - **Outputs:** Ordinary-caption data, tools, coverage manifest, experiments, regression report.
 - **Notes:** Endings and special cases remain prohibited.
+- **Breakdown (2026-10-24):** each criterion maps to a task.
+
+  | Criterion | Task |
+  | --- | --- |
+  | Scope | `RE-041` coverage census |
+  | Translation provenance | `RE-042` per-character pairing |
+  | Exceptions | `RE-043` exceptions register |
+  | Binary traceability, deterministic builds | `RE-044` roster spec and capacity; `RE-045` roster image |
+  | Representative visible verification | `RE-046` |
+  | Regression tests | `RE-047` |
+
+  - Facts it builds on: 23 Saturn quote files `MC00`-`MC16`. The `EXP-0023`
+    census found one ordinary 16-record table in each of `MC01`, `MC03`-`MC06`,
+    `MC09`-`MC0B`, `MC0D`-`MC12`, and `MC14`-`MC16` (17 files).
+  - `MC00`, `MC02`, `MC07`, `MC08`, `MC0C`, and `MC13` are irregular.
+  - `MC09` = Ryu = arcade slot 9 and `MC0A` = Ken = slot 10 are confirmed. Any
+    other file-to-character mapping is a `HYPOTHESIS` until `RE-041`.
+
+### RE-041 - Census Saturn quote files against arcade character slots
+
+- **Status:** `READY`
+- **Milestone:** M5
+- **Dependencies:** RE-030, REF-004.
+- **Blockers:** None. Offline only.
+- **Objective:** Establish, for every `MC*.PAC`, which character it belongs to and
+  whether it is an ordinary 16 × 76 table.
+- **Rationale:** Scope must come from evidence, not from the file index or an
+  assumed roster order.
+- **Acceptance criteria:**
+  - For each of the 23 files, every census table is searched against all 26
+    arcade Japanese slots (`0x20BFAC`) for byte identity.
+  - The name table is cross-checked where possible.
+  - Each file is classified as ordinary (one identical 16-record table), partial,
+    irregular, or unmatched, with evidence.
+  - Results go to a committed metadata manifest (hashes, offsets, slots; no text).
+- **Outputs:** `data/text/coverage_manifest.json`, an experiment record, and an
+  extension of `tools/reference/quote_pairing.py` for multi-slot search.
+- **Notes:** No file is called a character until it matches. Arcade slots
+  17-25 are Norimaro, bosses, and secret characters; a match there is an
+  exception for `RE-043`, not scope.
+
+### RE-042 - Record per-character pairing for the ordinary roster
+
+- **Status:** `BLOCKED`
+- **Milestone:** M5
+- **Dependencies:** RE-041.
+- **Blockers:** The ordinary roster is not yet established.
+- **Objective:** Apply the `GATE-TRANSLATION` policy to each ordinary character:
+  Saturn record `k` gets official English entry `k & 7` of the matched slot.
+- **Rationale:** The policy requires per-character verification (table identity
+  plus the slot-independent remap, `EXP-0031`).
+- **Acceptance criteria:**
+  - Each ordinary character has pairing metadata like
+    `data/text/ryu_arcade_pairing.json`.
+  - English-entry presence and identity are checked in the US and EU sets, and
+    against the PS1 (`EXP-0032`), with differences listed.
+  - Records with `0000` placeholders are listed per character.
+  - Whether to drop each placeholder is decided case by case: TR-001 dropped
+    Ryu's; English has none.
+- **Outputs:** Pairing metadata per character; `data/translations/README.md`
+  update.
+- **Notes:** Provenance stays generator-based: text is read from the local arcade
+  ROM at build time, and only hashes are committed.
+
+### RE-043 - Maintain the exceptions register
+
+- **Status:** `BLOCKED`
+- **Milestone:** M5
+- **Dependencies:** RE-041.
+- **Blockers:** Classifications come from `RE-041`.
+- **Objective:** List every quote file or character excluded from M5, with the
+  reason and the gated task that may take it up.
+- **Rationale:** Exceptions must stay explicit (`AGENTS.md` rule 24).
+- **Acceptance criteria:**
+  - Each irregular, partial, or unmatched file, and each Norimaro, boss, or
+    secret-character slot, is listed with its evidence. Each points to
+    `SPECIAL-001`, `END-001`, or a named follow-up.
+  - No exception is translated or modified in M5.
+- **Outputs:** A section in `docs/text_system.md` (or a dedicated doc), linked from
+  the coverage manifest.
+
+### RE-044 - Build the roster caption spec and check font capacity
+
+- **Status:** `BLOCKED`
+- **Milestone:** M5
+- **Dependencies:** RE-042, RE-043, TR-001.
+- **Blockers:** Pairing for the roster is not recorded.
+- **Objective:** Generate one schema-v2 spec covering every ordinary character,
+  and show that its pair glyphs fit one shared font.
+- **Rationale:** All characters share one font (`EXP-0028`). The unseen-kanji
+  budget is about 817 pairs (`EXP-0023`); a single character used 95.
+- **Acceptance criteria:**
+  - `tools/text/official_captions.py` emits a v2 spec from the coverage manifest:
+    each file, table offset, and slot.
+  - `caption_compiler.py --capacity` reports distinct pairs, bytes, and free codes
+    for the whole roster.
+  - If it does not fit, a documented decision follows (pair-alignment
+    optimization, a wider reclaim set after a UI-usage census, or splitting), and
+    no build happens until it fits.
+  - Every character outside a-z, A-Z, 0-9, space, `!`, `.`, and `,` is mapped to a
+    font glyph chosen by shape, or rejected with evidence.
+- **Outputs:** The generator extension, a capacity report, and character-map
+  additions with their evidence.
+
+### RE-045 - Build the ordinary-roster image deterministically
+
+- **Status:** `BLOCKED`
+- **Milestone:** M5
+- **Dependencies:** RE-044.
+- **Blockers:** No roster spec yet.
+- **Objective:** Produce one derived image with every ordinary character's official
+  English.
+- **Rationale:** Binary traceability and determinism must hold at roster scale.
+- **Acceptance criteria:**
+  - Two builds are byte-identical, and every compiler check is true for every
+    file.
+  - Only target cells, pair codes, and sacrificed glyphs change, all recorded.
+  - Offline renders of every record are reviewed against the spec.
+  - Output hashes are recorded.
+- **Outputs:** The `build/` image (ignored), compile manifest hashes, and an
+  experiment record.
+
+### RE-046 - Verify a representative set of characters live
+
+- **Status:** `BLOCKED`
+- **Milestone:** M5
+- **Dependencies:** RE-045.
+- **Blockers:** No roster image yet.
+- **Objective:** Show on screen that the roster image works across the layout
+  variants found in `RE-041`, with minimal user gameplay.
+- **Rationale:** Live checks catch runtime effects that offline checks miss, such
+  as slot bases, placeholders, and font loading.
+- **Acceptance criteria:**
+  - A representative subset, chosen from `RE-041` features, is verified. It
+    covers at least one Marvel and one Capcom fighter, a placeholder layout other
+    than Ryu's and Ken's, a one-line record, and both team slots. All 16 records
+    of each are forced and pass `verify_records.py`, and every screenshot is read.
+  - Every other ordinary character is verified offline: decoded PAC tables equal
+    the compiled tables, and renders equal the spec.
+  - The gameplay plan is agreed with the user before the session.
+- **Outputs:** An experiment record and the verification report.
+- **Notes:** Each live character needs a KO with that character, which costs user
+  time. Automating character select (for example, agent input injection) would be
+  a Mednafen change. It needs separate user authorization and an `EMU-020`-style
+  justification, so it is not assumed here.
+
+### RE-047 - Add regression controls for the roster pipeline
+
+- **Status:** `BLOCKED`
+- **Milestone:** M5
+- **Dependencies:** RE-045.
+- **Blockers:** No roster image yet.
+- **Objective:** Keep confirmed outputs from drifting as the pipeline grows.
+- **Rationale:** Roster changes must not silently alter Ryu, Ken, or earlier
+  builds.
+- **Acceptance criteria:**
+  - Tests with synthetic fixtures cover the v2 generator, multi-slot pairing, and
+    any new glyph mappings.
+  - A local-only check (skipped when sources are absent) rebuilds the reference
+    images (`re022_markers`, `exp0028a`, `tr001`, roster) and compares their
+    recorded hashes.
+  - A regression report lists every reference hash and its last check.
+- **Outputs:** Tests, a regression script, and a regression report in `docs/`.
 
 ### END-001 - Begin ending-text investigation
 
