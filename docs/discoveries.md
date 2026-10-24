@@ -756,6 +756,36 @@ Experiment: `EXP-0039`
   - The disc source is unknown.
 - **Reproduce.** `research/experiments/EXP-0039/README.md`, Procedure.
 
+## END-004: Disc Sources of Ryu's Ending Text (`MC13.PAC` and `ME.PAC`)
+
+Confidence: **CONFIRMED** (the text records); the relocation account of the
+non-text differences is `SUPPORTED`
+
+Experiment: `EXP-0040`
+
+- **Post-boss dialogue.** Comes from `MC13.PAC;1` (LSN 11,100, 31,036 bytes,
+  `05263ab6…0b00`), the final boss's (slot 19) quote file.
+  - The in-game LZSS decompressor (PC `0603E446`, `DISC-001` format) decodes
+    it to WRAM-L `0x00220000` at the `STAGE-08` transition.
+  - The decode (61,042 bytes, `9eb9b7c6…be2a`) holds the four Ryu/Gouki records
+    at `0xAE14`, `0xAE60`, `0xB9F4`, and `0xBA40`, byte-identical to RAM.
+- **Ending pages.** Come from `ME.PAC;1` (LSN 3,924, 60,692 bytes,
+  `77210963…8b8d`), copied raw from file offset `0x10` to WRAM-L `0x00230000`
+  (writer PC `0603E04E`).
+  - Ryu's three page records are at file offsets `0x3674`, `0x36C0`, and
+    `0x370C`, identical to RAM in every state checked.
+- **Evidence.** Write breakpoints replayed from `before_stage08_load.mcs` (no
+  input) caught both writers.
+  - Their loader contexts carry each file's header word 1: `0x8000792B` and
+    `0x0000ED02`.
+  - The remaining RAM/file differences are pointer fields, where RAM = file +
+    base + `0x40`, apart from 30 unexplained non-text longwords in the
+    `ME.PAC` region.
+- **Limits.**
+  - The record indexing in both files is unmapped.
+  - Whether edited files load and display is untested (`END-007`).
+- **Reproduce.** `research/experiments/EXP-0040/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -136,8 +136,14 @@ then three ending pages (a picture panel and a bottom text box).
   longest seen is 16 glyphs. Can a line use all 19 cells, and can a box hold
   more than two lines? How many distinct glyphs fit in the per-screen VRAM
   slots (relevant for composed pair glyphs)?
-- **Source.** Which disc file supplies the text, and is it compressed?
-  (`END-004`)
+- **Source.** Answered (`EXP-0040`): the dialogue is in `MC13.PAC` (LZSS, the
+  boss's file), and the pages are in `ME.PAC` (raw from `0x10`). Still open:
+  - How are both files indexed (which records per character or team)?
+  - What do `ME.PAC`'s header and its 30 non-relocation differences mean?
+  - Is the relocation rule (file + base + `0x40`) right, given it is inferred
+    from deltas only?
+  - Does an edited file load and display, with no checksum or other copy?
+    (`END-007`)
 - **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`). Still open:
   whether the composed pair glyphs of the roster image (`FONT-003`) would
   display in endings unchanged.
