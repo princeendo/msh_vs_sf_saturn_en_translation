@@ -12,9 +12,9 @@ reference facts** (what outside documents say).
 
 - Milestone M4 (second fighter, Ken). `RE-030` / `EXP-0028` Phase B is on hold;
   resume steps are in `research/experiments/EXP-0028/README.md`.
-- `GATE-TRANSLATION`: all dependencies are done (`REF-005` showed the PS1 English
-  equals the arcade's, `EXP-0032`). It awaits the user's explicit go/no-go. No
-  task may write English replacement text until it passes (`TASKS.md`).
+- `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
+  carry English; other characters need their own pairing verification first.
+  `TR-001` builds Ryu's official-English captions (`TASKS.md`).
 - The win-quote English policy is decided: Saturn record `k` uses official arcade
   English entry `k & 7` (`data/translations/README.md`).
 

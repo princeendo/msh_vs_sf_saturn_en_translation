@@ -22,8 +22,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `REF-003`, `REF-004`, and `REF-006` are done (2026-10-24, `EXP-0031`). Saturn Ryu
   record `k` pairs with official arcade English entry `k & 7` by game logic.
   DOC-007, DOC-008, and REF-005 are done (`EXP-0032`: PS1 English equals the
-  arcade's). `GATE-TRANSLATION` dependencies are all met; it awaits the user's
-  go/no-go. The 16-to-8 policy is decided.
+  arcade's). `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's captions may
+  use the paired official English. `TR-001` (build them) is `READY`.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -1022,14 +1022,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### GATE-TRANSLATION - Confirm reference and translation prerequisites
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
-- **Blockers:** Listed reference and documentation tasks are not all `DONE`.
-  Every dependency is `DONE` (REF-005 on 2026-10-24, `EXP-0032`), and optional
-  REF-006 has evidence. The gate's acceptance criteria are met; it awaits the
-  explicit go/no-go decision this task requires. The 16-to-8 English policy was decided by the user on
-  2026-10-24: official paired English (see Notes).
+- **Blockers:** None.
 - **Objective:** Make an explicit go/no-go decision before any task writes or
   proposes English replacement text.
 - **Rationale:** The source quote must be reviewed and the official English must be
@@ -1039,16 +1035,56 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   evidence or a documented rejection.
 - **Outputs:** Gate acceptance entry.
 - **Notes:** Created 2026-10-15 by splitting the original GATE-M0.
+- **Gate acceptance (2026-10-24):**
+  - The user's decision is **GO**, in their words: "Pass GATE-TRANSLATION: go.
+    Record the acceptance and allow Ryu's captions to use the paired official
+    English."
+  - Checked at acceptance: DOC-007, DOC-008, REF-003, REF-004, and REF-005 are all
+    `DONE`; optional REF-006 has evidence (`EXP-0031`).
+  - Scope: Ryu's win-quote captions may now carry English replacement text, under
+    the policy below.
+  - Other characters still need their own pairing verification first. Endings and
+    special cases remain gated (`END-001`, `SPECIAL-001`).
 - **Policy decision (user, 2026-10-24):** Saturn win-quote record `k` uses the
   official arcade English entry `k & 7`, the line the arcade shows in the same
   selection state (`EXP-0031`). Each English line appears for two Saturn records
   (`k` and `k + 8`), even where the meanings differ.
   - The policy applies to Ryu now. Other characters follow it only after their
     table identity and remap are verified the same way.
-  - `preferred_english` is filled from `arcade_us_text` once this gate passes.
+  - `preferred_english` is filled from `arcade_us_text` now that the gate has
+    passed (done for Q10).
   - Measured constraint: the paired English lines are up to 25 characters, and a
     Saturn line has 19 cells. Fitting them depends on the pair-glyph work
     (`LAYOUT-001`, `FONT-003`).
+
+### TR-001 - Build Ryu's official-English win-quote captions
+
+- **Status:** `READY`
+- **Milestone:** M3 follow-up. It applies the confirmed Ryu caption pipeline to
+  approved text; no new mechanism is investigated.
+- **Dependencies:** GATE-TRANSLATION, RE-022, RE-024, FONT-003, REF-004.
+- **Blockers:** None.
+- **Objective:** Produce a derived image in which each Ryu record `k` displays
+  official arcade English entry `k & 7` (`EXP-0031` pairing, gate policy).
+- **Rationale:** This is the first real-text use of the pipeline, and the gate has
+  passed for Ryu.
+- **Acceptance criteria:**
+  - The caption spec maps all 16 records to their paired entries and keeps record
+    0's `{P}` placeholder handling explicit.
+  - `caption_compiler.py --capacity` passes, with the pair-glyph and font budget
+    recorded.
+  - A fresh image builds deterministically from the untouched source.
+  - All 16 records are verified live (forced records, `verify_records.py`).
+  - Line-wrapping choices for lines longer than 19 cells are recorded against the
+    arcade's own line breaks.
+- **Outputs:** Caption spec, build manifest, experiment record, and translation
+  records.
+- **Notes:**
+  - Arcade lines are up to 25 characters; a Saturn line has 19 cells.
+  - Decide before committing whether the spec, which holds 8 official English
+    lines, is "minimal text" under `data/translations/README.md`, or stays local
+    with only hashes committed.
+  - The Ken work (`RE-030`, M4) stays on hold until resumed.
 
 ## Gated Reverse Engineering
 
