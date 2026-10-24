@@ -559,6 +559,27 @@ Experiment: `EXP-0032` (task `REF-005`)
 - **Reproduce.** Run `tools/reference/ps1_text.py`. The comparison is in
   `references/mshvsf/ps1_us/arcade_en_comparison.json`.
 
+## EXP-0033: Ryu's Official-English Win Quotes From a Rebuilt Image
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0033` (task `TR-001`)
+
+- **Finding.** A deterministic image rebuilt from the untouched source shows all
+  16 Ryu win quotes in the paired official arcade English (record `k` = entry
+  `k & 7`).
+- **Verified live.** All 16 records were checked: pointer, cart-RAM font, WRAM-L
+  table, display buffer, and screen (IoU 1.0). Records 8-15 are pixel-identical to
+  records 0-7 by design.
+- **Punctuation.** `.` and `,` use the font's full-width period (`0x08AB`) and
+  comma (`0x08AC`) inside pair glyphs.
+- **Build.** Track 01 SHA-256 `2941a9c5…4719`.
+- **Reproduce.**
+  - Generate the spec from the local arcade ROM with
+    `tools/text/official_captions.py` (the text is not committed).
+  - Build with `tools/text/caption_compiler.py`.
+  - Verify as in `research/experiments/EXP-0033/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -14,7 +14,7 @@ reference facts** (what outside documents say).
   resume steps are in `research/experiments/EXP-0028/README.md`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
-  `TR-001` builds Ryu's official-English captions (`TASKS.md`).
+  `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
 - The win-quote English policy is decided: Saturn record `k` uses official arcade
   English entry `k & 7` (`data/translations/README.md`).
 
@@ -51,6 +51,9 @@ All are **CONFIRMED** in `docs/discoveries.md` unless marked otherwise.
     RE-025).
 - **Pipeline.** `tools/text/caption_compiler.py` builds marker images; all 16 Ryu
   records were verified live (RE-024).
+- **Official English (Ryu).** `tools/text/official_captions.py` generates the spec
+  from the local arcade ROM. The rebuilt image shows all 16 records in official
+  English, verified live (EXP-0033, TR-001).
 
 ## Project Discoveries (Arcade Reference)
 

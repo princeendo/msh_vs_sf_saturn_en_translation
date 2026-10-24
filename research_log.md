@@ -2829,3 +2829,25 @@ files), all passing.
 
 Checks: documentation and JSON only; Q10 re-parsed as valid JSON.
 
+## 2026-10-24 — TR-001 / EXP-0033: Ryu's official-English captions, live
+
+- Added `tools/text/official_captions.py`, which generates the caption spec from
+  the local arcade ROM (record `k` = entry `k & 7`, arcade line breaks, centred in
+  blank cells). The text stays local.
+- Added `.` → `0x08AB` and `,` → `0x08AC` (chosen by glyph shape) to
+  `pair_font.py` and the schema.
+- Capacity fits (95 pairs, 3,669 bytes). The build is deterministic (track 01
+  `2941a9c5…`), all compiler checks pass, and the offline render is correct.
+- Live: the first attempt was restarted (the user's controller was unplugged).
+  - One user KO saved `postko.mc`; the natural pick was record 6.
+  - The user then paused with frame advance, which froze the capture. Once
+    resumed, the debugger was still halted, and `loadstate` refused ("not allowed
+    while halted"). The agent's `run` command fixed it.
+  - All 16 forced records verify OK. Records 8-15 tie with 0-7 on screen (same
+    codes). `verify_records.py` now treats code-identical ties as matches, with a
+    test.
+- Every screenshot was read by eye and is correct.
+
+Checks: pytest (161 passed), ruff check, ruff format --check, and strict mypy (69
+files), all passing.
+
