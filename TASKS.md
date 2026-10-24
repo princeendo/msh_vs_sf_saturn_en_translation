@@ -10,9 +10,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   through the same generalized mechanism, with all 32 Ryu and Ken records verified
   live from one image. M3 was completed on 2026-10-17.
 - Reverse-engineering experiments in progress: none.
-- **M5 completed on 2026-10-24** (`RE-040`). M6 (`END-001`) stays `BACKLOG`:
-  its blocker ("the ordinary post-fight pipeline is not mature") needs a user
-  decision before it is lifted.
+- **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
+  same day: `END-001` is `READY` and next. Low-priority win-quote follow-ups
+  (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
+  are recorded in the backlog.
 - M5 history: its breakdown was defined on 2026-10-24 as
   `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
   against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
@@ -1312,11 +1313,15 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DISC-020 - Reproduce one official-English Ryu caption from a patched disc
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE` (closed 2026-10-24 as superseded by `TR-001`)
 - **Milestone:** M2
 - **Dependencies:** DISC-002, FONT-001, FONT-002, LAYOUT-001, GATE-TRANSLATION.
-- **Blockers:** Translation prerequisites (`GATE-TRANSLATION`) and Latin glyph
-  codes (`FONT-001`) are incomplete.
+- **Blockers:** None. All dependencies are `DONE`.
+- **Closure:** `TR-001` (`EXP-0033`) exceeded this task. Mednafen booted the
+  derived image `build/tr001` from scratch, and all 16 Ryu records showed their
+  official English, with provenance in
+  `data/translations/ryu_post_fight_q10.json` and the pairing records. The
+  current rebuild is the `tr001` reference in `docs/regression_report.md`.
 - **Objective:** Using the confirmed `DISC-002` pipeline, replace one Ryu quote
   with its verified official English wording and reproduce it from a cold boot.
 - **Rationale:** This is the first translation deliverable. It depends on
@@ -1833,17 +1838,128 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     regenerates the `tr001` and roster specs byte-identical to their recorded
     hashes.
 
-### END-001 - Begin ending-text investigation
+## Low-Priority Win-Quote Follow-ups
+
+These are accounted for, not scheduled. None blocks M6. Take one up only when
+the user asks or when it unblocks other work.
+
+### RE-048 - Improve lowercase descenders in pair glyphs
 
 - **Status:** `BACKLOG`
+- **Priority:** low
+- **Milestone:** M5 polish
+- **Dependencies:** RE-045.
+- **Blockers:** None.
+- **Objective:** Make `p` (and check `g`, `q`, `y`) read clearly in the composed
+  pair glyphs.
+- **Rationale:** In `EXP-0036`, `p` sits on the baseline with a cut-short stem
+  ("Freedom prevails!"). It is legible but looks like a small capital.
+- **Acceptance criteria:** Offline renders of every affected roster line show
+  clear descenders. The font still fits the entry, and the regression baseline
+  is re-baselined with a recorded reason.
+- **Outputs:** Glyph change, renders, and an experiment record.
+- **Notes:** Cosmetic only; it may interact with `REF-012`.
+
+### RE-049 - Identify what selects the second win-quote state
+
+- **Status:** `BACKLOG`
+- **Priority:** low
+- **Milestone:** M5 polish
+- **Dependencies:** RE-046.
+- **Blockers:** None.
+- **Objective:** Explain when the quote routine uses `r12 = 0x060F9E16` versus
+  `0x060F9ED6` (`EXP-0036`).
+- **Rationale:** The tools already handle both states, so this is understanding,
+  not a fix.
+- **Acceptance criteria:** A discriminating test (for example, KOs from known
+  1P/2P sides, logging `r12` at `060AF724`) confirms or rejects each candidate in
+  `docs/known_unknowns.md`.
+- **Outputs:** Experiment record and a discoveries or research-log entry.
+- **Notes:** Needs one short gameplay session.
+
+### RE-050 - Spot-check more roster characters live
+
+- **Status:** `BACKLOG`
+- **Priority:** low
+- **Milestone:** M5 polish
+- **Dependencies:** RE-046.
+- **Blockers:** None.
+- **Objective:** Add live evidence for characters verified only offline (13 of
+  17).
+- **Rationale:** `RE-046` covered the layout variants, so the rest rest on
+  offline equivalence. More live checks add confidence, not new coverage.
+- **Acceptance criteria:** Each chosen character passes all 16 records with
+  `verify_records.py`, and every screenshot is read.
+- **Outputs:** Experiment record.
+- **Notes:** Each character costs one user KO.
+
+### REL-001 - Package the roster image as a distributable patch
+
+- **Status:** `BACKLOG`
+- **Priority:** low
+- **Milestone:** M5 polish
+- **Dependencies:** RE-047.
+- **Blockers:** None technical. Distribution form and wording are the user's
+  decision.
+- **Objective:** Produce a patch file (no game data) that turns the untouched
+  source image into the roster image.
+- **Rationale:** The repository holds tools and hashes only; users need a patch
+  to apply.
+- **Acceptance criteria:** Applying the patch to a source image with the recorded
+  hashes reproduces the `roster` reference track 01 exactly, and the patch holds
+  no copyrighted payload beyond what the chosen format requires.
+- **Outputs:** Patch, apply instructions, and hashes.
+- **Notes:** `tools/disc/make_patch.py` exists; check its format before choosing.
+
+### REF-012 - Compare the arcade win-quote fonts across regions
+
+- **Status:** `BACKLOG`
+- **Priority:** low
+- **Milestone:** Reference (no Saturn change)
+- **Dependencies:** REF-008, REF-009.
+- **Blockers:** None.
+- **Objective:** Test the user's observation that the US/EU arcade sets draw win
+  quotes with a different font from the Japanese set, and judge whether that font
+  could serve the Saturn captions.
+- **Rationale:** The Saturn captions use pair glyphs composed from the Japanese
+  full-width font (`FONT-003`). A purpose-made Latin font might read better and
+  fit more text.
+- **Acceptance criteria:**
+  - The font used for win quotes in each set is located and identified (tiles,
+    codes, cell size), with evidence (ROM offsets, MAME captures).
+  - JP vs US/EU differences are recorded: same tiles, different tiles, or
+    different code ranges.
+  - Saturn fit is assessed against the quote font's cell format and capacity
+    (`FONT-001`, `LAYOUT-001`).
+  - Reuse is presented as a user decision with its trade-offs (provenance and
+    legal posture, like `GATE-TRANSLATION`). Nothing is adopted in this task.
+- **Outputs:** Reference README and metadata; no committed glyph data.
+- **Notes:** The difference is unconfirmed (`HYPOTHESIS`). Do not assume that the
+  arcade tile format matches the Saturn font format.
+
+### END-001 - Begin ending-text investigation
+
+- **Status:** `READY` (user GO on 2026-10-24)
 - **Milestone:** M6
-- **Dependencies:** RE-040.
-- **Blockers:** The ordinary post-fight pipeline is not mature.
+- **Dependencies:** RE-040 (`DONE`).
+- **Blockers:** None. The user lifted the former blocker ("the ordinary post-fight
+  pipeline is not mature") on 2026-10-24, after M5 was completed (`AGENTS.md`
+  rule 23).
 - **Objective:** Observe ending text and design the first independent discriminating experiments.
 - **Rationale:** Ending storage/rendering must not be inferred from captions.
 - **Acceptance criteria:** Detailed tasks are created from observations; hypotheses and checkpoint needs are explicit; no structural equivalence is assumed.
 - **Outputs:** M6 observations, task breakdown, unknowns, experiment designs.
 - **Notes:** M6 begins investigation; it does not imply a working ending patch.
+- **Checkpoint plan (user, 2026-10-24):** in arcade mode, reach the final boss
+  and lose, then save a state at the continue screen or the character select it
+  leads to. Later sessions can then pick other characters for endings without
+  replaying the run.
+  - `HYPOTHESIS` to verify first: continuing from the final stage returns to
+    character select and keeps the final-boss stage, so a new pick fights only
+    the boss.
+  - Save states are local checkpoints (ignored), not RAM evidence (`AGENTS.md`).
+  - Start with Ryu (`END-010` targets a Ryu ending), and treat the ending's text,
+    storage, and renderer as unknown.
 
 ### END-010 - Localize one Ryu ending
 
