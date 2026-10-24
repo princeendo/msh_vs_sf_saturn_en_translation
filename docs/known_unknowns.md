@@ -126,9 +126,12 @@ then three ending pages (a picture panel and a bottom text box).
   `0x0601CE00` from 16-bit codes. Still open: whether pages 2-3, boxes 3-4, and
   other characters' endings use the same path; what the `0x50xx`/`0x51xx` tiles
   behind the page 1 text box are; and which layer draws the logo background.
-- **Text in RAM.** Where are the codes held before the routine reads them? Are
-  they stored as plain 16-bit codes, and what fills the slot table at WRAM-L
-  `0x00260E5E` ahead of each box? Test in `END-003`/`END-004`.
+- **Text in RAM.** Answered (`EXP-0039`): plain 16-bit codes in WRAM-L 19 × 2
+  records, loaded with `STAGE-08`. Still open:
+  - What selects the records, and what are the table bases and indexing?
+  - Do the bases move with team or load order?
+  - What fills the slot table at `0x00260E5E`?
+  - Which name fills a `0x0000` placeholder (Ryu in box 1, Gouki in box 3)?
 - **Capacity.** Ending lines use the same 19-cell grid as win quotes, and the
   longest seen is 16 glyphs. Can a line use all 19 cells, and can a box hold
   more than two lines? How many distinct glyphs fit in the per-screen VRAM
@@ -138,11 +141,9 @@ then three ending pages (a picture panel and a bottom text box).
 - **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`). Still open:
   whether the composed pair glyphs of the roster image (`FONT-003`) would
   display in endings unchanged.
-- **Layout.** Line starts sit on a 16-px grid (x ≡ 12 mod 16) but do not follow
-  simple centering by character count. Is the position set by leading spaces,
-  per-line offsets, or something else? What is a line's capacity (about 19-20
-  cells by width), and how many lines fit in a box or page? Page 3's bracket
-  spacing is narrower than a 16-px pitch.
+- **Layout.** Answered (`EXP-0039`): positions are explicit `0x0020` cells in
+  19 × 2 records, and page 3's "gaps" are bracket-glyph whitespace. Still open:
+  whether a third line or text past cell 18 is possible.
 - **Speakers.** Who speaks each dialogue box? No speaker cue is shown.
 - **Continue.** Continuing after a final-boss loss went to character select and
   then `STAGE-08` (`SUPPORTED`, one run). Does that hold for every pick order and

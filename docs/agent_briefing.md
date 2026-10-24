@@ -28,9 +28,12 @@ reference facts** (what outside documents say).
   - Ryu's run shows a four-box post-boss dialogue plus three ending pages;
   - `END-002` is done (`EXP-0038`): the ending text is VDP1 sprites of
     byte-exact quote-font glyphs, built by `0x0601CE00` from 16-bit codes;
-  - the codes' RAM and disc source are `UNKNOWN`.
+  - `END-003` is done (`EXP-0039`): the text is a live WRAM-L table of 19 × 2
+    code records (`0x0000` = name placeholder from a WRAM-H name table),
+    loaded with `STAGE-08`;
+  - the disc source is `UNKNOWN`.
 
-  Next are `END-003`/`END-004` (no gameplay), `END-005`, and `END-006`.
+  Next is `END-004` (no gameplay), then `END-005` and `END-006`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
@@ -144,7 +147,7 @@ Authorities are cataloged in `docs/references.md`.
 | --- | --- | --- |
 | Disc | `tools/disc/pac_lzss.py`, `pac_patch.py`, `patch_image.py`, `iso9660.py` | Decode, re-encode, and rebuild |
 | Memory | `tools/memory/mcs_extract.py` | Save-state regions (validated ones only) |
-| Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py`, `glyph_match.py` | Render, compile, font, match VDP1 glyph cells to codes |
+| Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py`, `glyph_match.py`, `code_search.py` | Render, compile, font, match glyph cells to codes, find code sequences |
 | Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py`, `session_recorder.py`, `write_trial.py` | Headless runs, checks, gameplay recording, and write trials |
 | Regression | `tools/regression/reference_builds.py` | Rebuild reference images, compare hashes |
 | Arcade | `tools/reference/mame_audit.py`, `cps2_text.py`, `quote_pairing.py` | Identity, text, pairing |
