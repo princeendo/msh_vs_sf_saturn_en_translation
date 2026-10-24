@@ -21,8 +21,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `EXP-0030`): the decoded arcade quotes match the screen, and Ryu's are slot 9.
   `REF-003`, `REF-004`, and `REF-006` are done (2026-10-24, `EXP-0031`). Saturn Ryu
   record `k` pairs with official arcade English entry `k & 7` by game logic.
-  `GATE-TRANSLATION` still needs DOC-007, DOC-008, REF-005, and a policy decision
-  for the 16-to-8 mapping.
+  DOC-007 and DOC-008 are done. `GATE-TRANSLATION` now needs only REF-005 (a legal
+  PS1 image). The 16-to-8 policy is decided.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -218,7 +218,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DOC-007 - Collect known XvSF Saturn translation/research references
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** ENV-005.
 - **Blockers:** None for bibliography research.
@@ -227,18 +227,32 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Acceptance criteria:** Sources, provenance, licenses, potential relevance, and strict non-transfer assumptions are recorded.
 - **Outputs:** `docs/references.md`, permitted reference notes.
 - **Notes:** Do not modify or begin comparative analysis of XvSF here.
+- **Evidence (2026-10-24):** `docs/references.md` "X-Men vs. Street Fighter (Saturn)
+  and Related Prior Art".
+  - No XvSF Saturn translation or internals research exists publicly.
+  - The sources found are recorded with dates, reliability, and licenses (none
+    grant reuse). Blocked sites are listed, and no block was bypassed.
+  - Non-transfer is stated, and three experiment ideas are recorded as ideas only.
 
 ### DOC-008 - Create concise internal Markdown summaries for agent use
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** DOC-001, DOC-002, DOC-003, DOC-004, DOC-005, DOC-006, DOC-007.
-- **Blockers:** The source corpus has not been collected and evaluated.
+- **Blockers:** None.
 - **Objective:** Summarize task-relevant facts with links back to authoritative references.
 - **Rationale:** Agents need concise, citable context rather than bulk documents.
 - **Acceptance criteria:** Summaries identify supported claims, citations, conflicting evidence, and unresolved questions without overstating confidence.
 - **Outputs:** Updated technical files under `docs/`.
 - **Notes:** Keep discovery claims separate from platform/reference summaries.
+- **Evidence (2026-10-24):** New `docs/agent_briefing.md`, linked from `README.md`.
+  - It is a cited summary with separate sections for project discoveries (Saturn
+    and arcade) and platform/reference facts.
+  - It also lists conflicting or corrected evidence, open questions, tools, and
+    pitfalls.
+  - Stale status lines in `docs/text_system.md`, `docs/code_map.md`, and
+    `docs/saturn_text_hacking.md` now point to their confirmed entries. One
+    overstatement was caught in review: Ken's live check is still on hold.
 
 ## Phase C: Stock Mednafen Bootstrap
 
@@ -969,8 +983,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Milestone:** M0
 - **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
 - **Blockers:** Listed reference and documentation tasks are not all `DONE`.
-  REF-003, REF-004, and REF-006 are done (2026-10-24). DOC-007, DOC-008, and
-  REF-005 remain. The 16-to-8 English policy was decided by the user on
+  REF-003, REF-004, REF-006, DOC-007, and DOC-008 are done (2026-10-24). Only
+  REF-005 remains; it needs a legal `SLUS-00793` image. The 16-to-8 English policy was decided by the user on
   2026-10-24: official paired English (see Notes).
 - **Objective:** Make an explicit go/no-go decision before any task writes or
   proposes English replacement text.

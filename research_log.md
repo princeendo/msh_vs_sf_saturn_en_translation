@@ -2737,3 +2737,21 @@ files), all passing.
 
 Checks: documentation and JSON only; the Q10 record re-parsed as valid JSON.
 
+## 2026-10-24 — DOC-007 and DOC-008 done
+
+- DOC-007: a read-only research subagent searched for XvSF Saturn translation and
+  internals research. None exists publicly. The sources found (forum threads, the
+  Satiator timing note, the Vampire Savior English-activation patch, the
+  LemonGrwab Capcom patches, PalMod) are cataloged with reliability and license.
+  None grants reuse.
+  - Blocked sites were recorded and not bypassed.
+  - My brief wrongly said XvSF used the 1 MB cart; sources say 4 MB (HSS-0167),
+    like MSHvSF. The repo never carried the error.
+- DOC-008: wrote `docs/agent_briefing.md`, a cited entry point that keeps
+  discoveries and platform facts separate. Refreshed stale "nothing confirmed"
+  status lines in `text_system.md`, `code_map.md`, and `saturn_text_hacking.md`.
+  Self-review caught an overstatement (Ken is not live-confirmed) and fixed it.
+- `GATE-TRANSLATION` now waits only on REF-005 (legal PS1 `SLUS-00793` image).
+
+Checks: documentation only; pytest (153 passed).
+

@@ -2,18 +2,20 @@
 
 ## Status
 
-The MSHvSF Saturn text system is **UNKNOWN**. No encoding, storage structure, pointer
-scheme, compression method, buffer lifecycle, font mapping, or renderer path is
-confirmed.
+**Ryu's win quotes are understood end to end.** The confirmed parts are:
 
-`SUPPORTED` (not confirmed) candidates for post-fight win quotes are recorded in
-`research/experiments/EXP-0012` and `EXP-0013`:
+- the WRAM-L record table (RE-012), with its disc source in LZSS `MC09.PAC`
+  (DISC-001);
+- the font in `MEMFIX.PAC` (FONT-001, LAYOUT-001, FONT-003);
+- record selection (RE-023);
+- a same-size rebuild pipeline (DISC-002, RE-022, RE-024).
 
-- VDP1 sprite glyph cells;
-- 16-bit glyph-code records in a WRAM-L table;
-- a per-screen WRAM-H buffer.
+Their details and limits are below and in `docs/discoveries.md`.
 
-They move here only after a controlled mutation confirms them (`RE-012`).
+Still **UNKNOWN**: endings, menus, and other text surfaces; the per-screen WRAM-H
+buffer (`0x060ED80A`) and the VDP1 glyph path (both `SUPPORTED`, from `EXP-0012` and
+`EXP-0013`); and other characters' tables. Ken's table is located (`MC0A.PAC` at
+`0xA59C`, offline in `EXP-0028` Phase A), but its live check (Phase B) is on hold.
 
 ## Confirmed Components
 

@@ -2,8 +2,11 @@
 
 ## Status
 
-No executable regions, functions, call sites, or code addresses have been confirmed
-for the target release.
+Confirmed target code addresses are recorded with their experiments in
+`docs/discoveries.md`. Win-quote glyph drawing is at WRAM-H `0x0601CE00`
+(FONT-001). Quote-index store and record-pointer routines are at `060AF282` and
+`060AF6E0` (RE-023). No broader code map exists; do not extrapolate from these
+entries. A short index is in `docs/agent_briefing.md`.
 
 ## SH-2 Debugger Interpretation
 
