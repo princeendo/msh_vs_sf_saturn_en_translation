@@ -613,6 +613,21 @@ Experiment: `EXP-0034` (task `RE-041`)
 - **Reproduce.** Run `tools/reference/slot_census.py`. The manifest is
   `data/text/coverage_manifest.json`.
 
+## RE-042: Official-English Pairing for the 17-Character Roster
+
+Confidence: **CONFIRMED** (byte identity; the remap is `EXP-0031`'s
+slot-independent routine)
+
+Task: `RE-042`
+
+- **Finding.** For all 17 roster characters (`data/text/m5_roster.json`), the
+  Saturn quote table is byte-identical to the arcade Japanese slot.
+- **English.** The paired English block is identical in the US, EU, and JP arcade
+  sets and present in the PS1 release. Record `k` pairs with entry `k & 7`.
+- **Placeholders.** None of the 17 English blocks contains a `0000` placeholder.
+- **Reproduce.** Run `tools/reference/roster_pairing.py`. The output is
+  `data/text/roster_pairing.json` (hashes only).
+
 ## Entry Requirements
 
 Each future entry must include:

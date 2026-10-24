@@ -14,7 +14,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `RE-041` to `RE-047`. The next task is `RE-041` (offline census of quote files
   against arcade slots), done 2026-10-24 (`EXP-0034`): file `nn` = arcade slot
   `nn`. `RE-043` is done (17-character roster, `docs/coverage_exceptions.md`). Next
-  is `RE-042` (per-character pairing).
+  was `RE-042`, now done (all 17 paired; placeholders dropped). Next is `RE-044`
+  (roster spec and font capacity).
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1600,7 +1601,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-042 - Record per-character pairing for the ordinary roster
 
-- **Status:** `READY`
+- **Status:** `DONE`
 - **Milestone:** M5
 - **Dependencies:** RE-041, RE-043.
 - **Blockers:** None. The roster is `data/text/m5_roster.json` (17 characters).
@@ -1620,6 +1621,15 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   update.
 - **Notes:** Provenance stays generator-based: text is read from the local arcade
   ROM at build time, and only hashes are committed.
+- **Evidence (2026-10-24):** `tools/reference/roster_pairing.py` (with tests)
+  wrote `data/text/roster_pairing.json`.
+  - All 17 roster tables are byte-identical to their arcade Japanese slots, and
+    each record `k` pairs with English entry `k & 7`.
+  - Every English block is identical across `mshvsfu`, `mshvsf`, and `mshvsfj`,
+    and found in PS1 `SELECT.BIN`. There are no differences to list.
+  - 33 placeholder cells are listed per character. The official English has none
+    (0 cells), so every placeholder is dropped. The decision is recorded per cell
+    in `data/text/m5_roster.json`.
 
 ### RE-043 - Maintain the exceptions register
 
@@ -1655,10 +1665,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-044 - Build the roster caption spec and check font capacity
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-042, RE-043, TR-001.
-- **Blockers:** Pairing for the roster is not recorded.
+- **Blockers:** None.
 - **Objective:** Generate one schema-v2 spec covering every ordinary character,
   and show that its pair glyphs fit one shared font.
 - **Rationale:** All characters share one font (`EXP-0028`). The unseen-kanji
