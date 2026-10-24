@@ -755,6 +755,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     `psx.xml` (identity unverified).
   - The XvSF Saturn file is a lossy rip (ISO plus MP3 audio) whose header reads
     `T-1226G V1.002` (Doukonban).
+  - Follow-up (2026-10-24): five user-supplied XvSF keys match MAME 0.289. With
+    copies under 0.289 names (`local/arcade_roms/xmvsf_mame0289/`), 10 of 11 XvSF
+    sets verify (only `xmvsfb.key` is missing), and `xmvsfu` and `xmvsfjr2` boot.
+  - The Saturn rip's data track holds all 236 files intact. A Redump image is
+    needed only if an experiment needs verified identity or emulation.
 - **Notes:** XvSF material is reference-only (rules 13 and 25). An MSHvSF PS1
   image is a PlayStation port, and its structures are not Saturn facts (rule 14).
 

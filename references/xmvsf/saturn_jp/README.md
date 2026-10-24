@@ -24,3 +24,13 @@ extracted unchanged into the ignored `local/disc_images/xmvsf_saturn_jp/`.
   hash-matched; identity is **SUPPORTED** by the header only.
 - Use the data track only for read-only, question-driven comparison. Never modify
   it (`AGENTS.md` rule 25).
+- **Data track check (2026-10-24).** The ISO's PVD (volume `XMEN_VS_STREET_FIGHTER`)
+  declares 214,396 sectors, while the image holds 71,906. All 236 files' extents
+  end at or before sector 71,758, so every file's data is present. The larger
+  declared size presumably covers the disc's audio area (the 40 MP3 tracks); that
+  is untested. No `.PAC` or `MEMFIX` files exist (observation only).
+- **Is a better image needed?** Not for the current use. Read-only, file-level
+  comparison of the data track works with this rip. Get a Redump-format bin/cue
+  (ideally one MAME's `xmvssf` or `xmvssfdou` CHD can verify) only if a future
+  experiment needs a hash-verified identity or must run XvSF in an emulator. Running
+  this ISO-plus-MP3 rip in Mednafen is untested.
