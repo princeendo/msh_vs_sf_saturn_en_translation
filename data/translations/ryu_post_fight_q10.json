@@ -3,9 +3,9 @@
   "character": "ryu",
   "context": "post_fight win quote; Saturn JP T-1238G; arcade mode; team Ryu/Ken (P1) vs Vega; Ryu on point and landing the KO; joint Ryu/Ken win portrait",
   "quote_id": "ryu_q10",
-  "status": "UNKNOWN",
-  "saturn_jp_text": "",
-  "arcade_us_text": "",
+  "status": "CONFIRMED",
+  "saturn_jp_text": "一瞬の迷いが拳を鈍らせる\n考えるな！自分を信じろ‼",
+  "arcade_us_text": "Look into your soul in\norder to find the way.",
   "ps1_us_text": "",
   "preferred_english": "",
   "evidence": [
@@ -20,7 +20,23 @@
     {
       "reference": "EXP-0010 slot 0 state (SHA-256 f02c7177dadcaa43f70147a85c5dd350b8f6e262801ae2b7613868da4a49f93c)",
       "supports": "a same-quote, frame-offset control (C1′) for Q10 exists"
+    },
+    {
+      "reference": "REF-003 / EXP-0031: offline render of MC09.PAC record 8 (tools/text/quote_render.py) and arcade mshvsfj on-screen display of the byte-identical record (index forced to 8)",
+      "supports": "saturn_jp_text: two independent transcriptions identical; kana, punctuation and cell counts machine-checked against the record codes"
+    },
+    {
+      "reference": "EXP-0031: MC09.PAC table 0x91AC (16 x 76 bytes) is byte-identical to the arcade Japanese Ryu table at 0x20EDAC (slot 9 of pointer table 0x20BFAC) in mshvsf, mshvsfu and mshvsfj",
+      "supports": "Saturn record 8 is arcade Japanese record 8"
+    },
+    {
+      "reference": "EXP-0031: arcade selection routine (mshvsfu 0x070328-0x070380) masks the random value to 0-15 and, in non-Japanese languages, remaps it through the table 00 01 02 03 04 05 06 07 00 01 02 03 04 05 06 07; breakpoint-set pre-mask values 12 and 9 stored index 4 and 1 on mshvsfu and 12 and 9 on mshvsfj",
+      "supports": "the arcade shows English slot 9 entry 0 in the same game state in which it shows Japanese record 8"
+    },
+    {
+      "reference": "EXP-0031: mshvsfu with index forced to 0 displayed 'Look into your soul in / order to find the way.' (entry at 0x21BA20)",
+      "supports": "arcade_us_text exact wording and line break"
     }
   ],
-  "notes": "Working M0/M1 subject, replacing ryu_q3 because Q10 is the C1 caption of the EXP-0010 checkpoint set (A = slot 5, C1′ = slot 0, C2 = slot 6 Q8, C2b = slot 8 Q11). saturn_jp_text stays empty until REF-003 transcribes and independently reviews it. No English correspondence is asserted. The user reports that US and EU arcade ROMs with English text are available for REF-004. Because selection varies after the KO, correspondence may need memory-level evidence such as a quote index. Table record (RE-021, EXP-0024): Q10 is decoded MC09.PAC record 8 (0-based), CONFIRMED by its EXP-0013 address 0x0020940C and the offline matcher."
+  "notes": "Saturn record 8 (Q10). Correspondence type: game-logic index, CONFIRMED (EXP-0031). In the same selection state the Japanese arcade shows this record and the English arcade shows slot 9 entry 0. Saturn records 0 and 8 both pair with entry 0, because English has 8 entries per character for Japanese's 16. This is not a claim that the English line translates the Japanese: Capcom's English set is a separate rewrite. Reading only, not evidence: entry 4 ('Unless you believe in yourself, you cannot win!') is closer in meaning to this record. preferred_english is left empty until the project chooses a policy for the 16-to-8 mapping. Table record (RE-021, EXP-0024): decoded MC09.PAC record 8 at WRAM-L 0x0020940C. ps1_us_text is untested (REF-005)."
 }

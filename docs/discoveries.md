@@ -523,6 +523,28 @@ Experiment: `EXP-0030` (task `REF-010`)
 - **Limits.** Six of Ryu's eight quotes and the other 19 slots are not observed on
   screen. English only. The quote-selection rule is unknown.
 
+## EXP-0031: Saturn Ryu Records Pair With Arcade English by Game Logic
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0031` (tasks `REF-003`, `REF-004`)
+
+- **Identity.** The Saturn `MC09.PAC` Ryu table (decoded `0x91AC`, 16 × 76 bytes)
+  is byte-identical to the arcade Japanese Ryu table at `0x20EDAC`. That table is
+  slot 9 of the Japanese pointer table at `0x20BFAC`, the same in all three arcade
+  sets.
+- **Selection.** The arcade selection routine (`mshvsfu` `0x070328`) masks a random
+  value to a 16-way index `k`. In non-Japanese languages it remaps `k` through
+  `00-07 00-07`, so English shows slot 9 entry `k & 7`.
+- **Tested.** Breakpoint-set pre-mask values 12 and 9 gave index 4 and 1 (US) and
+  12 and 9 (JP). Forced indexes displayed all 8 English entries and all 16
+  Japanese records.
+- **Result.** Saturn records `k` and `k + 8` correspond to official arcade English
+  entry `k & 7`; Q10 (record 8) corresponds to entry 0.
+- **Not a translation claim.** The pairing is game logic only.
+- **Reproduce.** Run `tools/reference/quote_pairing.py`; metadata is in
+  `data/text/ryu_arcade_pairing.json`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -7,6 +7,10 @@
 --   <frame> dump <start> <end> <path>     write program-space bytes [start, end]
 --   <frame> repeat <count> <every> <frames> <field name>
 --                                         press <count> times, <every> frames apart
+--   <frame> force16 <address> <value>     replace every CPU write to that word
+--   <frame> unforce <address>             remove that replacement
+--   <frame> logwrites <address> <path>    append "frame pc value" per CPU write
+--   <frame> debug <command>               run a MAME debugger command (needs -debug)
 --   <frame> exit
 -- Output paths are written as given; keep them under ignored local/ paths.
 
@@ -26,7 +30,7 @@ end
 
 for line in io.lines(path) do
   line = line:gsub("#.*$", "")
-  local frame, verb, rest = line:match("^%s*(%d+)%s+(%a+)%s*(.-)%s*$")
+  local frame, verb, rest = line:match("^%s*(%d+)%s+(%w+)%s*(.-)%s*$")
   if frame then
     frame = tonumber(frame)
     if verb == "press" then
@@ -47,6 +51,16 @@ for line in io.lines(path) do
     elseif verb == "dump" then
       local first, last, out = rest:match("^(%S+)%s+(%S+)%s+(%S+)$")
       add(frame, { kind = "dump", first = tonumber(first), last = tonumber(last), out = out })
+    elseif verb == "force16" then
+      local address, value = rest:match("^(%S+)%s+(%S+)$")
+      add(frame, { kind = "force", address = tonumber(address), value = tonumber(value) })
+    elseif verb == "unforce" then
+      add(frame, { kind = "unforce", address = tonumber(rest) })
+    elseif verb == "logwrites" then
+      local address, out = rest:match("^(%S+)%s+(%S+)$")
+      add(frame, { kind = "log", address = tonumber(address), out = out })
+    elseif verb == "debug" then
+      add(frame, { kind = "debug", command = rest })
     elseif verb == "exit" then
       add(frame, { kind = "exit" })
     else
@@ -57,6 +71,7 @@ end
 
 local screen = manager.machine.screens[":screen"]
 local program = manager.machine.devices[":maincpu"].spaces["program"]
+local taps = {}
 
 emu.register_frame_done(function()
   local frame = screen:frame_number()
@@ -71,6 +86,26 @@ emu.register_frame_done(function()
       local out = assert(io.open(event.out, "wb"))
       out:write(program:read_range(event.first, event.last, 8))
       out:close()
+    elseif event.kind == "force" then
+      local value = event.value
+      taps[event.address] = program:install_write_tap(
+        event.address, event.address + 1, "force" .. event.address,
+        function(offset, data, mask) return value end)
+    elseif event.kind == "log" then
+      local out = assert(io.open(event.out, "a"))
+      local cpu = manager.machine.devices[":maincpu"]
+      taps["log" .. event.address] = program:install_write_tap(
+        event.address, event.address + 1, "log" .. event.address,
+        function(offset, data, mask)
+          local pc = cpu.state["CURPC"] or cpu.state["PC"]
+          out:write(string.format("%d %06x %04x %04x\n", screen:frame_number(), pc.value, data, mask))
+          out:flush()
+        end)
+    elseif event.kind == "unforce" then
+      if taps[event.address] then taps[event.address]:remove() end
+      taps[event.address] = nil
+    elseif event.kind == "debug" then
+      manager.machine.debugger:command(event.command)
     elseif event.kind == "exit" then
       manager.machine:exit()
     end

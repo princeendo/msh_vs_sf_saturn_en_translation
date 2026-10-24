@@ -19,8 +19,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
   three sets verify and boot in MAME 0.289. `REF-010` is done (2026-10-24,
   `EXP-0030`): the decoded arcade quotes match the screen, and Ryu's are slot 9.
-  The remaining translation gate is `REF-003`, then `REF-004`: pairing Saturn
-  Japanese captions with these English quotes.
+  `REF-003`, `REF-004`, and `REF-006` are done (2026-10-24, `EXP-0031`). Saturn Ryu
+  record `k` pairs with official arcade English entry `k & 7` by game logic.
+  `GATE-TRANSLATION` still needs DOC-007, DOC-008, REF-005, and a policy decision
+  for the 16-to-8 mapping.
 - Hard gate: no M1 experiment may begin until `GATE-M0` is `DONE`.
 
 ## Milestones
@@ -489,22 +491,31 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-003 - Transcribe Japanese text
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** REF-002.
-- **Blockers:** No verified screenshot exists.
+- **Blockers:** None.
 - **Objective:** Record exactly what is visibly displayed, including line breaks and punctuation.
 - **Rationale:** Encoding searches require a reviewable transcription.
 - **Acceptance criteria:** Transcription is independently reviewed against evidence; ambiguities and unreadable glyphs remain explicit.
 - **Outputs:** Updated translation record.
 - **Notes:** Transcription does not imply Shift-JIS encoding.
+- **Evidence (2026-10-24, `EXP-0031`):**
+  - All 16 Ryu records were transcribed from the offline render. A separate
+    agent's blind transcription is identical on all 32 lines.
+  - Every line's cell count, blank cells, hiragana, and punctuation were
+    machine-checked against the codes, with 0 mismatches.
+  - All 16 records were also seen on the arcade `mshvsfj` screen (byte-identical
+    table).
+  - Q10 (record 8) is in `data/translations/ryu_post_fight_q10.json`. The full set
+    stays in the ignored `local/ref003/`.
 
 ### REF-004 - Identify corresponding arcade English quote
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** REF-003, DOC-006, REF-009.
-- **Blockers:** Japanese context and authoritative English-reference access are incomplete.
+- **Blockers:** None.
 - **Objective:** Establish the official arcade English counterpart using contextual evidence.
 - **Rationale:** The project uses official text where available.
 - **Acceptance criteria:** Exact text, formatting, release provenance, context, evidence, and correspondence confidence are recorded; unsupported matches are rejected.
@@ -519,13 +530,25 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   Saturn Japanese captions is still open. Because Saturn quote
   selection varies after the KO (`EXP-0009`), correspondence may need memory-level
   evidence, such as a quote index, rather than a reproduced context.
+- **Evidence (2026-10-24, `EXP-0031`):** The correspondence is index-based and
+  `CONFIRMED`:
+  - The Saturn Ryu table is byte-identical to the arcade Japanese Ryu table.
+  - The arcade selection code maps a 16-way index `k` to English slot 9 entry
+    `k & 7`, using a remap table checked by breakpoint and forced-index tests.
+  - So Saturn records `k` and `k + 8` pair with official English entry `k & 7`.
+    Record 8 (Q10) pairs with entry 0, recorded in the Q10 translation record.
+  - The pairing metadata is `data/text/ryu_arcade_pairing.json`.
+  - The English entries are separate rewrites, not translations. Whether to use
+    the paired English or translate by meaning is a policy decision for
+    `GATE-TRANSLATION`.
 
 ### REF-005 - Record PS1 English equivalent if useful
 
-- **Status:** `BLOCKED`
+- **Status:** `READY`
 - **Milestone:** M0
 - **Dependencies:** REF-004.
-- **Blockers:** Primary correspondence has not been established.
+- **Blockers:** None. Needs a legal `SLUS-00793` image matching the recorded
+  fingerprint; none is held locally.
 - **Objective:** Record the official PS1 wording and differences when it adds useful evidence.
 - **Rationale:** A secondary rendering can clarify language but not Saturn implementation.
 - **Acceptance criteria:** Provenance, exact text/context, comparison, and uncertainty are recorded, or a documented decision explains why it is not useful.
@@ -534,15 +557,19 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### REF-006 - Capture Japanese arcade material if useful
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE`
 - **Milestone:** M0
 - **Dependencies:** REF-004.
-- **Blockers:** The need for an additional correspondence test has not been established.
+- **Blockers:** None.
 - **Objective:** Use Japanese arcade evidence only if it discriminates competing quote correspondences.
 - **Rationale:** Additional reference work should answer a specific question.
 - **Acceptance criteria:** The question, provenance, context comparison, result, and remaining uncertainty are recorded, or the task is `REJECTED` as unnecessary.
 - **Outputs:** Reference experiment and translation-record update if run.
 - **Notes:** This is optional evidence, not a gate when unnecessary.
+- **Evidence (2026-10-24, `EXP-0031`):** The question was which English line the
+  game shows for each Saturn record.
+  - Japanese arcade material settled it: the `mshvsfj` table identity, its 16
+    on-screen records, and the region-shared selection routine with its remap.
 
 ### REF-007 - Observe win-quote selection behavior
 
@@ -942,6 +969,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Milestone:** M0
 - **Dependencies:** DOC-007, DOC-008, REF-003, REF-004, REF-005.
 - **Blockers:** Listed reference and documentation tasks are not all `DONE`.
+  REF-003, REF-004, and REF-006 are done (2026-10-24). DOC-007, DOC-008, and
+  REF-005 remain. The 16-to-8 English policy (`EXP-0031`) also needs a user
+  decision here.
 - **Objective:** Make an explicit go/no-go decision before any task writes or
   proposes English replacement text.
 - **Rationale:** The source quote must be reviewed and the official English must be

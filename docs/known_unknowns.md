@@ -113,8 +113,14 @@ These questions are unresolved unless a later entry links to reproducible eviden
   (`EXP-0030`). Still open: how are the 8 quotes in a slot chosen? How is the
   arcade Japanese text (`0x08xx`) encoded, and where is its quote table? Do inputs
   held at a quote screen skip it?
-- Do the arcade's 8 quotes per character relate to the Saturn's 16 Ryu records?
-  The counts differ; nothing is assumed.
+- Answered for Ryu (`EXP-0031`): Saturn record `k` pairs with arcade English entry
+  `k & 7` by game logic. Still open:
+  - Does the Saturn keep the arcade's English remap and data path vestigially (the
+    `0xCC90` flag and 100-byte records in `RE-023`)?
+  - Do the other characters' Saturn tables match the arcade Japanese tables
+    byte for byte?
+  - Should the patch use the paired official English (two Saturn records per
+    English line) or translate by meaning? This is a project policy decision.
 - Do the European and US English wordings agree line for line?
 - Which arcade ROM members hold post-fight text, and in what form? Answered for
   Latin text by `EXP-0029` (`mvs.07b`, 16-bit codes); still open for Japanese.
