@@ -14,10 +14,14 @@ The script:
 6. once a record pointer into work RAM low is stored (any table, so team order
    and character do not matter; ``--table-base`` narrows it to one 16-record
    table), runs ``--quote-frames`` frames, then saves a screenshot and a
-   quote-screen state. The table base in use (``0x060F9E4A``) is recorded.
+   quote-screen state. The quote state that produced the pointer (one of two,
+   `EXP-0036`) is recorded with its table base and index.
 
-Optional forcing (``--force-index N``) queues a write of N to the index word after
-each hit at the setter PCs, as pre-registered in `EXP-0025` Part 2.
+The quote routine keeps one state per side, at ``r12`` = ``QUOTE_STATES``: table
+base at ``r12 + 0x34`` and index word at ``r12 + 0x50`` (`EXP-0025` found the first;
+`EXP-0036` the second). Optional forcing (``--force-index N``) queues a write of N
+to the ``--quote-state`` index word after each hit at the setter PCs, as
+pre-registered in `EXP-0025` Part 2.
 """
 
 from __future__ import annotations
@@ -30,13 +34,16 @@ from pathlib import Path
 
 from tools.mednafen.agent import Agent, AgentError, parse_pairs
 
-INDEX_WORD = 0x060F9E66
 POINTER = 0x060F249C
-TABLE_POINTER = 0x060F9E4A  # r12 + 52 in the pointer routine (EXP-0025)
+QUOTE_STATES = (0x060F9E16, 0x060F9ED6)  # r12 in the pointer routine (EXP-0036)
+BASE_OFFSET = 0x34  # long: quote table base (EXP-0025)
+INDEX_OFFSET = 0x50  # word: quote index
 POINTER_PCS = {0x060AF724, 0x060AF728}
 BREAKPOINTS = [
     "060F9E66-060F9E67",
     "260F9E66-260F9E67",
+    "060F9F26-060F9F27",
+    "260F9F26-260F9F27",
     "060F249C-060F249F",
     "260F249C-260F249F",
 ]
@@ -55,6 +62,20 @@ def parse_hit(line: str) -> dict[str, int] | None:
     }
 
 
+def quote_state(
+    pointer: int, states: dict[int, tuple[int, int]]
+) -> tuple[int, int, int]:
+    """The state whose ``base + 76·index`` is ``pointer``, else the first one.
+
+    ``states`` maps each ``r12`` to its (table base, index).
+    """
+    for r12, (base, index) in states.items():
+        if base + 76 * index == pointer:
+            return r12, base, index
+    r12 = next(iter(states))
+    return r12, *states[r12]
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--state", type=Path, help="state to load first (optional)")
@@ -66,6 +87,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--timeout", type=float, default=900.0)
     parser.add_argument("--force-index", type=int)
     parser.add_argument("--setter-pcs", default="", help="hex PCs for forcing")
+    parser.add_argument(
+        "--quote-state",
+        type=lambda v: int(v, 16),
+        default=QUOTE_STATES[0],
+        help="r12 of the state whose index is forced (hex)",
+    )
     args = parser.parse_args(argv)
 
     agent = Agent()
@@ -80,7 +107,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         agent.breakpoints("write", BREAKPOINTS)
         if args.force_index is not None:
             for pc in [int(p, 16) for p in args.setter_pcs.split(",") if p]:
-                agent.onhit_write(pc, INDEX_WORD, args.force_index.to_bytes(2, "big"))
+                agent.onhit_write(
+                    pc,
+                    args.quote_state + INDEX_OFFSET,
+                    args.force_index.to_bytes(2, "big"),
+                )
         if args.state is not None:
             agent.loadstate(args.state)
         checkpoint_pcs = {int(p, 16) for p in args.checkpoint_pcs.split(",") if p}
@@ -111,9 +142,19 @@ def main(argv: Sequence[str] | None = None) -> int:
                     pointer_done = True
             seen = len(events)
             time.sleep(0.05)
-        report["pointer"] = f"0x{agent.bus_read(POINTER, 4).hex().upper()}"
-        report["index"] = int.from_bytes(agent.bus_read(INDEX_WORD, 2), "big")
-        report["table_base"] = f"0x{agent.bus_read(TABLE_POINTER, 4).hex().upper()}"
+        pointer = int.from_bytes(agent.bus_read(POINTER, 4), "big")
+        states = {
+            r12: (
+                int.from_bytes(agent.bus_read(r12 + BASE_OFFSET, 4), "big"),
+                int.from_bytes(agent.bus_read(r12 + INDEX_OFFSET, 2), "big"),
+            )
+            for r12 in QUOTE_STATES
+        }
+        r12, base, index = quote_state(pointer, states)
+        report["pointer"] = f"0x{pointer:08X}"
+        report["quote_state"] = f"0x{r12:08X}"
+        report["index"] = index
+        report["table_base"] = f"0x{base:08X}"
         agent.frames(args.quote_frames)
         agent.wait_halted(60)
         agent.screenshot(out / "quote.png")

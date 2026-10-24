@@ -70,6 +70,15 @@ These questions are unresolved unless a later entry links to reproducible eviden
     base; whether `0x002091AC` holds Ken's table in V1. What does the record 0 `0000`
     placeholder render beside Latin text? (`RE-025`. `RE-024` answered the last
     question: katakana ケン inline after the Latin text.)
+  - What selects the quote state? The pointer routine runs with `r12` =
+    `0x060F9E16` or `0x060F9ED6` (base at `+0x34`, index at `+0x50`, `EXP-0036`).
+    Cyclops's KO used the first; the Zangief, Captain America, and Dhalsim KOs
+    used the second. Candidates: the winning side (1P/2P), the match number, or
+    the team's state after a lost round. Discriminating test: one session with known sides, logging `r12` at
+    `060AF724` for KOs from each side.
+  - Can lowercase descenders (`p`, and possibly `g`, `q`, `y`) be drawn more
+    clearly in the pair glyphs? In `EXP-0036`, `p` sits on the baseline with a
+    short stem. It is legible and cosmetic only.
   - What is the WRAM-H list at `0x06094FD8`? It held per-team table pointers
     (`0x002091AC`/`0x0021A59C`, or `0x002191AC`/`0x0020A59C`), but `0x99000E99`
     in its second entry with partner Gouki (`EXP-0027` V2). Must the partner-name
@@ -77,7 +86,7 @@ These questions are unresolved unless a later entry links to reproducible eviden
     39th display entry?
   - Do the other `MCxx.PAC` files hold other characters' quote tables? Yes:
     `MCnn` holds arcade slot `nn`'s table (`EXP-0034`). Runtime use is confirmed
-    for `MC09` and `MC0A` only.
+    for `MC09`, `MC0A`, `MC01`, `MC02`, `MC0C`, and `MC0D` (`EXP-0036`).
 - Is `0000` in a quote record a partner-name placeholder, and how is the name
   chosen and laid out?
 - What encoding, boundaries, indirection, compression, or transformation is used?

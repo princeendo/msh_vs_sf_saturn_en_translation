@@ -3032,3 +3032,34 @@ Checks: no code changed in this step; pytest (171 passed).
 Checks: pytest (173 passed), ruff check, ruff format --check, and strict mypy (74
 files), all passing.
 
+
+## 2026-10-24 — RE-046 run 2: four characters verified live (EXP-0036, DONE)
+
+- Image: `build/re046_roster` (track 01 `351254c4…`). Versus `build/re045` it
+  differs only in PAC headers and padding: decoded tables, `MEMFIX`, and all 17
+  renders are byte-identical; all 78 manifest checks are true.
+- The user played four KOs over two sessions (Cyclops/Zangief, Captain
+  America/Dhalsim). The natural captures were Cyclops record 3, Zangief 13,
+  Captain America 6, and Dhalsim 14.
+- Anomaly: three captures read base `0x0607FD0C` and index 0 from
+  `0x060F9E4A` / `0x060F9E66`, but their pointers were in the predicted tables.
+  - At `060AF724`, `r12` was `0x060F9ED6`, not `0x060F9E16`.
+  - Reading `r12 + 0x34` / `+ 0x50` from the second state gave the predicted
+    bases and the matching indices; a forced write moved the pointer.
+  - So there are two quote states. What selects one is open
+    (`docs/known_unknowns.md`).
+- Tools: `ko_capture.py` arms both index words, reports `quote_state`, and adds
+  `--quote-state`. `verify_records.py` takes the base, index, and pointer from the
+  matching state in `quote.mc`. New test `quote_state`.
+- Forced 16 records per character (64 runs; no retries were needed). All 68
+  captures pass `verify_records.py` (report `local/re046/verify_run2.json`,
+  `f97540a7…`). I read every screenshot; all show the paired English.
+- Cosmetic: the pair glyph for lowercase `p` has a cut-short descender. It is
+  legible and noted as an open polish question.
+- `RE-046` is `DONE`. Next: `RE-047` (regression controls, including
+  re-baselining `tr001` and `exp0028a` after the declared-length change).
+- Pitfall: a stray `cat > file` with no input waits on stdin; the shell hung
+  until I stopped it.
+
+Checks: pytest (174 passed), ruff check, ruff format --check, and strict mypy (74
+files), all passing.

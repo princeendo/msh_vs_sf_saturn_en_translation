@@ -17,8 +17,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   was `RE-042`, now done (all 17 paired; placeholders dropped). `RE-044` is done:
   the roster spec fits, with 90 reused kanji codes and per-line alignment.
   `RE-045` is done (`EXP-0035`): the deterministic roster image is reviewed
-  offline. Next are `RE-046` (live checks; a gameplay plan comes first) and
-  `RE-047` (regression).
+  offline. `RE-046` is done (`EXP-0036`): Cyclops, Zangief, Captain America, and
+  Dhalsim pass all 16 records live on `build/re046_roster`, after a load reset was
+  fixed (keep the declared PAC length). Next is `RE-047` (regression), the last
+  M5 task.
 - `REF-008` is done (2026-10-23): the arcade sets are identified, and regional
   claims are recorded. `EXP-0029` decoded the arcade English win quotes straight
   from ROM data (Ryu = slot 9, `SUPPORTED`). `REF-009` is done (2026-10-24): all
@@ -1749,11 +1751,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### RE-046 - Verify a representative set of characters live
 
-- **Status:** `IN_PROGRESS` (`EXP-0036`; a load reset was diagnosed and fixed, and
-  run 2 is pending)
+- **Status:** `DONE` (2026-10-24, `EXP-0036`)
 - **Milestone:** M5
 - **Dependencies:** RE-045.
-- **Blockers:** None. The roster image is `build/re045` (`EXP-0035`).
+- **Blockers:** None. The roster image is `build/re046_roster` (`EXP-0036`), which
+  decodes identically to `build/re045` (`EXP-0035`).
 - **Objective:** Show on screen that the roster image works across the layout
   variants found in `RE-041`, with minimal user gameplay.
 - **Rationale:** Live checks catch runtime effects that offline checks miss, such
@@ -1772,6 +1774,14 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     more gameplay: the opponent Dan's `MC12` declared a shorter compressed length.
   - Fixed in `pac_patch.py` (keep the original declared length).
   - The rebuilt roster `build/re046_roster` (`351254c4…`) passes the replay test.
+  - Run 2: four KOs, then 64 forced records with no gameplay. All 68 captures pass
+    `verify_records.py`, and all screenshots were read. Coverage: Marvel and
+    Capcom, both team slots, one-line records, dropped placeholders, and the
+    irregular files `MC02` and `MC0C`.
+  - The other 13 characters: decoded tables, `MEMFIX`, and renders are identical
+    to the `EXP-0035` review, and all 78 manifest checks are true.
+  - New: a second quote state (`r12 = 0x060F9ED6`); `ko_capture.py` and
+    `verify_records.py` handle both.
 - **Notes:** Each live character needs a KO with that character, which costs user
   time. Automating character select (for example, agent input injection) would be
   a Mednafen change. It needs separate user authorization and an `EMU-020`-style
@@ -1782,7 +1792,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 - **Status:** `READY`
 - **Milestone:** M5
 - **Dependencies:** RE-045.
-- **Blockers:** None. The roster image is `build/re045` (`EXP-0035`).
+- **Blockers:** None. The roster reference is `build/re046_roster` (`EXP-0036`).
+  The declared-length change gives `tr001` and `exp0028a` new hashes, so they need
+  re-baselining.
 - **Objective:** Keep confirmed outputs from drifting as the pipeline grows.
 - **Rationale:** Roster changes must not silently alter Ryu, Ken, or earlier
   builds.

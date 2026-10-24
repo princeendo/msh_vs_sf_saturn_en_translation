@@ -55,7 +55,9 @@ All are **CONFIRMED** in `docs/discoveries.md` unless marked otherwise.
   - A same-size font repack adds pair glyphs at `0x00A8+` (FONT-003).
 - **Selection.**
   - The index is a word at `0x060F9E66`, and the record pointer goes to
-    `0x060F249C` (RE-023).
+    `0x060F249C` (RE-023). A second quote state at `0x060F9ED6` (index
+    `0x060F9F26`, base `0x060F9F0A`) is used in some KOs (EXP-0036);
+    `ko_capture --quote-state` picks the one to force.
   - Records can be forced. Table bases move with team slot (`0x002191AC` for slot 2,
     RE-025).
 - **Pipeline.** `tools/text/caption_compiler.py` builds marker images; all 16 Ryu
