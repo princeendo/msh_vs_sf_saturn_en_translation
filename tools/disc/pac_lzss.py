@@ -184,19 +184,30 @@ def encode(data: bytes, start: int = 0) -> bytes:
 
 
 def build_pac(
-    stream: bytes, decompressed_length: int, size: int | None = None
+    stream: bytes,
+    decompressed_length: int,
+    size: int | None = None,
+    declared_length: int | None = None,
 ) -> bytes:
-    """Return a PAC file: header, stream, 4-byte alignment, optional zero fill."""
+    """Return a PAC file: header, stream, 4-byte alignment, optional zero fill.
+
+    ``declared_length`` (at least ``len(stream)``) is the compressed length the
+    header states. The bytes between the stream's end and it are zero; the game
+    stops decoding at ``decompressed_length`` (`EXP-0036`).
+    """
+    declared = len(stream) if declared_length is None else declared_length
+    if declared < len(stream):
+        raise PacFormatError(f"declared length {declared} < stream {len(stream)}")
     header = struct.pack(
         ">6I",
         0,
-        0x80000000 | (len(stream) + 8),
+        0x80000000 | (declared + 8),
         0,
         0,
-        len(stream),
+        declared,
         decompressed_length,
     )
-    body = header + stream
+    body = header + stream + bytes(declared - len(stream))
     body += bytes(-len(body) % 4)
     if size is not None:
         if len(body) > size:
