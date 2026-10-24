@@ -2816,3 +2816,16 @@ Checks: documentation and metadata only.
 Checks: pytest (156 passed), ruff check, ruff format --check, and strict mypy (66
 files), all passing.
 
+## 2026-10-24 — GATE-TRANSLATION passed (user GO)
+
+- The user said: "Pass GATE-TRANSLATION: go. Record the acceptance and allow Ryu's
+  captions to use the paired official English."
+- At acceptance, all dependencies (DOC-007, DOC-008, REF-003, REF-004, REF-005)
+  were `DONE`, and optional REF-006 had evidence.
+- Q10 `preferred_english` is set to the paired `arcade_us_text`. Updated the
+  `data/translations/README.md` policy note.
+- Added `TR-001` (`READY`): build Ryu's official-English captions with the
+  existing compiler. It is not started; the Ken work stays on hold.
+
+Checks: documentation and JSON only; Q10 re-parsed as valid JSON.
+
