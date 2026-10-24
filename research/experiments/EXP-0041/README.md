@@ -1,11 +1,10 @@
 # EXP-0041: Marker Builds of the Ending Files
 
 Task: END-007
-Status: IN_PROGRESS (Part 1 done 2026-10-24; Part 2 needs one user boss fight)
-Confidence:
-- Part 1 is CONFIRMED: derived images load edited `ME.PAC`/`MC13.PAC` into RAM
-  with only the marker changed, and the same RAM change displays.
-- End to end on screen from a derived image is not yet observed (Part 2).
+Status: DONE (2026-10-24)
+Confidence: CONFIRMED. Edited `ME.PAC`/`MC13.PAC` on a derived image load into
+RAM with only the marker changed (Part 1). The page marker is seen on screen in
+a live run from the derived image (Part 2).
 
 ## Observation
 
@@ -168,22 +167,45 @@ body `0x00230000-0x0023ED03`.
   record with nothing else changed.
 - That RAM change displays as the marker in exactly its cell.
 
-By composition, a derived image's ending differs from the original only at the
-marker. Seeing it on screen in one run from a derived image is still owed
-(Part 2), because a no-input replay cannot win the boss fight.
+**CONFIRMED (Part 2).** In a live run from the derived image, the page marker
+appears in exactly its cell, and pages 2-3 are unchanged. The `MC13` path is
+confirmed in RAM (Part 1), and the same RAM change displays (`EXP-0039` T1).
+Ryu/Ken does not show the Ryu/Gouki box 2, so the `MC13` marker was not seen
+on screen in a derived-image run.
 
-## Part 2 (pending; needs the user)
+## Part 2: Live Run on Image C (2026-10-24)
 
-- **Run:** image C, starting from `before_stage08_load.mcs` (team Ryu/Ken, the
-  boss stage about to load). The user beats Mech-Gouki with Ryu; the recorder
-  captures everything.
-- **Predictions:**
-  - page 1 shows R at line 1 cell 5;
-  - box 2's marker shows only if Ryu/Ken get the same dialogue records as
-    Ryu/Gouki. That is unknown (`END-005`), so its absence would not refute
-    this test.
-- This start point is used instead of the continue checkpoint, because the
-  load from disc is measured from it.
+- **Setup.** The agent launched `build/end007_c` (track 01 `276bd6c7…`) and
+  loaded `before_stage08_load.mcs`, with `session_recorder.py` on
+  (`local/end007/run2/rec`).
+  - After the load, RAM read back `08F9` at both `0x0022AE62` and `0x0023366E`.
+  - The user lost the first attempt. The agent reloaded the same state, and
+    the files loaded from image C again.
+  - Ryu (point, team Ryu/Ken) won and landed the KO. No other input.
+- **Page 1 shows R at line 1 cell 5.** The screenshot `f00011597.png` is
+  byte-identical (`e19b67528856ba79…`) to Part 1's RAM-trial screenshot
+  `page1_ram_R.png`.
+  - Inside the text box, it differs from the untouched Ryu/Gouki run's page 1
+    (`EXP-0037` `f00070481.png`) in 145 px at x 107-120, y 187-200: the marker
+    cell only.
+  - The picture panel is identical.
+- **Pages 2 and 3 are pixel-identical** inside the box to the untouched run.
+  Page 3's `f00012465.png` is byte-identical to `EXP-0037` `f00071824.png`
+  (`312498fe…`).
+- **The box 2 marker is not applicable.** The Ryu/Ken dialogue uses different
+  boxes 1-2 (other lines), so the edited Ryu/Gouki record is not shown. That
+  is the anticipated outcome, not a refutation.
+- **Dialogue compared with Ryu/Gouki** (inside the top box, against
+  `EXP-0037`):
+  - Box 4 is pixel-identical (`f00011249.png`).
+  - Box 3 differs only at x 107-161, in line 1's name cells: the partner's
+    name instead of Gouki's (`f00011024.png`, 298 px).
+  - Boxes 1-2 are different lines.
+  - These are observations for `END-005`, not a controlled test there: the
+    image (one marker per file) and the partner both differ from `EXP-0037`.
+- **Checkpoint:** `local/end001/checkpoints/ryu_ken_post_boss_ko_imageC.mcs`
+  (`b1ef3827ba0b31be…`), at the Ryu/Ken KO. Its RAM holds
+  image C's marker words.
 
 ## Uncertainty and Alternatives
 

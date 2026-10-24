@@ -117,8 +117,11 @@ Nothing about win quotes may be assumed for endings (`AGENTS.md` rules 13-14).
 Ryu's run showed a four-box post-boss dialogue at the top of the frozen stage,
 then three ending pages (a picture panel and a bottom text box).
 
-- **Selection.** Does the post-boss dialogue depend on the team pair, the
-  partner alone, or the point character, or is it always shown? Does the ending
+- **Selection.** A Ryu/Ken observation (`EXP-0041` Part 2, not controlled)
+  supports this: pages follow the point character, boxes 1-2 depend on the
+  partner, and box 3 is shared, with the placeholder naming the partner. Does
+  the post-boss dialogue depend on the team pair, the partner alone, or the
+  point character, or is it always shown? Does the ending
   follow the point character, the KO character, the survivor, or the team? Ryu
   was point and landed the KO, so these were confounded. Test in `END-005`.
 - **Renderer.** Answered for box 1 and page 1 (`EXP-0038`, discoveries
@@ -142,9 +145,9 @@ then three ending pages (a picture panel and a bottom text box).
   - What do `ME.PAC`'s header and its 30 non-relocation differences mean?
   - Is the relocation rule (file + base + `0x40`) right, given it is inferred
     from deltas only?
-  - Does an edited file load and display? Answered for the load path
-    (`EXP-0041`): yes, with nothing else changed. A live run from a derived
-    image is still owed.
+  - Does an edited file load and display? Answered (`EXP-0041`): yes, with
+    nothing else changed. The page marker showed live; the `MC13` marker was
+    confirmed in RAM.
   - Are `ME.PAC` and `MC13` re-read after a continue? (The load sequence
     repeats and opens `END.PAC`.) What does `END.PAC` hold?
 - **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`). Still open:

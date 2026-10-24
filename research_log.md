@@ -3362,3 +3362,35 @@ C from `before_stage08_load.mcs`. `END-007` is `BLOCKED` on that run.
 
 Next action: `END-007` Part 2 (user), or `END-006` (no gameplay).
 
+## 2026-10-24 — END-007 / EXP-0041 Part 2: the page marker shows live from a derived image
+
+Task: END-007
+
+Action and result:
+
+- **Setup.** The agent launched `build/end007_c`, loaded
+  `before_stage08_load.mcs`, and started the recorder.
+  - RAM read back `08F9` at both marker words after the load.
+  - The user lost once, and the agent reloaded the state.
+  - Ryu (team Ryu/Ken) won with the KO.
+- **Page 1 showed R at line 1 cell 5.**
+  - It differs by 145 px from the untouched run's page 1, in the marker cell
+    only.
+  - The screenshot is byte-identical to the Part 1 RAM-trial screenshot.
+- **Pages 2-3** are pixel-identical to the untouched Ryu/Gouki run. Page 3 is
+  byte-identical.
+- **Dialogue.** Ryu/Ken boxes 1-2 are other lines, so the `MC13` box 2 marker
+  was not displayed (anticipated).
+  - Box 3 equals Ryu/Gouki's except the placeholder name.
+  - Box 4 is identical.
+  - Recorded as an uncontrolled `END-005` observation.
+- **Checkpoint:** `ryu_ken_post_boss_ko_imageC.mcs` (`b1ef3827…`).
+- **Correction:** a placeholder hash typed into the EXP-0041 draft was replaced
+  with the computed one before commit.
+
+Conclusion: `END-007` is `DONE` (`CONFIRMED`). The route for M7 is proven up
+to the source image: raw edits to `ME.PAC`, and full re-encodes of `MC13`.
+
+Next action: `END-005` (controlled partner run, one gameplay session) or
+`END-006` (arcade reference, no gameplay).
+

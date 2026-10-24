@@ -19,8 +19,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `STAGE-08`. `END-004` is done (`EXP-0040`): the dialogue comes from LZSS
   `MC13.PAC` (the boss's file), and the pages from raw `ME.PAC`. The next tasks
   are:
-  - `END-007`: marker builds. Part 1 is done (`EXP-0041`: an edited file loads
-    from a derived image); Part 2 needs one user boss fight on image C;
+  - `END-007` is done (`EXP-0041`): edited `ME.PAC`/`MC13` load from a derived
+    image, and the page marker showed live;
   - `END-005`: what selects the dialogue and ending (one gameplay session);
   - `END-006`: the arcade reference.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
@@ -2120,13 +2120,11 @@ the user asks or when it unblocks other work.
 
 ### END-007 - Verify that edited ending files load and display (marker build)
 
-- **Status:** `BLOCKED` (Part 1 done 2026-10-24, `EXP-0041`; Part 2 needs one user
-  boss fight)
+- **Status:** `DONE` (2026-10-24, `EXP-0041`)
 - **Milestone:** M6
 - **Dependencies:** END-004.
-- **Blockers:** A no-input replay from a pre-load checkpoint cannot win the boss
-  fight, so the on-screen check from a derived image needs one user boss fight
-  (Part 2).
+- **Blockers:** None. Part 2 used one user boss fight, because a no-input
+  replay cannot win it.
 - **Objective:** Show that a derived image built from the untouched source,
   with one marker change per file, displays the changes in Ryu's ending.
 - **Rationale:** `EXP-0040` names the files, but only a rebuilt image proves
@@ -2163,10 +2161,16 @@ the user asks or when it unblocks other work.
     box or page" cannot be met without gameplay, because the boss fight lies
     between the load and the ending. It is replaced by the composed
     load-and-display evidence above, plus Part 2.
-- **Part 2 (pending):** image C from `before_stage08_load.mcs` (Ryu/Ken). The
-  user beats Mech-Gouki with Ryu. Predicted: page 1 shows R at line 1 cell 5.
-  The box 2 marker appears only if Ryu/Ken share the Ryu/Gouki dialogue
-  records (unknown, `END-005`).
+- **Part 2 (2026-10-24, `CONFIRMED`):** image C from `before_stage08_load.mcs`.
+  Ryu (team Ryu/Ken) beat Mech-Gouki on the second try, after the agent
+  restored the state.
+  - Page 1 showed R in exactly the marker cell: 145 px vs the untouched run,
+    byte-identical to the RAM-trial screenshot.
+  - Pages 2-3 were unchanged.
+  - The Ryu/Ken dialogue uses other boxes 1-2, so the `MC13` marker is
+    confirmed in RAM only (as anticipated).
+  - Checkpoint: `ryu_ken_post_boss_ko_imageC.mcs` (`b1ef3827ba0b31be…`). Its
+    RAM holds the markers.
 
 ### END-005 - Identify what selects the post-boss dialogue and the ending
 
@@ -2190,6 +2194,19 @@ the user asks or when it unblocks other work.
   been read.
 - **Notes:** Ask the user only for the boss fight. The recorder captures
   everything else.
+- **Observation (2026-10-24, `EXP-0041` Part 2; `SUPPORTED`, not a controlled
+  run):** Ryu (point) + Ken beat Mech-Gouki on marker image C. Compared with
+  the untouched Ryu/Gouki run (`EXP-0037`):
+  - ending pages 1-3 are identical in the text box, apart from the page marker;
+  - dialogue box 4 is identical;
+  - box 3 differs only in the placeholder name (the partner's);
+  - boxes 1-2 are other lines.
+
+  This fits "pages depend on the point character; boxes 1-2 depend on the
+  partner; the box 3 placeholder names the partner". Two variables differ
+  (partner and image), so the controlled partner-only run on the untouched
+  image is still this task's first criterion. A Ryu/Ken post-KO checkpoint now
+  exists (`ryu_ken_post_boss_ko_imageC.mcs`, image C RAM).
 
 ### END-006 - Arcade reference for Ryu's ending and the post-boss dialogue
 

@@ -786,10 +786,10 @@ Experiment: `EXP-0040`
   - Whether edited files load and display is untested (`END-007`).
 - **Reproduce.** `research/experiments/EXP-0040/README.md`, Procedure.
 
-## END-007 Part 1: Edited Ending Files Load from a Derived Image
+## END-007: Edited Ending Files Load and Display from a Derived Image
 
-Confidence: **CONFIRMED** (disc to RAM, and RAM to screen). End to end on screen
-from a derived image is pending (`EXP-0041` Part 2).
+Confidence: **CONFIRMED** (disc to RAM for both files; on screen live for the
+`ME.PAC` page marker)
 
 Experiment: `EXP-0041`
 
@@ -806,8 +806,13 @@ Experiment: `EXP-0041`
   (145 px) here, box 2 in `EXP-0039`.
 - **No re-read.** Neither file is re-read between the KO and the ending.
 - **Track 01 hashes:** A `f2f8f673…`, B `d525e356…`, C (both) `276bd6c7…`.
+- **Live (Part 2).** Image C from `before_stage08_load.mcs`, with Ryu beating
+  Mech-Gouki (team Ryu/Ken). Page 1 showed R in exactly the marker cell:
+  - 145 px vs the untouched run, byte-identical to the RAM-trial screenshot;
+  - pages 2-3 unchanged.
 - **Limits.**
-  - A single live run from a derived image is owed (Part 2).
+  - The `MC13` marker was seen in RAM only, because Ryu/Ken shows other boxes
+    1-2.
   - The splice re-encode does not fit `MC13`'s 1 byte of slack; use `--full`.
 - **Reproduce.** `research/experiments/EXP-0041/README.md`, Procedure.
 
