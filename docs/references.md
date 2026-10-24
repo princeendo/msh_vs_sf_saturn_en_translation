@@ -463,6 +463,64 @@ The corpus supports using these process patterns without assuming target structu
 No project above establishes MSHvSF encoding, offsets, pointers, compression,
 renderer behavior, file relocation safety, or runtime caching.
 
+## X-Men vs. Street Fighter (Saturn) and Related Prior Art
+
+Collected 2026-10-24 for `DOC-007` by read-only web and GitHub search. Nothing was
+downloaded. These sources can suggest a discriminating MSHvSF experiment; none of
+them establishes an MSHvSF structure, offset, encoding, or behavior (`AGENTS.md`
+rules 13 and 25). XvSF is never modified.
+
+### Findings
+
+- **No XvSF Saturn translation project was found**, released or in progress.
+  Searched: the SHIRO! Saturn translation list, SegaXtreme, RomHack Plaza, GitHub
+  repository and code search, Reddit mirrors, and Japanese-language queries.
+- **No public technical write-up of XvSF Saturn internals was found**: nothing on
+  text encoding, font, compression, file layout, RAM-cart use, or win-quote storage.
+- **Cart.** XvSF on Saturn requires the 4 MB Extended RAM Cartridge (HSS-0167), as
+  MSHvSF does. Sources: Time Extension, Damien McFerran, 2024-02-21,
+  <https://www.timeextension.com/features/flashback-how-saturns-memory-expansion-carts-made-it-the-king-of-2d-fighters>
+  (secondary), and RQ87, <https://rq87.flyingomelette.com/RQ/Marvel/XSF/sat.html>
+  (fan). The first release was bundled with the cart.
+- **No other MSHvSF Saturn translation or internals research was found** besides
+  this repository.
+
+### Sources
+
+| Source | Date | Reliability | License / reuse | Relevance to MSHvSF |
+| --- | --- | --- | --- | --- |
+| SegaXtreme, "Translating Capcom's already translated titles?", <https://segaxtreme.net/threads/translating-capcoms-already-translated-titles.24788/> | 2021-03-25 to 2025-06-25 | forum | none stated | Request thread; nobody reports XvSF or MSHvSF work. One poster says some *Street Fighter Zero 3* Saturn screens store text lines as tile graphics; another says only some screens do. |
+| almarsguides.com, XvSF Saturn Action Replay codes, <https://almarsguides.com/retro/walkthroughs/saturn/games/xmenvsstreetfighter/actionreplay/> | undated | fan | none stated | Gameplay codes only; XvSF RAM, not transferable. |
+| SegaXtreme, "Marvel Super Heroes vs. Street Fighter", <https://segaxtreme.net/threads/marvel-super-heroes-vs-street-fighter.9229/> | 2004-01-28 | forum | none stated | Port discussion; nothing technical. |
+| SHIRO!, "Satiator Fixes Issue With MSHvSF at Last", <https://www.segasaturnshiro.com/2022/10/25/satiator-fixes-issue-with-marvel-super-heroes-vs-street-fighter-at-last/> | 2022-10-25 | secondary (relays the developer) | n/a | MSHvSF is sensitive to CD-block EndDataTransfer timing; Satiator firmware 1.60 fixed match-start crashes. Relevant when testing patched discs on an optical-drive emulator. |
+| SHIRO! Saturn translations list (Vampire Savior "English activation" by paul_met, v1.0, 2017), <https://www.segasaturnshiro.com/saturn-community-projects/saturn-translations/> | 2017 | fan via secondary listing | none stated | Forces a dormant English mode on a Japanese Capcom Saturn disc. An idea only. |
+| RomHack Plaza, LemonGrwab *Street Fighter Alpha 3* v2.0 and *Pocket Fighter* v1.0 Saturn patches, <https://romhackplaza.org/translations/street-fighter-alpha-3-english-translation-sega-saturn>, <https://romhackplaza.org/translations/pocket-fighter-mini-mix-english-translation-sega-saturn> | 2026-10-15, 2026-10-21 | fan (SHIRO! marks both as generative-AI-assisted) | none stated; no source published | *Pocket Fighter* reuses official arcade/PS1 English and a converted PS1 font: a method lead parallel to this project's policy. A different engine; not MSHvSF evidence. |
+| `Preppy/PalMod`, <https://github.com/Preppy/PalMod> at `092391cfe4ec32989beed9f6a9f86b2100a019d5` (2026-10-16) | 2026 | primary for its own code | GitHub reports NOASSERTION: treat as unlicensed | Arcade and PSX palette definitions for XvSF and MSHvSF; no Saturn. Low relevance. |
+
+Notes:
+
+- The only Saturn "PAC" compression found in community research is Technosoft's
+  (SegaXtreme *Kyuutenkai* thread). It has no established relation to Capcom's
+  `.PAC` files.
+- **Blocked**, not bypassed: romhacking.net (403), segaretro.org, srk.shib.live,
+  exotica.org.uk "Lost in Translation", and tcrf.net (live bot check; the
+  *MSHvSF (Arcade)* page was read separately from a Wayback snapshot under
+  `REF-008`).
+- **Irrelevant hits** (recorded so they are not re-chased): Arcade1Up mods, a SNES
+  bootleg ROM repository (not downloaded), AI-training notebooks, an Android build,
+  and an empty `SSTranslation` repository.
+
+### Experiment Ideas (Not Evidence)
+
+- **Dormant English or region data on the MSHvSF Saturn disc** (the Vampire Savior
+  precedent). The Saturn selection code already has a `0xCC90`-flagged path and
+  100-byte records (`RE-023`), matching the arcade's English path (`EXP-0031`).
+  Whether English text exists on the disc is untested.
+- **Text versus tile graphics.** Already answered for MSHvSF win quotes: they are
+  16-bit glyph codes (`RE-012`). Other surfaces (endings, menus) are untested.
+- **Optical-drive-emulator timing.** Test patched images on hardware or an
+  emulator only with this timing sensitivity in mind.
+
 ## MSHvSF Official English Text Sources
 
 This section identifies candidate official releases and the evidence needed to use

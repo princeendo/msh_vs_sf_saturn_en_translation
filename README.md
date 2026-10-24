@@ -89,6 +89,7 @@ acceptance requirements. Follow [docs/mednafen.md](docs/mednafen.md).
 ## Project Guides
 
 - [AGENTS.md](AGENTS.md): authoritative operating rules
+- [docs/agent_briefing.md](docs/agent_briefing.md): short, cited summary of current findings and tools
 - [TASKS.md](TASKS.md): dependency-controlled research plan
 - [research_log.md](research_log.md): chronological journal
 - [docs/project_scope.md](docs/project_scope.md): milestone gates and non-goals

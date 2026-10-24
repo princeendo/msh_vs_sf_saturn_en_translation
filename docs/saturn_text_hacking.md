@@ -1,6 +1,9 @@
 # Saturn Text Investigation Guide
 
-No Saturn text storage or rendering behavior has been confirmed for this project.
+Confirmed win-quote storage, font, selection, and disc-source behavior is recorded in
+`docs/discoveries.md` and summarized in `docs/text_system.md` and
+`docs/agent_briefing.md`. The workflow below is how each was established. Use it
+again for any text surface not yet investigated (endings, menus, other characters).
 
 ## Initial Workflow
 

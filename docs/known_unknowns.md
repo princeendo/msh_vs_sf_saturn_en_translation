@@ -116,7 +116,8 @@ These questions are unresolved unless a later entry links to reproducible eviden
 - Answered for Ryu (`EXP-0031`): Saturn record `k` pairs with arcade English entry
   `k & 7` by game logic. Still open:
   - Does the Saturn keep the arcade's English remap and data path vestigially (the
-    `0xCC90` flag and 100-byte records in `RE-023`)?
+    `0xCC90` flag and 100-byte records in `RE-023`)? Does the disc hold dormant
+    English text, as Vampire Savior's does (`DOC-007` idea only)?
   - Do the other characters' Saturn tables match the arcade Japanese tables
     byte for byte?
   - Decided by the user on 2026-10-24: use the paired official English (record
