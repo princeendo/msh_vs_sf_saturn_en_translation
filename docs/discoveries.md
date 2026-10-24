@@ -663,6 +663,38 @@ Experiment: `EXP-0036` (task `RE-046`)
 - **Reproduce.** See `research/experiments/EXP-0036/README.md`; the tool is
   `tools/mednafen/replay_state.py`.
 
+## EXP-0036: The 17-Character Roster Image Works Live
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0036` run 2 (task `RE-046`)
+
+- **Finding.** On `build/re046_roster` (track 01 `351254c4…`), Cyclops (`MC01`),
+  Zangief (`MC0D`), Captain America (`MC02`), and Dhalsim (`MC0C`) each read their
+  own compiled table at the predicted base. All 16 records of each display the
+  paired official English.
+- **Evidence.** One KO per character, then 64 forced records from post-KO
+  checkpoints. All 68 captures pass `verify_records.py`: pointer, screen, cart
+  font, WRAM-L table, and display buffer. All screenshots were read.
+- **Scope.** Marvel and Capcom fighters, both team slots, one-line records,
+  dropped placeholders, and files with untouched extra blocks.
+- **Reproduce.** `research/experiments/EXP-0036/README.md`, Reproduction.
+
+## EXP-0036: A Second Win-Quote State
+
+Confidence: **CONFIRMED** (layout and use; what selects it is unknown)
+
+Experiment: `EXP-0036` run 2
+
+- **Finding.** The quote pointer routine runs with `r12` = `0x060F9E16` (`RE-023`)
+  or `0x060F9ED6`. Each state holds the table base at `r12 + 0x34` and the index
+  word at `r12 + 0x50`, so the second uses `0x060F9F0A` and `0x060F9F26`.
+- **Evidence.** In three KOs the first state held `0x0607FD0C` / 0, while the
+  second held the predicted base and an index that gives the stored pointer.
+  Forcing `0x060F9F26` after setter `060AF282` moved the pointer as predicted, and
+  48 forced records verified through it.
+- **Use.** `ko_capture.py --quote-state` and `verify_records.py` handle both.
+
 ## Entry Requirements
 
 Each future entry must include:

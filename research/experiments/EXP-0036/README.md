@@ -1,8 +1,8 @@
 # EXP-0036: Roster Image Live Check (Cyclops, Zangief, Captain America, Dhalsim)
 
 Task: RE-046
-Status: IN_PROGRESS (live sessions pending)
-Confidence: HYPOTHESIS until the live runs
+Status: DONE (2026-10-24)
+Confidence: CONFIRMED (run 2, `build/re046_roster`)
 
 ## Observation
 
@@ -112,6 +112,92 @@ mounted image.
   the original length in all 17 files, passes every compiler check, and reaches
   the fight from the stage-map state.
 
-### Run 2
+### Run 2 (2026-10-24): all four characters pass
 
-Pending: live sessions on `build/re046_roster`.
+- **Image.** `build/re046_roster` (track 01 `351254c4…`). It differs from
+  `build/re045` only in PAC headers and padding: all 17 decoded tables, `MEMFIX`,
+  and all 17 offline renders are byte-identical, and all 78 manifest checks are
+  true.
+- **Gameplay.** Two sessions, as planned; four user KOs. `ko_capture.py` saved a
+  post-KO checkpoint for each (ignored, `local/mednafen/agent/runs/re046-*`):
+
+  | KO | `postko.mc` SHA-256 |
+  | --- | --- |
+  | Cyclops | `a776ae09…` |
+  | Zangief | `3d190193…` |
+  | Captain America | `548e935c…` |
+  | Dhalsim | `b00df2a1…` |
+
+- **A second quote state.** For Zangief, Captain America, and Dhalsim the capture
+  read the table base `0x0607FD0C` and index 0 from `0x060F9E4A` / `0x060F9E66`,
+  yet the pointers fell inside the predicted tables. The log showed the pointer
+  routine (`060AF724`) running with `r12` = `0x060F9ED6`, not `0x060F9E16`
+  (Cyclops).
+  - Hypothesis: a second state with the same layout, base at `r12 + 0x34` and
+    index at `r12 + 0x50`.
+  - Test: reading `0x060F9F0A` / `0x060F9F26` from each quote state gave exactly
+    the predicted bases (`0x0021C7F4`, `0x0020D6D8`, `0x0021AA88`) and indices
+    13, 6, and 14. Pointer = base + 76 × index in all four runs.
+  - A forced write of 0 to `0x060F9F26` after the setter `060AF282` (which wrote
+    the natural 13) moved Zangief's pointer to the table base.
+  - Tools: `ko_capture.py` now arms both index words, reports the state that
+    produced the pointer (`quote_state`), and forces the `--quote-state` index.
+    `verify_records.py` reads the base and index from the matching state.
+  - What selects the state is open (`docs/known_unknowns.md`).
+- **Natural captures.** Cyclops record 3, Zangief 13, Captain America 6, and
+  Dhalsim 14. All pass every check; 13 and 14 tie with their identical records
+  5 and 6.
+- **Forced captures.** 64 runs (16 per character), each loaded from that
+  character's checkpoint with no gameplay. `verify_records.py --compile-dir
+  build/re046_roster` passes all 68 captures (64 forced plus 4 natural; report
+  `local/re046/verify_run2.json`, SHA-256 `f97540a7…`):
+
+  | Character | Quote state | Table base | File | Result |
+  | --- | --- | --- | --- | --- |
+  | Cyclops | `0x060F9E16` | `0x0020AC50` | `MC01` | 16/16 |
+  | Zangief | `0x060F9ED6` | `0x0021C7F4` | `MC0D` | 16/16 |
+  | Captain America | `0x060F9ED6` | `0x0020D6D8` | `MC02` | 16/16 |
+  | Dhalsim | `0x060F9ED6` | `0x0021AA88` | `MC0C` | 16/16 |
+
+  - Every check passes in every run: pointer, cart-RAM font, WRAM-L table, and
+    display buffer. Screen IoU is 1.0 for the forced record, or for its identical
+    twin (records 8-15 tie with 0-7).
+  - No placeholder glyphs appear, so the dropped placeholders (including
+    Zangief's four) leave nothing behind.
+- **Screens.** I read all 68 screenshots. Each shows the spec's paired English,
+  including the one-line records (Cyclops 0, 2, and 6; Captain America 3;
+  Dhalsim 6), with nothing blank or garbled.
+- **Cosmetic.** The pair glyphs draw lowercase `p` with its descender cut short,
+  so it sits on the baseline ("Freedom prevails!"). It is legible and identical in
+  the offline renders, so it is a font-design matter, not a runtime fault
+  (`docs/known_unknowns.md`).
+
+## Conclusion
+
+`CONFIRMED`. The roster image shows its compiled official English at runtime for
+Marvel and Capcom fighters, in both team slots, from files with untouched extra
+blocks (`MC02`, `MC0C`), and with dropped placeholders. Each KO used its own
+file's table at the predicted base. A patched PAC file must keep its declared
+compressed length (run 1).
+
+## Uncertainty
+
+- Four characters were verified live. The other 13 rest on offline equivalence:
+  same mechanism, decoded tables equal to the compiled ones, renders reviewed.
+- What selects the second quote state is unknown.
+- The declared-length mechanism (why a shorter length breaks the load) is
+  `HYPOTHESIS`; the fix is confirmed.
+
+## Reproduction
+
+1. Build `build/re046_roster` from the `RE-044` spec (`local/re044/
+   roster_official_en.json`, `b2c097fa…`) with `caption_compiler.py`, as in
+   `EXP-0035`. Track 01 should be `351254c4…`.
+2. Start the patched Mednafen on that image. For each character, run
+   `ko_capture.py --checkpoint --out-dir <run>` and play one KO with that
+   character.
+3. For each record `i` from 0 to 15, run `ko_capture.py --state <run>/postko.mc
+   --out-dir <run>-rNN --force-index i --setter-pcs 060AF282 --quote-state <r12>`.
+   `<r12>` is the `quote_state` that the natural capture reports.
+4. `verify_records.py --compile-dir build/re046_roster <runs>`, then read every
+   `quote.png`.

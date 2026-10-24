@@ -7,7 +7,8 @@ KO is verified against `MC0A` and a Ryu KO against `MC09`.
 For each capture directory (written by ``ko_capture.py``) this checks:
 
 - **Pointer.** The stored record pointer equals ``table + 76·index``, with the
-  table base read from the state (``0x060F9E4A``).
+  table base and index read from the state's quote state that matches it (one per
+  side, ``ko_capture.QUOTE_STATES``, `EXP-0036`).
 - **Screen.** ``quote_render.match`` on ``quote.png`` against the build's font and
   table picks the forced record.
 - **RAM** (from ``quote.mc``, extractor regions validated in `EXP-0008` and
@@ -30,6 +31,13 @@ from pathlib import Path
 
 from tools.common.png import decode_png
 from tools.disc.pac_lzss import decode_file
+from tools.mednafen.ko_capture import (
+    BASE_OFFSET,
+    INDEX_OFFSET,
+    POINTER,
+    QUOTE_STATES,
+    quote_state,
+)
 from tools.memory.mcs_extract import REGIONS, extract_region, parse_state
 from tools.text.font import Font
 from tools.text.quote_render import RECORD, RECORDS, TABLE, match, record_codes
@@ -40,7 +48,6 @@ FONT_ENTRY = (0x6A558, 0x32740)
 FONT_CART = 0x0278CF60
 BUFFER = 0x060ED80A
 PLACEHOLDER = 0x0000
-TABLE_POINTER = 0x060F9E4A  # long: quote table base (EXP-0025)
 NAME_TABLE = 0x06095EC4  # partner-name glyphs, 32 bytes per entry (EXP-0025)
 NAME_LENGTHS = 0x060AF8E8  # one byte per entry
 NAME_ENTRIES = 26
@@ -124,16 +131,22 @@ def screen_matches(records: Sequence[Sequence[int]], best: int, index: int) -> b
 def verify_run(
     run: Path, font_image: bytes, tables: Sequence[CompiledTable]
 ) -> dict[str, object]:
-    capture = json.loads((run / "capture.json").read_text())
-    index = int(capture["index"])
-    pointer = int(capture["pointer"], 16)
     state = parse_state((run / "quote.mc").read_bytes())
     cart = extract_region(state, REGIONS["cart_ram"], "saturn")
     wram_l = extract_region(state, REGIONS["wram_l"], "saturn")
     wram_h = extract_region(state, REGIONS["wram_h"], "saturn")
     cart_offset = FONT_CART - REGIONS["cart_ram"].base_address
-    base_start = TABLE_POINTER - REGIONS["wram_h"].base_address
-    base = int.from_bytes(wram_h[base_start : base_start + 4], "big")
+
+    def read(address: int, size: int = 4) -> int:
+        start = address - REGIONS["wram_h"].base_address
+        return int.from_bytes(wram_h[start : start + size], "big")
+
+    pointer = read(POINTER)
+    states = {
+        r12: (read(r12 + BASE_OFFSET), read(r12 + INDEX_OFFSET, 2))
+        for r12 in QUOTE_STATES
+    }
+    r12, base, index = quote_state(pointer, states)
     table_offset = base - REGIONS["wram_l"].base_address
     in_ram = wram_l[table_offset : table_offset + RECORDS * RECORD]
     matching = [t for t in tables if t[2][t[1] : t[1] + RECORDS * RECORD] == in_ram]
@@ -146,6 +159,7 @@ def verify_run(
     checks: dict[str, object] = {
         "index": index,
         "pointer": f"0x{pointer:08X}",
+        "quote_state": f"0x{r12:08X}",
         "table_base": f"0x{base:08X}",
         "table_file": name_file if matching else None,
         "pointer_ok": pointer == base + RECORD * index,
