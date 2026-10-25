@@ -905,6 +905,22 @@ Experiment: `EXP-0044`
   names also replace names inserted in other Japanese text in this image.
 - **Reproduce.** `research/experiments/EXP-0044/README.md`, Procedure.
 
+## EXP-0045: Identical Records in a Dialogue Pair Show as One Block
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0045`
+
+- **Finding.** When both records of a post-boss dialogue pair hold identical
+  text, nothing on screen changes at the hand-over. The whole frame is
+  byte-identical across it, so the pair reads as one block lasting both boxes'
+  time (about 480 frames). With different text, the box switches in one frame
+  with no blank frame.
+- **Use.** `official_endings.py --dialogue-layout whole` (the default) shows
+  each English line whole, one block per speaker. This is the `end010`
+  reference (track 01 `ba3fb3ce…`).
+- **Reproduce.** `research/experiments/EXP-0045/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

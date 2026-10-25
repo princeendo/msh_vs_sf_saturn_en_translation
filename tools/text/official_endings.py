@@ -6,9 +6,11 @@ The policy (user decision, 2026-10-24, `data/translations/README.md`):
   (English page table ``0x20C1B4``, `EXP-0042`), in ``ME.PAC``;
 - the post-boss dialogue gets the arcade's two English partner lines
   (``0x22226C``): record ``p`` for each listed partner ``p`` and record
-  ``26 + point`` for the point character (`EXP-0043`). Each line is split at its
-  own line break across the two Saturn boxes of its ``MC13`` pair
-  (``16 + 2 * index``), one half per box (user decision);
+  ``26 + point`` for the point character (`EXP-0043`). Each English line fills
+  its ``MC13`` pair (``16 + 2 * index``). With the default ``whole`` layout,
+  both boxes hold the full two-line text: the box never closes between the two
+  records, so it reads as one block lasting both boxes' time (`EXP-0045`, user
+  request). ``split`` puts one half per box at the line break (`EXP-0044`);
 - the inserted names (``0000``) come from the ``MM.BIN`` name table, set to the
   arcade's English names for the point character and the listed partners. The
   game inserts a fixed number of cells per name from a one-byte length table
@@ -77,7 +79,7 @@ def name_text(name: str) -> str:
 
 
 def ending_spec(
-    program: bytes, point: int, partners: Sequence[int]
+    program: bytes, point: int, partners: Sequence[int], layout: str = "whole"
 ) -> tuple[dict[str, object], dict[str, list[int]]]:
     """The v3 spec, and the arcade Japanese records it replaces."""
     start, end = page_span(program, PAGE_TABLES["en"], point)
@@ -90,8 +92,13 @@ def ending_spec(
     for index in [*partners, SLOTS + point]:
         halves = en_lines(program, PARTNER_LINES + PARTNER_RECORD * index)
         first = DIALOGUE_FIRST + 2 * index
-        for offset, half in enumerate(halves):
-            dialogue.append({"record": first + offset, "lines": [box_line(half), ""]})
+        if layout == "whole":
+            lines = [box_line(half) for half in halves]
+            boxes = [lines, lines]
+        else:
+            boxes = [[box_line(half), ""] for half in halves]
+        for offset, box in enumerate(boxes):
+            dialogue.append({"record": first + offset, "lines": box})
     names, lengths = [], []
     for slot in sorted({point, *partners}):
         address = ARCADE_NAMES + NAME_BYTES * slot
@@ -116,7 +123,8 @@ def ending_spec(
         "schema": SCHEMA_V3,
         "description": (
             f"END-010 official arcade English ending: point slot {point}, partners "
-            f"{list(partners)}. Generated from the local arcade ROM; not committed."
+            f"{list(partners)}, dialogue layout {layout}. Generated from the local "
+            "arcade ROM; not committed."
         ),
         "tables": [
             {
@@ -186,6 +194,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--point", type=int, default=9, help="slot (Ryu = 9)")
     parser.add_argument("--partners", type=int, nargs="+", default=[10, 15])
     parser.add_argument(
+        "--dialogue-layout", choices=("whole", "split"), default="whole"
+    )
+    parser.add_argument(
         "--track",
         type=Path,
         default=Path(
@@ -197,7 +208,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     sets = parse_driver(args.driver.read_text(encoding="utf-8"))
     program = build_program(args.archive, sets[args.set_name or args.archive.stem])
-    spec, targets = ending_spec(program, args.point, args.partners)
+    spec, targets = ending_spec(
+        program, args.point, args.partners, args.dialogue_layout
+    )
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

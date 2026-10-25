@@ -57,6 +57,9 @@ reference facts** (what outside documents say).
     English names). Reference build `end010`.
   - Pitfall: the quote font stays resident after it loads, so verify font
     changes from a cold boot, not by state replay.
+  - `EXP-0045`: each English dialogue line is shown whole across its two-box
+    pair (identical records hand over seamlessly), so there is one block per
+    speaker.
 
   Next: `END-020` (M8).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may

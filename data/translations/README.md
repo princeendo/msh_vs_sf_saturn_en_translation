@@ -52,8 +52,10 @@ the three ending pages."
 - **Scope.** Ryu first (`END-010`). Other characters only after their records
   and pairings are verified (`END-020`).
 - **Layout (user decisions, 2026-10-24).**
-  - Each English partner line is split at its own line break across the two
-    Saturn boxes of its pair.
+  - Revised at the user's request (`EXP-0045`): each English partner line is
+    shown whole in both boxes of its pair, which reads as one block lasting both
+    boxes' time. It was first split at its line break across the two boxes
+    (`EXP-0044`), and that layout is kept as `--dialogue-layout split`.
   - Names use the arcade's English names, in the `MM.BIN` name table, with the
     name-length table matched.
 - **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners

@@ -35,7 +35,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - the English names.
 
   It was verified live from a cold boot and pinned in the regression baseline
-  (`end010`). Next is `END-020` (M8), now `READY`.
+  (`end010`). At the user's request, the dialogue now shows each English line
+  whole, one block per speaker (`EXP-0045`). Next is `END-020` (M8), now
+  `READY`.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2334,6 +2336,13 @@ the user asks or when it unblocks other work.
   - **Pitfall:** a state replay keeps the old quote font, because it is loaded
     after boot and stays resident. Live checks of font changes need a cold
     boot.
+- **Layout revision (2026-10-24, user request, `EXP-0045`; `CONFIRMED`):**
+  - Each English line is now shown whole in both boxes of its pair. Identical
+    records hand over with no visible change (frame-level test), so the
+    dialogue reads as two blocks of about 8 s each.
+  - The `end010` reference was re-baselined to `ba3fb3ce…` (only `MC13.PAC`
+    changes). It was verified by replaying the `EXP-0044` cold-boot states on
+    the new image, for Ryu + Ken and Ryu + Gouki.
 
 ### END-020 - Generalize ending-localization pipeline
 

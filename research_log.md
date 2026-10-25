@@ -3523,3 +3523,30 @@ Conclusion: `END-010` is `DONE` and M7 is complete. `END-020` (M8) is `READY`.
 Checks: pytest (198 passed, 1 skipped), ruff check, ruff format --check, strict
 mypy, and the full reference regression (5 pass).
 
+## 2026-10-24 — END-010 layout revision / EXP-0045: one dialogue block per speaker
+
+User request: show each partner line whole, in one block lasting both boxes'
+time, instead of split across four boxes.
+
+- **T3** (RAM, untouched image): record 36 copied over record 37.
+  - Control: the box changes once (frame 659), with no blank frame.
+  - Duplicate: no change across 201 frames; the whole screen is byte-identical
+    at the hand-over.
+- **Generator:** `official_endings.py --dialogue-layout whole` (the default) or
+  `split`.
+- **Build** `build/end010`, track 01 `ba3fb3ce…`. Only `MC13.PAC` differs from
+  the `EXP-0044` build; the split build is kept as `build/end010_split`.
+- **Replays** of the `EXP-0044` cold-boot stage-map states on the new image
+  (valid because font, names, and pages are byte-identical, and `MC13` reloads
+  at stage 8), with a forced KO:
+  - Ryu + Ken: "RYU, / you're not bad." then "We shall meet again / KEN.";
+  - Ryu + Gouki: "You are worthy / RYU." then "We shall meet again / AKUMA.";
+  - each block about 480 frames, then the unchanged pages.
+- **Regression:** `end010` re-baselined with the reason recorded; all five
+  references pass.
+- **Note:** the first replay command was interrupted by the user by mistake,
+  but had completed the Ryu + Ken run. The partial Ryu + Gouki folder was
+  cleared and rerun.
+
+Checks: pytest, ruff, format, mypy, and the full regression all pass.
+

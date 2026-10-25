@@ -6,6 +6,10 @@ Confidence: CONFIRMED. A deterministic image built from the untouched source
 shows Ryu's ending in official English on a cold boot, with Ken and with Gouki
 as partner, verified live and pinned in the regression baseline.
 
+> **Superseded layout.** The dialogue layout here (split at the line break) was
+> revised at the user's request in `EXP-0045`: each line is now shown whole
+> across its pair. The `end010` reference now points to that build.
+
 ## Observation
 
 The groundwork is in place:

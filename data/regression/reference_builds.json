@@ -111,10 +111,10 @@
   },
   {
    "name": "end010",
-   "experiment": "EXP-0044",
-   "purpose": "Ryu's ending in official English (pages, two partner lines for Ken and Gouki, English names); verified live from a cold boot with Ken and Gouki (END-010).",
+   "experiment": "EXP-0044, EXP-0045",
+   "purpose": "Ryu's ending in official English (pages; the two partner lines for Ken and Gouki, each shown whole across its two-box pair; English names); verified live (END-010, EXP-0044, EXP-0045).",
    "spec": "local/end010/spec/ryu_ending.json",
-   "spec_sha256": "6a0e73e7b1f1828687341ed499e3ba85253c22b02d5158c2dd547b9c7709040e",
+   "spec_sha256": "1d978fe495309d9ac19eb92e051476996e3943bf59966a5c40bac7883db37104",
    "generator_module": "official_endings",
    "generate": [
     "--point",
@@ -123,14 +123,20 @@
     "10",
     "15"
    ],
-   "track01_sha256": "b481a4c6012288e8ef460a3f7a19efebe85dba87360260a78c716e56ae8d2aca",
+   "track01_sha256": "ba3fb3ce6f07fb28be9546f53bd26047bb08d4f1d2685fcd2c29aad98b4e534d",
    "files_sha256": {
-    "MC13.PAC": "bcc0c080204a807fec934bd8425a66778d03780766107b67fbcdf36109a48acd",
+    "MC13.PAC": "dbc116ea514c0194bff3d79f514095ce28b043dfcd9533d0fcdd4a0483865549",
     "ME.PAC": "2dcb9649ef5882dceb3ce90aab061e4e10c41fb7a9054b0124c25bb91921bcdf",
     "MEMFIX.PAC": "31081f6dde1fdc074460a4cc2bb7b0296bdaa2feb42c9b85caee16df5eb017ee",
     "MM.BIN": "d4170893bc1f79cd29ce66e4c53285eae843f2b587f0dac754b9fd7583e330cb"
    },
-   "baselined": "2026-10-24"
+   "baselined": "2026-10-24",
+   "previous": [
+    {
+     "track01_sha256": "b481a4c6012288e8ef460a3f7a19efebe85dba87360260a78c716e56ae8d2aca",
+     "replaced_because": "EXP-0045: dialogue layout 'whole' (full line in both boxes of each pair), at the user's request; only MC13.PAC changes"
+    }
+   ]
   }
  ]
 }
