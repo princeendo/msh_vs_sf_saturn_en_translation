@@ -67,7 +67,9 @@ reference facts** (what outside documents say).
   Japanese text were accepted). `END-023` is done (`EXP-0048`): the combined
   image `build/end023` (reference `m8_roster`). `END-024` is done
   (`EXP-0049`): six endings and a win quote verified live; VEGA replaces
-  BISON (`build/end024_vega`, `e721a167…`). Next: `END-025`, which closes M8.
+  BISON. `END-026` is done (`EXP-0050`): GOUKI and Mech-Gouki follow the
+  Saturn's art too (`build/end027`, `2a5b26b7…`). This is provisional: see
+  `LOC-001` and `docs/localization_plan.md`. Next: `END-025`, which closes M8.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

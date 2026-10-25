@@ -16,8 +16,8 @@ Last run: 2026-10-25.
 | `exp0028a` | `EXP-0028` | `c6d7118e210daf05…` | `58d0c56bedc6d632…` | 2026-10-24 | 2026-10-25 | pass (stored spec) |
 | `tr001` | `EXP-0033` | `aa7fa86397c198d5…` | `f9daacc1211bf423…` | 2026-10-24 | 2026-10-25 | pass (regenerated spec) |
 | `roster` | `EXP-0036` | `b2c097fa5c28a61b…` | `351254c4751e0a49…` | 2026-10-24 | 2026-10-25 | pass (regenerated spec) |
-| `end010` | `EXP-0044, EXP-0045` | `1d978fe495309d9a…` | `ba3fb3ce6f07fb28…` | 2026-10-24 | 2026-10-25 | pass (regenerated spec) |
-| `m8_roster` | `EXP-0048, EXP-0049` | `4ec8ba7d00350fb1…` | `e721a16798832147…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
+| `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
+| `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -98,12 +98,13 @@ Ryu's ending in official English (pages; the two partner lines for Ken and Gouki
 | --- | --- |
 | `MC13.PAC` | `dbc116ea514c0194bff3d79f514095ce28b043dfcd9533d0fcdd4a0483865549` |
 | `ME.PAC` | `2dcb9649ef5882dceb3ce90aab061e4e10c41fb7a9054b0124c25bb91921bcdf` |
-| `MEMFIX.PAC` | `31081f6dde1fdc074460a4cc2bb7b0296bdaa2feb42c9b85caee16df5eb017ee` |
+| `MEMFIX.PAC` | `693ea9fb37f701f76dc7092c439c590ca28d4b35268bc93613d23777dd86cf3f` |
 | `MM.BIN` | `d4170893bc1f79cd29ce66e4c53285eae843f2b587f0dac754b9fd7583e330cb` |
 
-Track 01: `ba3fb3ce6f07fb28be9546f53bd26047bb08d4f1d2685fcd2c29aad98b4e534d`
+Track 01: `7ae5401f5fdee7a4070d6803305a215f53a888db9af2e50a7196970c4a54d190`
 
 - Previous track 01 `b481a4c6012288e8ef460a3f7a19efebe85dba87360260a78c716e56ae8d2aca`: EXP-0045: dialogue layout 'whole' (full line in both boxes of each pair), at the user's request; only MC13.PAC changes.
+- Previous track 01 `ba3fb3ce6f07fb28be9546f53bd26047bb08d4f1d2685fcd2c29aad98b4e534d`: EXP-0050: GOUKI replaces AKUMA in the name table (user decision, provisional).
 
 ### `m8_roster`
 
@@ -113,26 +114,28 @@ Combined roster image: the M5 official English win quotes and the 17 roster endi
 | --- | --- |
 | `MC01.PAC` | `46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39` |
 | `MC02.PAC` | `241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9` |
-| `MC03.PAC` | `dfa5dac26531abe03f841a374de4493324c48ae128df986740259de21b54c452` |
-| `MC04.PAC` | `1a2bdd106bac536ae7f53d2aeaa205fa093ae2e0a2bc324264646e584bc0d8e0` |
-| `MC05.PAC` | `48a2d6433d03a696fc6aa7dc18a2f1daed7798d1bbed9b6e10602ea2d94db50b` |
-| `MC06.PAC` | `e334bd299f0993522957cc4c1cc68a31114ebfda959110ffdc1c89cc38137e08` |
-| `MC07.PAC` | `66a46b151547a8c9817be07d28afa4a06d83362bd1df82d24faa0329163cd767` |
-| `MC08.PAC` | `a75881b1e55facd63edcf825e6718924b23c5c2e1cc05712046b3d0ae187e693` |
-| `MC09.PAC` | `697720e6ab46d2c7dad1c53aaf5bdcb3767e4716f7de20c58366f6126b0167e2` |
-| `MC0A.PAC` | `47ee7fa4c0d1b22d1a34de3b5ed064ccd9561a05e903c7083101aee736a02ab4` |
-| `MC0B.PAC` | `677c76b85cdae9968750bf50ab4730bfc2bcc2716900ba85540515c5e131fc65` |
-| `MC0C.PAC` | `f6ec186f9e2a77a4497c1cd89d88df73ca520fa649be7332a0823c4a2aedf460` |
-| `MC0D.PAC` | `09759413c8d47fdecc9c3d37d2e3e8b432a45afb0742887ee716809243f3324a` |
-| `MC0E.PAC` | `d94a1ed9d4b161a2e8893b55b584141a0ebc21b116bc709b358ace47c914d21b` |
-| `MC0F.PAC` | `8b620327982c232813f17ce29952d92e55e4b0fa66779de2a09033ed7193c486` |
-| `MC10.PAC` | `41c8fa5dd10432a15fae8f21f00f5d038f536349cdc86f836f085bd61b504c41` |
-| `MC12.PAC` | `e92bd50d35813b1645f5b582bfccec3641535cb3c3e828fb8d969a8da2edff58` |
-| `MC13.PAC` | `1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace` |
-| `ME.PAC` | `c809b2efd50c4bac6aa9c3f04c8606c11b2f5867eade74aba06e7d3a6eacf675` |
-| `MEMFIX.PAC` | `a58193fd0160338bda369e939a3b34a31f52f2d24f931f913f44c28e77141d53` |
-| `MM.BIN` | `875c0d4d98a8b5ba6c38066ccd712e2856727070bf2ba389d3e9982a183eaf6c` |
+| `MC03.PAC` | `cdbaa4290df5dab9f3ed9d10d65d6103b984dad15cd39a6bfd60d94f27158816` |
+| `MC04.PAC` | `cc7730c18750c4b33cb8b8034566e08aafe9babade86e90f2524c4054e56e1ec` |
+| `MC05.PAC` | `f2351a5967d47bf86df341e4e6a83b29fc0faebb213753172a980e858e9ee930` |
+| `MC06.PAC` | `91d44cf94b19c14a880e44ae390f95f0ed9b2b8dcea089115f4eb862691cd2a8` |
+| `MC07.PAC` | `87f8f4df48778311ec4d24e3ae764d6a7d1c4125e310910d2fb272c7a4d55f2f` |
+| `MC08.PAC` | `d0bf6327122e51830a5940356429a59cdf743a58fd68cda9138e23e4a61a6195` |
+| `MC09.PAC` | `7755879fe5c48ac969da8dacb1d743c66210f13a3f33d24cedfb469ab9f0332a` |
+| `MC0A.PAC` | `f537e8117e8d852d409f2d5c472b0a3287173b0021e7ae08f20de64a12e0905d` |
+| `MC0B.PAC` | `c7d19f9c2d32cf74cedd87584cb6081413526eb258b3001e9cfa68665ae7b7f6` |
+| `MC0C.PAC` | `1c1ce517d47d893d62ac66c7e21cdce9ae1277774478631fc87e885f5b21e76f` |
+| `MC0D.PAC` | `8f3160bde51dc8eea54bd43f99256aee953aba5cbb16f8061c151a9f5dc49a03` |
+| `MC0E.PAC` | `1ddbb3c43c0c37d0472a6b46e02c578def9ed4c6a91e4c63c59154763095386a` |
+| `MC0F.PAC` | `eb8e3cad71a814c3a454a9df16f27a006b120d87fa8bdd7203cebed1a1ebf55b` |
+| `MC10.PAC` | `c5a484083d48d3a896d11bdb96938bb7e71d46f3f2cd09b555357f1bf85cd32a` |
+| `MC12.PAC` | `74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a` |
+| `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
+| `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
+| `MEMFIX.PAC` | `ec7a7c4479cfed1af9cd3e705d2353c3a6757d89e7bfc014d6ba9254ab0e7760` |
+| `MM.BIN` | `d8ab1dea75d725ec8cfdfdee516137f5bba8d6b5bdbe1679311717a3e2de819e` |
 
-Track 01: `e721a16798832147a8a2ab2517aea8e100ed29a79af7fefd115327274a6bff20`
+Track 01: `2a5b26b75a0d908050ccf361c99f37a2f2a83dc70e3dc9612e5e98c16da5624d`
 
 - Previous track 01 `c06cf0ef6e1e74dde1543c800941653fde0161f64e9966e2d6e93de47ed26c45`: EXP-0049: user decision, the dictator's inserted name is VEGA (the Saturn's Japanese naming) instead of BISON; only MEMFIX.PAC and MM.BIN change.
+- Previous track 01 `e721a16798832147a8a2ab2517aea8e100ed29a79af7fefd115327274a6bff20`: END-026: Mech-Gouki replaces Cyber Akuma in Vega's ending page (user decision).
+- Previous track 01 `61ced9f964139cc250d71292342206915196230b11ab5fdeec42a100a4d90ad7`: EXP-0050: GOUKI replaces AKUMA in names, win quotes, and ending text (user decision, provisional).

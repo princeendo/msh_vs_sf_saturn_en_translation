@@ -62,11 +62,18 @@ the three ending pages."
   name table is global. The user accepted English names inside the Japanese
   lines a roster image leaves: excluded characters' lines and one `MM.BIN` line
   (`EXP-0047`).
-- **Vega, not Bison (user decision, 2026-10-25).** The Saturn is the Japanese
-  release: its art, labels, and voice call the dictator Vega. The inserted name
-  follows it (`NAME_OVERRIDES` in `tools/text/official_endings.py`) instead of
-  the US arcade's BISON. No official English line in scope names him; the art
-  and audio are not changed.
+- **The Saturn's names, not the US arcade's (user decisions, 2026-10-25;
+  provisional).** The Saturn is the Japanese release: its art, labels, and
+  voice say Vega, Gouki, and Mech-Gouki. So the English text uses VEGA (not
+  BISON), GOUKI (not AKUMA), and Mech-Gouki (not Cyber Akuma).
+  - Implemented by `NAME_OVERRIDES` and `TEXT_OVERRIDES` in
+    `tools/text/official_endings.py`. They cover the inserted names, the ending
+    pages, the dialogue, and the combined image's win quotes (`EXP-0049`,
+    `EXP-0050`).
+  - The art and audio are not changed. Keeping text, art, and voice consistent
+    under US names would need new voice samples. The final policy is
+    `LOC-001`; options and every affected line are in
+    `docs/localization_plan.md`.
 - **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners
   (`tools/text/official_endings.py`). The text is read from the local ROM at
   build time and not committed.

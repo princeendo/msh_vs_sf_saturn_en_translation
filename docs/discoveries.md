@@ -985,6 +985,30 @@ Experiment: `EXP-0049`
   two-against-two fights.
 - **Reproduce.** `research/experiments/EXP-0049/README.md`.
 
+## END-026: The Saturn's Names in the English Text
+
+Confidence: **CONFIRMED** (the mechanism and the live result; the naming policy
+itself is provisional, `LOC-001`)
+
+Experiment: `EXP-0050`
+
+- **Finding.** `TEXT_OVERRIDES` ("Cyber Akuma" → "Mech-Gouki", then "Akuma"
+  → "Gouki") and `NAME_OVERRIDES` (14: VEGA, 15: GOUKI) in
+  `tools/text/official_endings.py` change exactly the roster lines that name
+  these characters:
+  - two name entries;
+  - Gouki's win quote;
+  - pages of Wolverine's, Vega's, Gouki's, and Dan's endings.
+- **Build and live result.** The image is `2a5b26b7…` (reference `m8_roster`).
+  From a cold boot it showed "GOUKI, / you are a great fighter.", Gouki's
+  pages with "Gouki", and Vega's page with "Mech-Gouki".
+- **The Saturn's own art.** The VS screen labels the characters "GOUKI" and
+  "MECH-GOUKI" (frames `0268cc2d…`, `14d5ba76…`).
+- **Side effect.** Centring shifts are chosen over a whole quote set, so a text
+  change can move unrelated lines by half a character. That is harmless; the
+  renders were read.
+- **Reproduce.** `research/experiments/EXP-0050/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -3654,3 +3654,55 @@ Next action: `END-024` (live sample; the user works menus from one cold boot).
 
 Next action: `END-025` (coverage exceptions, regression report, and remaining
 unknowns; closes M8).
+
+## 2026-10-25 — END-026 / EXP-0050: the Saturn's names in the English text (provisional)
+
+**Revisit this decision before any release** (`LOC-001`;
+`docs/localization_plan.md` holds the options and every affected line).
+
+- **How it came about** (user decisions, 2026-10-25, in order):
+  1. During `END-024` the user noted that the Saturn's art and voice say
+     **Vega**. BISON was switched to VEGA in the name table (`EXP-0049`).
+  2. After seeing the VS screen's "MECH-GOUKI" (`EXP-0049` frame `f00009412`),
+     the user asked for "Cyber Akuma" → **"Mech-Gouki"** in the text.
+  3. Then the user asked for "AKUMA" → **"GOUKI"** wherever it appears, "for
+     now".
+- **Why provisional.** The user's point: making the text follow the US names
+  instead would also need voice samples to stay consistent with the Saturn's
+  announcer, and edited art. Not yet planned.
+  - The current policy keeps text, art, and voice consistent under the
+    Japanese-release names, at no art or audio cost.
+  - Open questions: which convention; whether audio is in scope; where clips
+    could come from (unverified); and names for excluded characters.
+- **What was changed** (all in `tools/text/official_endings.py`):
+  - `NAME_OVERRIDES = {14: "VEGA", 15: "GOUKI"}`;
+  - `TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki"}`,
+    applied in order to the pages, the dialogue, and the combined win quotes.
+- **Sites** (roster image): the slot 14 and 15 names; Gouki's win quote
+  (`MC0F` records 7 and 15); and the ending pages of Wolverine (`0x2F54`),
+  Vega (`0x3CFC`), Gouki (`0x3DE0`), and Dan (`0x40D8`). No other roster line
+  names these characters.
+- **Side effect:** the new win-quote text moved three other characters'
+  win-quote lines by half a character (centring shifts are chosen over the
+  whole set). The renders were read.
+- **Builds:**
+  - `build/end026` (Mech-Gouki only, `61ced9f9…`) was verified live: Vega's
+    page 1 reads "behind the Mech-Gouki!!".
+  - `build/end027` (plus GOUKI, `2a5b26b7…`): all checks pass, deterministic,
+    renders read.
+  - `m8_roster` and `end010` were re-baselined (reasons recorded); all six
+    references pass.
+- **To revert:** empty both override tables, rebuild, re-baseline, and do one
+  cold-boot check.
+- **Live check of `build/end027`** (Gouki + Ryu, one cold boot):
+  - "GOUKI, / you are a great fighter.", then "The fight is all we have, /
+    RYU.";
+  - Gouki's three pages, with "Gouki";
+  - the VS screen art says "GOUKI" and "MECH-GOUKI".
+
+  `END-026` is `DONE`.
+- **Checks:** `pytest` 204 passed, 1 skipped; `ruff check`, `ruff format
+  --check`, and `mypy tools` are clean. The regression passes 6 of 6.
+
+Next action: `END-025` (closes M8). `LOC-001` is a backlog decision, to be
+taken before a release.

@@ -47,8 +47,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   (`EXP-0048`): one deterministic image holds the M5 win quotes (files
   unchanged) and all 17 roster endings (`m8_roster`). `END-024` is done
   (`EXP-0049`): six sampled endings and a win quote verified live. At the
-  user's request the dictator is VEGA (`build/end024_vega`, `e721a167…`).
-  Next: `END-025` (`READY`), which closes M8.
+  user's request the dictator is VEGA. `END-026` is done (`EXP-0050`):
+  following the Saturn's art, the text also uses GOUKI and Mech-Gouki
+  (`build/end027`, `2a5b26b7…`). This is provisional: the final naming policy
+  is `LOC-001` (`docs/localization_plan.md`). Next: `END-025` (`READY`),
+  which closes M8.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2514,6 +2517,60 @@ the user asks or when it unblocks other work.
   - Remaining unknowns are recorded, such as the KO character's effect, the
     opponent's vitality in two-against-two fights, the CAPTAIN AMERICA
     centring, and whether Dan's empty last page should get "THE END".
+
+### END-026 - Use the Saturn's names in the English text (Mech-Gouki, Gouki)
+
+- **Status:** `DONE` (2026-10-25)
+- **Milestone:** M8
+- **Dependencies:** END-024.
+- **Blockers:** None.
+- **Objective:** Follow the Saturn's art and voice in the English text, as
+  already done for VEGA. "Cyber Akuma" becomes "Mech-Gouki", and "Akuma" or
+  "AKUMA" becomes "Gouki" or "GOUKI".
+- **User decisions (2026-10-25):**
+  - "Cyber Akuma" → "Mech-Gouki", because the Saturn's VS screen shows
+    MECH-GOUKI.
+  - "AKUMA" → "GOUKI" wherever it appears, for now.
+  - Both are **provisional**: art and audio stay Japanese-release, and the
+    final naming policy is `LOC-001` (`docs/localization_plan.md`).
+- **Acceptance criteria:**
+  - Every roster occurrence is changed (census in `EXP-0050`).
+  - Deterministic build; all checks pass; renders read.
+  - `m8_roster` and `end010` re-baselined; all references pass.
+  - Live cold-boot checks of the Mech-Gouki page and of GOUKI (name and page
+    text).
+- **Evidence (`EXP-0050`):**
+  - `build/end026` showed Vega's page "behind the Mech-Gouki!!" live.
+  - `build/end027` (`2a5b26b7…`, reference `m8_roster`) showed:
+    - "GOUKI, / you are a great fighter.";
+    - Gouki's pages, with "Gouki";
+    - the VS screen's own "GOUKI" and "MECH-GOUKI".
+  - All references pass.
+
+### LOC-001 - Final character-name policy across text, art, and audio
+
+- **Status:** `BACKLOG`
+- **Priority:** decide before a release (`REL-001`)
+- **Milestone:** Reference
+- **Dependencies:** END-026.
+- **Blockers:** A user decision, after the evidence below.
+- **Objective:** Choose between:
+  - the Saturn's names everywhere (current, text only);
+  - US names everywhere (text, art, and announcer audio).
+
+  Record the decision. The questions, the options, and every affected text
+  site are in `docs/localization_plan.md`.
+- **Rationale:** The text can follow either convention cheaply. Art and voice
+  cannot (user, 2026-10-25: changing the names in text alone would need voice
+  samples to stay consistent).
+- **Acceptance criteria:**
+  - An inventory of the screens and voice lines that show or speak the three
+    regional names (Vega, Gouki, Mech-Gouki), with evidence.
+  - A user decision recorded in `data/translations/README.md`.
+  - If the decision changes the current text, the overrides are updated,
+    rebuilt, and verified.
+  - If it requires art or audio work, new tasks are created with their own
+    experiments. Nothing is started without approval.
 
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 

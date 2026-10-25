@@ -59,16 +59,26 @@ MM_NAMES, NAME_LEAD = 0x7D3C0, 2  # MM.BIN name table; two leading blank cells
 MM_NAME_LENGTHS = 0x96DE8  # MM.BIN: one byte per slot, cells inserted per name
 NAME_GUESS = 2  # cells assumed for an inserted name when centring a line
 WIN_QUOTES_EN = 0x20C014  # arcade English win-quote table (EXP-0029)
-# User decision (2026-10-25, END-024): the Saturn is the Japanese release, whose
-# graphics and voice call the dictator Vega, so the inserted name follows it
-# instead of the US arcade's BISON.
-NAME_OVERRIDES = {14: "VEGA"}
+# User decisions (2026-10-25, END-024, END-026): the Saturn is the Japanese
+# release, whose art and voice say Vega, Gouki, and Mech-Gouki, so the English
+# text follows it instead of the US arcade's BISON, AKUMA, and Cyber Akuma.
+# Provisional: the art and audio are not changed (`LOC-001`).
+NAME_OVERRIDES = {14: "VEGA", 15: "GOUKI"}
+# Applied in order, so "Cyber Akuma" is replaced before "Akuma".
+TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki"}
+
+
+def localize(line: str) -> str:
+    """Apply ``TEXT_OVERRIDES`` to one line of official English or a win quote."""
+    for old, new in TEXT_OVERRIDES.items():
+        line = line.replace(old, new)
+    return line
 
 
 def en_lines(program: bytes, address: int) -> list[str]:
-    """The two lines of an arcade English record, stripped."""
+    """The two lines of an arcade English record, stripped and localized."""
     text = latin(program, address, EN_RECORD)
-    return [text[:EN_CELLS].strip(), text[EN_CELLS:].strip()]
+    return [localize(text[:EN_CELLS].strip()), localize(text[EN_CELLS:].strip())]
 
 
 def box_line(text: str) -> str:
@@ -247,7 +257,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.with_win_quotes:
         if not roster:
             parser.error("--with-win-quotes needs --roster")
-        quotes = [s.quotes for s in read_quote_table(program, WIN_QUOTES_EN, SLOTS)]
+        quotes = [
+            [[localize(line) for line in quote] for quote in s.quotes]
+            for s in read_quote_table(program, WIN_QUOTES_EN, SLOTS)
+        ]
         tables = spec["tables"]
         assert isinstance(tables, list)
         win_quote_tables = roster_spec(quotes, roster)["tables"]
