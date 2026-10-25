@@ -44,8 +44,11 @@ reference facts** (what outside documents say).
     generic partner lines). Any arcade ending is reachable in MAME with no play
     (`tools/reference/arcade_ending_route.py`).
 
-  Next: `END-005` (one gameplay session) and the user's dialogue scope decision
-  for `END-010`.
+  - The scope decision for `END-010` is made (user, 2026-10-24): official arcade
+    English for the three pages, and the arcade's two English partner lines for
+    the post-boss dialogue (`data/translations/README.md`).
+
+  Next: `END-005` (one gameplay session), then `END-010`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

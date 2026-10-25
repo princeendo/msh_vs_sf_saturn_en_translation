@@ -2248,22 +2248,34 @@ the user asks or when it unblocks other work.
 - **Status:** `BACKLOG`
 - **Milestone:** M7
 - **Dependencies:** END-001, END-002, END-004, END-005, END-006, END-007.
-- **Blockers:** Selection logic (`END-005`) is not yet established, and the
-  dialogue scope decision (user) is open. Official English (`END-006`) and the
-  marker build (`END-007`) are done. The renderer
-  (`EXP-0038`), RAM layout (`EXP-0039`), and disc sources (`EXP-0040`) are
-  done.
+- **Blockers:** Selection logic (`END-005`) is not yet established: which
+  dialogue records each partner uses, and therefore where the two English lines
+  go. The scope decision is made (user, 2026-10-24). Official English
+  (`END-006`), the marker build (`END-007`), the renderer (`EXP-0038`), the RAM
+  layout (`EXP-0039`), and the disc sources (`EXP-0040`) are done.
 - **Objective:** Reproduce one Ryu ending localization from untouched source.
 - **Rationale:** One complete case is required before generalizing endings.
 - **Acceptance criteria:** Live/source behavior is experimentally established; official text provenance, exact modifications, deterministic build, and visible verification are documented.
 - **Outputs:** M7 experiments, tools, local evidence, confirmed discoveries.
 - **Notes:** Do not generalize from the first ending in this task.
-  - Scope to settle first, as a user decision: does "Ryu's ending" include the
-    post-boss dialogue, or only the three ending pages (`EXP-0037`)?
-    - `EXP-0042`: official English exists for the pages.
-    - For the dialogue, the arcade English has only two generic partner lines.
-    - Options: adopt those, use a non-official translation (a gate
-      decision), or leave the dialogue in Japanese.
+  - **Scope (user decision, 2026-10-24):** "use the arcade's two official
+    English partner lines for the post-boss dialogue, and the official English
+    for the three ending pages."
+    - Pages: English table `0x20C1B4`, slot 9 (`EXP-0042`), three records of
+      2 × 25 cells into the three 2 × 19 Saturn page records.
+    - Dialogue: the partner's line (record = partner slot) and Ryu's reply
+      (record 35), from the table at `0x22226C`. The placeholder `0x0000`
+      stays, filled from the name table.
+    - Open design question for this task, to be decided by experiment, not
+      assumed: the Saturn shows four boxes (two partner-specific, then two
+      shared Ryu boxes, `EXP-0041`), and the English has two lines.
+      - The natural mapping is partner line → the partner's boxes, and Ryu's
+        reply → the shared Ryu boxes.
+      - How to show one line where the Saturn shows two boxes is untested. A
+        blank record's behavior is unknown.
+    - Names: English uses its own names (AKUMA for Gouki). The Saturn name
+      table (WRAM-H, `EXP-0039`) holds Japanese names, and changing it may
+      affect other screens. That is untested.
   - Route, from `EXP-0038` to `EXP-0040`:
     - pages are raw codes in `ME.PAC`, so they can be edited in place;
     - the dialogue is in LZSS `MC13.PAC` and needs a re-encode;

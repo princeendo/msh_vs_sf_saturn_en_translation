@@ -3433,3 +3433,17 @@ the arcade's two lines, use a non-official translation, or leave it Japanese).
 
 Next action: `END-005`, and the user's dialogue scope decision.
 
+## 2026-10-24 — END-010 scope decision (user)
+
+- The decision, in the user's words: "For END-010, use the arcade's two official
+  English partner lines for the post-boss dialogue, and the official English for
+  the three ending pages."
+- Recorded in `END-010` and in `data/translations/README.md` (ending policy).
+- `END-010` stays `BACKLOG`. It depends on `END-005`, which shows which
+  dialogue records each partner uses.
+  - The two English lines must replace four Saturn boxes: two
+    partner-specific, then two shared Ryu boxes (`EXP-0041`).
+  - Showing one line where two boxes play is an open design question for an
+    experiment.
+- No code changed.
+
