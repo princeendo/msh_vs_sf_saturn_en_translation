@@ -3991,3 +3991,27 @@ redesign.
     input.
 - **Checks:** `pytest` 218 passed, 1 skipped; `ruff`, `ruff format`, and
   `mypy` are clean.
+
+## 2026-10-25 — LOC-002 / EXP-0054: name art and voice inventory (in progress)
+
+- **Life bars:** quote-font label cells; both conventions are in the font
+  (VEGA `0x760`/BISON `0x763`; GOUKI/AKUMA; MECH-GOUKI `0x568`/CYBER-AKUMA).
+  A BISON swap was shown in a replay with a transplanted font.
+- **Win banner:** large letter glyphs `0x2E0`-`0x35F`, so the name is spelled;
+  its string table is not located.
+- **Ending speaker labels:** an ASCII table in `ME.PAC` `0xB164`, which
+  already contains Akuma and Bison.
+- **Menus and sound test:** ASCII in `MM.BIN` ("MECH-GOUKI NOW!!" `0x24F03`;
+  "18.VEGA"/"22.GOUKI" near `0x6341`).
+- **VS screen:** mosaic sprites. The source is not found raw or as LZSS;
+  probably `SEL*.PAC`.
+- **Audio:** `.ADP` files are music. Voice candidates are `CMNSE.PAC` and
+  `PLxx.PAC`, and identifying the clip needs listening.
+- **Not productive:**
+  - static searches for the label-code table (coincidental matches);
+  - write breakpoints on GBR+16/+18 for label bases (too noisy;
+    coincidences);
+  - a tile search for VS name art across all files.
+- **User question (PS1 vs arcade):** most surfaces need no import. For the VS
+  screen and voice, PS1 is recommended first (linear TIM images, SPU/XA
+  audio), after confirming the Saturn lacks them.

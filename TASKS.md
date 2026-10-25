@@ -2757,13 +2757,23 @@ the user asks or when it unblocks other work.
 
 ### LOC-002 - Inventory and scope the name art and voice (Vega/Gouki/Mech-Gouki)
 
-- **Status:** `READY` (requested 2026-10-25)
+- **Status:** `IN_PROGRESS` (2026-10-25, `EXP-0054`; inventory done, voice and VS-art source left)
 - **Priority:** medium (user)
 - **Milestone:** Reference
 - **Dependencies:** END-026.
 - **Blockers:** None.
 - **Objective:** Find out what it would take to show the US names (Bison,
   Akuma, Cyber-Akuma) in the art and voice, and report the cost.
+- **Progress (`EXP-0054`):**
+  - The US art and text already exist on the Saturn disc for the life bars
+    (BISON/AKUMA/CYBER-AKUMA cells; a BISON swap shown by replay), the ending
+    speaker labels (`ME.PAC` table has "Akuma" and "Bison"), and the
+    win-banner letters.
+  - Menu and sound-test names are plain ASCII in `MM.BIN`.
+  - Unknown: the VS-screen name art source (probably `SEL*.PAC`) and which
+    voice clip says the name.
+  - Sourcing view in `docs/localization_plan.md`: PS1 first, if imports are
+    needed.
 - **Acceptance criteria:**
   - Every screen that shows a regional name as art is listed, with frames:
     character select, VS screen, life bars, win screen, ending speaker labels,
