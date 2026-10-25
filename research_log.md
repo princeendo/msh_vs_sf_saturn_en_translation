@@ -3908,3 +3908,23 @@ squeezed, or the arcade font (`REF-012`).
 
 Next: the gold investigation (`EXP-0052` next experiments), then the `W`
 redesign.
+
+### 2026-10-25 — FONT-011 gold dig, round 2
+
+- The grey caption bank appears at frame 91 (second copy), then 92 (both),
+  after `end024v f00008668`. There is no other RAM copy in frames 60-121.
+- Both SH-2s run `CheckRWBreakpoints` (`ss.cpp`). The invisible writer is
+  DMA, or a store the pre-decode check misses (HYPOTHESIS: delay slots). SCU
+  DMA `0x0601BABC` is direct mode, CRAM uploads only.
+- **Palette path:**
+  - the emitter `0x060733BC` uses `@(14,GBR) & 0x1F`;
+  - `@(12,GBR)` = `0x1E` is restored from a shared context stack
+    (`0x06019B5C`);
+  - the per-object source is behind the object interpreter. Not found yet.
+- **Not productive (do not retry blindly):**
+  - write breakpoints on the CRAM-copy bank (no hits);
+  - write breakpoints on the shared context stack (only save/restore
+    traffic);
+  - the `0x0842` constants at `0x0603AF1E`/`0x0603AF46`, which sit in an
+    opcode table.
+- Three remaining routes are recorded in `EXP-0052`.

@@ -144,6 +144,40 @@ One cold boot of `build/font011/image_a`, with the recorder
   "対戦者求む!" (`UI-001`), seen in this recording. The user also reports
   Japanese alternating with "EASY" at mode select (`UI-002`).
 
+## Gold Investigation, Round 2 (2026-10-25)
+
+- **When the bank changes.** Frame-by-frame WRAM dumps after
+  `end024v f00008668` show the grey bank appearing at frame 91 in the second
+  copy (`0x060C8FE4`), and in both copies from frame 92. No other copy of it
+  is in WRAM-L or WRAM-H at any frame from 60 to 121.
+- **Both CPUs are checked by write breakpoints.** In Mednafen's `ss.cpp`,
+  `DBG_CPUHandler<0>` and `<1>` both call `CheckRWBreakpoints`, so the slave
+  SH-2 is not the blind spot.
+  - The writer is DMA, or a store that the pre-decoding breakpoint check
+    misses (HYPOTHESIS: stores in branch delay slots).
+  - The SCU DMA routine (`0x0601BABC`) uses direct mode, start factor 7, and
+    only for CRAM uploads.
+- **Palette number path.** The emitter (`0x060733BC`) takes
+  `palette = @(14,GBR) & 0x1F` and merges it into each cell's attribute.
+  - `@(12,GBR)` (long `0x0000001E` for the win quote) is restored from a
+    shared context stack (`0x06019B5C`, near `0x060F0428`), which every object
+    passes through each frame.
+  - The object's own storage, and the code that first sets `0x1E`, are not
+    found yet. They are behind the game's object interpreter (`trapa`-
+    separated code).
+- **The grey bank cannot show gold.** Its entries are grey, `A` (80,80,80),
+  `B` (16,16,0), red-orange `C`-`E`, and black. There is no yellow.
+
+**Remaining routes to gold** (each a separate effort):
+1. Reverse-engineer the object interpreter far enough to find where caption
+   objects get palette `0x1E` (win quote), `0x03` (dialogue), and `0x1F`
+   (pages), and change those to `0x01`, the gold bank. Data change only.
+2. Patch the generic emitter (`0x060733BC`) to map caption palettes to `0x01`
+   only for caption glyph patterns (`0x50xx`, to be proven unique to
+   captions). This would be the project's first SH-2 code patch.
+3. Find the invisible grey-bank writer, for example by single-stepping frame
+   90 to 91 around the copy, and change its base colour.
+
 ## Conclusion So Far
 
 1. **CONFIRMED (silver):** credits-style pairs replace the quote-style ones
