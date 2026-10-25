@@ -3394,3 +3394,42 @@ to the source image: raw edits to `ME.PAC`, and full re-encodes of `MC13`.
 Next action: `END-005` (controlled partner run, one gameplay session) or
 `END-006` (arcade reference, no gameplay).
 
+## 2026-10-24 — END-006 / EXP-0042: arcade reference for Ryu's ending
+
+Task: END-006
+
+Goal: Capture the arcade Japanese and official English for Ryu's ending and
+the post-boss dialogue, with no Saturn gameplay.
+
+Action and result:
+
+- **ROM search.** All seven Saturn records occur verbatim in all three
+  programs.
+  - Pages are at `0x2153CC`, behind a four-language 26-slot page table
+    (`0x20C14C`/`1B4`/`21C`/`284`).
+  - The English pages for Ryu (`0x21F580`) are 3 × 2 × 25 cells.
+  - `MC13` records 16-119 = arcade block `0x217BE0` (319 records past slot 19).
+  - The English has no counterpart of the four-box dialogue, only a 52-record
+    partner-line table at `0x22226C`.
+- **No-play MAME route.**
+  - Saturn run 1 states gave the stage byte `0x060F4881` (4-7 over stages 5-8)
+    and the boss vitality `0x060F3E50`.
+  - Forcing `0xFF4880` = `0x0607` and `0xFF3E50`/`0xFF4844` = 0 in MAME gave
+    stage 8 and an instant KO.
+  - The first run looped stage 8, because the stage was never released. Fixed
+    by releasing both words during and after the fight.
+- **Screens.**
+  - `mshvsfj` (Ryu/Ken and Ryu/Gouki): the Saturn's Japanese dialogue and
+    pages.
+  - `mshvsfu`/`mshvsf`: English pages, plus two partner lines.
+    - Ryu/Ken: records 10 and 35.
+    - Ryu/Akuma: predicted as records 15 and 35, then seen.
+- **New tools:** `arcade_endings.py` and `arcade_ending_route.py`, with tests.
+  The route tool reproduces the Gouki timeline.
+
+Conclusion: `CONFIRMED` (discoveries `END-006`). Gap: no official English for
+the Saturn four-box dialogue. That is the scope decision for `END-010` (adopt
+the arcade's two lines, use a non-official translation, or leave it Japanese).
+
+Next action: `END-005`, and the user's dialogue scope decision.
+

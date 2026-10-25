@@ -39,7 +39,13 @@ reference facts** (what outside documents say).
     source load the edited `ME.PAC`/`MC13` with nothing else changed, and the
     page marker showed in a live run.
 
-  Next are `END-005` (needs gameplay) and `END-006` (no gameplay).
+  - `END-006` is done (`EXP-0042`): official arcade English exists for Ryu's
+    ending pages, but not for the four-box dialogue (the English sets show two
+    generic partner lines). Any arcade ending is reachable in MAME with no play
+    (`tools/reference/arcade_ending_route.py`).
+
+  Next: `END-005` (one gameplay session) and the user's dialogue scope decision
+  for `END-010`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
@@ -156,8 +162,8 @@ Authorities are cataloged in `docs/references.md`.
 | Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py`, `glyph_match.py`, `code_search.py` | Render, compile, font, match glyph cells to codes, find code sequences |
 | Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py`, `session_recorder.py`, `write_trial.py` | Headless runs, checks, gameplay recording, and write trials |
 | Regression | `tools/regression/reference_builds.py` | Rebuild reference images, compare hashes |
-| Arcade | `tools/reference/mame_audit.py`, `cps2_text.py`, `quote_pairing.py` | Identity, text, pairing |
-| MAME | `tools/reference/mame_timeline.lua`, `arcade_route.py`, `mame_snap_frames.lua` | Scripted runs |
+| Arcade | `tools/reference/mame_audit.py`, `cps2_text.py`, `quote_pairing.py`, `arcade_endings.py` | Identity, text, pairing, endings |
+| MAME | `tools/reference/mame_timeline.lua`, `arcade_route.py`, `arcade_ending_route.py`, `mame_snap_frames.lua` | Scripted runs (win quotes, endings) |
 
 Run Python through `./invenv.sh`. Keep outputs containing game text or images under
 ignored `local/` or `build/`.

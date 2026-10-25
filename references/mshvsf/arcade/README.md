@@ -237,6 +237,31 @@ Working conclusions until captures settle them:
   tasks (`SPECIAL-001` for M9, `END-001` for M6). `REF-008` only records these
   claims; it does not extract, translate, or modify that content.
 
+## Ending Text (`END-006`, `EXP-0042`)
+
+- **Ending pages.** Four 26-slot pointer tables, one per language, identical in
+  all three sets:
+
+  | Language | Table | Record size |
+  | --- | --- | --- |
+  | Japanese | `0x20C14C` | 76 bytes (2 × 19 cells) |
+  | English | `0x20C1B4` | 100 bytes (2 × 25 cells) |
+  | Spanish | `0x20C21C` | 100 bytes |
+  | Portuguese | `0x20C284` | 100 bytes |
+
+  Ryu's (slot 9) Japanese pages equal the Saturn `ME.PAC` records.
+- **Japanese post-boss dialogue.** A 104-record block at `0x217BE0`, 319 records
+  past the slot-19 win-quote base. It equals Saturn `MC13` records 16-119,
+  except records 54/55 and 106/107.
+- **English partner lines.** 52 records at `0x22226C`, with a `0x0000` name
+  placeholder. Partner line = record partner-slot; point reply = record
+  26 + point-slot (`SUPPORTED`). There is no English version of the Japanese
+  multi-box dialogue.
+- **No-play route.** Force `0xFF4880` = `0x0607` (stage 8) and the boss vitality
+  `0xFF3E50`/`0xFF4844` = 0 (`tools/reference/arcade_ending_route.py`).
+- `tools/reference/arcade_endings.py` writes one character's ending text to an
+  ignored JSON.
+
 ## Rules
 
 - Only hashes, set names, member names, CRCs, and other factual metadata are

@@ -160,8 +160,14 @@ then three ending pages (a picture panel and a bottom text box).
 - **Continue.** Continuing after a final-boss loss went to character select and
   then `STAGE-08` (`SUPPORTED`, one run). Does that hold for every pick order and
   side?
-- **Arcade.** Do the arcade sets show the same dialogue and pages, and does
-  official English exist for each line? (`END-006`)
+- **Arcade.** Answered for Ryu (`EXP-0042`): the Japanese records are identical,
+  and English exists for the pages. The dialogue is replaced in English by two
+  generic partner lines. Still open:
+  - other characters' endings;
+  - the partner-line indexing beyond two partners;
+  - Saturn `MC13` records 54/55 and 106/107, which do not match the arcade
+    block;
+  - how to handle the dialogue in English (a user decision).
 
 ## Cross-Release Evidence
 

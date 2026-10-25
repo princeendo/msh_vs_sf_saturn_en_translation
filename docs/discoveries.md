@@ -816,6 +816,32 @@ Experiment: `EXP-0041`
   - The splice re-encode does not fit `MC13`'s 1 byte of slack; use `--full`.
 - **Reproduce.** `research/experiments/EXP-0041/README.md`, Procedure.
 
+## END-006: Arcade Reference for Ryu's Ending
+
+Confidence: **CONFIRMED** (records, screens); the English partner-line indexing
+is `SUPPORTED`
+
+Experiment: `EXP-0042`
+
+- **Japanese records.** The Saturn's Ryu ending pages and Ryu/Gouki dialogue
+  records are byte-identical in `mshvsf`, `mshvsfu`, and `mshvsfj`.
+  - Pages: Japanese table `0x20C14C`, slot 9 → `0x2153CC`.
+  - Dialogue: block `0x217BE0` = Saturn `MC13` records 16-119.
+- **English pages.** Official English exists for Ryu's three ending pages:
+  table `0x20C1B4`, slot 9 → `0x21F580`, 2 × 25 cells. They were seen on
+  screen in `mshvsfu` and `mshvsf`.
+- **English dialogue.** It does not translate the Japanese four-box dialogue.
+  It shows two generic lines from the 52-record partner table at `0x22226C`,
+  each naming the other character with `0x0000`.
+  - Ryu/Ken: records 10 and 35.
+  - Ryu/Akuma: records 15 and 35. This was predicted, then seen.
+- **No-play route.** The arcade stage word `0xFF4880` and the boss vitality
+  `0xFF3E50`/`0xFF4844` are at the Saturn's WRAM-H offsets (`0x060F` →
+  `0xFF`). Forcing them reaches any ending in MAME with no play.
+- **Limits.** Only Ryu, with Ken and Gouki, was observed. The indexing code is
+  not traced.
+- **Reproduce.** `research/experiments/EXP-0042/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:

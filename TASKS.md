@@ -21,8 +21,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   are:
   - `END-007` is done (`EXP-0041`): edited `ME.PAC`/`MC13` load from a derived
     image, and the page marker showed live;
-  - `END-005`: what selects the dialogue and ending (one gameplay session);
-  - `END-006`: the arcade reference.
+  - `END-006` is done (`EXP-0042`): official English exists for Ryu's pages,
+    but not for the four-box dialogue (the arcade English shows two generic
+    partner lines);
+  - `END-005`: what selects the dialogue and ending (one gameplay session).
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2210,7 +2212,7 @@ the user asks or when it unblocks other work.
 
 ### END-006 - Arcade reference for Ryu's ending and the post-boss dialogue
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-24, `EXP-0042`)
 - **Milestone:** M6 (reference; no Saturn change)
 - **Dependencies:** END-001, REF-009.
 - **Blockers:** None.
@@ -2227,14 +2229,28 @@ the user asks or when it unblocks other work.
 - **Outputs:** Reference metadata and hashes. The text stays local.
 - **Notes:** Do not assume the arcade text format equals the Saturn's
   (rule 14).
+- **Evidence (2026-10-24, `EXP-0042`; `CONFIRMED`, discoveries `END-006`):**
+  - The Saturn Japanese records (pages, and Ryu/Gouki boxes 1-4) are
+    byte-identical in all three sets. The page tables are Japanese `0x20C14C`,
+    English `0x20C1B4`, Spanish `0x20C21C`, and Portuguese `0x20C284` (Ryu =
+    slot 9).
+  - The MAME no-play route (forced stage 8 and boss vitality, at the Saturn's
+    offsets) reached Ryu's ending in all three sets. It ran with Ken and, in
+    `mshvsfu`/`mshvsfj`, with Gouki.
+  - The English pages exist and were seen. The English dialogue is two generic
+    partner lines (52-record table `0x22226C`), not a translation of the four
+    Japanese boxes. The Ryu/Akuma lines were predicted, then seen.
+  - Gap: no official English for the Saturn's four-box dialogue. Options are
+    recorded in `EXP-0042` for the `END-010` scope decision.
 
 ### END-010 - Localize one Ryu ending
 
 - **Status:** `BACKLOG`
 - **Milestone:** M7
 - **Dependencies:** END-001, END-002, END-004, END-005, END-006, END-007.
-- **Blockers:** Selection logic (`END-005`), official English (`END-006`), and a
-  verified marker build (`END-007`) are not yet established. The renderer
+- **Blockers:** Selection logic (`END-005`) is not yet established, and the
+  dialogue scope decision (user) is open. Official English (`END-006`) and the
+  marker build (`END-007`) are done. The renderer
   (`EXP-0038`), RAM layout (`EXP-0039`), and disc sources (`EXP-0040`) are
   done.
 - **Objective:** Reproduce one Ryu ending localization from untouched source.
@@ -2242,9 +2258,12 @@ the user asks or when it unblocks other work.
 - **Acceptance criteria:** Live/source behavior is experimentally established; official text provenance, exact modifications, deterministic build, and visible verification are documented.
 - **Outputs:** M7 experiments, tools, local evidence, confirmed discoveries.
 - **Notes:** Do not generalize from the first ending in this task.
-  - Scope to settle first, as a user decision after `END-005`: does "Ryu's
-    ending" include the post-boss dialogue, which may be team-specific, or only
-    the three ending pages (`EXP-0037`)?
+  - Scope to settle first, as a user decision: does "Ryu's ending" include the
+    post-boss dialogue, or only the three ending pages (`EXP-0037`)?
+    - `EXP-0042`: official English exists for the pages.
+    - For the dialogue, the arcade English has only two generic partner lines.
+    - Options: adopt those, use a non-official translation (a gate
+      decision), or leave the dialogue in Japanese.
   - Route, from `EXP-0038` to `EXP-0040`:
     - pages are raw codes in `ME.PAC`, so they can be edited in place;
     - the dialogue is in LZSS `MC13.PAC` and needs a re-encode;
