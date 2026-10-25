@@ -1117,6 +1117,43 @@ Experiment: `EXP-0053`
   `mcs_extract`'s cart-RAM extraction for this region.
 - **Reproduce.** `research/experiments/EXP-0053/README.md`.
 
+## LOC-005: The Common Sound Bank and Its ADPCM Decoder
+
+Confidence: **CONFIRMED** (the decoder reproduces the game's channel state)
+
+Experiment: `EXP-0055`
+
+- **Bank.** `CMNSE.PAC` has:
+  - a u32 clip count at `0x10` (88);
+  - one (u16 tag, u16 length) entry per clip from `0x14`. The clip ID is
+    `tag & 0x3FF`; `tag >> 10` is a flag field that is not interpreted;
+  - clip data concatenated in table order after the table (`0x174`).
+- **Decoder.** The SH-2 mixer decodes the clips at `0x0600D420`, high nibble
+  first. It is not IMA, OKI or Yamaha:
+  - `d = step * (n & 7) >> 2`;
+  - `pred ± d`, with no clamp;
+  - `step = step * MUL[n & 7] >> 16`, clamped to `0x80`-`0x6000`, where `MUL`
+    (16.16, at `0x0600D46C`) is 0.9, 0.9, 0.9, 0.9, 1.2, 1.6, 2.0, 2.4;
+  - a clip starts at predictor 0 and step `0x80`.
+- **Mixer.**
+  - 16 channels with 44-byte records, from the pointer at `0x06012B6C`.
+  - The active mask is at `0x060132D4`.
+  - Each sample is doubled into rings that play at 24,031 Hz, so clips play
+    at 12,015.5 Hz.
+- **Evidence.** Replaying each active channel from its start reproduces the
+  stored predictor and step exactly: 24 of 24 active channels in 38 states of
+  the `END-024` recording. Every mismatch (73 of 575 records) is an inactive,
+  stale record.
+- **Reproduce.**
+
+  ```bash
+  ./invenv.sh python -m tools.audio.channel_check <state>
+  ./invenv.sh python -m tools.audio.cmnse_bank
+  ```
+
+  The second command exports every clip to WAV under `local/audio/cmnse/`.
+  Details are in `research/experiments/EXP-0055/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

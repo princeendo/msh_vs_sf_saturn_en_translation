@@ -4025,3 +4025,44 @@ redesign.
     zeros; use states instead.
   - `LOC-002` is `DONE`; `LOC-003` is `READY`. `LOC-004` and `LOC-005` have
     their blockers refined.
+
+## 2026-10-25 — LOC-005 / EXP-0055: CMNSE.PAC decoded and exported
+
+- **Bank layout:**
+  - u32 count at `0x10` (88);
+  - (u16 tag, u16 length) entries from `0x14`, with ID `tag & 0x3FF` and
+    flags `tag >> 10`;
+  - data concatenated from `0x174`.
+- **Decoder:** found by searching WRAM-H for the ring-buffer literals
+  (`0x05A00484`/`0x05A0248C`), which led to the SH-2 mixer.
+  - Per-nibble routine `0x0600D420`: `d = step*m >> 2`, `pred ± d` (no
+    clamp), `step = step*MUL[m] >> 16` clamped to `0x80`-`0x6000`, with
+    `MUL` at `0x0600D46C` = 0.9×4, 1.2, 1.6, 2.0, 2.4.
+  - High nibble first; a clip starts at (0, `0x80`). Each sample is
+    doubled into the 24,031 Hz rings, so clips play at 12,015.5 Hz.
+- **Verification:** `tools/audio/channel_check.py` over 44 `end024v`
+  states found 24 of 24 active channels matching exactly. The 73
+  mismatching records are all inactive and stale.
+- **Export:** `tools/audio/cmnse_bank.py` writes 88 WAVs to
+  `local/audio/cmnse/`. Local listening aids `index.html`, `catalog.wav`
+  and `catalog.tsv` were sent to the user to identify "Vega" and "Gouki".
+- **Disproven (do not retry):**
+  - IMA, OKI and Yamaha ADPCM, in either nibble order. All drift (mean
+    |DC| / peak 0.27-0.41, against 0.012 for the real decoder).
+  - Low-nibble-first order.
+  - Searching memory for a standard step table: there is none, because the
+    step is multiplicative and the table holds 8 multipliers.
+  - Treating the 68K nibble code at `0x46B8`-`0x4774` as the decoder: it is
+    the sequencer.
+- **Not productive:**
+  - envelope matching between the recorded WAV and the decoded clips;
+  - cross-correlating win-screen ring buffers with the clips. The mix holds
+    up to 16 channels from several banks, so it cannot single out clips
+    (best score 0.66).
+- **Scratch-only dependencies:** numpy and capstone through
+  `uv run --with` (uv 0.11.7). They are not added to the project.
+- **Checks:** `pytest` 226 passed, 1 skipped; `ruff`, `ruff format` and
+  `mypy` are clean.
+- **Next:** the user listens and names the clips. Then, if they approve
+  `LOC-005`: source a US clip and write the encoder. `LOC-003` remains the
+  next unblocked task.

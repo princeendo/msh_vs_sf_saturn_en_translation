@@ -2835,9 +2835,11 @@ the user asks or when it unblocks other work.
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.
 - **Blockers:**
-  - decoding the common sound bank `CMNSE.PAC` (the likely announcer source,
-    `EXP-0054`), and identifying the "Vega" and "Gouki" clips by listening;
-  - a user decision on doing it, and on the clip source (PS1 first).
+  - identifying the "Vega" and "Gouki" clips by listening. The bank is
+    decoded and every clip is exported (`EXP-0055`,
+    `tools/audio/cmnse_bank.py`);
+  - a user decision on doing it, and on the clip source (PS1 first);
+  - an encoder for the bank's ADPCM (the decoder is known, `EXP-0055`).
 - **Objective:** If approved, make the voice say the US names in the variant
   build.
 - **Acceptance criteria:**

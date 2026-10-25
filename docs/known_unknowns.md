@@ -238,9 +238,13 @@ remain open; none blocks the roster image.
   speaker labels. The full inventory is not done.
 - Does the announcer speak character names, and which ones? The user reports
   the voice says "Vega". It is not checked per character.
-- In what format, and in which files, are the art and voice samples stored?
-  Is there any acceptable source of US-name voice clips? Only needed if the
-  user chooses US names (`docs/localization_plan.md`).
+- Which `CMNSE.PAC` clips say "Vega" and "Gouki"? The bank is decoded
+  (`EXP-0055`), and its 88 clips are exported for listening. If none says the
+  names, the character-select line may be in `SEL*.PAC` or `PLxx.PAC`.
+- What do the `CMNSE.PAC` tag flags (`tag >> 10`) and the u32 at `0x04` mean?
+- In what format, and in which files, is the name art stored (VS screen)? Is
+  there any acceptable source of US-name voice clips? Only needed if the user
+  chooses US names (`docs/localization_plan.md`).
 
 ## Cross-Release Evidence
 
