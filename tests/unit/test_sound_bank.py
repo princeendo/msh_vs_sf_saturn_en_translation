@@ -7,35 +7,63 @@ from pathlib import Path
 
 import pytest
 
-from tools.audio.cmnse_bank import (
+from tools.audio.sound_bank import (
     STEP_MAX,
     STEP_MIN,
     Clip,
     decode,
     decode_state,
     export,
+    is_bank,
     main,
+    pac_payloads,
     parse,
 )
 
 
 def bank(clips: list[tuple[int, bytes]]) -> bytes:
     table = b"".join(struct.pack(">HH", tag, len(data)) for tag, data in clips)
-    header = bytes(16) + struct.pack(">I", len(clips))
+    header = struct.pack(">I", len(clips))
     return header + table + b"".join(data for _, data in clips)
+
+
+def pac(payloads: list[bytes | None]) -> bytes:
+    """A container: (flag, size) pairs, the (0, 0) end marker, then payloads."""
+    pairs = b"".join(
+        struct.pack(">II", 0xFFFFFFFF, 0xFFFFFFFF)
+        if p is None
+        else struct.pack(">II", 0, len(p))
+        for p in payloads
+    )
+    return pairs + bytes(8) + b"".join(p for p in payloads if p is not None)
 
 
 def test_parse_reads_ids_flags_and_offsets() -> None:
     data = bank([((2 << 10) | 0x00A, b"\x00" * 3), (0x2AD, b"\x88")])
     assert parse(data) == [
-        Clip(0, 0x00A, 2, 0x1C, 3),
-        Clip(1, 0x2AD, 0, 0x1F, 1),
+        Clip(0, 0x00A, 2, 0x0C, 3),
+        Clip(1, 0x2AD, 0, 0x0F, 1),
     ]
 
 
 def test_parse_rejects_clips_past_the_end() -> None:
     with pytest.raises(ValueError):
         parse(bank([(1, b"\x00\x00")])[:-1])
+
+
+def test_pac_payloads_skip_entries_without_data() -> None:
+    data = pac([b"abc", None, b"defg"])
+    assert pac_payloads(data) == [(0x20, 3), None, (0x23, 4)]
+    with pytest.raises(ValueError):
+        pac_payloads(data[:16])  # no end marker
+
+
+def test_is_bank_needs_an_exact_fit() -> None:
+    good = bank([(1, b"\x00\x00"), (2, b"\x00")])
+    assert is_bank(good)
+    assert not is_bank(good + b"\x00")
+    assert not is_bank(good[:-1])
+    assert not is_bank(bytes(8))  # zero clips
 
 
 def test_decode_is_high_nibble_first_without_bias() -> None:
@@ -64,19 +92,28 @@ def test_step_clamps() -> None:
 
 def test_export_writes_wavs_and_index(tmp_path: Path) -> None:
     data = bank([(0x004, b"\x70\x00"), (0x008, b"\x08")])
-    rows = export(data, tmp_path, 12000, 0.5)
-    assert [r["file"] for r in rows] == ["cmnse_00_id004.wav", "cmnse_01_id008.wav"]
-    with wave.open(str(tmp_path / "cmnse_00_id004.wav")) as w:
+    rows = export(data, tmp_path, "cmnse_0", 12000, 0.5)
+    assert [r["file"] for r in rows] == ["cmnse_0_00_id004.wav", "cmnse_0_01_id008.wav"]
+    with wave.open(str(tmp_path / "cmnse_0_00_id004.wav")) as w:
         assert (w.getnchannels(), w.getsampwidth(), w.getframerate()) == (1, 2, 12000)
         frames = struct.unpack("<4h", w.readframes(4))
     assert frames[0] == round(32767 * 0.5)
     assert rows[1]["gain"] == 1.0  # a silent clip is not scaled
 
 
-def test_main_reads_an_extracted_bank(tmp_path: Path) -> None:
-    source = tmp_path / "CMNSE.PAC"
-    source.write_bytes(bank([(0x004, b"\x70")]))
+def test_main_exports_each_bank_payload(tmp_path: Path) -> None:
+    source = tmp_path / "PL0E.PAC"
+    source.write_bytes(pac([b"not a bank", None, bank([(0x004, b"\x70")])]))
     out = tmp_path / "out"
-    assert main(["--bank", str(source), "--out-dir", str(out), "--peak", "0"]) == 0
-    rows = json.loads((out / "index.json").read_text())
+    assert main(["--pac", str(source), "--out-dir", str(out), "--peak", "0"]) == 0
+    assert sorted(p.name for p in out.iterdir()) == ["pl0e_2"]
+    rows = json.loads((out / "pl0e_2" / "index.json").read_text())
     assert rows[0]["peak"] == 224 and rows[0]["gain"] == 1.0
+    with wave.open(str(out / "pl0e_2" / "catalog.wav")) as w:
+        assert w.getnframes() == 2 + round(12016 * 0.5)
+    assert (
+        (out / "pl0e_2" / "catalog.tsv")
+        .read_text()
+        .splitlines()[1]
+        .startswith("0.00\t0")
+    )

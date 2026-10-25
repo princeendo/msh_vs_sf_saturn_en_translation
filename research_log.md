@@ -4066,3 +4066,29 @@ redesign.
 - **Next:** the user listens and names the clips. Then, if they approve
   `LOC-005`: source a US clip and write the encoder. `LOC-003` remains the
   next unblocked task.
+
+## 2026-10-25 — LOC-005 / EXP-0056: name calls are in the fighter and select banks
+
+- **User listening:** none of the 88 `CMNSE.PAC` clips announces a name.
+  The closest is "Ken", split off from "Hadou-". This disproves
+  `CMNSE.PAC` as the name source.
+- **Channel → file mapping:** across the `end024v` states, the mixer also
+  plays data from `MEMFIX`, `PL05`/`09`/`0E`/`0F`/`13`, `SEL`/`SEL2` and
+  movie files.
+- **Container:** these PACs are (u32 flag, u32 size) pairs ended by (0, 0),
+  followed by the payloads back to back. Flag `0xFFFFFFFF` means no
+  payload.
+- **Banks:** 28 payloads are banks with an exact size fit, 725 clips in
+  total (`tools/audio/sound_bank.py --file '*'`). `cmnse_bank.py` is renamed
+  to `sound_bank.py`.
+- **Candidates:**
+  - Vega's `PL0E` bank shares #1, #5, #7 and #18 with the select bank;
+    Gouki's `PL0F` bank shares #1, #11, #13 and #23.
+  - On the win screen, Vega-bank #18 (`0x286`, also select #48) played
+    between `f00008316` and `f00008668`. It is the best "Vega" candidate
+    (SUPPORTED).
+- **Sent to the user:**
+  - `local/audio/shortlist.wav` and `.tsv`, with Vega-bank #18 at 5.41 s;
+  - the full `pl0e_1` and `pl0f_1` catalogs.
+- **Checks:** `pytest` 228 passed, 1 skipped; `ruff`, `ruff format` and
+  `mypy` are clean.

@@ -2835,9 +2835,11 @@ the user asks or when it unblocks other work.
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.
 - **Blockers:**
-  - identifying the "Vega" and "Gouki" clips by listening. The bank is
-    decoded and every clip is exported (`EXP-0055`,
-    `tools/audio/cmnse_bank.py`);
+  - identifying the "Vega" and "Gouki" clips by listening. Every sound bank
+    on the disc is decoded and exported (`EXP-0055`, `EXP-0056`,
+    `tools/audio/sound_bank.py`). `CMNSE.PAC` holds no names (user). The
+    candidates are the clips each fighter's `PLxx.PAC` bank shares with the
+    select bank in `SEL.PAC`;
   - a user decision on doing it, and on the clip source (PS1 first);
   - an encoder for the bank's ADPCM (the decoder is known, `EXP-0055`).
 - **Objective:** If approved, make the voice say the US names in the variant

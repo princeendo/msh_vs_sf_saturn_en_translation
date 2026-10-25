@@ -1117,17 +1117,29 @@ Experiment: `EXP-0053`
   `mcs_extract`'s cart-RAM extraction for this region.
 - **Reproduce.** `research/experiments/EXP-0053/README.md`.
 
-## LOC-005: The Common Sound Bank and Its ADPCM Decoder
+## LOC-005: Sound Banks and Their ADPCM Decoder
 
-Confidence: **CONFIRMED** (the decoder reproduces the game's channel state)
+Confidence: **CONFIRMED** (the decoder reproduces the game's channel state;
+the bank layout fits every bank payload exactly)
 
-Experiment: `EXP-0055`
+Experiments: `EXP-0055`, `EXP-0056`
 
-- **Bank.** `CMNSE.PAC` has:
-  - a u32 clip count at `0x10` (88);
-  - one (u16 tag, u16 length) entry per clip from `0x14`. The clip ID is
-    `tag & 0x3FF`; `tag >> 10` is a flag field that is not interpreted;
-  - clip data concatenated in table order after the table (`0x174`).
+- **Container.** A `.PAC` file of this kind starts with (u32 flag, u32 size)
+  pairs ended by (0, 0). The payloads follow back to back. A flag of
+  `0xFFFFFFFF` means the entry has no payload. LZSS-compressed PACs use a
+  different header.
+- **Bank.** A payload holds:
+  - a u32 clip count;
+  - one (u16 tag, u16 length) entry per clip. The clip ID is `tag & 0x3FF`;
+    `tag >> 10` is a flag field that is not interpreted;
+  - the clip data, concatenated in table order.
+
+  Count, table and lengths add up to the payload size exactly in all 28 banks
+  found:
+  - `CMNSE.PAC` payload 0 (88 clips);
+  - `SEL.PAC` payload 1 = `SEL2.PAC` payload 0 (66 clips);
+  - `MEMFIX.PAC` payloads 8 and 9;
+  - payload 1 or 2 of each `PLxx.PAC`.
 - **Decoder.** The SH-2 mixer decodes the clips at `0x0600D420`, high nibble
   first. It is not IMA, OKI or Yamaha:
   - `d = step * (n & 7) >> 2`;
@@ -1148,11 +1160,12 @@ Experiment: `EXP-0055`
 
   ```bash
   ./invenv.sh python -m tools.audio.channel_check <state>
-  ./invenv.sh python -m tools.audio.cmnse_bank
+  ./invenv.sh python -m tools.audio.sound_bank --file '*'
   ```
 
-  The second command exports every clip to WAV under `local/audio/cmnse/`.
-  Details are in `research/experiments/EXP-0055/README.md`.
+  The second command exports every bank to WAV under `local/audio/`.
+  Details are in `research/experiments/EXP-0055/README.md` and
+  `EXP-0056/README.md`.
 
 ## Entry Requirements
 

@@ -25,7 +25,7 @@ import struct
 from collections.abc import Sequence
 from pathlib import Path
 
-from tools.audio.cmnse_bank import decode_state
+from tools.audio.sound_bank import decode_state
 from tools.memory.mcs_extract import REGIONS, extract_region, parse_state, swap_elements
 
 DECODER = 0x0600D420

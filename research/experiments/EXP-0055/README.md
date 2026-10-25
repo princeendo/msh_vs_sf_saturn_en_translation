@@ -95,7 +95,8 @@ exactly the stored (predictor, step).
 6. **Verification.** `tools/audio/channel_check.py` decodes each mixer
    channel's bytes, from start to cursor, starting at (predictor 0, step
    `0x80`), and compares the result with the record.
-7. **Export.** `tools/audio/cmnse_bank.py` writes one WAV per clip.
+7. **Export.** `tools/audio/cmnse_bank.py` (now `tools/audio/sound_bank.py`,
+   `EXP-0056`) writes one WAV per clip.
 
 ## Actual Result
 
@@ -144,19 +145,23 @@ exactly the stored (predictor, step).
 Commands:
 
 ```bash
-./invenv.sh python -m tools.audio.cmnse_bank
+./invenv.sh python -m tools.audio.sound_bank
 ./invenv.sh python -m tools.audio.channel_check local/end024v/rec/states/f00009368.mcs
 ./invenv.sh python tools/sh2/disasm.py --base 0x06000000 --start 0x0600D300 --end 0x0600D480 local/loc002/wram/wram_h.bin
 ```
 
-- `cmnse_bank` writes `local/audio/cmnse/cmnse_NN_idXXX.wav` plus
-  `index.json`, using `--peak 0.9` normalisation; `--peak 0` keeps raw levels.
-  The run here gave index SHA-256 `3cd5cc55…f52d`.
+- The tool was first written as `cmnse_bank` and renamed to `sound_bank`
+  in `EXP-0056`. That run wrote `local/audio/cmnse/cmnse_NN_idXXX.wav` plus
+  `index.json` (SHA-256 `3cd5cc55…f52d`), with `--peak 0.9` normalisation;
+  `--peak 0` keeps raw levels. `sound_bank` now writes the same clips to
+  `local/audio/cmnse_0/`.
 - `local/loc002/wram/wram_h.bin` is WRAM-H from `local/loc002/f9368_bison.mcs`
   (state SHA-256 `649070d9…e576`; WRAM-H `fe3c3f09…8078`), extracted with
   `mcs_extract --region wram_h`. That state is a copy of `f00009368` with a
   font transplanted into cart RAM; its WRAM-H is byte-identical to the
   original state's.
-- Listening aids (local only): `local/audio/cmnse/index.html` (a player per
-  clip) and `catalog.wav` (all clips with 0.5 s gaps; start times in
-  `catalog.tsv`).
+- Listening aids (local only): `catalog.wav` (all clips with 0.5 s gaps;
+  start times in `catalog.tsv`).
+- **User result (2026-10-25):** none of the 88 clips announces a name. The
+  closest is "Ken", the second half of "Hadou-ken", stored as its own clip.
+  The name search continues in `EXP-0056`.
