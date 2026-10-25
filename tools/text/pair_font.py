@@ -56,6 +56,26 @@ def char_code(char: str) -> int | None:
     raise ValueError(f"no full-width glyph mapping for {char!r}")
 
 
+STYLES = ("quote", "credits")
+
+
+def pair_glyph(cells: Sequence[bytes], pair: str, style: str = "quote") -> bytes:
+    """The pair glyph for ``pair`` from the font's ``cells``.
+
+    ``quote`` composes two full-width quote glyphs (``glyph_patch.compose``);
+    ``credits`` squeezes two staff-credits glyphs (``credits_font``, FONT-011).
+    """
+    if style == "credits":
+        from tools.text.credits_font import pair_bytes
+
+        return pair_bytes(cells, pair)
+    if style != "quote":
+        raise ValueError(f"unknown glyph style {style!r}")
+    blank = bytes(CELL_BYTES)
+    codes = [char_code(char) for char in pair]
+    return compose(*(blank if code is None else cells[code] for code in codes))
+
+
 def split_pairs(text: str) -> list[str]:
     padded = text if len(text) % 2 == 0 else text + " "
     return [padded[i : i + 2] for i in range(0, len(padded), 2)]
@@ -74,6 +94,7 @@ def build(
     codes: Sequence[int],
     candidates: Sequence[int],
     reusable: Sequence[int] = (),
+    style: str = "quote",
 ) -> tuple[bytes, dict[str, object]]:
     """Store ``pairs[i]`` at ``codes[i]``, emptying candidates only as needed.
 
@@ -95,11 +116,8 @@ def build(
     for code in reused:
         glyphs[code] = Glyph("empty", bytes(CELL_BYTES))
 
-    def cell(char: str) -> bytes:
-        code = char_code(char)
-        return bytes(CELL_BYTES) if code is None else glyphs[code].cell
-
-    new = [Glyph("compressed", compose(cell(p[0]), cell(p[1]))) for p in pairs]
+    cells = [g.cell for g in glyphs]
+    new = [Glyph("compressed", pair_glyph(cells, p, style)) for p in pairs]
     needed = sum(stored_size(g) for g in new)
     sacrificed: list[int] = []
     freed = 0

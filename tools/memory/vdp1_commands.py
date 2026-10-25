@@ -4,9 +4,10 @@ The command table starts at VRAM ``0x0``. Each command is 32 bytes of big-endian
 words: CMDCTRL (end bit ``0x8000``, skip bit ``0x4000``, command in the low
 nibble), CMDLINK, CMDPMOD, CMDCOLR, CMDSRCA (address / 8), CMDSIZE (width / 8
 in bits 8-13, height in bits 0-7), then CMDXA and CMDYA. Command ``0xA`` sets the
-local coordinates, which are added to later sprites' positions. This reader
-walks the table in order and ignores jump links, which is enough for the screens
-checked so far (credits and dialogue, `EXP-0051`).
+local coordinates, which are added to later sprites' positions. CMDCTRL bits
+12-14 select the next command: next, assign (jump to CMDLINK * 8), call, or
+return, with bit 14 also skipping the command itself. Links are followed, though
+the screens checked so far (`EXP-0051`, `EXP-0052`) use none.
 
 With ``--font``, each 16 x 16 4 bpp sprite's 128 bytes are matched against the
 glyphs of an unpacked quote font, to name the code each sprite shows.
@@ -21,8 +22,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 COMMAND = 32
-END, SKIP = 0x8000, 0x4000
+END, SKIP = 0x8000, 0x4
+NEXT, ASSIGN, CALL, RETURN = 0, 1, 2, 3
 NORMAL, LOCAL = 0x0, 0xA
+LIMIT = 0x4000  # commands visited before giving up on a looping table
 
 
 @dataclass(frozen=True)
@@ -46,30 +49,44 @@ def signed(value: int) -> int:
 
 
 def sprites(vram: bytes) -> list[Sprite]:
-    """Normal sprites in table order, with local coordinates applied."""
+    """Normal sprites in drawing order (links followed), local coordinates applied."""
     out = []
     local = (0, 0)
-    for index in range(len(vram) // COMMAND):
-        base = index * COMMAND
+    base, ret = 0, None
+    for _ in range(LIMIT):
+        if base + COMMAND > len(vram):
+            break
         ctrl = word(vram, base)
         if ctrl & END:
             break
-        if ctrl & SKIP:
+        jump = (ctrl >> 12) & 7
+        index = base // COMMAND
+        here = base
+        mode = jump & 3
+        if mode == ASSIGN:
+            base = word(vram, here + 2) * 8
+        elif mode == CALL:
+            ret, base = here + COMMAND, word(vram, here + 2) * 8
+        elif mode == RETURN and ret is not None:
+            base, ret = ret, None
+        else:
+            base = here + COMMAND
+        if jump & SKIP:
             continue
         command = ctrl & 0xF
-        x, y = signed(word(vram, base + 12)), signed(word(vram, base + 14))
+        x, y = signed(word(vram, here + 12)), signed(word(vram, here + 14))
         if command == LOCAL:
             local = (x, y)
         elif command == NORMAL:
-            size = word(vram, base + 10)
+            size = word(vram, here + 10)
             out.append(
                 Sprite(
                     index,
                     x + local[0],
                     y + local[1],
-                    word(vram, base + 4),
-                    word(vram, base + 6),
-                    word(vram, base + 8) * 8,
+                    word(vram, here + 4),
+                    word(vram, here + 6),
+                    word(vram, here + 8) * 8,
                     ((size >> 8) & 0x3F) * 8,
                     size & 0xFF,
                 )

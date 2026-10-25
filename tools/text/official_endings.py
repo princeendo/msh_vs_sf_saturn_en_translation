@@ -239,6 +239,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--with-win-quotes", action="store_true", help="add the roster win quotes"
     )
     parser.add_argument(
+        "--glyph-style",
+        choices=("quote", "credits"),
+        default="quote",
+        help="pair glyphs from the quote font or the staff-credits font (FONT-011)",
+    )
+    parser.add_argument(
         "--track",
         type=Path,
         default=Path(
@@ -272,6 +278,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{args.dialogue_layout}. Generated from the local arcade ROM; not "
             "committed."
         )
+    if args.glyph_style != "quote":
+        spec["glyph_style"] = args.glyph_style
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

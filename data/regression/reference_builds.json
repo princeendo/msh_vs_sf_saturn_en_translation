@@ -193,6 +193,46 @@
      "replaced_because": "EXP-0050: GOUKI replaces AKUMA in names, win quotes, and ending text (user decision, provisional)"
     }
    ]
+  },
+  {
+   "name": "m8_roster_credits",
+   "experiment": "EXP-0052",
+   "purpose": "The m8_roster image with pair glyphs drawn from the staff-credits font (glyph_style credits: squeezed, two shading bands, 4-connected outline), in the captions' own silver palette (FONT-011).",
+   "spec": "local/font011/spec/roster_credits.json",
+   "spec_sha256": "173d485c04030ac2c0101e9ea4169a215088175d020cc9a018226da110872e73",
+   "generator_module": "official_endings",
+   "generate": [
+    "--roster",
+    "data/text/m5_roster.json",
+    "--with-win-quotes",
+    "--glyph-style",
+    "credits"
+   ],
+   "track01_sha256": "9246148ff0e933a3b7041a9041a4b007df5375a4db856b107154d5be81785334",
+   "files_sha256": {
+    "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
+    "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
+    "MC03.PAC": "cdbaa4290df5dab9f3ed9d10d65d6103b984dad15cd39a6bfd60d94f27158816",
+    "MC04.PAC": "cc7730c18750c4b33cb8b8034566e08aafe9babade86e90f2524c4054e56e1ec",
+    "MC05.PAC": "f2351a5967d47bf86df341e4e6a83b29fc0faebb213753172a980e858e9ee930",
+    "MC06.PAC": "91d44cf94b19c14a880e44ae390f95f0ed9b2b8dcea089115f4eb862691cd2a8",
+    "MC07.PAC": "87f8f4df48778311ec4d24e3ae764d6a7d1c4125e310910d2fb272c7a4d55f2f",
+    "MC08.PAC": "d0bf6327122e51830a5940356429a59cdf743a58fd68cda9138e23e4a61a6195",
+    "MC09.PAC": "7755879fe5c48ac969da8dacb1d743c66210f13a3f33d24cedfb469ab9f0332a",
+    "MC0A.PAC": "f537e8117e8d852d409f2d5c472b0a3287173b0021e7ae08f20de64a12e0905d",
+    "MC0B.PAC": "c7d19f9c2d32cf74cedd87584cb6081413526eb258b3001e9cfa68665ae7b7f6",
+    "MC0C.PAC": "1c1ce517d47d893d62ac66c7e21cdce9ae1277774478631fc87e885f5b21e76f",
+    "MC0D.PAC": "8f3160bde51dc8eea54bd43f99256aee953aba5cbb16f8061c151a9f5dc49a03",
+    "MC0E.PAC": "1ddbb3c43c0c37d0472a6b46e02c578def9ed4c6a91e4c63c59154763095386a",
+    "MC0F.PAC": "eb8e3cad71a814c3a454a9df16f27a006b120d87fa8bdd7203cebed1a1ebf55b",
+    "MC10.PAC": "c5a484083d48d3a896d11bdb96938bb7e71d46f3f2cd09b555357f1bf85cd32a",
+    "MC12.PAC": "74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a",
+    "MC13.PAC": "2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382",
+    "ME.PAC": "dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255",
+    "MEMFIX.PAC": "df78fce80048630214a51c7ea95006b09023d08847e27b6b54d4527c03d031b5",
+    "MM.BIN": "d8ab1dea75d725ec8cfdfdee516137f5bba8d6b5bdbe1679311717a3e2de819e"
+   },
+   "baselined": "2026-10-25"
   }
  ]
 }

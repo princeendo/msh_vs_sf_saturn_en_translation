@@ -41,3 +41,32 @@ def test_glyph_sprites_apply_local_coordinates() -> None:
     )
     found = glyph_sprites(vram)
     assert [(s.x, s.y, s.source) for s in found] == [(20, 24, 0x8000)]
+
+
+def font_cells() -> list[bytes]:
+    """A synthetic font: every credits code is a 4-wide bar of fill value 3."""
+    bar = bytes(
+        (0x03 if 2 <= column // 2 < 4 else 0)
+        for row in range(16)
+        for column in range(0, 16, 2)
+    )
+    return [bar] * 0x260
+
+
+def test_caption_cell_bands_and_outline() -> None:
+    from tools.text.credits_font import BANDS, caption_cell
+
+    cell = caption_cell(font_cells(), "AB")
+    fills = {v for row in cell for v in row} - {0, OUTLINE}
+    assert fills <= {value for _, value in BANDS}
+    assert cell[0][1] == OUTLINE  # the 4-connected outline left of the fill
+
+
+def test_pair_glyph_styles() -> None:
+    from tools.text.credits_font import pair_bytes
+    from tools.text.pair_font import pair_glyph
+
+    cells = font_cells()
+    assert pair_glyph(cells, "AB", "credits") == pair_bytes(cells, "AB")
+    with pytest.raises(ValueError):
+        pair_glyph(cells, "AB", "gothic")

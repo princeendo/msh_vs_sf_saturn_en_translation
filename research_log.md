@@ -3863,3 +3863,48 @@ Checks: documentation only; no code changed.
 
 Next action: `FONT-011`, waiting on the user's choice: gold squeezed, white
 squeezed, or the arcade font (`REF-012`).
+
+## 2026-10-25 — FONT-011 / EXP-0052: credits-style pairs (silver live); gold blocked
+
+- **User choices:** gold squeezed credits pairs with thin glyphs tuned; then,
+  when gold proved blocked, "Both: build silver, then dig".
+- **Palettes** (agent replays of recorded states):
+  - Caption banks `0x1E0`, `0x030`, and `0x1F0` are the credits layout in
+    grey.
+  - Gold bank `0x010` is always loaded.
+  - `colr = (attr & 0x7000) | (palette << 4)`; caption palette numbers are
+    `0x1E`, `0x03`, and `0x1F`.
+- **Disproven or unproductive (do not retry blindly):**
+  - CPU write breakpoints on the caption CRAM bank, both aliases, over the
+    window where it changes: no hits;
+  - SCU and SH-2 DMAC set-up logs: no transfer to it;
+  - searches for the grey palette in WRAM before the copy, in cart RAM, and
+    on disc: not found;
+  - the win-screen object palette byte (+39, table `0x060C0E00`): fighter
+    palettes 0-3, not the caption.
+
+  A remap in the shared sprite writer would recolour fighters.
+- **Glyphs:**
+  - The full gradient does not fit: 40,852 bytes of pairs against 30,235
+    reclaimable.
+  - Used: two shading bands with a 4-connected outline (29,284 bytes).
+  - Hand-drawn `I`, `M`, `W`, `m`, `w`, `!`, `'`, and `‼`.
+  - `fit_fill` resampling was rejected: it lost dots and shapes.
+- **Build:** `build/font011` (`9246148f…`), all checks true. New regression
+  reference `m8_roster_credits`; all seven pass.
+- **Live:** the win quote (Ryu + Ken) and an ending (dialogue and Ryu's
+  pages) displayed correctly in silver. Capital `W` is weak.
+- **Mistake:**
+  - The ending driver was armed after stage 2 had loaded; its boss test
+    matched the stage-2 start and zeroed boss-only words. The user lost and
+    the credit timed out.
+  - **Rule:** arm before the next stage loads, at character select or on the
+    win screen.
+- **New user report:** "EASY" at mode select alternates with Japanese, so
+  `UI-002` was added. "対戦者求む!" was captured alternating with "PRESS
+  START" (`UI-001`).
+- **Checks:** `pytest` 216 passed, 1 skipped; `ruff`, `ruff format`, and
+  `mypy` are clean.
+
+Next: the gold investigation (`EXP-0052` next experiments), then the `W`
+redesign.

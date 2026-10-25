@@ -54,11 +54,10 @@ from tools.disc.pac_patch import patch
 from tools.disc.patch_image import find_entry
 from tools.disc.patch_image import main as patch_image_main
 from tools.disc.sector import verify_track
-from tools.text.font import CELL_BYTES, Font
+from tools.text.font import Font
 from tools.text.font_pack import Glyph, unpack
-from tools.text.glyph_patch import compose
+from tools.text.pair_font import STYLES, char_code, pair_glyph, split_pairs, stored_size
 from tools.text.pair_font import build as build_font
-from tools.text.pair_font import char_code, split_pairs, stored_size
 from tools.text.quote_render import record_codes, render
 
 SCHEMA = "mshvsf-captions/1"
@@ -362,19 +361,16 @@ def capacity_tables(
     pacs: dict[str, bytes],
     candidates: Sequence[int],
     ranges: Sequence[tuple[int, int]] = FREE_RANGES,
+    style: str = "quote",
 ) -> dict[str, object]:
     """Measure what a spec needs, without building (for specs that may not fit)."""
     cells = [record for table in table_cells(tables, pacs) for record in table]
     pairs = distinct_pairs(cells)
     _, glyphs = unpack(font_image)
-    blank = bytes(CELL_BYTES)
-
-    def cell(char: str) -> bytes:
-        code = char_code(char)
-        return blank if code is None else glyphs[code].cell
-
+    font_cells = [g.cell for g in glyphs]
     needed = sum(
-        stored_size(Glyph("compressed", compose(cell(p[0]), cell(p[1])))) for p in pairs
+        stored_size(Glyph("compressed", pair_glyph(font_cells, p, style)))
+        for p in pairs
     )
     reclaimable = sum(stored_size(glyphs[c]) for c in candidates)
     free = len(free_codes(font_image, ranges))
@@ -507,6 +503,7 @@ def compile_tables(
     candidates: Sequence[int],
     ranges: Sequence[tuple[int, int]] = FREE_RANGES,
     fields: Sequence[FieldSpec] = (),
+    style: str = "quote",
 ) -> CompiledSet:
     """Build one font image and every quote PAC (no disc I/O)."""
     cells = table_cells(tables, pacs)
@@ -526,7 +523,7 @@ def compile_tables(
         )
     codes = dict(zip(pairs, available + extra, strict=False))
     new_font, font_info = build_font(
-        font_image, pairs, [codes[p] for p in pairs], candidates, extra
+        font_image, pairs, [codes[p] for p in pairs], candidates, extra, style
     )
     per_file: dict[str, dict[int, int]] = {}
     raw = {spec.file: spec.raw for spec in tables} | {f.file: True for f in fields}
@@ -578,7 +575,7 @@ def compile_files(
 
 
 def verify_font(
-    old: bytes, new: bytes, compiled: Compiled | CompiledSet
+    old: bytes, new: bytes, compiled: Compiled | CompiledSet, style: str = "quote"
 ) -> dict[str, object]:
     old_header, old_glyphs = unpack(old)
     new_header, new_glyphs = unpack(new)
@@ -588,14 +585,9 @@ def verify_font(
     changed = {
         c for c, (a, b) in enumerate(zip(old_glyphs, new_glyphs, strict=True)) if a != b
     }
-    blank = bytes(CELL_BYTES)
-
-    def cell(char: str) -> bytes:
-        code = char_code(char)
-        return blank if code is None else old_glyphs[code].cell
-
+    old_cells = [g.cell for g in old_glyphs]
     pairs_ok = all(
-        new_glyphs[code].cell == compose(cell(pair[0]), cell(pair[1]))
+        new_glyphs[code].cell == pair_glyph(old_cells, pair, style)
         for pair, code in compiled.codes.items()
     )
     checks: dict[str, object] = {
@@ -744,6 +736,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         document = json.loads(args.spec.read_text())
         tables, fields = parse_document(document)
         listed_only = document.get("schema") == SCHEMA_V3
+        style = str(document.get("glyph_style", "quote"))
+        if style not in STYLES:
+            raise SpecError(f"glyph_style must be one of {STYLES}")
         patches = parse_patches(document)
         pacs: dict[str, bytes] = {}
         raw_files = (
@@ -762,10 +757,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         old_font = memfix[offset : offset + length]
         candidates = load_candidates(args.candidates)
         if args.capacity:
-            report_cap = capacity_tables(tables, old_font, pacs, candidates)
+            report_cap = capacity_tables(
+                tables, old_font, pacs, candidates, style=style
+            )
             print(json.dumps(report_cap, indent=1))
             return 0
-        compiled = compile_tables(tables, old_font, pacs, candidates, fields=fields)
+        compiled = compile_tables(
+            tables, old_font, pacs, candidates, fields=fields, style=style
+        )
         new_memfix = memfix[:offset] + compiled.font_image + memfix[offset + length :]
         outputs = {"MEMFIX.PAC": new_memfix} | {
             name: f.pac for name, f in compiled.files.items()
@@ -799,7 +798,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             },
             "outputs": {name: sha(data) for name, data in outputs.items()},
             "checks": {
-                "font": verify_font(old_font, compiled.font_image, compiled),
+                "font": verify_font(old_font, compiled.font_image, compiled, style),
                 "memfix_outside_entry_unchanged": new_memfix[:offset] == memfix[:offset]
                 and new_memfix[offset + length :] == memfix[offset + length :],
                 "tables": {
@@ -810,6 +809,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 },
             },
         }
+        if style != "quote":
+            report["glyph_style"] = style
         if patches:
             report["patches"] = [
                 {"file": p.file, "offset": f"0x{p.offset:X}", "hex": p.data.hex()}

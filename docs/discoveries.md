@@ -1061,6 +1061,30 @@ Experiment: `EXP-0051`
   do not draw from it.
 - **Reproduce.** `research/experiments/EXP-0051/README.md`.
 
+## FONT-011 (partial): Caption Palettes, and Credits-Style Pairs in Silver
+
+Confidence: **CONFIRMED** (silver live, palettes, capacity). Gold is an open
+investigation.
+
+Experiment: `EXP-0052`
+
+- **Palettes.**
+  - CRAM is kept in two WRAM-H copies (`0x060C7C24`, `0x060C8C24`) and copied
+    to CRAM each frame by SCU DMA. A sprite's `colr & 0x7FF` is its CRAM
+    index.
+  - Captions use banks `0x1E0` (win quote), `0x030` (dialogue), and `0x1F0`
+    (pages). All hold the credits layout in grey: 1-9 run from white to
+    (112,112,112), `B` is (16,16,0), `F` is black.
+  - Bank `0x010` holds the credits' gold on every screen checked.
+- **Colour word.** `colr = (attr & 0x7000) | ((attr & 0x1F) << 4)` (writer
+  `0x0601CB72`). The request list at `0x060EDA20` carries caption palette
+  numbers `0x1E`, `0x03`, and `0x1F`.
+- **Silver build.** `glyph_style: credits` (two shading bands, 4-connected
+  outline, hand-drawn `I`/`M`/`W`/`m`/`w`/`!`/`'`/`‼`) fits the font and
+  displays live: `build/font011`, `9246148f…`, reference
+  `m8_roster_credits`.
+- **Reproduce.** `research/experiments/EXP-0052/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

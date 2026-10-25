@@ -51,7 +51,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       `FONT-011`;
     - US-name art and voice, and two name variants: `LOC-002` (`READY`,
       medium) to `LOC-006` (stretch);
-    - player-2 "PRESS START" in English only: `UI-001` (`READY`);
+    - player-2 "PRESS START" in English only: `UI-001` (`READY`). The
+      alternating "対戦者求む!" was captured in `local/font011/rec`;
+    - "EASY" mode label in English only: `UI-002` (`READY`, added 2026-10-25);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -2694,15 +2696,25 @@ the user asks or when it unblocks other work.
 
 ### FONT-011 - Compose caption and ending pair glyphs from the credits font
 
-- **Status:** `BLOCKED`
+- **Status:** `IN_PROGRESS` (2026-10-25, `EXP-0052`)
 - **Priority:** high (user)
 - **Milestone:** Polish
 - **Dependencies:** FONT-010 (done).
-- **Blockers:** the user's decision between:
-  - squeezed credits pairs in gold (needs palette work);
-  - squeezed pairs in white (no palette work);
-  - converting the arcade's own narrow font (`REF-012`; a provenance
-    decision).
+- **Blockers:** None for silver. Gold is blocked: the caption palette is
+  generated at run time by code not yet found.
+- **User decisions (2026-10-25):**
+  - credits font, squeezed, in gold, with thin glyphs tuned;
+  - then "Both: build silver, then dig".
+- **Progress (`EXP-0052`):**
+  - `glyph_style: credits` was added end to end.
+  - The silver build is `build/font011` (`9246148f…`, reference
+    `m8_roster_credits`). It was verified live: a win quote, the dialogue,
+    and Ryu's pages.
+  - Two shading bands with a 4-connected outline fit; the full gradient does
+    not (40,852 bytes against 30,235).
+  - Capital `W` still needs another design pass.
+  - Gold: bank `0x010` is always loaded, but the captions' grey banks are
+    generated invisibly (next experiments in `EXP-0052`).
 - **Objective:** Build the pair glyphs from the credits font instead of the
   white full-width glyphs, for win quotes and endings.
 - **Acceptance criteria:**
@@ -2712,6 +2724,27 @@ the user asks or when it unblocks other work.
     capacity fits, and every changed render is read.
   - Before/after screenshots from a cold boot of one win quote and one ending.
   - `release/README.md` and the patch are updated.
+
+### UI-002 - Make the "EASY" mode label English only
+
+- **Status:** `READY` (requested 2026-10-25)
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** None (shares method with `UI-001`).
+- **Blockers:** None.
+- **Objective:** The user reports that the "EASY" mode label on the mode
+  select screen alternates with Japanese text. Show English only.
+- **Acceptance criteria:** The same as `UI-001`:
+  - frame-by-frame capture of both phases;
+  - the source identified (glyph codes or art);
+  - the US arcade behaviour recorded;
+  - a fix chosen with the user;
+  - built from the untouched source, with before/after frames and
+    regression.
+- **Notes:** The mode select screen appears in recordings (for example
+  `local/end027/rec` around the character select). "PRESS START" was found to
+  be quote-font sprites (bank `0x7000`, `EXP-0052`); check whether these
+  labels are too.
 
 ### LOC-002 - Inventory and scope the name art and voice (Vega/Gouki/Mech-Gouki)
 

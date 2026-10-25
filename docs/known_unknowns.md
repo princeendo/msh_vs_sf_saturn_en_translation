@@ -210,9 +210,11 @@ remain open; none blocks the roster image.
 
 ## Fonts (`FONT-011`)
 
-- Which CRAM colour banks are loaded on win-quote and ending screens? Could
-  the caption sprites use a gold gradient bank, or are bank `0x6030` indices
-  2-9 and `B` free to fill?
+- Which code generates the caption palette banks (`0x1E0`, `0x030`,
+  `0x1F0`)? CPU write breakpoints and DMA logs never see the write; the slave
+  SH-2 is suspected (`EXP-0052`). Gold bank `0x010` is always loaded, but
+  where the caption objects get palette numbers `0x1E`, `0x03`, and `0x1F` is
+  unknown.
 - How much per-glyph tuning do squeezed credits glyphs need (`I`, `!`, `l`,
   `i`, `j`, `1`)?
 - Do CPU write breakpoints cover VDP1 VRAM at all? None fired, even on the

@@ -18,6 +18,7 @@ Last run: 2026-10-25.
 | `roster` | `EXP-0036` | `b2c097fa5c28a61b…` | `351254c4751e0a49…` | 2026-10-24 | 2026-10-25 | pass (regenerated spec) |
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
+| `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `9246148ff0e933a3…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -139,3 +140,33 @@ Track 01: `2a5b26b75a0d908050ccf361c99f37a2f2a83dc70e3dc9612e5e98c16da5624d`
 - Previous track 01 `c06cf0ef6e1e74dde1543c800941653fde0161f64e9966e2d6e93de47ed26c45`: EXP-0049: user decision, the dictator's inserted name is VEGA (the Saturn's Japanese naming) instead of BISON; only MEMFIX.PAC and MM.BIN change.
 - Previous track 01 `e721a16798832147a8a2ab2517aea8e100ed29a79af7fefd115327274a6bff20`: END-026: Mech-Gouki replaces Cyber Akuma in Vega's ending page (user decision).
 - Previous track 01 `61ced9f964139cc250d71292342206915196230b11ab5fdeec42a100a4d90ad7`: EXP-0050: GOUKI replaces AKUMA in names, win quotes, and ending text (user decision, provisional).
+
+### `m8_roster_credits`
+
+The m8_roster image with pair glyphs drawn from the staff-credits font (glyph_style credits: squeezed, two shading bands, 4-connected outline), in the captions' own silver palette (FONT-011).
+
+| File | SHA-256 |
+| --- | --- |
+| `MC01.PAC` | `46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39` |
+| `MC02.PAC` | `241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9` |
+| `MC03.PAC` | `cdbaa4290df5dab9f3ed9d10d65d6103b984dad15cd39a6bfd60d94f27158816` |
+| `MC04.PAC` | `cc7730c18750c4b33cb8b8034566e08aafe9babade86e90f2524c4054e56e1ec` |
+| `MC05.PAC` | `f2351a5967d47bf86df341e4e6a83b29fc0faebb213753172a980e858e9ee930` |
+| `MC06.PAC` | `91d44cf94b19c14a880e44ae390f95f0ed9b2b8dcea089115f4eb862691cd2a8` |
+| `MC07.PAC` | `87f8f4df48778311ec4d24e3ae764d6a7d1c4125e310910d2fb272c7a4d55f2f` |
+| `MC08.PAC` | `d0bf6327122e51830a5940356429a59cdf743a58fd68cda9138e23e4a61a6195` |
+| `MC09.PAC` | `7755879fe5c48ac969da8dacb1d743c66210f13a3f33d24cedfb469ab9f0332a` |
+| `MC0A.PAC` | `f537e8117e8d852d409f2d5c472b0a3287173b0021e7ae08f20de64a12e0905d` |
+| `MC0B.PAC` | `c7d19f9c2d32cf74cedd87584cb6081413526eb258b3001e9cfa68665ae7b7f6` |
+| `MC0C.PAC` | `1c1ce517d47d893d62ac66c7e21cdce9ae1277774478631fc87e885f5b21e76f` |
+| `MC0D.PAC` | `8f3160bde51dc8eea54bd43f99256aee953aba5cbb16f8061c151a9f5dc49a03` |
+| `MC0E.PAC` | `1ddbb3c43c0c37d0472a6b46e02c578def9ed4c6a91e4c63c59154763095386a` |
+| `MC0F.PAC` | `eb8e3cad71a814c3a454a9df16f27a006b120d87fa8bdd7203cebed1a1ebf55b` |
+| `MC10.PAC` | `c5a484083d48d3a896d11bdb96938bb7e71d46f3f2cd09b555357f1bf85cd32a` |
+| `MC12.PAC` | `74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a` |
+| `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
+| `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
+| `MEMFIX.PAC` | `df78fce80048630214a51c7ea95006b09023d08847e27b6b54d4527c03d031b5` |
+| `MM.BIN` | `d8ab1dea75d725ec8cfdfdee516137f5bba8d6b5bdbe1679311717a3e2de819e` |
+
+Track 01: `9246148ff0e933a3b7041a9041a4b007df5375a4db856b107154d5be81785334`
