@@ -79,17 +79,42 @@ def name_text(name: str) -> str:
 
 
 def ending_spec(
-    program: bytes, point: int, partners: Sequence[int], layout: str = "whole"
+    program: bytes,
+    point: int | Sequence[int],
+    partners: Sequence[int],
+    layout: str = "whole",
 ) -> tuple[dict[str, object], dict[str, list[int]]]:
-    """The v3 spec, and the arcade Japanese records it replaces."""
-    start, end = page_span(program, PAGE_TABLES["en"], point)
-    pages = [en_lines(program, a) for a in range(start, end, EN_RECORD)]
-    shifts = best_shifts([line for page in pages for line in page if line])
-    jp_start, jp_end = page_span(program, PAGE_TABLES["ja"], point)
-    if (jp_end - jp_start) // RECORD != len(pages):
-        raise ValueError("Japanese and English page counts differ")
+    """The v3 spec, and the arcade Japanese records it replaces.
+
+    ``point`` may list several point characters (`END-020`): each gets its pages
+    and its point pair; the partner pairs are shared.
+    """
+    points = [point] if isinstance(point, int) else list(point)
+    page_tables, pages_ja = [], []
+    for slot in points:
+        start, end = page_span(program, PAGE_TABLES["en"], slot)
+        pages = [en_lines(program, a) for a in range(start, end, EN_RECORD)]
+        shifts = best_shifts([line for page in pages for line in page if line])
+        jp_start, jp_end = page_span(program, PAGE_TABLES["ja"], slot)
+        if (jp_end - jp_start) // RECORD != len(pages):
+            raise ValueError(f"slot {slot}: Japanese and English page counts differ")
+        pages_ja += [jp_start, len(pages)]
+        page_tables.append(
+            {
+                "file": "ME.PAC",
+                "format": "raw",
+                "table": f"0x{jp_start - ME_BASE:X}",
+                "records": [
+                    {
+                        "record": k,
+                        "lines": [centred(x, shift=shifts.get(x, 0)) for x in page],
+                    }
+                    for k, page in enumerate(pages)
+                ],
+            }
+        )
     dialogue = []
-    for index in [*partners, SLOTS + point]:
+    for index in [*partners, *(SLOTS + slot for slot in points)]:
         halves = en_lines(program, PARTNER_LINES + PARTNER_RECORD * index)
         first = DIALOGUE_FIRST + 2 * index
         if layout == "whole":
@@ -100,7 +125,7 @@ def ending_spec(
         for offset, box in enumerate(boxes):
             dialogue.append({"record": first + offset, "lines": box})
     names, lengths = [], []
-    for slot in sorted({point, *partners}):
+    for slot in sorted({*points, *partners}):
         address = ARCADE_NAMES + NAME_BYTES * slot
         name = latin(program, address, NAME_BYTES).strip()
         cells = len(split_pairs(name_text(name)))
@@ -122,7 +147,8 @@ def ending_spec(
     spec: dict[str, object] = {
         "schema": SCHEMA_V3,
         "description": (
-            f"END-010 official arcade English ending: point slot {point}, partners "
+            f"END-010 official arcade English ending: point slot "
+            f"{points[0] if len(points) == 1 else points}, partners "
             f"{list(partners)}, dialogue layout {layout}. Generated from the local "
             "arcade ROM; not committed."
         ),
@@ -133,24 +159,13 @@ def ending_spec(
                 "placeholder": "anywhere",
                 "records": dialogue,
             },
-            {
-                "file": "ME.PAC",
-                "format": "raw",
-                "table": f"0x{jp_start - ME_BASE:X}",
-                "records": [
-                    {
-                        "record": k,
-                        "lines": [centred(x, shift=shifts.get(x, 0)) for x in page],
-                    }
-                    for k, page in enumerate(pages)
-                ],
-            },
+            *page_tables,
         ],
         "fields": names,
         "patches": lengths,
     }
     targets: dict[str, list[int]] = {
-        "pages_ja": [jp_start, len(pages)],
+        "pages_ja": pages_ja,  # start, count for each point character
         "dialogue_records": [int(str(r["record"])) for r in dialogue],
         "dialogue_ja": [
             ARCADE_DIALOGUE + RECORD * (int(str(r["record"])) - DIALOGUE_FIRST)
@@ -164,11 +179,11 @@ def check_targets(
     program: bytes, targets: dict[str, list[int]], mc13: bytes, me: bytes
 ) -> dict[str, bool]:
     """Every replaced Saturn record must equal its arcade Japanese record."""
-    start, count = targets["pages_ja"]
-    me_table = start - ME_BASE
+    spans = targets["pages_ja"]
     pages_ok = all(
         program[start + RECORD * k : start + RECORD * (k + 1)]
-        == me[me_table + RECORD * k : me_table + RECORD * (k + 1)]
+        == me[start - ME_BASE + RECORD * k : start - ME_BASE + RECORD * (k + 1)]
+        for start, count in zip(spans[::2], spans[1::2], strict=True)
         for k in range(count)
     )
     decoded = decode_file(mc13)[1]
@@ -191,7 +206,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--driver", type=Path, required=True, help="MAME cps2.cpp")
     parser.add_argument("--archive", type=Path, required=True, help="arcade ROM zip")
     parser.add_argument("--set", dest="set_name", default="", help="default: zip stem")
-    parser.add_argument("--point", type=int, default=9, help="slot (Ryu = 9)")
+    parser.add_argument(
+        "--point", type=int, nargs="+", default=[9], help="slot(s) (Ryu = 9)"
+    )
     parser.add_argument("--partners", type=int, nargs="+", default=[10, 15])
     parser.add_argument(
         "--dialogue-layout", choices=("whole", "split"), default="whole"

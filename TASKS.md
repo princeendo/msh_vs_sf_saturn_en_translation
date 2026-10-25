@@ -38,6 +38,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   (`end010`). At the user's request, the dialogue now shows each English line
   whole, one block per speaker (`EXP-0045`). Next is `END-020` (M8), now
   `READY`.
+- **M8 started on 2026-10-24** (`END-020`). `END-021` is done (`EXP-0046`): all
+  17 roster endings match the arcade reference and fit. One font holds the
+  endings plus the M5 win quotes (454 pairs). Next is `END-022` (name-length
+  growth and name side effects, no gameplay).
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2346,9 +2350,9 @@ the user asks or when it unblocks other work.
 
 ### END-020 - Generalize ending-localization pipeline
 
-- **Status:** `READY` (2026-10-24, after M7)
+- **Status:** `IN_PROGRESS` (2026-10-24; broken down into `END-021` to `END-025`)
 - **Milestone:** M8
-- **Dependencies:** END-010.
+- **Dependencies:** END-010, END-021, END-022, END-023, END-024, END-025.
 - **Blockers:** None. Ryu's ending is localized reproducibly (`EXP-0044`).
 - **Objective:** Validate a general ordinary-character ending workflow.
 - **Rationale:** One ending cannot establish format coverage or capacity constraints.
@@ -2368,6 +2372,91 @@ the user asks or when it unblocks other work.
     - the name side effect on Japanese text that still uses placeholders;
     - other characters' page capacity and dialogue line lengths;
     - the KO character's effect.
+
+### END-021 - Census and capacity of the roster's endings
+
+- **Status:** `DONE` (2026-10-24, `EXP-0046`)
+- **Milestone:** M8
+- **Dependencies:** END-010.
+- **Blockers:** None.
+- **Objective:** Check that every roster ending matches the arcade reference,
+  has official English that fits, and that one font can hold it all.
+- **Acceptance criteria:** A committed census (metadata only) and a measured
+  capacity for the endings and for endings plus the M5 win quotes.
+- **Evidence:**
+  - `data/text/ending_census.json` (`tools/text/ending_census.py`): all 17
+    slots are consistent (page counts, record identity, line fit). 75 pages;
+    longest name 8 cells.
+  - Capacity, combined with the M5 win quotes: 454 distinct pairs, using 206 of
+    the 321 candidate kanji codes and 19,303 of 30,235 bytes. It fits.
+  - At most 25 distinct glyphs per English page (Japanese pages use up to 34).
+
+### END-022 - Name table: length growth and side effects
+
+- **Status:** `READY`
+- **Milestone:** M8
+- **Dependencies:** END-021.
+- **Blockers:** None. RAM trials need no gameplay.
+- **Objective:**
+  - Test that a name-length increase works (BISON: 2 → 3 cells).
+  - Find every text that inserts names (`0x0000`) and would show English names
+    in a combined image.
+- **Acceptance criteria:**
+  - One RAM trial grows a name and its length on a post-KO checkpoint (for
+    example, Ken's entry at 4 cells). The predicted shift and fit are observed,
+    against a control.
+  - An offline census lists every `0x0000` in the Saturn text tables (MC files,
+    `MC13`, `ME.PAC`) that a combined image would leave in Japanese.
+  - Each case is decided with the user: accept English names in Japanese text,
+    or exclude it.
+
+### END-023 - Combined roster image (win quotes and endings)
+
+- **Status:** `BLOCKED`
+- **Milestone:** M8
+- **Dependencies:** END-022.
+- **Blockers:** The name-table behaviour and side-effect decisions (`END-022`).
+- **Objective:** One deterministic image from the untouched source, holding:
+  - the 17 M5 win-quote tables;
+  - the 17 roster endings (pages, all roster partner and point pairs, `whole`
+    layout);
+  - the roster's English names and name lengths.
+- **Acceptance criteria:**
+  - A generator writes the combined v3 spec from the local ROM, with no text
+    committed.
+  - Two builds are identical, and all compiler checks are true.
+  - Offline renders of every changed record are reviewed.
+  - A regression reference is added.
+
+### END-024 - Live verification sample of the combined image
+
+- **Status:** `BLOCKED`
+- **Milestone:** M8
+- **Dependencies:** END-023.
+- **Blockers:** No combined image yet.
+- **Objective:** Verify a representative sample live, from one cold boot.
+- **Acceptance criteria:**
+  - Endings for at least: Captain America (longest name, 6 pages), a 6-page
+    Capcom ending (Zangief), Bison (name growth), Sakura (2 pages), and Dan
+    (slot 18).
+  - The partners cover Marvel and Capcom.
+  - A win-quote spot check confirms that M5 still works in the combined image.
+  - The user works only the menus; `ending_driver.py` forces stage 8 and the
+    KO. The font stays resident, so all can run from one boot.
+  - Every screenshot is read.
+
+### END-025 - Coverage, exceptions, and regression for endings
+
+- **Status:** `BLOCKED`
+- **Milestone:** M8
+- **Dependencies:** END-024.
+- **Blockers:** No verified combined image yet.
+- **Objective:** Close M8.
+- **Acceptance criteria:**
+  - `docs/coverage_exceptions.md` lists the excluded endings and dialogue pairs
+    (slots 0, 17, 19-25) with reasons.
+  - The regression report includes the combined reference.
+  - Remaining unknowns are recorded, such as the KO character's effect.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 

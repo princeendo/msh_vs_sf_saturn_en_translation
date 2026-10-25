@@ -3550,3 +3550,23 @@ time, instead of split across four boxes.
 
 Checks: pytest, ruff, format, mypy, and the full regression all pass.
 
+## 2026-10-24 — END-020 started; END-021 / EXP-0046: census and capacity
+
+- `END-020` broken down into `END-021` to `END-025`.
+- `official_endings.py` takes several point slots. The single-point output is
+  byte-identical.
+- **Census** (`tools/text/ending_census.py` → `data/text/ending_census.json`,
+  metadata only): all 17 roster slots are consistent.
+  - Page counts are equal, totalling 75.
+  - `ME.PAC` and `MC13` records equal the arcade Japanese.
+  - All lines fit, including the longest name (8 cells).
+  - BISON's name length grows (2 → 3); this is untested.
+- **Capacity:**
+  - endings alone: 369 pairs (121 kanji codes reused);
+  - plus the M5 win quotes: 454 pairs (206 of 321 kanji codes, 19,303 of 30,235
+    bytes). It fits.
+- **Per screen:** at most 25 distinct English glyphs per page, against 34 in
+  Japanese.
+
+Next action: `END-022`.
+

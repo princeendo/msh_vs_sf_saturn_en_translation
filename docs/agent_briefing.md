@@ -61,7 +61,9 @@ reference facts** (what outside documents say).
     pair (identical records hand over seamlessly), so there is one block per
     speaker.
 
-  Next: `END-020` (M8).
+  Next: `END-020` (M8), started: `END-021` is done (`EXP-0046`, all 17 roster
+  endings fit, and one font holds the endings and the M5 win quotes). Next is
+  `END-022`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
