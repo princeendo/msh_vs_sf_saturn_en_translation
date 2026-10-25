@@ -33,6 +33,12 @@ target, and similarities between releases are hypotheses until tested.
 
 No game image, BIOS, extracted game data, or emulator binary is distributed here.
 
+## Release Patch
+
+[release/README.md](release/README.md) describes how to apply the English
+patch, and how to rebuild it from this repository: which assets you must
+supply, and the commands.
+
 ## Python Setup
 
 Create or update the locked development environment:

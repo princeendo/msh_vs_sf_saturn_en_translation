@@ -72,7 +72,8 @@ reference facts** (what outside documents say).
   `LOC-001` and `docs/localization_plan.md`. `END-025` is done (coverage
   register, `data/text/ending_coverage.json`), and **M8 is complete**
   (2026-10-25). No task is `READY`. Next is a user decision: `SPECIAL-001`
-  (M9), `LOC-001`, `REL-001`, or the backlog.
+  (M9), `LOC-001`, or the backlog. `REL-001` is done: build and apply the
+  xdelta3 patch per `release/README.md` (the patch is never committed).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

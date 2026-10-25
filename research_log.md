@@ -3738,3 +3738,38 @@ taken before a release.
 - `END-025` and `END-020` are `DONE`. **M8 is complete.** No task is `READY`.
   The next work needs a user decision: `SPECIAL-001` (M9), `LOC-001`,
   `REL-001`, or the backlog.
+
+## 2026-10-25 — REL-001: xdelta3 release patch and reproduction README
+
+- **User decisions:**
+  - the format is xdelta3 (VCDIFF);
+  - the patch stays local, with a README listing the assets needed to rebuild
+    it;
+  - installing xdelta3 3.2.2 with Homebrew was approved (`brew install
+    xdelta`).
+- **Finding:** the task note's `tools/disc/make_patch.py` did not exist; only
+  `tools/memory/make_patch.py` (RAM dumps) did. The new disc tool is at the
+  noted path.
+- **Mistake caught and fixed:** writing the new tests first overwrote the
+  existing `tests/unit/test_make_patch.py` (the RAM-tool tests). It was
+  restored from git, and the new tests are in `test_disc_make_patch.py`.
+- **Measurements:** only track 01 differs from the source: 178 sectors, about
+  363 KB of changed runs. With `-e -9 -S none -A -f`, the patch is 155,717
+  bytes (`00c3906a…`). xdelta3 rejects a wrong source ("target window checksum
+  mismatch", tested on synthetic files).
+- **Checks:**
+  - deterministic double encode;
+  - `xdelta3 -d` round trip;
+  - a user-style apply to a copy of the original matches all 13 components of
+    `build/end027`;
+  - a fresh clone with only the disc, `mshvsfu.zip`, and `cps2.cpp` passes
+    6 of 6 references and reproduces the identical patch and record.
+- The font-candidate list was copied to `data/text/font_candidates.json` (code
+  numbers only, `32e513ae…`). The compiler default and the regression baseline
+  now point there.
+- **Session checks:** `pytest` 210 passed, 1 skipped; `ruff check`, `ruff
+  format --check`, and `mypy tools` (56 files) are clean.
+- **Not tested:** graphical VCDIFF patchers.
+
+Next action: none `READY`. A user decision is needed: `SPECIAL-001` (M9),
+`LOC-001`, or the backlog.

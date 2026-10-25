@@ -44,10 +44,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   01 `2a5b26b7…`). That image also holds the M5 win quotes. The register of
   exclusions and accepted side effects is `docs/coverage_exceptions.md`
   (Endings). The remaining unknowns are in `docs/known_unknowns.md`.
+  - `REL-001` is done (2026-10-25): an xdelta3 patch (`00c3906a…`, kept
+    local) and `release/README.md`, reproduced from a fresh clone.
   - **No task is `READY`.** The next work needs a user decision:
     - authorizing M9 (`SPECIAL-001`);
     - the naming policy (`LOC-001`);
-    - packaging (`REL-001`);
     - one of the low-priority backlog items (`TXT-001`, `RE-048` to `RE-050`,
       `REF-012`).
 - M8 history: started on 2026-10-24 (`END-020`). `END-021` is done (`EXP-0046`): all
@@ -1949,21 +1950,49 @@ the user asks or when it unblocks other work.
 
 ### REL-001 - Package the roster image as a distributable patch
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-25)
 - **Priority:** low
-- **Milestone:** M5 polish
-- **Dependencies:** RE-047.
-- **Blockers:** None technical. Distribution form and wording are the user's
-  decision.
-- **Objective:** Produce a patch file (no game data) that turns the untouched
-  source image into the roster image.
+- **Milestone:** M5 polish (packages the M8 image)
+- **Dependencies:** RE-047, END-025.
+- **Blockers:** None.
+- **Objective:** Produce a patch file (no game data in the repository) that turns
+  the untouched source image into the roster image.
 - **Rationale:** The repository holds tools and hashes only; users need a patch
   to apply.
 - **Acceptance criteria:** Applying the patch to a source image with the recorded
-  hashes reproduces the `roster` reference track 01 exactly, and the patch holds
-  no copyrighted payload beyond what the chosen format requires.
-- **Outputs:** Patch, apply instructions, and hashes.
-- **Notes:** `tools/disc/make_patch.py` exists; check its format before choosing.
+  hashes reproduces the reference track 01 exactly, and the patch holds no
+  copyrighted payload beyond what the chosen format requires.
+- **User decisions (2026-10-25):**
+  - the format is xdelta3 (VCDIFF);
+  - the patch stays local (under `build/`, not committed);
+  - a README describes the assets someone must supply to rebuild it;
+  - installing xdelta3 3.2.2 with Homebrew was approved.
+- **Evidence:**
+  - `tools/disc/make_patch.py` (new, with tests). The old note named this
+    path, but no disc patch tool existed; `tools/memory/make_patch.py` patches
+    RAM dumps.
+  - The tool checks the source against `references/mshvsf/saturn_jp/README.md`
+    and the built track 01 against reference `m8_roster`. Only BIN tracks may
+    differ.
+  - Fixed flags `-e -9 -S none -A -f`: no secondary compressor, no
+    application header, Adler-32 per window.
+  - The patch is encoded twice (byte-identical), then decoded with
+    `xdelta3 -d`.
+  - Result: `mshvsf_saturn_en_m8.Track01.xdelta`, 155,717 bytes, SHA-256
+    `00c3906a…`. Only track 01 changes; tracks 02-12 and the CUE are
+    identical. Record: `release/m8_roster.json`.
+  - **User-side check:** a copy of the original image patched with the
+    xdelta3 CLI matches every one of the 13 components of the live-verified
+    `build/end027` image.
+  - **Fresh-clone check:** a new clone given only the disc image,
+    `mshvsfu.zip`, and the downloaded `cps2.cpp` passed all six references
+    and produced the identical patch and record.
+  - The font-candidate list moved from the ignored
+    `research/memory_dumps/exp0023/` into `data/text/font_candidates.json`
+    (code numbers only, same hash `32e513ae…`), so a clone can build.
+  - Instructions: `release/README.md` (apply, assets to supply, rebuild).
+- **Not tested:** graphical patchers (Delta Patcher, xdelta UI, Rom Patcher
+  JS).
 
 ### REF-012 - Compare the arcade win-quote fonts across regions
 
