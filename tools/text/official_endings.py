@@ -72,6 +72,20 @@ GOLD_PALETTE_PATCHES = {
     0x961FB: (0x9F, 0x81),  # ending pages (palette 0x1F)
     0x96233: (0x83, 0x81),  # post-boss dialogue (palette 0x03)
 }
+# UI-001/UI-002 (EXP-0053): Japanese UI art cells in the quote font, replaced by
+# the game's own English arcade art (None = empty cell).
+UI_GLYPH_COPIES: dict[int, int | None] = {
+    # Player-2 prompt "対戦者求む!" (5 cells) -> " JOIN IN" (user choice).
+    0x45B: None,
+    0x45C: 0x496,
+    0x45D: 0x497,
+    0x45E: 0x498,
+    0x45F: 0x499,
+}
+# Mode panel "簡単操作" (4 cells, four shading copies) -> centred "EASY" (2 cells),
+# matched by shading: 0x424/0x6A6, 0x428/0x6A8, 0x42C/0x6AA, 0x43A/0x6AC.
+for _jp, _en in ((0x424, 0x6A6), (0x428, 0x6A8), (0x42C, 0x6AA), (0x43A, 0x6AC)):
+    UI_GLYPH_COPIES |= {_jp: None, _jp + 1: _en, _jp + 2: _en + 1, _jp + 3: None}
 # Applied in order, so "Cyber Akuma" is replaced before "Akuma".
 TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki"}
 
@@ -253,6 +267,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="gold switches the captions to the credits' gold bank (FONT-011)",
     )
     parser.add_argument(
+        "--ui-english",
+        action="store_true",
+        help="replace Japanese UI art cells with English art (UI-001, UI-002)",
+    )
+    parser.add_argument(
         "--glyph-style",
         choices=("quote", "credits"),
         default="quote",
@@ -294,6 +313,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
     if args.glyph_style != "quote":
         spec["glyph_style"] = args.glyph_style
+    if args.ui_english:
+        spec["glyph_copies"] = {
+            f"0x{t:03X}": None if s is None else f"0x{s:03X}"
+            for t, s in sorted(UI_GLYPH_COPIES.items())
+        }
     if args.caption_palette == "gold":
         patches = spec["patches"]
         assert isinstance(patches, list)

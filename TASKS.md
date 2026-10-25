@@ -51,9 +51,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       `FONT-011`;
     - US-name art and voice, and two name variants: `LOC-002` (`READY`,
       medium) to `LOC-006` (stretch);
-    - player-2 "PRESS START" in English only: `UI-001` (`READY`). The
-      alternating "対戦者求む!" was captured in `local/font011/rec`;
-    - "EASY" mode label in English only: `UI-002` (`READY`, added 2026-10-25);
+    - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
+      are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
+      own font. They are in the release image (`7a3917d1…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -2736,7 +2736,7 @@ the user asks or when it unblocks other work.
 
 ### UI-002 - Make the "EASY" mode label English only
 
-- **Status:** `READY` (requested 2026-10-25)
+- **Status:** `DONE` (2026-10-25, `EXP-0053`)
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None (shares method with `UI-001`).
@@ -2844,7 +2844,7 @@ the user asks or when it unblocks other work.
 
 ### UI-001 - Make the player-2 "PRESS START" prompt English only
 
-- **Status:** `READY` (requested 2026-10-25)
+- **Status:** `DONE` (2026-10-25, `EXP-0053`)
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None.

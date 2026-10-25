@@ -19,7 +19,7 @@ Last run: 2026-10-25.
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 | `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `bede40b15644ccab…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
-| `m8_roster_gold` | `EXP-0052` | `a374ab480fcaed23…` | `e213140aceea2e6c…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
+| `m8_roster_gold` | `EXP-0052, EXP-0053` | `7ce7820abaabcccf…` | `7a3917d12a4c6dc1…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -176,7 +176,7 @@ Track 01: `bede40b15644ccab5555bc94e33d80107aeb2dc42a4ba132857ee18411746f4e`
 
 ### `m8_roster_gold`
 
-m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011).
+m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002).
 
 | File | SHA-256 |
 | --- | --- |
@@ -199,9 +199,10 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MC12.PAC` | `74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a` |
 | `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
 | `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
-| `MEMFIX.PAC` | `559e3927e5bab304904c7e58e80cd57a5f8a5aeff1610b0b505c3b1085d00b93` |
+| `MEMFIX.PAC` | `26c2d9bb790a387af16d4cc81f84c7a80d31253ed5324498eb980e92e9c300bf` |
 | `MM.BIN` | `a2d07db1766c8833ec0f18bc8b31cd0101a1e6ea13a1a1088650a2917e4321a3` |
 
-Track 01: `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`
+Track 01: `7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a`
 
 - Previous track 01 `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`: EXP-0052: capital W redesigned (variant A).
+- Previous track 01 `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`: EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image.

@@ -25,3 +25,13 @@ def test_box_line_centres_with_a_name_guess() -> None:
 def test_half_cells_counts_the_inserted_name() -> None:
     assert half_cells("We shall meet again", 8) == 10
     assert half_cells("{0000}.", 8) == 9
+
+
+def test_ui_glyph_copies_target_only_japanese_art() -> None:
+    from tools.text.official_endings import UI_GLYPH_COPIES
+
+    targets = set(UI_GLYPH_COPIES)
+    assert {0x45B, 0x45C, 0x45F, 0x424, 0x43D} <= targets
+    sources = {s for s in UI_GLYPH_COPIES.values() if s is not None}
+    assert not targets & sources
+    assert UI_GLYPH_COPIES[0x429] == 0x6A8 and UI_GLYPH_COPIES[0x42A] == 0x6A9

@@ -28,6 +28,9 @@ Sakura, and Dan.
   - each character's ending pages, in the official US arcade English;
   - the post-boss partner dialogue, using the arcade's English partner lines;
   - English character names (`docs/coverage_exceptions.md`, Endings).
+- **English UI labels:** the player-2 prompt shows the game's own "JOIN IN"
+  art instead of "対戦者求む!", and the mode panel's "簡単操作" now reads
+  "EASY" (`UI-001`, `UI-002`).
 - **Caption look:** captions and ending text use the game's own staff-credits
   font, squeezed two letters per cell, in the credits' gold, instead of the
   original white font. The gold also colours the remaining Japanese message
@@ -49,7 +52,9 @@ byte-identical to the original.
   - sampled characters' win quotes, in the earlier win-quote-only image
     (M5), and one (Vega's) in the white combined image;
   - in this gold build (`EXP-0052`): Ryu + Ken's dialogue and pages, a win
-    quote, and the redesigned capital `W`.
+    quote, and the redesigned capital `W`;
+  - the English UI labels (`EXP-0053`): "EASY" live, and "JOIN IN" in a
+    replay.
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 
@@ -68,8 +73,8 @@ byte-identical to the original.
 
    Only track 01 is patched, but the other tracks must be the originals.
 
-2. **The patch:** `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 158,280 bytes,
-   SHA-256 `94b27498a5fcbe4267318b1c32ff23041bc4e0cd24606bf304248ad7f814a2c7`.
+2. **The patch:** `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 158,333 bytes,
+   SHA-256 `7e7d7118272b24c5bc66d7c5bcd2b7f9be4daac1ae980347e61a81bec6833a36`.
 
 3. **An xdelta3 (VCDIFF) patcher.**
    - Tested: the `xdelta3` 3.2.2 command line (`brew install xdelta` on macOS).
@@ -86,7 +91,7 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`.
+   `7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a`.
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
 4. Load the CUE in a Saturn emulator. The project tests with Mednafen and the
@@ -146,9 +151,9 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- the spec: `a374ab48…`;
-- track 01: `e213140a…`;
-- the patch: `94b27498…` (with xdelta3 3.2.2).
+- the spec: `7ce7820a…`;
+- track 01: `7a3917d1…`;
+- the patch: `7e7d7118…` (with xdelta3 3.2.2).
 
 `make_patch` also checks that:
 - the source components are the recorded originals;
@@ -157,4 +162,4 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 - `xdelta3 -d` reproduces the built track.
 
 To build step by step instead, see `research/experiments/EXP-0052/README.md`
-(Build; add `--caption-palette gold`).
+(Build; add `--caption-palette gold --ui-english`).

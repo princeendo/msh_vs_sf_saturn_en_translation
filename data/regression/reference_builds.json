@@ -242,10 +242,10 @@
   },
   {
    "name": "m8_roster_gold",
-   "experiment": "EXP-0052",
-   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011).",
-   "spec": "local/font011/spec/roster_gold.json",
-   "spec_sha256": "a374ab480fcaed23c60904c75d8f62edcd071276d9c1fef7ad9be8614dad7629",
+   "experiment": "EXP-0052, EXP-0053",
+   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002).",
+   "spec": "local/ui001/spec/roster_gold_ui.json",
+   "spec_sha256": "7ce7820abaabcccf50e29282fcf6b9f6e7003b5efa0af7c01e9a97a4d13b29e5",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -254,9 +254,10 @@
     "--glyph-style",
     "credits",
     "--caption-palette",
-    "gold"
+    "gold",
+    "--ui-english"
    ],
-   "track01_sha256": "e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae",
+   "track01_sha256": "7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -277,7 +278,7 @@
     "MC12.PAC": "74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a",
     "MC13.PAC": "2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382",
     "ME.PAC": "dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255",
-    "MEMFIX.PAC": "559e3927e5bab304904c7e58e80cd57a5f8a5aeff1610b0b505c3b1085d00b93",
+    "MEMFIX.PAC": "26c2d9bb790a387af16d4cc81f84c7a80d31253ed5324498eb980e92e9c300bf",
     "MM.BIN": "a2d07db1766c8833ec0f18bc8b31cd0101a1e6ea13a1a1088650a2917e4321a3"
    },
    "baselined": "2026-10-25",
@@ -285,6 +286,10 @@
     {
      "track01_sha256": "3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3",
      "replaced_because": "EXP-0052: capital W redesigned (variant A)"
+    },
+    {
+     "track01_sha256": "e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae",
+     "replaced_because": "EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image"
     }
    ]
   }

@@ -230,6 +230,25 @@ def hex_offset(value: object, what: str) -> int:
     return int(value, 16)
 
 
+def parse_glyph_copies(spec: dict[str, object]) -> dict[int, int | None]:
+    """The v3 ``glyph_copies`` map: target code -> source code, or null for empty."""
+    if spec.get("schema") != SCHEMA_V3:
+        return {}
+    entries = spec.get("glyph_copies") or {}
+    if not isinstance(entries, dict):
+        raise SpecError("glyph_copies must be an object")
+    copies: dict[int, int | None] = {}
+    for target, source in entries.items():
+        if source is not None and not isinstance(source, str):
+            raise SpecError("a glyph copy source must be a hex code or null")
+        copies[hex_offset(target, "glyph copy")] = (
+            None if source is None else hex_offset(source, "glyph copy")
+        )
+    if set(copies) & {s for s in copies.values() if s is not None}:
+        raise SpecError("a glyph copy target is also a source")
+    return copies
+
+
 def parse_document(spec: dict[str, object]) -> tuple[list[TableSpec], list[FieldSpec]]:
     """Parse any schema version into tables and (v3 only) raw fields."""
     if spec.get("schema") != SCHEMA_V3:
@@ -525,6 +544,7 @@ def compile_tables(
     ranges: Sequence[tuple[int, int]] = FREE_RANGES,
     fields: Sequence[FieldSpec] = (),
     style: str = "quote",
+    copies: dict[int, int | None] | None = None,
 ) -> CompiledSet:
     """Build one font image and every quote PAC (no disc I/O)."""
     cells = table_cells(tables, pacs)
@@ -544,7 +564,7 @@ def compile_tables(
         )
     codes = dict(zip(pairs, available + extra, strict=False))
     new_font, font_info = build_font(
-        font_image, pairs, [codes[p] for p in pairs], candidates, extra, style
+        font_image, pairs, [codes[p] for p in pairs], candidates, extra, style, copies
     )
     per_file: dict[str, dict[int, int]] = {}
     raw = {spec.file: spec.raw for spec in tables} | {f.file: True for f in fields}
@@ -596,13 +616,18 @@ def compile_files(
 
 
 def verify_font(
-    old: bytes, new: bytes, compiled: Compiled | CompiledSet, style: str = "quote"
+    old: bytes,
+    new: bytes,
+    compiled: Compiled | CompiledSet,
+    style: str = "quote",
+    copies: dict[int, int | None] | None = None,
 ) -> dict[str, object]:
     old_header, old_glyphs = unpack(old)
     new_header, new_glyphs = unpack(new)
     sacrificed = {int(c, 16) for c in compiled.font_info["sacrificed"]}  # type: ignore[attr-defined]
     reused = {int(c, 16) for c in compiled.font_info.get("reused", [])}  # type: ignore[attr-defined]
     pair_codes = set(compiled.codes.values())
+    copies = copies or {}
     changed = {
         c for c, (a, b) in enumerate(zip(old_glyphs, new_glyphs, strict=True)) if a != b
     }
@@ -613,7 +638,14 @@ def verify_font(
     )
     checks: dict[str, object] = {
         "header_unchanged": old_header == new_header,
-        "changed_codes_expected": changed == pair_codes | sacrificed,
+        "changed_codes_expected": changed <= pair_codes | sacrificed | set(copies)
+        and pair_codes | sacrificed <= changed,
+        "copies_equal_sources": all(
+            new_glyphs[t].kind == "empty"
+            if s is None
+            else new_glyphs[t].cell == old_glyphs[s].cell
+            for t, s in copies.items()
+        ),
         "pairs_equal_composed": pairs_ok,
         "sacrificed_empty": all(new_glyphs[c].kind == "empty" for c in sacrificed),
         "pair_codes_were_empty": all(
@@ -757,6 +789,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         document = json.loads(args.spec.read_text())
         tables, fields = parse_document(document)
         listed_only = document.get("schema") == SCHEMA_V3
+        copies = parse_glyph_copies(document)
         style = str(document.get("glyph_style", "quote"))
         if style not in STYLES:
             raise SpecError(f"glyph_style must be one of {STYLES}")
@@ -784,7 +817,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(report_cap, indent=1))
             return 0
         compiled = compile_tables(
-            tables, old_font, pacs, candidates, fields=fields, style=style
+            tables,
+            old_font,
+            pacs,
+            candidates,
+            fields=fields,
+            style=style,
+            copies=copies,
         )
         new_memfix = memfix[:offset] + compiled.font_image + memfix[offset + length :]
         outputs = {"MEMFIX.PAC": new_memfix} | {
@@ -819,7 +858,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             },
             "outputs": {name: sha(data) for name, data in outputs.items()},
             "checks": {
-                "font": verify_font(old_font, compiled.font_image, compiled, style),
+                "font": verify_font(
+                    old_font, compiled.font_image, compiled, style, copies
+                ),
                 "memfix_outside_entry_unchanged": new_memfix[:offset] == memfix[:offset]
                 and new_memfix[offset + length :] == memfix[offset + length :],
                 "tables": {

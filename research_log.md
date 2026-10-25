@@ -3965,3 +3965,29 @@ redesign.
   `release/m8_roster_gold.json`, README updated. The white `m8_roster` record
   is kept.
 - `FONT-011` is `DONE`.
+
+## 2026-10-25 — UI-001 / UI-002 / EXP-0053: English-only UI labels
+
+- **Sources:** the player-2 prompt "対戦者求む!" is quote-font cells
+  `0x45B`-`0x45F`. The mode panel's "簡単操作" is `0x424`/`0x428`/`0x42C`/
+  `0x43A` (four shading copies), each matching an EASY copy (`0x6A6`…`0x6AC`).
+- **English art already in the font:** JOIN IN, INSERT COIN, GAME OVER, and
+  the US/JP life-bar names (useful for `LOC-002`). The US arcade shows INSERT
+  COIN in that corner.
+- **User choice:** JOIN IN.
+- **Implementation:** `glyph_copies` (compiler-verified), via
+  `official_endings --ui-english`. Build `7a3917d1…`; `m8_roster_gold`
+  re-baselined; 8 of 8 pass; release patch `7e7d7118…` (158,333 bytes).
+- **Live:**
+  - EASY is steady (cold boot, 100 frames).
+  - The P2 alternation did not appear in this session. It has appeared in
+    only one of six sessions, and the trigger is unknown.
+  - JOIN IN was verified by replaying the silver state with the new font
+    transplanted into its cart RAM. The original state font matched the
+    build byte for byte, which validates cart-RAM extraction there.
+- **Not productive (do not retry blindly):**
+  - waiting for the P2 alternation live;
+  - replaying recorded states for the mode panel, which diverge without
+    input.
+- **Checks:** `pytest` 218 passed, 1 skipped; `ruff`, `ruff format`, and
+  `mypy` are clean.

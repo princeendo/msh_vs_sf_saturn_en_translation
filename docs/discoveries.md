@@ -1093,6 +1093,30 @@ Experiment: `EXP-0052`
   (reference `m8_roster_gold`).
 - **Reproduce.** `research/experiments/EXP-0052/README.md`.
 
+## UI-001/UI-002: English UI Labels from the Game's Own Art
+
+Confidence: **CONFIRMED** (EASY live; JOIN IN by replay with a transplanted
+font)
+
+Experiment: `EXP-0053`
+
+- **Finding.** The player-2 prompt and the mode panel are quote-font UI art
+  cells:
+  - "対戦者求む!" is `0x45B`-`0x45F`;
+  - "簡単操作" has four shading copies (`0x424`, `0x428`, `0x42C`, `0x43A`;
+    four cells each), matching "EASY" copies `0x6A6`, `0x6A8`, `0x6AA`,
+    `0x6AC`.
+
+  The font also holds the arcade's English UI art: "JOIN IN" (`0x496`-
+  `0x499`), "INSERT COIN", "GAME OVER", and life-bar names in both
+  conventions (VEGA/BISON, GOUKI/AKUMA, MECH-GOUKI/CYBER-AKUMA).
+- **Fix.** `--ui-english` adds `glyph_copies` (verified by the compiler):
+  "JOIN IN" replaces the prompt, and EASY replaces each "簡単操作" copy.
+- **Side finding.** In a recorded state, cart RAM `0x0278CF60`-`+0x32740` (the
+  quote font) equals the built font byte for byte. That validates
+  `mcs_extract`'s cart-RAM extraction for this region.
+- **Reproduce.** `research/experiments/EXP-0053/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

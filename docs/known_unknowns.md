@@ -222,8 +222,17 @@ remain open; none blocks the roster image.
   command table, and there was no positive control (`EXP-0051`).
 - What uses `TESTFIX.DAT`'s fonts?
 
+## UI Labels (`EXP-0053`)
+
+- When does the player-2 prompt alternate with the second phase ("JOIN IN",
+  formerly "対戦者求む!")? Seen in one session of six, from its stage-1 win
+  onwards.
+
 ## Localization: Names (`LOC-001`)
 
+- The font holds life-bar name art in both conventions (VEGA/BISON,
+  GOUKI/AKUMA, MECH-GOUKI/CYBER-AKUMA; `EXP-0053`). Which code chooses
+  between them?
 - Which screens show the regional names (Vega, Gouki, Mech-Gouki) as art?
   Seen so far: the VS screen, the life bars, the win screen, and the ending
   speaker labels. The full inventory is not done.

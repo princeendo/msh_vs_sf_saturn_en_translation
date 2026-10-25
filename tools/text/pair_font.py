@@ -95,6 +95,7 @@ def build(
     candidates: Sequence[int],
     reusable: Sequence[int] = (),
     style: str = "quote",
+    copies: dict[int, int | None] | None = None,
 ) -> tuple[bytes, dict[str, object]]:
     """Store ``pairs[i]`` at ``codes[i]``, emptying candidates only as needed.
 
@@ -115,6 +116,16 @@ def build(
     reused = [code for code in codes if glyphs[code].kind != "empty"]
     for code in reused:
         glyphs[code] = Glyph("empty", bytes(CELL_BYTES))
+    # UI art replacements (UI-001/UI-002): a target takes a source glyph's cell,
+    # or becomes empty. Sources are read from the original font.
+    copies = copies or {}
+    if set(copies) & set(codes):
+        raise ValueError("a copy target is also a pair code")
+    original = list(glyphs)
+    for target, source in copies.items():
+        glyphs[target] = (
+            Glyph("empty", bytes(CELL_BYTES)) if source is None else original[source]
+        )
 
     cells = [g.cell for g in glyphs]
     new = [Glyph("compressed", pair_glyph(cells, p, style)) for p in pairs]
@@ -125,7 +136,7 @@ def build(
     for code in candidates:
         if current + needed - freed <= len(image):
             break
-        if glyphs[code].kind == "empty" or code in codes:
+        if glyphs[code].kind == "empty" or code in codes or code in copies:
             continue
         freed += stored_size(glyphs[code])
         sacrificed.append(code)
@@ -147,6 +158,10 @@ def build(
     }
     if reused:
         info["reused"] = [f"0x{c:04X}" for c in reused]
+    if copies:
+        info["copies"] = {
+            f"0x{t:04X}": None if s is None else f"0x{s:04X}" for t, s in copies.items()
+        }
     return result, info
 
 
