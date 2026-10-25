@@ -3447,3 +3447,36 @@ Next action: `END-005`, and the user's dialogue scope decision.
     experiment.
 - No code changed.
 
+## 2026-10-24 — END-005 / EXP-0043: point and partner roles in the ending
+
+Task: END-005
+
+Hypothesis (pre-registered in `EXP-0037`): the dialogue depends on the
+partner, and the pages on the point character.
+
+Action and result:
+
+- **Saturn controlled run.** Untouched image, `select_after_continue.mcs`,
+  Ryu + Ken. The user lost once and the agent restored the state; then Ryu
+  won, with Ryu landing the KO.
+  - Pages: 0 px vs `EXP-0037` (byte-identical screenshots).
+  - Box 4: 0 px. Box 3: the name only. Boxes 1-2: other lines.
+  - All four boxes equal the image-C Ryu/Ken run.
+  - The continue kept the boss stage, twice.
+- **Records.** Glyph matching gave `MC13` records 36-37 (Ken's pair) and
+  86-87 (Ryu's pair, as for Ryu/Gouki).
+  - Formula: 16 + 2·(partner slot) and 16 + 2·(26 + point slot). It matches
+    the English partner-line indices, and 16 + 2·52 = 120 records.
+- **Arcade predictions** (no play, `arcade_ending_route.py`, now with
+  `--point`):
+  - Ryu + Chun-Li: records 38-39 and 86-87; English 11 and 35. Met.
+  - Gouki + Captain America: records 20-21 and 98-99; English 2 and 41; Gouki's
+    ending. Met.
+- **Deviation.** The planned Gouki + Ryu run picked Captain America, because
+  cursor paths depend on the point character. The KO character was not varied.
+
+Conclusion: H1 and the indexing model are `CONFIRMED` (discoveries
+`END-005`). `END-010` is `READY`.
+
+Next action: `END-010`.
+

@@ -54,3 +54,9 @@ def test_route_forces_and_releases_in_order() -> None:
     assert "4440 press 6 P1 Button 1" in lines
     assert lines[-1] == "9000 exit"
     assert "4360 press 6 P1 Button 1" in timeline("ken")
+
+
+def test_point_path_runs_before_the_point_confirm() -> None:
+    lines = timeline("captain_america", end=9000, point="gouki")
+    assert lines.index("4260 press 4 P1 Up") < lines.index("4300 press 6 P1 Button 1")
+    assert "4360 press 4 P1 Down" in lines and "4400 press 4 P1 Right" in lines

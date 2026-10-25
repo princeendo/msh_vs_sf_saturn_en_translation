@@ -842,6 +842,34 @@ Experiment: `EXP-0042`
   not traced.
 - **Reproduce.** `research/experiments/EXP-0042/README.md`, Procedure.
 
+## END-005: What Selects the Post-Boss Dialogue and the Ending
+
+Confidence: **CONFIRMED** (point and partner roles); the KO character's effect is
+untested
+
+Experiment: `EXP-0043`
+
+- **Pages.** The ending pages follow the point character.
+  - On the untouched Saturn image, Ryu + Ken (only the partner changed from
+    `EXP-0037`) showed Ryu's three pages, byte-identical screenshots included.
+  - A Gouki-point arcade run showed Gouki's ending.
+- **Dialogue.** `MC13`'s 120-record table is 16 Cyber-Akuma win quotes plus 52
+  two-record entries:
+  - boxes 1-2 are records 16 + 2 × (partner slot), spoken by the partner;
+  - boxes 3-4 are records 16 + 2 × (26 + point slot), spoken by the point;
+  - in each, `0x0000` names the other character.
+  - Ryu's own pair (records 86-87) is shared by every partner.
+- **English.** The partner lines (`EXP-0042`) use the same indices, one record
+  each.
+- **Evidence.**
+  - Saturn: Ryu + Ken boxes are records 36-37 and 86-87.
+  - Predicted and met in MAME (`mshvsfj`, `mshvsfu`):
+    - Ryu + Chun-Li: records 38-39 and 86-87; English 11 and 35.
+    - Gouki + Captain America: records 20-21 and 98-99; English 2 and 41.
+- **Limits.** The KO character was not varied. Records 54/55 and 106/107
+  (Cyber-Akuma's pairs) do not match the arcade block.
+- **Reproduce.** `research/experiments/EXP-0043/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:

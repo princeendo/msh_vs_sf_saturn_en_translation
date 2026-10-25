@@ -253,9 +253,11 @@ Working conclusions until captures settle them:
 - **Japanese post-boss dialogue.** A 104-record block at `0x217BE0`, 319 records
   past the slot-19 win-quote base. It equals Saturn `MC13` records 16-119,
   except records 54/55 and 106/107.
+  - Record pair 2·i of the block is entry i: i = partner slot for boxes 1-2,
+    and i = 26 + point slot for boxes 3-4 (`EXP-0043`).
 - **English partner lines.** 52 records at `0x22226C`, with a `0x0000` name
   placeholder. Partner line = record partner-slot; point reply = record
-  26 + point-slot (`SUPPORTED`). There is no English version of the Japanese
+  26 + point-slot (`CONFIRMED`, `EXP-0043`). There is no English version of the Japanese
   multi-box dialogue.
 - **No-play route.** Force `0xFF4880` = `0x0607` (stage 8) and the boss vitality
   `0xFF3E50`/`0xFF4844` = 0 (`tools/reference/arcade_ending_route.py`).

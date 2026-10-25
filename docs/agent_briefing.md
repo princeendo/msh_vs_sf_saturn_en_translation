@@ -48,7 +48,11 @@ reference facts** (what outside documents say).
     English for the three pages, and the arcade's two English partner lines for
     the post-boss dialogue (`data/translations/README.md`).
 
-  Next: `END-005` (one gameplay session), then `END-010`.
+  - `END-005` is done (`EXP-0043`): pages follow the point character. The
+    dialogue is a partner pair and a point pair in `MC13` (16 + 2·index), and
+    English uses the same indices.
+
+  Next: `END-010` (M7), now `READY`.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

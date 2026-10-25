@@ -117,13 +117,12 @@ Nothing about win quotes may be assumed for endings (`AGENTS.md` rules 13-14).
 Ryu's run showed a four-box post-boss dialogue at the top of the frozen stage,
 then three ending pages (a picture panel and a bottom text box).
 
-- **Selection.** A Ryu/Ken observation (`EXP-0041` Part 2, not controlled)
-  supports this: pages follow the point character, boxes 1-2 depend on the
-  partner, and box 3 is shared, with the placeholder naming the partner. Does
-  the post-boss dialogue depend on the team pair, the partner alone, or the
-  point character, or is it always shown? Does the ending
-  follow the point character, the KO character, the survivor, or the team? Ryu
-  was point and landed the KO, so these were confounded. Test in `END-005`.
+- **Selection.** Answered (`EXP-0043`): pages follow the point character. The
+  dialogue is the partner's pair (16 + 2·partner slot) plus the point's pair
+  (16 + 2·(26 + point slot)), and `0x0000` names the other character. Still
+  open:
+  - Does the KO character (partner instead of point) change anything?
+  - Are Cyber-Akuma's pairs (records 54/55, 106/107) used?
 - **Renderer.** Answered for box 1 and page 1 (`EXP-0038`, discoveries
   `END-002`): VDP1 sprites of byte-exact quote-font glyphs, built by
   `0x0601CE00` from 16-bit codes. Still open: whether pages 2-3, boxes 3-4, and
@@ -156,7 +155,8 @@ then three ending pages (a picture panel and a bottom text box).
 - **Layout.** Answered (`EXP-0039`): positions are explicit `0x0020` cells in
   19 × 2 records, and page 3's "gaps" are bracket-glyph whitespace. Still open:
   whether a third line or text past cell 18 is possible.
-- **Speakers.** Who speaks each dialogue box? No speaker cue is shown.
+- **Speakers.** Answered (`EXP-0043`): boxes 1-2 are the partner's lines, and
+  boxes 3-4 the point character's.
 - **Continue.** Continuing after a final-boss loss went to character select and
   then `STAGE-08` (`SUPPORTED`, one run). Does that hold for every pick order and
   side?

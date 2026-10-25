@@ -3,7 +3,9 @@
 The route was found empirically for the local sets with their default EEPROM
 (`EXP-0042`):
 
-- two coins and 1P start; Ryu, then a partner (default Ken, or a cursor path);
+- two coins and 1P start; a point character (default Ryu, or a cursor path from
+  Ryu), then a partner (default Ken, or a cursor path from where the partner
+  cursor starts; paths are only valid for the point they were observed with);
 - the stage word at ``0xFF4880`` is forced to ``0x0607`` from boot, so the first
   fight is stage 8 (Mech-Gouki), and released during that fight;
 - the boss's vitality words ``0xFF3E50`` and ``0xFF4844`` are forced to zero, so
@@ -24,14 +26,27 @@ SETUP = [
     "3200 press 6 Coin 1",
     "3230 press 6 Coin 1",
     "3320 press 6 1 Player Start",
-    "4300 press 6 P1 Button 1",
 ]
-PARTNER_PATHS = {"ken": [], "gouki": ["Up", "Right"]}
+POINT_PATHS = {"ryu": [], "gouki": ["Up"]}
+# From the partner cursor's start; observed with point Ryu unless noted.
+PARTNER_PATHS = {
+    "ken": [],
+    "gouki": ["Up", "Right"],
+    "chunli": ["Up", "Right", "Right"],
+    "captain_america": ["Down", "Right"],  # observed with point Gouki (EXP-0043)
+}
 
 
-def timeline(partner: str = "ken", end: int = 16000, every: int = 30) -> list[str]:
+def timeline(
+    partner: str = "ken", end: int = 16000, every: int = 30, point: str = "ryu"
+) -> list[str]:
     """Return timeline lines for tools/reference/mame_timeline.lua."""
     lines = [f"3000 force16 {STAGE_WORD:#x} {STAGE_8:#06x}", *SETUP]
+    frame = 4300 - 40 * len(POINT_PATHS[point])
+    for direction in POINT_PATHS[point]:
+        lines += [f"{frame} press 4 P1 {direction}", f"{frame + 20} snap"]
+        frame += 40
+    lines.append("4300 press 6 P1 Button 1")
     frame = 4360
     for direction in PARTNER_PATHS[partner]:
         lines += [f"{frame} press 4 P1 {direction}", f"{frame + 20} snap"]
@@ -50,11 +65,12 @@ def timeline(partner: str = "ken", end: int = 16000, every: int = 30) -> list[st
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--point", choices=sorted(POINT_PATHS), default="ryu")
     parser.add_argument("--partner", choices=sorted(PARTNER_PATHS), default="ken")
     parser.add_argument("--end", type=int, default=16000)
     parser.add_argument("--every", type=int, default=30)
     args = parser.parse_args(argv)
-    print("\n".join(timeline(args.partner, args.end, args.every)))
+    print("\n".join(timeline(args.partner, args.end, args.every, args.point)))
     return 0
 
 

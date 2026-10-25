@@ -24,7 +24,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - `END-006` is done (`EXP-0042`): official English exists for Ryu's pages,
     but not for the four-box dialogue (the arcade English shows two generic
     partner lines);
-  - `END-005`: what selects the dialogue and ending (one gameplay session).
+  - `END-005` is done (`EXP-0043`): pages follow the point character. The
+    dialogue is a partner pair (16 + 2·partner slot) plus a point pair
+    (16 + 2·(26 + point slot)) in `MC13`; English uses the same indices.
+  - Next: `END-010` (M7), now `READY`.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2176,7 +2179,7 @@ the user asks or when it unblocks other work.
 
 ### END-005 - Identify what selects the post-boss dialogue and the ending
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-24, `EXP-0043`)
 - **Milestone:** M6
 - **Dependencies:** END-001.
 - **Blockers:** None. Needs one user gameplay session per team.
@@ -2209,6 +2212,22 @@ the user asks or when it unblocks other work.
   (partner and image), so the controlled partner-only run on the untouched
   image is still this task's first criterion. A Ryu/Ken post-KO checkpoint now
   exists (`ryu_ken_post_boss_ko_imageC.mcs`, image C RAM).
+- **Evidence (2026-10-24, `EXP-0043`; `CONFIRMED`, discoveries `END-005`):**
+  - Controlled run on the untouched image, from `select_after_continue.mcs`.
+    Ryu + Ken won on the second attempt, with Ryu landing the KO.
+    - The pages are pixel-identical to `EXP-0037`.
+    - Box 4 is identical, and box 3 differs only in the name.
+    - Boxes 1-2 are other lines: `MC13` records 36-37.
+    - The continue kept the boss stage again, twice.
+  - Indexing model, predicted and met in MAME: Ryu + Chun-Li, and Gouki +
+    Captain America.
+    - Partner pair: 16 + 2·partner slot. Point pair: 16 + 2·(26 + point slot).
+    - English uses the same indices, one record each.
+    - Pages follow the point character.
+  - Not met: varying the KO character (deviation recorded). The planned order
+    swap became Gouki + Captain America, because the cursor path differs by
+    point character.
+  - Checkpoint: `ryu_ken_post_boss_ko.mcs` (`18995e6d…`, untouched image).
 
 ### END-006 - Arcade reference for Ryu's ending and the post-boss dialogue
 
@@ -2245,14 +2264,13 @@ the user asks or when it unblocks other work.
 
 ### END-010 - Localize one Ryu ending
 
-- **Status:** `BACKLOG`
+- **Status:** `READY` (2026-10-24; all dependencies done, scope decided)
 - **Milestone:** M7
 - **Dependencies:** END-001, END-002, END-004, END-005, END-006, END-007.
-- **Blockers:** Selection logic (`END-005`) is not yet established: which
-  dialogue records each partner uses, and therefore where the two English lines
-  go. The scope decision is made (user, 2026-10-24). Official English
-  (`END-006`), the marker build (`END-007`), the renderer (`EXP-0038`), the RAM
-  layout (`EXP-0039`), and the disc sources (`EXP-0040`) are done.
+- **Blockers:** None. The dependencies are done: `END-005` (`EXP-0043`) maps the
+  dialogue records. Ryu's pair is records 86-87, shared by every partner, and
+  each partner p has the pair 16 + 2·p. The scope is decided (user,
+  2026-10-24).
 - **Objective:** Reproduce one Ryu ending localization from untouched source.
 - **Rationale:** One complete case is required before generalizing endings.
 - **Acceptance criteria:** Live/source behavior is experimentally established; official text provenance, exact modifications, deterministic build, and visible verification are documented.
@@ -2269,8 +2287,9 @@ the user asks or when it unblocks other work.
     - Open design question for this task, to be decided by experiment, not
       assumed: the Saturn shows four boxes (two partner-specific, then two
       shared Ryu boxes, `EXP-0041`), and the English has two lines.
-      - The natural mapping is partner line → the partner's boxes, and Ryu's
-        reply → the shared Ryu boxes.
+      - `EXP-0043` gives the mapping: English record p → `MC13` pair
+        16 + 2·p (boxes 1-2), and English record 35 → `MC13` pair 86-87
+        (boxes 3-4, Ryu).
       - How to show one line where the Saturn shows two boxes is untested. A
         blank record's behavior is unknown.
     - Names: English uses its own names (AKUMA for Gouki). The Saturn name
