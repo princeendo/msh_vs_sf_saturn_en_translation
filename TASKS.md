@@ -27,7 +27,15 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   - `END-005` is done (`EXP-0043`): pages follow the point character. The
     dialogue is a partner pair (16 + 2·partner slot) plus a point pair
     (16 + 2·(26 + point slot)) in `MC13`; English uses the same indices.
-  - Next: `END-010` (M7), now `READY`.
+- **M7 completed on 2026-10-24** (`END-010`, `EXP-0044`). Ryu's ending shows
+  the official arcade English from a deterministic image built from the
+  untouched source:
+  - the three pages;
+  - the two partner lines, for Ken and for Gouki;
+  - the English names.
+
+  It was verified live from a cold boot and pinned in the regression baseline
+  (`end010`). Next is `END-020` (M8), now `READY`.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2264,7 +2272,7 @@ the user asks or when it unblocks other work.
 
 ### END-010 - Localize one Ryu ending
 
-- **Status:** `READY` (2026-10-24; all dependencies done, scope decided)
+- **Status:** `DONE` (2026-10-24, `EXP-0044`; M7 complete)
 - **Milestone:** M7
 - **Dependencies:** END-001, END-002, END-004, END-005, END-006, END-007.
 - **Blockers:** None. The dependencies are done: `END-005` (`EXP-0043`) maps the
@@ -2302,18 +2310,55 @@ the user asks or when it unblocks other work.
       (`FONT-003`) are a candidate for English.
   - `MC13` is the boss's quote file. Its win quotes stay with `SPECIAL-001`;
     only the dialogue records are in scope.
+- **Evidence (2026-10-24, `EXP-0044`; `CONFIRMED`, discoveries `END-010`):**
+  - **Pre-build trials:** a blank box is shown (not skipped), and `0x0000`
+    works at any cell. The name table is in `MM.BIN` (`0x7D3C0`) and loads at
+    boot.
+  - **Build** (`caption_compiler.py` schema v3, spec from
+    `official_endings.py`):
+    - `MEMFIX` font: 81 pairs;
+    - `MC13`: records 36-37, 46-47, 86-87;
+    - `ME.PAC`: Ryu's pages;
+    - `MM.BIN`: names and name length.
+    - Track 01 `b481a4c6…`; two builds identical; all checks true.
+  - **Live from a cold boot** (the user worked the menus;
+    `tools/mednafen/ending_driver.py` forced stage 8 and the KO):
+    - Ryu + Ken: "RYU," / "you're not bad." / "We shall meet again" / "KEN.".
+    - Ryu + Gouki: "You are worthy" / "RYU." / "We shall meet again" /
+      "AKUMA.".
+    - Both: the three official English pages.
+    - The first build left a blank cell after "RYU". That was traced to the
+      name-length table (`MM.BIN` `0x96DE8`) and fixed.
+  - **Regression:** reference `end010` regenerates the spec from the ROM and
+    rebuilds to the same hash.
+  - **Pitfall:** a state replay keeps the old quote font, because it is loaded
+    after boot and stays resident. Live checks of font changes need a cold
+    boot.
 
 ### END-020 - Generalize ending-localization pipeline
 
-- **Status:** `BACKLOG`
+- **Status:** `READY` (2026-10-24, after M7)
 - **Milestone:** M8
 - **Dependencies:** END-010.
-- **Blockers:** No Ryu ending is localized reproducibly.
+- **Blockers:** None. Ryu's ending is localized reproducibly (`EXP-0044`).
 - **Objective:** Validate a general ordinary-character ending workflow.
 - **Rationale:** One ending cannot establish format coverage or capacity constraints.
 - **Acceptance criteria:** Representative variation is tested; structured translations, deterministic builds, visible verification, and explicit exceptions support a general pipeline.
 - **Outputs:** M8 tools, data, experiments, coverage and regression records.
 - **Notes:** Special cases remain excluded.
+  - Starting points from M6/M7:
+    - `official_endings.py` takes any point and partner slots;
+    - `caption_compiler.py` v3 builds raw and LZSS ending files;
+    - `ending_driver.py` reaches any ending live from a cold boot, with menus
+      only;
+    - `arcade_ending_route.py` reaches any arcade ending with no play.
+  - Open items:
+    - all 52 partner and point lines, and the remaining name and
+      name-length entries;
+    - combining with the M5 roster image in one spec;
+    - the name side effect on Japanese text that still uses placeholders;
+    - other characters' page capacity and dialogue line lengths;
+    - the KO character's effect.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 

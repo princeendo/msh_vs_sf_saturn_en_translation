@@ -52,7 +52,13 @@ reference facts** (what outside documents say).
     dialogue is a partner pair and a point pair in `MC13` (16 + 2·index), and
     English uses the same indices.
 
-  Next: `END-010` (M7), now `READY`.
+  - `END-010` is done (`EXP-0044`), so **M7 is complete**: Ryu's ending shows
+    official English from a cold boot (pages, partner lines for Ken and Gouki,
+    English names). Reference build `end010`.
+  - Pitfall: the quote font stays resident after it loads, so verify font
+    changes from a cold boot, not by state replay.
+
+  Next: `END-020` (M8).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).
@@ -166,8 +172,8 @@ Authorities are cataloged in `docs/references.md`.
 | --- | --- | --- |
 | Disc | `tools/disc/pac_lzss.py`, `pac_patch.py`, `patch_image.py`, `iso9660.py` | Decode, re-encode, and rebuild |
 | Memory | `tools/memory/mcs_extract.py` | Save-state regions (validated ones only) |
-| Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py`, `glyph_match.py`, `code_search.py` | Render, compile, font, match glyph cells to codes, find code sequences |
-| Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py`, `session_recorder.py`, `write_trial.py` | Headless runs, checks, gameplay recording, and write trials |
+| Text | `tools/text/quote_render.py`, `caption_compiler.py`, `font_pack.py`, `glyph_match.py`, `code_search.py`, `official_endings.py` | Render, compile (schema v3 for endings), font, match glyph cells, find code sequences, ending specs |
+| Mednafen | `tools/mednafen/agent.py`, `ko_capture.py`, `verify_records.py`, `replay_state.py`, `session_recorder.py`, `write_trial.py`, `ending_driver.py` | Headless runs, checks, gameplay recording, write trials, reaching endings |
 | Regression | `tools/regression/reference_builds.py` | Rebuild reference images, compare hashes |
 | Arcade | `tools/reference/mame_audit.py`, `cps2_text.py`, `quote_pairing.py`, `arcade_endings.py` | Identity, text, pairing, endings |
 | MAME | `tools/reference/mame_timeline.lua`, `arcade_route.py`, `arcade_ending_route.py`, `mame_snap_frames.lua` | Scripted runs (win quotes, endings) |

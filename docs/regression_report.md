@@ -16,6 +16,7 @@ Last run: 2026-10-24.
 | `exp0028a` | `EXP-0028` | `c6d7118e210daf05…` | `58d0c56bedc6d632…` | 2026-10-24 | 2026-10-24 | pass (stored spec) |
 | `tr001` | `EXP-0033` | `aa7fa86397c198d5…` | `f9daacc1211bf423…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
 | `roster` | `EXP-0036` | `b2c097fa5c28a61b…` | `351254c4751e0a49…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
+| `end010` | `EXP-0044` | `6a0e73e7b1f18286…` | `b481a4c6012288e8…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -87,3 +88,16 @@ Track 01: `f9daacc1211bf423fb6b57576dc34fd2a6ef59a1050af171ca1ca0fcfcb0b4dd`
 Track 01: `351254c4751e0a49b74a34bc6668cce84e41bb22ded62342c472bbcd74c9f3a3`
 
 - Previous track 01 `f5044e8ac6102de2333cb27076286f905e4324886b44653e3e694442d46bb6d2`: EXP-0036 declared-length fix: build/re045 became build/re046_roster; decoded tables, MEMFIX, and renders are identical.
+
+### `end010`
+
+Ryu's ending in official English (pages, two partner lines for Ken and Gouki, English names); verified live from a cold boot with Ken and Gouki (END-010).
+
+| File | SHA-256 |
+| --- | --- |
+| `MC13.PAC` | `bcc0c080204a807fec934bd8425a66778d03780766107b67fbcdf36109a48acd` |
+| `ME.PAC` | `2dcb9649ef5882dceb3ce90aab061e4e10c41fb7a9054b0124c25bb91921bcdf` |
+| `MEMFIX.PAC` | `31081f6dde1fdc074460a4cc2bb7b0296bdaa2feb42c9b85caee16df5eb017ee` |
+| `MM.BIN` | `d4170893bc1f79cd29ce66e4c53285eae843f2b587f0dac754b9fd7583e330cb` |
+
+Track 01: `b481a4c6012288e8ef460a3f7a19efebe85dba87360260a78c716e56ae8d2aca`

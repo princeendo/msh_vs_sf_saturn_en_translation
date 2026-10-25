@@ -6,6 +6,16 @@ Input is a JSON caption spec (``data/captions/caption_spec.schema.json``).
   ``0x91AC``).
 - ``mshvsf-captions/2`` lists several quote tables, each with its ``file`` and
   decoded ``table`` offset (`EXP-0028`).
+- ``mshvsf-captions/3`` (`END-010`) adds, for ending text:
+  - ``format``: ``lzss`` (a PAC, the default) or ``raw`` (an uncompressed file
+    such as ``ME.PAC``, where ``table`` is a file offset);
+  - several tables per file, and any record index inside the data;
+  - ``placeholder``: ``anywhere`` allows ``{P}`` at any cell (`EXP-0044` T2
+    showed that ``0000`` inserts the name wherever it is);
+  - ``fields``: raw runs of cells, such as a name-table entry in ``MM.BIN``,
+    given as ``file``, ``offset``, ``cells``, and ``text``;
+  - ``patches``: raw byte writes (``file``, ``offset``, ``hex``), such as the
+    ``MM.BIN`` name-length table (`EXP-0044`), applied after the cells.
 
 All tables share **one** font, so distinct pairs are allocated jointly across
 files. Each record (index 0-15) gives two line strings. Each line is cut into
@@ -53,6 +63,7 @@ from tools.text.quote_render import record_codes, render
 
 SCHEMA = "mshvsf-captions/1"
 SCHEMA_V2 = "mshvsf-captions/2"
+SCHEMA_V3 = "mshvsf-captions/3"
 DEFAULT_FILE = "MC09.PAC"
 TABLE, RECORD, RECORDS, LINE_CELLS = 0x91AC, 76, 16, 19
 BLANK, PLACEHOLDER = 0x0020, 0x0000
@@ -93,7 +104,7 @@ def line_cells(text: str) -> list[Cell]:
     return cells
 
 
-def parse_spec(spec: dict[str, object]) -> list[Caption]:
+def parse_spec(spec: dict[str, object], limit: int = RECORDS) -> list[Caption]:
     if spec.get("schema") != SCHEMA:
         raise SpecError(f"schema must be {SCHEMA!r}")
     entries = spec.get("records")
@@ -104,8 +115,8 @@ def parse_spec(spec: dict[str, object]) -> list[Caption]:
         if not isinstance(entry, dict):
             raise SpecError("each record must be an object")
         record, lines = entry.get("record"), entry.get("lines")
-        if not isinstance(record, int) or not 0 <= record < RECORDS:
-            raise SpecError(f"record index must be 0-{RECORDS - 1}, got {record!r}")
+        if not isinstance(record, int) or not 0 <= record < limit:
+            raise SpecError(f"record index must be 0-{limit - 1}, got {record!r}")
         if (
             not isinstance(lines, list)
             or len(lines) != 2
@@ -121,8 +132,140 @@ def parse_spec(spec: dict[str, object]) -> list[Caption]:
 @dataclass(frozen=True)
 class TableSpec:
     file: str  # ISO 9660 name without version, for example "MC0A.PAC"
-    table: int  # decoded offset of record 0
+    table: int  # decoded offset of record 0 (file offset when raw)
     captions: list[Caption]
+    raw: bool = False  # v3: an uncompressed file such as ME.PAC
+    placeholder_anywhere: bool = False  # v3: {P} allowed at any cell
+
+
+@dataclass(frozen=True)
+class FieldSpec:
+    """A v3 raw run of cells, such as a name-table entry."""
+
+    file: str
+    offset: int  # file offset of the first cell (raw files only)
+    cells: int
+    text: str
+
+
+@dataclass(frozen=True)
+class PatchSpec:
+    """A v3 raw byte write, such as a name-length entry."""
+
+    file: str
+    offset: int
+    data: bytes
+
+
+def parse_patches(spec: dict[str, object]) -> list[PatchSpec]:
+    """The v3 ``patches`` list (empty for other schemas or when absent)."""
+    if spec.get("schema") != SCHEMA_V3:
+        return []
+    entries = spec.get("patches") or []
+    if not isinstance(entries, list):
+        raise SpecError("patches must be a list")
+    patches = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise SpecError("each patch must be an object")
+        name, data = entry.get("file"), entry.get("hex")
+        if not isinstance(name, str) or not isinstance(data, str) or not data:
+            raise SpecError("a patch needs a file name and a hex string")
+        patches.append(
+            PatchSpec(
+                name.upper(),
+                hex_offset(entry.get("offset"), "patch"),
+                bytes.fromhex(data),
+            )
+        )
+    return patches
+
+
+def apply_patches(
+    data: bytes, patches: Sequence[PatchSpec]
+) -> tuple[bytes, dict[str, object]]:
+    """Apply byte writes; check that only the patched bytes changed."""
+    out = bytearray(data)
+    targets: set[int] = set()
+    for patch_spec in patches:
+        end = patch_spec.offset + len(patch_spec.data)
+        if not 0 <= patch_spec.offset < end <= len(out):
+            raise SpecError(f"patch at 0x{patch_spec.offset:X} is outside the file")
+        out[patch_spec.offset : end] = patch_spec.data
+        targets.update(range(patch_spec.offset, end))
+    changed = {i for i in range(len(data)) if data[i] != out[i]}
+    checks: dict[str, object] = {
+        "only_patched_bytes_changed": changed <= targets,
+        "patched_bytes": len(targets),
+        "changed_bytes": len(changed),
+    }
+    if not checks["only_patched_bytes_changed"]:
+        raise SpecError(f"patch verification failed: {checks}")
+    return bytes(out), checks
+
+
+def hex_offset(value: object, what: str) -> int:
+    if not isinstance(value, str) or not value.startswith("0x"):
+        raise SpecError(f"{what} must be a hex string like '0x3674'")
+    return int(value, 16)
+
+
+def parse_document(spec: dict[str, object]) -> tuple[list[TableSpec], list[FieldSpec]]:
+    """Parse any schema version into tables and (v3 only) raw fields."""
+    if spec.get("schema") != SCHEMA_V3:
+        return parse_tables(spec), []
+    entries = spec.get("tables")
+    if not isinstance(entries, list) or not entries:
+        raise SpecError("tables must be a non-empty list")
+    tables: list[TableSpec] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise SpecError("each table must be an object")
+        name, fmt = entry.get("file"), entry.get("format", "lzss")
+        if not isinstance(name, str) or "." not in name:
+            raise SpecError(f"table file must be a file name, got {name!r}")
+        if fmt not in ("lzss", "raw"):
+            raise SpecError(f"{name}: format must be 'lzss' or 'raw', got {fmt!r}")
+        if entry.get("placeholder", "original") not in ("original", "anywhere"):
+            raise SpecError(f"{name}: placeholder must be 'original' or 'anywhere'")
+        captions = parse_spec(
+            {"schema": SCHEMA, "records": entry.get("records")}, limit=1 << 16
+        )
+        tables.append(
+            TableSpec(
+                name.upper(),
+                hex_offset(entry.get("table"), f"{name} table"),
+                captions,
+                raw=fmt == "raw",
+                placeholder_anywhere=entry.get("placeholder") == "anywhere",
+            )
+        )
+    keys = [(t.file, t.table + RECORD * c.record) for t in tables for c in t.captions]
+    if len(set(keys)) != len(keys):
+        raise SpecError("the same record is listed twice")
+    formats = {t.file: t.raw for t in tables}
+    if any(formats[t.file] != t.raw for t in tables):
+        raise SpecError("a file is listed with two formats")
+    fields: list[FieldSpec] = []
+    field_entries = spec.get("fields") or []
+    if not isinstance(field_entries, list):
+        raise SpecError("fields must be a list")
+    for entry in field_entries:
+        if not isinstance(entry, dict):
+            raise SpecError("each field must be an object")
+        name, cells, text = entry.get("file"), entry.get("cells"), entry.get("text")
+        if not isinstance(name, str) or not isinstance(text, str):
+            raise SpecError("a field needs a file name and a text string")
+        if not isinstance(cells, int) or cells < 1:
+            raise SpecError(f"{name}: field cells must be a positive integer")
+        if formats.get(name.upper()) is False:
+            raise SpecError(f"{name}: fields are for raw files only")
+        fields.append(
+            FieldSpec(
+                name.upper(), hex_offset(entry.get("offset"), "field"), cells, text
+            )
+        )
+    return tables, fields
 
 
 def parse_tables(spec: dict[str, object]) -> list[TableSpec]:
@@ -150,7 +293,9 @@ def parse_tables(spec: dict[str, object]) -> list[TableSpec]:
     return tables
 
 
-def record_cells(caption: Caption, original: Sequence[int]) -> list[Cell]:
+def record_cells(
+    caption: Caption, original: Sequence[int], placeholder_anywhere: bool = False
+) -> list[Cell]:
     """All 38 cells of a record; blank pairs fill each line."""
     cells: list[Cell] = []
     for text in caption.lines:
@@ -162,7 +307,7 @@ def record_cells(caption: Caption, original: Sequence[int]) -> list[Cell]:
             raise SpecError(f"record {caption.record}: {error}") from error
         cells.extend(line + ["  "] * (LINE_CELLS - len(line)))
     for index, cell in enumerate(cells):
-        if cell is None and original[index] != PLACEHOLDER:
+        if cell is None and original[index] != PLACEHOLDER and not placeholder_anywhere:
             raise SpecError(
                 f"record {caption.record}: {TOKEN} at cell {index}, where the "
                 "original record has no placeholder"
@@ -290,20 +435,69 @@ class CompiledSet:
     files: dict[str, CompiledFile]
 
 
+def table_data(spec: TableSpec, pacs: dict[str, bytes]) -> bytes:
+    """The bytes a table's offsets refer to: decoded PAC, or the raw file."""
+    return pacs[spec.file] if spec.raw else decode_file(pacs[spec.file])[1]
+
+
 def table_cells(
     tables: Sequence[TableSpec], pacs: dict[str, bytes]
 ) -> list[list[list[Cell]]]:
     """Cells of every listed record, per table, checked against the originals."""
     out = []
     for spec in tables:
-        decoded = decode_file(pacs[spec.file])[1]
-        out.append(
-            [
-                record_cells(c, record_codes(decoded, c.record, spec.table))
-                for c in spec.captions
-            ]
-        )
+        data = table_data(spec, pacs)
+        records = []
+        for c in spec.captions:
+            if spec.table + RECORD * (c.record + 1) > len(data):
+                raise SpecError(f"{spec.file}: record {c.record} is outside the data")
+            original = record_codes(data, c.record, spec.table)
+            records.append(record_cells(c, original, spec.placeholder_anywhere))
+        out.append(records)
     return out
+
+
+def field_cells(field: FieldSpec) -> list[Cell]:
+    """A field's cells: pairs, then blank cells up to its length."""
+    try:
+        cells = line_cells(field.text) if field.text else []
+    except ValueError as error:
+        raise SpecError(f"{field.file} field: {error}") from error
+    if None in cells or len(cells) > field.cells:
+        raise SpecError(f"{field.file} field {field.text!r} does not fit or has {{P}}")
+    return cells + ["  "] * (field.cells - len(cells))
+
+
+def field_writes(field: FieldSpec, codes: dict[str, int]) -> dict[int, int]:
+    return {
+        field.offset + 2 * i: BLANK if cell == "  " else codes[str(cell)]
+        for i, cell in enumerate(field_cells(field))
+    }
+
+
+def raw_patch(data: bytes, writes: dict[int, int]) -> tuple[bytes, dict[str, object]]:
+    """Same-size 16-bit writes into an uncompressed file."""
+    out = bytearray(data)
+    for offset, value in writes.items():
+        if offset % 2 or not 0 <= offset <= len(out) - 2:
+            raise SpecError(f"invalid raw write offset 0x{offset:X}")
+        out[offset : offset + 2] = value.to_bytes(2, "big")
+    return bytes(out), {"mode": "raw", "original_sha256": sha(data)}
+
+
+def verify_raw(old: bytes, new: bytes, writes: dict[int, int]) -> dict[str, object]:
+    changed = [i for i in range(len(old)) if old[i] != new[i]]
+    checks: dict[str, object] = {
+        "file_size_unchanged": len(old) == len(new),
+        "changes_only_in_target_cells": all((i & ~1) in writes for i in changed),
+        "target_cells_expected": all(
+            int.from_bytes(new[o : o + 2], "big") == v for o, v in writes.items()
+        ),
+    }
+    if not all(checks.values()):
+        raise SpecError(f"raw file verification failed: {checks}")
+    checks["changed_bytes"] = len(changed)
+    return checks
 
 
 def compile_tables(
@@ -312,10 +506,14 @@ def compile_tables(
     pacs: dict[str, bytes],
     candidates: Sequence[int],
     ranges: Sequence[tuple[int, int]] = FREE_RANGES,
+    fields: Sequence[FieldSpec] = (),
 ) -> CompiledSet:
     """Build one font image and every quote PAC (no disc I/O)."""
     cells = table_cells(tables, pacs)
-    pairs = distinct_pairs([record for table in cells for record in table])
+    pairs = distinct_pairs(
+        [record for table in cells for record in table]
+        + [field_cells(f) for f in fields]
+    )
     available = free_codes(font_image, ranges)
     # RE-044 option A: when pairs outnumber free codes, reuse sacrificial kanji
     # codes in place, in candidate order. Specs that fit are built exactly as before.
@@ -330,17 +528,26 @@ def compile_tables(
     new_font, font_info = build_font(
         font_image, pairs, [codes[p] for p in pairs], candidates, extra
     )
-    files: dict[str, CompiledFile] = {}
+    per_file: dict[str, dict[int, int]] = {}
+    raw = {spec.file: spec.raw for spec in tables} | {f.file: True for f in fields}
     for spec, records in zip(tables, cells, strict=True):
-        pac = pacs[spec.file]
         writes = table_writes(spec.captions, records, codes, spec.table)
-        try:
-            new_pac, pac_info = patch(pac, sorted(writes.items()))
-            pac_info["mode"] = "splice"
-        except PacFormatError:
-            new_pac, pac_info = patch(pac, sorted(writes.items()), full=True)
-            pac_info["mode"] = "full"
-        files[spec.file] = CompiledFile(new_pac, pac_info, writes)
+        per_file.setdefault(spec.file, {}).update(writes)
+    for field in fields:
+        per_file.setdefault(field.file, {}).update(field_writes(field, codes))
+    files: dict[str, CompiledFile] = {}
+    for name, writes in per_file.items():
+        pac = pacs[name]
+        if raw[name]:
+            new_pac, pac_info = raw_patch(pac, writes)
+        else:
+            try:
+                new_pac, pac_info = patch(pac, sorted(writes.items()))
+                pac_info["mode"] = "splice"
+            except PacFormatError:
+                new_pac, pac_info = patch(pac, sorted(writes.items()), full=True)
+                pac_info["mode"] = "full"
+        files[name] = CompiledFile(new_pac, pac_info, writes)
     return CompiledSet(new_font, font_info, codes, files)
 
 
@@ -534,15 +741,23 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     track = args.source_dir / args.track
     try:
-        tables = parse_tables(json.loads(args.spec.read_text()))
+        document = json.loads(args.spec.read_text())
+        tables, fields = parse_document(document)
+        listed_only = document.get("schema") == SCHEMA_V3
+        patches = parse_patches(document)
         pacs: dict[str, bytes] = {}
+        raw_files = (
+            {t.file for t in tables if t.raw}
+            | {f.file for f in fields}
+            | {p.file for p in patches}
+        )
         with track.open("rb") as stream:
             disc = Track(stream, track.stat().st_size)
             lsn, size = find_entry(track, MEMFIX_NAME)
             memfix = disc.read(lsn, size)
-            for spec in tables:
-                lsn, size = find_entry(track, f"{spec.file};1")
-                pacs[spec.file] = disc.read(lsn, size)
+            for name in {t.file for t in tables} | raw_files:
+                lsn, size = find_entry(track, f"{name};1")
+                pacs[name] = disc.read(lsn, size)
         offset, length = FONT_ENTRY
         old_font = memfix[offset : offset + length]
         candidates = load_candidates(args.candidates)
@@ -550,11 +765,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             report_cap = capacity_tables(tables, old_font, pacs, candidates)
             print(json.dumps(report_cap, indent=1))
             return 0
-        compiled = compile_tables(tables, old_font, pacs, candidates)
+        compiled = compile_tables(tables, old_font, pacs, candidates, fields=fields)
         new_memfix = memfix[:offset] + compiled.font_image + memfix[offset + length :]
         outputs = {"MEMFIX.PAC": new_memfix} | {
             name: f.pac for name, f in compiled.files.items()
         }
+        patch_checks: dict[str, object] = {}
+        for name in sorted({p.file for p in patches}):
+            outputs[name], patch_checks[name] = apply_patches(
+                outputs.get(name, pacs[name]), [p for p in patches if p.file == name]
+            )
         report: dict[str, object] = {
             "tool": "tools.text.caption_compiler",
             "spec": str(args.spec),
@@ -565,6 +785,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "table": f"0x{t.table:04X}",
                     "records": [c.record for c in t.captions],
                 }
+                | ({"format": "raw"} if t.raw else {})
                 for t in tables
             ],
             "source": {"MEMFIX.PAC": sha(memfix)}
@@ -582,21 +803,42 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "memfix_outside_entry_unchanged": new_memfix[:offset] == memfix[:offset]
                 and new_memfix[offset + length :] == memfix[offset + length :],
                 "tables": {
-                    name: verify_table(pacs[name], f.pac, f.writes)
+                    name: verify_raw(pacs[name], f.pac, f.writes)
+                    if name in raw_files
+                    else verify_table(pacs[name], f.pac, f.writes)
                     for name, f in compiled.files.items()
                 },
             },
         }
+        if patches:
+            report["patches"] = [
+                {"file": p.file, "offset": f"0x{p.offset:X}", "hex": p.data.hex()}
+                for p in patches
+            ]
+            checks = report["checks"]
+            assert isinstance(checks, dict)
+            checks["patches"] = patch_checks
+        if fields:
+            report["fields"] = [
+                {"file": f.file, "offset": f"0x{f.offset:X}", "cells": f.cells}
+                for f in fields
+            ]
         files_dir = args.out_dir / "files"
         files_dir.mkdir(parents=True, exist_ok=True)
         for name, data in outputs.items():
             (files_dir / name).write_bytes(data)
         font = Font(compiled.font_image, 0, 0)
         for spec in tables:
-            decoded = decode_file(compiled.files[spec.file].pac)[1]
-            records = [record_codes(decoded, r, spec.table) for r in range(RECORDS)]
+            data = table_data(spec, {spec.file: compiled.files[spec.file].pac})
+            if listed_only:
+                listed = [c.record for c in spec.captions]  # v3: listed records only
+                suffix = f"-{spec.table:X}"
+            else:
+                listed, suffix = list(range(RECORDS)), ""
+            records = [record_codes(data, r, spec.table) for r in listed]
             stem = spec.file.split(".")[0]
-            (args.out_dir / f"records-{stem}.png").write_bytes(render(font, records))
+            path = args.out_dir / f"records-{stem}{suffix}.png"
+            path.write_bytes(render(font, records))
         if not args.files_only:
             files = {f"{name};1": files_dir / name for name in outputs}
             builds = []

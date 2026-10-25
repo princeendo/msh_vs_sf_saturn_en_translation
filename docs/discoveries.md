@@ -870,6 +870,41 @@ Experiment: `EXP-0043`
   (Cyber-Akuma's pairs) do not match the arcade block.
 - **Reproduce.** `research/experiments/EXP-0043/README.md`, Procedure.
 
+## END-010: Ryu's Ending in Official English (M7)
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0044`
+
+- **Finding.** A deterministic image built from the untouched source (track 01
+  `b481a4c6…`, reference `end010`) shows Ryu's ending in official arcade
+  English on a cold boot:
+  - the three pages (`ME.PAC`);
+  - the partner and point lines, split at their line breaks across each
+    two-box pair (`MC13` records 36-37, 46-47, 86-87);
+  - RYU, KEN, and AKUMA as names.
+
+  It was verified live with Ken and with Gouki as partner.
+- **Mechanisms confirmed on the way:**
+  - A blank dialogue record is shown as an empty box, not skipped.
+  - `0x0000` inserts the name at any cell, shifting the rest right.
+  - The name table is `MM.BIN` `0x7D3C0` + 32·slot (two leading blank cells),
+    and the name-length table is `MM.BIN` `0x96DE8` + slot (cells inserted per
+    name). `MM.BIN` is loaded raw at WRAM-H `0x06018B00` at boot.
+  - The quote font is loaded into cart RAM after boot and stays resident; it is
+    not reloaded at stage 8.
+- **Pitfall.** Replaying a state on a font-changed image shows empty glyphs.
+  Live checks of font changes need a cold boot.
+- **Tools.**
+  - `tools/text/official_endings.py` (spec);
+  - `caption_compiler.py` schema v3 (raw files, fields, patches, placeholders
+    anywhere);
+  - `tools/mednafen/ending_driver.py` (forced stage 8 and boss KO on the
+    Saturn).
+- **Limits.** Only the Ken and Gouki partner lines are localized. The English
+  names also replace names inserted in other Japanese text in this image.
+- **Reproduce.** `research/experiments/EXP-0044/README.md`, Procedure.
+
 ## Entry Requirements
 
 Each future entry must include:

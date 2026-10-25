@@ -169,6 +169,15 @@ then three ending pages (a picture panel and a bottom text box).
     block;
   - how to handle the dialogue in English (a user decision).
 
+- **Localization (M7, `EXP-0044`).** Ryu's ending is done. Still open:
+  - What else inserts names (`0x0000`), and so now shows English names in the
+    `end010` image?
+  - What are the 92 WRAM-H bytes (`0x06010A94`, `0x060EFA91…`) that differ
+    after a cold boot of the built image?
+  - When exactly is the quote font loaded (after the title, before stage 1)?
+  - Do all 52 English partner lines fit when split across two 19-cell boxes,
+    and do all pages fit?
+
 ## Cross-Release Evidence
 
 - Which official English line corresponds to each Japanese caption?

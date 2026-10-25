@@ -51,6 +51,14 @@ the three ending pages."
   made.
 - **Scope.** Ryu first (`END-010`). Other characters only after their records
   and pairings are verified (`END-020`).
+- **Layout (user decisions, 2026-10-24).**
+  - Each English partner line is split at its own line break across the two
+    Saturn boxes of its pair.
+  - Names use the arcade's English names, in the `MM.BIN` name table, with the
+    name-length table matched.
+- **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners
+  (`tools/text/official_endings.py`). The text is read from the local ROM at
+  build time and not committed.
 
 Do not assume line ordering or correspondence across releases. Keep hypotheses in
 `research_log.md` until supported, and do not represent a translation as final without

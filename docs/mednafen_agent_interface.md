@@ -128,3 +128,8 @@ The Python client is `tools/mednafen/agent.py`, with tests.
 
 Note: the register named `PC` reads 0 when halted by `pause`, but is valid inside
 breakpoint hits, as logged in `events.log`. `RPC` is the SH-2 pipeline PC.
+
+Several clients may share one Mednafen (for example `session_recorder.py` and
+`ending_driver.py`, `END-010`): `Agent.command` holds an exclusive `flock` on
+`lock` in the agent directory for each command exchange. The patch itself is
+unchanged.

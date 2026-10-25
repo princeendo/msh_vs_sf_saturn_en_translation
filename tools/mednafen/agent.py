@@ -14,6 +14,7 @@ See ``docs/mednafen_agent_interface.md`` for the command list.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import os
 import time
 import uuid
@@ -52,9 +53,21 @@ class Agent:
     poll: float = 0.01
 
     def command(self, *lines: str) -> list[str]:
-        """Send commands; return the ``ok`` payloads. Raises on any ``err``."""
-        token = uuid.uuid4().hex[:12]
+        """Send commands; return the ``ok`` payloads. Raises on any ``err``.
+
+        An exclusive lock on ``lock`` in the agent directory serialises clients,
+        so a recorder and a driver can share one Mednafen (END-010).
+        """
         self.directory.mkdir(parents=True, exist_ok=True)
+        with (self.directory / "lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            try:
+                return self._exchange(lines)
+            finally:
+                fcntl.flock(lock, fcntl.LOCK_UN)
+
+    def _exchange(self, lines: Sequence[str]) -> list[str]:
+        token = uuid.uuid4().hex[:12]
         resp = self.directory / "resp"
         resp.unlink(missing_ok=True)
         tmp = self.directory / "cmd.tmp"
