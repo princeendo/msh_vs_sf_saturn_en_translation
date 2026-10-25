@@ -3706,3 +3706,35 @@ unknowns; closes M8).
 
 Next action: `END-025` (closes M8). `LOC-001` is a backlog decision, to be
 taken before a release.
+
+## 2026-10-25 — END-025: coverage, exceptions, regression; M8 closed
+
+- **New tool:** `tools/text/ending_coverage.py` (with unit tests), output
+  `data/text/ending_coverage.json`, metadata only.
+  - Per slot 0-25: the Japanese and English page pointers, page counts, the
+    slots that share each pointer, arcade identity, and the `MC13` records.
+  - The last pointer of each table has an unknown extent: slots 23-25
+    (Japanese) and 19-25 (English).
+  - With `--built-track build/end027/...`, every byte outside the roster's
+    targets is unchanged: `ME.PAC` (3503 bytes changed inside), decoded
+    `MC13` (2724 inside), and `MM.BIN` (172 inside, matching the compiler's
+    162 + 10).
+- **Findings recorded:**
+  - Slot 0 (Apocalypse) shares Cyclops's pages in both arcade tables.
+  - Slot 19 shares Dan's Japanese pages.
+  - The US arcade's English slot 17 (Norimaro) points to Dan's English.
+  - Slots 19-25 all point to one English block.
+
+  Accepted side effects and exceptions are in `docs/coverage_exceptions.md`.
+- **Unknowns recorded** (`docs/known_unknowns.md`):
+  - the KO character;
+  - ordinary-fight vitality;
+  - long-name centring;
+  - Dan's "THE END";
+  - live coverage (7 of 17 endings);
+  - the extents of the excluded blocks.
+- **Checks:** `pytest` 206 passed, 1 skipped; `ruff check`, `ruff format
+  --check`, and `mypy tools` (55 files) are clean.
+- `END-025` and `END-020` are `DONE`. **M8 is complete.** No task is `READY`.
+  The next work needs a user decision: `SPECIAL-001` (M9), `LOC-001`,
+  `REL-001`, or the backlog.

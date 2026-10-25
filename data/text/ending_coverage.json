@@ -1,0 +1,570 @@
+{
+ "tool": "tools.text.ending_coverage",
+ "archive": "mshvsfu.zip",
+ "roster_slots": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  18
+ ],
+ "excluded_slots": [
+  0,
+  17,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25
+ ],
+ "slots": [
+  {
+   "slot": 0,
+   "in_roster": false,
+   "me_offset": "0x2A94",
+   "pages_ja": 6,
+   "pages_shared_with": [
+    1
+   ],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 6,
+   "english_shared_with": [
+    1
+   ],
+   "mc13_records": [
+    16,
+    17,
+    68,
+    69
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 1,
+   "in_roster": true,
+   "me_offset": "0x2A94",
+   "pages_ja": 6,
+   "pages_shared_with": [
+    0
+   ],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 6,
+   "english_shared_with": [
+    0
+   ],
+   "mc13_records": [
+    18,
+    19,
+    70,
+    71
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 2,
+   "in_roster": true,
+   "me_offset": "0x2C5C",
+   "pages_ja": 6,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 6,
+   "english_shared_with": [],
+   "mc13_records": [
+    20,
+    21,
+    72,
+    73
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 3,
+   "in_roster": true,
+   "me_offset": "0x2E24",
+   "pages_ja": 4,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 4,
+   "english_shared_with": [],
+   "mc13_records": [
+    22,
+    23,
+    74,
+    75
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 4,
+   "in_roster": true,
+   "me_offset": "0x2F54",
+   "pages_ja": 4,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 4,
+   "english_shared_with": [],
+   "mc13_records": [
+    24,
+    25,
+    76,
+    77
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 5,
+   "in_roster": true,
+   "me_offset": "0x3084",
+   "pages_ja": 5,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 5,
+   "english_shared_with": [],
+   "mc13_records": [
+    26,
+    27,
+    78,
+    79
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 6,
+   "in_roster": true,
+   "me_offset": "0x3200",
+   "pages_ja": 5,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 5,
+   "english_shared_with": [],
+   "mc13_records": [
+    28,
+    29,
+    80,
+    81
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 7,
+   "in_roster": true,
+   "me_offset": "0x337C",
+   "pages_ja": 6,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 6,
+   "english_shared_with": [],
+   "mc13_records": [
+    30,
+    31,
+    82,
+    83
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 8,
+   "in_roster": true,
+   "me_offset": "0x3544",
+   "pages_ja": 4,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 4,
+   "english_shared_with": [],
+   "mc13_records": [
+    32,
+    33,
+    84,
+    85
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 9,
+   "in_roster": true,
+   "me_offset": "0x3674",
+   "pages_ja": 3,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 3,
+   "english_shared_with": [],
+   "mc13_records": [
+    34,
+    35,
+    86,
+    87
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 10,
+   "in_roster": true,
+   "me_offset": "0x3758",
+   "pages_ja": 5,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 5,
+   "english_shared_with": [],
+   "mc13_records": [
+    36,
+    37,
+    88,
+    89
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 11,
+   "in_roster": true,
+   "me_offset": "0x38D4",
+   "pages_ja": 3,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 3,
+   "english_shared_with": [],
+   "mc13_records": [
+    38,
+    39,
+    90,
+    91
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 12,
+   "in_roster": true,
+   "me_offset": "0x39B8",
+   "pages_ja": 5,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 5,
+   "english_shared_with": [],
+   "mc13_records": [
+    40,
+    41,
+    92,
+    93
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 13,
+   "in_roster": true,
+   "me_offset": "0x3B34",
+   "pages_ja": 6,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 6,
+   "english_shared_with": [],
+   "mc13_records": [
+    42,
+    43,
+    94,
+    95
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 14,
+   "in_roster": true,
+   "me_offset": "0x3CFC",
+   "pages_ja": 3,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 3,
+   "english_shared_with": [],
+   "mc13_records": [
+    44,
+    45,
+    96,
+    97
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 15,
+   "in_roster": true,
+   "me_offset": "0x3DE0",
+   "pages_ja": 3,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 3,
+   "english_shared_with": [],
+   "mc13_records": [
+    46,
+    47,
+    98,
+    99
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 16,
+   "in_roster": true,
+   "me_offset": "0x3EC4",
+   "pages_ja": 2,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 2,
+   "english_shared_with": [],
+   "mc13_records": [
+    48,
+    49,
+    100,
+    101
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 17,
+   "in_roster": false,
+   "me_offset": "0x3F5C",
+   "pages_ja": 5,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 5,
+   "english_shared_with": [
+    18
+   ],
+   "mc13_records": [
+    50,
+    51,
+    102,
+    103
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 18,
+   "in_roster": true,
+   "me_offset": "0x40D8",
+   "pages_ja": 5,
+   "pages_shared_with": [
+    19
+   ],
+   "pages_equal_arcade_ja": true,
+   "pages_en": 5,
+   "english_shared_with": [
+    17
+   ],
+   "mc13_records": [
+    52,
+    53,
+    104,
+    105
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 19,
+   "in_roster": false,
+   "me_offset": "0x40D8",
+   "pages_ja": 5,
+   "pages_shared_with": [
+    18
+   ],
+   "pages_equal_arcade_ja": true,
+   "pages_en": null,
+   "english_shared_with": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+   ],
+   "mc13_records": [
+    54,
+    55,
+    106,
+    107
+   ],
+   "dialogue_equal_arcade_ja": false
+  },
+  {
+   "slot": 20,
+   "in_roster": false,
+   "me_offset": "0x4254",
+   "pages_ja": 5,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": null,
+   "english_shared_with": [
+    19,
+    21,
+    22,
+    23,
+    24,
+    25
+   ],
+   "mc13_records": [
+    56,
+    57,
+    108,
+    109
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 21,
+   "in_roster": false,
+   "me_offset": "0x43D0",
+   "pages_ja": 3,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": null,
+   "english_shared_with": [
+    19,
+    20,
+    22,
+    23,
+    24,
+    25
+   ],
+   "mc13_records": [
+    58,
+    59,
+    110,
+    111
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 22,
+   "in_roster": false,
+   "me_offset": "0x44B4",
+   "pages_ja": 6,
+   "pages_shared_with": [],
+   "pages_equal_arcade_ja": true,
+   "pages_en": null,
+   "english_shared_with": [
+    19,
+    20,
+    21,
+    23,
+    24,
+    25
+   ],
+   "mc13_records": [
+    60,
+    61,
+    112,
+    113
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 23,
+   "in_roster": false,
+   "me_offset": "0x467C",
+   "pages_ja": null,
+   "pages_shared_with": [
+    24,
+    25
+   ],
+   "pages_equal_arcade_ja": null,
+   "pages_en": null,
+   "english_shared_with": [
+    19,
+    20,
+    21,
+    22,
+    24,
+    25
+   ],
+   "mc13_records": [
+    62,
+    63,
+    114,
+    115
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 24,
+   "in_roster": false,
+   "me_offset": "0x467C",
+   "pages_ja": null,
+   "pages_shared_with": [
+    23,
+    25
+   ],
+   "pages_equal_arcade_ja": null,
+   "pages_en": null,
+   "english_shared_with": [
+    19,
+    20,
+    21,
+    22,
+    23,
+    25
+   ],
+   "mc13_records": [
+    64,
+    65,
+    116,
+    117
+   ],
+   "dialogue_equal_arcade_ja": true
+  },
+  {
+   "slot": 25,
+   "in_roster": false,
+   "me_offset": "0x467C",
+   "pages_ja": null,
+   "pages_shared_with": [
+    23,
+    24
+   ],
+   "pages_equal_arcade_ja": null,
+   "pages_en": null,
+   "english_shared_with": [
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+   ],
+   "mc13_records": [
+    66,
+    67,
+    118,
+    119
+   ],
+   "dialogue_equal_arcade_ja": true
+  }
+ ],
+ "built_track": "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin",
+ "built_checks": {
+  "ME.PAC": {
+   "same_length": true,
+   "outside_unchanged": true,
+   "changed_bytes_inside": 3503
+  },
+  "MC13.PAC (decoded)": {
+   "same_length": true,
+   "outside_unchanged": true,
+   "changed_bytes_inside": 2724
+  },
+  "MM.BIN": {
+   "same_length": true,
+   "outside_unchanged": true,
+   "changed_bytes_inside": 172
+  }
+ }
+}

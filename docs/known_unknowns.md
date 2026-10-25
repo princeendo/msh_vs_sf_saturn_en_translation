@@ -149,9 +149,8 @@ then three ending pages (a picture panel and a bottom text box).
     confirmed in RAM.
   - Are `ME.PAC` and `MC13` re-read after a continue? (The load sequence
     repeats and opens `END.PAC`.) What does `END.PAC` hold?
-- **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`). Still open:
-  whether the composed pair glyphs of the roster image (`FONT-003`) would
-  display in endings unchanged.
+- **Font.** Answered: the glyphs are quote-font cells (`EXP-0038`), and the
+  composed pair glyphs display in endings unchanged (`EXP-0044`, `EXP-0049`).
 - **Layout.** Answered (`EXP-0039`): positions are explicit `0x0020` cells in
   19 × 2 records, and page 3's "gaps" are bracket-glyph whitespace. Still open:
   whether a third line or text past cell 18 is possible.
@@ -176,8 +175,38 @@ then three ending pages (a picture panel and a bottom text box).
   - What are the 92 WRAM-H bytes (`0x06010A94`, `0x060EFA91…`) that differ
     after a cold boot of the built image?
   - When exactly is the quote font loaded (after the title, before stage 1)?
-  - Do all 52 English partner lines fit when split across two 19-cell boxes,
-    and do all pages fit?
+  - Do all English partner lines and pages fit? Answered for the roster
+    (`EXP-0046`): every roster line and page fits, with the longest name
+    inserted.
+
+## Endings: Open After M8 (`END-025`)
+
+The roster's endings are localized and verified (`EXP-0048`-`EXP-0050`). These
+remain open; none blocks the roster image.
+
+- **KO character.** Does it change anything when the partner, not the point
+  character, lands the final KO? Every run so far had the point character's
+  ending, but the partner-KO case was not controlled.
+- **Ordinary-fight vitality.** Where is the opponents' vitality in
+  two-against-two fights? `0x060F3E50`/`0x060F4844` hold it only in the
+  one-character boss fight (`EXP-0049`). There is no forced KO for ordinary
+  fights, so live win-quote checks need a manual win.
+- **Long-name centring.** Dialogue lines are centred for a 2-cell name, so
+  CAPTAIN AMERICA (8 cells) sits right of centre, inside the box (`EXP-0049`).
+  Is a per-name centring worth doing? It would need records per point and
+  partner pair, or runtime help.
+- **Dan's last page.** It is empty in the official English (the Japanese shows
+  完). Optional: add "THE END" text. That would be a new translation, not the
+  official English.
+- **Live coverage.** 7 of the 17 roster endings were seen live: Captain
+  America, Zangief, Vega, Sakura, Dan, and Gouki in combined images, and Ryu
+  in `end010`. One win quote (Vega's) was seen in a combined image. The rest
+  were checked offline (records, renders, same pipeline).
+- **Excluded slots** (`docs/coverage_exceptions.md`, Endings):
+  - the extent of the shared `ME.PAC` block at `0x467C` (slots 23-25), and of
+    the arcade English block shared by slots 19-25;
+  - why `MC13` records 54/55 and 106/107 differ from the arcade;
+  - whether slots 0 and 19 can ever show their (shared) pages.
 
 ## Localization: Names (`LOC-001`)
 

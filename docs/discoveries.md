@@ -1009,6 +1009,35 @@ Experiment: `EXP-0050`
   renders were read.
 - **Reproduce.** `research/experiments/EXP-0050/README.md`.
 
+## END-025: Ending Coverage of the Roster Image
+
+Confidence: **CONFIRMED**
+
+Experiment: none (a scripted census and comparison, `tools/text/ending_coverage.py`)
+
+- **Finding.** In the arcade page tables:
+  - slot 0 (Apocalypse) shares slot 1's (Cyclops) pages in both the Japanese
+    and English tables;
+  - slot 19 shares slot 18's (Dan) Japanese pages;
+  - the US arcade's English slot 17 (Norimaro) points to Dan's English;
+  - English slots 19-25 point to one block.
+
+  The Saturn `ME.PAC` records equal the arcade Japanese ones for every slot
+  with a known extent.
+- **Untouched exclusions.** Against the `m8_roster` image (`2a5b26b7…`),
+  every byte outside the roster's targets is unchanged in `ME.PAC`, the
+  decoded `MC13`, and `MM.BIN`.
+- **Register.** `docs/coverage_exceptions.md` (Endings); data in
+  `data/text/ending_coverage.json`.
+- **Reproduce.**
+
+  ```bash
+  ./invenv.sh python -m tools.text.ending_coverage --driver local/mame_src/cps2.cpp \
+    --archive local/arcade_roms/mshvsf/mshvsfu.zip \
+    --built-track "build/end027/image_a/Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
+    --out data/text/ending_coverage.json
+  ```
+
 ## Entry Requirements
 
 Each future entry must include:

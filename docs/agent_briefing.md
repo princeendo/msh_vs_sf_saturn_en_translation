@@ -69,7 +69,10 @@ reference facts** (what outside documents say).
   (`EXP-0049`): six endings and a win quote verified live; VEGA replaces
   BISON. `END-026` is done (`EXP-0050`): GOUKI and Mech-Gouki follow the
   Saturn's art too (`build/end027`, `2a5b26b7…`). This is provisional: see
-  `LOC-001` and `docs/localization_plan.md`. Next: `END-025`, which closes M8.
+  `LOC-001` and `docs/localization_plan.md`. `END-025` is done (coverage
+  register, `data/text/ending_coverage.json`), and **M8 is complete**
+  (2026-10-25). No task is `READY`. Next is a user decision: `SPECIAL-001`
+  (M9), `LOC-001`, `REL-001`, or the backlog.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

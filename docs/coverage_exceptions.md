@@ -1,4 +1,8 @@
-# Win-Quote Coverage and Exceptions (M5)
+# Coverage and Exceptions
+
+Two registers: win quotes (M5) and endings (M8).
+
+## Win Quotes (M5)
 
 The register for `RE-043`. Scope was decided by the user on 2026-10-24:
 
@@ -10,7 +14,7 @@ The register for `RE-043`. Scope was decided by the user on 2026-10-24:
 The evidence for every file is `EXP-0034` (`data/text/coverage_manifest.json`):
 Saturn file `MCnn` holds arcade slot `nn`'s Japanese block, byte-identical.
 
-## In Scope
+### In Scope
 
 The 17 characters are listed in `data/text/m5_roster.json`: slots 1-16 and 18.
 That covers every structurally ordinary playable character, plus three irregular
@@ -27,7 +31,7 @@ uses `MC07`'s block, which slot 7 also uses, on both platforms. Translating
 Spider-Man therefore gives slot 25 the same English. The arcade's English release
 shares these quotes in the same way (`EXP-0029`).
 
-## Exceptions
+### Exceptions
 
 Nothing listed here may be translated or modified in M5.
 
@@ -38,7 +42,7 @@ Nothing listed here may be translated or modified in M5.
 | `MC08` slot 24 block (`0xBE5C`) | second whole block in `MC08` | secret character | `SPECIAL-001` |
 | `MC0C` 4-record table (`0x3B88`) | matches no arcade slot | content unknown | a future investigation task, to be created only when needed |
 | `MC11` slot 17 (Norimaro) | ordinary file | special case (`AGENTS.md` rule 24) | `SPECIAL-001` |
-| `MC13` slot 19 (Cyber-Akuma), inside a 120-record table that also holds one slot-15 record | irregular file; the extra content includes the post-boss dialogue records (`EXP-0040`) | boss; Cyber-Akuma's own quotes stay excluded | `SPECIAL-001` (quotes); the post-boss dialogue records are ending text, owned by `END-007`/`END-010` |
+| `MC13` slot 19 (Cyber-Akuma), inside a 120-record table that also holds one slot-15 record | irregular file; the extra content includes the post-boss dialogue records (`EXP-0040`) | boss; Cyber-Akuma's own quotes stay excluded | `SPECIAL-001` (quotes); the post-boss dialogue records are ending text: see Endings (M8) |
 | `MC14` slot 20 (second Zangief entry) | ordinary file | secret character | `SPECIAL-001` |
 | `MC15` slot 21 (second Sakura entry) | ordinary file | secret character | `SPECIAL-001` |
 | `MC16` slot 22 (Shadow) | ordinary file | secret character | `SPECIAL-001` |
@@ -47,10 +51,73 @@ Nothing listed here may be translated or modified in M5.
 The two PS1-only English blocks (`EXP-0032`) belong to these exceptions, if they
 belong anywhere. They stay with `SPECIAL-001`.
 
-## Rules for M5 Tasks
+### Rules for M5 Tasks
 
 - Generators and compilers take the roster file as their only source of targets.
   A table not listed there is never written.
 - Check every M5 build to confirm that bytes outside the roster blocks are
   unchanged in each touched file, including the untouched blocks listed above.
 - Changing the roster requires a user decision recorded here.
+
+## Endings (M8)
+
+The register for `END-025`. The scope is the same 17-character roster
+(`data/text/m5_roster.json`, slots 1-16 and 18), now as point characters and
+partners. Evidence: `EXP-0046` (census), `EXP-0048` (combined build), `EXP-0049`
+and `EXP-0050` (live), and `data/text/ending_coverage.json`
+(`tools/text/ending_coverage.py`, metadata only).
+
+### In Scope
+
+For each roster slot `s`, the combined image (reference `m8_roster`) replaces:
+
+- its Japanese ending pages in `ME.PAC` with the official English pages
+  (75 records in total);
+- its two `MC13` dialogue pairs (partner index `s`, point index `26 + s`;
+  records `16 + 2s`, `17 + 2s`, `68 + 2s`, `69 + 2s`) with the arcade's
+  English partner lines;
+- its `MM.BIN` name entry and name-length byte.
+
+`ending_coverage.py --built-track` checked track 01 `2a5b26b7…`. Every byte
+outside these targets is unchanged in `ME.PAC`, the decoded `MC13`, and
+`MM.BIN`.
+
+### Accepted Side Effects (Shared Pointers)
+
+Both arcade page tables give some slots the same pointer. The Saturn's records
+equal the arcade Japanese ones (`EXP-0042`, `EXP-0046`), so these slots share
+whatever the roster's pages say.
+
+| Slot | Shares pages with | Consequence |
+| --- | --- | --- |
+| 0 (Apocalypse) | slot 1 (Cyclops), in both the Japanese and English tables | Slot 0 shows Cyclops's English pages, as in the arcade English. |
+| 19 (Cyber-Akuma / Mech-Gouki) | slot 18 (Dan), in the Japanese table | Slot 19's pointer reaches Dan's English pages. In the arcade English table, slot 19 points to a different block instead. |
+
+Neither slot is in the roster, and no session so far has reached either one
+as a point character. Whether the game can is not tested.
+
+### Exceptions
+
+Nothing listed here may be translated or modified in M8.
+
+| Item | Location | Reason | Owner |
+| --- | --- | --- | --- |
+| Slot 0 dialogue pairs | `MC13` records 16, 17, 68, 69 | boss | `SPECIAL-001` |
+| Slot 17 (Norimaro): pages, dialogue, name | `ME.PAC` `0x3F5C` (5 records); `MC13` 50, 51, 102, 103; `MM.BIN` slot 17 | special case (`AGENTS.md` rule 24). The US arcade's English slot 17 points to Dan's English, so there is no English of its own. | `SPECIAL-001` |
+| Slot 19 (Cyber-Akuma / Mech-Gouki): dialogue, name | `MC13` 54, 55, 106, 107 (these do not equal the arcade block, `EXP-0042`); `MM.BIN` slot 19 | boss; records unmatched | `SPECIAL-001` |
+| Slots 20-22 (second Zangief entry, second Sakura entry, Shadow) | `ME.PAC` `0x4254` (5), `0x43D0` (3), `0x44B4` (6); `MC13` 56-61, 108-113; `MM.BIN` | secret characters. The arcade English table points slots 19-25 to one shared block of unknown extent. | `SPECIAL-001` |
+| Slots 23-25 (U.S. Agent, Mephisto, second Spider-Man entry) | `ME.PAC` `0x467C`, one shared block of unknown extent (the last pointer); `MC13` 62-67, 114-119; `MM.BIN` | secret characters | `SPECIAL-001` |
+| `MC13` records 0-15 | Cyber-Akuma's win quotes | already an M5 exception | `SPECIAL-001` |
+| `MM.BIN` Japanese text table | `0x7CC86`-`0x7D1DC` | screen unknown; one name placeholder (`EXP-0047`) | `TXT-001` |
+
+**Names in the remaining Japanese text.** The name table is global. Excluded
+characters' lines that insert a roster name show it in English (user decision,
+2026-10-24, `EXP-0047`).
+
+### Rules for Ending Work
+
+- Generators take the roster file as their only source of targets.
+- Check every ending build with `ending_coverage.py --built-track`. Every
+  `outside_unchanged` must be true.
+- Changing the roster or the names requires a user decision recorded here or
+  in `docs/localization_plan.md` (names: `LOC-001`).

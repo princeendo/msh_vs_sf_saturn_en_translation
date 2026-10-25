@@ -38,7 +38,19 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   (`end010`). At the user's request, the dialogue now shows each English line
   whole, one block per speaker (`EXP-0045`). Next is `END-020` (M8), now
   `READY`.
-- **M8 started on 2026-10-24** (`END-020`). `END-021` is done (`EXP-0046`): all
+- **M8 completed on 2026-10-25** (`END-020`, `END-025`). Every roster ending
+  (17 characters) shows the official arcade English, with English names, from
+  one deterministic image built from the untouched source (`m8_roster`, track
+  01 `2a5b26b7…`). That image also holds the M5 win quotes. The register of
+  exclusions and accepted side effects is `docs/coverage_exceptions.md`
+  (Endings). The remaining unknowns are in `docs/known_unknowns.md`.
+  - **No task is `READY`.** The next work needs a user decision:
+    - authorizing M9 (`SPECIAL-001`);
+    - the naming policy (`LOC-001`);
+    - packaging (`REL-001`);
+    - one of the low-priority backlog items (`TXT-001`, `RE-048` to `RE-050`,
+      `REF-012`).
+- M8 history: started on 2026-10-24 (`END-020`). `END-021` is done (`EXP-0046`): all
   17 roster endings match the arcade reference and fit. One font holds the
   endings plus the M5 win quotes (454 pairs). `END-022`'s experiments are done
   (`EXP-0047`): names can grow, and the length table controls the insertion.
@@ -50,8 +62,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   user's request the dictator is VEGA. `END-026` is done (`EXP-0050`):
   following the Saturn's art, the text also uses GOUKI and Mech-Gouki
   (`build/end027`, `2a5b26b7…`). This is provisional: the final naming policy
-  is `LOC-001` (`docs/localization_plan.md`). Next: `END-025` (`READY`),
-  which closes M8.
+  is `LOC-001` (`docs/localization_plan.md`). `END-025` is done: coverage,
+  regression, and unknowns.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2360,7 +2372,7 @@ the user asks or when it unblocks other work.
 
 ### END-020 - Generalize ending-localization pipeline
 
-- **Status:** `IN_PROGRESS` (2026-10-24; broken down into `END-021` to `END-025`)
+- **Status:** `DONE` (2026-10-25; M8 complete, via `END-021` to `END-026`)
 - **Milestone:** M8
 - **Dependencies:** END-010, END-021, END-022, END-023, END-024, END-025.
 - **Blockers:** None. Ryu's ending is localized reproducibly (`EXP-0044`).
@@ -2368,6 +2380,14 @@ the user asks or when it unblocks other work.
 - **Rationale:** One ending cannot establish format coverage or capacity constraints.
 - **Acceptance criteria:** Representative variation is tested; structured translations, deterministic builds, visible verification, and explicit exceptions support a general pipeline.
 - **Outputs:** M8 tools, data, experiments, coverage and regression records.
+- **Evidence:**
+  - Variation: `END-021` census, all 17 roster slots; capacity measured.
+  - Names: `END-022`, including growth and the side-effect policy.
+  - Deterministic combined build: `END-023`, `m8_roster`.
+  - Live sample: `END-024`, `END-026`, 6 roster endings in combined images
+    (plus Ryu in M7), including the longest name, a grown name, 2- to 6-page
+    endings, and Marvel and Capcom partners.
+  - Exceptions and regression: `END-025`.
 - **Notes:** Special cases remain excluded.
   - Starting points from M6/M7:
     - `official_endings.py` takes any point and partner slots;
@@ -2505,7 +2525,7 @@ the user asks or when it unblocks other work.
 
 ### END-025 - Coverage, exceptions, and regression for endings
 
-- **Status:** `READY` (2026-10-25)
+- **Status:** `DONE` (2026-10-25)
 - **Milestone:** M8
 - **Dependencies:** END-024 (done).
 - **Blockers:** None.
@@ -2517,6 +2537,23 @@ the user asks or when it unblocks other work.
   - Remaining unknowns are recorded, such as the KO character's effect, the
     opponent's vitality in two-against-two fights, the CAPTAIN AMERICA
     centring, and whether Dan's empty last page should get "THE END".
+- **Evidence (2026-10-25):**
+  - `tools/text/ending_coverage.py` → `data/text/ending_coverage.json`
+    (`00ba0672…`, metadata only). It lists every slot's pages, the slots that share
+    them, the dialogue records, and arcade identity.
+    - Excluded slots: 0, 17, 19-25.
+    - Against the `m8_roster` image (`2a5b26b7…`), every byte outside the
+      roster's targets is unchanged in `ME.PAC`, the decoded `MC13`, and
+      `MM.BIN`.
+  - `docs/coverage_exceptions.md` gains an Endings (M8) register:
+    - scope;
+    - accepted side effects: slot 0 shares Cyclops's pages, and slot 19
+      shares Dan's Japanese pages;
+    - exceptions with owners;
+    - rules.
+  - `docs/regression_report.md`: all six references pass, including
+    `m8_roster` and `end010`, re-baselined in `EXP-0050`.
+  - `docs/known_unknowns.md` gains "Endings: Open After M8".
 
 ### END-026 - Use the Saturn's names in the English text (Mech-Gouki, Gouki)
 
