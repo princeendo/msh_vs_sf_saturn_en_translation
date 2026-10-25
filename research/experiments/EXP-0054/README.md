@@ -1,8 +1,8 @@
 # EXP-0054: Inventory and Scope of the Name Art and Voice (Vega/Gouki/Mech-Gouki)
 
 Task: LOC-002
-Status: IN_PROGRESS (2026-10-25). Inventory done; voice identification and
-the VS-screen art source are left.
+Status: DONE (2026-10-25). Inventory and scope complete. Decoding the VS art
+and the voice bank are follow-on tasks.
 Confidence:
 - **CONFIRMED:** life-bar, speaker-label, menu, and sound-test sources; US art
   present on the disc; the life-bar swap (by replay).
@@ -65,14 +65,27 @@ assets.
     through the generic glyph cache (caller `0x0601CDE2`, code in R3).
   - Static searches for label code tables found only coincidental matches.
 - **Audio:**
-  - `.ADP` files (71, 41.9 MB) are music streams: `M01_OPEN`, `M02_SELE`,
-    `M04_VS`, `M05_WIxx`, and others.
-  - Candidates for voices: `CMNSE.PAC` (common sound effects) and `PLxx.PAC`
-    (per character). The layouts are not decoded.
-  - Which clip says "Vega" needs listening.
+  - The user hears "Vega" at character select and in the win announcement.
+  - `.ADP` files (71, 41.9 MB) are music streams.
+  - **The sound program mixes in software.** Through the win banner (states
+    every 3 frames from `end024v f00008316`, SCSP `SlotRegs` and envelope
+    phase parsed from each state), only three slots are keyed on, all looping
+    ring buffers: start `0x484` and `0x248C`, end `0x1000`/`0x2000`. So no
+    clip has its own slot.
+  - **Sound RAM at the win screen**, mapped back to disc files in 4 KB
+    probes:
+    - `CMNSE.PAC`: 87 chunks covering `0xB000`-`0x7A000`, the common sound
+      bank and the likely announcer source;
+    - `MEMFIX.PAC`: the sound program and data;
+    - fragments of the current fighters' `PLxx.PAC`.
+  - `CMNSE.PAC` is 358,164 bytes, with a table of 4-byte entries from
+    `0x10`. Its format is not decoded.
 
 ## Conclusion
 
+- **Voice:** the announcer clips are most likely in the common bank
+  `CMNSE.PAC`, mixed in software. Replacing a name means decoding that bank
+  format, which is a separate effort (`LOC-005`).
 - Most US-name surfaces need **no imported assets**. The art (life bars) or
   text (speaker labels; menu and sound-test text; win-banner letters) is
   already on the Saturn disc.
@@ -82,9 +95,10 @@ assets.
 
 ## Next Experiments
 
-1. **Voice:** the user identifies where "Vega" is spoken (character select,
-   VS screen, win, or announcer). Then trace the sound command at that moment
-   (an SCSP or sound-driver write log) to the sample.
+1. **Voice:** decode the `CMNSE.PAC` bank table, export its clips to WAV, and
+   let the user identify "Vega" (and "Gouki"). Alternatively, log the
+   sound-command mailbox in sound RAM at the announcement, to get the clip
+   index.
 2. **VS screen:** log the SCU DMA source of the VS name tiles at VS-screen
    load (as in `EXP-0051`) to find the RAM buffer, then the file.
 3. **Selector:** trace how the life-bar object picks its label cells, which

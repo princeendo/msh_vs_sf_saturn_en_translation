@@ -4015,3 +4015,13 @@ redesign.
 - **User question (PS1 vs arcade):** most surfaces need no import. For the VS
   screen and voice, PS1 is recommended first (linear TIM images, SPU/XA
   audio), after confirming the Saturn lacks them.
+- **LOC-002 voice follow-up:** the user hears "Vega" at character select and
+  in the win announcement.
+  - An SCSP slot trace (from state `SlotRegs` every 3 frames) shows only
+    three looping stream slots, so sound is software-mixed.
+  - Sound RAM at the win screen maps to `CMNSE.PAC` (common bank, the likely
+    announcer source), `MEMFIX.PAC`, and `PLxx.PAC` fragments.
+  - Reading SCSP registers through the agent's `physical` space returns
+    zeros; use states instead.
+  - `LOC-002` is `DONE`; `LOC-003` is `READY`. `LOC-004` and `LOC-005` have
+    their blockers refined.

@@ -38,7 +38,7 @@ already holds most of the US-name art and text.**
 | Title menu "MECH-GOUKI NOW!!" | ASCII string in `MM.BIN` `0x24F03` | no, but it is plain text ("CYBER-AKUMA NOW!" fits in 16 characters) | text edit | low |
 | Sound-test titles ("18.VEGA", "22.GOUKI") | ASCII fields in `MM.BIN` `0x6341`, `0x639D` | no, but plain text | text edit | low |
 | VS screen ("VEGA", "MECH-GOUKI" under the portraits) | part of the VS-screen sprite mosaic, not the quote font | **unknown**. The tiles are not raw or LZSS in any file; probably in the select archives (`SEL.PAC`, `SEL2.PAC`, `SELCMP.PAC`), whose layout is not decoded | locate and decode the source, then edit or redraw | medium to high |
-| Voice ("Vega") | unknown clip, location, and format. Music is `.ADP` streams; voices are probably in `CMNSE.PAC` (common) or `PLxx.PAC` (per character) | **unknown** | identify the clip by listening, decode the Saturn sample format, source a US clip, re-encode | high, plus a sourcing question |
+| Voice ("Vega") | spoken by the announcer at character select and in the win announcement (user, 2026-10-25). Sound is mixed in software by the sound program and streamed through three looping SCSP slots (`0x484`, `0x248C`), so clips never get their own slot. At the win screen, sound RAM holds a large block of `CMNSE.PAC` (`0xB000`-`0x7A000`), the likely announcer bank. Its Capcom bank layout (a 4-byte entry table from `0x10`) is not decoded | **unknown** | decode `CMNSE.PAC`, export the clips to WAV for the user to identify "Vega", source a US clip, re-encode to the bank format | high, plus a sourcing question |
 
 ### Sourcing: PS1 or arcade (user question, 2026-10-25)
 

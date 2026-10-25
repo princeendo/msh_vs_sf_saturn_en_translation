@@ -2757,7 +2757,7 @@ the user asks or when it unblocks other work.
 
 ### LOC-002 - Inventory and scope the name art and voice (Vega/Gouki/Mech-Gouki)
 
-- **Status:** `IN_PROGRESS` (2026-10-25, `EXP-0054`; inventory done, voice and VS-art source left)
+- **Status:** `DONE` (2026-10-25, `EXP-0054`)
 - **Priority:** medium (user)
 - **Milestone:** Reference
 - **Dependencies:** END-026.
@@ -2770,8 +2770,10 @@ the user asks or when it unblocks other work.
     speaker labels (`ME.PAC` table has "Akuma" and "Bison"), and the
     win-banner letters.
   - Menu and sound-test names are plain ASCII in `MM.BIN`.
-  - Unknown: the VS-screen name art source (probably `SEL*.PAC`) and which
-    voice clip says the name.
+  - Unknown: the VS-screen name art source (probably `SEL*.PAC`).
+  - Voice: the announcer says names at character select and in the win
+    announcement. Sound is software-mixed; the clips are most likely in the
+    common bank `CMNSE.PAC`, whose format is not decoded.
   - Sourcing view in `docs/localization_plan.md`: PS1 first, if imports are
     needed.
 - **Acceptance criteria:**
@@ -2786,7 +2788,7 @@ the user asks or when it unblocks other work.
 
 ### LOC-003 - Two name variants as parallel patch paths
 
-- **Status:** `BLOCKED`
+- **Status:** `READY` (2026-10-25; scope from `EXP-0054`)
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002 (for the US variant's art and voice).
@@ -2811,8 +2813,15 @@ the user asks or when it unblocks other work.
 - **Status:** `BLOCKED`
 - **Priority:** medium (user)
 - **Milestone:** Polish
-- **Dependencies:** LOC-002, LOC-003.
-- **Blockers:** Inventory and formats (`LOC-002`).
+- **Dependencies:** LOC-002 (done), LOC-003.
+- **Blockers:** `LOC-003` (the variant switch). Per `EXP-0054`, the work
+  splits as follows:
+  - life bars: copy the US cells already in the font;
+  - speaker labels: the `ME.PAC` table already has Akuma and Bison;
+  - menus and sound test: ASCII edits;
+  - win banner: find its name string table;
+  - VS screen: decode `SEL*.PAC`; if no US art exists, source it, PS1
+    first.
 - **Objective:** Redraw or re-letter each name graphic found by `LOC-002`, in
   the variant build only.
 - **Acceptance criteria:** Each replaced graphic is documented (original and
@@ -2825,8 +2834,10 @@ the user asks or when it unblocks other work.
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.
-- **Blockers:** Inventory, the audio format, and a user decision on whether to
-  do it and where clips would come from.
+- **Blockers:**
+  - decoding the common sound bank `CMNSE.PAC` (the likely announcer source,
+    `EXP-0054`), and identifying the "Vega" and "Gouki" clips by listening;
+  - a user decision on doing it, and on the clip source (PS1 first).
 - **Objective:** If approved, make the voice say the US names in the variant
   build.
 - **Acceptance criteria:**
