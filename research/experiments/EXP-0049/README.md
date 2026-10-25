@@ -1,9 +1,9 @@
 # EXP-0049: Live Sample of the Combined Roster Image
 
 Task: END-024
-Status: IN_PROGRESS (five endings verified on 2026-10-25; the VEGA rebuild and a
-win-quote spot check need one short cold-boot session)
-Confidence: CONFIRMED for the five sampled endings on the `c06cf0ef…` image.
+Status: DONE (2026-10-25)
+Confidence: CONFIRMED for the five sampled endings on the `c06cf0ef…` image,
+and for the Vega ending and a win quote on the VEGA image (`e721a167…`).
 
 ## Observation
 
@@ -100,26 +100,42 @@ read (composites in `local/end024/credit*.png`).
   - `MC13`, `ME.PAC`, and the win-quote files are unchanged.
 - **`m8_roster` re-baselined** (previous: `c06cf0ef…`); all six references
   pass.
-- **Not yet live:** the font changed, so a cold boot is needed.
+### VEGA image, live (credit 6)
+
+- **Session:** one cold boot of `build/end024_vega/image_a` (the font changed),
+  with the recorder (`local/end024v/rec`).
+- **Win-quote spot check.** The user picked Vega + Ryu (Manual + Turbo) and won
+  stage 1 by playing. The win-quote screen showed the official English "You
+  were foolish / to challenge me!" (`MC0E.PAC` record 7 in the spec).
+  Screenshot `f00008932` `3b8a6763…`.
+- **Ending.** The driver was armed only after the win (frame 9093). The boss
+  fight started at frame 9613, and the driver stopped writing at frame 9786.
+  Then:
+
+  | Frames | Box |
+  | --- | --- |
+  | 10632-11115 | "VEGA, / you are a great fighter." (`46e269bf…`) |
+  | 11167-11607 | "Our game is at its end, / RYU." (`c409ebf0…`) |
+  | 11668-11847 | "Ha! I have the technology / behind the Cyber Akuma!!" |
+  | 11909-12156 | "Go forth! Show the world / Shadaloo's true power!!" |
+  | 12208-12634 | "Yes, boss." |
+
+  Composite: `local/end024v/credit6.png` (`f136a0e4…`).
+- **Result:** VEGA is inserted in 2 cells, and the pages are unchanged from
+  credit 3, as predicted.
 
 ## Conclusion
 
-**CONFIRMED** for the five sampled endings: the combined image shows official
-English endings with correct names, including the longest name and a grown
-name.
-
-Remaining for `END-024`:
-1. one credit on `build/end024_vega` with Vega in the team (VEGA inserted);
-2. a live win-quote spot check. The user wins an ordinary first fight, since
-   no forced KO is known for two-against-two fights.
+**CONFIRMED.** The combined image shows official English endings with correct
+names, including the longest name, a grown name, and the VEGA override. The M5
+win quotes still work in it.
 
 ## Uncertainty and Alternatives
 
 - **Twelve roster endings were checked offline only.** The pipeline and the
-  record identity are the same as for the five live ones.
-- **The win quotes** are expected to work: the files are byte-identical to the
-  live-verified roster image, and their glyphs render identically. They were
-  not yet seen in this image.
+  record identity are the same as for the six live ones.
+- **One win quote was seen live** in the combined image. The other win-quote
+  files are byte-identical to the live-verified roster image.
 
 ## Reproduction
 
@@ -127,3 +143,6 @@ Cold-boot the image; then, per credit:
 - the user goes to character select;
 - run `./invenv.sh python -m tools.mednafen.ending_driver --log …`;
 - the user picks the team and presses nothing more.
+
+For a win quote, start the driver only after the user has won the first fight.
+Segment frames by box content and read one frame per block or page.

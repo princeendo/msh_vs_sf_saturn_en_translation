@@ -3636,3 +3636,21 @@ Next action: `END-024` (live sample; the user works menus from one cold boot).
 - **Left for `END-024`:** a cold-boot Vega credit and a win-quote spot check
   (a manual first-fight win).
 
+
+## 2026-10-25 — END-024 done: VEGA credit and win-quote spot check
+
+- **Session:** one cold boot of `build/end024_vega/image_a` (`e721a167…`), with
+  the recorder (`local/end024v/rec`).
+- **Win quote:** the user won stage 1 with Vega + Ryu. Vega's quote showed the
+  official English "You were foolish / to challenge me!" (`f00008932`
+  `3b8a6763…`).
+- **Ending:** the driver was armed only after the win (frame 9093), and the
+  boss KO came at frames 9613-9786. Then "VEGA, / you are a great fighter.",
+  "Our game is at its end, / RYU.", and Vega's three English pages. Composite
+  `local/end024v/credit6.png` (`f136a0e4…`).
+- **Checks:** `pytest` 203 passed, 1 skipped; `ruff check`, `ruff format
+  --check`, and `mypy tools` are clean.
+- `END-024` is `DONE`; `END-025` is `READY`.
+
+Next action: `END-025` (coverage exceptions, regression report, and remaining
+unknowns; closes M8).

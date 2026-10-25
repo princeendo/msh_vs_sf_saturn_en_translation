@@ -941,7 +941,7 @@ Experiment: `EXP-0047`
 
 ## END-023: Combined Roster Image (Win Quotes and All Roster Endings), Offline
 
-Confidence: **CONFIRMED** (offline build); live sample pending (`END-024`)
+Confidence: **CONFIRMED** (offline build; live sample in `END-024`)
 
 Experiment: `EXP-0048`
 
@@ -957,9 +957,9 @@ Experiment: `EXP-0048`
 - **Font:** 501 pair glyphs, reusing 253 of 321 candidate kanji codes.
 - **Reproduce.** `research/experiments/EXP-0048/README.md`.
 
-## END-024 (partial): Combined Roster Endings Verified Live
+## END-024: Combined Roster Endings Verified Live
 
-Confidence: **CONFIRMED** (five sampled endings)
+Confidence: **CONFIRMED** (six sampled endings and a win quote)
 
 Experiment: `EXP-0049`
 
@@ -973,6 +973,11 @@ Experiment: `EXP-0049`
   - Dan + Chun-Li.
 - **Names.** CAPTAIN AMERICA (8 cells) and BISON (grown from 2 to 3 cells) were
   inserted correctly.
+- **VEGA image** (user decision; track 01 `e721a167…`, reference
+  `m8_roster`): from a cold boot, Vega's stage-1 win quote showed the official
+  English, and Vega + Ryu's ending showed "VEGA, / you are a great fighter.",
+  "Our game is at its end, / RYU.", and Vega's three English pages. So the M5
+  win quotes still work in the combined image.
 - **Dan's last page** is empty in the official English (the Japanese shows 完).
   The build matches the arcade.
 - **Limit.** The ending driver's KO offsets (`0x060F3E50`/`0x060F4844`) hold

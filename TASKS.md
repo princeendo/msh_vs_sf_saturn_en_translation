@@ -45,10 +45,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   The user accepted English names inside the Japanese text a roster image
   leaves (31 sites, almost all for excluded characters). `END-023` is done
   (`EXP-0048`): one deterministic image holds the M5 win quotes (files
-  unchanged) and all 17 roster endings (`m8_roster`). `END-024` is in progress
-  (`EXP-0049`): five sampled endings verified live. At the user's request the
-  dictator is now VEGA (`build/end024_vega`). One short session is left: a
-  Vega credit and a win-quote spot check.
+  unchanged) and all 17 roster endings (`m8_roster`). `END-024` is done
+  (`EXP-0049`): six sampled endings and a win quote verified live. At the
+  user's request the dictator is VEGA (`build/end024_vega`, `e721a167…`).
+  Next: `END-025` (`READY`), which closes M8.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2463,11 +2463,10 @@ the user asks or when it unblocks other work.
 
 ### END-024 - Live verification sample of the combined image
 
-- **Status:** `IN_PROGRESS` (2026-10-25; five endings verified, one short session left)
+- **Status:** `DONE` (2026-10-25)
 - **Milestone:** M8
 - **Dependencies:** END-023.
-- **Blockers:** None. Needs one user session: menus only, from one cold boot of
-  `build/end023`.
+- **Blockers:** None.
 - **Objective:** Verify a representative sample live, from one cold boot.
 - **Acceptance criteria:**
   - Endings for at least: Captain America (longest name, 6 pages), a 6-page
@@ -2478,7 +2477,7 @@ the user asks or when it unblocks other work.
   - The user works only the menus; `ending_driver.py` forces stage 8 and the
     KO. The font stays resident, so all can run from one boot.
   - Every screenshot is read.
-- **Evidence so far (2026-10-25, `EXP-0049`):**
+- **Evidence (2026-10-25, `EXP-0049`):**
   - From one cold boot of `c06cf0ef…`, five credits (Captain America + Ryu,
     Zangief + Spider-Man, Bison + Hulk, Sakura + Wolverine, Dan + Chun-Li) all
     showed the predicted English blocks with correct names (CAPTAIN AMERICA in
@@ -2492,22 +2491,29 @@ the user asks or when it unblocks other work.
   - Rebuilt as `build/end024_vega` (`e721a167…`). Only `MEMFIX.PAC` and
     `MM.BIN` change.
   - `m8_roster` was re-baselined.
-- **Left:**
-  - one cold-boot credit on `build/end024_vega` with Vega in the team;
-  - a win-quote spot check, with the user winning an ordinary first fight.
+- **VEGA image, one cold boot of `e721a167…`:**
+  - The user won stage 1 with Vega + Ryu. Vega's win quote showed the
+    official English ("You were foolish / to challenge me!", `MC0E.PAC`
+    record 7).
+  - Then the driver forced the boss and KO: "VEGA, / you are a great
+    fighter." then "Our game is at its end, / RYU.", and Vega's three English
+    pages.
+  - Every acceptance criterion is met.
 
 ### END-025 - Coverage, exceptions, and regression for endings
 
-- **Status:** `BLOCKED`
+- **Status:** `READY` (2026-10-25)
 - **Milestone:** M8
-- **Dependencies:** END-024.
-- **Blockers:** No verified combined image yet.
+- **Dependencies:** END-024 (done).
+- **Blockers:** None.
 - **Objective:** Close M8.
 - **Acceptance criteria:**
   - `docs/coverage_exceptions.md` lists the excluded endings and dialogue pairs
     (slots 0, 17, 19-25) with reasons.
   - The regression report includes the combined reference.
-  - Remaining unknowns are recorded, such as the KO character's effect.
+  - Remaining unknowns are recorded, such as the KO character's effect, the
+    opponent's vitality in two-against-two fights, the CAPTAIN AMERICA
+    centring, and whether Dan's empty last page should get "THE END".
 
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 
