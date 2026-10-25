@@ -3797,3 +3797,26 @@ Next action: none `READY`. A user decision is needed: `SPECIAL-001` (M9),
   - `DOC-020` (`READY`).
 
 Next action: `FONT-010`.
+
+## 2026-10-25 — DOC-020: cross-game agent playbook for XvSF
+
+- **Wrote** `docs/playbook_cross_game.md`, a playbook for repeating this
+  localization on X-Men vs. Street Fighter (Saturn), to be copied into a new
+  repository.
+- **Sources read:** `AGENTS.md`, `TASKS.md`, `docs/discoveries.md`, this log
+  (including the failed approaches), `docs/coverage_exceptions.md`,
+  `docs/localization_plan.md`, `docs/known_unknowns.md`,
+  `docs/mednafen_agent_interface.md`, `docs/agent_briefing.md`,
+  `data/translations/README.md`, `release/README.md`, `references/xmvsf/`,
+  and the experiment READMEs it cites.
+- **Labelling** (`AGENTS.md` rules 13-15, 25): every game fact is an MSHvSF
+  fact with its evidence pointer, followed by a "Verify on XvSF" point. The
+  only XvSF statements are the existing intake records of the held files.
+  Nothing was asserted about XvSF internals, and no XvSF file was opened.
+- **Contents:** design decisions and rationale; the milestone order and the
+  decision point at each step; tools and their validation, with emulator
+  limits; pitfalls and disproven ideas; the user's localization decisions;
+  working with the user; a consolidated XvSF checklist.
+- `DOC-020` is `DONE`.
+
+Checks: documentation only; no code changed.

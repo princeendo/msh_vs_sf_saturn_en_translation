@@ -2805,7 +2805,7 @@ the user asks or when it unblocks other work.
 
 ### DOC-020 - Write a cross-game agent playbook (for an XvSF project)
 
-- **Status:** `READY` (requested 2026-10-25)
+- **Status:** `DONE` (2026-10-25)
 - **Priority:** not set by the user
 - **Milestone:** Documentation
 - **Dependencies:** None.
@@ -2834,6 +2834,19 @@ the user asks or when it unblocks other work.
   - It lives in this repository (`docs/`) and is ready to copy into a new
     project.
 - **Notes:** This does not start XvSF work, and XvSF remains unmodified here.
+- **Evidence (2026-10-25):** `docs/playbook_cross_game.md`.
+  - Every game fact is marked **MSHvSF**, with its evidence pointer
+    (`EXP-*`, a discoveries heading, or a log entry), followed by a
+    "Verify on XvSF" point. The only XvSF statements are the intake records
+    already in `references/xmvsf/`, cited as records of the held files.
+  - It covers environment and tools (agent interface, recorder, ending
+    driver, client lock, replay limits, cold boot for font changes), source
+    identity, the win-quote path, endings, capacity, regression, release,
+    names, the user's decisions, working with the user, pitfalls, and a
+    consolidated XvSF checklist.
+  - It is self-contained apart from the MSHvSF evidence pointers, so it can
+    be copied into a new XvSF repository.
+  - Documentation only: no tool, data, or XvSF file changed.
 
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 
