@@ -1038,6 +1038,29 @@ Experiment: none (a scripted census and comparison, `tools/text/ending_coverage.
     --out data/text/ending_coverage.json
   ```
 
+## FONT-010: The Staff-Credits Font Is Part of the Quote Font
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0051`
+
+- **Finding.** The staff credits draw quote-font codes `0x1E0`-`0x25F`
+  (`MEMFIX.PAC` entry 4, compressed): `A`-`Z` at `0x210`-`0x229`, `a`-`z` at
+  `0x231`-`0x24A`, digits at `0x200`-`0x209`, and punctuation around them.
+  - They use the same glyph routine as captions (`0x0601CE00`). Each glyph is
+    built in `0x0601CEEC` and copied to VDP1 VRAM by SCU DMA (`0x0601BABC`:
+    R9 = source, R10 = destination, R11 = count).
+  - Cells are 16 × 16 4 bpp, one letter per cell: values 1-9 are a gradient,
+    `B` the outline.
+  - Credits palette: `1` (240,240,0) to `9` (240,112,0), and `B` (32,0,96).
+- **Evidence.** 121 of 121 glyph sprites on a credits screen equal quote-font
+  glyphs (`tools/memory/vdp1_commands.py --font`). A replayed screenshot
+  equals the recorded frame (`6fc4e105…`).
+- **Side finding.** `TESTFIX.DAT` holds an 8 × 8 ASCII font (VDP2 VRAM `0x400`
+  during the credits) and a partial 16 × 16 set of the same art. The credits
+  do not draw from it.
+- **Reproduce.** `research/experiments/EXP-0051/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -53,7 +53,9 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 "PRESS START" in English only: `UI-001` (`READY`);
     - a cross-game agent playbook for XvSF: `DOC-020` (`READY`).
-  - Next: `FONT-010` (highest priority).
+  - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
+    `0x1E0`-`0x25F`. `FONT-011` waits on the user's choice of style and
+    colour.
 - M8 history: started on 2026-10-24 (`END-020`). `END-021` is done (`EXP-0046`): all
   17 roster endings match the arcade reference and fit. One font holds the
   endings plus the M5 win quotes (454 pairs). `END-022`'s experiments are done
@@ -2647,7 +2649,7 @@ the user asks or when it unblocks other work.
 
 ### FONT-010 - Identify the credits font and compare it with the US caption font
 
-- **Status:** `READY` (requested 2026-10-25)
+- **Status:** `DONE` (2026-10-25, `EXP-0051`)
 - **Priority:** high (user)
 - **Milestone:** Polish
 - **Dependencies:** FONT-003.
@@ -2672,16 +2674,34 @@ the user asks or when it unblocks other work.
     official English.
   - Adoption is presented as a user decision, with the colour choice: keep
     white, or use the credits' gold. Nothing is adopted here.
-- **Notes:** `HYPOTHESIS` until located. Do not assume the credits use the
-  quote-font renderer.
+- **Evidence (`EXP-0051`):**
+  - The credits draw quote-font codes `0x1E0`-`0x25F` (`MEMFIX.PAC` entry 4,
+    compressed):
+    - `A`-`Z` at `0x210`, `a`-`z` at `0x231`, digits at `0x200`;
+    - punctuation mapped in `tools/text/credits_font.py`.
+  - They use the captions' own glyph routine (`0x0601CE00`, SCU DMA from
+    `0x0601CEEC`): 16 × 16 4 bpp cells, one letter per cell, values 1-9
+    gradient and `B` outline.
+  - Credits palette: yellow to orange, with a purple outline. The caption bank
+    `0x6030` uses only white `1` and black `F`.
+  - Same style as the US arcade caption font (gold gradient, outline, slant),
+    but twice as wide.
+  - One glyph per cell does not fit 25-character lines. Two squeezed per cell
+    fit (same capacity) and look like the arcade, with some thin glyphs
+    needing tuning.
+  - Mockups: `local/font010/`.
 
 ### FONT-011 - Compose caption and ending pair glyphs from the credits font
 
 - **Status:** `BLOCKED`
 - **Priority:** high (user)
 - **Milestone:** Polish
-- **Dependencies:** FONT-010.
-- **Blockers:** `FONT-010`, and the user's adoption decision.
+- **Dependencies:** FONT-010 (done).
+- **Blockers:** the user's decision between:
+  - squeezed credits pairs in gold (needs palette work);
+  - squeezed pairs in white (no palette work);
+  - converting the arcade's own narrow font (`REF-012`; a provenance
+    decision).
 - **Objective:** Build the pair glyphs from the credits font instead of the
   white full-width glyphs, for win quotes and endings.
 - **Acceptance criteria:**

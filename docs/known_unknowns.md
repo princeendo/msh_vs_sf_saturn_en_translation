@@ -208,6 +208,17 @@ remain open; none blocks the roster image.
   - why `MC13` records 54/55 and 106/107 differ from the arcade;
   - whether slots 0 and 19 can ever show their (shared) pages.
 
+## Fonts (`FONT-011`)
+
+- Which CRAM colour banks are loaded on win-quote and ending screens? Could
+  the caption sprites use a gold gradient bank, or are bank `0x6030` indices
+  2-9 and `B` free to fill?
+- How much per-glyph tuning do squeezed credits glyphs need (`I`, `!`, `l`,
+  `i`, `j`, `1`)?
+- Do CPU write breakpoints cover VDP1 VRAM at all? None fired, even on the
+  command table, and there was no positive control (`EXP-0051`).
+- What uses `TESTFIX.DAT`'s fonts?
+
 ## Localization: Names (`LOC-001`)
 
 - Which screens show the regional names (Vega, Gouki, Mech-Gouki) as art?

@@ -3820,3 +3820,46 @@ Next action: `FONT-010`.
 - `DOC-020` is `DONE`.
 
 Checks: documentation only; no code changed.
+
+## 2026-10-25 — FONT-010 / EXP-0051: the credits font
+
+- **No gameplay.** States from the `END-026` recording were replayed on the
+  `m8_roster` image.
+- **Steps:**
+  1. Credits sprites are VDP1 16 × 16 4 bpp cells.
+  2. No disc file holds them raw or LZSS-decoded, but `TESTFIX.DAT` has
+     matching 8 × 8 quadrants for capitals, digits, and punctuation (a side
+     finding).
+  3. CPU write breakpoints on VDP1 VRAM never fired.
+  4. Lower-case tiles are in neither WRAM nor extracted cart RAM.
+  5. Logging the SCU DMA registers found transfers from `0x0601CEEC`, called
+     from the quote-font glyph routine (`0x0601CDF2` in `0x0601CE00`).
+  6. Every tile matched a quote-font glyph: codes `0x1E0`-`0x25F`.
+- **Comparison:** the same style as the US arcade caption font (gold gradient,
+  outline, slant), but twice as wide.
+  - One glyph per cell cannot fit 25-character lines.
+  - Squeezed pairs fit and resemble the arcade. Thin glyphs need tuning.
+  - Gold needs palette work (the caption bank `0x6030` uses only white and
+    black).
+- **Disproven or unproductive (do not retry blindly):**
+  - raw and LZSS searches for the 16 × 16 tiles;
+  - VDP1 VRAM write breakpoints, which gave no hits even on the command
+    table;
+  - WRAM and cart RAM searches for the staged lower-case tile.
+
+  Use the SCU DMA register log instead.
+- **Tooling and checks:**
+  - New: `tools/memory/vdp1_commands.py` (VDP1 sprite list and glyph
+    matching) and `tools/text/credits_font.py` (credits code map, squeeze, and
+    mockups), with tests.
+  - Recorded the caveat that `font_candidates.json` lists "unseen", not
+    "unused", codes.
+  - `pytest` 214 passed, 1 skipped; `ruff check`, `ruff format --check`, and
+    `mypy tools` (58 files) are clean.
+- **Environment note:** `build/end010`, `end023`, `end024_vega`, `end026`, and
+  `end027` disappeared during this session, removed by something outside it.
+  They are reproducible; `build/regression` holds the current reference
+  images.
+
+Next action: `FONT-011`, waiting on the user's choice: gold squeezed, white
+squeezed, or the arcade font (`REF-012`).

@@ -11,3 +11,6 @@ experiment establishes them. Do not store extracted game text dumps.
   room for pair glyphs. It was copied here from the ignored
   `research/memory_dumps/exp0023/` so that a fresh clone can rebuild
   (`REL-001`).
+  - "Unseen" does not mean unused. 120 of the 128 credits-font codes
+    `0x1E0`-`0x25F` are on this list (`EXP-0051`). Reclaim only kanji
+    (`0x926`-`0xC5F`), as the compiler does.
