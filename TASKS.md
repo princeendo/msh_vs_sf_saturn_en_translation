@@ -46,11 +46,14 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   (Endings). The remaining unknowns are in `docs/known_unknowns.md`.
   - `REL-001` is done (2026-10-25): an xdelta3 patch (`00c3906a…`, kept
     local) and `release/README.md`, reproduced from a fresh clone.
-  - **No task is `READY`.** The next work needs a user decision:
-    - authorizing M9 (`SPECIAL-001`);
-    - the naming policy (`LOC-001`);
-    - one of the low-priority backlog items (`TXT-001`, `RE-048` to `RE-050`,
-      `REF-012`).
+  - **New requests (2026-10-25):**
+    - credits font for the captions: `FONT-010` (`READY`, high), then
+      `FONT-011`;
+    - US-name art and voice, and two name variants: `LOC-002` (`READY`,
+      medium) to `LOC-006` (stretch);
+    - player-2 "PRESS START" in English only: `UI-001` (`READY`);
+    - a cross-game agent playbook for XvSF: `DOC-020` (`READY`).
+  - Next: `FONT-010` (highest priority).
 - M8 history: started on 2026-10-24 (`END-020`). `END-021` is done (`EXP-0046`): all
   17 roster endings match the arcade reference and fit. One font holds the
   endings plus the M5 win quotes (454 pairs). `END-022`'s experiments are done
@@ -2620,7 +2623,11 @@ the user asks or when it unblocks other work.
 - **Milestone:** Reference
 - **Dependencies:** END-026.
 - **Blockers:** A user decision, after the evidence below.
-- **Objective:** Choose between:
+- **User direction (2026-10-25):** build both conventions as parallel
+  variants, both in English (`LOC-003`). Scope the art and voice (`LOC-002`
+  to `LOC-005`); an in-game switch is a stretch goal (`LOC-006`). What remains
+  here is which variant is the default and how releases present the two.
+- **Objective (original):** Choose between:
   - the Saturn's names everywhere (current, text only);
   - US names everywhere (text, art, and announcer audio).
 
@@ -2637,6 +2644,196 @@ the user asks or when it unblocks other work.
     rebuilt, and verified.
   - If it requires art or audio work, new tasks are created with their own
     experiments. Nothing is started without approval.
+
+### FONT-010 - Identify the credits font and compare it with the US caption font
+
+- **Status:** `READY` (requested 2026-10-25)
+- **Priority:** high (user)
+- **Milestone:** Polish
+- **Dependencies:** FONT-003.
+- **Blockers:** None.
+- **Objective:** Locate the font the staff credits use and describe it. Test the
+  user's observation that it closely resembles the font the US arcade uses for
+  post-fight captions and endings.
+- **Observation (2026-10-25):**
+  - The credits after the Vega ending (`local/end026/rec`, e.g. `f00009966`,
+    `6fc4e105…`) draw a gold, gradient-shaded, slanted Latin font. It has
+    upper and lower case, and is narrower than the full-width cells.
+  - The captions and endings use pair glyphs composed from the quote font's
+    white full-width Latin glyphs (`FONT-003`).
+- **Acceptance criteria:**
+  - The credits font is located with evidence: disc file and offset, or the
+    VRAM/VDP1 or VDP2 source; tile format and size; palette; character set and
+    code mapping.
+  - It is compared with the US arcade caption font (MAME capture; see
+    `REF-012`). Record whether they are similar, the same, or different.
+  - Fit is assessed for the quote font's 16 × 16 4bpp cells: two characters
+    per cell, colours or palette, lower case, and any glyphs missing for the
+    official English.
+  - Adoption is presented as a user decision, with the colour choice: keep
+    white, or use the credits' gold. Nothing is adopted here.
+- **Notes:** `HYPOTHESIS` until located. Do not assume the credits use the
+  quote-font renderer.
+
+### FONT-011 - Compose caption and ending pair glyphs from the credits font
+
+- **Status:** `BLOCKED`
+- **Priority:** high (user)
+- **Milestone:** Polish
+- **Dependencies:** FONT-010.
+- **Blockers:** `FONT-010`, and the user's adoption decision.
+- **Objective:** Build the pair glyphs from the credits font instead of the
+  white full-width glyphs, for win quotes and endings.
+- **Acceptance criteria:**
+  - `pair_font.py` gains a glyph-source option. The old source stays available,
+    and the regression references keep their meaning.
+  - A new combined reference is created: deterministic, all checks true, the
+    capacity fits, and every changed render is read.
+  - Before/after screenshots from a cold boot of one win quote and one ending.
+  - `release/README.md` and the patch are updated.
+
+### LOC-002 - Inventory and scope the name art and voice (Vega/Gouki/Mech-Gouki)
+
+- **Status:** `READY` (requested 2026-10-25)
+- **Priority:** medium (user)
+- **Milestone:** Reference
+- **Dependencies:** END-026.
+- **Blockers:** None.
+- **Objective:** Find out what it would take to show the US names (Bison,
+  Akuma, Cyber-Akuma) in the art and voice, and report the cost.
+- **Acceptance criteria:**
+  - Every screen that shows a regional name as art is listed, with frames:
+    character select, VS screen, life bars, win screen, ending speaker labels,
+    and any other.
+  - Every voice line that speaks one is listed, with timing.
+  - For each item: the source file and format if found, or the next
+    discriminating experiment.
+  - A cost and risk estimate per item, plus the audio sourcing question
+    (no source is assumed). Recorded in `docs/localization_plan.md`.
+
+### LOC-003 - Two name variants as parallel patch paths
+
+- **Status:** `BLOCKED`
+- **Priority:** medium (user)
+- **Milestone:** Polish
+- **Dependencies:** LOC-002 (for the US variant's art and voice).
+- **Blockers:** The US variant is not consistent until `LOC-004` (and
+  `LOC-005`, if audio is in scope) is done.
+- **Objective (user request, 2026-10-25):** Offer two builds, both translated
+  to English:
+  - the Saturn's Japanese-release names (Vega, Gouki, Mech-Gouki; current);
+  - the American names (Bison, Akuma, Cyber-Akuma).
+- **Acceptance criteria:**
+  - One switch selects the variant: the text overrides now, the art and voice
+    later.
+  - Both variants build deterministically from the untouched source, and each
+    has its own regression reference and patch (`make_patch --stem`).
+  - `release/README.md` explains the choice.
+- **Notes:** The text part is small: `NAME_OVERRIDES` and `TEXT_OVERRIDES`
+  per variant. The first step can be text-only, built but not released until
+  the art (and the voice, if in scope) match.
+
+### LOC-004 - Replace the name art for the American-name variant
+
+- **Status:** `BLOCKED`
+- **Priority:** medium (user)
+- **Milestone:** Polish
+- **Dependencies:** LOC-002, LOC-003.
+- **Blockers:** Inventory and formats (`LOC-002`).
+- **Objective:** Redraw or re-letter each name graphic found by `LOC-002`, in
+  the variant build only.
+- **Acceptance criteria:** Each replaced graphic is documented (original and
+  new bytes, offsets), with before/after screenshots from a cold boot and a
+  regression reference.
+
+### LOC-005 - Replace the announcer's name lines for the American-name variant
+
+- **Status:** `BLOCKED`
+- **Priority:** medium (user)
+- **Milestone:** Polish
+- **Dependencies:** LOC-002, LOC-003.
+- **Blockers:** Inventory, the audio format, and a user decision on whether to
+  do it and where clips would come from.
+- **Objective:** If approved, make the voice say the US names in the variant
+  build.
+- **Acceptance criteria:**
+  - The sample format and locations are documented.
+  - The clip source has user-approved provenance.
+  - Before/after evidence and regression.
+
+### LOC-006 - In-game option to switch the name variant (stretch)
+
+- **Status:** `BACKLOG`
+- **Priority:** stretch (user: "would be incredible", likely a very large
+  effort)
+- **Milestone:** Polish
+- **Dependencies:** LOC-003, LOC-004, and LOC-005 if audio is included.
+- **Blockers:** Feasibility unknown.
+- **Objective:** Add an Options-menu entry that switches the names at run time.
+- **Acceptance criteria (feasibility first):**
+  - Where options are stored (RAM and backup RAM), and how the menu is drawn
+    and laid out.
+  - Whether both variants' text, names, art, and audio can be resident, or
+    where they would be loaded from.
+  - The code hooks needed. This would be the project's first SH-2 code patch,
+    so it needs new tooling.
+  - A cost estimate for the user before any implementation.
+
+### UI-001 - Make the player-2 "PRESS START" prompt English only
+
+- **Status:** `READY` (requested 2026-10-25)
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** None.
+- **Blockers:** None.
+- **Objective:** The user reports that the top-right player-2 prompt alternates
+  "PRESS START" with Japanese text. Show English only.
+- **Observation (2026-10-25):** 1-second recordings of a stage-1 fight
+  (`local/end024v/rec`) show only "PRESS START" and blank frames. So the
+  alternation, if present, is faster or happens at other times. It is
+  unconfirmed.
+- **Acceptance criteria:**
+  - A frame-by-frame capture from a saved state confirms and records the
+    Japanese text, its cadence, and where it appears.
+  - Its source is identified (font codes, sprite, or VDP2 art; compare the
+    `EXP-0023` UI artwork codes) with evidence.
+  - The US arcade set's behaviour at the same moment is recorded as the oracle
+    (MAME).
+  - The fix is chosen with the user: English text in its place, or "PRESS
+    START" in both phases. It is built from the untouched source, with
+    before/after frames and a regression reference.
+
+### DOC-020 - Write a cross-game agent playbook (for an XvSF project)
+
+- **Status:** `READY` (requested 2026-10-25)
+- **Priority:** not set by the user
+- **Milestone:** Documentation
+- **Dependencies:** None.
+- **Blockers:** None.
+- **Objective:** A detailed agent file for repeating this process on X-Men vs.
+  Street Fighter (Saturn). It describes:
+  - the design decisions and their rationale;
+  - the order of investigation and its decision points;
+  - the tools and how they were validated;
+  - the pitfalls and failed approaches;
+  - the user's localization decisions.
+- **Acceptance criteria:**
+  - Every MSHvSF fact is labelled as such, with its evidence pointer. Each one
+    becomes an investigation point ("verify on XvSF: …") and is never
+    asserted for XvSF (`AGENTS.md` rules 13-15, 25).
+  - It covers:
+    - environment (the Mednafen agent interface, recorder, driver, locking);
+    - source identity;
+    - the win-quote path (RAM search, then file, LZSS, font, pair glyphs);
+    - endings (renderer, tables, dialogue indexing, names);
+    - capacity;
+    - regression;
+    - release patching;
+    - names and localization policy;
+    - working with the user (manual steps, gameplay only).
+  - It lives in this repository (`docs/`) and is ready to copy into a new
+    project.
+- **Notes:** This does not start XvSF work, and XvSF remains unmodified here.
 
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 

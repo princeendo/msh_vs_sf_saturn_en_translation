@@ -3773,3 +3773,27 @@ taken before a release.
 
 Next action: none `READY`. A user decision is needed: `SPECIAL-001` (M9),
 `LOC-001`, or the backlog.
+
+## 2026-10-25 — New requests added to the plan
+
+- **The user asked for four additions:**
+  1. Use the credits' font (which the user finds close to the US caption font)
+     instead of the white font. High priority.
+  2. Scope the name art and voice (Bison/Akuma), with parallel patch paths for
+     both name conventions in English, and an Options toggle as a stretch.
+     Medium priority.
+  3. Make the player-2 "PRESS START" English only.
+  4. Write a detailed agent playbook, to repeat this on XvSF.
+- **Observations used to write the tasks (no experiment):**
+  - The credits (`local/end026/rec`, e.g. `f00009966`, `6fc4e105…`) draw a
+    gold, gradient, slanted Latin font with lower case.
+  - 1-second frames of a stage-1 fight show only "PRESS START" and blank, so
+    the Japanese alternation is not captured yet.
+- **Added:**
+  - `FONT-010` (`READY`), then `FONT-011`;
+  - `LOC-002` (`READY`) to `LOC-006`, with `LOC-001` updated to the user's
+    direction;
+  - `UI-001` (`READY`);
+  - `DOC-020` (`READY`).
+
+Next action: `FONT-010`.

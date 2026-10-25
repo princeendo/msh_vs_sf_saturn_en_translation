@@ -56,6 +56,16 @@ Every place this touches in the roster image (`local/end027/roster_image.json`):
 | B. US names everywhere | Bison, Akuma, Cyber-Akuma | edited on every screen that shows them | announcer clips replaced | Needs art and audio reverse engineering, plus a source for the clips. |
 | C. US names in text only | Bison, Akuma, Cyber-Akuma | unchanged | unchanged | Inconsistent on screen. Rejected for Vega on 2026-10-25. |
 
+## User Direction (2026-10-25)
+
+Offer both conventions as parallel builds, both in English: the Saturn names
+(current) and the American names. Tasks:
+- `LOC-002`: inventory and scope of the art and voice;
+- `LOC-003`: the variant switch and two patches;
+- `LOC-004`: art;
+- `LOC-005`: voice, if approved;
+- `LOC-006`: an in-game option, a stretch goal.
+
 ## Questions for the User (`LOC-001`)
 
 1. A or B?
