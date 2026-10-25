@@ -170,8 +170,9 @@ then three ending pages (a picture panel and a bottom text box).
   - how to handle the dialogue in English (a user decision).
 
 - **Localization (M7, `EXP-0044`).** Ryu's ending is done. Still open:
-  - What else inserts names (`0x0000`), and so now shows English names in the
-    `end010` image?
+  - What else inserts names (`0x0000`)? Answered by the census (`EXP-0047`).
+    Still open: where the Japanese-only `MM.BIN` text table (`0x7CC86`) is
+    shown (`TXT-001`).
   - What are the 92 WRAM-H bytes (`0x06010A94`, `0x060EFA91…`) that differ
     after a cold boot of the built image?
   - When exactly is the quote font loaded (after the title, before stage 1)?

@@ -921,6 +921,24 @@ Experiment: `EXP-0045`
   reference (track 01 `ba3fb3ce…`).
 - **Reproduce.** `research/experiments/EXP-0045/README.md`.
 
+## END-022: Name Insertion Follows the Length Table, and Names Can Grow
+
+Confidence: **CONFIRMED**
+
+Experiment: `EXP-0047`
+
+- **Finding.** A `0x0000` placeholder inserts exactly as many cells as the
+  `MM.BIN` name-length table gives for that slot (WRAM-H `0x060AF8E8` + slot).
+  - Ken's entry grown to four cells, with length 4, showed "ＡＢＣＤ、".
+  - The same entry with length 2 showed "ＡＢ、".
+  - Only the placeholder's own line shifts.
+- **Census.** `data/text/placeholder_census.json` lists 100 placeholders.
+  - A roster image makes 69 English and leaves 31 in Japanese text.
+  - All but one of those 31 belong to excluded characters.
+  - The exception is one line in a Japanese-only `MM.BIN` table (`0x7CD90`;
+    `TXT-001`).
+- **Reproduce.** `research/experiments/EXP-0047/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

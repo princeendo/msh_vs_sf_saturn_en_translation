@@ -40,8 +40,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   `READY`.
 - **M8 started on 2026-10-24** (`END-020`). `END-021` is done (`EXP-0046`): all
   17 roster endings match the arcade reference and fit. One font holds the
-  endings plus the M5 win quotes (454 pairs). Next is `END-022` (name-length
-  growth and name side effects, no gameplay).
+  endings plus the M5 win quotes (454 pairs). `END-022`'s experiments are done
+  (`EXP-0047`): names can grow, and the length table controls the insertion.
+  Waiting for the user's decision on English names inside the Japanese text
+  left in a roster image (31 sites, almost all for excluded characters).
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2393,10 +2395,12 @@ the user asks or when it unblocks other work.
 
 ### END-022 - Name table: length growth and side effects
 
-- **Status:** `READY`
+- **Status:** `BLOCKED` (experiments done 2026-10-24, `EXP-0047`; waiting for the
+  user's side-effect decision)
 - **Milestone:** M8
 - **Dependencies:** END-021.
-- **Blockers:** None. RAM trials need no gameplay.
+- **Blockers:** The user's decision on English names inside the Japanese text
+  that remains (below).
 - **Objective:**
   - Test that a name-length increase works (BISON: 2 → 3 cells).
   - Find every text that inserts names (`0x0000`) and would show English names
@@ -2409,6 +2413,21 @@ the user asks or when it unblocks other work.
     `MC13`, `ME.PAC`) that a combined image would leave in Japanese.
   - Each case is decided with the user: accept English names in Japanese text,
     or exclude it.
+- **Evidence (2026-10-24, `EXP-0047`):**
+  - **Growth `CONFIRMED`.** Ken's entry grown to four cells with length 4
+    showed "ＡＢＣＤ、". With the length left at 2, it was truncated to
+    "ＡＢ、". Only the name's line shifts.
+  - **Census** (`tools/text/placeholder_census.py` →
+    `data/text/placeholder_census.json`): 100 placeholders. A roster image
+    makes 69 English and leaves 31 in Japanese text:
+    - 13 in excluded characters' win quotes;
+    - 16 in `MC13` pairs of excluded slots;
+    - 1 in an unidentified Japanese-only text table in `MM.BIN` (`0x7CD90`;
+      arcade `0x213F82`-`0x2147EC`; no English counterpart);
+    - 1 false positive (an `MC11` offset table).
+  - **Decision needed.** English names will show inside those Japanese lines,
+    because the name table is global. Roster-only play is unaffected, except
+    possibly the one `MM.BIN` line.
 
 ### END-023 - Combined roster image (win quotes and endings)
 
@@ -2457,6 +2476,22 @@ the user asks or when it unblocks other work.
     (slots 0, 17, 19-25) with reasons.
   - The regression report includes the combined reference.
   - Remaining unknowns are recorded, such as the KO character's effect.
+
+### TXT-001 - Identify the Japanese-only text table in MM.BIN
+
+- **Status:** `BACKLOG`
+- **Priority:** low (one name placeholder; the text is not otherwise in scope)
+- **Milestone:** Reference
+- **Dependencies:** END-022.
+- **Blockers:** None.
+- **Objective:** Find where and when the Japanese dialogue table in `MM.BIN`
+  (`0x7CC86`-`0x7D1DC`; arcade `0x213F82`-`0x2147EC`, used by code at
+  `0x0B03BA`) is shown, and whose name its placeholder inserts.
+- **Rationale:** It is the only placeholder in Japanese text that roster-only
+  play might show with an English name (`EXP-0047`). No English counterpart
+  exists in the arcade sets.
+- **Acceptance criteria:** A write or read breakpoint, or an arcade trace,
+  identifies the screen and trigger. The finding is recorded with evidence.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 

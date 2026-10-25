@@ -3570,3 +3570,28 @@ Checks: pytest, ruff, format, mypy, and the full regression all pass.
 
 Next action: `END-022`.
 
+## 2026-10-24 — END-022 / EXP-0047: name growth, and the placeholder census
+
+- **Growth trials** (RAM, untouched image, `ryu_ken_post_boss_ko.mcs`, box 3):
+  - control: ケン、;
+  - ABCD with length 4: "ＡＢＣＤ、";
+  - ABCD with length 2: "ＡＢ、".
+
+  Names can grow, and the length table controls the insertion. Only that line
+  shifts.
+- **Placeholder census** (`tools/text/placeholder_census.py`): 100
+  placeholders. A roster image makes 69 English and leaves 31 in Japanese:
+  - 13 in excluded characters' win quotes;
+  - 16 in `MC13` pairs of excluded slots;
+  - 1 in an unidentified `MM.BIN` table;
+  - 1 false positive.
+- **Sweep tuning.**
+  - The first, loose sweep flagged graphics and offset tables. Inspected:
+    `SEL`, `SEL2`, `PL05`, `MVDEMOF6.ST2`, `MEMFIX`, `MC06`, `MC11`.
+  - Final rule: a placeholder inside 25 text-like words, with at least four
+    kana and at most two zero cells.
+- **New text surface.** `MM.BIN` holds a Japanese-only dialogue table (also in
+  the arcade programs at `0x213F82`; no English counterpart; it mentions
+  Gambit and Rogue). Added as `TXT-001` (backlog).
+- `END-022` is `BLOCKED` on the user's side-effect decision.
+

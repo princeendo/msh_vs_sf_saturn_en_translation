@@ -1,0 +1,902 @@
+{
+ "tool": "tools.text.placeholder_census",
+ "placeholders": 100,
+ "english_in_roster_image": 69,
+ "japanese_in_roster_image": 31,
+ "tables": [
+  {
+   "file": "MC01.PAC",
+   "table": "0xAC50",
+   "record": 11,
+   "cell": 0,
+   "content": "win quote",
+   "slot": 1,
+   "english": true
+  },
+  {
+   "file": "MC01.PAC",
+   "table": "0xAC50",
+   "record": 12,
+   "cell": 7,
+   "content": "win quote",
+   "slot": 1,
+   "english": true
+  },
+  {
+   "file": "MC02.PAC",
+   "table": "0xD6D8",
+   "record": 8,
+   "cell": 2,
+   "content": "win quote",
+   "slot": 2,
+   "english": true
+  },
+  {
+   "file": "MC03.PAC",
+   "table": "0x9C1C",
+   "record": 13,
+   "cell": 26,
+   "content": "win quote",
+   "slot": 3,
+   "english": true
+  },
+  {
+   "file": "MC03.PAC",
+   "table": "0x9C1C",
+   "record": 15,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 3,
+   "english": true
+  },
+  {
+   "file": "MC04.PAC",
+   "table": "0xC2B4",
+   "record": 8,
+   "cell": 7,
+   "content": "win quote",
+   "slot": 4,
+   "english": true
+  },
+  {
+   "file": "MC04.PAC",
+   "table": "0xC2B4",
+   "record": 9,
+   "cell": 1,
+   "content": "win quote",
+   "slot": 4,
+   "english": true
+  },
+  {
+   "file": "MC04.PAC",
+   "table": "0xC2B4",
+   "record": 14,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 4,
+   "english": true
+  },
+  {
+   "file": "MC05.PAC",
+   "table": "0xA06C",
+   "record": 2,
+   "cell": 4,
+   "content": "win quote",
+   "slot": 5,
+   "english": true
+  },
+  {
+   "file": "MC05.PAC",
+   "table": "0xA06C",
+   "record": 13,
+   "cell": 0,
+   "content": "win quote",
+   "slot": 5,
+   "english": true
+  },
+  {
+   "file": "MC06.PAC",
+   "table": "0x9FF0",
+   "record": 13,
+   "cell": 9,
+   "content": "win quote",
+   "slot": 6,
+   "english": true
+  },
+  {
+   "file": "MC06.PAC",
+   "table": "0x9FF0",
+   "record": 14,
+   "cell": 1,
+   "content": "win quote",
+   "slot": 6,
+   "english": true
+  },
+  {
+   "file": "MC07.PAC",
+   "table": "0xD160",
+   "record": 8,
+   "cell": 9,
+   "content": "win quote",
+   "slot": 7,
+   "english": true
+  },
+  {
+   "file": "MC08.PAC",
+   "table": "0xAA24",
+   "record": 14,
+   "cell": 5,
+   "content": "win quote",
+   "slot": 8,
+   "english": true
+  },
+  {
+   "file": "MC08.PAC",
+   "table": "0xAA24",
+   "record": 15,
+   "cell": 0,
+   "content": "win quote",
+   "slot": 8,
+   "english": true
+  },
+  {
+   "file": "MC08.PAC",
+   "table": "0xBE56",
+   "record": 0,
+   "cell": 0,
+   "content": "win quote",
+   "slot": 24,
+   "english": false
+  },
+  {
+   "file": "MC08.PAC",
+   "table": "0xBE56",
+   "record": 0,
+   "cell": 1,
+   "content": "win quote",
+   "slot": 24,
+   "english": false
+  },
+  {
+   "file": "MC08.PAC",
+   "table": "0xBE56",
+   "record": 0,
+   "cell": 2,
+   "content": "win quote",
+   "slot": 24,
+   "english": false
+  },
+  {
+   "file": "MC09.PAC",
+   "table": "0x91AC",
+   "record": 0,
+   "cell": 8,
+   "content": "win quote",
+   "slot": 9,
+   "english": true
+  },
+  {
+   "file": "MC0A.PAC",
+   "table": "0xA59C",
+   "record": 11,
+   "cell": 26,
+   "content": "win quote",
+   "slot": 10,
+   "english": true
+  },
+  {
+   "file": "MC0A.PAC",
+   "table": "0xA59C",
+   "record": 12,
+   "cell": 25,
+   "content": "win quote",
+   "slot": 10,
+   "english": true
+  },
+  {
+   "file": "MC0B.PAC",
+   "table": "0x9B58",
+   "record": 2,
+   "cell": 9,
+   "content": "win quote",
+   "slot": 11,
+   "english": true
+  },
+  {
+   "file": "MC0B.PAC",
+   "table": "0x9B58",
+   "record": 12,
+   "cell": 8,
+   "content": "win quote",
+   "slot": 11,
+   "english": true
+  },
+  {
+   "file": "MC0C.PAC",
+   "table": "0xAA88",
+   "record": 7,
+   "cell": 4,
+   "content": "win quote",
+   "slot": 12,
+   "english": true
+  },
+  {
+   "file": "MC0C.PAC",
+   "table": "0xAA88",
+   "record": 13,
+   "cell": 3,
+   "content": "win quote",
+   "slot": 12,
+   "english": true
+  },
+  {
+   "file": "MC0D.PAC",
+   "table": "0xC7F4",
+   "record": 1,
+   "cell": 3,
+   "content": "win quote",
+   "slot": 13,
+   "english": true
+  },
+  {
+   "file": "MC0D.PAC",
+   "table": "0xC7F4",
+   "record": 2,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 13,
+   "english": true
+  },
+  {
+   "file": "MC0D.PAC",
+   "table": "0xC7F4",
+   "record": 9,
+   "cell": 19,
+   "content": "win quote",
+   "slot": 13,
+   "english": true
+  },
+  {
+   "file": "MC0D.PAC",
+   "table": "0xC7F4",
+   "record": 12,
+   "cell": 5,
+   "content": "win quote",
+   "slot": 13,
+   "english": true
+  },
+  {
+   "file": "MC0E.PAC",
+   "table": "0x9BDC",
+   "record": 9,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 14,
+   "english": true
+  },
+  {
+   "file": "MC0E.PAC",
+   "table": "0x9BDC",
+   "record": 12,
+   "cell": 4,
+   "content": "win quote",
+   "slot": 14,
+   "english": true
+  },
+  {
+   "file": "MC0F.PAC",
+   "table": "0xA658",
+   "record": 12,
+   "cell": 2,
+   "content": "win quote",
+   "slot": 15,
+   "english": true
+  },
+  {
+   "file": "MC10.PAC",
+   "table": "0xB718",
+   "record": 3,
+   "cell": 22,
+   "content": "win quote",
+   "slot": 16,
+   "english": true
+  },
+  {
+   "file": "MC10.PAC",
+   "table": "0xB718",
+   "record": 8,
+   "cell": 20,
+   "content": "win quote",
+   "slot": 16,
+   "english": true
+  },
+  {
+   "file": "MC10.PAC",
+   "table": "0xB718",
+   "record": 14,
+   "cell": 2,
+   "content": "win quote",
+   "slot": 16,
+   "english": true
+  },
+  {
+   "file": "MC11.PAC",
+   "table": "0xA156",
+   "record": 1,
+   "cell": 2,
+   "content": "win quote",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC11.PAC",
+   "table": "0xA156",
+   "record": 3,
+   "cell": 1,
+   "content": "win quote",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC11.PAC",
+   "table": "0xA156",
+   "record": 9,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC11.PAC",
+   "table": "0xA156",
+   "record": 10,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC11.PAC",
+   "table": "0xA156",
+   "record": 15,
+   "cell": 2,
+   "content": "win quote",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC12.PAC",
+   "table": "0x9198",
+   "record": 0,
+   "cell": 7,
+   "content": "win quote",
+   "slot": 18,
+   "english": true
+  },
+  {
+   "file": "MC12.PAC",
+   "table": "0x9198",
+   "record": 11,
+   "cell": 6,
+   "content": "win quote",
+   "slot": 18,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 16,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 0,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 18,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 1,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 20,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 2,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 22,
+   "cell": 8,
+   "content": "post-boss partner line",
+   "slot": 3,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 24,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 4,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 26,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 5,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 28,
+   "cell": 8,
+   "content": "post-boss partner line",
+   "slot": 6,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 30,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 7,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 32,
+   "cell": 24,
+   "content": "post-boss partner line",
+   "slot": 8,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 34,
+   "cell": 26,
+   "content": "post-boss partner line",
+   "slot": 9,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 36,
+   "cell": 26,
+   "content": "post-boss partner line",
+   "slot": 10,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 38,
+   "cell": 4,
+   "content": "post-boss partner line",
+   "slot": 11,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 40,
+   "cell": 4,
+   "content": "post-boss partner line",
+   "slot": 12,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 42,
+   "cell": 26,
+   "content": "post-boss partner line",
+   "slot": 13,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 44,
+   "cell": 25,
+   "content": "post-boss partner line",
+   "slot": 14,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 46,
+   "cell": 25,
+   "content": "post-boss partner line",
+   "slot": 15,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 49,
+   "cell": 21,
+   "content": "post-boss partner line",
+   "slot": 16,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 50,
+   "cell": 4,
+   "content": "post-boss partner line",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 52,
+   "cell": 7,
+   "content": "post-boss partner line",
+   "slot": 18,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 56,
+   "cell": 5,
+   "content": "post-boss partner line",
+   "slot": 20,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 59,
+   "cell": 21,
+   "content": "post-boss partner line",
+   "slot": 21,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 60,
+   "cell": 9,
+   "content": "post-boss partner line",
+   "slot": 22,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 62,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 23,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 64,
+   "cell": 24,
+   "content": "post-boss partner line",
+   "slot": 24,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 66,
+   "cell": 27,
+   "content": "post-boss partner line",
+   "slot": 25,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 68,
+   "cell": 8,
+   "content": "post-boss point line",
+   "slot": 0,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 70,
+   "cell": 8,
+   "content": "post-boss point line",
+   "slot": 1,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 72,
+   "cell": 26,
+   "content": "post-boss point line",
+   "slot": 2,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 74,
+   "cell": 25,
+   "content": "post-boss point line",
+   "slot": 3,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 76,
+   "cell": 8,
+   "content": "post-boss point line",
+   "slot": 4,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 78,
+   "cell": 0,
+   "content": "post-boss point line",
+   "slot": 5,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 80,
+   "cell": 3,
+   "content": "post-boss point line",
+   "slot": 6,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 82,
+   "cell": 25,
+   "content": "post-boss point line",
+   "slot": 7,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 84,
+   "cell": 1,
+   "content": "post-boss point line",
+   "slot": 8,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 86,
+   "cell": 5,
+   "content": "post-boss point line",
+   "slot": 9,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 88,
+   "cell": 3,
+   "content": "post-boss point line",
+   "slot": 10,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 90,
+   "cell": 5,
+   "content": "post-boss point line",
+   "slot": 11,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 92,
+   "cell": 3,
+   "content": "post-boss point line",
+   "slot": 12,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 94,
+   "cell": 6,
+   "content": "post-boss point line",
+   "slot": 13,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 96,
+   "cell": 8,
+   "content": "post-boss point line",
+   "slot": 14,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 98,
+   "cell": 25,
+   "content": "post-boss point line",
+   "slot": 15,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 100,
+   "cell": 3,
+   "content": "post-boss point line",
+   "slot": 16,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 101,
+   "cell": 7,
+   "content": "post-boss point line",
+   "slot": 16,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 102,
+   "cell": 7,
+   "content": "post-boss point line",
+   "slot": 17,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 104,
+   "cell": 22,
+   "content": "post-boss point line",
+   "slot": 18,
+   "english": true
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 110,
+   "cell": 4,
+   "content": "post-boss point line",
+   "slot": 21,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 111,
+   "cell": 7,
+   "content": "post-boss point line",
+   "slot": 21,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 112,
+   "cell": 8,
+   "content": "post-boss point line",
+   "slot": 22,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 114,
+   "cell": 26,
+   "content": "post-boss point line",
+   "slot": 23,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 116,
+   "cell": 1,
+   "content": "post-boss point line",
+   "slot": 24,
+   "english": false
+  },
+  {
+   "file": "MC13.PAC",
+   "table": "0xA06C",
+   "record": 118,
+   "cell": 25,
+   "content": "post-boss point line",
+   "slot": 25,
+   "english": false
+  },
+  {
+   "file": "MC14.PAC",
+   "table": "0xCCEA",
+   "record": 7,
+   "cell": 4,
+   "content": "win quote",
+   "slot": 20,
+   "english": false
+  },
+  {
+   "file": "MC15.PAC",
+   "table": "0xBCAE",
+   "record": 5,
+   "cell": 5,
+   "content": "win quote",
+   "slot": 21,
+   "english": false
+  },
+  {
+   "file": "MC15.PAC",
+   "table": "0xBCAE",
+   "record": 13,
+   "cell": 5,
+   "content": "win quote",
+   "slot": 21,
+   "english": false
+  },
+  {
+   "file": "MC16.PAC",
+   "table": "0x984C",
+   "record": 12,
+   "cell": 4,
+   "content": "win quote",
+   "slot": 22,
+   "english": false
+  },
+  {
+   "file": "MC16.PAC",
+   "table": "0x984C",
+   "record": 14,
+   "cell": 0,
+   "content": "win quote",
+   "slot": 22,
+   "english": false
+  }
+ ],
+ "other_text": [
+  {
+   "file": "MC11.PAC",
+   "offset": "0x36B6",
+   "english": false
+  },
+  {
+   "file": "MM.BIN",
+   "offset": "0x7CD90",
+   "english": false
+  }
+ ]
+}
