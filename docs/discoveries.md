@@ -939,6 +939,24 @@ Experiment: `EXP-0047`
     `TXT-001`).
 - **Reproduce.** `research/experiments/EXP-0047/README.md`.
 
+## END-023: Combined Roster Image (Win Quotes and All Roster Endings), Offline
+
+Confidence: **CONFIRMED** (offline build); live sample pending (`END-024`)
+
+Experiment: `EXP-0048`
+
+- **Finding.** `official_endings.py --roster data/text/m5_roster.json
+  --with-win-quotes` and `caption_compiler.py` build one deterministic image
+  from the untouched source (track 01 `c06cf0ef…`, reference `m8_roster`). It
+  holds:
+  - the 17 M5 win-quote tables: PAC files byte-identical to the verified
+    roster image;
+  - the 17 roster endings in official English: 75 pages, and all roster
+    partner and point pairs in the `whole` layout;
+  - the roster's English names and name lengths.
+- **Font:** 501 pair glyphs, reusing 253 of 321 candidate kanji codes.
+- **Reproduce.** `research/experiments/EXP-0048/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

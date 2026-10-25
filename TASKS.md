@@ -42,8 +42,11 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   17 roster endings match the arcade reference and fit. One font holds the
   endings plus the M5 win quotes (454 pairs). `END-022`'s experiments are done
   (`EXP-0047`): names can grow, and the length table controls the insertion.
-  Waiting for the user's decision on English names inside the Japanese text
-  left in a roster image (31 sites, almost all for excluded characters).
+  The user accepted English names inside the Japanese text a roster image
+  leaves (31 sites, almost all for excluded characters). `END-023` is done
+  (`EXP-0048`): one deterministic image holds the M5 win quotes (files
+  unchanged) and all 17 roster endings (`m8_roster`). Next is `END-024`, a live
+  sample needing the user for menus only.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2395,12 +2398,10 @@ the user asks or when it unblocks other work.
 
 ### END-022 - Name table: length growth and side effects
 
-- **Status:** `BLOCKED` (experiments done 2026-10-24, `EXP-0047`; waiting for the
-  user's side-effect decision)
+- **Status:** `DONE` (2026-10-24, `EXP-0047`; user decision recorded)
 - **Milestone:** M8
 - **Dependencies:** END-021.
-- **Blockers:** The user's decision on English names inside the Japanese text
-  that remains (below).
+- **Blockers:** None.
 - **Objective:**
   - Test that a name-length increase works (BISON: 2 → 3 cells).
   - Find every text that inserts names (`0x0000`) and would show English names
@@ -2428,13 +2429,15 @@ the user asks or when it unblocks other work.
   - **Decision needed.** English names will show inside those Japanese lines,
     because the name table is global. Roster-only play is unaffected, except
     possibly the one `MM.BIN` line.
+- **User decision (2026-10-24):** "Accept English names inside the remaining
+  Japanese lines (excluded characters and the one MM.BIN line)."
 
 ### END-023 - Combined roster image (win quotes and endings)
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE` (2026-10-24, `EXP-0048`)
 - **Milestone:** M8
 - **Dependencies:** END-022.
-- **Blockers:** The name-table behaviour and side-effect decisions (`END-022`).
+- **Blockers:** None (`END-022` done).
 - **Objective:** One deterministic image from the untouched source, holding:
   - the 17 M5 win-quote tables;
   - the 17 roster endings (pages, all roster partner and point pairs, `whole`
@@ -2446,13 +2449,23 @@ the user asks or when it unblocks other work.
   - Two builds are identical, and all compiler checks are true.
   - Offline renders of every changed record are reviewed.
   - A regression reference is added.
+- **Evidence (2026-10-24, `EXP-0048`; `CONFIRMED` offline):**
+  - `official_endings.py --roster … --with-win-quotes` writes the combined
+    spec.
+  - Build `build/end023`: track 01 `c06cf0ef…`; two builds identical; all
+    checks true.
+  - 501 pair glyphs. The win-quote PAC files are byte-identical to the
+    verified roster image's.
+  - The 75 page and 68 dialogue records were rendered and read.
+  - Regression reference `m8_roster` added; all six pass.
 
 ### END-024 - Live verification sample of the combined image
 
-- **Status:** `BLOCKED`
+- **Status:** `READY` (2026-10-24)
 - **Milestone:** M8
 - **Dependencies:** END-023.
-- **Blockers:** No combined image yet.
+- **Blockers:** None. Needs one user session: menus only, from one cold boot of
+  `build/end023`.
 - **Objective:** Verify a representative sample live, from one cold boot.
 - **Acceptance criteria:**
   - Endings for at least: Captain America (longest name, 6 pages), a 6-page

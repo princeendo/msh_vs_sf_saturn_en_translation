@@ -3595,3 +3595,20 @@ Next action: `END-022`.
   Gambit and Rogue). Added as `TXT-001` (backlog).
 - `END-022` is `BLOCKED` on the user's side-effect decision.
 
+## 2026-10-24 — END-022 decision; END-023 / EXP-0048: combined roster image
+
+- **User decision:** "Accept English names inside the remaining Japanese lines
+  (excluded characters and the one MM.BIN line)." `END-022` is `DONE`.
+- **Generator:** `official_endings.py` gains `--roster` and `--with-win-quotes`.
+  The single-point spec is unchanged (checked).
+- **Build** `build/end023` (track 01 `c06cf0ef…`):
+  - two builds identical; all checks true; 21 files changed;
+  - 501 pairs, reusing 253 of 321 kanji codes;
+  - the win-quote PAC files are byte-identical to the verified roster image,
+    because their pairs are allocated first.
+- **Renders:** the win quotes are byte-identical to the `roster` reference's.
+  All 75 page records and 68 dialogue records were read.
+- **Regression:** `m8_roster` added; all six pass.
+
+Next action: `END-024` (live sample; the user works menus from one cold boot).
+

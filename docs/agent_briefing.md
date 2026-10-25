@@ -62,8 +62,10 @@ reference facts** (what outside documents say).
     speaker.
 
   Next: `END-020` (M8), started: `END-021` is done (`EXP-0046`, all 17 roster
-  endings fit, and one font holds the endings and the M5 win quotes). Next is
-  `END-022`.
+  endings fit, and one font holds the endings and the M5 win quotes).
+  `END-022` is done (`EXP-0047`: names can grow; English names in the remaining
+  Japanese text were accepted). `END-023` is done (`EXP-0048`): the combined
+  image `build/end023` (reference `m8_roster`). Next is `END-024` (live sample).
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

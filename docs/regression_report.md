@@ -17,6 +17,7 @@ Last run: 2026-10-24.
 | `tr001` | `EXP-0033` | `aa7fa86397c198d5…` | `f9daacc1211bf423…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
 | `roster` | `EXP-0036` | `b2c097fa5c28a61b…` | `351254c4751e0a49…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
 | `end010` | `EXP-0044, EXP-0045` | `1d978fe495309d9a…` | `ba3fb3ce6f07fb28…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
+| `m8_roster` | `EXP-0048` | `b75f447d236ccc97…` | `c06cf0ef6e1e74dd…` | 2026-10-24 | 2026-10-24 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -103,3 +104,33 @@ Ryu's ending in official English (pages; the two partner lines for Ken and Gouki
 Track 01: `ba3fb3ce6f07fb28be9546f53bd26047bb08d4f1d2685fcd2c29aad98b4e534d`
 
 - Previous track 01 `b481a4c6012288e8ef460a3f7a19efebe85dba87360260a78c716e56ae8d2aca`: EXP-0045: dialogue layout 'whole' (full line in both boxes of each pair), at the user's request; only MC13.PAC changes.
+
+### `m8_roster`
+
+Combined roster image: the M5 official English win quotes and the 17 roster endings (pages, all roster partner and point dialogue pairs in the whole layout, English names and lengths) in one font (END-023).
+
+| File | SHA-256 |
+| --- | --- |
+| `MC01.PAC` | `46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39` |
+| `MC02.PAC` | `241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9` |
+| `MC03.PAC` | `dfa5dac26531abe03f841a374de4493324c48ae128df986740259de21b54c452` |
+| `MC04.PAC` | `1a2bdd106bac536ae7f53d2aeaa205fa093ae2e0a2bc324264646e584bc0d8e0` |
+| `MC05.PAC` | `48a2d6433d03a696fc6aa7dc18a2f1daed7798d1bbed9b6e10602ea2d94db50b` |
+| `MC06.PAC` | `e334bd299f0993522957cc4c1cc68a31114ebfda959110ffdc1c89cc38137e08` |
+| `MC07.PAC` | `66a46b151547a8c9817be07d28afa4a06d83362bd1df82d24faa0329163cd767` |
+| `MC08.PAC` | `a75881b1e55facd63edcf825e6718924b23c5c2e1cc05712046b3d0ae187e693` |
+| `MC09.PAC` | `697720e6ab46d2c7dad1c53aaf5bdcb3767e4716f7de20c58366f6126b0167e2` |
+| `MC0A.PAC` | `47ee7fa4c0d1b22d1a34de3b5ed064ccd9561a05e903c7083101aee736a02ab4` |
+| `MC0B.PAC` | `677c76b85cdae9968750bf50ab4730bfc2bcc2716900ba85540515c5e131fc65` |
+| `MC0C.PAC` | `f6ec186f9e2a77a4497c1cd89d88df73ca520fa649be7332a0823c4a2aedf460` |
+| `MC0D.PAC` | `09759413c8d47fdecc9c3d37d2e3e8b432a45afb0742887ee716809243f3324a` |
+| `MC0E.PAC` | `d94a1ed9d4b161a2e8893b55b584141a0ebc21b116bc709b358ace47c914d21b` |
+| `MC0F.PAC` | `8b620327982c232813f17ce29952d92e55e4b0fa66779de2a09033ed7193c486` |
+| `MC10.PAC` | `41c8fa5dd10432a15fae8f21f00f5d038f536349cdc86f836f085bd61b504c41` |
+| `MC12.PAC` | `e92bd50d35813b1645f5b582bfccec3641535cb3c3e828fb8d969a8da2edff58` |
+| `MC13.PAC` | `1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace` |
+| `ME.PAC` | `c809b2efd50c4bac6aa9c3f04c8606c11b2f5867eade74aba06e7d3a6eacf675` |
+| `MEMFIX.PAC` | `430596e062fa8c034821ff63b66d54da88862157d36e566f465d2f151bd19d39` |
+| `MM.BIN` | `13982c1dd6d3793e5be401b60f94e6142ed8793e35d22c2936cb0d2753c409f8` |
+
+Track 01: `c06cf0ef6e1e74dde1543c800941653fde0161f64e9966e2d6e93de47ed26c45`

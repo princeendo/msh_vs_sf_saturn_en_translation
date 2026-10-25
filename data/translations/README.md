@@ -58,6 +58,10 @@ the three ending pages."
     (`EXP-0044`), and that layout is kept as `--dialogue-layout split`.
   - Names use the arcade's English names, in the `MM.BIN` name table, with the
     name-length table matched.
+- **Names in the remaining Japanese text (user decision, 2026-10-24).** The
+  name table is global. The user accepted English names inside the Japanese
+  lines a roster image leaves: excluded characters' lines and one `MM.BIN` line
+  (`EXP-0047`).
 - **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners
   (`tools/text/official_endings.py`). The text is read from the local ROM at
   build time and not committed.

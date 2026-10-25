@@ -17,6 +17,10 @@ The policy (user decision, 2026-10-24, `data/translations/README.md`):
   (``MM.BIN`` ``0x96DE8``, `EXP-0044`), so those entries are set to the English
   names' cell counts.
 
+With ``--roster`` (`END-023`), every roster slot is both a point character and a
+partner, and ``--with-win-quotes`` adds the M5 win-quote tables
+(``official_captions.roster_spec``), giving one combined spec for one font.
+
 Before writing anything, every Saturn record to be replaced is checked against
 the arcade Japanese record it pairs with (byte-identical, `EXP-0042`). The text is
 read from the local arcade ROM at build time and written to an ignored path.
@@ -40,10 +44,10 @@ from tools.reference.arcade_endings import (
     latin,
     page_span,
 )
-from tools.reference.cps2_text import build_program
+from tools.reference.cps2_text import build_program, read_quote_table
 from tools.reference.mame_audit import parse_driver
 from tools.text.caption_compiler import LINE_CELLS, RECORD, SCHEMA_V3, TOKEN
-from tools.text.official_captions import best_shifts, centred
+from tools.text.official_captions import best_shifts, centred, roster_spec
 from tools.text.pair_font import split_pairs
 
 EN_RECORD, EN_CELLS = 100, 25  # arcade English records: 2 lines of 25 cells
@@ -54,6 +58,7 @@ ARCADE_NAMES, NAME_BYTES = 0x2236BC, 32  # English names, 16 cells per slot
 MM_NAMES, NAME_LEAD = 0x7D3C0, 2  # MM.BIN name table; two leading blank cells
 MM_NAME_LENGTHS = 0x96DE8  # MM.BIN: one byte per slot, cells inserted per name
 NAME_GUESS = 2  # cells assumed for an inserted name when centring a line
+WIN_QUOTES_EN = 0x20C014  # arcade English win-quote table (EXP-0029)
 
 
 def en_lines(program: bytes, address: int) -> list[str]:
@@ -214,6 +219,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--dialogue-layout", choices=("whole", "split"), default="whole"
     )
     parser.add_argument(
+        "--roster", type=Path, help="roster JSON: every slot as point and partner"
+    )
+    parser.add_argument(
+        "--with-win-quotes", action="store_true", help="add the roster win quotes"
+    )
+    parser.add_argument(
         "--track",
         type=Path,
         default=Path(
@@ -225,9 +236,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
     sets = parse_driver(args.driver.read_text(encoding="utf-8"))
     program = build_program(args.archive, sets[args.set_name or args.archive.stem])
-    spec, targets = ending_spec(
-        program, args.point, args.partners, args.dialogue_layout
-    )
+    roster = json.loads(args.roster.read_text())["characters"] if args.roster else []
+    points = [int(c["slot"]) for c in roster] or args.point
+    partners = [int(c["slot"]) for c in roster] or args.partners
+    spec, targets = ending_spec(program, points, partners, args.dialogue_layout)
+    if args.with_win_quotes:
+        if not roster:
+            parser.error("--with-win-quotes needs --roster")
+        quotes = [s.quotes for s in read_quote_table(program, WIN_QUOTES_EN, SLOTS)]
+        tables = spec["tables"]
+        assert isinstance(tables, list)
+        win_quote_tables = roster_spec(quotes, roster)["tables"]
+        assert isinstance(win_quote_tables, list)
+        spec["tables"] = win_quote_tables + tables
+        spec["description"] = (
+            "END-023 combined roster image: M5 official English win quotes (RE-044) "
+            "and the roster's official English endings, dialogue layout "
+            f"{args.dialogue_layout}. Generated from the local arcade ROM; not "
+            "committed."
+        )
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {
