@@ -1061,10 +1061,9 @@ Experiment: `EXP-0051`
   do not draw from it.
 - **Reproduce.** `research/experiments/EXP-0051/README.md`.
 
-## FONT-011 (partial): Caption Palettes, and Credits-Style Pairs in Silver
+## FONT-011: Caption Palettes, Credits-Style Pairs, and Gold Captions
 
-Confidence: **CONFIRMED** (silver live, palettes, capacity). Gold is an open
-investigation.
+Confidence: **CONFIRMED** (silver and gold, live; palettes; capacity)
 
 Experiment: `EXP-0052`
 
@@ -1083,6 +1082,15 @@ Experiment: `EXP-0052`
   outline, hand-drawn `I`/`M`/`W`/`m`/`w`/`!`/`'`/`‼`) fits the font and
   displays live: `build/font011`, `9246148f…`, reference
   `m8_roster_credits`.
+- **Gold captions.** The message-window initialiser in `MM.BIN` stores each
+  caption kind's palette byte (object +72, which the emitter `0x06073354`
+  reads, low five bits) as an immediate:
+  - win quote `0x961E3` = `0x9E`;
+  - ending page `0x961FB` = `0x9F`;
+  - post-boss dialogue `0x96233` = `0x83`.
+
+  Setting each to `0x81` selects gold bank 1. Verified live on `3a6c485c…`
+  (reference `m8_roster_gold`).
 - **Reproduce.** `research/experiments/EXP-0052/README.md`.
 
 ## Entry Requirements

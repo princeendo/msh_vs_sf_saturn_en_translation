@@ -2713,8 +2713,15 @@ the user asks or when it unblocks other work.
   - Two shading bands with a 4-connected outline fit; the full gradient does
     not (40,852 bytes against 30,235).
   - Capital `W` still needs another design pass.
-  - Gold: bank `0x010` is always loaded, but the captions' grey banks are
-    generated invisibly (next experiments in `EXP-0052`).
+  - **Gold done (route 1):** three palette immediates in `MM.BIN` (`0x961E3`,
+    `0x961FB`, `0x96233`, each set to `0x81`) put win quotes, ending pages, and
+    dialogue in gold bank 1.
+    - Option `--caption-palette gold`, reference `m8_roster_gold`
+      (`3a6c485c…`).
+    - Verified live: win quote, dialogue, and Ryu's pages. The change also
+      colours excluded characters' Japanese windows gold.
+  - **Left:** the `W` redesign, and the user's decision whether the release
+    patch (`REL-001`) switches to the gold image.
 - **Objective:** Build the pair glyphs from the credits font instead of the
   white full-width glyphs, for win quotes and endings.
 - **Acceptance criteria:**

@@ -3928,3 +3928,27 @@ redesign.
   - the `0x0842` constants at `0x0603AF1E`/`0x0603AF46`, which sit in an
     opcode table.
 - Three remaining routes are recorded in `EXP-0052`.
+
+### 2026-10-25 — FONT-011 gold, route 1: found and verified live
+
+- **The palette byte** is object +72, read by the emitter at `0x06073354`
+  (low five bits; the win quote's is `0x9E`). The earlier filters missed it by
+  matching `0x1E` exactly: **filter on `value & 0x1F`.**
+- **The initialiser** is a message-window jump table at `0x060AECD4`. Its
+  immediates (`MM.BIN`) are `0x961E3` = `0x9E` (win quote), `0x961FB` =
+  `0x9F` (pages), and `0x96233` = `0x83` (dialogue). Each was set to `0x81`
+  for gold bank 1.
+  - The RAM trials showed all three gold. The dialogue trial must start
+    before its object is created (`end026 f00004049`).
+  - `0x0605AEE1` (`0x03`) is a fighter palette.
+- **Build:** `--caption-palette gold` adds the patches with `expect` bytes
+  (the compiler now verifies them). Track 01 `3a6c485c…`; reference
+  `m8_roster_gold`; 8 of 8 references pass.
+- **Live (one cold boot):**
+  - A Dark Sakura + U.S. Agent credit (excluded) showed the Japanese windows
+    in gold too.
+  - Ryu + Ken: the dialogue and three pages in gold.
+  - A user win (Ken + Dan): the win quote in gold.
+- **Left:** the `W` design; whether the release patch switches to gold.
+- **Checks:** `pytest` 217 passed, 1 skipped; `ruff`, `ruff format`, and
+  `mypy` are clean.

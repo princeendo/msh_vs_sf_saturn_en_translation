@@ -118,3 +118,15 @@ def test_patches_parse_and_apply() -> None:
     assert parse_patches({"schema": "mshvsf-captions/2"}) == []
     with pytest.raises(SpecError):
         apply_patches(bytes(4), parse_patches(document))  # outside the file
+
+
+def test_apply_patches_checks_expected_bytes() -> None:
+    import pytest
+
+    from tools.text.caption_compiler import PatchSpec, SpecError, apply_patches
+
+    data = bytes([0x9E, 0x00])
+    out, checks = apply_patches(data, [PatchSpec("MM.BIN", 0, b"\x81", b"\x9e")])
+    assert out == bytes([0x81, 0x00]) and checks["changed_bytes"] == 1
+    with pytest.raises(SpecError):
+        apply_patches(data, [PatchSpec("MM.BIN", 0, b"\x81", b"\x9f")])

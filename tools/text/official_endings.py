@@ -64,6 +64,14 @@ WIN_QUOTES_EN = 0x20C014  # arcade English win-quote table (EXP-0029)
 # text follows it instead of the US arcade's BISON, AKUMA, and Cyber Akuma.
 # Provisional: the art and audio are not changed (`LOC-001`).
 NAME_OVERRIDES = {14: "VEGA", 15: "GOUKI"}
+# FONT-011 (EXP-0052): the message-window initialiser in MM.BIN stores each caption
+# kind's palette as an immediate (``mov #imm,r1`` at these offsets), and the gold
+# credits palette is bank 1. Offset: (original, gold); bit 7 is kept.
+GOLD_PALETTE_PATCHES = {
+    0x961E3: (0x9E, 0x81),  # win quotes (palette 0x1E)
+    0x961FB: (0x9F, 0x81),  # ending pages (palette 0x1F)
+    0x96233: (0x83, 0x81),  # post-boss dialogue (palette 0x03)
+}
 # Applied in order, so "Cyber Akuma" is replaced before "Akuma".
 TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki"}
 
@@ -239,6 +247,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--with-win-quotes", action="store_true", help="add the roster win quotes"
     )
     parser.add_argument(
+        "--caption-palette",
+        choices=("silver", "gold"),
+        default="silver",
+        help="gold switches the captions to the credits' gold bank (FONT-011)",
+    )
+    parser.add_argument(
         "--glyph-style",
         choices=("quote", "credits"),
         default="quote",
@@ -280,6 +294,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
     if args.glyph_style != "quote":
         spec["glyph_style"] = args.glyph_style
+    if args.caption_palette == "gold":
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += [
+            {
+                "file": "MM.BIN",
+                "offset": f"0x{offset:X}",
+                "hex": f"{new:02x}",
+                "expect": f"{old:02x}",
+            }
+            for offset, (old, new) in GOLD_PALETTE_PATCHES.items()
+        ]
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

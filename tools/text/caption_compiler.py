@@ -149,11 +149,16 @@ class FieldSpec:
 
 @dataclass(frozen=True)
 class PatchSpec:
-    """A v3 raw byte write, such as a name-length entry."""
+    """A v3 raw byte write, such as a name-length entry.
+
+    ``expect`` (optional) is the original bytes; the write is refused if the
+    source differs, as for code constants (FONT-011).
+    """
 
     file: str
     offset: int
     data: bytes
+    expect: bytes | None = None
 
 
 def parse_patches(spec: dict[str, object]) -> list[PatchSpec]:
@@ -170,11 +175,18 @@ def parse_patches(spec: dict[str, object]) -> list[PatchSpec]:
         name, data = entry.get("file"), entry.get("hex")
         if not isinstance(name, str) or not isinstance(data, str) or not data:
             raise SpecError("a patch needs a file name and a hex string")
+        expect = entry.get("expect")
+        if expect is not None and (
+            not isinstance(expect, str)
+            or len(bytes.fromhex(expect)) != len(bytes.fromhex(data))
+        ):
+            raise SpecError("a patch's expect must be hex of the same length")
         patches.append(
             PatchSpec(
                 name.upper(),
                 hex_offset(entry.get("offset"), "patch"),
                 bytes.fromhex(data),
+                bytes.fromhex(expect) if isinstance(expect, str) else None,
             )
         )
     return patches
@@ -190,6 +202,15 @@ def apply_patches(
         end = patch_spec.offset + len(patch_spec.data)
         if not 0 <= patch_spec.offset < end <= len(out):
             raise SpecError(f"patch at 0x{patch_spec.offset:X} is outside the file")
+        if (
+            patch_spec.expect is not None
+            and data[patch_spec.offset : end] != patch_spec.expect
+        ):
+            raise SpecError(
+                f"patch at 0x{patch_spec.offset:X}: found "
+                f"{data[patch_spec.offset : end].hex()}, "
+                f"expected {patch_spec.expect.hex()}"
+            )
         out[patch_spec.offset : end] = patch_spec.data
         targets.update(range(patch_spec.offset, end))
     changed = {i for i in range(len(data)) if data[i] != out[i]}

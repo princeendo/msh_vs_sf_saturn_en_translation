@@ -210,11 +210,12 @@ remain open; none blocks the roster image.
 
 ## Fonts (`FONT-011`)
 
-- Which code generates the caption palette banks (`0x1E0`, `0x030`,
-  `0x1F0`)? CPU write breakpoints and DMA logs never see the write; the slave
-  SH-2 is suspected (`EXP-0052`). Gold bank `0x010` is always loaded, but
-  where the caption objects get palette numbers `0x1E`, `0x03`, and `0x1F` is
-  unknown.
+- Which code generates the grey caption palette banks (`0x1E0`, `0x030`,
+  `0x1F0`)? CPU write breakpoints and DMA logs never see the write. This no
+  longer blocks gold, which uses a palette-number change instead
+  (`EXP-0052`).
+- What else uses the message-window initialiser's kinds `0x0C`, `0x24`, and
+  `0x5C`? Any such window now shows gold too.
 - How much per-glyph tuning do squeezed credits glyphs need (`I`, `!`, `l`,
   `i`, `j`, `1`)?
 - Do CPU write breakpoints cover VDP1 VRAM at all? None fired, even on the
