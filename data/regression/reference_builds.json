@@ -1,7 +1,7 @@
 {
  "schema": "mshvsf-regression/1",
  "description": "Reference caption builds (RE-047). tools/regression/reference_builds.py rebuilds each from the untouched source image and compares these hashes. Specs under local/ are generated from the user's arcade ROM and never committed.",
- "candidates": "research/memory_dumps/exp0023/unseen_codes.json",
+ "candidates": "data/text/font_candidates.json",
  "candidates_sha256": "32e513aef3a6f41a19d0d925623a6c6d8d9877e17f93c5a637f8bdb46954d99e",
  "generator": {
   "driver_sha256": "a8c09ef83841d75b81a4b2ee8ac029ebf8eecb6a743b016abb33e3d46e861602",

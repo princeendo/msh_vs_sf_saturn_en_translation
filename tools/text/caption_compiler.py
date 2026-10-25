@@ -730,7 +730,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--candidates",
         type=Path,
-        default=Path("research/memory_dumps/exp0023/unseen_codes.json"),
+        default=Path("data/text/font_candidates.json"),
     )
     parser.add_argument("--out-dir", type=Path, required=True, help="under build/")
     parser.add_argument("--files-only", action="store_true", help="skip the disc image")
