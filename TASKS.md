@@ -52,7 +52,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     - US-name art and voice, and two name variants: `LOC-002` (`READY`,
       medium) to `LOC-006` (stretch);
     - player-2 "PRESS START" in English only: `UI-001` (`READY`);
-    - a cross-game agent playbook for XvSF: `DOC-020` (`READY`).
+    - a cross-game agent playbook for XvSF: `DOC-020` (done,
+      `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
     `0x1E0`-`0x25F`. `FONT-011` waits on the user's choice of style and
     colour.
