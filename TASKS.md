@@ -57,8 +57,8 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
-    `0x1E0`-`0x25F`. `FONT-011` waits on the user's choice of style and
-    colour.
+    `0x1E0`-`0x25F`. `FONT-011` is done (`EXP-0052`): captions use the credits
+    font in gold, and the release patch is the gold image (`e213140a…`).
 - M8 history: started on 2026-10-24 (`END-020`). `END-021` is done (`EXP-0046`): all
   17 roster endings match the arcade reference and fit. One font holds the
   endings plus the M5 win quotes (454 pairs). `END-022`'s experiments are done
@@ -2696,7 +2696,7 @@ the user asks or when it unblocks other work.
 
 ### FONT-011 - Compose caption and ending pair glyphs from the credits font
 
-- **Status:** `IN_PROGRESS` (2026-10-25, `EXP-0052`)
+- **Status:** `DONE` (2026-10-25, `EXP-0052`)
 - **Priority:** high (user)
 - **Milestone:** Polish
 - **Dependencies:** FONT-010 (done).
@@ -2720,8 +2720,10 @@ the user asks or when it unblocks other work.
       (`3a6c485c…`).
     - Verified live: win quote, dialogue, and Ryu's pages. The change also
       colours excluded characters' Japanese windows gold.
-  - **Left:** the `W` redesign, and the user's decision whether the release
-    patch (`REL-001`) switches to the gold image.
+  - **Capital `W` redesigned** and verified live; the gold image is now
+    `e213140a…`.
+  - **The release patch is now gold** (user request): `release/README.md`,
+    record `release/m8_roster_gold.json` (`94b27498…`).
 - **Objective:** Build the pair glyphs from the credits font instead of the
   white full-width glyphs, for win quotes and endings.
 - **Acceptance criteria:**

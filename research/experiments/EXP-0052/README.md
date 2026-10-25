@@ -1,11 +1,11 @@
 # EXP-0052: Caption Pair Glyphs from the Staff-Credits Font (Silver), and the Caption Palettes
 
 Task: FONT-011
-Status: IN_PROGRESS
-- **Silver:** built and verified live (2026-10-25).
-- **Gold:** built and verified live (2026-10-25).
-- **Left:** capital `W` redesign; whether the release patch uses gold (a user
-  decision).
+Status: DONE (2026-10-25)
+- **Silver:** built and verified live.
+- **Gold:** built and verified live.
+- **Capital `W`:** redesigned and verified live.
+- **Release patch:** switched to gold (user decision).
 
 Confidence:
 - **CONFIRMED:** the silver build (live), the caption palette banks, and the
@@ -235,6 +235,28 @@ replays of `end024v f00008668`:
      "Washing my boat would've / been a better workout!" in gold
      (`f00058543`, `833678c8…`).
    - Capital `W` is still weak ("Washing" reads like "||ashing").
+
+## Capital W Redesign and Release Switch (2026-10-25)
+
+- **The redesign.** Four variants were rendered in gold at 3x on test lines
+  ("WOLVERINE", "Wow!", "What", "We", "Washing"). Variant A was chosen:
+  - vertical strokes for rows 0-3;
+  - a centre stroke from row 4;
+  - joined at row 8;
+  - tapering to two points.
+
+  It is in `OVERRIDES["W"]`.
+- **The rebuild** (same spec `a374ab48…`): track 01 `e213140a…`; every check
+  true; zero fill 0 (the font is now exactly full, with candidates still
+  available). `m8_roster_credits` and `m8_roster_gold` were re-baselined;
+  8 of 8 pass.
+- **Live, one cold boot** (Ryu + Ken, driver): "We shall meet again / KEN."
+  with the new W, in gold (`f00006341`, `dd5ce932…`; zoom `080d197d…`).
+- **Release.** On the user's request, `REL-001`'s patch is now the gold image:
+  - `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 158,280 bytes, `94b27498…`;
+    target `e213140a…`;
+  - record `release/m8_roster_gold.json`;
+  - `release/README.md` updated.
 
 ## Conclusion So Far
 

@@ -8,8 +8,13 @@ and how to rebuild it from this repository.
 game-derived data, which this project never commits (`AGENTS.md` rule 21).
 Build it locally (see "Rebuild the Patch") and distribute it yourself.
 
-[`m8_roster.json`](m8_roster.json) is the release record: hashes, sizes,
-xdelta3 version, and flags (metadata only).
+[`m8_roster_gold.json`](m8_roster_gold.json) is the release record: hashes,
+sizes, xdelta3 version, and flags (metadata only).
+
+The release uses the gold credits-style captions (`FONT-011`, reference
+`m8_roster_gold`, user decision 2026-10-25). The earlier white-font build
+(reference `m8_roster`, record [`m8_roster.json`](m8_roster.json)) can still be
+rebuilt the same way with `--reference m8_roster`.
 
 ## What the Patch Changes
 
@@ -23,6 +28,10 @@ Sakura, and Dan.
   - each character's ending pages, in the official US arcade English;
   - the post-boss partner dialogue, using the arcade's English partner lines;
   - English character names (`docs/coverage_exceptions.md`, Endings).
+- **Caption look:** captions and ending text use the game's own staff-credits
+  font, squeezed two letters per cell, in the credits' gold, instead of the
+  original white font. The gold also colours the remaining Japanese message
+  windows (excluded characters).
 - **Names follow the Saturn's own art and voice:** Vega (not M. Bison), Gouki
   (not Akuma), and Mech-Gouki (not Cyber-Akuma). This is a **provisional**
   decision (`LOC-001`, `docs/localization_plan.md`).
@@ -36,10 +45,12 @@ byte-identical to the original.
 
 **Verification:**
 - Seen running in Mednafen:
-  - seven endings;
+  - seven endings (in the white-font build);
   - sampled characters' win quotes, in the earlier win-quote-only image
-    (M5), and one (Vega's) in this combined image.
-- The rest was checked offline (`EXP-0044` to `EXP-0050`).
+    (M5), and one (Vega's) in the white combined image;
+  - in this gold build (`EXP-0052`): Ryu + Ken's dialogue and pages, a win
+    quote, and the redesigned capital `W`.
+- The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 
 ## Apply the Patch
@@ -57,8 +68,8 @@ byte-identical to the original.
 
    Only track 01 is patched, but the other tracks must be the originals.
 
-2. **The patch:** `mshvsf_saturn_en_m8.Track01.xdelta`, 155,717 bytes, SHA-256
-   `00c3906ade7971a638a5b9d6399f61dfe39cbe04490da5df7e6e6cd676eb76db`.
+2. **The patch:** `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 158,280 bytes,
+   SHA-256 `94b27498a5fcbe4267318b1c32ff23041bc4e0cd24606bf304248ad7f814a2c7`.
 
 3. **An xdelta3 (VCDIFF) patcher.**
    - Tested: the `xdelta3` 3.2.2 command line (`brew install xdelta` on macOS).
@@ -70,12 +81,12 @@ byte-identical to the original.
 
 ```bash
 xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
-  mshvsf_saturn_en_m8.Track01.xdelta "Track 01 patched.bin"
+  mshvsf_saturn_en_m8_gold.Track01.xdelta "Track 01 patched.bin"
 ```
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `2a5b26b75a0d908050ccf361c99f37a2f2a83dc70e3dc9612e5e98c16da5624d`.
+   `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`.
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
 4. Load the CUE in a Saturn emulator. The project tests with Mednafen and the
@@ -114,7 +125,7 @@ laid out.
 - the translation policy (`data/translations/README.md`);
 - the generators and compiler (`tools/`);
 - the expected hashes (`data/regression/reference_builds.json`, reference
-  `m8_roster`).
+  `m8_roster_gold`).
 
 ### Commands
 
@@ -124,19 +135,20 @@ mkdir -p local/mame_src
 curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/mame/f34f02505e32c1993c6a782b6814232cbfc74e36/src/mame/capcom/cps2.cpp
 
 # 1. Rebuild every reference from the untouched image and check its hashes
-#    (6 of 6 must pass). The m8_roster build lands in build/regression/m8_roster/.
+#    (8 of 8 must pass). The gold build lands in build/regression/m8_roster_gold/.
 ./invenv.sh python -m tools.regression.reference_builds --driver local/mame_src/cps2.cpp
 
-# 2. Make the patch from that build; it is checked against the m8_roster reference.
+# 2. Make the patch from that build; it is checked against the m8_roster_gold reference.
 ./invenv.sh python -m tools.disc.make_patch \
-  --built-dir build/regression/m8_roster/build/image_a --reference m8_roster \
-  --stem mshvsf_saturn_en_m8 --out-dir build/release/m8 --record release/m8_roster.json
+  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
+  --stem mshvsf_saturn_en_m8_gold --out-dir build/release/m8_gold \
+  --record release/m8_roster_gold.json
 ```
 
 **Expected:**
-- the spec: `04ccb452…`;
-- track 01: `2a5b26b7…`;
-- the patch: `00c3906a…` (with xdelta3 3.2.2).
+- the spec: `a374ab48…`;
+- track 01: `e213140a…`;
+- the patch: `94b27498…` (with xdelta3 3.2.2).
 
 `make_patch` also checks that:
 - the source components are the recorded originals;
@@ -144,5 +156,5 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 - two encodings are byte-identical;
 - `xdelta3 -d` reproduces the built track.
 
-To build step by step instead, see `research/experiments/EXP-0050/README.md`
-(Reproduction).
+To build step by step instead, see `research/experiments/EXP-0052/README.md`
+(Build; add `--caption-palette gold`).

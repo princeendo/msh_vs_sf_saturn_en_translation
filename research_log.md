@@ -3952,3 +3952,16 @@ redesign.
 - **Left:** the `W` design; whether the release patch switches to gold.
 - **Checks:** `pytest` 217 passed, 1 skipped; `ruff`, `ruff format`, and
   `mypy` are clean.
+
+### 2026-10-25 — FONT-011 closed: capital W, release switched to gold
+
+- **Capital W:** variant A (vertical strokes, a centre stroke from row 4,
+  joined at row 8, tapered bottom), chosen from four 3x gold renders.
+- **Rebuild:** `e213140a…`; zero fill 0. `m8_roster_credits` and
+  `m8_roster_gold` were re-baselined; 8 of 8 pass.
+- **Live:** "We shall meet again / KEN." reads correctly in gold
+  (`dd5ce932…`).
+- **Release:** the gold patch `94b27498…` (158,280 bytes), record
+  `release/m8_roster_gold.json`, README updated. The white `m8_roster` record
+  is kept.
+- `FONT-011` is `DONE`.

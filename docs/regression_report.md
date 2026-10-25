@@ -18,8 +18,8 @@ Last run: 2026-10-25.
 | `roster` | `EXP-0036` | `b2c097fa5c28a61b…` | `351254c4751e0a49…` | 2026-10-24 | 2026-10-25 | pass (regenerated spec) |
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
-| `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `9246148ff0e933a3…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
-| `m8_roster_gold` | `EXP-0052` | `a374ab480fcaed23…` | `3a6c485c6e7aa57c…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
+| `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `bede40b15644ccab…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
+| `m8_roster_gold` | `EXP-0052` | `a374ab480fcaed23…` | `e213140aceea2e6c…` | 2026-10-25 | 2026-10-25 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -167,11 +167,12 @@ The m8_roster image with pair glyphs drawn from the staff-credits font (glyph_st
 | `MC12.PAC` | `74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a` |
 | `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
 | `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
-| `MEMFIX.PAC` | `df78fce80048630214a51c7ea95006b09023d08847e27b6b54d4527c03d031b5` |
+| `MEMFIX.PAC` | `559e3927e5bab304904c7e58e80cd57a5f8a5aeff1610b0b505c3b1085d00b93` |
 | `MM.BIN` | `d8ab1dea75d725ec8cfdfdee516137f5bba8d6b5bdbe1679311717a3e2de819e` |
 
-Track 01: `9246148ff0e933a3b7041a9041a4b007df5375a4db856b107154d5be81785334`
+Track 01: `bede40b15644ccab5555bc94e33d80107aeb2dc42a4ba132857ee18411746f4e`
 
+- Previous track 01 `9246148ff0e933a3b7041a9041a4b007df5375a4db856b107154d5be81785334`: EXP-0052: capital W redesigned (variant A).
 
 ### `m8_roster_gold`
 
@@ -198,7 +199,9 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MC12.PAC` | `74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a` |
 | `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
 | `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
-| `MEMFIX.PAC` | `df78fce80048630214a51c7ea95006b09023d08847e27b6b54d4527c03d031b5` |
+| `MEMFIX.PAC` | `559e3927e5bab304904c7e58e80cd57a5f8a5aeff1610b0b505c3b1085d00b93` |
 | `MM.BIN` | `a2d07db1766c8833ec0f18bc8b31cd0101a1e6ea13a1a1088650a2917e4321a3` |
 
-Track 01: `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`
+Track 01: `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`
+
+- Previous track 01 `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`: EXP-0052: capital W redesigned (variant A).
