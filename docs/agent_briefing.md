@@ -65,7 +65,9 @@ reference facts** (what outside documents say).
   endings fit, and one font holds the endings and the M5 win quotes).
   `END-022` is done (`EXP-0047`: names can grow; English names in the remaining
   Japanese text were accepted). `END-023` is done (`EXP-0048`): the combined
-  image `build/end023` (reference `m8_roster`). Next is `END-024` (live sample).
+  image `build/end023` (reference `m8_roster`). `END-024` is in progress
+  (`EXP-0049`): five endings verified live; VEGA replaces BISON
+  (`build/end024_vega`); a Vega credit and a win-quote spot check are left.
 - `GATE-TRANSLATION` passed on 2026-10-24 (user GO). Ryu's win-quote captions may
   carry English; other characters need their own pairing verification first.
   `TR-001` is done: Ryu's official-English image is verified live (EXP-0033).

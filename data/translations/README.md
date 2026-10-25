@@ -62,6 +62,11 @@ the three ending pages."
   name table is global. The user accepted English names inside the Japanese
   lines a roster image leaves: excluded characters' lines and one `MM.BIN` line
   (`EXP-0047`).
+- **Vega, not Bison (user decision, 2026-10-25).** The Saturn is the Japanese
+  release: its art, labels, and voice call the dictator Vega. The inserted name
+  follows it (`NAME_OVERRIDES` in `tools/text/official_endings.py`) instead of
+  the US arcade's BISON. No official English line in scope names him; the art
+  and audio are not changed.
 - **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners
   (`tools/text/official_endings.py`). The text is read from the local ROM at
   build time and not committed.

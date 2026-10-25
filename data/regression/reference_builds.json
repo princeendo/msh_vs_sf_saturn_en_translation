@@ -140,17 +140,17 @@
   },
   {
    "name": "m8_roster",
-   "experiment": "EXP-0048",
+   "experiment": "EXP-0048, EXP-0049",
    "purpose": "Combined roster image: the M5 official English win quotes and the 17 roster endings (pages, all roster partner and point dialogue pairs in the whole layout, English names and lengths) in one font (END-023).",
    "spec": "local/end023/roster_image.json",
-   "spec_sha256": "b75f447d236ccc97ed327fd76ddc16be404c66594184e49a6e98f633f0518839",
+   "spec_sha256": "4ec8ba7d00350fb1ef2fcbd7f3fc55e52597d26d1a3767f1898dbd7cb227070c",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
     "data/text/m5_roster.json",
     "--with-win-quotes"
    ],
-   "track01_sha256": "c06cf0ef6e1e74dde1543c800941653fde0161f64e9966e2d6e93de47ed26c45",
+   "track01_sha256": "e721a16798832147a8a2ab2517aea8e100ed29a79af7fefd115327274a6bff20",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -171,10 +171,16 @@
     "MC12.PAC": "e92bd50d35813b1645f5b582bfccec3641535cb3c3e828fb8d969a8da2edff58",
     "MC13.PAC": "1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace",
     "ME.PAC": "c809b2efd50c4bac6aa9c3f04c8606c11b2f5867eade74aba06e7d3a6eacf675",
-    "MEMFIX.PAC": "430596e062fa8c034821ff63b66d54da88862157d36e566f465d2f151bd19d39",
-    "MM.BIN": "13982c1dd6d3793e5be401b60f94e6142ed8793e35d22c2936cb0d2753c409f8"
+    "MEMFIX.PAC": "a58193fd0160338bda369e939a3b34a31f52f2d24f931f913f44c28e77141d53",
+    "MM.BIN": "875c0d4d98a8b5ba6c38066ccd712e2856727070bf2ba389d3e9982a183eaf6c"
    },
-   "baselined": "2026-10-24"
+   "baselined": "2026-10-25",
+   "previous": [
+    {
+     "track01_sha256": "c06cf0ef6e1e74dde1543c800941653fde0161f64e9966e2d6e93de47ed26c45",
+     "replaced_because": "EXP-0049: user decision, the dictator's inserted name is VEGA (the Saturn's Japanese naming) instead of BISON; only MEMFIX.PAC and MM.BIN change"
+    }
+   ]
   }
  ]
 }

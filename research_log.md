@@ -3612,3 +3612,27 @@ Next action: `END-022`.
 
 Next action: `END-024` (live sample; the user works menus from one cold boot).
 
+## 2026-10-25 — END-024 / EXP-0049: live sample of the combined image; VEGA
+
+- **Session:** one cold boot of `build/end023` (`c06cf0ef…`); the user worked
+  the menus; the driver forced stage 8 and the boss KO.
+- **Five credits, all correct:**
+  - CA + Ryu: "CAPTAIN AMERICA, / you are a great fighter." then "We make a good
+    team / RYU.", and 6 pages.
+  - Zangief + Spider-Man: 6 pages.
+  - Bison + Hulk: "BISON" grown to 3 cells; 3 pages.
+  - Sakura + Wolverine: 2 pages.
+  - Dan + Chun-Li: 5 pages; the last is empty, matching the arcade English,
+    checked by MAME `--point dan`.
+- **Failed approach:** `--warmup-ko` zeroed `0x060F3E50`/`0x060F4844` in stage
+  1. Those offsets are the boss's only, so the user's team lost. A manual write
+    to `0x060F3E5A` coincided with the loss (probably player-side). The option
+    was removed. The opponent's vitality in two-against-two fights is unknown.
+- **User decision:** use VEGA (Saturn naming), not BISON. `NAME_OVERRIDES`
+  was added.
+  - Rebuild `build/end024_vega` (`e721a167…`): only `MEMFIX.PAC` and `MM.BIN`
+    change.
+  - `m8_roster` re-baselined; all six references pass.
+- **Left for `END-024`:** a cold-boot Vega credit and a win-quote spot check
+  (a manual first-fight win).
+

@@ -27,7 +27,7 @@ SETUP = [
     "3230 press 6 Coin 1",
     "3320 press 6 1 Player Start",
 ]
-POINT_PATHS = {"ryu": [], "gouki": ["Up"]}
+POINT_PATHS = {"ryu": [], "gouki": ["Up"], "dan": ["Right"]}
 # From the partner cursor's start; observed with point Ryu unless noted.
 PARTNER_PATHS = {
     "ken": [],

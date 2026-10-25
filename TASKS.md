@@ -45,8 +45,10 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
   The user accepted English names inside the Japanese text a roster image
   leaves (31 sites, almost all for excluded characters). `END-023` is done
   (`EXP-0048`): one deterministic image holds the M5 win quotes (files
-  unchanged) and all 17 roster endings (`m8_roster`). Next is `END-024`, a live
-  sample needing the user for menus only.
+  unchanged) and all 17 roster endings (`m8_roster`). `END-024` is in progress
+  (`EXP-0049`): five sampled endings verified live. At the user's request the
+  dictator is now VEGA (`build/end024_vega`). One short session is left: a
+  Vega credit and a win-quote spot check.
 - **M5 completed on 2026-10-24** (`RE-040`). The user lifted M6's blocker the
   same day. Low-priority win-quote follow-ups
   (`RE-048` to `RE-050`, `REL-001`) and the arcade font comparison (`REF-012`)
@@ -2461,7 +2463,7 @@ the user asks or when it unblocks other work.
 
 ### END-024 - Live verification sample of the combined image
 
-- **Status:** `READY` (2026-10-24)
+- **Status:** `IN_PROGRESS` (2026-10-25; five endings verified, one short session left)
 - **Milestone:** M8
 - **Dependencies:** END-023.
 - **Blockers:** None. Needs one user session: menus only, from one cold boot of
@@ -2476,6 +2478,23 @@ the user asks or when it unblocks other work.
   - The user works only the menus; `ending_driver.py` forces stage 8 and the
     KO. The font stays resident, so all can run from one boot.
   - Every screenshot is read.
+- **Evidence so far (2026-10-25, `EXP-0049`):**
+  - From one cold boot of `c06cf0ef…`, five credits (Captain America + Ryu,
+    Zangief + Spider-Man, Bison + Hulk, Sakura + Wolverine, Dan + Chun-Li) all
+    showed the predicted English blocks with correct names (CAPTAIN AMERICA in
+    8 cells; BISON grown to 3), then their official English pages.
+  - Dan's last page is an empty box, as in the arcade English (the Japanese has
+    完). That is faithful.
+  - A first-fight forced KO failed: the boss vitality offsets do not apply to
+    two-against-two fights. The option was removed.
+- **User decision (2026-10-25):** the dictator's name is **VEGA**, as in the
+  Saturn's art and voice. Text only; the art and audio are not changed.
+  - Rebuilt as `build/end024_vega` (`e721a167…`). Only `MEMFIX.PAC` and
+    `MM.BIN` change.
+  - `m8_roster` was re-baselined.
+- **Left:**
+  - one cold-boot credit on `build/end024_vega` with Vega in the team;
+  - a win-quote spot check, with the user winning an ordinary first fight.
 
 ### END-025 - Coverage, exceptions, and regression for endings
 

@@ -11,6 +11,7 @@ user only works the menus (start arcade mode, pick a team). The driver then:
 3. DONE: writes nothing more, so the dialogue, ending, and credits play
    untouched. With ``--repeat``, it re-arms after ``--rest`` seconds.
 
+
 These are the Saturn offsets found in `EXP-0042`. Every phase change is logged
 with the emulator frame number.
 """
@@ -47,6 +48,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             with args.log.open("a") as stream:
                 stream.write(line + "\n")
 
+    # Boss vitality only: in an ordinary 2-vs-2 fight the opponent's vitality is
+    # elsewhere (EXP-0049), so this driver wins the stage-8 boss fight alone.
+    def knock_out(text: str) -> None:
+        note(text)
+        deadline = time.monotonic() + args.ko_seconds
+        while time.monotonic() < deadline:
+            for address in VITALITY:
+                agent.bus_write(address, b"\x00\x00")
+            time.sleep(args.period)
+
+    def vitality() -> int:
+        return int.from_bytes(agent.bus_read(VITALITY[0], 2), "big")
+
     try:
         while True:
             note("ARM: holding the stage word at stage 8")
@@ -55,19 +69,13 @@ def main(argv: Sequence[str] | None = None) -> int:
                     time.sleep(args.period)
                     continue
                 agent.bus_write(STAGE_WORD, STAGE_8)
-                vitality = int.from_bytes(agent.bus_read(VITALITY[0], 2), "big")
                 if (
-                    vitality == FULL_VITALITY
+                    vitality() == FULL_VITALITY
                     and agent.bus_read(STAGE_WORD, 2) == STAGE_8
                 ):
                     break
                 time.sleep(args.period)
-            note("KO: stage-8 fight started; zeroing the boss vitality")
-            deadline = time.monotonic() + args.ko_seconds
-            while time.monotonic() < deadline:
-                for address in VITALITY:
-                    agent.bus_write(address, b"\x00\x00")
-                time.sleep(args.period)
+            knock_out("KO: stage-8 fight started; zeroing the boss vitality")
             note("DONE: no more writes; the ending plays untouched")
             if not args.repeat:
                 return 0

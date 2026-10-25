@@ -957,6 +957,29 @@ Experiment: `EXP-0048`
 - **Font:** 501 pair glyphs, reusing 253 of 321 candidate kanji codes.
 - **Reproduce.** `research/experiments/EXP-0048/README.md`.
 
+## END-024 (partial): Combined Roster Endings Verified Live
+
+Confidence: **CONFIRMED** (five sampled endings)
+
+Experiment: `EXP-0049`
+
+- **Finding.** From one cold boot of the combined image (`c06cf0ef…`), five
+  roster endings showed the arcade English partner lines with correct English
+  names, then their official English pages:
+  - Captain America + Ryu;
+  - Zangief + Spider-Man;
+  - Bison + Hulk;
+  - Sakura + Wolverine;
+  - Dan + Chun-Li.
+- **Names.** CAPTAIN AMERICA (8 cells) and BISON (grown from 2 to 3 cells) were
+  inserted correctly.
+- **Dan's last page** is empty in the official English (the Japanese shows 完).
+  The build matches the arcade.
+- **Limit.** The ending driver's KO offsets (`0x060F3E50`/`0x060F4844`) hold
+  vitality only in the one-character boss fight, not in ordinary
+  two-against-two fights.
+- **Reproduce.** `research/experiments/EXP-0049/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

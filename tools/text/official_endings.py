@@ -59,6 +59,10 @@ MM_NAMES, NAME_LEAD = 0x7D3C0, 2  # MM.BIN name table; two leading blank cells
 MM_NAME_LENGTHS = 0x96DE8  # MM.BIN: one byte per slot, cells inserted per name
 NAME_GUESS = 2  # cells assumed for an inserted name when centring a line
 WIN_QUOTES_EN = 0x20C014  # arcade English win-quote table (EXP-0029)
+# User decision (2026-10-25, END-024): the Saturn is the Japanese release, whose
+# graphics and voice call the dictator Vega, so the inserted name follows it
+# instead of the US arcade's BISON.
+NAME_OVERRIDES = {14: "VEGA"}
 
 
 def en_lines(program: bytes, address: int) -> list[str]:
@@ -132,7 +136,7 @@ def ending_spec(
     names, lengths = [], []
     for slot in sorted({*points, *partners}):
         address = ARCADE_NAMES + NAME_BYTES * slot
-        name = latin(program, address, NAME_BYTES).strip()
+        name = NAME_OVERRIDES.get(slot) or latin(program, address, NAME_BYTES).strip()
         cells = len(split_pairs(name_text(name)))
         lengths.append(
             {
