@@ -42,6 +42,7 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from tools.disc.attract_captions import FILES, st2_patches
 from tools.disc.iso9660 import Track
 from tools.disc.pac_lzss import decode_file
 from tools.disc.patch_image import find_entry
@@ -55,7 +56,13 @@ from tools.reference.arcade_endings import (
 )
 from tools.reference.cps2_text import build_program, read_quote_table
 from tools.reference.mame_audit import parse_driver
-from tools.text.caption_compiler import LINE_CELLS, RECORD, SCHEMA_V3, TOKEN
+from tools.text.caption_compiler import (
+    FONT_ENTRY,
+    LINE_CELLS,
+    RECORD,
+    SCHEMA_V3,
+    TOKEN,
+)
 from tools.text.official_captions import best_shifts, centred, roster_spec
 from tools.text.pair_font import split_pairs
 
@@ -422,6 +429,18 @@ def check_targets(
     return {"pages_equal_arcade_ja": pages_ok, "dialogue_equal_arcade_ja": dialogue_ok}
 
 
+def attract_patches(track: Path) -> list[dict[str, str]]:
+    """The attract-caption patches for the eight ``MVSOP`` streams (`EXP-0071`)."""
+    with track.open("rb") as stream:
+        disc = Track(stream, track.stat().st_size)
+        files = {
+            name: disc.read(*find_entry(track, f"{name};1"))
+            for name in [*FILES, "MEMFIX.PAC"]
+        }
+    offset, length = FONT_ENTRY
+    return st2_patches(files, files["MEMFIX.PAC"][offset : offset + length])
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--driver", type=Path, required=True, help="MAME cps2.cpp")
@@ -462,6 +481,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         choices=sorted(NAME_VARIANTS),
         default="saturn",
         help="Saturn (Japanese-release) or American names (LOC-003)",
+    )
+    parser.add_argument(
+        "--attract-captions",
+        action="store_true",
+        help="draw the attract-mode captions in English banner letters (UI-003)",
     )
     parser.add_argument(
         "--track",
@@ -529,6 +553,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             + pointer_patches(args.names)
             + label_patches(args.names)
         )
+    if args.attract_captions:
+        spec["attract_captions"] = True
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += attract_patches(args.track)
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

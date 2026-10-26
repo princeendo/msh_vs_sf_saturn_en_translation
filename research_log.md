@@ -4464,3 +4464,48 @@ redesign.
 - **Tools:** `script_decode`, `map_decode` in `tools/disc/st2_stream.py`,
   with tests.
 - **Checks:** `pytest` 241 passed, 1 skipped; `ruff` and `mypy` are clean.
+
+## 2026-10-26 — UI-003 / EXP-0071: English attract captions built (middle route)
+
+- **User decision:** banner letters drawn into the existing tiles (FIGHT!
+  instead of THE FIGHT!!), yellow from palette values edited in place.
+- **Palette command decoded** (`0x060221F8`): `[delta][count][words]` records;
+  a record-level trace (breakpoint `0x06022218`, 2,076 records over 3,400
+  frames from `f001909`) located every record in the decoded scripts.
+- **Colour format:** `0xFRGB` through the table at `0x06060000`; all 14 banner
+  colours convert exactly.
+- **Encoders:** `tools/disc/st2_encode.py` (optimal-parse graphics LZ and
+  section-A LZ), with round-trip tests.
+- **Built:** `tools/disc/attract_captions.py`, layout
+  `data/ui003/attract_captions.json`, generator option
+  `official_endings --attract-captions`. US-names image with the captions:
+  `build/ui003/us_attract` (track 01 `934b9234…`); all four captions verified
+  from a cold boot.
+- **Disproven / not productive:**
+  - *The caption palette lines belong to the captions alone.* Lines
+    0x600/0x610 also carry other scenes' colours. Recolouring all five
+    grey/red-ramp loads turned the Akuma/Chun-Li lightning background beige.
+    Only the 1st, 3rd and 5th loads are caption scenes.
+  - *The 1st and 5th loads are the only caption loads.* AMAZING TEAM BATTLES!
+    stayed white; its scene starts at the 3rd load.
+  - *The banner uses colours 1-11.* It uses 1-9 and 11-14 (12-14 are the cyan
+    outline). Caption colour 1 is the page background, so banner colours
+    shift to 2-15.
+  - *Poking palette RAM right after `loadstate`.* The state load can land
+    after the writes and undo them; the magenta test is reliable only when
+    the CRAM copy is read back afterwards. Reloaded cycle states also drift
+    from the original run, so `cap*.mcs` no longer show their captions on
+    this image.
+  - A per-word palette trace (breakpoint at the write, `0x06022242`) was too
+    slow; the per-record breakpoint was enough.
+  - *Exact screenshot equality between runs.* Two cold boots of the same image
+    differ in 72 of 440 frames (animation phase), so other-scene checks are
+    by comparison against two baseline runs and by inspection.
+- **Section sizes:** section A shrinks by about 4 KB per file; section C grows
+  0x76-0x7A bytes into its own zero padding; caption blocks shrink.
+- **Checks:** `pytest` 256 passed, 1 skipped (reference builds need the local
+  image); `ruff check` clean; `ruff format --check` clean except the existing
+  EXP-0070 README code block; `mypy tools tests` clean.
+- **Next:** the user chooses the name variants for the attract captions; then
+  add `--attract-captions` to the chosen reference build(s), rebaseline, and
+  regenerate the release patches.

@@ -2979,8 +2979,19 @@ the user asks or when it unblocks other work.
 
   `EXP-0070`: section A is one compressed command script, with per-frame map
   updates and palette fades. It is decoded (`script_decode`, `map_decode`),
-  and its budget is tight (`0x18` bytes free). The scope (full re-scripting,
-  or tiles plus palette values) is pending the user's decision.
+  and its budget is tight (`0x18` bytes free).
+
+  The user chose the middle route (2026-10-26): banner letters in the
+  existing tiles, FIGHT! instead of THE FIGHT!!, yellow from palette values.
+  `EXP-0071` built it (`tools/disc/attract_captions.py`,
+  `official_endings --attract-captions`):
+  - LEGENDARY / HEROES, UNITE / AGAIN!!, AMAZING / TEAM / BATTLES!, NEW
+    HEROES / JOIN THE / FIGHT!, all in the banner colours;
+  - verified from a cold boot in a US-names image (`build/ui003/us_attract`)
+    against two baseline runs.
+
+  Remaining for acceptance: the user's choice of name variants, then the
+  regression reference(s) and release patches.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the

@@ -1385,6 +1385,42 @@ Experiment: `EXP-0068`
   stream block. Every one of the eight `MVSOP` files carries all four.
 - **Reproduce.** `research/experiments/EXP-0068/README.md`.
 
+## UI-003: English Attract Captions in the Existing Tiles
+
+Confidence: **CONFIRMED** (offline round trips; cold-boot captures of the
+built image against two baseline runs)
+
+Experiment: `EXP-0071`
+
+- **Palette command** (handler from `0x060221F8`): records of
+  `[u16 index delta][u16 count][count words]`, the index running on from the
+  previous record's end, until a `0xFF` byte; lines touched are marked dirty
+  at `0x0603D048 + line`.
+- **Colour words** are `0xFRGB`. The converter (`0x0601FFD8`) writes
+  `table[word]` from a 64K-entry table at `0x06060000`: nibble n gives the
+  5-bit level [0, 2, 4, 6, 8, 10, 12, 14, 17, 19, 21, 23, 25, 27, 29, 31],
+  and the top nibble is a brightness. The banner colours (CRAM `0x11`-`0x1E`)
+  convert exactly.
+- **Caption palettes.** NBG2 lines 0x600 (grey) and 0x610 (red) are set by a
+  full 0x800-word load (`0000 0800`) at the start of each caption scene.
+  Each `MVSOP` script has five such ramp loads: the 1st, 3rd and 5th start
+  the caption slots; the 2nd starts the Spider-Man scene, and the 4th starts
+  the Akuma/Chun-Li scene, which fades the ramps into its lightning colours.
+  Caption colour 1 is the background of every caption page.
+- **Build route.** `tools/disc/attract_captions.py`, with the layout in
+  `data/ui003/attract_captions.json`:
+  - paints the win-banner letters into the caption characters (banner colour
+    n → caption colour n + 1; shared characters must receive identical
+    pixels);
+  - sets entries 2-15 of both lines in the three caption loads;
+  - re-encodes section A and the caption blocks in place, keeping each
+    stream block's header size;
+  - section C may grow into its own zero padding.
+
+  `official_endings --attract-captions` adds the result as expect-checked
+  patches.
+- **Reproduce.** `research/experiments/EXP-0071/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
