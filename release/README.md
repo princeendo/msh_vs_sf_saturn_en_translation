@@ -16,7 +16,7 @@ sizes, xdelta3 version, and flags (metadata only).
 Two patches are built from the same tools. They differ only in how three
 characters are named (`LOC-003`):
 
-| | Saturn names (default) | American names (preview) |
+| | Saturn names (default) | American names |
 | --- | --- | --- |
 | Patch | `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` |
 | Record | [`m8_roster_gold.json`](m8_roster_gold.json) | [`m8_roster_gold_us.json`](m8_roster_gold_us.json) |
@@ -32,7 +32,10 @@ characters are named (`LOC-003`):
 - **Saturn names** matches everything the game shows and says. It is the
   recommended patch.
 - **American names** switches every name surface found so far (`LOC-004`).
-  It stays a preview until someone plays it through from a cold boot.
+  It was played from a cold boot (`EXP-0064`): the "Akuma" and "Bison" calls
+  at character select, BISON / AKUMA vs CYBER-AKUMA on the VS screen, AKUMA
+  and CYBER-AKUMA life bars, the AKUMA / BISON / WIN banner, and the "Akuma"
+  win call.
   - Known blemish: AKUMA's life-bar art is 2 px wider than its slot, so the
     foot of its last A is trimmed.
   - Seen running: after a cold boot, sound RAM holds the American calls

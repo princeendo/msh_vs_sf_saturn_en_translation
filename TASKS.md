@@ -2819,10 +2819,9 @@ the user asks or when it unblocks other work.
   (`EXP-0061`): the sound-test titles and the title-menu unlock message.
   Part 3 is done (`EXP-0062`): the win banner. Part 4 is done (`EXP-0063`):
   the VS screen. Its names are `MM.BIN` records, not `SEL*.PAC` art.
-  Remaining:
-  - the AKUMA life-bar width (2 px clipped);
-  - cold-boot before/after screenshots in play (user gameplay), which the
-    acceptance criteria require. Replays and cold-boot RAM reads are done.
+  Played from a cold boot (`EXP-0064`): select, VS screen, life bars, win
+  banner and dialogue all show the US names. Remaining: the AKUMA life-bar
+  width (2 px clipped).
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002 (done), LOC-003.
@@ -2842,7 +2841,7 @@ the user asks or when it unblocks other work.
 
 ### LOC-005 - Replace the announcer's name lines for the American-name variant
 
-- **Status:** `READY` (2026-10-25: built into the US variant, `EXP-0059`; only the in-play listening check remains)
+- **Status:** `DONE` (2026-10-25, `EXP-0058`, `EXP-0059`, `EXP-0064`). The US variant's name calls are the disc's own American recordings, selected through six `MEMFIX.PAC` table edits. In play from a cold boot, the game calls "Akuma" and "Bison" at character select and "Akuma" on the win screen.
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.

@@ -1304,6 +1304,21 @@ Experiment: `EXP-0063`
   VEGA.
 - **Reproduce.** `research/experiments/EXP-0063/README.md`.
 
+## LOC-004/LOC-005: The American-Name Build in Play
+
+Confidence: **CONFIRMED** (a cold boot, user play, a live mixer log and
+screenshots)
+
+Experiment: `EXP-0064`
+
+- With Gouki and Vega, the US build calls "Akuma" (`0x338`) and "Bison"
+  (`0x04F`) at character select, and "Akuma" on the win screen. No Japanese
+  name call was started.
+- Character select (BISON), the VS screen (BISON / AKUMA vs CYBER-AKUMA), the
+  life bars (AKUMA vs CYBER-AKUMA), the win banner (AKUMA / BISON / WIN) and
+  the post-boss dialogue (BISON) all show the US names.
+- **Reproduce.** `research/experiments/EXP-0064/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

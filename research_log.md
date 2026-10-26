@@ -4318,3 +4318,19 @@ redesign.
 - **LOC-004 remaining:** the AKUMA life-bar width, and a cold-boot play-through
   with screenshots.
 - **Checks:** `pytest` 234 passed, 1 skipped; `ruff` and `mypy` are clean.
+
+## 2026-10-25 — EXP-0064: cold-boot play-test of the American-name build
+
+- **Setup:** the US image with `-soundrecord`, the ending driver armed at boot,
+  `session_recorder` (0.5 s shots, 3 s states) and the new
+  `tools/audio/live_calls.py`, all sharing one emulator. The user picked Gouki
+  then Vega.
+- **Name calls:** "Akuma" `0x338` (frame 4073) and "Bison" `0x04F` (4382) at
+  select. The win call was "Akuma" `0x338` (5869, a cart clip, confirmed from
+  state `f00005893`). No Japanese name calls.
+- **Screens:** select BISON; VS BISON / AKUMA vs CYBER-AKUMA; life bars AKUMA
+  vs CYBER-AKUMA; banner AKUMA / BISON / WIN; dialogue "…we have, BISON."
+- **Tasks:** `LOC-005` DONE. `LOC-004` has only the AKUMA life-bar width
+  left.
+- **Note:** capture ended in the post-boss dialogue, when the user typed
+  "credits". The ending pages were not reached.
