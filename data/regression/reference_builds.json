@@ -295,10 +295,10 @@
   },
   {
    "name": "m8_roster_gold_us",
-   "experiment": "EXP-0059, EXP-0060",
-   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar labels copied from the font's own US art (BISON, AKUMA, CYBER-AKUMA) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060). The VS-screen names and the win banner are unchanged.",
-   "spec": "local/loc004/us.json",
-   "spec_sha256": "781f70eec010e4a7e736ad579eac012cba59f80e1c544221ea8767d4d90c94f4",
+   "experiment": "EXP-0059, EXP-0060, EXP-0061",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar labels copied from the font's own US art (BISON, AKUMA, CYBER-AKUMA) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061). The VS-screen names and the win banner are unchanged.",
+   "spec": "local/loc004b/us.json",
+   "spec_sha256": "8f0b63de723e423c241e2829660d8516ff289d38bf23c98138d7742b7a199df5",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -312,7 +312,7 @@
     "--names",
     "us"
    ],
-   "track01_sha256": "49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513",
+   "track01_sha256": "fbb64910f0ebc8a8cc1da6009c93148ac40e74184df27b6f462c1623e634ce42",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -334,13 +334,17 @@
     "MC13.PAC": "1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace",
     "ME.PAC": "58aad1dcfd456250a7a0245c8f3f7742119a0941c2efd82dd4e8bfb70ce3e2e7",
     "MEMFIX.PAC": "70e243c02c9567a70b9467214c9a3d9d8bcde424e9826dda7645e9bed3c101f8",
-    "MM.BIN": "5fef33fec5cbf061cd5e950054447d535d1658e455e61e711e57542ccc38727f"
+    "MM.BIN": "d7288f846b30ed49d5047c10901c88b972f180810525eaee425c936f79108693"
    },
    "baselined": "2026-10-25",
    "previous": [
     {
      "track01_sha256": "e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf",
      "replaced_because": "EXP-0060: US life-bar labels and speaker labels"
+    },
+    {
+     "track01_sha256": "49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513",
+     "replaced_because": "EXP-0061: US menu and sound-test strings"
     }
    ]
   }

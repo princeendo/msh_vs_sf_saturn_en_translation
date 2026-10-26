@@ -133,6 +133,17 @@ US_SPEAKERS = {
 }
 
 
+# LOC-004 (EXP-0061): ASCII strings in MM.BIN. (file, offset, Saturn, US); each
+# US string has the Saturn string's length. The sound-test titles are 20-character
+# fields; the title-menu unlock message is NUL-terminated (the leading space of the
+# Saturn string makes room for the longer name).
+US_STRINGS = (
+    ("MM.BIN", 0x6341, "18.VEGA".ljust(20), "18.BISON".ljust(20)),
+    ("MM.BIN", 0x639D, "22.GOUKI".ljust(20), "22.AKUMA".ljust(20)),
+    ("MM.BIN", 0x24F03, " MECH-GOUKI NOW!!", "CYBER-AKUMA NOW!!"),
+)
+
+
 @dataclass(frozen=True)
 class NameVariant:
     """Name handling for one build variant (LOC-003, LOC-004)."""
@@ -142,12 +153,16 @@ class NameVariant:
     voice: Mapping[int, tuple[int, int]] = field(default_factory=dict)
     glyphs: Mapping[int, int] = field(default_factory=dict)
     speakers: Mapping[int, tuple[str, str]] = field(default_factory=dict)
+    strings: Sequence[tuple[str, int, str, str]] = ()
 
 
 NAME_VARIANTS = {
     "saturn": NameVariant(NAME_OVERRIDES, TEXT_OVERRIDES),
     "us": NameVariant(
-        voice=US_VOICE_PATCHES, glyphs=US_LABEL_COPIES, speakers=US_SPEAKERS
+        voice=US_VOICE_PATCHES,
+        glyphs=US_LABEL_COPIES,
+        speakers=US_SPEAKERS,
+        strings=US_STRINGS,
     ),
 }
 
@@ -185,6 +200,23 @@ def speaker_patches(variant: str) -> list[dict[str, str]]:
         }
         for index, (old, new) in sorted(NAME_VARIANTS[variant].speakers.items())
     ]
+
+
+def string_patches(variant: str) -> list[dict[str, str]]:
+    """Spec ``patches`` entries for the variant's same-length ASCII string edits."""
+    patches = []
+    for name, offset, old, new in NAME_VARIANTS[variant].strings:
+        if len(old) != len(new):
+            raise ValueError(f"{new!r} must be as long as {old!r}")
+        patches.append(
+            {
+                "file": name,
+                "offset": f"0x{offset:X}",
+                "hex": new.encode("ascii").hex(),
+                "expect": old.encode("ascii").hex(),
+            }
+        )
+    return patches
 
 
 def voice_patches(variant: str) -> list[dict[str, str]]:
@@ -441,7 +473,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         spec["names"] = args.names
         patches = spec["patches"]
         assert isinstance(patches, list)
-        patches += voice_patches(args.names) + speaker_patches(args.names)
+        patches += (
+            voice_patches(args.names)
+            + speaker_patches(args.names)
+            + string_patches(args.names)
+        )
         copies = spec.get("glyph_copies") or {}
         assert isinstance(copies, dict)
         copies |= {

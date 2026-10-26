@@ -4238,3 +4238,22 @@ redesign.
   map, `0x263D62 + 2 * (code - 0x480)`, not a source pointer).
 - **Checks:** `pytest` 232 passed, 1 skipped; `ruff`, `ruff format` and
   `mypy` are clean.
+
+## 2026-10-25 — LOC-004 / EXP-0061: US names in the sound test and the menu
+
+- **Edits** (same-length `MM.BIN` ASCII, with expect checks):
+  - `0x6341` "18.VEGA" → "18.BISON";
+  - `0x639D` "22.GOUKI" → "22.AKUMA";
+  - `0x24F03` " MECH-GOUKI NOW!!" → "CYBER-AKUMA NOW!!".
+
+  No other regional-name ASCII exists in the program and text files.
+- **Build:** the Saturn spec is unchanged. US spec `8f0b63de…`, track 01
+  `fbb64910…`, patch `65275636…` (155,842 bytes). 9 of 9 references pass.
+- **Cold boot:**
+  - the US image's RAM holds the new strings at `0x0601EE41`,
+    `0x0601EE9D` and `0x0603DA03`; the Saturn image holds the old ones there;
+  - the menu pointers target `0x0603DA03`, the slot start.
+- **Side finding:** `ME.PAC` = `ME.SHX` plus a 16-byte container header. The
+  loaded speaker table comes from it, so the `EXP-0060` edits are effective.
+- **Not seen on screen:** the agent cannot navigate menus.
+- **Checks:** `pytest` 233 passed, 1 skipped; `ruff` and `mypy` are clean.

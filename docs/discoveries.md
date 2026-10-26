@@ -1239,6 +1239,22 @@ Experiment: `EXP-0060`
   copy `0x562`-`0x567`. The VS-screen names are a sprite mosaic.
 - **Reproduce.** `research/experiments/EXP-0060/README.md`.
 
+## LOC-004: US Names in the Sound Test and Menu
+
+Confidence: **CONFIRMED** (cold-boot RAM and pointers; not seen on screen)
+
+Experiment: `EXP-0061`
+
+- `MM.BIN` loads at `0x06018B00`. The US variant changes three same-length
+  ASCII strings:
+  - `0x6341` "18.VEGA" → "18.BISON";
+  - `0x639D` "22.GOUKI" → "22.AKUMA" (20-character fields);
+  - `0x24F03` " MECH-GOUKI NOW!!" → "CYBER-AKUMA NOW!!".
+- The menu lists point at `0x0603DA03`, the slot start.
+- `ME.PAC` is `ME.SHX` in a 16-byte container header. The payload loads at
+  WRAM-L `0x230000`.
+- **Reproduce.** `research/experiments/EXP-0061/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

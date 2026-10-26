@@ -7,6 +7,7 @@ from tools.text.official_endings import (
     localize,
     name_text,
     speaker_patches,
+    string_patches,
     voice_patches,
 )
 
@@ -76,3 +77,13 @@ def test_us_label_copies_are_cell_for_cell() -> None:
     assert [glyphs[0x750 + i] for i in range(3)] == [0x753, 0x754, 0x755]  # AKUMA
     assert [glyphs[0x568 + i] for i in range(6)] == list(range(0x5D9, 0x5DF))
     assert NAME_VARIANTS["saturn"].glyphs == {}
+
+
+def test_string_patches_keep_lengths_and_expect_the_saturn_text() -> None:
+    assert string_patches("saturn") == []
+    by_offset = {p["offset"]: p for p in string_patches("us")}
+    menu = by_offset["0x24F03"]
+    assert bytes.fromhex(menu["expect"]) == b" MECH-GOUKI NOW!!"
+    assert bytes.fromhex(menu["hex"]) == b"CYBER-AKUMA NOW!!"
+    assert bytes.fromhex(by_offset["0x6341"]["hex"]) == b"18.BISON".ljust(20)
+    assert all(len(p["hex"]) == len(p["expect"]) for p in by_offset.values())
