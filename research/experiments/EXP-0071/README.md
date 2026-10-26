@@ -170,6 +170,27 @@ agent, Python 3.12.13.
   phase with the baselines, so the other-scene check rests on the third
   attempt, which recoloured the same three loads.
 
+## Follow-up: Attract Colour Check (2026-10-26)
+
+User report: a still of Dan seemed to change from a pink to a purple gi.
+
+- **Static.** In all eight `MVSOP` scripts, each recoloured caption load (the
+  1st, 3rd and 5th ramp loads) is replaced by a full 2,048-word palette load
+  inside its own caption slot: script frames 258 → 314 (slot 257-315), 736 →
+  751 (734-753), 1046 → 1061 (1044-1063). The caption colours cannot reach a
+  later scene through the script's palette commands.
+- **Live** (`tools/mednafen/frame_capture.py`, silent, cold boot, no input;
+  original image and US release image `103d40a5…`, every 2 frames over
+  12,900-13,200, `local/attract_check/`): Dan's still in the Chun-Li
+  lightning montage is pink in both (`dan_orig/f00012986` `b237d5c1…`,
+  `dan_us/f00012984` `6e7b5d2c…`). The **original** image then shows Dan in a
+  lavender gi with green blocks for about a frame (`dan_orig/f00012996`
+  `258fe479…`), as the montage switches stills: the colour change is the
+  original game's.
+- Two cold-boot runs of the original image differ in 75 of 138 sampled frames
+  (lightning flash colours, animation phase), so frame-by-frame comparison
+  between images is not a valid test here; scenes must be compared.
+
 ## Conclusion
 
 - **CONFIRMED:** the middle route. Banner letters painted into the existing

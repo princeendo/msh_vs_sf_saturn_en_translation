@@ -546,6 +546,11 @@ missing, and `replay_state`, `write_trial` and `mixer_log` use it by default
 the user hears the game. The quiet home has its own `sav/` and `mcs/`: a cold
 boot there starts without the user's backup RAM.
 
+`tools/mednafen/frame_capture.py` cold-boots an image in the silent home and
+screenshots chosen frames with no input (attract-mode checks). Runs of the same
+image differ by a few frames of animation phase, so compare scenes, not frame
+numbers.
+
 ## Command-Line Settings Are Saved
 
 Settings given on the Mednafen command line (for example a temporary

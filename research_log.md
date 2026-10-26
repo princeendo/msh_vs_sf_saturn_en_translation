@@ -4721,3 +4721,19 @@ redesign.
 - Not yet on screen: the `+ : ( )` glyphs.
 - **Next unblocked:** none named in this session's requests; open unknowns
   remain in `docs/known_unknowns.md`.
+
+## 2026-10-26 — Attract colour check (user report: Dan pink to purple)
+
+- **Hypothesis:** the attract-caption recolour (`EXP-0071`) leaks into a
+  character scene. **DISPROVEN.** Statically, every recoloured load is
+  replaced by a full palette load inside its caption slot in all eight
+  streams. Live, the original image itself shows Dan's still in a lavender
+  gi for about a frame in the lightning montage (`EXP-0071` follow-up).
+- **Not productive:** pixel diffs of frame-aligned captures (277 of 421
+  frames differed); the original against itself differs in 75 of 138, from
+  timing jitter. Novel-colour counts flagged mostly fades and flash colours.
+- New tool: `tools/mednafen/frame_capture.py` (silent cold-boot frame
+  capture), smoke-tested on frames 120-240.
+- Local cleanup at the user's request: removed eight superseded experiment
+  builds under `build/` and 2,227 rolling recorder save states not cited by
+  any record (37 GB → 16 GB); cited states and all screenshots kept.
