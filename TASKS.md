@@ -1973,6 +1973,9 @@ the user asks or when it unblocks other work.
 - **User decisions (2026-10-25):**
   - the format is xdelta3 (VCDIFF);
   - the patch stays local (under `build/`, not committed);
+  - superseded 2026-10-26 for publishing: the patch files may be attached to
+    GitHub Releases (`AGENTS.md` rule 21 exception), still never committed;
+    see `REL-004`;
   - a README describes the assets someone must supply to rebuild it;
   - installing xdelta3 3.2.2 with Homebrew was approved.
 - **Evidence:**
@@ -3055,6 +3058,9 @@ the user asks or when it unblocks other work.
   exists in the arcade sets.
 - **Acceptance criteria:** A write or read breakpoint, or an arcade trace,
   identifies the screen and trigger. The finding is recorded with evidence.
+- **User direction (2026-10-26):** extract and translate the table's records
+  first, to narrow down where they are shown. `EXP-0080` found its start: it
+  follows the CONTINUE? hint table, from `MM.BIN` `0x7CA44`.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 
@@ -3268,3 +3274,74 @@ the user asks or when it unblocks other work.
   code and `release/README.md`; the commands are run from a fresh clone; the
   README links to `release/README.md` instead of duplicating it where they
   overlap.
+
+### REL-003 - Shrink the release patches
+
+- **Status:** `BACKLOG`
+- **Priority:** high (before `REL-004`)
+- **Milestone:** Polish
+- **Dependencies:** REL-001 (done), UI-003 (done).
+- **Blockers:** None.
+- **Objective (user request, 2026-10-26):** Make the patches as small as
+  possible, so they carry as little original game data as possible. They grew
+  from about 157 KB to about 2.9 MB when the attract captions were added
+  (`EXP-0071`): the rebuilt `MVSOP*.ST2` streams are re-compressed, so most of
+  their bytes differ from the original.
+- **Acceptance criteria:** a measured breakdown of where the patch bytes come
+  from; the attract streams rebuilt so that unchanged parts stay
+  byte-identical (or the reason that is impossible, with evidence); the
+  release images still pass every compiler and regression check and show the
+  English captions from a cold boot; the new patch sizes recorded.
+
+### REL-004 - Publish release 0.1.0 on GitHub
+
+- **Status:** `BLOCKED` (on `REL-003`; SSP patches from `REL-002` if ready)
+- **Priority:** high
+- **Milestone:** Polish
+- **Dependencies:** REL-003; REL-002 for the SSP zip.
+- **Blockers:** REL-003.
+- **Objective (user request, 2026-10-26):** Publish the first release,
+  version `0.1.0` (git tag `v0.1.0`), as a GitHub Release with the patches as
+  assets (`AGENTS.md` rule 21 exception): one zip of every xdelta variant and,
+  when `REL-002` is done, one zip of every SSP variant.
+- **Acceptance criteria:** each zip holds every name variant and a short
+  readme with the expected hashes; applying each patch from the downloaded
+  zip to the untouched image reproduces its recorded track hash; the release
+  notes list the changes and the known limits; nothing game-derived is
+  committed to git.
+
+### UI-005 - Verify the CONTINUE? hints that use the new punctuation
+
+- **Status:** `BACKLOG`
+- **Priority:** medium
+- **Milestone:** Polish
+- **Dependencies:** UI-004 (done).
+- **Blockers:** None.
+- **Objective (user request, 2026-10-26):** See on screen the hints whose
+  English uses the `+`, `:`, `(` and `)` glyphs added in `EXP-0080` (records
+  1-4, 6, 10, 12, 15), and every arrow glyph.
+- **Approach:** find what selects the hint (its RAM index, from the pointers
+  at `MM.BIN` `0x96890` and `0x96BAC`-`0x96BB4`), then set it on CONTINUE?
+  screens in play, rather than waiting for chance.
+- **Acceptance criteria:** each of those records seen in play in the release
+  image, with screenshots and hashes; any glyph that reads badly fixed and
+  rechecked.
+
+### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
+
+- **Status:** `BACKLOG`
+- **Priority:** medium
+- **Milestone:** M9
+- **Dependencies:** SPECIAL-001 (approval given by the user, 2026-10-26).
+- **Blockers:** None.
+- **Objective (user request, 2026-10-26):** Translate the bosses' own
+  post-fight captions: Apocalypse's (`MC00` slot 0, plus its three
+  unidentified tables) and Mech-Gouki's (`MC13` records 0-15). Find out
+  whether Mech-Gouki can be played (the title menu's MECH-GOUKI NOW!! mode)
+  and, if so, whether he has an ending (the ending table's slot 19 points at
+  Dan's pages in the Japanese table, `docs/coverage_exceptions.md`).
+  Apocalypse is believed not playable, so no ending (HYPOTHESIS, to check).
+- **Acceptance criteria:** when each caption is shown, established in play;
+  the official English used where it exists (US arcade, PS1 US), a new
+  translation otherwise; built with expect checks and seen in play; the
+  Mech-Gouki ending question answered with evidence.

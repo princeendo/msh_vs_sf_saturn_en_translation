@@ -65,6 +65,9 @@ is not confirmation.
 20. Update `TASKS.md` and `research_log.md` before ending a substantial session.
 21. Never commit copyrighted game images, BIOS files, extracted game contents,
     save states, memory dumps, screenshots, or emulator binaries.
+    Exception (user decision, 2026-10-26): the release patch files themselves
+    (xdelta and SSP, and zips of them) may be published as GitHub Release
+    assets. They are still never committed to git history.
 22. Keep binary evidence locally under ignored paths. Commit hashes, addresses,
     scripts, schemas, small synthetic fixtures, and derived factual metadata.
 23. Do not work on endings before the post-fight pipeline is proven and generalized.
