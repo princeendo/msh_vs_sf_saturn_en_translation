@@ -1490,6 +1490,24 @@ Experiment: `EXP-0076`
   MECH-ZANGIEF, DARK SAKURA and ARMORED SPIDER-MAN.
 - **Reproduce.** `research/experiments/EXP-0076/README.md`.
 
+## SPECIAL-002: Norimaro's Win Quotes Have Official English
+
+Confidence: **CONFIRMED** (static reads of the Saturn, three arcade sets and
+the PS1 US)
+
+Experiment: `EXP-0079`
+
+- The Saturn's `MC11` table at `0xA158` is byte-identical to the arcade
+  Japanese slot 17; record `k` pairs with English entry `k & 7`.
+- The English block for slot 17 is its own (shared with no other slot) and
+  identical in `mshvsfu`, `mshvsf` and `mshvsfj`, and on the PS1 US
+  (`SELECT.BIN` `0x12E0C`). Records 1, 3, 9, 10 and 15 carry name
+  placeholders.
+- The arcade's English partner lines (`0x22226C`, records 17 and 43) cover
+  slot 17. His ending pages (`ME.PAC` `0x3F5C`, 5 records) have no official
+  English.
+- **Reproduce.** `research/experiments/EXP-0079/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -4658,3 +4658,25 @@ redesign.
   knocked out the player. The driver now keeps the high byte and acts only on
   a fight that starts after arming.
 - New backlog: `UI-004` (the CONTINUE? screen's Japanese hint box).
+
+## 2026-10-26 — SPECIAL-002 / EXP-0079: Norimaro's text built
+
+- **Built:** slot 17 joins `--secret-roster` (official win quotes, `MC11`
+  `0xA158`, placeholders in records 1, 3, 9, 10, 15 dropped) and
+  `SECRET_SLOTS` (official partner lines, name); his five ending pages
+  (`ME.PAC` `0x3F5C`) are a new translation in
+  `data/translations/secret_characters.json`.
+- **Found:** the Saturn's slot 17 table equals the arcade Japanese slot 17;
+  its English block is unique, identical in `mshvsfu`, `mshvsf`, `mshvsfj`,
+  and on the PS1 (`SELECT.BIN` `0x12E0C`).
+- **Not productive:** the build overflowed the font by 657 bytes. Fixed by
+  `caption_compiler.retired_kanji` (spec flag `retire_replaced_kanji`, set by
+  `--secret-translations`): 250 kanji used only by replaced records become
+  sacrificial candidates; the US build uses 8.
+- **Fixed:** `secret_tables` was called without the name variant, so the US
+  build's ending said "Mech-Gouki"; it now gets `--names`.
+- **Release:** `m8_roster_gold` track 01 `7859e93e…` (patch `fb8474ef…`),
+  `m8_roster_gold_us` `4a24ab67…` (patch `fbc93fb7…`); all nine references
+  pass; 536 pairs each, 22 and 71 bytes spare.
+- **Next:** live check (Norimaro's win quote, post-boss lines, ending) on the
+  user's command.

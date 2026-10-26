@@ -220,3 +220,29 @@ def test_compile_tables_shares_pairs_across_files() -> None:
         assert verify_table(pacs[name], f.pac, f.writes)["target_cells_expected"]
     report = capacity_tables(tables, font_image(), pacs, CANDIDATES)
     assert report["distinct_pairs"] == len(compiled.codes)
+
+
+def test_retired_kanji_needs_every_use_replaced(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import struct
+
+    from tools.text import caption_compiler as cc
+
+    def record(*codes: int) -> bytes:
+        cells = list(codes) + [0x0020] * (38 - len(codes))
+        return struct.pack(">38H", *cells)
+
+    # Four records: kanji 0x0A00 only in record 1 (replaced), 0x0A01 in records
+    # 1 and 3 (3 kept), 0x0A02 only in record 3 (kept).
+    data = (
+        record(0x0A10, 0x0A10, 0x0A10)
+        + record(0x0A00, 0x0A01, 0x0A10)
+        + record(0x0A10, 0x0A10, 0x0A10)
+        + record(0x0A01, 0x0A02, 0x0A10)
+    )
+    monkeypatch.setattr(
+        cc, "valid_codes", lambda image: {0x0A00, 0x0A01, 0x0A02, 0x0A10}
+    )
+    caption = cc.Caption(record=1, lines=("X", ""))
+    table = cc.TableSpec("X.PAC", 0, [caption])
+    assert cc.retired_kanji({"X.PAC": data}, [table], b"", known=[]) == [0x0A00]
+    assert cc.retired_kanji({"X.PAC": data}, [table], b"", known=[0x0A00]) == []

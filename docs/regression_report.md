@@ -19,8 +19,8 @@ Last run: 2026-10-26.
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-26 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-26 | pass (regenerated spec) |
 | `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `bede40b15644ccab…` | 2026-10-25 | 2026-10-26 | pass (regenerated spec) |
-| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078` | `052bb755cfe5a5e2…` | `45217d9d180a19fb…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
-| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078` | `bc5d4a9b50df4910…` | `de8b2e0d954cdc1e…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
+| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079` | `1031e44fdd8cf6e8…` | `7859e93e2f1484c4…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
+| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079` | `6e809c5aa6f1849e…` | `4a24ab67de15c0d4…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -177,34 +177,35 @@ Track 01: `bede40b15644ccab5555bc94e33d80107aeb2dc42a4ba132857ee18411746f4e`
 
 ### `m8_roster_gold`
 
-m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078).
+m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079).
 
 | File | SHA-256 |
 | --- | --- |
-| `MC01.PAC` | `8b2a08be8df44c8fbc4b041fb33105cdbc470dbd95d9bc488eae6eb97a2af18d` |
-| `MC02.PAC` | `e41ea01061d19fab7397124c61b9c0a6498ca44487faae3564c8f08130d58e44` |
-| `MC03.PAC` | `f80fa7cec67bbe59424c10877b5926b35647b7a6cc07595bb109d6525131f45d` |
-| `MC04.PAC` | `a96b05e183a7d02d6be6eb9c2bf72ffa0a36a3eed11a8869bca0b48019597380` |
-| `MC05.PAC` | `4766eb12fd32c5ec6865d60570952ab45c638b3d5c4808aec2d19d1c43571e9c` |
-| `MC06.PAC` | `94be24cda90af7c0cff230d512e9e8798556f47321661c2f3465c05042bae262` |
-| `MC07.PAC` | `5c8aa4f5b4131b7b9cdebf24e5bed5136d61b15e647d8c8c7017ec7b220b8780` |
-| `MC08.PAC` | `cf73caba0d49a57acac7493ef26d77288b865354e6e0bc9eedc89841bdcf157b` |
-| `MC09.PAC` | `50a75a1b56450e23ad7d2df67db0b1845f5550ec02a9c8619c9583e2b2016165` |
-| `MC0A.PAC` | `596d561abd5be7b15d203f70bcdf1706df43fedcce05d892c73e2514f99dc71b` |
-| `MC0B.PAC` | `7c3d89bcf13304d6ea83ecb40940f450ba770bf95a77a46142c3f9215111b5e8` |
-| `MC0C.PAC` | `ff4781d2eb3b745d913a67e5765fc8dac16aba66fce5da97a0b074dad7e7d834` |
-| `MC0D.PAC` | `66fa1c219178b5a77be6070c6af7b7a54e3e0d71bfcf1cdddb32b486c00343ff` |
-| `MC0E.PAC` | `1caa3847ed9ee45b436264d0832e32bd1d6f078cf37ac361707eaaa95a85f3bd` |
-| `MC0F.PAC` | `c7e6d15bad405f6539f20ac4119c5cab8a916e1edbaf2231d9a080329c8b2efc` |
-| `MC10.PAC` | `152fcd5925d7ffc0f0cbb7a30ec469811149a67a3863fac1cbca89367f9761d6` |
-| `MC12.PAC` | `8bee2441e09f791b8ff5990a0de6237647aa4c585fe6a3df4df2b2b60facd1cc` |
-| `MC13.PAC` | `447a6122b1f2e824bd311826dbc2199713fdb975f3905cf14098e53ab4b1a8de` |
-| `MC14.PAC` | `6cf8834c087c19be82c2b1fd538de04f5a4de671a2a2e733628cde89ca6b88d9` |
-| `MC15.PAC` | `6cf1c5784b8e8e8440baa3dc625727f2e02ab48221f3f5a06b2a2d29f1046c64` |
-| `MC16.PAC` | `17c1ce877e037f6af6c512948eac8960218f282d30a3bcc4142a08bc06eea4b4` |
-| `ME.PAC` | `cef39411e0bbb60a5e48db3fe13fca883da24ace2699bdc28ef1e64910a15dfb` |
-| `MEMFIX.PAC` | `9d5010a0881db52c40cf23c9df484ed89817b8bab41898a27ab5e588d7b8f124` |
-| `MM.BIN` | `3a73adf3c52b93a51f3253b34dc4bf1d3513d63223e7d91af3b3f8b0c948d940` |
+| `MC01.PAC` | `46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39` |
+| `MC02.PAC` | `334e34774aea6950c181db1c6feb81a9de86fd2da8ceeffb16d81d0136c041ea` |
+| `MC03.PAC` | `fcd9c3ed8e8b3ba2d182cb5a00ae4bc4b519604ea16ef1e7303f4c89e746793c` |
+| `MC04.PAC` | `69da1906f7e9cc68e2dc0b905f787d9c87bfbfc01022ff3975319bee4d804c00` |
+| `MC05.PAC` | `9f5544179759d56a204153a05562f9c5e56610e2487a98350ff662f52b327214` |
+| `MC06.PAC` | `5cce34df24a96bb2949fc6a7a42c02565f27114aa0414011fd9e853972035ebe` |
+| `MC07.PAC` | `3cb19e4a588d8f7b82368a258beb52eab2b3f406d718ef942cf0a076d0a08676` |
+| `MC08.PAC` | `1c927a170f3e2d1e964e7fb49ba6c8752f11375a3d8c57b8297869edb30f730c` |
+| `MC09.PAC` | `98ca06556d4ceded6ff5512575095f87e1f8c3f8e374bd4934a4a9865f6143e3` |
+| `MC0A.PAC` | `64a3ac9cabe9b33363e06dcdae4e64f55013f59c6a2d0867b9f4e645efd0234c` |
+| `MC0B.PAC` | `4a182365c14ea64464ebcba473ab0f4f8a9709fab672d357e01ee562a7725477` |
+| `MC0C.PAC` | `96225993a4dc1e44a75ab5889102c362710e7aee2d7122310344447a1ab520fc` |
+| `MC0D.PAC` | `0694dc26306bbd2ce44d464b5a82bffab3852407eb326328c0484db19c6a28d4` |
+| `MC0E.PAC` | `8f49f0e54697cadb1519d99f1ca291a44e3223730ae9dcdf90b8c68d13f6e09e` |
+| `MC0F.PAC` | `75a4bcdd6428e50efaa93bd3a31d7798b2bc2d0829835c4075ab070ed09f067e` |
+| `MC10.PAC` | `40c498784769b3e4dbebeed68ba615efe23fe737d715ec4118b2e12791a1cfd9` |
+| `MC11.PAC` | `876d907c70d7218c50b78d2a0ca32681fefc2e96c651a867c866cdca46d664be` |
+| `MC12.PAC` | `60c1f4adac2164c291cf63fe14d631dd4b7e3d887f4898f66c625a8fd76c2f97` |
+| `MC13.PAC` | `d677d97c067f3bd9562751fd533195f4caf520811183e66e0130eb04198208f7` |
+| `MC14.PAC` | `93d62e7658d5e153c635dc8bd4c638799ca8dc34eb4e31a277ce68874552d35d` |
+| `MC15.PAC` | `d8a25f009229cdc26e4ebf227188848ac606544f2185f589970fc7256d0e3ddf` |
+| `MC16.PAC` | `b39c67fd50872fb73046c6ef708f237210e28eb3d93f9d6d49635f7b50076ea2` |
+| `ME.PAC` | `88784fd23ed247cd3354403d08a6685a7dcd79af229eae684f73ecf6b8a50c66` |
+| `MEMFIX.PAC` | `48ed2c94bb94991ebb049fc9584bff74f7b8768512a394c5449fb7e98d903a5b` |
+| `MM.BIN` | `23b446c5d53f4055ee697f87a7d51c3da46d4c25b158949431f99fb9c8ef923c` |
 | `MVSOP0.ST2` | `8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10` |
 | `MVSOP1.ST2` | `6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931` |
 | `MVSOP2.ST2` | `0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452` |
@@ -214,7 +215,7 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MVSOP6.ST2` | `73cd56492973321bddd39c036c4e7d104e7e38d388325a45a445d59f65f3078f` |
 | `MVSOP7.ST2` | `9f4873982dbe4fea8c14c7235830a780fdc0893713e50fb9c42ba972e1393d75` |
 
-Track 01: `45217d9d180a19fb5a7f5e283d09bd07a3bed935d593e1f658aa92ca4c6d9c2c`
+Track 01: `7859e93e2f1484c43cd67665d279671de0b7b35f314f585a0b4e483e9ea3237a`
 
 - Previous track 01 `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`: EXP-0052: capital W redesigned (variant A).
 - Previous track 01 `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`: EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image.
@@ -222,37 +223,39 @@ Track 01: `45217d9d180a19fb5a7f5e283d09bd07a3bed935d593e1f658aa92ca4c6d9c2c`
 - Previous track 01 `857937f9015a04f1c7fa3d9916caf2da00a110c5bd4dcb7f7a9b674354be93ca`: EXP-0073: arcade-layout English attract captions.
 - Previous track 01 `3185310c1c8585eec842adf5ca2a615722ca0d3caa22a76f5c3fcf6cb8396c5c`: EXP-0075: boss fight unlocked from the start (--unlock-boss-fight).
 - Previous track 01 `f5b98b46cf74b0dcd335c2926efd589306fa5b4bd492ba230cf4cab91206a608`: EXP-0078: secret characters' win quotes, endings and partner lines.
+- Previous track 01 `45217d9d180a19fb5a7f5e283d09bd07a3bed935d593e1f658aa92ca4c6d9c2c`: EXP-0079: Norimaro's win quotes, partner lines and ending.
 
 ### `m8_roster_gold_us`
 
-LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078).
+LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079).
 
 | File | SHA-256 |
 | --- | --- |
-| `MC01.PAC` | `8b2a08be8df44c8fbc4b041fb33105cdbc470dbd95d9bc488eae6eb97a2af18d` |
-| `MC02.PAC` | `670bb2bddbe690f9c04af20607e6ff1f475602736d4842451c1aa67a3cc48496` |
-| `MC03.PAC` | `fe69ef035463f53c8782ef46a9c73a1212c5745f32a95f1cbf5a38712c2cbfe4` |
-| `MC04.PAC` | `fd890a9975d09a696b6872b9ba84ab777c3df0a4002dba5752b1b68fa9b48206` |
-| `MC05.PAC` | `fb6c9901630cd9b3ebf2052a929c3e506493e1909f7a93e9bf3e752eac677e49` |
-| `MC06.PAC` | `c15efc9c822d740abf3c94535b0a818fb810a8f9995297645d93897b3ac863ba` |
-| `MC07.PAC` | `f6f47fa5f7109d227c0cadc086d9a6bbf447987e34a104ab1861b7085156dab0` |
-| `MC08.PAC` | `bcdcfa7f4995ec87ddefd26d36ca85eada1fb68157a6beb3ba2881ff1261199e` |
-| `MC09.PAC` | `a16c7c6e7d0783a925849b08f13df91e0681f4bec9fc61f84c4ea0b69e13ccd7` |
-| `MC0A.PAC` | `66a9190f5bb427e855960f0a11c768eb794022caa5f7a0f36006e9e317bd320e` |
-| `MC0B.PAC` | `0477778a3447313e0576cb1c7dac495d75e4813e7476cb842ae844a629dcea49` |
-| `MC0C.PAC` | `994f85bd588a567a8d27b3c336bc9a8d88abc33eb20050c612475a99cec581e9` |
-| `MC0D.PAC` | `5ae70e18bf7a3e3a6ee2ba890093cd0322aea1ce978b35eb542a297f37d216e2` |
-| `MC0E.PAC` | `ac12090e3202eb46c3a356eb0c608da58d4087233980ec1ff77214e37e71f3d1` |
-| `MC0F.PAC` | `dbd34c3fa73a7cff15044298df3975d29a8e7eb81c211545b06213739153effe` |
-| `MC10.PAC` | `13a77189d10dfab1a3da3174148c835e069736c531e9d78eb60405bbc7e6a08e` |
-| `MC12.PAC` | `dd0c02a183f09e4f44d9388a41dcd6bc53eabd295a1cc4bf8ee2f1e7fa1ec3cf` |
-| `MC13.PAC` | `03b8a3a088215f4382e59c6422d7ec7733a23e301a3e2372429ba335212ab2dd` |
-| `MC14.PAC` | `41665ef556be3cabd4d352d8d34d4b03f7249e2cac03eb104ae3649dc1f8b8ca` |
-| `MC15.PAC` | `768a977e92d47fe00783ac25acdaf3d62f67fa2e729fe979d953c98879663220` |
-| `MC16.PAC` | `e15e8d2ca485aac3f586c7cdd7de6637c4db28c4fd4494d176f2ab7f99984e95` |
-| `ME.PAC` | `f312a2c8ea9422a3bfaa45a1739c21b69e9cf83456b2ec8fc5bc5230f5611807` |
-| `MEMFIX.PAC` | `caaab9703c99568c91397166caa474a8cc4f5aaf4a1372ca331c36fe3f61a5a3` |
-| `MM.BIN` | `752b96a427dfe5b4132b8c4d3ce2d6834f486b497cce94b4efe6cae97c036cf1` |
+| `MC01.PAC` | `46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39` |
+| `MC02.PAC` | `334e34774aea6950c181db1c6feb81a9de86fd2da8ceeffb16d81d0136c041ea` |
+| `MC03.PAC` | `fcd9c3ed8e8b3ba2d182cb5a00ae4bc4b519604ea16ef1e7303f4c89e746793c` |
+| `MC04.PAC` | `69da1906f7e9cc68e2dc0b905f787d9c87bfbfc01022ff3975319bee4d804c00` |
+| `MC05.PAC` | `9f5544179759d56a204153a05562f9c5e56610e2487a98350ff662f52b327214` |
+| `MC06.PAC` | `5cce34df24a96bb2949fc6a7a42c02565f27114aa0414011fd9e853972035ebe` |
+| `MC07.PAC` | `3cb19e4a588d8f7b82368a258beb52eab2b3f406d718ef942cf0a076d0a08676` |
+| `MC08.PAC` | `1c927a170f3e2d1e964e7fb49ba6c8752f11375a3d8c57b8297869edb30f730c` |
+| `MC09.PAC` | `98ca06556d4ceded6ff5512575095f87e1f8c3f8e374bd4934a4a9865f6143e3` |
+| `MC0A.PAC` | `64a3ac9cabe9b33363e06dcdae4e64f55013f59c6a2d0867b9f4e645efd0234c` |
+| `MC0B.PAC` | `4a182365c14ea64464ebcba473ab0f4f8a9709fab672d357e01ee562a7725477` |
+| `MC0C.PAC` | `96225993a4dc1e44a75ab5889102c362710e7aee2d7122310344447a1ab520fc` |
+| `MC0D.PAC` | `0694dc26306bbd2ce44d464b5a82bffab3852407eb326328c0484db19c6a28d4` |
+| `MC0E.PAC` | `8f49f0e54697cadb1519d99f1ca291a44e3223730ae9dcdf90b8c68d13f6e09e` |
+| `MC0F.PAC` | `7c0a769fecaaa14902f05971c8701a1347bfd1b09bfb7fd7d25031a059547f30` |
+| `MC10.PAC` | `40c498784769b3e4dbebeed68ba615efe23fe737d715ec4118b2e12791a1cfd9` |
+| `MC11.PAC` | `876d907c70d7218c50b78d2a0ca32681fefc2e96c651a867c866cdca46d664be` |
+| `MC12.PAC` | `60c1f4adac2164c291cf63fe14d631dd4b7e3d887f4898f66c625a8fd76c2f97` |
+| `MC13.PAC` | `d677d97c067f3bd9562751fd533195f4caf520811183e66e0130eb04198208f7` |
+| `MC14.PAC` | `8adadca032e8b08f890f32f262ad715ba52e1cbafea7b56de8dc2b975cc6ef46` |
+| `MC15.PAC` | `d8a25f009229cdc26e4ebf227188848ac606544f2185f589970fc7256d0e3ddf` |
+| `MC16.PAC` | `b39c67fd50872fb73046c6ef708f237210e28eb3d93f9d6d49635f7b50076ea2` |
+| `ME.PAC` | `354e9dbf0c87c10e4f74925a7aa5f455bec982963ee145acda20d6957c783edd` |
+| `MEMFIX.PAC` | `a41f5f06b2950c57692f1ed0735ad26d26f008714eb4f41646d65c96ceb27c37` |
+| `MM.BIN` | `e768277b1178a654e2be052c4c8be5e95a789295c9f1c6856e88f39e46c04f5e` |
 | `MVSOP0.ST2` | `8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10` |
 | `MVSOP1.ST2` | `6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931` |
 | `MVSOP2.ST2` | `0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452` |
@@ -262,7 +265,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MVSOP6.ST2` | `73cd56492973321bddd39c036c4e7d104e7e38d388325a45a445d59f65f3078f` |
 | `MVSOP7.ST2` | `9f4873982dbe4fea8c14c7235830a780fdc0893713e50fb9c42ba972e1393d75` |
 
-Track 01: `de8b2e0d954cdc1ec35bf82e4351fb5aa755bf8046a0c4322a15825518a3a5b1`
+Track 01: `4a24ab67de15c0d489dd0d89671f76ea3628b6aa3d1cee8f81fed42ed3df711d`
 
 - Previous track 01 `e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf`: EXP-0060: US life-bar labels and speaker labels.
 - Previous track 01 `49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513`: EXP-0061: US menu and sound-test strings.
@@ -273,3 +276,4 @@ Track 01: `de8b2e0d954cdc1ec35bf82e4351fb5aa755bf8046a0c4322a15825518a3a5b1`
 - Previous track 01 `0f87cc6d9e5158b22dd15a359ba48b15a82308b4bedb5bae647b6011e24724d2`: EXP-0073: arcade-layout English attract captions.
 - Previous track 01 `db1ede9ffc023bf28040b4347f33d24c3ef4780fe25e66c7367f04e28d8ee126`: EXP-0075: boss fight unlocked from the start (--unlock-boss-fight).
 - Previous track 01 `3a32e3646f2552e36f4bb662bc2cbf053e35d33b07804aff69947809a546f09c`: EXP-0078: secret characters' win quotes, endings and partner lines.
+- Previous track 01 `de8b2e0d954cdc1ec35bf82e4351fb5aa755bf8046a0c4322a15825518a3a5b1`: EXP-0079: Norimaro's win quotes, partner lines and ending.

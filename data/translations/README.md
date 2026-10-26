@@ -100,4 +100,7 @@ metadata and the minimal text needed for the project record.
   Japanese source by SHA-256, and the build refuses a different source.
   Translator and method are recorded in the file (`EXP-0078`); the text is
   not official.
+- Norimaro (slot 17, `SPECIAL-002`, `EXP-0079`) follows the same policy: his
+  win quotes and partner lines are official English; his ending pages are a
+  new translation in the same file.
 

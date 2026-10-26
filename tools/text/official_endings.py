@@ -451,7 +451,7 @@ def check_targets(
     return {"pages_equal_arcade_ja": pages_ok, "dialogue_equal_arcade_ja": dialogue_ok}
 
 
-SECRET_SLOTS = (20, 21, 22, 23, 24, 25)  # SPECIAL-003 (EXP-0077, EXP-0078)
+SECRET_SLOTS = (17, 20, 21, 22, 23, 24, 25)  # SPECIAL-002/003 (EXP-0077-0079)
 
 
 def spec_pairs(spec: dict[str, object]) -> set[str]:
@@ -473,15 +473,20 @@ def secret_tables(
     path: Path,
     track: Path,
     existing: set[str] = frozenset(),  # type: ignore[assignment]
+    variant: str = "saturn",
 ) -> list[dict[str, object]]:
     """Spec tables for the translated secret-character text (``path``).
 
     Every record names its Japanese source by SHA-256; a source that differs
     (another image, a moved table) is refused. Each line's half-cell shift is
     chosen to add the fewest pairs to ``existing`` (the font is nearly full).
+    Names are written in the US arcade form and localized to ``variant``.
     """
     document = json.loads(path.read_text())
     tables = document["tables"]
+    for table in tables:
+        for record in table["records"]:
+            record["lines"] = [localize(x, variant) for x in record["lines"]]
     with track.open("rb") as stream:
         disc = Track(stream, track.stat().st_size)
         sources = {}
@@ -657,8 +662,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.secret_translations:
         tables = spec["tables"]
         assert isinstance(tables, list)
-        tables += secret_tables(args.secret_translations, args.track, spec_pairs(spec))
+        tables += secret_tables(
+            args.secret_translations, args.track, spec_pairs(spec), args.names
+        )
         spec["secret_translations"] = True
+        # The font is full: kanji only replaced records use may be reclaimed
+        # (caption_compiler.retired_kanji, EXP-0079).
+        spec["retire_replaced_kanji"] = True
     if args.glyph_style != "quote":
         spec["glyph_style"] = args.glyph_style
     if args.ui_english:

@@ -58,6 +58,7 @@ from tools.text.font import Font
 from tools.text.font_pack import Glyph, unpack
 from tools.text.pair_font import STYLES, char_code, pair_glyph, split_pairs, stored_size
 from tools.text.pair_font import build as build_font
+from tools.text.quote_census import find_tables, valid_codes
 from tools.text.quote_render import record_codes, render
 
 SCHEMA = "mshvsf-captions/1"
@@ -753,6 +754,57 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def retired_kanji(
+    sources: dict[str, bytes],
+    tables: Sequence[TableSpec],
+    font_image: bytes,
+    known: Sequence[int],
+) -> list[int]:
+    """Kanji that only the spec's replaced records use (``retire_replaced_kanji``).
+
+    ``sources`` are data files in spec coordinates (decoded PACs, raw files). The
+    record-shaped text in them is found as in `EXP-0023` (``quote_census``). A kanji
+    qualifies when every occurrence lies in a record the spec rewrites; ``known``
+    candidates are left out. Highest codes first. Like the unseen kanji, this
+    cannot see text that is not record-shaped (`EXP-0079`).
+    """
+    codes = valid_codes(font_image)
+    replaced: dict[str, set[int]] = {}
+    for spec in tables:
+        words = replaced.setdefault(spec.file, set())
+        for caption in spec.captions:
+            start = spec.table + caption.record * RECORD
+            words.update(range(start, start + RECORD, 2))
+    inside: set[int] = set()
+    outside: set[int] = set()
+    for name, data in sources.items():
+        for offset, count in find_tables(data, codes):
+            for p in range(offset, offset + count * RECORD, 2):
+                word = int.from_bytes(data[p : p + 2], "big")
+                if KANJI[0] <= word <= KANJI[1]:
+                    (inside if p in replaced.get(name, ()) else outside).add(word)
+    return sorted(inside - outside - set(known), reverse=True)
+
+
+def census_sources(track: Path) -> dict[str, bytes]:
+    """Every PAC/BIN/SHX file of the image, decoded when it is compressed."""
+    out: dict[str, bytes] = {}
+    with track.open("rb") as stream:
+        disc = Track(stream, track.stat().st_size)
+        volume = primary_volume(disc)
+        root = (int(str(volume["root_lsn"])), int(str(volume["root_size"])))
+        for entry in walk(disc, *root):
+            name = entry.path.split(";")[0]
+            if entry.is_dir or not name.endswith((".PAC", ".BIN", ".SHX")):
+                continue
+            data = disc.read(entry.lsn, entry.size_bytes)
+            try:
+                out[name] = decode_file(data)[1]
+            except PacFormatError:
+                out[name] = data
+    return out
+
+
 def load_candidates(path: Path) -> list[int]:
     unseen = [int(c, 16) for c in json.loads(path.read_text())["unseen_codes"]]
     # Highest codes first, as in EXP-0023.
@@ -810,6 +862,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         offset, length = FONT_ENTRY
         old_font = memfix[offset : offset + length]
         candidates = load_candidates(args.candidates)
+        retired: list[int] = []
+        if document.get("retire_replaced_kanji"):
+            retired = retired_kanji(census_sources(track), tables, old_font, candidates)
+            candidates = candidates + retired
         if args.capacity:
             report_cap = capacity_tables(
                 tables, old_font, pacs, candidates, style=style
@@ -871,6 +927,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 },
             },
         }
+        if retired:
+            report["retired_candidates"] = [f"0x{c:04X}" for c in retired]
         if style != "quote":
             report["glyph_style"] = style
         if patches:

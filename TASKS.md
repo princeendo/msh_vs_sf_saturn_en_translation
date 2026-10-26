@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `45217d9d…`);
+      own font. They are in the release images (Saturn names `7859e93e…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3073,7 +3073,11 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-002 - Translate Norimaro's post-fight text and ending
 
-- **Status:** `BACKLOG`
+- **Status:** `IN_PROGRESS` (2026-10-26). Built in both release references
+  (`EXP-0079`): the international arcade's official English win quotes
+  (`MC11` slot 17) and partner lines, a new translation of his five ending
+  pages (`ME.PAC` `0x3F5C`); the font fits by retiring kanji only replaced
+  records used. Remaining: the live check from a cold boot.
 - **Priority:** not set by the user
 - **Milestone:** M9
 - **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).
@@ -3082,9 +3086,10 @@ the user asks or when it unblocks other work.
   text (win quotes) and his ending into English.
 - **Scope:** Not the attract-mode Norimaro screen: the Japanese brush
   lettering behind him stays (the caption below him is already English).
-- **Rationale:** Norimaro is Saturn/Japan-only, so no official US arcade text
-  exists; the translation needs its own source and provenance
-  (`data/translations/README.md`).
+- **Rationale:** Norimaro is not in the US arcade release, but the
+  international arcade ROMs hold official English for his win quotes and
+  partner lines (`EXP-0079`); his ending has no official English, so it
+  needs its own translation and provenance (`data/translations/README.md`).
 - **Acceptance criteria:**
   - every Norimaro post-fight and ending text located, with disc offsets;
   - an English translation with recorded provenance (no official oracle);
