@@ -3094,12 +3094,14 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-003 - Translate the secret characters' post-fight text and endings
 
-- **Status:** `IN_PROGRESS`. Sources and oracles (`EXP-0077`); the user
-  chose new translations where the official English is only a substitute
-  (2026-10-26). Built (`EXP-0078`) in both release references: official
-  win quotes for slots 22-24, translated win quotes for 20-21 and ending pages
-  for 20-25, official partner lines; all checks true, the font fits.
-  Remaining: see a secret character's win quote and ending in play.
+- **Status:** `DONE` (2026-10-26). Sources and oracles (`EXP-0077`); user
+  decision: new translations where the official English is only a
+  substitute. Built in both release references (`EXP-0078`): official win
+  quotes for slots 22-24, translated win quotes for 20-21 and ending pages
+  for 20-25, official partner lines. Seen in play from a cold boot: Metal
+  Zangief's win quote, the post-boss lines with Shadow, and his five ending
+  pages. Open: whether records 3-5 of the slot 23-25 block are ever shown
+  (`docs/known_unknowns.md`).
 - **Priority:** not set by the user
 - **Milestone:** M9
 - **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).
@@ -3165,4 +3167,18 @@ the user asks or when it unblocks other work.
     switchable off, in both name variants;
   - the option selectable from a cold boot without a Survival clear, and the
     boss fight reachable; regression references updated.
+
+### UI-004 - Translate the CONTINUE? screen's hint box
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** None.
+- **Blockers:** None.
+- **Objective:** The CONTINUE? screen shows a hint box of Japanese text under
+  the countdown (seen in `EXP-0078`'s play-test,
+  `local/special003/play2/rec/shots/` around frame 14000). Find its source
+  and replace it with English (official US wording where it exists).
+- **Acceptance criteria:** source located with evidence; the official US
+  oracle checked; built with expect checks; seen from a cold boot.
 

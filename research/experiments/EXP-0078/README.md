@@ -1,9 +1,9 @@
 # EXP-0078: Secret characters' win quotes, endings and partner lines in English
 
 Task: SPECIAL-003
-Status: IN_PROGRESS (built and checked offline; live verification pending)
-Confidence: SUPPORTED (compiler checks, source hashes, arcade identity of the
-replaced dialogue records); CONFIRMED after the live check
+Status: DONE
+Confidence: CONFIRMED (compiler checks, source hashes, arcade identity of the
+replaced dialogue records; seen in play from a cold boot for slot 20)
 
 ## Observation
 
@@ -86,11 +86,31 @@ extra_slots`), `tools/reference/cps2_text.py` (digits and `0x0186`),
 - **Release:** see the regression baseline and `release/README.md`
   (rebaselined with this change).
 
+- **Live check** (2026-10-26, user play, US release image `de8b2e0d…`,
+  `local/special003/play2/rec/shots/`): Arcade mode with Metal Zangief
+  (Blackheart + Start) and Shadow (Dhalsim + Start), codes from the user's
+  GameFAQs copy.
+  - Fight 1 won by the user: Metal Zangief's translated win quote "I'm out
+    of vodka... / No more fire breath..." (`f00009061`, `d0d5bf0f…`).
+  - Boss via `ending_driver`: VS SHADOW / ZANGIEF vs CYBER-AKUMA; banner
+    ZANGIEF / SHADOW / WIN; post-boss lines "You are worthy ZANGIEF." and
+    "I say Good-bye to you, SHADOW." (official).
+  - All five translated ending pages under the speaker label "Zangief"
+    (`f00028631` `d307ca79…`, `f00028810` `7f67dd29…`, `f00029048`
+    `dde9ecfe…`, `f00029285` `df5d93ff…`, `f00029516` `c6494ed7…`).
+- **Driver:** the stage word read `0x0400` → `0x0401` in this run (not
+  `0x06NN`); `--after-stage` now accepts any high byte below `0x10` and keeps
+  it. Armed mid-fight, the old KO test fired in an ordinary fight, where
+  `0x060F3E50` is player 1's vitality, and knocked out the player; the driver
+  now waits for the vitality word to rise to full in a fight that starts
+  after arming.
+
 ## Conclusion
 
-**SUPPORTED** (offline): the secret characters' quotes, endings and partner
-lines are in English in both variants. The live check of a secret character's
-win quote and ending is pending.
+**CONFIRMED:** the secret characters' quotes, endings and partner lines are in
+English in both variants; slot 20's win quote, dialogue and ending were seen
+in play. The other secret slots are checked offline (same pipeline, compiler
+checks and source hashes).
 
 ## Uncertainty and Alternatives
 

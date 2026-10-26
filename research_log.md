@@ -4646,3 +4646,15 @@ redesign.
   before arming, so fight 1's win quote shows. First launch stopped by the
   user before a fight; the arm-after-a-win path is not yet exercised. Outside
   a fight the stage word holds unrelated values (`0004`, `5854`, `2c00`…).
+
+## 2026-10-26 — SPECIAL-003 done: secret-character text seen in play
+
+- User play (US release image): Metal Zangief's translated win quote, the
+  official post-boss lines with Shadow, and his five translated ending pages,
+  all in English (`EXP-0078`).
+- **Not productive / fixed:** `ending_driver --after-stage` assumed the stage
+  word `0x06NN`; this run used `0x04NN`. Restarted mid-fight, the KO test
+  fired in an ordinary fight (where `0x060F3E50` is player 1's vitality) and
+  knocked out the player. The driver now keeps the high byte and acts only on
+  a fight that starts after arming.
+- New backlog: `UI-004` (the CONTINUE? screen's Japanese hint box).

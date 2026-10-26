@@ -12,9 +12,11 @@ user only works the menus (start arcade mode, pick a team). The driver then:
    untouched. With ``--repeat``, it re-arms after ``--rest`` seconds.
 
 With ``--after-stage N``, the first ARM waits, writing nothing, until the stage
-word reads ``0x06NN`` or later (the player has won N stages), so the earlier
-fights, and their win quotes, play normally (`SPECIAL-003`). Every change of the
-stage word is logged while waiting.
+word reads ``0xHHNN`` with ``NN`` >= N (the player has won N stages), so the
+earlier fights, and their win quotes, play normally (`SPECIAL-003`). The high
+byte ``HH`` is not always 6 (a cold-boot run showed ``0x0400`` → ``0x0401``), so
+it is kept: that ARM holds ``0xHH07``. Every change of the stage word is logged
+while waiting.
 
 
 These are the Saturn offsets found in `EXP-0042`. Every phase change is logged
@@ -72,8 +74,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     def vitality() -> int:
         return int.from_bytes(agent.bus_read(VITALITY[0], 2), "big")
 
-    def wait_for_stage(index: int) -> None:
-        note(f"WAIT: no writes until the stage word reaches 0x06{index:02X}")
+    def wait_for_stage(index: int) -> bytes:
+        """Wait for ``index`` won stages; return the stage-8 word to hold."""
+        note(f"WAIT: no writes until the stage word reaches stage index {index}")
         last = b""
         while True:
             if not agent.halted():
@@ -81,31 +84,40 @@ def main(argv: Sequence[str] | None = None) -> int:
                 if word != last:
                     note(f"stage word {word.hex()}")
                     last = word
-                if word[0] == STAGE_8[0] and index <= word[1] < STAGE_8[1]:
-                    return
+                if word[0] <= 0x0F and index <= word[1] < STAGE_8[1]:
+                    return bytes([word[0], STAGE_8[1]])
             time.sleep(args.period)
 
+    target = STAGE_8
     try:
         if args.after_stage:
-            wait_for_stage(args.after_stage)
+            target = wait_for_stage(args.after_stage)
         while True:
-            note("ARM: holding the stage word at stage 8")
+            note(f"ARM: holding the stage word at {target.hex()} (stage 8)")
+            previous = vitality()
             while True:
                 if agent.halted():
                     time.sleep(args.period)
                     continue
-                agent.bus_write(STAGE_WORD, STAGE_8)
+                agent.bus_write(STAGE_WORD, target)
+                # Only a fight that starts after arming: the vitality word must
+                # rise to full. Armed mid-fight, the word may already be full,
+                # and in an ordinary fight it is player 1's (SPECIAL-003).
+                now = vitality()
                 if (
-                    vitality() == FULL_VITALITY
-                    and agent.bus_read(STAGE_WORD, 2) == STAGE_8
+                    now == FULL_VITALITY
+                    and previous != FULL_VITALITY
+                    and agent.bus_read(STAGE_WORD, 2) == target
                 ):
                     break
+                previous = now
                 time.sleep(args.period)
             knock_out("KO: stage-8 fight started; zeroing the boss vitality")
             note("DONE: no more writes; the ending plays untouched")
             if not args.repeat:
                 return 0
             time.sleep(args.rest)
+            target = STAGE_8
     except AgentError as error:
         print(f"stopped: {error}")
         return 1
