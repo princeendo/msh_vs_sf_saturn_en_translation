@@ -238,8 +238,10 @@ remain open; none blocks the roster image.
   speaker labels. The full inventory is not done.
 - Does the announcer speak character names, and which ones? The user reports
   the voice says "Vega". It is not checked per character.
-- The name calls are `PL0E` #1 (`0x04F`, "Bison") and `PL0F` #1 (`0x048`,
-  "Gouki") (`EXP-0056`). Two things are still open:
+- Which clips are the name calls? `EXP-0056` recorded `PL0E` #1 (`0x04F`,
+  "Bison") and `PL0F` #1 (`0x048`, "Gouki"). In game, though, the mixer
+  played Vega-bank #5 (`0x133`) at select and #18 (`0x286`) on the win
+  screen (`EXP-0057`). The user is re-checking single clips. Also open:
   - Does the game play those clips at character select and on the win
     screen? The user first described the line as "Vega", but this clip says
     "Bison".

@@ -4110,3 +4110,22 @@ redesign.
     `0x04F` would settle whether the in-game lines are this clip.
   - If they are, the American-name variant needs only an "Akuma" clip.
 - **Checks:** docs only. `pytest` 228 passed, 1 skipped; `ruff` is clean.
+
+## 2026-10-25 — LOC-005 / EXP-0057: in-game clip log (in progress)
+
+- **New tool:** `tools/audio/mixer_log.py` logs mixer clip starts frame by
+  frame from a state and matches them to bank clips. Sound RAM is read through
+  the agent's `scspram` space; cart RAM from a state saved at the end, because
+  the agent refuses `savestate` while halted.
+- **Win banner** (`end024v f00008316`): the mixer starts Vega-bank #18
+  (`0x286`, also select #48) 116 frames in. `0x04F` is not started.
+- **Character select** (`f00003038`): the last clip played was Vega-bank #5
+  (`0x133`, also select #17). With no input the screen waits.
+- **Not productive:**
+  - replaying `f00007963` without input diverges into a continued fight;
+  - the agent has no controller input;
+  - the opponent's vitality in ordinary fights is unknown (`EXP-0049`), so
+    a KO cannot be forced.
+- **Status:** the clip-#1 name-call record is under review; the user is
+  checking single clips A-E (`local/audio/confirm/`). It is removed from
+  `docs/discoveries.md` until resolved.

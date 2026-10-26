@@ -95,8 +95,12 @@ other than `CMNSE.PAC`, and those files contain banks in the same layout.
 ## Conclusion
 
 - **CONFIRMED:** the PAC container and bank layout, and the 28 banks.
-- **CONFIRMED (user listening, 2026-10-25):** the name calls are clip #1 of
-  each fighter bank:
+- **Under review (`EXP-0057`).** The game played `0x133` at select and
+  `0x286` on the win screen, never `0x04F`. The user's report may refer to
+  `shortlist.wav` and not the catalogs. The record below follows the user's
+  first answer.
+- **Recorded from user listening (2026-10-25):** the name calls are clip #1
+  of each fighter bank:
 
   | Clip | ID | Says | Same data in the select bank |
   | --- | --- | --- | --- |

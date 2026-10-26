@@ -1152,12 +1152,6 @@ Experiments: `EXP-0055`, `EXP-0056`
   - The active mask is at `0x060132D4`.
   - Each sample is doubled into rings that play at 24,031 Hz, so clips play
     at 12,015.5 Hz.
-- **Name calls** (identified by user listening, `EXP-0056`): clip #1 of each
-  fighter bank.
-  - `PL0E.PAC` bank #1 (ID `0x04F`) says "Bison".
-  - `PL0F.PAC` bank #1 (ID `0x048`) says "Gouki".
-  - Both clips are also in the select bank (`SEL.PAC` payload 1, #4 and #3).
-  - In each, the name starts about 1 s in, after another sound.
 - **Evidence.** Replaying each active channel from its start reproduces the
   stored predictor and step exactly: 24 of 24 active channels in 38 states of
   the `END-024` recording. Every mismatch (73 of 575 records) is an inactive,
