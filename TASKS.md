@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `7859e93e…`);
+      own font. They are in the release images (Saturn names `3ee38981…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3176,7 +3176,11 @@ the user asks or when it unblocks other work.
 
 ### UI-004 - Translate the CONTINUE? screen's hint box
 
-- **Status:** `BACKLOG`
+- **Status:** `IN_PROGRESS` (2026-10-26). Source: a 16-record quote-font
+  table at `MM.BIN` `0x7C584` (`EXP-0080`); no official English in the US
+  arcade or the PS1 US, so the hints get a new translation that keeps the
+  game's joystick-arrow glyphs. Built in both release references.
+  Remaining: the live check from a cold boot.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None.

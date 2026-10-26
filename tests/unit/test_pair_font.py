@@ -89,6 +89,7 @@ def test_schema_accepts_exactly_the_mapped_characters() -> None:
         if char not in mapped:
             assert not pattern.fullmatch(char), char
     assert pattern.fullmatch("{P}Ab")
+    assert pattern.fullmatch("{01E6}+P")
 
 
 def test_punctuation_codes_are_distinct_full_width_glyphs() -> None:

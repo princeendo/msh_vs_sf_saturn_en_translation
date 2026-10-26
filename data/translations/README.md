@@ -104,3 +104,10 @@ metadata and the minimal text needed for the project record.
   win quotes and partner lines are official English; his ending pages are a
   new translation in the same file.
 
+## Screen Text (`UI-004`)
+
+- The CONTINUE? hints (`continue_hints.json`) are a new translation: no
+  official English exists (`EXP-0080`). Same record format and source-hash
+  check as the secret-character file; joystick arrows stay the game's own
+  glyphs (`{XXXX}` cells).
+

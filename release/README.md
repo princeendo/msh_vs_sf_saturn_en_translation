@@ -91,6 +91,9 @@ Sakura, and Dan.
 - **Norimaro** (`SPECIAL-002`, `EXP-0079`): his win quotes and post-boss
   partner lines are the international arcade's official English; his ending
   pages are a new English translation (not official text).
+- **CONTINUE? hints** (`UI-004`, `EXP-0080`): the gameplay hint under the
+  countdown is a new English translation (no official English exists); the
+  joystick arrows are the game's own.
 - **Boss fight unlocked:** the title menu's MECH-GOUKI NOW!! (CYBER-AKUMA
   NOW!! with American names) is available from the start, without a
   Survival clear: on the SURVIVAL MODE row, press L or R, then Start
@@ -143,12 +146,12 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,930,736
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,933,166
      bytes, SHA-256
-     `fb8474ef3e11a828b24dfd4281707178c608a987078d279a43c485717f899494`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,932,174
+     `abd03143b0cee1e150f74d3385a042d0220bf7f506e426366d0cc1ebded6a548`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,934,610
      bytes, SHA-256
-     `fbc93fb7b234192fa0750f0e6090f3e31a7c4b0692864b623e366fe6d5abe0bf`.
+     `46832e4d4d1ef8a96f50fda763135fe0fcda44292853c220c107099a0a30db1d`.
 
    The patches grew from about 157 KB when the attract captions were added:
    their streams are re-compressed, so most of their compressed bytes
@@ -169,9 +172,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `7859e93e2f1484c43cd67665d279671de0b7b35f314f585a0b4e483e9ea3237a` for the
+   `3ee38981ef1dc9e034dcd35628c10a86ae00d36de4b07580fdb4b429b5e8141e` for the
    Saturn-name patch, or
-   `4a24ab67de15c0d489dd0d89671f76ea3628b6aa3d1cee8f81fed42ed3df711d` for the
+   `103d40a5e5f05f5a7ebd36548bb70a2532b309fcd7552eba4be222805a2a1af1` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -239,8 +242,8 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `1031e44f…`, track 01 `7859e93e…`, patch `fb8474ef…`;
-- American names: spec `6e809c5a…`, track 01 `4a24ab67…`, patch `fbc93fb7…`;
+- Saturn names: spec `e491ea36…`, track 01 `3ee38981…`, patch `abd03143…`;
+- American names: spec `37fe1cf2…`, track 01 `103d40a5…`, patch `46832e4d…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:

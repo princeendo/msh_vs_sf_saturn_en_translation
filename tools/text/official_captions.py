@@ -20,7 +20,7 @@ from pathlib import Path
 from tools.reference.cps2_text import build_program, read_quote_table
 from tools.reference.mame_audit import parse_driver
 from tools.reference.quote_pairing import OBSERVED_REMAP
-from tools.text.caption_compiler import LINE_CELLS
+from tools.text.caption_compiler import LINE_CELLS, split_codes
 from tools.text.pair_font import char_code
 
 
@@ -28,22 +28,30 @@ def centred(text: str, cells: int = LINE_CELLS, shift: int = 0) -> str:
     """Pad ``text`` with whole blank cells so it sits centred in ``cells``.
 
     ``shift`` = 1 adds one leading space inside the first cell, which changes how
-    the line splits into pairs (``best_shifts``).
+    the line splits into pairs (``best_shifts``). A ``{XXXX}`` font code takes a
+    whole cell (`UI-004`).
     """
-    for char in text:
-        char_code(char)  # raises ValueError for characters without a glyph
     body = " " * shift + text
-    used = (len(body) + 1) // 2
+    used = 0
+    for part in split_codes(body):
+        if isinstance(part, int):
+            used += 1
+            continue
+        for char in part:
+            char_code(char)  # raises ValueError for characters without a glyph
+        used += (len(part) + 1) // 2
     if used > cells:
         raise ValueError(f"{text!r} needs {used} cells (max {cells})")
     return "  " * ((cells - used) // 2) + body
 
 
 def line_pairs(text: str, shift: int) -> set[str]:
-    body = " " * shift + text
-    if len(body) % 2:
-        body += " "
-    return {body[i : i + 2] for i in range(0, len(body), 2)} - {"  "}
+    pairs: set[str] = set()
+    for part in split_codes(" " * shift + text):
+        if isinstance(part, str):
+            body = part + " " * (len(part) % 2)
+            pairs |= {body[i : i + 2] for i in range(0, len(body), 2)}
+    return pairs - {"  "}
 
 
 def best_shifts(lines: Sequence[str], cells: int = LINE_CELLS) -> dict[str, int]:

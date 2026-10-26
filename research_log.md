@@ -4692,3 +4692,23 @@ redesign.
   restarted cold (config unchanged). The driver now arms only on a step from
   `0xHH(N-1)` to `0xHHN`; this run's step was `0x0300` → `0x0301`.
 - **Next unblocked:** `UI-004` (the CONTINUE? hint box), backlog.
+
+## 2026-10-26 — UI-004 / EXP-0080: CONTINUE? hints found and built
+
+- **Found:** the hint is a 16-record quote-font table at `MM.BIN` `0x7C584`
+  (glyph match of `EXP-0078`'s state `f00014068`, color word `0x6010`; one
+  disc hit). Same Japanese table in all three arcade sets (`0x2139AC`); no
+  English in the arcade or the PS1 US.
+- **Not productive:** the `MM.BIN` dialogue table at `0x7CC86` (`TXT-001`)
+  was the first candidate; it holds story lines, not hints.
+- **Built:** `data/translations/continue_hints.json` (new English, source
+  hashes), `official_endings --ui-translations`, `{XXXX}` kept-code cells in
+  the compiler, pair punctuation `+ : ( )` in both glyph styles.
+- **Not productive:** the first rebuild failed (no credits glyph for `+`); a
+  `| head` pipe hid it from `set -e`. Fixed with `pipefail` and the credits
+  codes.
+- **Release:** `m8_roster_gold` track 01 `3ee38981…` (patch `abd03143…`),
+  `m8_roster_gold_us` `103d40a5…` (patch `46832e4d…`); all nine references
+  pass.
+- **Next:** live check of a hint on the CONTINUE? screen, on the user's
+  command.

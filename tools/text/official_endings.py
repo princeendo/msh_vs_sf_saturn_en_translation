@@ -469,6 +469,15 @@ def spec_pairs(spec: dict[str, object]) -> set[str]:
     return pairs - {"  "}
 
 
+def fits(line: str, shift: int) -> bool:
+    """Whether ``line`` with ``shift`` fits one record line (``{XXXX}`` = a cell)."""
+    try:
+        centred(line, shift=shift)
+    except ValueError:
+        return False
+    return True
+
+
 def secret_tables(
     path: Path,
     track: Path,
@@ -505,7 +514,7 @@ def secret_tables(
         options = [
             (len(line_pairs(line, shift) - existing - added), shift)
             for shift in (0, 1)
-            if (len(line) + shift + 1) // 2 <= LINE_CELLS
+            if fits(line, shift)
         ]
         shifts[line] = min(options)[1]
         added |= line_pairs(line, shifts[line]) - existing
@@ -617,6 +626,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="translated secret-character text and dialogue (SPECIAL-003)",
     )
     parser.add_argument(
+        "--ui-translations",
+        type=Path,
+        help="translated screen text, such as the CONTINUE? hints (UI-004)",
+    )
+    parser.add_argument(
         "--secret-roster",
         type=Path,
         help="extra win-quote roster with official English (SPECIAL-003)",
@@ -668,6 +682,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         spec["secret_translations"] = True
         # The font is full: kanji only replaced records use may be reclaimed
         # (caption_compiler.retired_kanji, EXP-0079).
+        spec["retire_replaced_kanji"] = True
+    if args.ui_translations:
+        tables = spec["tables"]
+        assert isinstance(tables, list)
+        tables += secret_tables(
+            args.ui_translations, args.track, spec_pairs(spec), args.names
+        )
         spec["retire_replaced_kanji"] = True
     if args.glyph_style != "quote":
         spec["glyph_style"] = args.glyph_style

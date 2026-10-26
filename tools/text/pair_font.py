@@ -37,6 +37,11 @@ PUNCTUATION = {
     "'": 0x08B9,
     '"': 0x08BB,
     "-": 0x08CB,
+    # UI-004, by glyph shape: the CONTINUE? hints' button notation.
+    "+": 0x08CA,
+    ":": 0x08AE,
+    "(": 0x08C0,
+    ")": 0x08C1,
     "\u203c": 0x08DF,  # double exclamation in one cell
 }
 

@@ -1508,6 +1508,23 @@ Experiment: `EXP-0079`
   English.
 - **Reproduce.** `research/experiments/EXP-0079/README.md`.
 
+## UI-004: The CONTINUE? Hints Are an MM.BIN Record Table
+
+Confidence: **CONFIRMED** (VDP1 glyph match of a recorded state; disc and
+arcade searches)
+
+Experiment: `EXP-0080`
+
+- The hint box under the CONTINUE? countdown is 38 VDP1 sprites (color word
+  `0x6010`) of quote-font codes, read from a 16-record table at `MM.BIN`
+  `0x7C584` (WRAM-H `0x06095084`; `MM.BIN` loads at `0x06018B00`). `MM.BIN`
+  holds that address at `0x96890` and `0x96BAC`-`0x96BB4`.
+- Joystick arrows are quote-font codes `0x01E2` ↑, `0x01E4` →, `0x01E5` ↘,
+  `0x01E6` ↓, `0x01E7` ↙, `0x01E8` ← (inside the credits font).
+- The arcade sets hold the same Japanese table (`0x2139AC`); no arcade set and
+  no PS1 US file has English hints.
+- **Reproduce.** `research/experiments/EXP-0080/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

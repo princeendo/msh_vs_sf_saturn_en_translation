@@ -74,6 +74,24 @@ def test_line_cells() -> None:
         line_cells("what~")
 
 
+def test_kept_codes_take_whole_cells() -> None:
+    assert line_cells("Ab{01E6}c") == ["Ab", 0x01E6, "c "]
+    assert line_cells("a{01E2}{01E4}") == ["a ", 0x01E2, 0x01E4]
+    assert distinct_pairs([["Ab", 0x01E6, "Ab"]]) == ["Ab"]
+
+
+def test_kept_codes_are_written_and_never_sacrificed() -> None:
+    image, pac = font_image(), pac_file()
+    kept = CANDIDATES[0]
+    captions = parse_spec(spec((2, f"Go{{01E6}}{{{kept:04X}}}", "Two")))
+    compiled = compile_files(captions, image, pac, CANDIDATES)
+    record = record_codes(decode_file(compiled.pac)[1], 2)
+    assert record[1:3] == [0x01E6, kept]
+    assert kept not in compiled.font_info["sacrificed"]  # type: ignore[operator]
+    with pytest.raises(SpecError, match="empty glyphs"):
+        compile_files(parse_spec(spec((2, "{00B0}", "x"))), image, pac, CANDIDATES)
+
+
 def test_parse_spec_rejects_bad_input() -> None:
     assert parse_spec(spec((3, "a", "b"), (1, "c", "d")))[0].record == 1
     with pytest.raises(SpecError):

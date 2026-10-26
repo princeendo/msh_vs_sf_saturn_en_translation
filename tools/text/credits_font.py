@@ -44,6 +44,10 @@ PUNCTUATION = {
     ",": 0x253,
     "'": 0x255,
     "-": 0x20F,
+    # UI-004, by glyph shape: the CONTINUE? hints' button notation.
+    "+": 0x1FE,
+    "(": 0x1F9,
+    ")": 0x1FF,
     "\u203c": 0x1F0,  # one-cell double exclamation: drawn by OVERRIDES, shaded as "!"
 }
 GOLD = {value: (240, 240 - 16 * (value - 1), 0) for value in range(1, 10)} | {

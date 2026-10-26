@@ -1,0 +1,144 @@
+{
+ "schema": "mshvsf-translations/1",
+ "description": "UI-004 new English for the CONTINUE? screen's gameplay hints (MM.BIN 0x7C584, 16 records; EXP-0080). Target: Sega Saturn MSHvSF (Japan), source image per references/mshvsf/saturn_jp/README.md. English only; each record names the Japanese source record by SHA-256 of its 76 bytes, which the build checks.",
+ "translator": "Claude (AI), from the Saturn's own Japanese records rendered with its quote font (EXP-0080); not official text. No official English exists: the arcade sets hold only the Japanese hints, and the PS1 US has none.",
+ "policy": "Joystick arrows keep the game's own glyphs as {XXXX} cells (0x01E2 up, 0x01E4 forward, 0x01E5 down-forward, 0x01E6 down, 0x01E7 down-back, 0x01E8 back). Buttons use LP/MP/HP and LK/MK/HK for the Japanese weak/medium/strong; PPP and KKK stay as written. Records 13 and 14 repeat records 2 and 9 and get the same English.",
+ "tables": [
+  {
+   "kind": "continue_hints",
+   "file": "MM.BIN",
+   "table": "0x7C584",
+   "format": "raw",
+   "records": [
+    {
+     "record": 0,
+     "source_sha256": "8c16fbfbad04382b1dedcbcd7b491181b5d94ddb8fbe4d2013cf160f7291b83b",
+     "lines": [
+      "Land an Aerial Rave starter, then",
+      "{01E2} to chase them and slam in a combo!"
+     ]
+    },
+    {
+     "record": 1,
+     "source_sha256": "3f0087b2050e4d8b698ff1c9981150ffbb4fc84cfc48f34e5e696979c57de203",
+     "lines": [
+      "While blocking, press PPP: an",
+      "Advancing Guard pushes them back!"
+     ]
+    },
+    {
+     "record": 2,
+     "source_sha256": "4c76de824d27b45ec9c7f6b54811cf99148d091fb448798bb0373877c9a06c4b",
+     "lines": [
+      "At gauge level 2+, {01E6}{01E5}{01E4}+HP+HK",
+      "for a Variable Combination!"
+     ]
+    },
+    {
+     "record": 3,
+     "source_sha256": "c46ad71016c24b66b6f7e70b35edc9d858372b06521974b34838ca4665525ab3",
+     "lines": [
+      "While blocking, {01E8}{01E7}{01E6}+HP+HK:",
+      "your partner's Variable Counter!"
+     ]
+    },
+    {
+     "record": 4,
+     "source_sha256": "be56015a2934382bc6a7ed8d9e5c28f0b3678e9f61dd1961d280a7f7589ec569",
+     "lines": [
+      "Press HP+HK together: Variable Attack!",
+      "Tag your partner in any time!"
+     ]
+    },
+    {
+     "record": 5,
+     "source_sha256": "230e54af80dce9c9006c0193f48055384c6620a35e78d07890cffe2f83877300",
+     "lines": [
+      "Gauge full? Time for a Hyper Combo!",
+      "Turn the fight around in one shot!"
+     ]
+    },
+    {
+     "record": 6,
+     "source_sha256": "2240a7aa2039f84e6233916c29bc0415ca9909a28bc74868cda6c57ff0ed725f",
+     "lines": [
+      "Knocked away? Quick, before you land,",
+      "{01E8}{01E7}{01E6}+P to recover and outwit them!"
+     ]
+    },
+    {
+     "record": 7,
+     "source_sha256": "dc0f57b6a9f29cc1098e5fa204d2a52311ea20444c6dbec258ed32abeb62e4f1",
+     "lines": [
+      "{01E6}{01E2} or KKK for a Super Jump!",
+      ""
+     ]
+    },
+    {
+     "record": 8,
+     "source_sha256": "8bb1b43393bf7dcdff0e30df53a8357cc4c28abccfc8c6510561b90091b5b783",
+     "lines": [
+      "In a Super Jump, you can attack again",
+      "and again! Win the battle in the air!"
+     ]
+    },
+    {
+     "record": 9,
+     "source_sha256": "3f9b03edef5518d1ec4c280dd3a422dde9938e992f629ecd1517bf1bf6550538",
+     "lines": [
+      "Low on vitality? Tag your partner!",
+      "While resting, some vitality returns."
+     ]
+    },
+    {
+     "record": 10,
+     "source_sha256": "694de06e53e53c5142d3815691dc7919c53c9d0b45058aa9c6011a91f8260def",
+     "lines": [
+      "The moment you're grabbed, {01E4}+MP",
+      "(or HP) to break out of the throw!"
+     ]
+    },
+    {
+     "record": 11,
+     "source_sha256": "3d5d0e96f1189eca57c649921cd181df6c1f95c2d958cafee3f3801958b1b8ee",
+     "lines": [
+      "{01E4}{01E4} or PPP to dash forward!",
+      "Close in fast and seize your chance!"
+     ]
+    },
+    {
+     "record": 12,
+     "source_sha256": "6c5885850850a71ca0bfc33646ae8e13552e24c3625586f19b5345cc8a9c94a7",
+     "lines": [
+      "Press MP+MK together: your waiting",
+      "partner strikes in a Variable Assist!"
+     ]
+    },
+    {
+     "record": 13,
+     "source_sha256": "4c76de824d27b45ec9c7f6b54811cf99148d091fb448798bb0373877c9a06c4b",
+     "lines": [
+      "At gauge level 2+, {01E6}{01E5}{01E4}+HP+HK",
+      "for a Variable Combination!"
+     ]
+    },
+    {
+     "record": 14,
+     "source_sha256": "3f9b03edef5518d1ec4c280dd3a422dde9938e992f629ecd1517bf1bf6550538",
+     "lines": [
+      "Low on vitality? Tag your partner!",
+      "While resting, some vitality returns."
+     ]
+    },
+    {
+     "record": 15,
+     "source_sha256": "388e2a197b6edeb8b1eafadc8999514e137c1bd4128513a61bbd356808c934d4",
+     "lines": [
+      "Everyone: LP+LK starts an Aerial Rave!",
+      "A sure way to launch your air combo!"
+     ]
+    }
+   ]
+  }
+ ]
+}

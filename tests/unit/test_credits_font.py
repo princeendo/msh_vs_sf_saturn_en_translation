@@ -17,6 +17,10 @@ def test_credit_code_follows_the_credits_layout() -> None:
         credit_code("@")
 
 
+def test_hint_punctuation_has_credits_glyphs() -> None:
+    assert [credit_code(c) for c in "+():"] == [0x1FE, 0x1F9, 0x1FF, 0x250]
+
+
 def test_squeeze_keeps_fill_over_outline() -> None:
     row = [OUTLINE, 3, 0, 0, OUTLINE, 0, 5, 2] + [0] * 8
     assert squeeze([row])[0][:4] == [3, 0, OUTLINE, 2]

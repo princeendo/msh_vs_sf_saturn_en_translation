@@ -66,6 +66,17 @@ def test_new_punctuation_has_glyphs() -> None:
     assert char_code("\u203c") == 0x08DF
 
 
+def test_hint_punctuation_has_glyphs() -> None:
+    assert [char_code(c) for c in "+:()"] == [0x08CA, 0x08AE, 0x08C0, 0x08C1]
+
+
+def test_kept_codes_count_one_cell_and_split_pairs() -> None:
+    assert centred("{01E6}{01E5}+P", cells=5) == "  {01E6}{01E5}+P"
+    assert line_pairs("ab{01E6}c", 1) == {" a", "b ", "c "}
+    with pytest.raises(ValueError, match="cells"):
+        centred("abcd{01E6}{01E6}", cells=3)
+
+
 def test_shift_changes_pairing_and_stays_centred() -> None:
     assert line_pairs("abc", 0) == {"ab", "c "}
     assert line_pairs("abc", 1) == {" a", "bc"}

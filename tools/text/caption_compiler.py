@@ -21,6 +21,9 @@ All tables share **one** font, so distinct pairs are allocated jointly across
 files. Each record (index 0-15) gives two line strings. Each line is cut into
 two-letter pairs. Each distinct pair becomes one pair glyph
 (``glyph_patch.compose``) at a free font code.
+``{XXXX}`` (four upper-case hex digits) puts font code ``XXXX`` in a whole cell
+as it is, such as the joystick arrows of the CONTINUE? hints (`UI-004`); text
+before it ends at a cell boundary.
 ``{P}`` keeps the record's ``0000`` partner-name placeholder cell, and is allowed
 only at the cell where the original record has it. A pair of two spaces is the
 blank cell ``0x0020``. Unused cells are blank. Records not listed are unchanged.
@@ -44,6 +47,7 @@ import contextlib
 import hashlib
 import io
 import json
+import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -68,6 +72,7 @@ DEFAULT_FILE = "MC09.PAC"
 TABLE, RECORD, RECORDS, LINE_CELLS = 0x91AC, 76, 16, 19
 BLANK, PLACEHOLDER = 0x0020, 0x0000
 TOKEN = "{P}"
+CODE_TOKEN = re.compile(r"\{([0-9A-F]{4})\}")  # UI-004: a font code kept as is
 FONT_ENTRY = (0x6A558, 0x32740)  # MEMFIX.PAC entry 4 (EXP-0022)
 # Free codes below the code count. 0x00A8-0x00B1 displayed in EXP-0023; the rest
 # are empty in the original font but have not been shown on screen.
@@ -75,7 +80,7 @@ FREE_RANGES = ((0x00A8, 0x00FF), (0x0190, 0x01DF), (0x0260, 0x02AF))
 KANJI = (0x0926, 0x0C5F)
 MEMFIX_NAME = "MEMFIX.PAC;1"
 
-Cell = str | None  # a two-character pair, or None for the placeholder
+Cell = str | int | None  # a two-character pair, a kept font code, or the placeholder
 
 
 class SpecError(ValueError):
@@ -88,14 +93,27 @@ class Caption:
     lines: tuple[str, str]
 
 
+def split_codes(text: str) -> list[str | int]:
+    """Text segments and ``{XXXX}`` font codes, in order (empty segments dropped)."""
+    parts = CODE_TOKEN.split(text)
+    return [
+        int(part, 16) if index % 2 else part
+        for index, part in enumerate(parts)
+        if index % 2 or part
+    ]
+
+
 def line_cells(text: str) -> list[Cell]:
-    """Split a line into cells: two-character pairs and placeholder markers."""
+    """Split a line into cells: pairs, kept font codes and placeholder markers."""
     cells: list[Cell] = []
     for index, segment in enumerate(text.split(TOKEN)):
         if index:
             cells.append(None)
-        if segment:
-            for pair in split_pairs(segment):
+        for part in split_codes(segment):
+            if isinstance(part, int):
+                cells.append(part)
+                continue
+            for pair in split_pairs(part):
                 for char in pair:
                     char_code(char)  # raises ValueError for unsupported characters
                 cells.append(pair)
@@ -360,7 +378,7 @@ def distinct_pairs(all_cells: Sequence[Sequence[Cell]]) -> list[str]:
     seen: dict[str, None] = {}
     for cells in all_cells:
         for cell in cells:
-            if cell is not None and cell != "  ":
+            if isinstance(cell, str) and cell != "  ":
                 seen.setdefault(cell, None)
     return list(seen)
 
@@ -388,6 +406,8 @@ def table_writes(
         for index, cell in enumerate(record):
             if cell is None:
                 value = PLACEHOLDER
+            elif isinstance(cell, int):
+                value = cell
             elif cell == "  ":
                 value = BLANK
             else:
@@ -500,8 +520,10 @@ def field_cells(field: FieldSpec) -> list[Cell]:
         cells = line_cells(field.text) if field.text else []
     except ValueError as error:
         raise SpecError(f"{field.file} field: {error}") from error
-    if None in cells or len(cells) > field.cells:
-        raise SpecError(f"{field.file} field {field.text!r} does not fit or has {{P}}")
+    if not all(isinstance(c, str) for c in cells) or len(cells) > field.cells:
+        raise SpecError(
+            f"{field.file} field {field.text!r} does not fit or has {{P}} or a code"
+        )
     return cells + ["  "] * (field.cells - len(cells))
 
 
@@ -554,6 +576,17 @@ def compile_tables(
         + [field_cells(f) for f in fields]
     )
     available = free_codes(font_image, ranges)
+    kept = {
+        cell
+        for table in cells
+        for record in table
+        for cell in record
+        if isinstance(cell, int)
+    }
+    if kept & set(available):
+        raise SpecError(f"kept codes are empty glyphs: {sorted(kept & set(available))}")
+    # A kept code is shown as it is, so it can be neither a pair nor a sacrifice.
+    candidates = [c for c in candidates if c not in kept]
     # RE-044 option A: when pairs outnumber free codes, reuse sacrificial kanji
     # codes in place, in candidate order. Specs that fit are built exactly as before.
     extra = [c for c in candidates if c not in available][
