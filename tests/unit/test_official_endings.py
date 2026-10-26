@@ -3,10 +3,10 @@ from __future__ import annotations
 from tools.text.ending_census import half_cells
 from tools.text.official_endings import (
     NAME_VARIANTS,
-    banner_patches,
     box_line,
     localize,
     name_text,
+    pointer_patches,
     speaker_patches,
     string_patches,
     voice_patches,
@@ -90,11 +90,14 @@ def test_string_patches_keep_lengths_and_expect_the_saturn_text() -> None:
     assert all(len(p["hex"]) == len(p["expect"]) for p in by_offset.values())
 
 
-def test_banner_patches_point_at_the_us_records() -> None:
-    assert banner_patches("saturn") == []
-    by_offset = {p["offset"]: (p["expect"], p["hex"]) for p in banner_patches("us")}
+def test_pointer_patches_point_at_the_us_records() -> None:
+    assert pointer_patches("saturn") == []
+    by_offset = {p["offset"]: (p["expect"], p["hex"]) for p in pointer_patches("us")}
     assert by_offset == {
-        "0x9FCA0": ("060b8a88", "060b8bce"),
+        "0x9FCA0": ("060b8a88", "060b8bce"),  # banner
         "0x9FCAC": ("060b8aa2", "060b8bec"),
         "0x9FCDC": ("060b8b22", "060b8c0a"),
+        "0x665DE": ("0607f2d8", "0607f3b2"),  # VS screen
+        "0x665EA": ("0607f2ea", "0607f3c6"),
+        "0x6661A": ("0607f348", "0607f3da"),
     }

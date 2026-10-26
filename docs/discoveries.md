@@ -1282,6 +1282,28 @@ Experiment: `EXP-0062`
   boot (`0x060B87A0` = load `0x06018B00` + `0x9FCA0`).
 - **Reproduce.** `research/experiments/EXP-0062/README.md`.
 
+## LOC-004: The VS-Screen Name Records
+
+Confidence: **CONFIRMED** (replay and cold-boot RAM)
+
+Experiment: `EXP-0063`
+
+- **Font.** The VS-screen names are letter sprites from the staff-credits font
+  (patterns `0x5000 + code`; A = `0x210`, hyphen `0x20F`), at an 11 px pitch.
+  They are not `SEL*.PAC` art, as `EXP-0054` had supposed.
+- **Records.**
+  - Each name is an `MM.BIN` record: u16 0, u16 n, u16 0, a u32 spacing
+    pointer, then n patterns, right to left.
+  - The record pointer for character index i is at `MM.BIN`
+    `0x66536 + 12i`. VEGA (14) is at `0x665DE`, GOUKI (15) at `0x665EA`,
+    MECH-GOUKI (19) at `0x6661A`.
+  - BISON, AKUMA and CYBER-AKUMA records exist as entries 23-25, as in the
+    banner table.
+- **Trial.** Pointing Vega's entry at BISON (RAM `0x0607F0DE` =
+  `0x0607F3B2`) before the VS screen made it read BISON. The control reads
+  VEGA.
+- **Reproduce.** `research/experiments/EXP-0063/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

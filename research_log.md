@@ -4295,3 +4295,26 @@ redesign.
     cache's range (`0x480`+);
   - the WRAM-H "VEGA" at `0x060047F5` (the `M1A_SVEGADP` music file name).
 - **Checks:** `pytest` 234 passed, 1 skipped; `ruff` and `mypy` are clean.
+
+## 2026-10-25 — LOC-004 / EXP-0063: VS-screen names switched via the disc's US records
+
+- **Sprites** (VS state `end024v f00009368` +60, VDP1 list): each name is
+  a row of 16×16 letter sprites at an 11 px pitch, drawn from the
+  staff-credits font (A = `0x210`, hyphen `0x20F`). These are not `SEL*.PAC`
+  art (`EXP-0054` assumed a mosaic).
+- **Records:**
+  - searching for the reversed pattern sequence `0x5000 + code` found the
+    `MM.BIN` VS name records (`0x6666A`-`0x668DA`), including BISON, AKUMA
+    and CYBER-AKUMA (entries 23-25);
+  - the pointer table is at `0x66536 + 12i`.
+- **Trial:** from `f00009018`, writing Vega's RAM pointer (`0x0607F0DE`) to
+  BISON shows BISON on the VS screen. The control shows VEGA.
+- **Build:**
+  - three more u32 pointer edits (`US_NAME_POINTERS`, which now also holds
+    the banner's);
+  - Saturn spec unchanged; US spec `a343d7c7…`, track 01 `41ca8a9a…`, patch
+    `ccf6200c…`; 9 of 9 references pass;
+  - a cold boot loads the US pointers at frame 1800.
+- **LOC-004 remaining:** the AKUMA life-bar width, and a cold-boot play-through
+  with screenshots.
+- **Checks:** `pytest` 234 passed, 1 skipped; `ruff` and `mypy` are clean.

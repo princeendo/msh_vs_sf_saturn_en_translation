@@ -144,15 +144,19 @@ US_STRINGS = (
 )
 
 
-# LOC-004 (EXP-0062): the win banner spells names from sprite records in MM.BIN
-# (letters right to left), reached through a per-character pointer table at
-# 0x9FBF8 + 12 * index. The disc already has BISON, AKUMA, and CYBER-AKUMA records
-# (entries 23-25); the US variant points entries 14, 15, and 19 at them.
+# LOC-004: the win banner (EXP-0062) and the VS screen (EXP-0063) spell names from
+# sprite records in MM.BIN (letters right to left), each reached through a
+# per-character pointer table: banner 0x9FBF8 + 12 * index, VS 0x66536 + 12 * index.
+# The disc already has BISON, AKUMA, and CYBER-AKUMA records in both (entries
+# 23-25); the US variant points entries 14, 15, and 19 at them.
 # Offset: (Saturn record, US record), big-endian u32 load addresses.
-US_BANNER_POINTERS = {
-    0x9FCA0: (0x060B8A88, 0x060B8BCE),  # 14: VEGA -> BISON
-    0x9FCAC: (0x060B8AA2, 0x060B8BEC),  # 15: GOUKI -> AKUMA
-    0x9FCDC: (0x060B8B22, 0x060B8C0A),  # 19: MECH-GOUKI -> CYBER-AKUMA
+US_NAME_POINTERS = {
+    0x9FCA0: (0x060B8A88, 0x060B8BCE),  # banner 14: VEGA -> BISON
+    0x9FCAC: (0x060B8AA2, 0x060B8BEC),  # banner 15: GOUKI -> AKUMA
+    0x9FCDC: (0x060B8B22, 0x060B8C0A),  # banner 19: MECH-GOUKI -> CYBER-AKUMA
+    0x665DE: (0x0607F2D8, 0x0607F3B2),  # VS 14: VEGA -> BISON
+    0x665EA: (0x0607F2EA, 0x0607F3C6),  # VS 15: GOUKI -> AKUMA
+    0x6661A: (0x0607F348, 0x0607F3DA),  # VS 19: MECH-GOUKI -> CYBER-AKUMA
 }
 
 
@@ -166,7 +170,7 @@ class NameVariant:
     glyphs: Mapping[int, int] = field(default_factory=dict)
     speakers: Mapping[int, tuple[str, str]] = field(default_factory=dict)
     strings: Sequence[tuple[str, int, str, str]] = ()
-    banner: Mapping[int, tuple[int, int]] = field(default_factory=dict)
+    pointers: Mapping[int, tuple[int, int]] = field(default_factory=dict)
 
 
 NAME_VARIANTS = {
@@ -176,7 +180,7 @@ NAME_VARIANTS = {
         glyphs=US_LABEL_COPIES,
         speakers=US_SPEAKERS,
         strings=US_STRINGS,
-        banner=US_BANNER_POINTERS,
+        pointers=US_NAME_POINTERS,
     ),
 }
 
@@ -233,8 +237,8 @@ def string_patches(variant: str) -> list[dict[str, str]]:
     return patches
 
 
-def banner_patches(variant: str) -> list[dict[str, str]]:
-    """Spec ``patches`` entries for the variant's win-banner name pointers."""
+def pointer_patches(variant: str) -> list[dict[str, str]]:
+    """Spec ``patches`` entries for the variant's MM.BIN name-record pointers."""
     return [
         {
             "file": "MM.BIN",
@@ -242,7 +246,7 @@ def banner_patches(variant: str) -> list[dict[str, str]]:
             "hex": f"{new:08x}",
             "expect": f"{old:08x}",
         }
-        for offset, (old, new) in sorted(NAME_VARIANTS[variant].banner.items())
+        for offset, (old, new) in sorted(NAME_VARIANTS[variant].pointers.items())
     ]
 
 
@@ -504,7 +508,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             voice_patches(args.names)
             + speaker_patches(args.names)
             + string_patches(args.names)
-            + banner_patches(args.names)
+            + pointer_patches(args.names)
         )
         copies = spec.get("glyph_copies") or {}
         assert isinstance(copies, dict)
