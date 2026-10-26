@@ -4712,3 +4712,12 @@ redesign.
   pass.
 - **Next:** live check of a hint on the CONTINUE? screen, on the user's
   command.
+
+## 2026-10-26 — UI-004 done: CONTINUE? hints seen in play
+
+- User play (US release image `103d40a5…`): two lost fights showed two
+  different English hints, one with the ↑ arrow glyph; each hint holds for
+  its whole countdown (`EXP-0080`). Mednafen config unchanged.
+- Not yet on screen: the `+ : ( )` glyphs.
+- **Next unblocked:** none named in this session's requests; open unknowns
+  remain in `docs/known_unknowns.md`.

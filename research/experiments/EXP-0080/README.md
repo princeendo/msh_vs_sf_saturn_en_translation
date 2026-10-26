@@ -1,9 +1,9 @@
 # EXP-0080: The CONTINUE? screen's hints in English
 
 Task: UI-004
-Status: IN_PROGRESS (source found; built; live check pending)
-Confidence: CONFIRMED for the source (glyph match and disc search); the build
-is SUPPORTED (compiler checks, source hashes)
+Status: DONE
+Confidence: CONFIRMED (glyph match and disc search; compiler checks; seen in
+play from a cold boot)
 
 ## Observation
 
@@ -84,6 +84,7 @@ English hints.
 
 ## Conclusion
 
+- **CONFIRMED:** the hints show in English in play, arrows included.
 - **CONFIRMED:** the CONTINUE? hint is drawn from a 16-record quote-font
   table at `MM.BIN` `0x7C584`.
 - **CONFIRMED:** no official English exists in the US arcade or the PS1 US;
@@ -114,9 +115,23 @@ English hints.
   missing `+`; a `| head` pipe hid the failure from `set -e` (the script now
   uses `pipefail`).
 
+## Live Check
+
+2026-10-26, user play, US release image `103d40a5…`,
+`local/ui004/play/rec/shots/`: Arcade mode, two lost fights, both countdowns
+run out.
+
+- First CONTINUE?: record 0 in English, gold letters, with the game's ↑ arrow
+  (`f00009819`, `6e47013d…`).
+- Second CONTINUE?: "Low on vitality? Tag your partner! / While resting, some
+  vitality returns." (record 9 or its repeat 14; `f00018023`, `fa392517…`).
+- Each hint stays unchanged for its whole countdown (box pixels compared
+  across the recorded frames).
+
 ## Uncertainty and Alternatives
 
-- Which hint shows is not yet known to depend on anything (one sample).
+- What picks the hint is unknown (two samples, two different hints).
+- The new `+`, `:`, `(` and `)` glyphs were not on screen in this run.
 - The arcade record 0's difference from the Saturn's is not examined.
 - The translation is not official text.
 

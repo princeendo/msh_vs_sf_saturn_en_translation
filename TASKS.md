@@ -3176,11 +3176,12 @@ the user asks or when it unblocks other work.
 
 ### UI-004 - Translate the CONTINUE? screen's hint box
 
-- **Status:** `IN_PROGRESS` (2026-10-26). Source: a 16-record quote-font
-  table at `MM.BIN` `0x7C584` (`EXP-0080`); no official English in the US
-  arcade or the PS1 US, so the hints get a new translation that keeps the
-  game's joystick-arrow glyphs. Built in both release references.
-  Remaining: the live check from a cold boot.
+- **Status:** `DONE` (2026-10-26). Source: a 16-record quote-font table at
+  `MM.BIN` `0x7C584` (`EXP-0080`); no official English in the US arcade or
+  the PS1 US, so the hints get a new translation that keeps the game's
+  joystick-arrow glyphs. Built in both release references; two hints seen in
+  English in play from a cold boot (one with an arrow). Not yet seen on
+  screen: the new `+`, `:`, `(` and `)` glyphs.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None.
