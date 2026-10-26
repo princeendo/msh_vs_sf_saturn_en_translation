@@ -4354,3 +4354,31 @@ redesign.
   `87d1daec…`, patch `644d04eb…`. 9 of 9 references pass. A cold boot loads
   the US records by frame 1650.
 - **Checks:** `pytest` 235 passed, 1 skipped; `ruff` and `mypy` are clean.
+
+## 2026-10-25 — UI-003 / EXP-0066: attract-mode teaser inventory and source
+
+- **Capture:** cold boot of the `m8_roster_gold` image for 21,000 frames
+  (screenshots every 30 frames, states every 600), plus a 6-frame fine scan
+  of one cycle.
+- **Captions:** the cycle repeats about every 3,146 frames, with four
+  Japanese captions:
+  - "ヴァリアブル ヒーロー バトル";
+  - "広がれ!! ヒーロー ワールド";
+  - "第2弾!!" (red);
+  - "解き放て! 友情パワー".
+
+  There is also a Norimaro screen (Japanese brush text plus English); it is
+  out of scope without approval.
+- **Source trace:**
+  - no VDP1 sprites; all NBG layers in cell mode, with the caption tiles at
+    VDP2 VRAM `0x6000`+;
+  - no file holds them raw or as LZSS;
+  - they are in WRAM-H at `0x06086020`, filled by the LZ decompressor
+    `0x06021F0C`/`0x06021F44` and DMA'd to VDP2 (VRAM write breakpoints
+    see no CPU writes);
+  - the decompressor's input stream is found in all eight
+    `MVSOP0`-`MVSOP7.ST2` files.
+- **Not productive:** the first stream probe was all `0xFF` and matched
+  almost every file; use high-entropy probes.
+- **Next:** the US oracle (MAME `mshvsfu` attract; PS1 US), then decode the
+  `.ST2` layout and the LZ codec.

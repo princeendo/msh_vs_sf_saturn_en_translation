@@ -1335,6 +1335,28 @@ Experiment: `EXP-0065`; supersedes the glyph-copy method of `EXP-0060`.
   shows the US labels at full width on both sides.
 - **Reproduce.** `research/experiments/EXP-0065/README.md`.
 
+## UI-003: Attract-Mode Teaser Captions
+
+Confidence: **CONFIRMED** (cold-boot capture, write breakpoints, exact data
+match)
+
+Experiment: `EXP-0066`
+
+- **Captions.** Each attract cycle (about 3,146 frames) shows four Japanese
+  captions on black:
+  - ヴァリアブル / ヒーロー / バトル;
+  - 広がれ!! / ヒーロー / ワールド;
+  - 第2弾!!;
+  - 解き放て! / 友情パワー.
+
+  There is also a Norimaro screen with Japanese brush lettering.
+- **Rendering.** The captions are 4bpp VDP2 cell tiles (VRAM `0x6000`+), not
+  VDP1 sprites or movie frames. They are DMA'd from WRAM-H `0x06086020`,
+  where an LZ decompressor (`0x06021F0C`) writes them.
+- **Source.** The compressed stream is in each of `MVSOP0`-`MVSOP7.ST2`
+  (`MVSOP0` at `0x500EB`).
+- **Reproduce.** `research/experiments/EXP-0066/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

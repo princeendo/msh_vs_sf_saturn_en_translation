@@ -289,3 +289,12 @@ remain open; none blocks the roster image.
 Record competing explanations and the smallest discriminating experiment in
 `research_log.md`. Move only confirmed answers to the appropriate technical document
 and `docs/discoveries.md`.
+
+## Attract Mode (UI-003)
+
+- What is the layout of the `MVSOP*.ST2` opening streams, and the LZ format
+  decoded at `0x06021F0C`?
+- Which of the eight `MVSOP` files plays when, and do all hold the same
+  caption art?
+- What do the US arcade and the PS1 US releases show in place of the four
+  teaser captions?
