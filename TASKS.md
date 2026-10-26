@@ -2943,6 +2943,41 @@ the user asks or when it unblocks other work.
     be copied into a new XvSF repository.
   - Documentation only: no tool, data, or XvSF file changed.
 
+### UI-003 - Replace the Japanese attract-mode teaser screens with their US versions
+
+- **Status:** `READY` (added 2026-10-25, user request)
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the
+  source, then use the game's or a reference release's own English art.
+- **Blockers:** None.
+- **Objective (user request, 2026-10-25):** The attract mode shows teaser
+  screens before its gameplay demo, and they still contain a lot of Japanese.
+  Replace them with the US versions.
+- **Acceptance criteria:**
+  - **Inventory.** Every attract-mode screen before the demo, captured
+    frame-accurately from a cold boot (no input needed), with the Japanese
+    text noted per screen.
+  - **Sources.** Each screen's source: quote-font codes, VDP1 sprites, VDP2
+    art, or a movie (`.ST2`/`.CPK`), and the disc file it comes from, with
+    evidence.
+  - **Oracle.** What the US releases show at the same point, recorded as the
+    reference: the US arcade `mshvsfu` in MAME, and the PS1 US release
+    (`REF-011`).
+  - **Plan.** Per screen, the replacement route: English art already on the
+    Saturn disc (as with JOIN IN and EASY), translated text in an existing
+    font, or art imported from a US release. Imported art needs the user's
+    approval and recorded provenance.
+  - **Build.** Built from the untouched source, with before/after captures
+    and a regression reference. Decide with the user whether the change goes
+    in both name variants.
+- **Notes:**
+  - The inventory is a no-gameplay task: attract mode runs by itself after a
+    cold boot.
+  - Run one emulator at a time (`docs/agent_briefing.md`).
+  - Text drawn from movie files may need a different method from sprite or
+    font art.
+
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 
 - **Status:** `BACKLOG`

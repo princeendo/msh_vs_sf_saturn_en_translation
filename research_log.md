@@ -4257,3 +4257,11 @@ redesign.
   loaded speaker table comes from it, so the `EXP-0060` edits are effective.
 - **Not seen on screen:** the agent cannot navigate menus.
 - **Checks:** `pytest` 233 passed, 1 skipped; `ruff` and `mypy` are clean.
+
+## 2026-10-25 — Task added: UI-003 (attract-mode teaser screens)
+
+- User request: the attract-mode teaser screens before the gameplay demo
+  still show a lot of Japanese; replace them with their US versions.
+- Added `UI-003` (`READY`): a cold-boot inventory (no input needed), the
+  source of each screen, the US arcade and PS1 US releases as oracles, a
+  replacement route per screen, and a build with regression.
