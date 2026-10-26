@@ -4447,3 +4447,20 @@ redesign.
   DMA from WRAM-H `0x06046C00`).
 - **Next:** implement the map codecs (bit-flag LZ `0x06022750`, word LZ
   `0x0602234C`) and a graphics-LZ encoder.
+
+## 2026-10-26 — UI-003 / EXP-0070: section A decoded (script, map and palette codecs)
+
+- **Bit-flag LZ (Kosinski-like, `0x06022750`):** decoded. `MVSOP6` section A
+  (`0x27FE8` of `0x28000` bytes) decodes to a `0x747C0`-byte command script;
+  the ring contents match.
+- **Word LZ (`0x0602234C`):** decoded. Map updates are 0x2000-word deltas
+  with `0xFFFF` meaning keep.
+- **Animated data:** from `f003154`, 74 map updates ran in 300 frames.
+  Palettes are written per frame by handler `0x06022242` (fades). The cycles
+  rotate through the eight `MVSOP` files.
+- **Cost:** free layout needs rewriting per-frame map updates in eight
+  scripts, within a section A that has only `0x18` bytes free. Yellow alone
+  can come from editing palette values in place, plus a good re-encoder.
+- **Tools:** `script_decode`, `map_decode` in `tools/disc/st2_stream.py`,
+  with tests.
+- **Checks:** `pytest` 241 passed, 1 skipped; `ruff` and `mypy` are clean.

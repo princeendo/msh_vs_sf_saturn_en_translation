@@ -2974,11 +2974,13 @@ the user asks or when it unblocks other work.
   that full wording and yellow colouring need the section-A map/palette
   codecs.
 
-  Next:
-  - implement both map codecs (decode and encode);
-  - write a graphics-LZ encoder;
-  - rebuild the eight `MVSOP` files;
-  - confirm the opening split with the user.
+  The user approved the full route and the opening split (LEGENDARY /
+  HEROES, then UNITE / AGAIN!!).
+
+  `EXP-0070`: section A is one compressed command script, with per-frame map
+  updates and palette fades. It is decoded (`script_decode`, `map_decode`),
+  and its budget is tight (`0x18` bytes free). The scope (full re-scripting,
+  or tiles plus palette values) is pending the user's decision.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the

@@ -9,7 +9,9 @@ from tools.disc.st2_stream import (
     TAG,
     blocks,
     lz_decode,
+    map_decode,
     miss_payload,
+    script_decode,
     sections,
     stream_start,
 )
@@ -61,3 +63,27 @@ def test_blocks_are_found_on_four_byte_boundaries() -> None:
     assert (
         lz_decode(padded + b"\x00" * 4 + second, found[1].offset)[0][:8] == b"QRSTUVWX"
     )
+
+
+def test_script_decode_literals_short_and_long_copies() -> None:
+    # Flag bits, LSB first: 1,1,1 = literals "ABC"; 0,0 = short copy with
+    # length bits 1,0 (-> 4) and offset byte -3; then 0,1 = long copy whose
+    # word has count bits 0 and whose count byte 0 ends the stream.
+    bits = [1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+    flags = [sum(b << i for i, b in enumerate(bits[k : k + 8])) for k in (0, 8)]
+    data = bytes([flags[0]]) + b"ABC" + bytes([0x100 - 3, flags[1]]) + b"\x00\x00\x00"
+    out, position = script_decode(data)
+    assert out == b"ABCABCA"
+    assert position == len(data)
+
+
+def test_map_decode_literals_and_copies() -> None:
+    # ctrl 0b00000011: two literal words, then a short copy (b=0x81: dist 2,
+    # len 1) and then long copies to fill 0x2000 words.
+    data = bytes([0b00000011]) + b"\x00\x05\x00\x06" + bytes([0x81])
+    # mode 0 long copy: length 0x1FFC + 1 = 0x1FFD, distance word 0 -> 1
+    data += b"\x00" + (0x1FFC).to_bytes(2, "big") + b"\x00\x00"
+    words, position = map_decode(data, 0)
+    assert words[:4] == [5, 6, 5, 5]
+    assert len(words) == 0x2000 and set(words[3:]) == {5}
+    assert position == len(data)

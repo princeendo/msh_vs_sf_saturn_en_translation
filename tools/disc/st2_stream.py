@@ -11,6 +11,11 @@ Layout (`EXP-0068`):
   the tag ``MISS`` carry 0x7FC bytes of the graphics stream; other sectors are
   interleaved (probably audio). The concatenated ``MISS`` payloads hold
   graphics blocks, each 4-byte aligned.
+- **Section A** is one script compressed with a Kosinski-like bit-flag LZ
+  (``script_decode``); the game decodes it progressively through an 8 KB ring
+  and a command interpreter (``0x06022426``) consumes it in order. Its map
+  updates are word-LZ blocks (``map_decode``) and its palette writes come from
+  handler ``0x06022242`` (`EXP-0070`).
 - **Graphics block**: u32 compressed size, u32 decompressed size, then LZSS
   data, decoded by the SH-2 routine at ``0x06021EDA`` (``lz_decode``): flag
   bytes MSB first; 0 = literal byte; 1 = big-endian word ``w``, copying
@@ -95,6 +100,112 @@ def lz_decode(data: bytes, start: int = 0) -> tuple[bytes, int]:
                 out.append(data[position])
                 position += 1
     return bytes(out[:size]), position
+
+
+def script_decode(data: bytes, start: int = 0) -> tuple[bytes, int]:
+    """Decode section A's bit-flag LZ (``0x06022750``); return (script, end offset).
+
+    Flag bits are read LSB first from bytes. 1 = literal byte. 0 then 0 = short
+    copy: two more flag bits (MSB first) give length 2-5, then a byte b gives the
+    offset ``b - 0x100``. 0 then 1 = long copy: a big-endian word ``w`` gives the
+    offset ``(w | ~0xFFFF) >> 3`` (arithmetic); length ``(w & 7) + 2`` if nonzero,
+    else the next byte c gives ``c + 1``, and c = 0 ends the stream.
+    """
+    position, out, flags, left = start, bytearray(), 0, 0
+
+    def bit() -> int:
+        nonlocal position, flags, left
+        if left == 0:
+            flags, left = data[position], 8
+            position += 1
+        value = flags & 1
+        flags >>= 1
+        left -= 1
+        return value
+
+    while True:
+        if bit():
+            out.append(data[position])
+            position += 1
+            continue
+        if not bit():
+            length = ((bit() << 1) | bit()) + 2
+            offset = data[position] - 0x100
+            position += 1
+        else:
+            word = (data[position] << 8) | data[position + 1]
+            position += 2
+            offset = ((word | 0xFFFF0000) - (1 << 32)) >> 3
+            if word & 7:
+                length = (word & 7) + 2
+            else:
+                count = data[position]
+                position += 1
+                if count == 0:
+                    return bytes(out), position
+                length = count + 1
+        source = len(out) + offset
+        for k in range(length):
+            out.append(out[source + k])
+
+
+def map_decode(data: bytes, start: int) -> tuple[list[int], int]:
+    """Decode one word-LZ map update (``0x0602234C``); return (0x2000 words, end).
+
+    Control bytes are read LSB first. 1 = literal big-endian word. 0 = copy back
+    in the output, from a byte b:
+
+    - b >= 0x80: distance ``(b & 15) + 1``, length ``((b >> 4) & 7) + 1``;
+    - 0 < b < 0x80: length b, then a byte d gives distance ``d + 1``;
+    - b == 0: a word w; mode ``w >> 13``: 0 = length ``(w & 0x1FFF) + 1`` and a
+      word distance + 1; 1 = the same length and a byte distance + 1;
+      2 = distance ``(w & 0x1FFF) + 1`` and a byte length + 1.
+
+    The game copies every word except ``0xFFFF`` (= keep) into its target array.
+    """
+    position, out = start, list[int]()
+    while len(out) < 0x2000:
+        control = data[position]
+        position += 1
+        for _ in range(8):
+            if len(out) >= 0x2000:
+                break
+            if control & 1:
+                out.append((data[position] << 8) | data[position + 1])
+                position += 2
+            else:
+                byte = data[position]
+                position += 1
+                if byte >= 0x80:
+                    distance, length = (byte & 15) + 1, ((byte >> 4) & 7) + 1
+                elif byte:
+                    length, distance = byte, data[position] + 1
+                    position += 1
+                else:
+                    word = (data[position] << 8) | data[position + 1]
+                    position += 2
+                    mode = word >> 13
+                    if mode == 0:
+                        length = (word & 0x1FFF) + 1
+                        distance = ((data[position] << 8) | data[position + 1]) + 1
+                        position += 2
+                    elif mode == 1:
+                        length, distance = (word & 0x1FFF) + 1, data[position] + 1
+                        position += 1
+                    elif mode == 2:
+                        distance, length = (word & 0x1FFF) + 1, data[position] + 1
+                        position += 1
+                    else:
+                        raise ValueError(f"map copy mode {mode} at 0x{position:X}")
+                source = len(out) - distance
+                if source < 0:
+                    raise ValueError("map copy reaches before the output start")
+                for k in range(length):
+                    out.append(out[source + k])
+            control >>= 1
+    if len(out) != 0x2000:
+        raise ValueError("map update overran 0x2000 words")
+    return out, position
 
 
 def blocks(payload: bytes) -> list[Block]:
