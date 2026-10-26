@@ -4429,3 +4429,21 @@ redesign.
 - **New tools:** `tools/disc/st2_stream.py`, `tools/memory/vdp2_plane.py`;
   tests in `tests/unit/test_st2_stream.py`.
 - **Checks:** `pytest` 239 passed, 1 skipped; `ruff` and `mypy` are clean.
+
+## 2026-10-26 — UI-003 / EXP-0069 (in progress): English caption design and constraints
+
+- **User decision:** use the Saturn's own win-banner letters, as close to the
+  US wording as fits.
+- **Banner font:** A-Z, `!` `?` `.` `-`; 32×32 letters drawn 24 px apart;
+  colours from CRAM bank `0x10`.
+- **Tile constraint:** repeated Japanese characters share tiles, so only
+  irregular bands are repaintable. "THE FIGHT!!" does not fit.
+- **Palette path:** the caption palettes are generated (`0x0601FFD8`) from
+  `0xFRGB` values at `0x0602E020`, which the section-A word-LZ codec fills.
+  Yellow therefore needs the section-A codecs.
+- **Mock-ups:** `local/ui003/mockup*.png`, sent to the user.
+- **Not productive:** searching the disc for the CRAM ramp words (they are
+  generated from `0xFRGB` values); CRAM write breakpoints (CRAM is filled by
+  DMA from WRAM-H `0x06046C00`).
+- **Next:** implement the map codecs (bit-flag LZ `0x06022750`, word LZ
+  `0x0602234C`) and a graphics-LZ encoder.

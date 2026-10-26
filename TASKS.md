@@ -2969,11 +2969,16 @@ the user asks or when it unblocks other work.
   - each caption's tiles and NBG2 map, extracted and rendered
     (`tools/memory/vdp2_plane.py`). All eight files carry all four captions.
 
+  The art route is chosen (user, 2026-10-26): the Saturn's own win-banner
+  letters, as close to the US wording as fits. `EXP-0069` (in progress) found
+  that full wording and yellow colouring need the section-A map/palette
+  codecs.
+
   Next:
-  - a graphics-LZ encoder;
-  - choose the art route and the two-to-one mapping with the user;
-  - draw English tiles within the existing macro-cell layout, or decode the
-    two map codecs to change the layout.
+  - implement both map codecs (decode and encode);
+  - write a graphics-LZ encoder;
+  - rebuild the eight `MVSOP` files;
+  - confirm the opening split with the user.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the
