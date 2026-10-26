@@ -535,6 +535,13 @@ Mednafen 1.32.1 accepts it with `psx.bios_sanity 1` and boots the US disc to
 the SCEA licence screen. The project configuration is unchanged; the BIOS is
 selected per run.
 
+## Command-Line Settings Are Saved
+
+Settings given on the Mednafen command line (for example a temporary
+`-ss.input.port2.gamepad.*` keyboard map) are written into
+`local/mednafen/mednafen.cfg` when Mednafen exits (`EXP-0074`). Copy the file
+before such a run and restore it afterwards.
+
 ## Modification Gate
 
 Do not modify Mednafen before `EMU-012` is complete and `EMU-020` documents why stock

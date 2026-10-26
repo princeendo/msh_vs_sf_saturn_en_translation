@@ -4570,3 +4570,13 @@ redesign.
   ending; not the attract screen), `SPECIAL-003` (secret characters' text and
   endings), `LOC-007` (secret-character names JP vs US/EU), `OPT-001`
   (`--unlock-boss-fight`, default on). `SPECIAL-001`'s blocker is cleared.
+
+## 2026-10-26 — LOC-004 / EXP-0074: AKUMA life-bar labels seen in play
+
+- **Run:** cold boot of the US release image (`db1ede9f…`); the user played
+  Versus with Gouki on both sides (keyboard on controller port 2 for this run).
+- **Result:** player 1 full-width AKUMA (green span 49 px vs 47 px in the
+  earlier clipped build), player 2 italic AKUMA, right-aligned. `LOC-004` is
+  `DONE`.
+- **Pitfall:** Mednafen saved the command-line port-2 settings into
+  `mednafen.cfg` on exit; restored from a backup (`docs/mednafen.md`).

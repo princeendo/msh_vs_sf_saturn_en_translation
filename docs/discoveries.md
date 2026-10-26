@@ -1335,6 +1335,10 @@ Experiment: `EXP-0065`; supersedes the glyph-copy method of `EXP-0060`.
   shows the US labels at full width on both sides.
 - **Reproduce.** `research/experiments/EXP-0065/README.md`.
 
+- **Seen in play** (`EXP-0074`): from a cold boot of the release image, a
+  Gouki-vs-Gouki fight shows full-width AKUMA on player 1's bar (2 px wider
+  than the earlier clipped label) and the italic AKUMA on player 2's.
+
 ## UI-003: Attract-Mode Teaser Captions
 
 Confidence: **CONFIRMED** (cold-boot capture, write breakpoints, exact data

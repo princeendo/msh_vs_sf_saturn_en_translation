@@ -44,8 +44,9 @@ characters are named (`LOC-003`):
   - Seen in replays: BISON and CYBER-AKUMA life bars, a "Bison" speaker
     label (`EXP-0060`), a BISON / RYU / WIN banner (`EXP-0062`), and BISON on
     the VS screen (`EXP-0063`).
-  - Not yet seen or heard in play: the AKUMA life bar, and the Akuma and
-    Cyber Akuma calls.
+  - Seen in play since (`EXP-0074`): the full-width AKUMA life bar for
+    player 1 and the italic AKUMA for player 2.
+  - Not yet heard in play: the Cyber Akuma call.
 
 Apply either patch the same way (below), using that patch's file and target
 hash. Everything else in this README applies to both.
