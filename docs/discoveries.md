@@ -1165,6 +1165,18 @@ Experiments: `EXP-0055`, `EXP-0056`
   - So the disc holds both naming conventions for all three characters.
   - The character-select voices are `0x133` (Vega) and `0x1D1` (Gouki). They
     are the characters' own voices, not names.
+- **Name-call table** (`EXP-0058`).
+  - `MEMFIX.PAC` payload 7 (file `0x123BB8`) is loaded as-is into sound RAM
+    at `0x6510`.
+  - It holds table A: 23 ten-byte records at sound RAM `0x73B6` (file
+    `0x124A5E`), indexed by character, whose first word is the sound ID.
+  - Indexes 14, 15 and 19 hold "Vega" `0x286`, "Gouki" `0x048` and "Mech
+    Gouki" `0x082`. Indexes 20-22 hold the US calls `0x04F`, `0x338` and
+    `0x05B`.
+  - Setting entry 14 to `0x04F` (sound RAM `0x7442`) makes the win screen
+    play "Bison" on the same frame, with nothing else changed.
+  - A parallel 16-byte table B (`0x74AC`, file `0x124B54`) holds the same IDs.
+    It did not affect the win call; its use is unknown.
 - **Evidence.** Replaying each active channel from its start reproduces the
   stored predictor and step exactly: 24 of 24 active channels in 38 states of
   the `END-024` recording. Every mismatch (73 of 575 records) is an inactive,

@@ -4163,3 +4163,26 @@ redesign.
 - **Next for `LOC-005`:** locate where the win and select code choose the
   sound ID (`0x286` for Vega). For example, search the program for the
   ID, or break on the mixer's channel set-up when `0x286` starts.
+
+## 2026-10-25 — LOC-005 / EXP-0058: the name-call table, switched to "Bison" live
+
+- **Search:** a scan for a per-character ID table (Vega `0x286` at 14,
+  Gouki `0x048` at 15, Mech-Gouki `0x082` at 19) found `MEMFIX.PAC`
+  `0x124B54` (16-byte records).
+- **Location:** `MEMFIX.PAC` payload 7 is loaded byte-identical into sound
+  RAM `0x6510`. It holds two tables with the same 23 IDs:
+  - table A: 10-byte records at sound RAM `0x73B6` (file `0x124A5E`);
+  - table B: 16-byte records at `0x74AC` (file `0x124B54`).
+
+  Indexes 20-22 are the US calls.
+- **Trials** (each one live poke at the `f00008316` win banner, replayed with
+  `mixer_log --poke`):
+  - table B entry 14 → `0x04F`: no change. An SH-2 read breakpoint on table
+    B logged no reads;
+  - table A entry 14 → `0x04F` (`scspram:7442`): the win call at frame 242
+    becomes `0x04F` "Bison". Nothing else changes. **CONFIRMED.**
+- **Not productive:** `0x0286` at sound RAM `0x3226` is ring-buffer audio,
+  a coincidence.
+- **Switch for the US variant:** six u16 edits in `MEMFIX.PAC`, copying
+  entries 20-22 into 14/15/19 of both tables. It is not built or
+  cold-booted yet; that belongs with `LOC-003`.

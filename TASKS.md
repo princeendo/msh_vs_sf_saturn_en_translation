@@ -2835,14 +2835,14 @@ the user asks or when it unblocks other work.
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.
 - **Blockers:**
-  - finding how the game picks a name call. By `EXP-0057`, the disc holds
-    both conventions for all three characters:
-    - "Vega" `0x286` / "Bison" `0x04F`;
-    - "Gouki" `0x048` / "Akuma" `0x338`;
-    - "Mech Gouki" `0x082` / "Cyber Akuma" `0x05B`.
+  - building the switch into the variant (`LOC-003`) and verifying it from a
+    cold boot. The mechanism is known (`EXP-0058`). Copy entries 20-22 of
+    the name-call tables in `MEMFIX.PAC` into 14, 15 and 19:
+    - table A at `0x124AEA`/`0x124AF4`/`0x124B1C` (proven for Vega on the
+      win screen by a live poke);
+    - table B at `0x124C34`/`0x124C44`/`0x124C84` (use unknown).
 
-    So the American-name variant needs **no new audio**. It needs that
-    choice switched;
+    No new audio is needed;
   - a user decision on doing it. A clip source and an encoder are no longer
     needed.
 - **Objective:** If approved, make the voice say the US names in the variant

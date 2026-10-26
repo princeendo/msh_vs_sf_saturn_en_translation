@@ -238,12 +238,9 @@ remain open; none blocks the roster image.
   speaker labels. The full inventory is not done.
 - Does the announcer speak character names, and which ones? The user reports
   the voice says "Vega". It is not checked per character.
-- The disc holds both "Vega" (`0x286`, played on the win screen) and
-  "Bison" (`0x04F`) for one character, and likewise for Gouki and
-  Mech-Gouki (`EXP-0057`). What chooses between them: a sound-ID table, a
-  region flag, or are the US calls unused leftovers?
-- US-name calls exist for all three characters: "Bison" `0x04F`, "Akuma"
-  `0x338`, "Cyber Akuma" `0x05B` (`EXP-0057`). What plays them, if anything?
+- Name-call table A (`MEMFIX.PAC` `0x124A5E`) drives the win-screen call
+  (`EXP-0058`). What does the parallel table B (`0x124B54`) drive, character
+  select? Are indexes 20-22 ever used?
 - Which clip plays the name at character select? Not observed: the replay
   needs input that the agent cannot send.
 - What do the `CMNSE.PAC` tag flags (`tag >> 10`) and the u32 at `0x04` mean?

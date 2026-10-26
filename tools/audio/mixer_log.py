@@ -14,7 +14,8 @@ read and matched to the clips of every sound bank on the disc
   ``DBG-012``). Fighter banks stay in cart RAM through a fight, and the length
   must match too.
 
-The channels already playing on the first frame are logged with
+``--poke`` writes bytes into an agent space after the state loads, for
+controlled trials. The channels already playing on the first frame are logged with
 ``"initial": true``; they are not starts.
 
 A match needs the clip's first ``PROBE`` bytes and its length to agree. Output is
@@ -83,6 +84,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("out", type=Path)
     parser.add_argument("--frames", type=int, default=600)
     parser.add_argument("--track", type=Path, default=TRACK)
+    parser.add_argument(
+        "--poke",
+        action="append",
+        default=[],
+        help="SPACE:ADDRESS:HEX written after the state loads (e.g. scspram:758C:004F)",
+    )
     args = parser.parse_args(argv)
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -105,6 +112,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         agent = connect(agent_dir)
         time.sleep(2)
         agent.loadstate(args.state.resolve())
+        for poke in args.poke:
+            space, address, data = poke.split(":")
+            agent.write(space, int(address, 16), bytes.fromhex(data))
         previous: dict[int, tuple[int, int]] = {}
         for step in range(args.frames):
             agent.frames(1)
