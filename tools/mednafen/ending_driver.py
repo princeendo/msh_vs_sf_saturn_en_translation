@@ -11,6 +11,11 @@ user only works the menus (start arcade mode, pick a team). The driver then:
 3. DONE: writes nothing more, so the dialogue, ending, and credits play
    untouched. With ``--repeat``, it re-arms after ``--rest`` seconds.
 
+With ``--after-stage N``, the first ARM waits, writing nothing, until the stage
+word reads ``0x06NN`` or later (the player has won N stages), so the earlier
+fights, and their win quotes, play normally (`SPECIAL-003`). Every change of the
+stage word is logged while waiting.
+
 
 These are the Saturn offsets found in `EXP-0042`. Every phase change is logged
 with the emulator frame number.
@@ -38,6 +43,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--repeat", action="store_true")
     parser.add_argument("--rest", type=float, default=150.0)
     parser.add_argument("--log", type=Path, help="phase log (ignored path)")
+    parser.add_argument(
+        "--after-stage",
+        type=int,
+        default=0,
+        help="first arm only once N stages are won (stage word 0x06NN)",
+    )
     args = parser.parse_args(argv)
     agent = Agent(args.agent_dir.resolve(), 10)
 
@@ -61,7 +72,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     def vitality() -> int:
         return int.from_bytes(agent.bus_read(VITALITY[0], 2), "big")
 
+    def wait_for_stage(index: int) -> None:
+        note(f"WAIT: no writes until the stage word reaches 0x06{index:02X}")
+        last = b""
+        while True:
+            if not agent.halted():
+                word = agent.bus_read(STAGE_WORD, 2)
+                if word != last:
+                    note(f"stage word {word.hex()}")
+                    last = word
+                if word[0] == STAGE_8[0] and index <= word[1] < STAGE_8[1]:
+                    return
+            time.sleep(args.period)
+
     try:
+        if args.after_stage:
+            wait_for_stage(args.after_stage)
         while True:
             note("ARM: holding the stage word at stage 8")
             while True:

@@ -4640,3 +4640,9 @@ redesign.
   `m8_roster_gold_us` `de8b2e0d…` (patch `ad56c5bb…`); all nine references
   pass.
 - **Next:** live check of a secret character's win quote and ending.
+- **Live check prepared (2026-10-26):** secret-character select codes from the
+  user's GameFAQs copy (hold Start on Blackheart, Hulk, Dhalsim, Vega, Omega
+  Red, Spider-Man). `ending_driver --after-stage N` waits for N won stages
+  before arming, so fight 1's win quote shows. First launch stopped by the
+  user before a fight; the arm-after-a-win path is not yet exercised. Outside
+  a fight the stage word holds unrelated values (`0004`, `5854`, `2c00`…).
