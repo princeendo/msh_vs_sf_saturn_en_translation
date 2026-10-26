@@ -36,7 +36,7 @@ from pathlib import Path
 from tools.audio.channel_check import CHANNELS, RECORD_SIZE, RECORDS_POINTER
 from tools.audio.sound_bank import TRACK, disc_files, is_bank, pac_payloads, parse
 from tools.mednafen.agent import Agent
-from tools.mednafen.replay_state import BINARY, connect, wait_halted
+from tools.mednafen.replay_state import BINARY, connect, quiet_home, wait_halted
 from tools.memory.mcs_extract import REGIONS, extract_region, parse_state
 
 PROBE = 64
@@ -97,7 +97,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     agent_dir = Path("local/mednafen/agent").resolve()
     env = dict(
         os.environ,
-        MEDNAFEN_HOME=str(Path("local/mednafen").resolve()),
+        MEDNAFEN_HOME=str(quiet_home().resolve()),
         MEDNAFEN_AGENT_DIR=str(agent_dir),
     )
     with (out / "mednafen.log").open("w") as log:

@@ -535,6 +535,17 @@ Mednafen 1.32.1 accepts it with `psx.bios_sanity 1` and boots the US disc to
 the SCEA licence screen. The project configuration is unchanged; the BIOS is
 selected per run.
 
+## Silent Home for Unattended Runs
+
+Unattended runs (replays, captures, traces) use `local/mednafen_quiet/`: a copy
+of `local/mednafen/mednafen.cfg` with `sound.volume 0` (sound stays on, so
+timing and `-soundrecord` are unchanged), with `firmware/` linked to the
+original. `tools/mednafen/replay_state.py` `quiet_home()` creates it when
+missing, and `replay_state`, `write_trial` and `mixer_log` use it by default
+(user request, 2026-10-26). Interactive play-tests keep `local/mednafen/`, so
+the user hears the game. The quiet home has its own `sav/` and `mcs/`: a cold
+boot there starts without the user's backup RAM.
+
 ## Command-Line Settings Are Saved
 
 Settings given on the Mednafen command line (for example a temporary

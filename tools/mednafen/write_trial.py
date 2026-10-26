@@ -20,7 +20,13 @@ import time
 from collections.abc import Sequence
 from pathlib import Path
 
-from tools.mednafen.replay_state import BINARY, WRAM_BYTES, connect, wait_halted
+from tools.mednafen.replay_state import (
+    BINARY,
+    WRAM_BYTES,
+    connect,
+    quiet_home,
+    wait_halted,
+)
 
 
 def parse_write(text: str) -> tuple[str, int, bytes]:
@@ -41,12 +47,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--frames", type=int, default=2)
     parser.add_argument("--dump", type=Path, help="save work RAM here after the frames")
     parser.add_argument("--agent-dir", type=Path, default=Path("local/mednafen/agent"))
-    parser.add_argument("--home", type=Path, default=Path("local/mednafen"))
+    parser.add_argument("--home", type=Path, help="default: the silent quiet_home()")
     args = parser.parse_args(argv)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     env = dict(
         os.environ,
-        MEDNAFEN_HOME=str(args.home.resolve()),
+        MEDNAFEN_HOME=str((args.home or quiet_home()).resolve()),
         MEDNAFEN_AGENT_DIR=str(args.agent_dir.resolve()),
     )
     with args.out.with_suffix(".log").open("w") as log:

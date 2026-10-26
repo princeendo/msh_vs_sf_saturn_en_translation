@@ -212,3 +212,12 @@ ignored `local/` or `build/`.
   `MEMFIX.PAC` tables, `ME.PAC`) comes from the state, not the mounted image,
   until the game reloads it. Transplant fonts or poke RAM to test, or cold
   boot.
+
+## Unattended Mednafen Runs Are Silent
+
+Launch unattended runs with `MEDNAFEN_HOME=local/mednafen_quiet` (see
+`docs/mednafen.md`, "Silent Home for Unattended Runs"); never pass
+`-sound.volume` on the command line, because Mednafen saves command-line
+settings into the configuration on exit. Use `local/mednafen` only when the
+user plays.
+

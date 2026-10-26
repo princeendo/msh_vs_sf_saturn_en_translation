@@ -27,6 +27,33 @@ from tools.mednafen.agent import Agent
 
 BINARY = Path("vendor/mednafen/build-agent/src/mednafen")
 WRAM_BYTES = 1 << 20
+HOME = Path("local/mednafen")  # the user's own (interactive) settings
+QUIET_HOME = Path("local/mednafen_quiet")
+
+
+def quiet_home(source: Path = HOME, target: Path = QUIET_HOME) -> Path:
+    """A Mednafen home for unattended runs: ``source``'s configuration with
+    ``sound.volume 0``, sharing its firmware. Created if missing.
+
+    A separate home, not a ``-sound.volume`` argument, because Mednafen saves
+    command-line settings into the configuration on exit (`EXP-0074`).
+    """
+    config = target / "mednafen.cfg"
+    if not config.exists():
+        target.mkdir(parents=True, exist_ok=True)
+        lines = (source / "mednafen.cfg").read_text(encoding="latin-1").splitlines()
+        config.write_text(
+            "\n".join(
+                "sound.volume 0" if line.startswith("sound.volume ") else line
+                for line in lines
+            )
+            + "\n",
+            encoding="latin-1",
+        )
+    firmware = target / "firmware"
+    if not firmware.exists():
+        firmware.symlink_to(Path("..") / source.name / "firmware")
+    return target
 
 
 def connect(directory: Path, timeout: float = 30.0) -> Agent:
@@ -63,7 +90,7 @@ def build_parser() -> argparse.ArgumentParser:
         "--halt-pc", default="", help="halt on a PC range, e.g. 0-7FFFF"
     )
     parser.add_argument("--agent-dir", type=Path, default=Path("local/mednafen/agent"))
-    parser.add_argument("--home", type=Path, default=Path("local/mednafen"))
+    parser.add_argument("--home", type=Path, help="default: the silent quiet_home()")
     return parser
 
 
@@ -73,7 +100,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     env = dict(
         os.environ,
-        MEDNAFEN_HOME=str(args.home.resolve()),
+        MEDNAFEN_HOME=str((args.home or quiet_home()).resolve()),
         MEDNAFEN_AGENT_DIR=str(args.agent_dir.resolve()),
     )
     with (out / "mednafen.log").open("w") as log:
