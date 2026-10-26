@@ -4186,3 +4186,25 @@ redesign.
 - **Switch for the US variant:** six u16 edits in `MEMFIX.PAC`, copying
   entries 20-22 into 14/15/19 of both tables. It is not built or
   cold-booted yet; that belongs with `LOC-003`.
+
+## 2026-10-25 — LOC-003 / EXP-0059: the American-name variant build
+
+- **Switch:** `official_endings --names saturn|us`.
+  - `saturn` (the default) regenerates the stored gold spec exactly
+    (`7ce7820a…`).
+  - `us` drops the name and text overrides and adds the six `MEMFIX.PAC`
+    name-call edits with expect checks.
+- **US build:**
+  - Every compiler check is true; only patched bytes change.
+  - New reference `m8_roster_gold_us` (track 01 `e1337dbf…`). 9 of 9
+    references pass with regenerated specs.
+  - Release patch `82208a8c…` (155,248 bytes, deterministic, round trip).
+- **Cold boot:**
+  - The US image's sound RAM tables hold the American calls at 14/15/19
+    from frame 2463.
+  - Control: the Saturn image holds the Japanese calls.
+- **Docs:** `release/README.md` explains the two variants. The US one is a
+  preview while the name art is unchanged.
+- **Tasks:** `LOC-003` DONE; `LOC-004` READY; `LOC-005` READY, with only the
+  in-play listening check left.
+- **Checks:** `pytest` passes; `ruff`, `ruff format` and `mypy` are clean.

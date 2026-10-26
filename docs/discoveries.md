@@ -1192,6 +1192,29 @@ Experiments: `EXP-0055`, `EXP-0056`
   Details are in `research/experiments/EXP-0055/README.md` and
   `EXP-0056/README.md`.
 
+## LOC-003: Two Name Variants from One Switch
+
+Confidence: **CONFIRMED** (deterministic builds; the cold-boot table read)
+
+Experiment: `EXP-0059`
+
+- **Switch.** `official_endings --names saturn|us`.
+  - `saturn` (the default) reproduces the `m8_roster_gold` spec byte for
+    byte.
+  - `us` drops the Vega/Gouki name and text overrides and adds six
+    `MEMFIX.PAC` name-call edits (`US_VOICE_PATCHES`, `EXP-0058`), each
+    checked against the original bytes.
+- **Builds.** Reference `m8_roster_gold_us`: track 01 `e1337dbf…`, release
+  patch `82208a8c…` (155,248 bytes). All 9 references pass from the
+  untouched source.
+- **Live check.** After a cold boot, the US image's sound RAM name-call tables
+  hold `0x004F`, `0x0338` and `0x005B` at entries 14, 15 and 19. The Saturn
+  image holds `0x0286`, `0x0048` and `0x0082`.
+- **Not yet:**
+  - the name art (`LOC-004`) is unchanged;
+  - the US calls have not been heard in play beyond `EXP-0058`'s replay.
+- **Reproduce.** `research/experiments/EXP-0059/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

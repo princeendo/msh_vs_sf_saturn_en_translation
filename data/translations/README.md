@@ -70,10 +70,14 @@ the three ending pages."
     `tools/text/official_endings.py`. They cover the inserted names, the ending
     pages, the dialogue, and the combined image's win quotes (`EXP-0049`,
     `EXP-0050`).
-  - The art and audio are not changed. Keeping text, art, and voice consistent
-    under US names would need new voice samples. The final policy is
-    `LOC-001`; options and every affected line are in
-    `docs/localization_plan.md`.
+  - The art and audio are not changed. The final policy is `LOC-001`; options
+    and every affected line are in `docs/localization_plan.md`.
+  - **An American-name variant also exists (`LOC-003`, user request
+    2026-10-25).** `official_endings --names us` keeps the arcade's names
+    (BISON, AKUMA, Cyber Akuma) in the text. It also switches the voice to the
+    American name calls already on the disc (`EXP-0058`; no new samples). The
+    name art is not changed yet (`LOC-004`). `--names saturn` (the default)
+    is the build above.
 - **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners
   (`tools/text/official_endings.py`). The text is read from the local ROM at
   build time and not committed.

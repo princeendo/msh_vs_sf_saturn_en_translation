@@ -2788,7 +2788,11 @@ the user asks or when it unblocks other work.
 
 ### LOC-003 - Two name variants as parallel patch paths
 
-- **Status:** `READY` (2026-10-25; scope from `EXP-0054`)
+- **Status:** `DONE` (2026-10-25, `EXP-0059`). The switch is
+  `official_endings --names saturn|us`. References: `m8_roster_gold` and
+  `m8_roster_gold_us`. Patches are explained in `release/README.md`. The US
+  variant is a preview until `LOC-004` replaces the name art. Its voice
+  already uses the American name calls (`EXP-0058`).
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002 (for the US variant's art and voice).
@@ -2810,11 +2814,11 @@ the user asks or when it unblocks other work.
 
 ### LOC-004 - Replace the name art for the American-name variant
 
-- **Status:** `BLOCKED`
+- **Status:** `READY` (2026-10-25: `LOC-003` is done)
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002 (done), LOC-003.
-- **Blockers:** `LOC-003` (the variant switch). Per `EXP-0054`, the work
+- **Blockers:** none (`LOC-003` done, `EXP-0059`). Per `EXP-0054`, the work
   splits as follows:
   - life bars: copy the US cells already in the font;
   - speaker labels: the `ME.PAC` table already has Akuma and Bison;
@@ -2830,19 +2834,15 @@ the user asks or when it unblocks other work.
 
 ### LOC-005 - Replace the announcer's name lines for the American-name variant
 
-- **Status:** `BLOCKED`
+- **Status:** `READY` (2026-10-25: built into the US variant, `EXP-0059`; only the in-play listening check remains)
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.
 - **Blockers:**
-  - building the switch into the variant (`LOC-003`) and verifying it from a
-    cold boot. The mechanism is known (`EXP-0058`). Copy entries 20-22 of
-    the name-call tables in `MEMFIX.PAC` into 14, 15 and 19:
-    - table A at `0x124AEA`/`0x124AF4`/`0x124B1C` (proven for Vega on the
-      win screen by a live poke);
-    - table B at `0x124C34`/`0x124C44`/`0x124C84` (use unknown).
-
-    No new audio is needed;
+  - **done:** the switch is built into the US variant (`EXP-0059`,
+    `US_VOICE_PATCHES`), and a cold boot loads the American calls. Remaining:
+    hear "Bison", "Akuma" and "Cyber Akuma" in play, on the win screen and
+    at character select (gameplay by the user);
   - a user decision on doing it. A clip source and an encoder are no longer
     needed.
 - **Objective:** If approved, make the voice say the US names in the variant

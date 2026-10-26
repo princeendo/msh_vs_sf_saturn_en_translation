@@ -17,6 +17,14 @@ The policy (user decision, 2026-10-24, `data/translations/README.md`):
   (``MM.BIN`` ``0x96DE8``, `EXP-0044`), so those entries are set to the English
   names' cell counts.
 
+``--names`` selects the name variant (`LOC-003`, ``NAME_VARIANTS``):
+
+- ``saturn`` (default): the Japanese release's names (Vega, Gouki,
+  Mech-Gouki) in the English text, as the art and voice say them;
+- ``us``: the arcade's American names (Bison, Akuma, Cyber Akuma) in the text,
+  and the voice switched to the American name calls already on the disc
+  (`EXP-0058`). The name art is unchanged (`LOC-004`).
+
 With ``--roster`` (`END-023`), every roster slot is both a point character and a
 partner, and ``--with-win-quotes`` adds the M5 win-quote tables
 (``official_captions.roster_spec``), giving one combined spec for one font.
@@ -30,7 +38,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from tools.disc.iso9660 import Track
@@ -88,19 +97,64 @@ for _jp, _en in ((0x424, 0x6A6), (0x428, 0x6A8), (0x42C, 0x6AA), (0x43A, 0x6AC))
     UI_GLYPH_COPIES |= {_jp: None, _jp + 1: _en, _jp + 2: _en + 1, _jp + 3: None}
 # Applied in order, so "Cyber Akuma" is replaced before "Akuma".
 TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki"}
+# LOC-005 (EXP-0058): MEMFIX.PAC payload 7 is loaded into sound RAM and holds two
+# name-call tables of sound IDs indexed by character: table A (10-byte records,
+# file 0x124A5E; it chooses the win-screen call) and table B (16-byte records,
+# file 0x124B54; use unknown). Entries 20-22 hold the American calls; the US
+# variant copies them into 14 (Vega), 15 (Gouki), and 19 (Mech-Gouki).
+# Offset: (Japanese call, American call), big-endian u16.
+US_VOICE_PATCHES = {
+    0x124AEA: (0x0286, 0x004F),  # table A 14: "Vega" -> "Bison"
+    0x124AF4: (0x0048, 0x0338),  # table A 15: "Gouki" -> "Akuma"
+    0x124B1C: (0x0082, 0x005B),  # table A 19: "Mech Gouki" -> "Cyber Akuma"
+    0x124C34: (0x0286, 0x004F),  # table B 14
+    0x124C44: (0x0048, 0x0338),  # table B 15
+    0x124C84: (0x0082, 0x005B),  # table B 19
+}
 
 
-def localize(line: str) -> str:
-    """Apply ``TEXT_OVERRIDES`` to one line of official English or a win quote."""
-    for old, new in TEXT_OVERRIDES.items():
+@dataclass(frozen=True)
+class NameVariant:
+    """Name handling for one build variant (LOC-003)."""
+
+    names: Mapping[int, str] = field(default_factory=dict)
+    text: Mapping[str, str] = field(default_factory=dict)
+    voice: Mapping[int, tuple[int, int]] = field(default_factory=dict)
+
+
+NAME_VARIANTS = {
+    "saturn": NameVariant(NAME_OVERRIDES, TEXT_OVERRIDES),
+    "us": NameVariant(voice=US_VOICE_PATCHES),
+}
+
+
+def localize(line: str, variant: str = "saturn") -> str:
+    """Apply the variant's text overrides to one line of English or a win quote."""
+    for old, new in NAME_VARIANTS[variant].text.items():
         line = line.replace(old, new)
     return line
 
 
-def en_lines(program: bytes, address: int) -> list[str]:
+def en_lines(program: bytes, address: int, variant: str = "saturn") -> list[str]:
     """The two lines of an arcade English record, stripped and localized."""
     text = latin(program, address, EN_RECORD)
-    return [localize(text[:EN_CELLS].strip()), localize(text[EN_CELLS:].strip())]
+    return [
+        localize(text[:EN_CELLS].strip(), variant),
+        localize(text[EN_CELLS:].strip(), variant),
+    ]
+
+
+def voice_patches(variant: str) -> list[dict[str, str]]:
+    """Spec ``patches`` entries for the variant's name-call edits (with expect)."""
+    return [
+        {
+            "file": "MEMFIX.PAC",
+            "offset": f"0x{offset:X}",
+            "hex": f"{new:04x}",
+            "expect": f"{old:04x}",
+        }
+        for offset, (old, new) in sorted(NAME_VARIANTS[variant].voice.items())
+    ]
 
 
 def box_line(text: str) -> str:
@@ -124,6 +178,7 @@ def ending_spec(
     point: int | Sequence[int],
     partners: Sequence[int],
     layout: str = "whole",
+    variant: str = "saturn",
 ) -> tuple[dict[str, object], dict[str, list[int]]]:
     """The v3 spec, and the arcade Japanese records it replaces.
 
@@ -134,7 +189,7 @@ def ending_spec(
     page_tables, pages_ja = [], []
     for slot in points:
         start, end = page_span(program, PAGE_TABLES["en"], slot)
-        pages = [en_lines(program, a) for a in range(start, end, EN_RECORD)]
+        pages = [en_lines(program, a, variant) for a in range(start, end, EN_RECORD)]
         shifts = best_shifts([line for page in pages for line in page if line])
         jp_start, jp_end = page_span(program, PAGE_TABLES["ja"], slot)
         if (jp_end - jp_start) // RECORD != len(pages):
@@ -156,7 +211,7 @@ def ending_spec(
         )
     dialogue = []
     for index in [*partners, *(SLOTS + slot for slot in points)]:
-        halves = en_lines(program, PARTNER_LINES + PARTNER_RECORD * index)
+        halves = en_lines(program, PARTNER_LINES + PARTNER_RECORD * index, variant)
         first = DIALOGUE_FIRST + 2 * index
         if layout == "whole":
             lines = [box_line(half) for half in halves]
@@ -168,7 +223,8 @@ def ending_spec(
     names, lengths = [], []
     for slot in sorted({*points, *partners}):
         address = ARCADE_NAMES + NAME_BYTES * slot
-        name = NAME_OVERRIDES.get(slot) or latin(program, address, NAME_BYTES).strip()
+        override = NAME_VARIANTS[variant].names.get(slot)
+        name = override or latin(program, address, NAME_BYTES).strip()
         cells = len(split_pairs(name_text(name)))
         lengths.append(
             {
@@ -278,6 +334,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="pair glyphs from the quote font or the staff-credits font (FONT-011)",
     )
     parser.add_argument(
+        "--names",
+        choices=sorted(NAME_VARIANTS),
+        default="saturn",
+        help="Saturn (Japanese-release) or American names (LOC-003)",
+    )
+    parser.add_argument(
         "--track",
         type=Path,
         default=Path(
@@ -292,12 +354,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     roster = json.loads(args.roster.read_text())["characters"] if args.roster else []
     points = [int(c["slot"]) for c in roster] or args.point
     partners = [int(c["slot"]) for c in roster] or args.partners
-    spec, targets = ending_spec(program, points, partners, args.dialogue_layout)
+    spec, targets = ending_spec(
+        program, points, partners, args.dialogue_layout, args.names
+    )
     if args.with_win_quotes:
         if not roster:
             parser.error("--with-win-quotes needs --roster")
         quotes = [
-            [[localize(line) for line in quote] for quote in s.quotes]
+            [[localize(line, args.names) for line in quote] for quote in s.quotes]
             for s in read_quote_table(program, WIN_QUOTES_EN, SLOTS)
         ]
         tables = spec["tables"]
@@ -330,6 +394,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             }
             for offset, (old, new) in GOLD_PALETTE_PATCHES.items()
         ]
+    if args.names != "saturn":
+        spec["names"] = args.names
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += voice_patches(args.names)
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {
