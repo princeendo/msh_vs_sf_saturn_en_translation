@@ -242,10 +242,10 @@
   },
   {
    "name": "m8_roster_gold",
-   "experiment": "EXP-0052, EXP-0053",
-   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002).",
-   "spec": "local/ui001/spec/roster_gold_ui.json",
-   "spec_sha256": "7ce7820abaabcccf50e29282fcf6b9f6e7003b5efa0af7c01e9a97a4d13b29e5",
+   "experiment": "EXP-0052, EXP-0053, EXP-0071",
+   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the four attract-mode captions are drawn in English with the game's own win-banner letters and colours (UI-003, EXP-0071).",
+   "spec": "local/ui003/spec/m8_roster_gold.json",
+   "spec_sha256": "466b3c62fb523a2ec496faa57fcca16daae2a2f42a417a8bfc232c05f11e2ac3",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -255,9 +255,10 @@
     "credits",
     "--caption-palette",
     "gold",
-    "--ui-english"
+    "--ui-english",
+    "--attract-captions"
    ],
-   "track01_sha256": "7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a",
+   "track01_sha256": "857937f9015a04f1c7fa3d9916caf2da00a110c5bd4dcb7f7a9b674354be93ca",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -279,9 +280,17 @@
     "MC13.PAC": "2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382",
     "ME.PAC": "dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255",
     "MEMFIX.PAC": "26c2d9bb790a387af16d4cc81f84c7a80d31253ed5324498eb980e92e9c300bf",
-    "MM.BIN": "a2d07db1766c8833ec0f18bc8b31cd0101a1e6ea13a1a1088650a2917e4321a3"
+    "MM.BIN": "a2d07db1766c8833ec0f18bc8b31cd0101a1e6ea13a1a1088650a2917e4321a3",
+    "MVSOP0.ST2": "d76a00335078966969e9fd8cc18478b3a0d0ea10e9785dde937d4f1777736b50",
+    "MVSOP1.ST2": "f8f6dc8692d6ce93222c55a1f2b54148dd8536c1f786ef04fe1c67494c41e885",
+    "MVSOP2.ST2": "019d7267323f2b348401a70087283ac9d87f218ec6ed8e3bd163b68af2179343",
+    "MVSOP3.ST2": "59f9ab2db373be2d8cf1f7f7fe02afd69de8b9eab6814123f7c76d4ea1f438e9",
+    "MVSOP4.ST2": "1084b1da2042d1b1694e8eb4eff6973776218e922f1e10db75e4d2a92b59be4b",
+    "MVSOP5.ST2": "a952c411316e9718f68c1e00cbfd8f9db0f08d727afa2c1ab5edce2d6bfa1d46",
+    "MVSOP6.ST2": "3592c0d52e5ab446db7c682366d527b48bd0260a13b0c49975e8df6590aaad9e",
+    "MVSOP7.ST2": "a51d20777f55f79e145c07a4ab4bb1892c9f0fad20e33e83c6c523aebe6ac3b7"
    },
-   "baselined": "2026-10-25",
+   "baselined": "2026-10-26",
    "previous": [
     {
      "track01_sha256": "3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3",
@@ -290,15 +299,19 @@
     {
      "track01_sha256": "e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae",
      "replaced_because": "EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image"
+    },
+    {
+     "track01_sha256": "7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a",
+     "replaced_because": "EXP-0071: English attract captions (banner letters and colours)"
     }
    ]
   },
   {
    "name": "m8_roster_gold_us",
-   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065",
-   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063).",
-   "spec": "local/loc004e/us.json",
-   "spec_sha256": "2840b15bd9226d53c4eb31b5bbefbbea94217b2e3c33429247ede9abf6ef4b12",
+   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the four attract-mode captions are drawn in English with the game's own win-banner letters and colours (UI-003, EXP-0071).",
+   "spec": "local/ui003/spec/m8_roster_gold_us.json",
+   "spec_sha256": "db8d699d274050145b1e0858c4daac1bbe5a68f013358f8e2d22d51394df6c2f",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -310,9 +323,10 @@
     "gold",
     "--ui-english",
     "--names",
-    "us"
+    "us",
+    "--attract-captions"
    ],
-   "track01_sha256": "87d1daec85e5283034af503aade8155bc69209adc12737b3a6b12c635b535924",
+   "track01_sha256": "0f87cc6d9e5158b22dd15a359ba48b15a82308b4bedb5bae647b6011e24724d2",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -334,9 +348,17 @@
     "MC13.PAC": "1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace",
     "ME.PAC": "58aad1dcfd456250a7a0245c8f3f7742119a0941c2efd82dd4e8bfb70ce3e2e7",
     "MEMFIX.PAC": "8f8c12e055f791c04bd84a83dc7a8ff27b4a172118a47008e79cf293ec6b53bc",
-    "MM.BIN": "75b79c12e2897b19befab758847bf2948cf0db989c69b6c1c00d3b1a007374cd"
+    "MM.BIN": "75b79c12e2897b19befab758847bf2948cf0db989c69b6c1c00d3b1a007374cd",
+    "MVSOP0.ST2": "d76a00335078966969e9fd8cc18478b3a0d0ea10e9785dde937d4f1777736b50",
+    "MVSOP1.ST2": "f8f6dc8692d6ce93222c55a1f2b54148dd8536c1f786ef04fe1c67494c41e885",
+    "MVSOP2.ST2": "019d7267323f2b348401a70087283ac9d87f218ec6ed8e3bd163b68af2179343",
+    "MVSOP3.ST2": "59f9ab2db373be2d8cf1f7f7fe02afd69de8b9eab6814123f7c76d4ea1f438e9",
+    "MVSOP4.ST2": "1084b1da2042d1b1694e8eb4eff6973776218e922f1e10db75e4d2a92b59be4b",
+    "MVSOP5.ST2": "a952c411316e9718f68c1e00cbfd8f9db0f08d727afa2c1ab5edce2d6bfa1d46",
+    "MVSOP6.ST2": "3592c0d52e5ab446db7c682366d527b48bd0260a13b0c49975e8df6590aaad9e",
+    "MVSOP7.ST2": "a51d20777f55f79e145c07a4ab4bb1892c9f0fad20e33e83c6c523aebe6ac3b7"
    },
-   "baselined": "2026-10-25",
+   "baselined": "2026-10-26",
    "previous": [
     {
      "track01_sha256": "e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf",
@@ -357,6 +379,10 @@
     {
      "track01_sha256": "41ca8a9ad17e24738657082b29c8ab17412f2765f7632bab07170e5018ba2642",
      "replaced_because": "EXP-0065: label records instead of glyph copies"
+    },
+    {
+     "track01_sha256": "87d1daec85e5283034af503aade8155bc69209adc12737b3a6b12c635b535924",
+     "replaced_because": "EXP-0071: English attract captions (banner letters and colours)"
     }
    ]
   }

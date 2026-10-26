@@ -28,6 +28,7 @@ characters are named (`LOC-003`):
 | Sound test, title-menu unlock message | 18.VEGA, 22.GOUKI, MECH-GOUKI NOW!! | 18.BISON, 22.AKUMA, CYBER-AKUMA NOW!! (`EXP-0061`) |
 | Win banner ("… WIN") | VEGA, GOUKI, MECH-GOUKI | BISON, AKUMA, CYBER-AKUMA: the game's own banner records (`EXP-0062`) |
 | VS-screen names | Vega, Gouki, Mech-Gouki | BISON, AKUMA, CYBER-AKUMA: the game's own VS name records (`EXP-0063`) |
+| Attract-mode captions | English (both variants, identical) | English (both variants, identical) |
 
 - **Saturn names** matches everything the game shows and says. It is the
   recommended patch.
@@ -73,6 +74,11 @@ Sakura, and Dan.
   font, squeezed two letters per cell, in the credits' gold, instead of the
   original white font. The gold also colours the remaining Japanese message
   windows (excluded characters).
+- **Attract-mode captions:** the four Japanese teaser captions before the
+  demo now read LEGENDARY / HEROES, UNITE / AGAIN!!, AMAZING / TEAM /
+  BATTLES!, and NEW HEROES / JOIN THE / FIGHT!, in the game's own win-banner
+  letters and colours, as in the US arcade (`UI-003`, `EXP-0071`). FIGHT!
+  replaces the arcade's THE FIGHT!!, which does not fit the tiles.
 - **Names follow the Saturn's own art and voice:** Vega (not M. Bison), Gouki
   (not Akuma), and Mech-Gouki (not Cyber-Akuma). This is a **provisional**
   decision (`LOC-001`, `docs/localization_plan.md`). The American-name patch
@@ -80,8 +86,9 @@ Sakura, and Dan.
 
 **Not changed:**
 - Norimaro, the secret characters, Apocalypse, and Mech-Gouki's own text;
-- menus, graphics, voice, and every other screen. The American-name patch
-  also changes three name calls; see "Choose a Name Variant".
+- menus, voice, and every other screen; the attract-mode Norimaro screen.
+  The American-name patch also changes three name calls; see "Choose a Name
+  Variant".
 
 Only track 01 changes. Tracks 02-12 (audio) and the CUE sheet are
 byte-identical to the original.
@@ -94,7 +101,10 @@ byte-identical to the original.
   - in this gold build (`EXP-0052`): Ryu + Ken's dialogue and pages, a win
     quote, and the redesigned capital `W`;
   - the English UI labels (`EXP-0053`): "EASY" live, and "JOIN IN" in a
-    replay.
+    replay;
+  - the four English attract captions from a cold boot (`EXP-0071`, in the
+    American-name image; both images carry byte-identical `MVSOP*.ST2`
+    files).
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 
@@ -114,11 +124,16 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 158,333 bytes,
-     SHA-256 `7e7d7118272b24c5bc66d7c5bcd2b7f9be4daac1ae980347e61a81bec6833a36`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 156,462
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,875,510
      bytes, SHA-256
-     `644d04ebf3acd0669a791e5f042ddf011270dcbaa59ae85711bbf2b74b6b0d16`.
+     `0c2054b846fa624e252ece1759a1ba0e7ef741878154ec80e2d8c764a6ba7f5f`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,873,639
+     bytes, SHA-256
+     `ec54c990d17dc87b87fe89b7f76524d6e0457d712d1e63595b4bc8da202c390b`.
+
+   The patches grew from about 157 KB when the attract captions were added:
+   their streams are re-compressed, so most of their compressed bytes
+   change.
 
 3. **An xdelta3 (VCDIFF) patcher.**
    - Tested: the `xdelta3` 3.2.2 command line (`brew install xdelta` on macOS).
@@ -135,9 +150,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a` for the
+   `857937f9015a04f1c7fa3d9916caf2da00a110c5bd4dcb7f7a9b674354be93ca` for the
    Saturn-name patch, or
-   `87d1daec85e5283034af503aade8155bc69209adc12737b3a6b12c635b535924` for the
+   `0f87cc6d9e5158b22dd15a359ba48b15a82308b4bedb5bae647b6011e24724d2` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -205,8 +220,8 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `7ce7820a…`, track 01 `7a3917d1…`, patch `7e7d7118…`;
-- American names: spec `2840b15b…`, track 01 `87d1daec…`, patch `644d04eb…`;
+- Saturn names: spec `466b3c62…`, track 01 `857937f9…`, patch `0c2054b8…`;
+- American names: spec `db8d699d…`, track 01 `0f87cc6d…`, patch `ec54c990…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:

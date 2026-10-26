@@ -7,11 +7,11 @@
   {
    "component": "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin",
    "patch": "mshvsf_saturn_en_m8_gold.Track01.xdelta",
-   "patch_size": 158333,
-   "patch_sha256": "7e7d7118272b24c5bc66d7c5bcd2b7f9be4daac1ae980347e61a81bec6833a36",
+   "patch_size": 2875510,
+   "patch_sha256": "0c2054b846fa624e252ece1759a1ba0e7ef741878154ec80e2d8c764a6ba7f5f",
    "source_size": 452397792,
    "source_sha256": "8274307f9562d2da7fb7be0f5f306846edb74afde5913324bef04938ed3214f9",
-   "target_sha256": "7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a",
+   "target_sha256": "857937f9015a04f1c7fa3d9916caf2da00a110c5bd4dcb7f7a9b674354be93ca",
    "deterministic": true,
    "round_trip": true
   }

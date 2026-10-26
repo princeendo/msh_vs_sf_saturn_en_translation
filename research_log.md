@@ -4479,7 +4479,7 @@ redesign.
 - **Built:** `tools/disc/attract_captions.py`, layout
   `data/ui003/attract_captions.json`, generator option
   `official_endings --attract-captions`. US-names image with the captions:
-  `build/ui003/us_attract` (track 01 `934b9234…`); all four captions verified
+  `build/ui003/us_attract` (track 01 `0f87cc6d…`); all four captions verified
   from a cold boot.
 - **Disproven / not productive:**
   - *The caption palette lines belong to the captions alone.* Lines
@@ -4496,6 +4496,12 @@ redesign.
     the CRAM copy is read back afterwards. Reloaded cycle states also drift
     from the original run, so `cap*.mcs` no longer show their captions on
     this image.
+  - *Array word k is CRAM colour k.* It is colour k + 1 (the converter's
+    first write is at `@(2, r13)`). Writing the banner colours to words 2-15
+    put every colour one slot off (yellow showed dark grey, the purple outline
+    orange); the user saw the colours as "really off". Compared with the US
+    arcade caption (`mshvsfu_f01531.png`), the fixed build shows the same
+    purple / yellow / cyan order.
   - A per-word palette trace (breakpoint at the write, `0x06022242`) was too
     slow; the per-record breakpoint was enough.
   - *Exact screenshot equality between runs.* Two cold boots of the same image
@@ -4506,6 +4512,14 @@ redesign.
 - **Checks:** `pytest` 256 passed, 1 skipped (reference builds need the local
   image); `ruff check` clean; `ruff format --check` clean except the existing
   EXP-0070 README code block; `mypy tools tests` clean.
-- **Next:** the user chooses the name variants for the attract captions; then
-  add `--attract-captions` to the chosen reference build(s), rebaseline, and
-  regenerate the release patches.
+- **Colour fix and both variants (user, 2026-10-26: "Both name variants
+  should get the English attract captions. But the colors seem really
+  off.")** The banner colours now go in words 1-14 (see above). Both gold
+  references take `--attract-captions`:
+  - `m8_roster_gold`: spec `466b3c62…`, track 01 `857937f9…`, patch
+    `0c2054b8…` (2,875,510 bytes);
+  - `m8_roster_gold_us`: spec `db8d699d…`, track 01 `0f87cc6d…`, patch
+    `ec54c990…` (2,873,639 bytes);
+  - the patches grew from about 157 KB because re-compressed streams change
+    most of their bytes.
+- **Next:** record the PS1 US attract mode as UI-003's second oracle.

@@ -1407,12 +1407,14 @@ Experiment: `EXP-0071`
   the caption slots; the 2nd starts the Spider-Man scene, and the 4th starts
   the Akuma/Chun-Li scene, which fades the ramps into its lightning colours.
   Caption colour 1 is the background of every caption page.
+- **Palette slots are shifted by one:** the converter writes array word k to
+  CRAM slot k + 1 of the line, so caption colour c shows word c - 1.
 - **Build route.** `tools/disc/attract_captions.py`, with the layout in
   `data/ui003/attract_captions.json`:
   - paints the win-banner letters into the caption characters (banner colour
     n → caption colour n + 1; shared characters must receive identical
     pixels);
-  - sets entries 2-15 of both lines in the three caption loads;
+  - sets words 1-14 of both lines in the three caption loads;
   - re-encodes section A and the caption blocks in place, keeping each
     stream block's header size;
   - section C may grow into its own zero padding.

@@ -47,14 +47,14 @@ The eight `MVSOP*.ST2` files only:
 
   | File | Source | Built |
   | --- | --- | --- |
-  | `MVSOP0.ST2` | `9e72b60b…` | `c54aa34c…` |
-  | `MVSOP1.ST2` | `df9b4310…` | `e4719c65…` |
-  | `MVSOP2.ST2` | `d22256f9…` | `cf4aca2b…` |
-  | `MVSOP3.ST2` | `f4ea3622…` | `c100b8ad…` |
-  | `MVSOP4.ST2` | `2eca40da…` | `300a3497…` |
-  | `MVSOP5.ST2` | `40cd8096…` | `195618b0…` |
-  | `MVSOP6.ST2` | `a4907878…` | `860373c7…` |
-  | `MVSOP7.ST2` | `05009e63…` | `56ce3b0e…` |
+  | `MVSOP0.ST2` | `9e72b60b…` | `d76a0033…` |
+  | `MVSOP1.ST2` | `df9b4310…` | `f8f6dc86…` |
+  | `MVSOP2.ST2` | `d22256f9…` | `019d7267…` |
+  | `MVSOP3.ST2` | `f4ea3622…` | `59f9ab2d…` |
+  | `MVSOP4.ST2` | `2eca40da…` | `1084b1da…` |
+  | `MVSOP5.ST2` | `40cd8096…` | `a952c411…` |
+  | `MVSOP6.ST2` | `a4907878…` | `3592c0d5…` |
+  | `MVSOP7.ST2` | `05009e63…` | `a51d2077…` |
 
 - Caption page maps (local, from `EXP-0068` states; reduced to the committed
   `cells`): `cap1` `5e53eb0c…`, `cap2` `862e2909…`, `cap3` `38a73e19…`,
@@ -98,10 +98,15 @@ agent, Python 3.12.13.
   nibble is a brightness (`F` = full). All 14 banner colours (CRAM `0x11`-
   `0x1E`) convert exactly: `FFF0 FFE0 FFD0 FFC0 FFB0 FFA0 FF90 FF80 FF70 FF50`
   (yellow to orange), `F206` (purple), `F0CC F1AA F278` (cyan outline).
-- **Caption colours.** Colour 1 of both lines is the background: every
-  background character is solid colour 1 (`f222`, or `f200` under 第2弾!!).
-  The banner glyphs use colours 1-9 and 11-14, so they are drawn as caption
-  colours n + 1 (2-15); colour 1 stays.
+- **Caption colours.** Every background character is solid colour 1. The
+  banner glyphs use colours 1-9 and 11-14, so they are drawn as caption
+  colours n + 1 (2-15), and colour 1 stays the background.
+- **Palette slots are shifted by one.** The converter's first write is to
+  `@(2, r13)`: array word k goes to CRAM slot k + 1, so caption colour c
+  shows array word c - 1. The background (colour 1) is word 0 (`f000`,
+  black), and banner colour n belongs in word n (words 1-14). The first
+  builds wrote words 2-15 and showed every colour one step off (see the
+  colour check below).
 - **The caption lines are shared.** Lines 0x600-0x61F are loaded with the grey
   and red ramps by a full 0x800-word load at the start of five scenes per
   file, and are animated in other scenes (for example frames 796-838 after
@@ -133,23 +138,37 @@ agent, Python 3.12.13.
   block shrinks and keeps its header size, so the `MISS` block chain, section
   B and all non-`MISS` sectors are byte-identical. Every changed part decodes
   back to the intended data.
-- **Build.** `local/ui003/build/us_attract.json` (`fceeec8e…`) compiles to
-  `build/ui003/us_attract/image_a`, track 01 `934b9234…`. The compiler's
+- **Build.** `local/ui003/build/us_attract.json` (`db8d699d…`) compiles to
+  `build/ui003/us_attract/image_a`, track 01 `0f87cc6d…`. The compiler's
   patched `MVSOP` files equal the standalone rebuild, only patched bytes
   change, and the image checks pass (Mode 1, EDC/ECC, 414 files).
 - **Cold boot, first attempt (all five loads recoloured; DISPROVEN as safe).**
   The Akuma/Chun-Li lightning background turned beige instead of cyan.
 - **Second attempt (1st and 5th only).** AMAZING TEAM BATTLES! stayed white:
   its scene starts at the 3rd load.
-- **Final (1st, 3rd, 5th).** All four captions show in the banner colours
-  (`local/ui003/verify/captions_before_after.png`, `140b7f6b…`; frames
-  `f002673` LEGENDARY HEROES `d5ce8b87…`, `f002703` UNITE AGAIN!! `7f9c119e…`,
-  `f006303` AMAZING TEAM BATTLES! `db788f4a…`, `f012933` NEW HEROES JOIN THE
-  FIGHT! `6a304431…`). The two baseline runs differ from each other in 72 of
-  440 frames (animation phase: title lightning, demo fights, star fields).
-  The new image differs from both baselines in 36 frames: the 8 caption
-  frames, and 28 of those same jitter kinds, with no palette change outside
-  the captions on inspection.
+- **Third attempt (1st, 3rd, 5th; words 2-15).** All four captions appear,
+  and the two baseline runs differ from each other in 72 of 440 frames
+  (animation phase: title lightning, demo fights, star fields). The new image
+  differs from both baselines in 36 frames: the 8 caption frames, and 28 of
+  those same jitter kinds, with no palette change outside the captions on
+  inspection.
+- **Colour check against the arcade (user report: "the colors seem really
+  off").** In the `mshvsfu` caption (`local/ui003/fine_u/mshvsfu_f01531.png`)
+  the most common letter colours are purple (34,0,102) 4,305 px, yellow
+  (255,255,0) 3,721 px and cyan (0,204,204) 3,252 px, then the oranges down
+  to `FF70`: the banner colour set. The third build instead showed dark grey
+  (32,32,32) where the yellow belongs, orange `FF50` (never used by the
+  glyphs) where the purple belongs, and purple where the cyan belongs: every
+  colour one slot off.
+- **Final (words 1-14).** LEGENDARY HEROES now shows purple (32,0,96)
+  2,248 px, yellow (248,248,0) 2,100 px, cyan (0,200,200) 1,697 px: the
+  arcade's order. Evidence (local): `captions_before_after.png`
+  (`90d58b82…`), `arcade_vs_saturn_zoom.png`; frames (`verify/new4/shots`)
+  `f002674` LEGENDARY HEROES `1c845a83…`, `f005854` UNITE AGAIN!!
+  `afed4d3f…`, `f006304` AMAZING TEAM BATTLES! `05cb02df…`, `f012934` NEW
+  HEROES JOIN THE FIGHT! `0b1027b0…`. This capture runs one frame out of
+  phase with the baselines, so the other-scene check rests on the third
+  attempt, which recoloured the same three loads.
 
 ## Conclusion
 

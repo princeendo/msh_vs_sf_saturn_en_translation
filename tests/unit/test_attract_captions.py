@@ -91,8 +91,9 @@ def test_recolour_changes_the_caption_slot_ramp_loads() -> None:
         grey = struct.unpack_from(">16H", new, start + 4 + 2 * 0x600)
         red = struct.unpack_from(">16H", new, start + 4 + 2 * 0x610)
         if start in changed:
-            assert grey[:2] == GREY[:2] and grey[2:] == BANNER
-            assert red[:2] == RED[:2] and red[2:] == BANNER
+            assert grey[0] == GREY[0] and grey[1:15] == BANNER
+            assert red[0] == RED[0] and red[1:15] == BANNER
+            assert grey[15] == GREY[15] and red[15] == RED[15]
         else:
             assert grey == GREY and red == RED
     assert new[: starts[0]] == script[: starts[0]]

@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release image (`7a3917d1…`);
+      own font. They are in the release images (Saturn names `857937f9…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -2990,8 +2990,15 @@ the user asks or when it unblocks other work.
   - verified from a cold boot in a US-names image (`build/ui003/us_attract`)
     against two baseline runs.
 
-  Remaining for acceptance: the user's choice of name variants, then the
-  regression reference(s) and release patches.
+  The first builds showed every caption colour one slot off (the palette
+  converter writes array word k to CRAM colour k + 1); fixed and checked
+  against the US arcade's colours. The user chose both name variants
+  (2026-10-26): references `m8_roster_gold` (`857937f9…`) and
+  `m8_roster_gold_us` (`0f87cc6d…`) and both release patches are
+  rebaselined.
+
+  Remaining for acceptance: the PS1 US attract mode as a second oracle
+  (`REF-011` material; `EXP-0067` recorded only the arcade).
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the

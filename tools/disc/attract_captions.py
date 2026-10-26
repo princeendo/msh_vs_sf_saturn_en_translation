@@ -14,10 +14,14 @@ values are recoloured in place to the banner colours.
   (usually empty); otherwise the layout is refused. Characters with no text are
   blanked to the background colour. Background colour index 1 is kept, so the
   banner's colour n is drawn as caption colour n + 1 (2-15).
+- **Palette slots.** The converter (``0x0601FFD8``) writes array word k to CRAM
+  slot k + 1 of the line, so caption colour c shows array word c - 1: the
+  background (colour 1) is word 0 (``0xF000``, black), and banner colour n
+  (caption colour n + 1) goes in word n.
 - **Palette.** Of the five full palette loads per script (record ``0000 0800``)
   whose NBG2 lines 0x600 and 0x610 hold the Japanese captions' grey and red
   ramps, the three that start the caption slots (the first, third and fifth)
-  get entries 2-15 of both lines set to the banner colours (`EXP-0071`).
+  get words 1-14 of both lines set to the banner colours (`EXP-0071`).
 - **Rebuild.** Section A and the caption graphics blocks are re-encoded
   (``st2_encode``) and written over the originals in place. Each block keeps its
   header's compressed size and the original bytes after the new stream, so no
@@ -200,7 +204,7 @@ def recolour(script: bytes) -> tuple[bytes, list[int]]:
     out, changed = bytearray(script), [loads[i] for i in CAPTION_LOADS]
     for j in changed:
         for line in (0x600, 0x610):
-            at = j + 4 + 2 * (line + 2)
+            at = j + 4 + 2 * (line + 1)  # word n -> caption colour n + 1
             out[at : at + 2 * len(BANNER)] = struct.pack(f">{len(BANNER)}H", *BANNER)
     return bytes(out), changed
 
