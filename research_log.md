@@ -4596,3 +4596,18 @@ redesign.
   Release references rebaselined: `m8_roster_gold` track 01 `f5b98b46…`
   (patch `778fda81…`), `m8_roster_gold_us` `3a32e364…` (patch `fb32c9b3…`).
   All nine references pass.
+
+## 2026-10-26 — LOC-007 / EXP-0076: secret-character names compared
+
+- **Read:** the Saturn speaker table, banner/VS name tables and life-bar
+  labels; searched every file of the Saturn, `mshvsfu`, `mshvsfj` and the PS1
+  US in ASCII and arcade codes.
+- **Result:** the Saturn's secret-character names equal the US arcade's
+  (ZANGIEF, SAKURA, SHADOW, U.S.AGENT, MEPHISTO, SPIDER-MAN), and both arcade
+  regions share the table. Only the PS1 executable's own lists use
+  MECH-ZANGIEF, DARK SAKURA, ARMORED SPIDER-MAN. No build change.
+- **Disproven:** the hypothesis that a secret character's name differs
+  between the JP and US releases (in the game data).
+- **Not productive:** the first PS1 pass read no files (the reader needs the
+  `;1` version suffix); a byte/word/long search for a slot → name-ID map.
+- **Unattended runs are silent now** (user request): `local/mednafen_quiet`.

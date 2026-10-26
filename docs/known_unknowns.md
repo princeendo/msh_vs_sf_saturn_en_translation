@@ -301,3 +301,12 @@ and `docs/discoveries.md`.
 - The US arcade's captions are known (`EXP-0067`). What does the PS1 US
   release show? How should the two Japanese opening captions map onto the
   single US one?
+
+## Secret Characters (`EXP-0076`)
+
+- The Saturn's life-bar label records for Shadow, U.S. Agent and Mephisto
+  (P1/P2 records 22-24) are blank. Unseen in play: the game may draw no
+  label, or take one from elsewhere.
+- The mapping from roster slot to the banner/VS name ID (20 SHADOW, 21
+  U.S.AGENT, 22 MEPHISTO) is not a plain table in `MM.BIN`.
+

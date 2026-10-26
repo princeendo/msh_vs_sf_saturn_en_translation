@@ -3118,7 +3118,12 @@ the user asks or when it unblocks other work.
 
 ### LOC-007 - Secret-character names: Japanese vs US/EU
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-26, `EXP-0076`). The Saturn shows the
+  secret characters by the same names as the US arcade (identical in both
+  arcade regions): ZANGIEF, SAKURA, SHADOW, U.S.AGENT, MEPHISTO, SPIDER-MAN.
+  MECH-ZANGIEF, DARK SAKURA and ARMORED SPIDER-MAN appear only in the PS1's
+  own ranking/menu lists. No change needed; the speaker label "Metal Zangief"
+  (also the arcade's and PS1's) stays unless the user decides otherwise.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** LOC-001, LOC-003 (done).

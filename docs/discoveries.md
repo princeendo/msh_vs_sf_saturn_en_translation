@@ -1473,6 +1473,23 @@ Experiment: `EXP-0075`
 - Build option: `official_endings --unlock-boss-fight` (default on).
 - **Reproduce.** `research/experiments/EXP-0075/README.md`.
 
+## LOC-007: Secret-Character Names Match Across Releases
+
+Confidence: **CONFIRMED** (static reads of the Saturn, both arcade sets and
+the PS1 US)
+
+Experiment: `EXP-0076`
+
+- Saturn life-bar labels 20, 21 and 25 reuse ZANGIEF, SAKURA and SPIDER-MAN;
+  the banner and VS tables hold no variant-specific name (name IDs 20-22:
+  SHADOW, U.S.AGENT, MEPHISTO; 26: an unused CHARLIE banner).
+- The US and Japanese arcade sets share one English name table (ZANGIEF,
+  SAKURA, SHADOW, U.S.AGENT, MEPHISTO, SPIDER-MAN after CYBER-AKUMA) and the
+  Saturn's ASCII speaker table ("Metal Zangief", "Sakura", "Shadow").
+- The PS1 US game text matches; only its executable's ranking/menu lists say
+  MECH-ZANGIEF, DARK SAKURA and ARMORED SPIDER-MAN.
+- **Reproduce.** `research/experiments/EXP-0076/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
