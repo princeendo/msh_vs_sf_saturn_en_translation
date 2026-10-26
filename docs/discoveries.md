@@ -1458,6 +1458,21 @@ Experiment: `EXP-0073`
   (`data/ui003/attract_captions.json`).
 - **Reproduce.** `research/experiments/EXP-0073/README.md`.
 
+## OPT-001: The Boss-Fight Unlock
+
+Confidence: **CONFIRMED** (disassembly; controlled cold-boot RAM read; play)
+
+Experiment: `EXP-0075`
+
+- The title menu's Survival row switches to MECH-GOUKI NOW!! (menu index 5)
+  with L/R. The menu code (`0x0603D644`) forces index 5 back to 3 while the
+  word at `0x06017AB0` is 0.
+- The word is cleared at boot (`MM.BIN` `0x0601DBE4`, `mov #0,r0`) and set to 1
+  by `0x06098A1A` from saved data. Starting it at 1 (`E000` → `E001` at file
+  offset `0x50E4`) unlocks the boss fight from a cold boot.
+- Build option: `official_endings --unlock-boss-fight` (default on).
+- **Reproduce.** `research/experiments/EXP-0075/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

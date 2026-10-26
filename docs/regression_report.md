@@ -19,8 +19,8 @@ Last run: 2026-10-26.
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-26 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-26 | pass (regenerated spec) |
 | `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `bede40b15644ccab…` | 2026-10-25 | 2026-10-26 | pass (regenerated spec) |
-| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073` | `e40f897f81e94aef…` | `3185310c1c8585ee…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
-| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073` | `e4a3e4aaf9e63acf…` | `db1ede9ffc023bf2…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
+| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075` | `c67603a5d1bebe94…` | `f5b98b46cf74b0dc…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
+| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075` | `77a4a7159ddb3a2b…` | `3a32e3646f2552e3…` | 2026-10-26 | 2026-10-26 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -177,7 +177,7 @@ Track 01: `bede40b15644ccab5555bc94e33d80107aeb2dc42a4ba132857ee18411746f4e`
 
 ### `m8_roster_gold`
 
-m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073).
+m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075).
 
 | File | SHA-256 |
 | --- | --- |
@@ -201,7 +201,7 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
 | `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
 | `MEMFIX.PAC` | `26c2d9bb790a387af16d4cc81f84c7a80d31253ed5324498eb980e92e9c300bf` |
-| `MM.BIN` | `a2d07db1766c8833ec0f18bc8b31cd0101a1e6ea13a1a1088650a2917e4321a3` |
+| `MM.BIN` | `0e43e2409057282cb141189b7d9da489b757ef2072657aedad21bdcdc98d1f17` |
 | `MVSOP0.ST2` | `8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10` |
 | `MVSOP1.ST2` | `6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931` |
 | `MVSOP2.ST2` | `0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452` |
@@ -211,16 +211,17 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MVSOP6.ST2` | `73cd56492973321bddd39c036c4e7d104e7e38d388325a45a445d59f65f3078f` |
 | `MVSOP7.ST2` | `9f4873982dbe4fea8c14c7235830a780fdc0893713e50fb9c42ba972e1393d75` |
 
-Track 01: `3185310c1c8585eec842adf5ca2a615722ca0d3caa22a76f5c3fcf6cb8396c5c`
+Track 01: `f5b98b46cf74b0dcd335c2926efd589306fa5b4bd492ba230cf4cab91206a608`
 
 - Previous track 01 `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`: EXP-0052: capital W redesigned (variant A).
 - Previous track 01 `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`: EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image.
 - Previous track 01 `7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a`: EXP-0071: English attract captions (banner letters and colours).
 - Previous track 01 `857937f9015a04f1c7fa3d9916caf2da00a110c5bd4dcb7f7a9b674354be93ca`: EXP-0073: arcade-layout English attract captions.
+- Previous track 01 `3185310c1c8585eec842adf5ca2a615722ca0d3caa22a76f5c3fcf6cb8396c5c`: EXP-0075: boss fight unlocked from the start (--unlock-boss-fight).
 
 ### `m8_roster_gold_us`
 
-LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073).
+LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075).
 
 | File | SHA-256 |
 | --- | --- |
@@ -244,7 +245,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MC13.PAC` | `1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace` |
 | `ME.PAC` | `58aad1dcfd456250a7a0245c8f3f7742119a0941c2efd82dd4e8bfb70ce3e2e7` |
 | `MEMFIX.PAC` | `8f8c12e055f791c04bd84a83dc7a8ff27b4a172118a47008e79cf293ec6b53bc` |
-| `MM.BIN` | `75b79c12e2897b19befab758847bf2948cf0db989c69b6c1c00d3b1a007374cd` |
+| `MM.BIN` | `d91acc7aafc71f676e798d49741a14c5a8e1fc4fd3fed307d29d0749157a21a4` |
 | `MVSOP0.ST2` | `8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10` |
 | `MVSOP1.ST2` | `6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931` |
 | `MVSOP2.ST2` | `0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452` |
@@ -254,7 +255,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MVSOP6.ST2` | `73cd56492973321bddd39c036c4e7d104e7e38d388325a45a445d59f65f3078f` |
 | `MVSOP7.ST2` | `9f4873982dbe4fea8c14c7235830a780fdc0893713e50fb9c42ba972e1393d75` |
 
-Track 01: `db1ede9ffc023bf28040b4347f33d24c3ef4780fe25e66c7367f04e28d8ee126`
+Track 01: `3a32e3646f2552e36f4bb662bc2cbf053e35d33b07804aff69947809a546f09c`
 
 - Previous track 01 `e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf`: EXP-0060: US life-bar labels and speaker labels.
 - Previous track 01 `49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513`: EXP-0061: US menu and sound-test strings.
@@ -263,3 +264,4 @@ Track 01: `db1ede9ffc023bf28040b4347f33d24c3ef4780fe25e66c7367f04e28d8ee126`
 - Previous track 01 `41ca8a9ad17e24738657082b29c8ab17412f2765f7632bab07170e5018ba2642`: EXP-0065: label records instead of glyph copies.
 - Previous track 01 `87d1daec85e5283034af503aade8155bc69209adc12737b3a6b12c635b535924`: EXP-0071: English attract captions (banner letters and colours).
 - Previous track 01 `0f87cc6d9e5158b22dd15a359ba48b15a82308b4bedb5bae647b6011e24724d2`: EXP-0073: arcade-layout English attract captions.
+- Previous track 01 `db1ede9ffc023bf28040b4347f33d24c3ef4780fe25e66c7367f04e28d8ee126`: EXP-0075: boss fight unlocked from the start (--unlock-boss-fight).

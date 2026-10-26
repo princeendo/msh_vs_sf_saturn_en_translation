@@ -103,3 +103,12 @@ def test_pointer_patches_point_at_the_us_records() -> None:
         "0x665EA": ("0607f2ea", "0607f3c6"),
         "0x6661A": ("0607f348", "0607f3da"),
     }
+
+
+def test_unlock_boss_patch_sets_the_boot_value_with_expect() -> None:
+    from tools.text.official_endings import UNLOCK_BOSS_PATCH
+
+    assert UNLOCK_BOSS_PATCH["file"] == "MM.BIN"
+    assert UNLOCK_BOSS_PATCH["offset"] == "0x50E4"
+    assert UNLOCK_BOSS_PATCH["expect"] == "e000"  # mov #0,r0
+    assert UNLOCK_BOSS_PATCH["hex"] == "e001"  # mov #1,r0

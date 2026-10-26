@@ -4580,3 +4580,19 @@ redesign.
   `DONE`.
 - **Pitfall:** Mednafen saved the command-line port-2 settings into
   `mednafen.cfg` on exit; restored from a backup (`docs/mednafen.md`).
+
+## 2026-10-26 — OPT-001 / EXP-0075: boss fight unlocked from the start
+
+- **Found:** the title menu forces MECH-GOUKI NOW!! (index 5) back to SURVIVAL
+  MODE while the word at `0x06017AB0` is 0 (`0x0603D644`); the word is cleared
+  at boot (`0x0601DBE4`) and set by `0x06098A1A` from saved data.
+- **Controlled test:** one `MM.BIN` byte (`0x50E5`, `00` → `01`): the flag reads
+  1 from frame 2,464 to 7,264; the control image reads 0.
+- **Play (user):** from a cold boot, CYBER-AKUMA NOW!! via L/R (keyboard P in
+  this configuration) on the Survival row; the boss fight against Cyber Akuma
+  runs.
+- **Build option:** `--unlock-boss-fight` (default on), `UNLOCK_BOSS_PATCH`.
+  `end010`, `m8_roster`, `m8_roster_credits` pass `--no-unlock-boss-fight`.
+  Release references rebaselined: `m8_roster_gold` track 01 `f5b98b46…`
+  (patch `778fda81…`), `m8_roster_gold_us` `3a32e364…` (patch `fb32c9b3…`).
+  All nine references pass.

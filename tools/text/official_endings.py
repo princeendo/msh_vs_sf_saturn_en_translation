@@ -88,6 +88,16 @@ GOLD_PALETTE_PATCHES = {
     0x961FB: (0x9F, 0x81),  # ending pages (palette 0x1F)
     0x96233: (0x83, 0x81),  # post-boss dialogue (palette 0x03)
 }
+# OPT-001 (EXP-0075): the boot initialiser in MM.BIN clears the boss-fight unlock
+# word 0x06017AB0 (``mov #0,r0`` at 0x0601DBE4); the title menu forces its
+# "MECH-GOUKI NOW!!" entry back to SURVIVAL MODE while the word is 0. ``mov #1,r0``
+# starts the game unlocked, as a Survival clear does (0x06098A1A sets it to 1).
+UNLOCK_BOSS_PATCH = {
+    "file": "MM.BIN",
+    "offset": "0x50E4",
+    "hex": "e001",
+    "expect": "e000",
+}
 # UI-001/UI-002 (EXP-0053): Japanese UI art cells in the quote font, replaced by
 # the game's own English arcade art (None = empty cell).
 UI_GLYPH_COPIES: dict[int, int | None] = {
@@ -483,6 +493,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="Saturn (Japanese-release) or American names (LOC-003)",
     )
     parser.add_argument(
+        "--unlock-boss-fight",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="start with the title menu's boss fight unlocked (OPT-001)",
+    )
+    parser.add_argument(
         "--attract-captions",
         action="store_true",
         help="draw the attract-mode captions in English banner letters (UI-003)",
@@ -553,6 +569,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             + pointer_patches(args.names)
             + label_patches(args.names)
         )
+    if args.unlock_boss_fight:
+        spec["unlock_boss_fight"] = True
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches.append(dict(UNLOCK_BOSS_PATCH))
     if args.attract_captions:
         spec["attract_captions"] = True
         patches = spec["patches"]

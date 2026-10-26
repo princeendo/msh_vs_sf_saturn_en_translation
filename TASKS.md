@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `3185310c…`);
+      own font. They are in the release images (Saturn names `f5b98b46…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3135,7 +3135,10 @@ the user asks or when it unblocks other work.
 
 ### OPT-001 - Build option `--unlock-boss-fight` (default on)
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-26, `EXP-0075`). The unlock is the word
+  `0x06017AB0` (set by a saved-data condition, cleared at boot); the option
+  starts it at 1 (`MM.BIN` `0x50E4`). Seen from a cold boot: CYBER-AKUMA
+  NOW!! selectable with L/R on the Survival row, and the boss fight runs.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None.
