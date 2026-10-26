@@ -2817,8 +2817,8 @@ the user asks or when it unblocks other work.
 - **Status:** `READY`. Part 1 is done (2026-10-25, `EXP-0060`): the life bars
   and speaker labels use the US names in the US variant. Part 2 is done
   (`EXP-0061`): the sound-test titles and the title-menu unlock message.
-  Remaining: the win banner (find its name string table), the VS screen
-  (decode `SEL*.PAC`), and the AKUMA life-bar width (2 px clipped).
+  Part 3 is done (`EXP-0062`): the win banner. Remaining: the VS screen
+  (decode `SEL*.PAC`) and the AKUMA life-bar width (2 px clipped).
 - **Priority:** medium (user)
 - **Milestone:** Polish
 - **Dependencies:** LOC-002 (done), LOC-003.

@@ -4265,3 +4265,33 @@ redesign.
 - Added `UI-003` (`READY`): a cold-boot inventory (no input needed), the
   source of each screen, the US arcade and PS1 US releases as oracles, a
   replacement route per screen, and a build with regression.
+
+## 2026-10-25 — LOC-004 / EXP-0062: win banner switched to the disc's US records
+
+- **Trace:**
+  - the KO state `end024v f00008316` reaches the banner at about +150
+    frames;
+  - VDP1 commands at +200 give the letter codes;
+  - a write breakpoint on the V's command slot found the generic emitter
+    `0x0601C9C4`, with R5 = `0x32E` and pattern = `0x5000` + code;
+  - a search for `0x532E` led to the `MM.BIN` name records `0x9FD38`-
+    `0xA0140` (letters right to left) and their pointer table
+    `0x9FBF8 + 12i`.
+- **US records already present:** BISON (`0x060B8BCE`), AKUMA (`0x060B8BEC`),
+  CYBER-AKUMA (`0x060B8C0A`), at entries 23-25.
+- **Trial:** writing `0x060B87A0` = `0x060B8BCE` before the banner makes it
+  read BISON / RYU / WIN. The control without the write reads VEGA.
+- **Build:**
+  - three u32 pointer edits with expect checks (`US_BANNER_POINTERS`);
+  - Saturn spec unchanged; US spec `84a95315…`, track 01 `0afe0f7a…`, patch
+    `c4b69e46…`; 9 of 9 references pass.
+- **Cold boot of the US image:** the table loads by frame 1800 holding the
+  US pointers. It is absent at the title screen (frame 2700) on both images,
+  and not reloaded when a fight loads.
+- **Not productive:**
+  - shifted-ASCII, letter-index, code-offset and masked-code searches for
+    the name (the records hold sprite patterns `0x5000 + code`);
+  - glyph-routine breakpoints: the banner letters are below the glyph
+    cache's range (`0x480`+);
+  - the WRAM-H "VEGA" at `0x060047F5` (the `M1A_SVEGADP` music file name).
+- **Checks:** `pytest` 234 passed, 1 skipped; `ruff` and `mypy` are clean.

@@ -1255,6 +1255,33 @@ Experiment: `EXP-0061`
   WRAM-L `0x230000`.
 - **Reproduce.** `research/experiments/EXP-0061/README.md`.
 
+## LOC-004: The Win-Banner Name Records
+
+Confidence: **CONFIRMED** (replay and cold-boot RAM)
+
+Experiment: `EXP-0062`
+
+- **Sprites.**
+  - The banner letters are sprite patterns `0x5000 + code`. The code is a
+    2×2 large letter in the quote font, top-left at `0x2E0 + 2 * (i % 8) +
+    0x20 * (i // 8)`, with `i = ASCII - 63` (A = `0x2E4`).
+  - They are drawn by the generic sprite emitter `0x0601C9C4`, not the glyph
+    cache.
+- **Records.**
+  - Each name is a record in `MM.BIN`: `0002 000A n`, a u32 spacing-table
+    pointer, then n+1 (pattern, `1100`) pairs stored right to left.
+  - Records exist for every character, plus SHADOW, U.S.AGENT, MEPHISTO,
+    BISON, AKUMA, CYBER-AKUMA and CHARLIE.
+- **Pointers.**
+  - The record pointer for character index i is at `MM.BIN` `0x9FBF8 + 12i`.
+    VEGA (14) is at `0x9FCA0`, GOUKI (15) at `0x9FCAC`, MECH-GOUKI (19) at
+    `0x9FCDC`. BISON, AKUMA and CYBER-AKUMA are entries 23-25.
+  - Pointing entry 14 at BISON (`0x060B8BCE`) made the banner read BISON /
+    RYU / WIN.
+- **Loading.** That part of `MM.BIN` loads at about frame 1800 after a cold
+  boot (`0x060B87A0` = load `0x06018B00` + `0x9FCA0`).
+- **Reproduce.** `research/experiments/EXP-0062/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

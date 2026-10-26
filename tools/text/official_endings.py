@@ -144,6 +144,18 @@ US_STRINGS = (
 )
 
 
+# LOC-004 (EXP-0062): the win banner spells names from sprite records in MM.BIN
+# (letters right to left), reached through a per-character pointer table at
+# 0x9FBF8 + 12 * index. The disc already has BISON, AKUMA, and CYBER-AKUMA records
+# (entries 23-25); the US variant points entries 14, 15, and 19 at them.
+# Offset: (Saturn record, US record), big-endian u32 load addresses.
+US_BANNER_POINTERS = {
+    0x9FCA0: (0x060B8A88, 0x060B8BCE),  # 14: VEGA -> BISON
+    0x9FCAC: (0x060B8AA2, 0x060B8BEC),  # 15: GOUKI -> AKUMA
+    0x9FCDC: (0x060B8B22, 0x060B8C0A),  # 19: MECH-GOUKI -> CYBER-AKUMA
+}
+
+
 @dataclass(frozen=True)
 class NameVariant:
     """Name handling for one build variant (LOC-003, LOC-004)."""
@@ -154,6 +166,7 @@ class NameVariant:
     glyphs: Mapping[int, int] = field(default_factory=dict)
     speakers: Mapping[int, tuple[str, str]] = field(default_factory=dict)
     strings: Sequence[tuple[str, int, str, str]] = ()
+    banner: Mapping[int, tuple[int, int]] = field(default_factory=dict)
 
 
 NAME_VARIANTS = {
@@ -163,6 +176,7 @@ NAME_VARIANTS = {
         glyphs=US_LABEL_COPIES,
         speakers=US_SPEAKERS,
         strings=US_STRINGS,
+        banner=US_BANNER_POINTERS,
     ),
 }
 
@@ -217,6 +231,19 @@ def string_patches(variant: str) -> list[dict[str, str]]:
             }
         )
     return patches
+
+
+def banner_patches(variant: str) -> list[dict[str, str]]:
+    """Spec ``patches`` entries for the variant's win-banner name pointers."""
+    return [
+        {
+            "file": "MM.BIN",
+            "offset": f"0x{offset:X}",
+            "hex": f"{new:08x}",
+            "expect": f"{old:08x}",
+        }
+        for offset, (old, new) in sorted(NAME_VARIANTS[variant].banner.items())
+    ]
 
 
 def voice_patches(variant: str) -> list[dict[str, str]]:
@@ -477,6 +504,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             voice_patches(args.names)
             + speaker_patches(args.names)
             + string_patches(args.names)
+            + banner_patches(args.names)
         )
         copies = spec.get("glyph_copies") or {}
         assert isinstance(copies, dict)

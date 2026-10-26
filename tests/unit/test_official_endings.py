@@ -3,6 +3,7 @@ from __future__ import annotations
 from tools.text.ending_census import half_cells
 from tools.text.official_endings import (
     NAME_VARIANTS,
+    banner_patches,
     box_line,
     localize,
     name_text,
@@ -87,3 +88,13 @@ def test_string_patches_keep_lengths_and_expect_the_saturn_text() -> None:
     assert bytes.fromhex(menu["hex"]) == b"CYBER-AKUMA NOW!!"
     assert bytes.fromhex(by_offset["0x6341"]["hex"]) == b"18.BISON".ljust(20)
     assert all(len(p["hex"]) == len(p["expect"]) for p in by_offset.values())
+
+
+def test_banner_patches_point_at_the_us_records() -> None:
+    assert banner_patches("saturn") == []
+    by_offset = {p["offset"]: (p["expect"], p["hex"]) for p in banner_patches("us")}
+    assert by_offset == {
+        "0x9FCA0": ("060b8a88", "060b8bce"),
+        "0x9FCAC": ("060b8aa2", "060b8bec"),
+        "0x9FCDC": ("060b8b22", "060b8c0a"),
+    }
