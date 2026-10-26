@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `857937f9…`);
+      own font. They are in the release images (Saturn names `3185310c…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3001,6 +3001,13 @@ the user asks or when it unblocks other work.
   The PS1 US oracle is done (`EXP-0072`, user-supplied BIOS): the same three
   captions as the US arcade, with the same wording and colour set as the
   fixed Saturn captions. Every acceptance criterion is met.
+
+  Arcade layout (user request, 2026-10-26: match the PS1/arcade symmetry and
+  wording): `EXP-0073` decoded the section-A frame format and the macro-cell
+  caption maps and rewrote each caption's map. The Saturn now shows
+  LEGENDARY / HEROES / UNITE AGAIN!!, AMAZING / TEAM BATTLES! and NEW HEROES /
+  JOIN / THE FIGHT!!, centred, verified from a cold boot, in both name
+  variants.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the
@@ -3054,9 +3061,95 @@ the user asks or when it unblocks other work.
 - **Status:** `BACKLOG`
 - **Milestone:** M9
 - **Dependencies:** END-020.
-- **Blockers:** Ordinary caption and ending pipelines are not mature; no special case is authorized.
+- **Blockers:** None. The ordinary pipelines are mature (M8 done), and the
+  user approved specific cases on 2026-10-26 (`SPECIAL-002`, `SPECIAL-003`,
+  `LOC-007`).
 - **Objective:** Define and investigate separately approved cases lacking straightforward official equivalents.
 - **Rationale:** Special cases need independent translation and technical evidence.
 - **Acceptance criteria:** Each case receives explicit scope approval, legal/reference provenance, independent experiments, exact modifications, reproducible output, and regression evidence.
 - **Outputs:** M9 task breakdown, experiments, translations, patch metadata.
-- **Notes:** Norimaro is named as a possible case, not pre-authorized work.
+- **Notes:** Norimaro is named as a possible case. Approved work is tracked in
+  its own tasks; this task holds the general method.
+
+### SPECIAL-002 - Translate Norimaro's post-fight text and ending
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** M9
+- **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).
+- **Blockers:** None. Approved by the user on 2026-10-26 (`AGENTS.md` rule 24).
+- **Objective (user request, 2026-10-26):** Translate Norimaro's post-fight
+  text (win quotes) and his ending into English.
+- **Scope:** Not the attract-mode Norimaro screen: the Japanese brush
+  lettering behind him stays (the caption below him is already English).
+- **Rationale:** Norimaro is Saturn/Japan-only, so no official US arcade text
+  exists; the translation needs its own source and provenance
+  (`data/translations/README.md`).
+- **Acceptance criteria:**
+  - every Norimaro post-fight and ending text located, with disc offsets;
+  - an English translation with recorded provenance (no official oracle);
+  - built from the untouched source with expect checks, verified live from a
+    cold boot, with before/after evidence and a regression reference;
+  - coverage and exceptions updated (`docs/coverage_exceptions.md`).
+
+### SPECIAL-003 - Translate the secret characters' post-fight text and endings
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** M9
+- **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).
+- **Blockers:** None. Approved by the user on 2026-10-26.
+- **Objective (user request, 2026-10-26):** Make sure the secret characters
+  also have English post-fight text and endings.
+- **Known material:** roster slots 20-25 are excluded today
+  (`docs/coverage_exceptions.md`): the second Zangief and second Sakura
+  entries, Shadow, U.S. Agent, Mephisto and the second Spider-Man entry. The
+  arcade English table points slots 19-25 at one shared block of unknown
+  extent; two PS1-only English blocks may belong to them
+  (`docs/known_unknowns.md`, `EXP-0032`). Unique secret-character quotes may
+  exist only in Japan.
+- **Acceptance criteria:**
+  - each secret character's win quotes and ending located, with their
+    official English (arcade or PS1) where it exists and provenance-recorded
+    translations where it does not;
+  - built from the untouched source with expect checks, verified live, with a
+    regression reference;
+  - coverage and exceptions updated.
+
+### LOC-007 - Secret-character names: Japanese vs US/EU
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** LOC-001, LOC-003 (done).
+- **Blockers:** None.
+- **Objective (user request, 2026-10-26):** Where a secret character's name
+  in the Japanese release differs from the US/EU releases, address it, as
+  `LOC-003`/`LOC-004` did for Vega, Gouki and Mech-Gouki.
+- **Acceptance criteria:**
+  - every secret character's name compared across the Saturn JP, the US
+    arcade and the PS1 US releases, with evidence;
+  - each difference handled in the name variants (text, art, voice where
+    present), or recorded as identical;
+  - built and verified as in `LOC-004`.
+
+### OPT-001 - Build option `--unlock-boss-fight` (default on)
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** None.
+- **Blockers:** None.
+- **Objective (user request, 2026-10-26):** The title-menu option
+  "MECH-GOUKI NOW!!" ("CYBER-AKUMA NOW!!" in the American-name variant;
+  `MM.BIN` `0x24F03`, `EXP-0061`) is believed to need a Survival-mode clear
+  before it can be selected. Add a build option `--unlock-boss-fight` that
+  makes it available from the start, defaulting to on.
+- **Acceptance criteria:**
+  - the unlock condition found and recorded with evidence (it is a belief
+    until tested);
+  - the option implemented with expect-checked patches, on by default and
+    switchable off, in both name variants;
+  - the option selectable from a cold boot without a Survival clear, and the
+    boss fight reachable; regression references updated.
+

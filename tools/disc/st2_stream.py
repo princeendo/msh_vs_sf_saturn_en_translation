@@ -208,6 +208,119 @@ def map_decode(data: bytes, start: int) -> tuple[list[int], int]:
     return out, position
 
 
+MAP_TARGETS = {5: 0x0602F020, 6: 0x06033020, 7: 0x06037020}  # frame bit -> array
+
+
+@dataclass(frozen=True)
+class Section:
+    kind: str  # "deltas", "palette", "map", "objects"
+    start: int
+    end: int
+    target: int = 0  # map: destination array
+
+
+@dataclass(frozen=True)
+class Frame:
+    offset: int
+    word: int
+    sections: tuple[Section, ...]
+
+
+def _palette_end(data: bytes, p: int) -> int:
+    """End of a palette section (``0x0602214C``): a flag byte, then up to four
+    lists. Bits 0, 2 and 4 select 3-byte records (fade up, fade down, set
+    brightness) and bit 5 ``[u16 index delta][u16 count][count words]``
+    records; each list ends at a byte of ``0xFF``."""
+    flags = data[p]
+    p += 1
+    for bit in (0, 2, 4):
+        if flags >> bit & 1:
+            while data[p] != 0xFF:
+                p += 3
+            p += 1
+    if flags >> 5 & 1:
+        while data[p] != 0xFF:
+            p += 4 + 2 * int.from_bytes(data[p + 2 : p + 4], "big")
+        p += 1
+    return p
+
+
+def _objects_end(data: bytes, p: int) -> int:
+    """End of an object list (``0x06022426``): records with a big-endian header
+    word, until a byte of ``0xFF``. Bits 10-12 of the header select the
+    record's extra bytes (bits 13-15 a subtype for types 6 and 7)."""
+    while data[p] != 0xFF:
+        word = int.from_bytes(data[p : p + 2], "big")
+        p += 2
+        kind, sub = (word >> 10) & 7, (word >> 13) & 7
+        if kind == 0:
+            p += 6
+        elif kind in (2, 3, 4):
+            p += 1
+        elif kind == 5:
+            p += 2
+        elif kind == 6:
+            p += 1 + (0, 1, 1, 1, 2)[sub]
+        elif kind == 7:
+            p += (6, 5, 2, 6)[sub]
+    return p + 1
+
+
+def script_frames(data: bytes) -> list[Frame]:
+    """Parse a decoded section-A script into frames (``0x06021FE4``).
+
+    Each frame is a big-endian command word: 0 is an idle frame and 0xFFFF
+    ends the script. Its bits select sections, read in bit order: 0 (a mask
+    byte, then a word per set bit of 4), 1 (two words), 2 (a mask byte, then
+    per set bit of 6 a byte, or a zero byte and a word), 3 (two words),
+    4 (palette), 5-7 (word-LZ map updates, ``map_decode``), 8 (object list),
+    9 (a mask byte, then a word per set bit of 6), 10 (a flag only).
+    """
+    frames, p = [], 0
+    while True:
+        start = p
+        word = int.from_bytes(data[p : p + 2], "big")
+        p += 2
+        if word == 0xFFFF:
+            frames.append(Frame(start, word, ()))
+            return frames
+        sections = []
+        for bit in range(10):
+            if not word >> bit & 1:
+                continue
+            begin = p
+            if bit == 0:
+                mask = data[p]
+                p += 1 + 2 * bin(mask & 0xF).count("1")
+                kind = "deltas"
+            elif bit in (1, 3):
+                p += 4
+                kind = "deltas"
+            elif bit == 2:
+                mask = data[p]
+                p += 1
+                for k in range(6):
+                    if mask >> k & 1:
+                        p += 3 if data[p] == 0 else 1
+                kind = "deltas"
+            elif bit == 9:
+                mask = data[p]
+                p += 1 + 2 * bin(mask & 0x3F).count("1")
+                kind = "deltas"
+            elif bit == 4:
+                p = _palette_end(data, p)
+                kind = "palette"
+            elif bit in MAP_TARGETS:
+                p = map_decode(data, p)[1]
+                sections.append(Section("map", begin, p, MAP_TARGETS[bit]))
+                continue
+            else:
+                p = _objects_end(data, p)
+                kind = "objects"
+            sections.append(Section(kind, begin, p))
+        frames.append(Frame(start, word, tuple(sections)))
+
+
 def blocks(payload: bytes) -> list[Block]:
     """The graphics blocks of a ``MISS`` payload, in order."""
     found, position = [], 0

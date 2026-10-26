@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import random
 
-from tools.disc.st2_encode import lz_encode, script_encode
-from tools.disc.st2_stream import lz_decode, script_decode
+from tools.disc.st2_encode import lz_encode, map_encode, script_encode
+from tools.disc.st2_stream import lz_decode, map_decode, script_decode
 
 
 def samples() -> list[bytes]:
@@ -37,3 +37,14 @@ def test_script_encode_round_trips_and_ends_cleanly() -> None:
 def test_script_encode_uses_long_copies() -> None:
     data = bytes(range(200)) * 30  # 200-byte period: short copies cannot reach
     assert len(script_encode(data)) < 400
+
+
+def test_map_encode_round_trips_runs_and_far_copies() -> None:
+    rng = random.Random(3)
+    words = [0xFFFF] * 0x2000
+    for k in range(0, 0x2000, 97):
+        words[k] = rng.randrange(0x10000)
+    words[0x1800:0x1900] = words[0x100:0x200]  # a copy from far back
+    encoded = map_encode(words)
+    assert map_decode(encoded, 0) == (words, len(encoded))
+    assert len(encoded) < 1000

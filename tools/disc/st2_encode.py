@@ -6,6 +6,9 @@ room (section A of ``MVSOP6`` has 0x18 bytes free).
 
 - ``lz_encode``: the graphics LZ decoded by ``st2_stream.lz_decode``. Tokens: a
   literal costs 9 bits, a copy (3-18 bytes from 1-4096 back) 17 bits.
+- ``map_encode``: the word LZ of the map updates (``st2_stream.map_decode``),
+  greedy: the longest copy (1-8192 words from 1-65536 back) in its shortest
+  form, else a literal word.
 - ``script_encode``: section A's bit-flag LZ decoded by
   ``st2_stream.script_decode``. Tokens: literal 9 bits; short copy (2-5 bytes
   from 1-256 back) 12 bits; long copy (3-9 bytes from 1-8191 back) 18 bits;
@@ -20,7 +23,7 @@ from __future__ import annotations
 
 import struct
 from collections import defaultdict
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 
 
 def longest_matches(
@@ -145,6 +148,67 @@ def script_encode(data: bytes, progress: Callable[[int], None] | None = None) ->
     writer.byte(0)
     writer.byte(0)
     return writer.bytes()
+
+
+def map_encode(words: Sequence[int]) -> bytes:
+    """Word-LZ stream for a 0x2000-word map update (``0xFFFF`` = keep)."""
+    if len(words) != 0x2000:
+        raise ValueError("a map update is 0x2000 words")
+    heads: defaultdict[tuple[int, int], list[int]] = defaultdict(list)
+    tokens: list[bytes | None] = []  # None = literal (data follows)
+    literals: list[int] = []
+    i = 0
+    while i < len(words):
+        best, best_distance = 0, 0
+        if i + 1 < len(words):
+            for j in reversed(heads[(words[i], words[i + 1])][-64:]):
+                distance = i - j
+                if distance > 0x10000:
+                    break
+                length = 0
+                limit = min(0x2000, len(words) - i)
+                while length < limit and words[j + length] == words[i + length]:
+                    length += 1
+                if length > best:
+                    best, best_distance = length, distance
+                    if length == limit:
+                        break
+        if i and words[i - 1] == words[i]:  # a run: distance 1
+            length = 0
+            while i + length < len(words) and words[i + length] == words[i - 1]:
+                length += 1
+            if length > best:
+                best, best_distance = min(length, 0x2000), 1
+        if best >= 2 or (best == 1 and best_distance <= 16):
+            tokens.append(_map_copy(best, best_distance))
+            step = best
+        else:
+            tokens.append(None)
+            literals.append(words[i])
+            step = 1
+        for k in range(i, min(i + step, len(words) - 1)):
+            heads[(words[k], words[k + 1])].append(k)
+        i += step
+    out, literal = bytearray(), iter(literals)
+    for start in range(0, len(tokens), 8):
+        group = tokens[start : start + 8]
+        out.append(sum(1 << n for n, t in enumerate(group) if t is None))
+        for token in group:
+            out += struct.pack(">H", next(literal)) if token is None else token
+    return bytes(out)
+
+
+def _map_copy(length: int, distance: int) -> bytes:
+    """The shortest copy token for ``length`` words from ``distance`` back."""
+    if length <= 8 and distance <= 16:
+        return bytes([0x80 | (length - 1) << 4 | (distance - 1)])
+    if length <= 0x7F and distance <= 0x100:
+        return bytes([length, distance - 1])
+    if distance <= 0x100:
+        return b"\x00" + struct.pack(">HB", 0x2000 | (length - 1), distance - 1)
+    if length <= 0x100 and distance <= 0x2000:
+        return b"\x00" + struct.pack(">HB", 0x4000 | (distance - 1), length - 1)
+    return b"\x00" + struct.pack(">HH", length - 1, distance - 1)
 
 
 class _BitWriter:

@@ -1,19 +1,24 @@
-"""Draw English attract-mode captions into the ``MVSOP*.ST2`` streams (UI-003).
+"""Draw the English attract-mode captions into the ``MVSOP*.ST2`` streams (UI-003).
 
-The middle route of `EXP-0069`/`EXP-0071`: the caption layer's map is kept, and
-the Saturn's own win-banner letters (``MEMFIX.PAC`` font, codes ``0x2E0``+) are
-painted into the caption characters already on the disc. The caption palette
-values are recoloured in place to the banner colours.
+The arcade/PS1 layout (`EXP-0067`, `EXP-0072`, `EXP-0073`) in the Saturn's own
+win-banner letters (``MEMFIX.PAC`` font, codes ``0x2E0``+) and colours:
 
-- **Layout** (``data/ui003/attract_captions.json``): each caption's NBG2 scroll,
-  its English lines (page centre x, top y), and the caption page's pattern names
-  within the visible window (char number and flips per cell; derived from
-  save states by ``derive``).
-- **Tiles.** A character used at one cell takes that cell's 16x16 block of the
-  drawn text. A character used at several cells must receive identical blocks
-  (usually empty); otherwise the layout is refused. Characters with no text are
-  blanked to the background colour. Background colour index 1 is kept, so the
-  banner's colour n is drawn as caption colour n + 1 (2-15).
+- **Slots** (``data/ui003/attract_captions.json``): each caption slot's frames
+  in the section-A script, the NBG2 page halves it shows (scroll and palette
+  line), its English lines and, per file, its tile block and macro origin.
+- **Maps.** The caption page is built from 32x32 macro cells: index word k and
+  attribute word 0x1000 + k of the NBG2 map arrays, laid out by
+  ``0x0601FD70`` (``macro_slot``), each index naming four 16x16 characters at
+  ``base + 16 * index``, which are 512 bytes at ``origin + 512 * index`` in the
+  slot's graphics block. The script's map updates are replayed statically
+  (``script_frames``) to read each caption's map. Every macro cell under the
+  new text gets its own index, taken from the indices of the Japanese
+  caption's glyph macros; the other cells get the background index. The map
+  updates inside the caption window are rewritten so the new map holds until
+  the scene's own clear (``map_encode``).
+- **Text.** Lines are drawn on a 24-pixel grid (space and ``!`` included) and
+  centred on the screen. The banner's colour n is drawn as caption colour
+  n + 1 (2-15), keeping colour 1, the background.
 - **Palette slots.** The converter (``0x0601FFD8``) writes array word k to CRAM
   slot k + 1 of the line, so caption colour c shows array word c - 1: the
   background (colour 1) is word 0 (``0xF000``, black), and banner colour n
@@ -38,18 +43,20 @@ import hashlib
 import json
 import struct
 from collections import Counter
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from tools.disc.st2_encode import lz_encode, script_encode
+from tools.disc.st2_encode import lz_encode, map_encode, script_encode
 from tools.disc.st2_stream import (
     SECTOR,
     TAG,
     blocks,
     lz_decode,
+    map_decode,
     miss_payload,
     script_decode,
+    script_frames,
     sections,
     stream_start,
 )
@@ -57,8 +64,11 @@ from tools.text.font import Font, nibble_at
 
 LAYOUT = Path("data/ui003/attract_captions.json")
 FILES = [f"MVSOP{i}.ST2" for i in range(8)]
-PAGE = 32  # cells per page side; a cell is a 16x16 character
+NBG2_MAP = 0x06037020  # index words; attributes follow at word 0x1000
+ATTRIBUTES = 0x1000
 SCREEN = (352, 224)
+MACRO = 32  # pixels per macro cell side
+HALF = (16, 8)  # macro columns and rows in one half of the caption page
 BACKGROUND = 1  # caption colour of the background characters
 FULL_LOAD = b"\x00\x00\x08\x00"  # palette record: index delta 0, 0x800 words
 GREY = (0xF000, *(0xF000 | 0x111 * n for n in range(2, 16)), 0xF000)  # line 0x600
@@ -70,8 +80,8 @@ BANNER = (
     0xFFF0, 0xFFE0, 0xFFD0, 0xFFC0, 0xFFB0, 0xFFA0, 0xFF90,
     0xFF80, 0xFF70, 0xFF50, 0xF206, 0xF0CC, 0xF1AA, 0xF278,
 )  # fmt: skip
-ADVANCE = {"!": 14, " ": 16}
-LETTER = 24
+LETTER = 24  # grid advance, as the win banner
+GLYPH = 32
 CAPTION_LOADS = (0, 2, 4)  # of the five ramp loads per script
 
 
@@ -90,84 +100,181 @@ def banner_code(ch: str) -> int:
     return 0x2E0 + 2 * (i % 8) + 0x20 * (i // 8)
 
 
-def line_width(text: str, advance: int = LETTER) -> int:
-    widths = [ADVANCE.get(c, advance) for c in text[:-1]]
-    return sum(widths) + (18 if text[-1] == "!" else 32)
+def line_width(text: str) -> int:
+    return LETTER * (len(text) - 1) + GLYPH
+
+
+def macro_slot(half: int, col: int, row: int) -> int:
+    """Map-array index of a macro cell: ``0x0601FD70`` fills each half page
+    column by column, eight rows per column."""
+    return 512 * half + col * HALF[1] + row
 
 
 @dataclass(frozen=True)
 class Line:
     text: str
-    centre: int  # page x
-    top: int  # page y
-    advance: int = LETTER
+    top: int  # screen y
 
 
-def draw(font: Font, lines: Sequence[Line]) -> dict[tuple[int, int], int]:
-    """Banner colours (1-14) of the text pixels, keyed by page (x, y)."""
+@dataclass(frozen=True)
+class View:
+    half: int  # 0 = page rows 0-7, 1 = rows 8-15
+    scroll: tuple[int, int]
+    palette: int
+
+
+@dataclass(frozen=True)
+class Slot:
+    name: str
+    main: int  # frame of the update that builds the caption
+    until: int  # frame of the scene's own clear
+    views: tuple[View, ...]
+    lines: tuple[Line, ...]
+    tiles: dict[str, tuple[str, int]]  # file -> ("C" or block "NN", origin)
+
+
+def draw(
+    font: Font, lines: Sequence[Line], scroll: tuple[int, int]
+) -> dict[tuple[int, int], int]:
+    """Banner colours (1-14) of the text pixels, keyed by page (x, y), for a
+    screen at ``scroll``; each line is centred on the screen."""
     canvas: dict[tuple[int, int], int] = {}
     for line in lines:
-        x = line.centre - line_width(line.text, line.advance) // 2
+        x = SCREEN[0] // 2 - line_width(line.text) // 2 + scroll[0]
         for ch in line.text:
             if ch != " ":
-                code, dx = banner_code(ch), -8 if ch == "!" else 0
+                code = banner_code(ch)
                 for k, cell_code in enumerate((code, code + 1, code + 16, code + 17)):
                     cell = font.glyph(cell_code)[0]
                     for y in range(16):
                         for xx in range(16):
                             n = nibble_at(cell, y, xx)
                             if n:
-                                px = x + dx + (k % 2) * 16 + xx
-                                py = line.top + (k // 2) * 16 + y
-                                canvas[(px % (PAGE * 16), py % (PAGE * 16))] = n
-            x += ADVANCE.get(ch, line.advance)
+                                px = x + (k % 2) * 16 + xx
+                                py = line.top + scroll[1] + (k // 2) * 16 + y
+                                canvas[(px % 512, py % 512)] = n
+            x += LETTER
     return canvas
 
 
-def char_tile(canvas: dict[tuple[int, int], int], cell: int, flags: int) -> bytes:
-    """A character's 128 bytes holding ``canvas`` at page ``cell`` under ``flags``
-    (pattern-name word 0: bit 14 = h-flip, bit 15 = v-flip)."""
-    row, col = divmod(cell, PAGE)
-    hflip, vflip = (flags >> 14) & 1, (flags >> 15) & 1
-    out = bytearray(128)
-    for y in range(16):
-        for x in range(16):
-            sx, sy = 15 - x if hflip else x, 15 - y if vflip else y
-            n = canvas.get((col * 16 + sx, row * 16 + sy), 0)
-            value = n + 1 if n else BACKGROUND
-            sub = (y // 8) * 2 + x // 8
-            o = sub * 32 + (y % 8) * 4 + (x % 8) // 2
-            out[o] |= value << 4 if x % 2 == 0 else value
+def macro_tiles(canvas: dict[tuple[int, int], int], x0: int, y0: int) -> bytes:
+    """The four characters (512 bytes: top-left, top-right, bottom-left,
+    bottom-right) of the macro cell whose top-left page pixel is (x0, y0)."""
+    out = bytearray(512)
+    for q, (dx, dy) in enumerate(((0, 0), (16, 0), (0, 16), (16, 16))):
+        for y in range(16):
+            for x in range(16):
+                n = canvas.get((x0 + dx + x, y0 + dy + y), 0)
+                value = n + 1 if n else BACKGROUND
+                o = q * 128 + ((y // 8) * 2 + x // 8) * 32 + (y % 8) * 4 + (x % 8) // 2
+                out[o] |= value << 4 if x % 2 == 0 else value
     return bytes(out)
-
-
-def paint(
-    canvas: dict[tuple[int, int], int],
-    cells: dict[int, tuple[int, int]],
-    wanted: dict[int, bytes] | None = None,
-) -> dict[int, bytes]:
-    """New data for each character in ``cells`` (cell -> (char, flags)), merged
-    into ``wanted`` (characters already given data by another caption).
-
-    Characters whose every use is empty get a background tile.
-    """
-    wanted = {} if wanted is None else wanted
-    for cell, (char, flags) in sorted(cells.items()):
-        tile = char_tile(canvas, cell, flags)
-        if char in wanted and wanted[char] != tile:
-            raise LayoutError(
-                f"char 0x{char:X} (cell {divmod(cell, PAGE)}) is shared with "
-                "another cell that needs different pixels"
-            )
-        wanted[char] = tile
-    for x, y in canvas:
-        if (y // 16) * PAGE + x // 16 not in cells:
-            raise LayoutError(f"text at page ({x}, {y}) is outside the caption cells")
-    return wanted
 
 
 def inked(tile: bytes | bytearray) -> bool:
     return any(v not in (0, BACKGROUND) for b in tile for v in (b >> 4, b & 15))
+
+
+def map_states(script: bytes, frames: Sequence[int]) -> dict[int, list[int]]:
+    """The NBG2 map arrays (0x2000 words) after each of ``frames``."""
+    state, out = [0xFFFF] * 0x2000, {}
+    wanted = set(frames)
+    for n, frame in enumerate(script_frames(script)):
+        for section in frame.sections:
+            if section.kind == "map" and section.target == NBG2_MAP:
+                for k, v in enumerate(map_decode(script, section.start)[0]):
+                    if v != 0xFFFF:
+                        state[k] = v
+        if n in wanted:
+            out[n] = list(state)
+        if n >= max(wanted):
+            break
+    return out
+
+
+@dataclass(frozen=True)
+class Plan:
+    words: dict[int, int]  # map-array entry -> value for the caption window
+    tiles: dict[int, bytes]  # macro index -> 512 bytes (text or blank)
+
+
+def plan_slot(
+    script: bytes, slot: Slot, font: Font, glyph: Callable[[int], bool]
+) -> Plan:
+    """The caption window's map entries and the macro tiles of ``slot``.
+
+    Free macros are the indices the caption window shows, other than the
+    background and indices used elsewhere in the map, whose tiles ``glyph``
+    accepts (caption ink in the slot's block). Free macros the new text does
+    not need are blanked, which also leaves room for the re-encoded block.
+    """
+    states = map_states(script, range(slot.main, slot.until))
+    cells = {
+        macro_slot(view.half, c, r)
+        for view in slot.views
+        for c in range(HALF[0])
+        for r in range(HALF[1])
+    }
+    counts = Counter(states[slot.main][k] for k in cells)
+    background = counts.most_common(1)[0][0]
+    shown = {state[k] for state in states.values() for k in cells}
+    elsewhere = {
+        v for k, v in enumerate(states[slot.main][:ATTRIBUTES]) if k not in cells
+    }
+    free = sorted(i for i in shown - elsewhere - {background, 0xFFFF} if glyph(i))
+    words: dict[int, int] = {}
+    tiles: dict[bytes, int] = {}
+    for view in slot.views:
+        canvas = draw(font, slot.lines, view.scroll)
+        for c in range(HALF[0]):
+            for r in range(HALF[1]):
+                k = macro_slot(view.half, c, r)
+                x0, y0 = c * MACRO, (8 * view.half + r) * MACRO
+                data = macro_tiles(canvas, x0, y0)
+                if inked(data):
+                    if data not in tiles:
+                        if len(tiles) == len(free):
+                            raise LayoutError(
+                                f"{slot.name}: needs more than {len(free)} macros"
+                            )
+                        tiles[data] = free[len(tiles)]
+                    words[k] = tiles[data]
+                else:
+                    words[k] = background
+                words[ATTRIBUTES + k] = view.palette
+    used = {index: data for data, index in tiles.items()}
+    blank = bytes([BACKGROUND * 0x11]) * 512
+    return Plan(words, used | {i: blank for i in free if i not in used})
+
+
+def apply_plan(script: bytes, slot: Slot, plan: Plan) -> bytes:
+    """``script`` with the NBG2 map updates in the caption window rewritten: the
+    main update writes every planned entry, and later updates in the window
+    write the planned value wherever they touch a planned entry."""
+    frames = script_frames(script)
+    main = [
+        s
+        for s in frames[slot.main].sections
+        if s.kind == "map" and s.target == NBG2_MAP
+    ]
+    if len(main) != 1:
+        raise LayoutError(f"{slot.name}: frame {slot.main} has no caption map update")
+    edits: list[tuple[int, int, bytes]] = []
+    for n in range(slot.main, slot.until):
+        for section in frames[n].sections:
+            if section.kind != "map" or section.target != NBG2_MAP:
+                continue
+            words = map_decode(script, section.start)[0]
+            new = list(words)
+            for k, v in plan.words.items():
+                if n == slot.main or words[k] != 0xFFFF:
+                    new[k] = v
+            if new != words:
+                edits.append((section.start, section.end, map_encode(new)))
+    out = bytearray(script)
+    for start, end, data in reversed(edits):
+        out[start:end] = data
+    return bytes(out)
 
 
 def ramp_loads(script: bytes) -> list[int]:
@@ -249,81 +356,66 @@ def miss_offsets(data: bytes) -> list[int]:
     ]
 
 
-@dataclass(frozen=True)
-class Caption:
-    name: str
-    lines: tuple[Line, ...]
-    cells: dict[int, tuple[int, int]]  # page cell -> (char, flags)
-    tiles: dict[str, tuple[str, int]]  # file -> ("C" or block "NN", delta)
-
-
-def load_layout(path: Path = LAYOUT) -> list[Caption]:
+def load_layout(path: Path = LAYOUT) -> list[Slot]:
     document = json.loads(path.read_text())
-    captions = []
-    for name, entry in document["captions"].items():
-        cells = {}
-        for key, value in entry["cells"].items():
-            row, col = (int(v) for v in key.split(","))
-            char, flags = (int(v, 16) for v in value.split(":"))
-            cells[row * PAGE + col] = (char, flags)
-        captions.append(
-            Caption(
-                name,
-                tuple(
-                    Line(
-                        line["text"],
-                        line["centre"],
-                        line["top"],
-                        line.get("advance", LETTER),
-                    )
-                    for line in entry["lines"]
-                ),
-                cells,
-                {
-                    f: (part, int(delta, 16))
-                    for f, (part, delta) in entry["tiles"].items()
-                },
-            )
+    return [
+        Slot(
+            name,
+            entry["frames"]["main"],
+            entry["frames"]["until"],
+            tuple(
+                View(v["half"], tuple(v["scroll"]), v["palette"])
+                for v in entry["views"]
+            ),
+            tuple(Line(line["text"], line["top"]) for line in entry["lines"]),
+            {
+                f: (part, int(origin, 16))
+                for f, (part, origin) in entry["tiles"].items()
+            },
         )
-    return captions
+        for name, entry in document["slots"].items()
+    ]
 
 
-def rebuild(name: str, data: bytes, font: Font, captions: Sequence[Caption]) -> bytes:
+def rebuild(name: str, data: bytes, font: Font, slots: Sequence[Slot]) -> bytes:
     """``data`` (one MVSOP file) with the English captions and banner palette."""
     out = bytearray(data)
     (a0, asize), _, (c0, csection) = sections(data)[:3]
     script, _ = script_decode(data[a0 : a0 + asize])
-    new_script, loads = recolour(script)
-    if not loads:
-        raise LayoutError(f"{name}: no caption palette loads found")
+    parts: dict[str, bytearray] = {}
+    payload = miss_payload(data)
+    found = {f"{n:02d}": b for n, b in enumerate(blocks(payload))}
+    for slot in slots:
+        part, _ = slot.tiles[name]
+        if part not in parts:
+            source = data if part == "C" else payload
+            start = c0 if part == "C" else found[part].offset
+            parts[part] = bytearray(lz_decode(source, start)[0])
+
+    def offset(slot: Slot, index: int) -> int:
+        return slot.tiles[name][1] + 512 * index
+
+    def glyph_of(slot: Slot) -> Callable[[int], bool]:
+        tiles = parts[slot.tiles[name][0]]
+        return lambda i: (
+            0 <= offset(slot, i) <= len(tiles) - 512
+            and inked(tiles[offset(slot, i) : offset(slot, i) + 512])
+        )
+
+    plans = [(slot, plan_slot(script, slot, font, glyph_of(slot))) for slot in slots]
+    for slot, plan in plans:
+        script = apply_plan(script, slot, plan)
+    new_script, _ = recolour(script)
     encoded = script_encode(new_script)
     if len(encoded) > asize:
         raise LayoutError(f"{name}: section A needs 0x{len(encoded):X} bytes")
     out[a0 : a0 + len(encoded)] = encoded
     if script_decode(bytes(out[a0 : a0 + asize]))[0] != new_script:
         raise LayoutError(f"{name}: section A does not round-trip")
-    parts: dict[str, bytearray] = {}
-    wanted: dict[str, dict[int, bytes]] = {}
-    payload = miss_payload(data)
-    found = {f"{n:02d}": b for n, b in enumerate(blocks(payload))}
-    for caption in captions:
-        part, _ = caption.tiles[name]
-        wanted[part] = paint(
-            draw(font, caption.lines), caption.cells, wanted.get(part, {})
-        )
-    for caption in captions:
-        part, delta = caption.tiles[name]
-        if part not in parts:
-            source = data if part == "C" else payload
-            start = c0 if part == "C" else found[part].offset
-            parts[part] = bytearray(lz_decode(source, start)[0])
-        tiles = parts[part]
-        for char, tile in wanted[part].items():
-            o = char * 32 - delta
-            if not 0 <= o <= len(tiles) - 128:
-                raise LayoutError(f"{name}: char 0x{char:X} is outside block {part}")
-            if inked(tile) or inked(tiles[o : o + 128]):
-                tiles[o : o + 128] = tile
+    for slot, plan in plans:
+        tiles = parts[slot.tiles[name][0]]
+        for index, tile in plan.tiles.items():
+            tiles[offset(slot, index) : offset(slot, index) + 512] = tile
     new_payload = payload
     for part, tiles in parts.items():
         if part == "C":
@@ -366,73 +458,33 @@ def st2_patches(
 ) -> list[dict[str, str]]:
     """Patches for all eight ``MVSOP`` files (``files`` from the source image)."""
     font = Font(memfix_font, 0, 0)
-    captions = load_layout(layout)
+    slots = load_layout(layout)
     patches = []
     for name in FILES:
         patches += diff_patches(
-            name, files[name], rebuild(name, files[name], font, captions)
+            name, files[name], rebuild(name, files[name], font, slots)
         )
     return patches
 
 
-def derive_cells(
-    map_words: Sequence[int], scroll: tuple[int, int], shared: int = 8
-) -> dict[str, str]:
-    """The pattern names of the cells a screen at ``scroll`` shows (``derive``),
-    without the background: characters used more than ``shared`` times."""
-    uses = Counter(word & 0x7FFF for word in map_words)
-    x0, y0 = scroll
-    rows = range(y0 // 16, (y0 + SCREEN[1] - 1) // 16 + 1)
-    cols = range(x0 // 16, (x0 + SCREEN[0] - 1) // 16 + 1)
-    out = {}
-    for r in rows:
-        for c in cols:
-            word = map_words[(r % PAGE) * PAGE + c % PAGE]
-            if uses[word & 0x7FFF] <= shared:
-                flags = (word >> 16) & 0xC000
-                out[f"{r % PAGE},{c % PAGE}"] = f"{word & 0x7FFF:X}:{flags:X}"
-    return out
-
-
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    sub = parser.add_subparsers(dest="command", required=True)
-    derive = sub.add_parser("derive", help="fill the layout's cells from page maps")
-    derive.add_argument("--maps", type=Path, required=True, help="dir of capN/map.bin")
-    derive.add_argument("--layout", type=Path, default=LAYOUT)
-    build = sub.add_parser("build", help="write patched MVSOP files")
-    build.add_argument("--st2-dir", type=Path, required=True)
-    build.add_argument("--memfix", type=Path, required=True)
-    build.add_argument("--out-dir", type=Path, required=True, help="ignored path")
-    build.add_argument("--layout", type=Path, default=LAYOUT)
+    parser.add_argument("--st2-dir", type=Path, required=True)
+    parser.add_argument("--memfix", type=Path, required=True)
+    parser.add_argument("--out-dir", type=Path, required=True, help="ignored path")
+    parser.add_argument("--layout", type=Path, default=LAYOUT)
     args = parser.parse_args(argv)
-    if args.command == "derive":
-        document = json.loads(args.layout.read_text())
-        for entry in document["captions"].values():
-            words = struct.unpack(
-                ">1024I", (args.maps / entry["map"] / "map.bin").read_bytes()
-            )
-            entry["cells"] = derive_cells(words, tuple(entry["scroll"]))
-        args.layout.write_text(
-            json.dumps(document, indent=1, ensure_ascii=False) + "\n"
-        )
-        print(
-            json.dumps(
-                {name: len(e["cells"]) for name, e in document["captions"].items()}
-            )
-        )
-        return 0
     from tools.text.caption_compiler import FONT_ENTRY
 
     memfix = args.memfix.read_bytes()
     offset, length = FONT_ENTRY
     font = Font(memfix[offset : offset + length], 0, 0)
-    captions = load_layout(args.layout)
+    slots = load_layout(args.layout)
     args.out_dir.mkdir(parents=True, exist_ok=True)
     report = {}
     for name in FILES:
         data = (args.st2_dir / name).read_bytes()
-        new = rebuild(name, data, font, captions)
+        new = rebuild(name, data, font, slots)
         (args.out_dir / name).write_bytes(new)
         report[name] = {
             "sha256": hashlib.sha256(new).hexdigest(),

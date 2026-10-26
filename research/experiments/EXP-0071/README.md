@@ -1,8 +1,8 @@
 # EXP-0071: English attract captions in the existing tiles, recoloured in place
 
 Task: UI-003
-Status: DONE (the build; the regression reference and the variant choice are
-pending, see UI-003)
+Status: DONE (superseded for layout by `EXP-0073`; its palette recolour is
+still used)
 Confidence: CONFIRMED (offline round trips, image checks, and a cold-boot
 comparison against two baseline runs)
 

@@ -4536,3 +4536,37 @@ redesign.
 - **Result:** wording equals the US arcade; colours are `F206`, `FFF0`-`FF80`
   and `F0CC`, the same set as the fixed Saturn captions.
 - **UI-003:** `DONE`.
+
+## 2026-10-26 — UI-003 / EXP-0073: arcade-layout attract captions
+
+- **User request:** match the PS1/arcade captions' symmetry and wording.
+- **Decoded:** the section-A frame format (`0x06021FE4`; parser
+  `script_frames`, all eight scripts to their end), the object list
+  (`0x06022426`), and the macro-cell builder (`0x0601FD70`). A static replay of
+  the map updates reproduces the extracted caption pages.
+- **Built:** new caption maps (one macro per text cell, centred lines on a
+  24-pixel grid, 3/2/3 lines as in the arcade); `map_encode` for the updates;
+  per-file macro origins in `data/ui003/attract_captions.json` (schema 2).
+- **Disproven / not productive:**
+  - *One macro base (or character delta) per slot works for every file.*
+    Slot 3 in file 4 uses base `0x2350`, and the block offsets of slots 3 and
+    5 differ in half the files. The `EXP-0071` state-derived deltas were wrong
+    for slot 3 in files 0, 2, 4, 6 and slot 5 in files 0, 1, 4, 5; origins are
+    now derived by matching caption macros.
+  - *Section C fits with the old glyphs kept.* It re-encoded to `0x18AD4` of
+    `0x187F8` bytes; blanking the unused caption macros fixes it.
+  - *The arcade's 28-pixel letter grid.* UNITE AGAIN!! would be 362 pixels on
+    a 352-pixel screen; the banner's 24-pixel grid is used.
+  - Section 9 of a frame reads a word per mask bit, not section 2's
+    byte-or-word form (the first parser failed on five scripts).
+- **Verified:** offline, every caption frame of every file renders exactly
+  and no map state outside the windows changes; from a cold boot, all three
+  captions (`EXP-0073`).
+- **Release:** both gold references rebaselined: `m8_roster_gold` spec
+  `e40f897f…`, track 01 `3185310c…`, patch `34e374d2…` (2,856,531 bytes);
+  `m8_roster_gold_us` spec `e4a3e4aa…`, track 01 `db1ede9f…`, patch
+  `f4350f39…` (2,854,660 bytes). All nine references pass.
+- **Backlog (user, 2026-10-26):** `SPECIAL-002` (Norimaro post-fight text and
+  ending; not the attract screen), `SPECIAL-003` (secret characters' text and
+  endings), `LOC-007` (secret-character names JP vs US/EU), `OPT-001`
+  (`--unlock-boss-fight`, default on). `SPECIAL-001`'s blocker is cleared.

@@ -1409,7 +1409,9 @@ Experiment: `EXP-0071`
   Caption colour 1 is the background of every caption page.
 - **Palette slots are shifted by one:** the converter writes array word k to
   CRAM slot k + 1 of the line, so caption colour c shows word c - 1.
-- **Build route.** `tools/disc/attract_captions.py`, with the layout in
+- **Build route** (superseded for layout by `EXP-0073`, which builds new
+  caption maps; the palette recolour below is still used).
+  `tools/disc/attract_captions.py`, with the layout in
   `data/ui003/attract_captions.json`:
   - paints the win-banner letters into the caption characters (banner colour
     n → caption colour n + 1; shared characters must receive identical
@@ -1427,6 +1429,30 @@ Experiment: `EXP-0071`
   now use.
 - **Reproduce.** `research/experiments/EXP-0071/README.md` and
   `research/experiments/EXP-0072/README.md`.
+
+## UI-003: Attract Script Frames and Caption Macro Maps
+
+Confidence: **CONFIRMED** (all eight scripts parse to their end; the static
+replay reproduces the extracted caption pages; cold-boot capture)
+
+Experiment: `EXP-0073`
+
+- **Frame format** (`0x06021FE4`): a big-endian command word per frame (0 =
+  idle, `0xFFFF` = end); bits 0-3 scroll deltas, 4 palette, 5-7 word-LZ map
+  updates (`0x0602F020`, `0x06033020`, `0x06037020`), 8 object list, 9 deltas,
+  10 a flag. Parser: `tools/disc/st2_stream.py` `script_frames`.
+- **Caption pages** are 32x32 macro cells (`0x0601FD70`): index word k and
+  attribute word 0x1000 + k of the NBG2 arrays; index i names characters
+  `base + 16 * i` + 0/4/8/12; each half page is 16x8 cells, column by column.
+- **Caption slots** (same frames in every file): slot 1 builds at frame 257
+  (ヴァリアブル…, then 第2弾!! at 294) and clears at 315; slot 3 (解き放て!)
+  734-753; slot 5 (広がれ!!) 1044-1063.
+- **Macro origins differ per file** (slot 3 and slot 5); they are derived by
+  matching caption macros against a save-state-verified file.
+- **Result.** The arcade's three English captions, with its wording, line
+  breaks and centring, built by `tools/disc/attract_captions.py`
+  (`data/ui003/attract_captions.json`).
+- **Reproduce.** `research/experiments/EXP-0073/README.md`.
 
 ## Entry Requirements
 

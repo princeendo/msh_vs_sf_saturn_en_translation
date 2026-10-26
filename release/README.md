@@ -74,11 +74,13 @@ Sakura, and Dan.
   font, squeezed two letters per cell, in the credits' gold, instead of the
   original white font. The gold also colours the remaining Japanese message
   windows (excluded characters).
-- **Attract-mode captions:** the four Japanese teaser captions before the
-  demo now read LEGENDARY / HEROES, UNITE / AGAIN!!, AMAZING / TEAM /
-  BATTLES!, and NEW HEROES / JOIN THE / FIGHT!, in the game's own win-banner
-  letters and colours, as in the US arcade (`UI-003`, `EXP-0071`). FIGHT!
-  replaces the arcade's THE FIGHT!!, which does not fit the tiles.
+- **Attract-mode captions:** the Japanese teaser captions before the demo
+  are replaced by the US arcade's three English captions, with its wording,
+  line breaks and centring: LEGENDARY / HEROES / UNITE AGAIN!!, AMAZING /
+  TEAM BATTLES!, and NEW HEROES / JOIN / THE FIGHT!!, in the game's own
+  win-banner letters and colours (`UI-003`, `EXP-0071`, `EXP-0073`). Letters
+  are 24 pixels apart (the arcade's 28 does not fit the Saturn's narrower
+  screen).
 - **Names follow the Saturn's own art and voice:** Vega (not M. Bison), Gouki
   (not Akuma), and Mech-Gouki (not Cyber-Akuma). This is a **provisional**
   decision (`LOC-001`, `docs/localization_plan.md`). The American-name patch
@@ -102,7 +104,7 @@ byte-identical to the original.
     quote, and the redesigned capital `W`;
   - the English UI labels (`EXP-0053`): "EASY" live, and "JOIN IN" in a
     replay;
-  - the four English attract captions from a cold boot (`EXP-0071`, in the
+  - the three English attract captions from a cold boot (`EXP-0073`, in the
     American-name image; both images carry byte-identical `MVSOP*.ST2`
     files).
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
@@ -124,12 +126,12 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,875,510
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,856,531
      bytes, SHA-256
-     `0c2054b846fa624e252ece1759a1ba0e7ef741878154ec80e2d8c764a6ba7f5f`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,873,639
+     `34e374d221cfbeea8c5ebda8a1977c4b17ffb2a2454d0f7c99013f6adce145d4`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,854,660
      bytes, SHA-256
-     `ec54c990d17dc87b87fe89b7f76524d6e0457d712d1e63595b4bc8da202c390b`.
+     `f4350f39adcc1c6fea945adb0e9187d796c47c06a1c44edb1fba101ae74aaeee`.
 
    The patches grew from about 157 KB when the attract captions were added:
    their streams are re-compressed, so most of their compressed bytes
@@ -150,9 +152,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `857937f9015a04f1c7fa3d9916caf2da00a110c5bd4dcb7f7a9b674354be93ca` for the
+   `3185310c1c8585eec842adf5ca2a615722ca0d3caa22a76f5c3fcf6cb8396c5c` for the
    Saturn-name patch, or
-   `0f87cc6d9e5158b22dd15a359ba48b15a82308b4bedb5bae647b6011e24724d2` for the
+   `db1ede9ffc023bf28040b4347f33d24c3ef4780fe25e66c7367f04e28d8ee126` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -220,8 +222,8 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `466b3c62…`, track 01 `857937f9…`, patch `0c2054b8…`;
-- American names: spec `db8d699d…`, track 01 `0f87cc6d…`, patch `ec54c990…`;
+- Saturn names: spec `e40f897f…`, track 01 `3185310c…`, patch `34e374d2…`;
+- American names: spec `e4a3e4aa…`, track 01 `db1ede9f…`, patch `f4350f39…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:
