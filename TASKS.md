@@ -3193,3 +3193,70 @@ the user asks or when it unblocks other work.
 - **Acceptance criteria:** source located with evidence; the official US
   oracle checked; built with expect checks; seen from a cold boot.
 
+
+### REL-002 - Also release the patch in Sega Saturn Patcher (.ssp) format
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** REL-001 (done).
+- **Blockers:** None known; the `.ssp` format is not yet documented here.
+- **Objective (user request, 2026-10-26):** Produce `.ssp` patches for both
+  name variants next to the xdelta patches, as other Saturn translations do
+  (for example the SFZ3 Saturn English patch ships xdelta and SSP).
+- **Known so far (web, 2026-10-26; HYPOTHESIS until checked):**
+  - Sega Saturn Patcher (segaxtreme.net) creates and applies `.ssp` patches;
+    the official tool is Windows-only (.NET).
+  - An open-source cross-platform applier (`ralfguth/saturn-patcher-egui`,
+    GPL-3.0) supports only patches that keep every file the same size,
+    suggests a ZIP container, and uses bsdiff; it works on track 1 and
+    regenerates Mode 1 EDC/ECC.
+  - Every file this project patches keeps its size (compiler check
+    `file_size_unchanged`), which fits that limit.
+- **Acceptance criteria:**
+  - the `.ssp` format documented from evidence (a patch the official tool
+    made, or the applier's documented behaviour), with no code copied from a
+    GPL source;
+  - a scripted generator, or a recorded manual procedure if only the official
+    tool can create them;
+  - applying each `.ssp` to the untouched image reproduces the release track
+    01 hash exactly, with at least one independent applier;
+  - `release/README.md` gives SSP instructions and hashes.
+
+### DOC-021 - Write a usage section and change list in README.md
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** None (`release/README.md` holds most of the facts).
+- **Blockers:** None.
+- **Objective (user request, 2026-10-26):** Make `README.md` the entry point
+  for users and contributors, loosely modelled on the SFZ3 Saturn English
+  patch README (`Lemongrwab/SFZ3Saturn-EnglishTranslation`).
+- **Required content:**
+  - **To apply or produce a patch:** the exact filenames (with hashes and a
+    description) of the required inputs; expected to be only the Saturn JP
+    image (the 12 BIN tracks and the CUE).
+  - **For active development:** the exact filenames and descriptions of every
+    further input: expected to include the arcade ROM sets (`mshvsfu`,
+    `mshvsf`, `mshvsfj`), the pinned MAME `cps2.cpp`, the PS1 US image, the
+    Saturn and PS1 BIOS files, and the Mednafen build; checked against what
+    the tools actually read.
+  - **Environment setup** to produce the patch (uv, Python, xdelta3, the
+    commands).
+  - **Build options and what they do:** at least `--names` (Saturn names vs
+    American names), `--unlock-boss-fight` / `--no-unlock-boss-fight`,
+    `--attract-captions`, `--secret-translations`, `--ui-translations`,
+    `--ui-english`, `--glyph-style`, `--caption-palette`; which are on in the
+    release builds.
+  - **A change list:** what the patch changes and what it leaves Japanese, in
+    user terms. The user's draft items, to check against the evidence:
+    post-fight quotes in English (and the font, which follows the credits'
+    gold lettering, not literally the US arcade font); attract mode in
+    English; US-style names (Bison, Akuma) in the American-name variant only;
+    secret characters' and Norimaro's quotes and endings translated where no
+    US text exists; the CONTINUE? hints; the boss-fight unlock.
+- **Acceptance criteria:** every filename, hash, flag and claim matches the
+  code and `release/README.md`; the commands are run from a fresh clone; the
+  README links to `release/README.md` instead of duplicating it where they
+  overlap.
