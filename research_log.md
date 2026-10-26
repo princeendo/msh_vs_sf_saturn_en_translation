@@ -4382,3 +4382,20 @@ redesign.
   almost every file; use high-entropy probes.
 - **Next:** the US oracle (MAME `mshvsfu` attract; PS1 US), then decode the
   `.ST2` layout and the LZ codec.
+
+## 2026-10-26 — UI-003 / EXP-0067: US arcade oracle for the attract captions
+
+- **Runs:** MAME 0.289 runs of `mshvsfu` and `mshvsfj`, without input, with a
+  snapshot every 15 frames for 15,000 frames, plus 3-frame fine runs of the
+  first caption stretch.
+- **Pairs** (by sequence position):
+  - ヴァリアブル ヒーロー バトル (white) + 第2弾!! (red) → **LEGENDARY HEROES
+    UNITE AGAIN!!** (one caption);
+  - 解き放て! 友情パワー → **AMAZING TEAM BATTLES!**;
+  - 広がれ!! ヒーロー ワールド → **NEW HEROES JOIN THE FIGHT!!**.
+- **Style:** the US captions are yellow-orange outlined capitals. There is no
+  Norimaro screen in the US set.
+- **Not productive:** pairing by frame number. The two sets' cycles have
+  different timings; pair by neighbouring screens.
+- **Next:** decode `MVSOP*.ST2` and the LZ codec; agree the art route and the
+  two-to-one mapping with the user.

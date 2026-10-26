@@ -296,5 +296,6 @@ and `docs/discoveries.md`.
   decoded at `0x06021F0C`?
 - Which of the eight `MVSOP` files plays when, and do all hold the same
   caption art?
-- What do the US arcade and the PS1 US releases show in place of the four
-  teaser captions?
+- The US arcade's captions are known (`EXP-0067`). What does the PS1 US
+  release show? How should the two Japanese opening captions map onto the
+  single US one?

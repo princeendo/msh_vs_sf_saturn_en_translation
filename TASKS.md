@@ -2957,8 +2957,14 @@ the user asks or when it unblocks other work.
   - each caption is VDP2 tiles, LZ-compressed in all eight `MVSOP*.ST2`
     opening files.
 
-  Next: the US oracle (MAME `mshvsfu`, PS1 US), then decode the `.ST2` and
-  LZ format.
+  The US oracle is done (`EXP-0067`, MAME):
+  - ヴァリアブル ヒーロー バトル + 第2弾!! → LEGENDARY HEROES UNITE AGAIN!!
+    (one US caption for two Japanese);
+  - 解き放て! 友情パワー → AMAZING TEAM BATTLES!;
+  - 広がれ!! ヒーロー ワールド → NEW HEROES JOIN THE FIGHT!!.
+
+  Next: decode the `MVSOP*.ST2` layout and the LZ format, then choose the art
+  route and the two-to-one mapping with the user.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the
