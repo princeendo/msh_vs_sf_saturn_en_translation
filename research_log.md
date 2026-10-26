@@ -4737,3 +4737,19 @@ redesign.
 - Local cleanup at the user's request: removed eight superseded experiment
   builds under `build/` and 2,227 rolling recorder save states not cited by
   any record (37 GB → 16 GB); cited states and all screenshots kept.
+
+## 2026-10-26 — DOC-021: README usage section and change list
+
+- Rewrote `README.md` as the project entry point (user request): change list,
+  required inputs with exact filenames and hashes, set-up, build commands,
+  build options, research inputs.
+- **Corrected assumption:** building a patch needs `mshvsfu.zip` and
+  `cps2.cpp` as well as the Saturn image (the official English is read from
+  the arcade ROM at build time).
+- **Fresh-clone check** (clone of `8e2b649`, only the Saturn image and
+  `mshvsfu.zip` linked in): `setup_venv.sh`, the `cps2.cpp` download,
+  `reference_builds --only m8_roster_gold m8_roster_gold_us` (both pass),
+  both `make_patch` runs (`abd03143…`, `46832e4d…`, identical to the record),
+  and the custom `--no-unlock-boss-fight` example (spec differs only by the
+  `MM.BIN` `0x50E4` patch; patch `d5e8a5b8…`, round trip true). Git status
+  clean afterwards.

@@ -3225,7 +3225,15 @@ the user asks or when it unblocks other work.
 
 ### DOC-021 - Write a usage section and change list in README.md
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-26). `README.md` rewritten: change list, patch
+  files, the three inputs a build needs (the Saturn JP image, `mshvsfu.zip`
+  and the public `cps2.cpp`: the disc alone is not enough, because the
+  official English is read from the arcade ROM at build time), set-up, build
+  commands, a build-option table, a custom-build example, and the further
+  research inputs. Checked from a fresh clone given only those three inputs:
+  both release patches reproduced byte for byte (`abd03143…`, `46832e4d…`),
+  and the custom `--no-unlock-boss-fight` build compiled and round-tripped,
+  its spec differing from the release only by the `MM.BIN` `0x50E4` patch.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None (`release/README.md` holds most of the facts).
