@@ -295,10 +295,10 @@
   },
   {
    "name": "m8_roster_gold_us",
-   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063",
-   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar labels copied from the font's own US art (BISON, AKUMA, CYBER-AKUMA) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063).",
-   "spec": "local/loc004d/us.json",
-   "spec_sha256": "a343d7c70c98897e282f19246a6aa5f493025a3f237ccde09d3661b941c01194",
+   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063).",
+   "spec": "local/loc004e/us.json",
+   "spec_sha256": "2840b15bd9226d53c4eb31b5bbefbbea94217b2e3c33429247ede9abf6ef4b12",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -312,7 +312,7 @@
     "--names",
     "us"
    ],
-   "track01_sha256": "41ca8a9ad17e24738657082b29c8ab17412f2765f7632bab07170e5018ba2642",
+   "track01_sha256": "87d1daec85e5283034af503aade8155bc69209adc12737b3a6b12c635b535924",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -333,8 +333,8 @@
     "MC12.PAC": "e92bd50d35813b1645f5b582bfccec3641535cb3c3e828fb8d969a8da2edff58",
     "MC13.PAC": "1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace",
     "ME.PAC": "58aad1dcfd456250a7a0245c8f3f7742119a0941c2efd82dd4e8bfb70ce3e2e7",
-    "MEMFIX.PAC": "70e243c02c9567a70b9467214c9a3d9d8bcde424e9826dda7645e9bed3c101f8",
-    "MM.BIN": "47bce92ed44a2c728c3c5f07e7367a3d88ff5e4b42b2ab195c1280f99e67b403"
+    "MEMFIX.PAC": "8f8c12e055f791c04bd84a83dc7a8ff27b4a172118a47008e79cf293ec6b53bc",
+    "MM.BIN": "75b79c12e2897b19befab758847bf2948cf0db989c69b6c1c00d3b1a007374cd"
    },
    "baselined": "2026-10-25",
    "previous": [
@@ -353,6 +353,10 @@
     {
      "track01_sha256": "0afe0f7a7dc7159f5df9ace48f21aa4c01543582166d549ec70c9e96972981f6",
      "replaced_because": "EXP-0063: US VS-screen name pointers"
+    },
+    {
+     "track01_sha256": "41ca8a9ad17e24738657082b29c8ab17412f2765f7632bab07170e5018ba2642",
+     "replaced_because": "EXP-0065: label records instead of glyph copies"
     }
    ]
   }

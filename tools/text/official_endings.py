@@ -113,15 +113,25 @@ US_VOICE_PATCHES = {
 }
 
 
-# LOC-004 (EXP-0060): the life-bar name labels are quote-font cells, and the font
-# already holds the US art. The fight HUD draws bold VEGA 0x760-0x762, GOUKI
-# 0x750-0x752, and MECH-GOUKI 0x568-0x56D; the US variant copies BISON
-# (0x763-0x765), AKUMA (0x753-0x755), and CYBER-AKUMA (0x5D9-0x5DE) over them.
-# AKUMA is 50 px wide and the GOUKI sprite 48 px, so its last 2 px are clipped.
-US_LABEL_COPIES = {
-    **{0x760 + i: 0x763 + i for i in range(3)},
-    **{0x750 + i: 0x753 + i for i in range(3)},
-    **{0x568 + i: 0x5D9 + i for i in range(6)},
+# LOC-004 (EXP-0065): the life-bar name labels are MM.BIN records of 8 sprite
+# patterns (0x5000 + quote-font code; 0x5020 is blank), indexed by character:
+# player 1 at 0x32CA4 + 16 * index (bold, left-aligned), player 2 at
+# 0x32E74 + 16 * index (italic, right-aligned). Records 26-28 are the US labels
+# (AKUMA is 4 cells wide); the US variant copies them over 15, 14, and 19.
+# Offset: (Saturn record, US record) as hex.
+US_LABEL_RECORDS = {
+    # P1 14 <- 27: VEGA -> BISON
+    0x32D84: ("57605761576250205020502050205020", "57635764576550205020502050205020"),
+    # P1 15 <- 26: GOUKI -> AKUMA
+    0x32D94: ("57505751575250205020502050205020", "57535754575557565020502050205020"),
+    # P1 19 <- 28: MECH-GOUKI -> CYBER-AKUMA
+    0x32DD4: ("55625563556455655566556750205020", "55d255d355d455d555d655d755d85020"),
+    # P2 14 <- 27
+    0x32F54: ("50205020502050205020502057c057c1", "5020502050205020502057c257c357c4"),
+    # P2 15 <- 26
+    0x32F64: ("5020502050205020502057ad57ae57af", "5020502050205020502057b057b157b2"),
+    # P2 19 <- 28
+    0x32FA4: ("5020502055685569556a556b556c556d", "5020502055d955da55db55dc55dd55de"),
 }
 # Ending speaker labels: 16-character ASCII fields in ME.PAC, one per character
 # index (EXP-0054). Index: (Saturn text, US text).
@@ -167,7 +177,7 @@ class NameVariant:
     names: Mapping[int, str] = field(default_factory=dict)
     text: Mapping[str, str] = field(default_factory=dict)
     voice: Mapping[int, tuple[int, int]] = field(default_factory=dict)
-    glyphs: Mapping[int, int] = field(default_factory=dict)
+    labels: Mapping[int, tuple[str, str]] = field(default_factory=dict)
     speakers: Mapping[int, tuple[str, str]] = field(default_factory=dict)
     strings: Sequence[tuple[str, int, str, str]] = ()
     pointers: Mapping[int, tuple[int, int]] = field(default_factory=dict)
@@ -177,7 +187,7 @@ NAME_VARIANTS = {
     "saturn": NameVariant(NAME_OVERRIDES, TEXT_OVERRIDES),
     "us": NameVariant(
         voice=US_VOICE_PATCHES,
-        glyphs=US_LABEL_COPIES,
+        labels=US_LABEL_RECORDS,
         speakers=US_SPEAKERS,
         strings=US_STRINGS,
         pointers=US_NAME_POINTERS,
@@ -235,6 +245,14 @@ def string_patches(variant: str) -> list[dict[str, str]]:
             }
         )
     return patches
+
+
+def label_patches(variant: str) -> list[dict[str, str]]:
+    """Spec ``patches`` entries for the variant's life-bar label records."""
+    return [
+        {"file": "MM.BIN", "offset": f"0x{offset:X}", "hex": new, "expect": old}
+        for offset, (old, new) in sorted(NAME_VARIANTS[variant].labels.items())
+    ]
 
 
 def pointer_patches(variant: str) -> list[dict[str, str]]:
@@ -509,14 +527,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             + speaker_patches(args.names)
             + string_patches(args.names)
             + pointer_patches(args.names)
+            + label_patches(args.names)
         )
-        copies = spec.get("glyph_copies") or {}
-        assert isinstance(copies, dict)
-        copies |= {
-            f"0x{t:03X}": f"0x{s:03X}"
-            for t, s in NAME_VARIANTS[args.names].glyphs.items()
-        }
-        spec["glyph_copies"] = dict(sorted(copies.items()))
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

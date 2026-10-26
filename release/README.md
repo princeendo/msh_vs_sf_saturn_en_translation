@@ -23,7 +23,7 @@ characters are named (`LOC-003`):
 | Reference | `m8_roster_gold` | `m8_roster_gold_us` |
 | English text | Vega, Gouki, Mech-Gouki | Bison, Akuma, Cyber Akuma (as the US arcade) |
 | Announcer's name calls | Vega, Gouki, Mech Gouki (unchanged) | Bison, Akuma, Cyber Akuma: recordings already on the disc, selected through six data edits in `MEMFIX.PAC` (`EXP-0058`) |
-| Life-bar names | VEGA, GOUKI, MECH-GOUKI | BISON, AKUMA, CYBER-AKUMA: the game's own US art, copied into the cells the fight HUD draws (`EXP-0060`) |
+| Life-bar names (both sides) | VEGA, GOUKI, MECH-GOUKI | BISON, AKUMA, CYBER-AKUMA: the game's own US label records (`EXP-0065`) |
 | Ending speaker labels | Vega, Gouki, Mech-Gouki | Bison, Akuma, Cyber Akuma (`EXP-0060`) |
 | Sound test, title-menu unlock message | 18.VEGA, 22.GOUKI, MECH-GOUKI NOW!! | 18.BISON, 22.AKUMA, CYBER-AKUMA NOW!! (`EXP-0061`) |
 | Win banner ("… WIN") | VEGA, GOUKI, MECH-GOUKI | BISON, AKUMA, CYBER-AKUMA: the game's own banner records (`EXP-0062`) |
@@ -36,8 +36,6 @@ characters are named (`LOC-003`):
   at character select, BISON / AKUMA vs CYBER-AKUMA on the VS screen, AKUMA
   and CYBER-AKUMA life bars, the AKUMA / BISON / WIN banner, and the "Akuma"
   win call.
-  - Known blemish: AKUMA's life-bar art is 2 px wider than its slot, so the
-    foot of its last A is trimmed.
   - Seen running: after a cold boot, sound RAM holds the American calls
     (`EXP-0059`).
   - Proven in a replay: switching that table entry makes the win screen say
@@ -118,9 +116,9 @@ byte-identical to the original.
 2. **The patch:**
    - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 158,333 bytes,
      SHA-256 `7e7d7118272b24c5bc66d7c5bcd2b7f9be4daac1ae980347e61a81bec6833a36`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 156,211
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 156,462
      bytes, SHA-256
-     `ccf6200c457f37ce8670414e55a652db5c50892579847a18752f43290640281b`.
+     `644d04ebf3acd0669a791e5f042ddf011270dcbaa59ae85711bbf2b74b6b0d16`.
 
 3. **An xdelta3 (VCDIFF) patcher.**
    - Tested: the `xdelta3` 3.2.2 command line (`brew install xdelta` on macOS).
@@ -139,7 +137,7 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 2. Check the result. Its SHA-256 must be
    `7a3917d12a4c6dc1fa39ae73e9e041fff7e697c1807f407b1957aaf864130d9a` for the
    Saturn-name patch, or
-   `41ca8a9ad17e24738657082b29c8ab17412f2765f7632bab07170e5018ba2642` for the
+   `87d1daec85e5283034af503aade8155bc69209adc12737b3a6b12c635b535924` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -208,7 +206,7 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 
 **Expected:**
 - Saturn names: spec `7ce7820a…`, track 01 `7a3917d1…`, patch `7e7d7118…`;
-- American names: spec `a343d7c7…`, track 01 `41ca8a9a…`, patch `ccf6200c…`;
+- American names: spec `2840b15b…`, track 01 `87d1daec…`, patch `644d04eb…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:

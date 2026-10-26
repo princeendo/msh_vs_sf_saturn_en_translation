@@ -4334,3 +4334,23 @@ redesign.
   left.
 - **Note:** capture ended in the post-boss dialogue, when the user typed
   "credits". The ending pages were not reached.
+
+## 2026-10-25 — LOC-004 / EXP-0065: life-bar label records fix AKUMA's width
+
+- **Records:** the life-bar labels are `MM.BIN` records of 8 patterns, in two
+  tables:
+  - player 1 at `0x32CA4 + 16i` (bold);
+  - player 2 at `0x32E74 + 16i` (italic, right-aligned).
+
+  The US records are entries 26-28, and AKUMA there is 4 cells (`0x753`-
+  `0x756`).
+- **Trials** (RAM writes from play-test state `f00004857`): the player-1
+  AKUMA record shows the whole final A. The player-2 slot shows italic BISON.
+- **Correction to EXP-0060:** the italic set *is* used, for the player-2 side.
+  `EXP-0060`'s glyph copies left CPU Vega/Gouki opponents named VEGA/GOUKI.
+  The record copies replace the glyph copies and switch both sides.
+- **Build:** six 16-byte `MM.BIN` record copies with expect checks. The label
+  font cells now equal the source. US spec `2840b15b…`, track 01
+  `87d1daec…`, patch `644d04eb…`. 9 of 9 references pass. A cold boot loads
+  the US records by frame 1650.
+- **Checks:** `pytest` 235 passed, 1 skipped; `ruff` and `mypy` are clean.

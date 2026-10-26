@@ -1319,6 +1319,22 @@ Experiment: `EXP-0064`
   the post-boss dialogue (BISON) all show the US names.
 - **Reproduce.** `research/experiments/EXP-0064/README.md`.
 
+## LOC-004: Life-Bar Label Records (Both Player Sides)
+
+Confidence: **CONFIRMED** (replay trials, cold-boot RAM)
+
+Experiment: `EXP-0065`; supersedes the glyph-copy method of `EXP-0060`.
+
+- **Records.** The life-bar name labels are `MM.BIN` records of 8 sprite
+  patterns (`0x5000` + quote-font code; `0x5020` is blank), indexed by
+  character:
+  - player 1 at `0x32CA4 + 16i` (bold, left-aligned);
+  - player 2 at `0x32E74 + 16i` (italic, right-aligned).
+- **US records.** Entries 26 (AKUMA, 4 cells `0x753`-`0x756`), 27 (BISON) and
+  28 (CYBER-AKUMA) are already on the disc. Copying them over 15, 14 and 19
+  shows the US labels at full width on both sides.
+- **Reproduce.** `research/experiments/EXP-0065/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

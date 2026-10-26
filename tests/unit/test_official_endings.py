@@ -4,6 +4,7 @@ from tools.text.ending_census import half_cells
 from tools.text.official_endings import (
     NAME_VARIANTS,
     box_line,
+    label_patches,
     localize,
     name_text,
     pointer_patches,
@@ -72,12 +73,13 @@ def test_speaker_patches_set_the_us_labels_with_expect() -> None:
     assert bytes.fromhex(by_offset["0xB294"]["hex"]) == b"Cyber Akuma".ljust(16)
 
 
-def test_us_label_copies_are_cell_for_cell() -> None:
-    glyphs = NAME_VARIANTS["us"].glyphs
-    assert [glyphs[0x760 + i] for i in range(3)] == [0x763, 0x764, 0x765]  # BISON
-    assert [glyphs[0x750 + i] for i in range(3)] == [0x753, 0x754, 0x755]  # AKUMA
-    assert [glyphs[0x568 + i] for i in range(6)] == list(range(0x5D9, 0x5DF))
-    assert NAME_VARIANTS["saturn"].glyphs == {}
+def test_label_patches_copy_whole_records() -> None:
+    assert label_patches("saturn") == []
+    patches = {p["offset"]: p for p in label_patches("us")}
+    assert len(patches) == 6
+    assert all(len(bytes.fromhex(p["hex"])) == 16 for p in patches.values())
+    akuma = bytes.fromhex(patches["0x32D94"]["hex"])  # P1 GOUKI slot
+    assert akuma[:8] == bytes.fromhex("5753575457555756")  # AKUMA, 4 cells
 
 
 def test_string_patches_keep_lengths_and_expect_the_saturn_text() -> None:
