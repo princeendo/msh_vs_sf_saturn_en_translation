@@ -112,3 +112,61 @@ def test_unlock_boss_patch_sets_the_boot_value_with_expect() -> None:
     assert UNLOCK_BOSS_PATCH["offset"] == "0x50E4"
     assert UNLOCK_BOSS_PATCH["expect"] == "e000"  # mov #0,r0
     assert UNLOCK_BOSS_PATCH["hex"] == "e001"  # mov #1,r0
+
+
+def test_spec_pairs_reads_tables_and_fields() -> None:
+    from tools.text.official_endings import spec_pairs
+
+    spec = {
+        "tables": [{"records": [{"lines": ["  ABCD", "E"]}]}],
+        "fields": [{"text": " RYU"}],
+    }
+    assert spec_pairs(spec) == {"AB", "CD", "E ", " R", "YU"}
+
+
+def test_secret_tables_refuse_a_different_source(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    import json
+
+    import pytest
+
+    from tools.text import official_endings as oe
+
+    record: dict[str, object] = {
+        "record": 0,
+        "source_sha256": "0" * 64,
+        "lines": ["Hi"],
+    }
+    doc = {
+        "tables": [
+            {"file": "ME.PAC", "format": "raw", "table": "0x0", "records": [record]}
+        ]
+    }
+    path = tmp_path / "t.json"
+    path.write_text(json.dumps(doc))
+
+    class FakeTrack:
+        def __init__(self, stream, size):  # type: ignore[no-untyped-def]
+            pass
+
+        def read(self, lsn, size):  # type: ignore[no-untyped-def]
+            return bytes(76)
+
+    track = tmp_path / "track.bin"
+    track.write_bytes(b"")
+    monkey = pytest.MonkeyPatch()
+    monkey.setattr(oe, "Track", FakeTrack)
+    monkey.setattr(oe, "find_entry", lambda t, n: (0, 76))
+    try:
+        with pytest.raises(ValueError, match="source differs"):
+            oe.secret_tables(path, track)
+        import hashlib
+
+        record["source_sha256"] = hashlib.sha256(bytes(76)).hexdigest()
+        path.write_text(json.dumps(doc))
+        tables = oe.secret_tables(path, track, existing={"Hi"})
+        assert tables[0]["format"] == "raw"
+        records = tables[0]["records"]
+        assert isinstance(records, list)
+        assert records[0]["lines"][0].strip() == "Hi"
+    finally:
+        monkey.undo()

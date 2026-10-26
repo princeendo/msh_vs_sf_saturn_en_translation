@@ -22,6 +22,7 @@ from tools.reference.mame_audit import RomSet, parse_driver
 SPACE = 0x0020
 UPPER_BASE = 0x0140  # "A"; uppercase codes are ASCII - 1 + 0x100
 LOWER_BASE = 0x0161  # "a"; lowercase codes are ASCII + 0x100
+DIGIT_BASE = 0x012F  # "0"; digits are ASCII - 1 + 0x100 ("Level 3", EXP-0078)
 PUNCTUATION = {
     0x0120: "!",
     0x0121: "?",
@@ -30,6 +31,7 @@ PUNCTUATION = {
     0x012A: "-",
     0x0184: ".",
     0x0185: ",",
+    0x0186: "'",  # opening quote ("'Cause", EXP-0078); drawn as the apostrophe
     0x0187: "'",
     0x0196: "ã",
     0x019A: "á",
@@ -90,6 +92,8 @@ def decode_code(code: int) -> str | None:
         return chr(ord("A") + code - UPPER_BASE)
     if LOWER_BASE <= code < LOWER_BASE + 26:
         return chr(ord("a") + code - LOWER_BASE)
+    if DIGIT_BASE <= code < DIGIT_BASE + 10:
+        return chr(ord("0") + code - DIGIT_BASE)
     if code in PUNCTUATION:
         return PUNCTUATION[code]
     if code in UNKNOWN_TEXT_CODES:

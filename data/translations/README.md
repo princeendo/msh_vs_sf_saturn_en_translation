@@ -86,3 +86,18 @@ Do not assume line ordering or correspondence across releases. Keep hypotheses i
 `research_log.md` until supported, and do not represent a translation as final without
 review. Store bulk source material locally under ignored paths; track only permitted
 metadata and the minimal text needed for the project record.
+
+## Secret-Character Policy (user decision, 2026-10-26, `SPECIAL-003`)
+
+- Official English where it exists: Shadow's, U.S. Agent's and Mephisto's win
+  quotes (`data/text/secret_roster.json`, same pairing as the roster) and
+  every secret slot's partner lines.
+- New translations where the official English is only a substitute: Metal
+  Zangief's and Dark Sakura's own win quotes (the arcade and PS1 reuse
+  Zangief's and Sakura's), and every secret ending page (the arcade shows a
+  generic two-line message). The user chose this over the substitutes.
+- `secret_characters.json` holds the English only. Each record names its
+  Japanese source by SHA-256, and the build refuses a different source.
+  Translator and method are recorded in the file (`EXP-0078`); the text is
+  not official.
+

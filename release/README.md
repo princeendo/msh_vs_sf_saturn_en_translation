@@ -82,6 +82,12 @@ Sakura, and Dan.
   win-banner letters and colours (`UI-003`, `EXP-0071`, `EXP-0073`). Letters
   are 24 pixels apart (the arcade's 28 does not fit the Saturn's narrower
   screen).
+- **Secret characters** (`SPECIAL-003`, `EXP-0078`): Shadow, U.S. Agent and
+  Mephisto get the arcade's official English win quotes; Metal Zangief's and
+  Dark Sakura's own win quotes and every secret character's ending pages are
+  new English translations (not official text: the arcade only reuses
+  Zangief's and Sakura's quotes and shows a generic message); the post-boss
+  partner lines are the arcade's official English.
 - **Boss fight unlocked:** the title menu's MECH-GOUKI NOW!! (CYBER-AKUMA
   NOW!! with American names) is available from the start, without a
   Survival clear: on the SURVIVAL MODE row, press L or R, then Start
@@ -93,7 +99,7 @@ Sakura, and Dan.
   differs only here (see "Choose a Name Variant").
 
 **Not changed:**
-- Norimaro, the secret characters, Apocalypse, and Mech-Gouki's own text;
+- Norimaro, Apocalypse, and Mech-Gouki's own text;
 - menus, voice, and every other screen; the attract-mode Norimaro screen.
   The American-name patch also changes three name calls; see "Choose a Name
   Variant".
@@ -132,12 +138,12 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,856,651
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,897,616
      bytes, SHA-256
-     `778fda81a3da97b354d43ee83ccf5148101a93077e5dece41b14c12821c0b1de`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,854,776
+     `dfca0645052ed83b85f7c8b31df58f080f1d7eb1de94918546afacc9bb48ed14`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,916,526
      bytes, SHA-256
-     `fb32c9b3906f75324a698209438a149d8d247b5e3710c277e51a510250c7a419`.
+     `ad56c5bbc295ae501ca877174b72bec0e18f33f5304fe716544c814b865280e6`.
 
    The patches grew from about 157 KB when the attract captions were added:
    their streams are re-compressed, so most of their compressed bytes
@@ -158,9 +164,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `f5b98b46cf74b0dcd335c2926efd589306fa5b4bd492ba230cf4cab91206a608` for the
+   `45217d9d180a19fb5a7f5e283d09bd07a3bed935d593e1f658aa92ca4c6d9c2c` for the
    Saturn-name patch, or
-   `3a32e3646f2552e36f4bb662bc2cbf053e35d33b07804aff69947809a546f09c` for the
+   `de8b2e0d954cdc1ec35bf82e4351fb5aa755bf8046a0c4322a15825518a3a5b1` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -228,8 +234,8 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `c67603a5…`, track 01 `f5b98b46…`, patch `778fda81…`;
-- American names: spec `77a4a715…`, track 01 `3a32e364…`, patch `fb32c9b3…`;
+- Saturn names: spec `052bb755…`, track 01 `45217d9d…`, patch `dfca0645…`;
+- American names: spec `bc5d4a9b…`, track 01 `de8b2e0d…`, patch `ad56c5bb…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:

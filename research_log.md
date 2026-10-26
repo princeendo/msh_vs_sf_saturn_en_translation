@@ -4623,3 +4623,20 @@ redesign.
   lines exist for every secret slot.
 - **Next:** the user chooses the route for slots without their own official
   English.
+
+## 2026-10-26 — SPECIAL-003 / EXP-0078: secret characters' text built
+
+- **User decision:** new translations for Metal Zangief's and Dark Sakura's
+  win quotes and every secret ending page; official English elsewhere.
+- **Built:** `--secret-roster` (slots 22-24, official) and
+  `--secret-translations` (`data/translations/secret_characters.json`, 49
+  records with source hashes; official partner lines and names for 20-25).
+- **Found:** arcade digits (ASCII − 1 + `0x100`) and `0x0186` (opening quote);
+  the slot 23-25 ending block is 6 records, the first three already English.
+- **Not productive:** the first translations overflowed the font by 656
+  bytes; choosing shifts against existing pairs and rewording three lines
+  made it fit (12-16 bytes spare).
+- **Release:** `m8_roster_gold` track 01 `45217d9d…` (patch `dfca0645…`),
+  `m8_roster_gold_us` `de8b2e0d…` (patch `ad56c5bb…`); all nine references
+  pass.
+- **Next:** live check of a secret character's win quote and ending.

@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `f5b98b46…`);
+      own font. They are in the release images (Saturn names `45217d9d…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3094,12 +3094,12 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-003 - Translate the secret characters' post-fight text and endings
 
-- **Status:** `IN_PROGRESS`. Sources and oracles found (`EXP-0077`):
-  official English exists for slots 22-24's win quotes and every secret
-  slot's partner lines; slots 20-21's own quotes and all secret ending pages
-  have only substitutes in the official English (Zangief's/Sakura's quotes;
-  a generic two-record "secret character" ending). The PS1 adds no English of
-  its own. Next: the user's choice of route for the substitutes.
+- **Status:** `IN_PROGRESS`. Sources and oracles (`EXP-0077`); the user
+  chose new translations where the official English is only a substitute
+  (2026-10-26). Built (`EXP-0078`) in both release references: official
+  win quotes for slots 22-24, translated win quotes for 20-21 and ending pages
+  for 20-25, official partner lines; all checks true, the font fits.
+  Remaining: see a secret character's win quote and ending in play.
 - **Priority:** not set by the user
 - **Milestone:** M9
 - **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).

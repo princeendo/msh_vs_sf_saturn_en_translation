@@ -38,14 +38,14 @@ Nothing listed here may be translated or modified in M5.
 | Item | Evidence | Reason | Owner |
 | --- | --- | --- | --- |
 | `MC00` slot 0 (Apocalypse), plus three extra tables (`0x392E`, `0x3D7A`, `0x404E`) | irregular file; block inside a 26-record table at `0x3106` | boss; extra tables unidentified | `SPECIAL-001` |
-| `MC02` slot 23 block (`0xDF68`) | second whole block in `MC02` | secret character | `SPECIAL-001` |
-| `MC08` slot 24 block (`0xBE5C`) | second whole block in `MC08` | secret character | `SPECIAL-001` |
+| `MC02` slot 23 block (`0xDF68`) | second whole block in `MC02` | secret character: since 2026-10-26 official English (`SPECIAL-003`) | `SPECIAL-003` |
+| `MC08` slot 24 block (`0xBE5C`) | second whole block in `MC08` | secret character: since 2026-10-26 official English (`SPECIAL-003`) | `SPECIAL-003` |
 | `MC0C` 4-record table (`0x3B88`) | matches no arcade slot | content unknown | a future investigation task, to be created only when needed |
 | `MC11` slot 17 (Norimaro) | ordinary file | special case (`AGENTS.md` rule 24) | `SPECIAL-001` |
 | `MC13` slot 19 (Cyber-Akuma), inside a 120-record table that also holds one slot-15 record | irregular file; the extra content includes the post-boss dialogue records (`EXP-0040`) | boss; Cyber-Akuma's own quotes stay excluded | `SPECIAL-001` (quotes); the post-boss dialogue records are ending text: see Endings (M8) |
-| `MC14` slot 20 (second Zangief entry) | ordinary file | secret character | `SPECIAL-001` |
-| `MC15` slot 21 (second Sakura entry) | ordinary file | secret character | `SPECIAL-001` |
-| `MC16` slot 22 (Shadow) | ordinary file | secret character | `SPECIAL-001` |
+| `MC14` slot 20 (second Zangief entry) | ordinary file | secret character: since 2026-10-26 translated (`SPECIAL-003`, `EXP-0078`) | `SPECIAL-003` |
+| `MC15` slot 21 (second Sakura entry) | ordinary file | secret character: since 2026-10-26 translated (`SPECIAL-003`) | `SPECIAL-003` |
+| `MC16` slot 22 (Shadow) | ordinary file | secret character: since 2026-10-26 official English (`SPECIAL-003`) | `SPECIAL-003` |
 | Endings and any other text surface | not in `MCnn` win-quote tables | outside post-fight scope | `END-001` (M6) |
 
 The two PS1-only English blocks (`EXP-0032`) belong to these exceptions, if they
@@ -105,8 +105,8 @@ Nothing listed here may be translated or modified in M8.
 | Slot 0 dialogue pairs | `MC13` records 16, 17, 68, 69 | boss | `SPECIAL-001` |
 | Slot 17 (Norimaro): pages, dialogue, name | `ME.PAC` `0x3F5C` (5 records); `MC13` 50, 51, 102, 103; `MM.BIN` slot 17 | special case (`AGENTS.md` rule 24). The US arcade's English slot 17 points to Dan's English, so there is no English of its own. | `SPECIAL-001` |
 | Slot 19 (Cyber-Akuma / Mech-Gouki): dialogue, name | `MC13` 54, 55, 106, 107 (these do not equal the arcade block, `EXP-0042`); `MM.BIN` slot 19 | boss; records unmatched | `SPECIAL-001` |
-| Slots 20-22 (second Zangief entry, second Sakura entry, Shadow) | `ME.PAC` `0x4254` (5), `0x43D0` (3), `0x44B4` (6); `MC13` 56-61, 108-113; `MM.BIN` | secret characters. The arcade English table points slots 19-25 to one shared block of unknown extent. | `SPECIAL-001` |
-| Slots 23-25 (U.S. Agent, Mephisto, second Spider-Man entry) | `ME.PAC` `0x467C`, one shared block of unknown extent (the last pointer); `MC13` 62-67, 114-119; `MM.BIN` | secret characters | `SPECIAL-001` |
+| Slots 20-22 (second Zangief entry, second Sakura entry, Shadow) | `ME.PAC` `0x4254` (5), `0x43D0` (3), `0x44B4` (6); `MC13` 56-61, 108-113; `MM.BIN` | secret characters. Since 2026-10-26 (`SPECIAL-003`, `EXP-0078`, release builds only): pages translated, dialogue official, names set. | `SPECIAL-003` |
+| Slots 23-25 (U.S. Agent, Mephisto, second Spider-Man entry) | `ME.PAC` `0x467C`-`0x4844` (6 records; 0-2 already English); `MC13` 62-67, 114-119; `MM.BIN` | secret characters. Since 2026-10-26 (`SPECIAL-003`): records 3-5 translated, dialogue official, names set. | `SPECIAL-003` |
 | `MC13` records 0-15 | Cyber-Akuma's win quotes | already an M5 exception | `SPECIAL-001` |
 | `MM.BIN` Japanese text table | `0x7CC86`-`0x7D1DC` | screen unknown; one name placeholder (`EXP-0047`) | `TXT-001` |
 

@@ -311,4 +311,6 @@ and `docs/discoveries.md`.
   label, or take one from elsewhere.
 - The mapping from roster slot to the banner/VS name ID (20 SHADOW, 21
   U.S.AGENT, 22 MEPHISTO) is not a plain table in `MM.BIN`.
+- Does the game show records 3-5 of the slot 23-25 ending block
+  (`ME.PAC` `0x467C`; developer leftovers, now translated, `EXP-0078`)?
 

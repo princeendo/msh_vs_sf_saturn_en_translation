@@ -37,6 +37,7 @@ read from the local arcade ROM at build time and written to an ignored path.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
@@ -63,7 +64,12 @@ from tools.text.caption_compiler import (
     SCHEMA_V3,
     TOKEN,
 )
-from tools.text.official_captions import best_shifts, centred, roster_spec
+from tools.text.official_captions import (
+    best_shifts,
+    centred,
+    line_pairs,
+    roster_spec,
+)
 from tools.text.pair_font import split_pairs
 
 EN_RECORD, EN_CELLS = 100, 25  # arcade English records: 2 lines of 25 cells
@@ -320,11 +326,14 @@ def ending_spec(
     partners: Sequence[int],
     layout: str = "whole",
     variant: str = "saturn",
+    extra_slots: Sequence[int] = (),
 ) -> tuple[dict[str, object], dict[str, list[int]]]:
     """The v3 spec, and the arcade Japanese records it replaces.
 
     ``point`` may list several point characters (`END-020`): each gets its pages
-    and its point pair; the partner pairs are shared.
+    and its point pair; the partner pairs are shared. ``extra_slots`` (the secret
+    characters, `SPECIAL-003`) get both dialogue pairs and their names, but no
+    official pages (theirs are translated, ``secret_tables``).
     """
     points = [point] if isinstance(point, int) else list(point)
     page_tables, pages_ja = [], []
@@ -351,7 +360,10 @@ def ending_spec(
             }
         )
     dialogue = []
-    for index in [*partners, *(SLOTS + slot for slot in points)]:
+    extra = [
+        slot for slot in extra_slots if slot not in points and slot not in partners
+    ]
+    for index in [*partners, *extra, *(SLOTS + slot for slot in [*points, *extra])]:
         halves = en_lines(program, PARTNER_LINES + PARTNER_RECORD * index, variant)
         first = DIALOGUE_FIRST + 2 * index
         if layout == "whole":
@@ -362,7 +374,7 @@ def ending_spec(
         for offset, box in enumerate(boxes):
             dialogue.append({"record": first + offset, "lines": box})
     names, lengths = [], []
-    for slot in sorted({*points, *partners}):
+    for slot in sorted({*points, *partners, *extra_slots}):
         address = ARCADE_NAMES + NAME_BYTES * slot
         override = NAME_VARIANTS[variant].names.get(slot)
         name = override or latin(program, address, NAME_BYTES).strip()
@@ -439,6 +451,89 @@ def check_targets(
     return {"pages_equal_arcade_ja": pages_ok, "dialogue_equal_arcade_ja": dialogue_ok}
 
 
+SECRET_SLOTS = (20, 21, 22, 23, 24, 25)  # SPECIAL-003 (EXP-0077, EXP-0078)
+
+
+def spec_pairs(spec: dict[str, object]) -> set[str]:
+    """The letter pairs a spec's tables and fields already draw."""
+    texts = [
+        line
+        for table in spec["tables"]  # type: ignore[attr-defined]
+        for record in table["records"]
+        for line in record["lines"]
+    ] + [field["text"] for field in spec.get("fields", [])]  # type: ignore[attr-defined]
+    pairs: set[str] = set()
+    for text in texts:
+        padded = text + " " * (len(text) % 2)
+        pairs |= {padded[i : i + 2] for i in range(0, len(padded), 2)}
+    return pairs - {"  "}
+
+
+def secret_tables(
+    path: Path,
+    track: Path,
+    existing: set[str] = frozenset(),  # type: ignore[assignment]
+) -> list[dict[str, object]]:
+    """Spec tables for the translated secret-character text (``path``).
+
+    Every record names its Japanese source by SHA-256; a source that differs
+    (another image, a moved table) is refused. Each line's half-cell shift is
+    chosen to add the fewest pairs to ``existing`` (the font is nearly full).
+    """
+    document = json.loads(path.read_text())
+    tables = document["tables"]
+    with track.open("rb") as stream:
+        disc = Track(stream, track.stat().st_size)
+        sources = {}
+        for table in tables:
+            name = table["file"]
+            if name not in sources:
+                data = disc.read(*find_entry(track, f"{name};1"))
+                sources[name] = (
+                    data if table.get("format") == "raw" else decode_file(data)[1]
+                )
+    shifts: dict[str, int] = {}
+    added: set[str] = set()
+    for line in sorted(
+        {x for t in tables for r in t["records"] for x in r["lines"] if x}
+    ):
+        options = [
+            (len(line_pairs(line, shift) - existing - added), shift)
+            for shift in (0, 1)
+            if (len(line) + shift + 1) // 2 <= LINE_CELLS
+        ]
+        shifts[line] = min(options)[1]
+        added |= line_pairs(line, shifts[line]) - existing
+    out = []
+    for table in tables:
+        base = int(table["table"], 16)
+        records = []
+        for record in table["records"]:
+            k = record["record"]
+            source = sources[table["file"]][base + RECORD * k : base + RECORD * (k + 1)]
+            if hashlib.sha256(source).hexdigest() != record["source_sha256"]:
+                raise ValueError(
+                    f"{table['file']} 0x{base:X} record {k}: source differs"
+                )
+            records.append(
+                {
+                    "record": k,
+                    "lines": [
+                        centred(x, shift=shifts.get(x, 0)) for x in record["lines"]
+                    ],
+                }
+            )
+        entry: dict[str, object] = {
+            "file": table["file"],
+            "table": table["table"],
+            "records": records,
+        }
+        if table.get("format") == "raw":
+            entry["format"] = "raw"
+        out.append(entry)
+    return out
+
+
 def attract_patches(track: Path) -> list[dict[str, str]]:
     """The attract-caption patches for the eight ``MVSOP`` streams (`EXP-0071`)."""
     with track.open("rb") as stream:
@@ -511,6 +606,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin"
         ),
     )
+    parser.add_argument(
+        "--secret-translations",
+        type=Path,
+        help="translated secret-character text and dialogue (SPECIAL-003)",
+    )
+    parser.add_argument(
+        "--secret-roster",
+        type=Path,
+        help="extra win-quote roster with official English (SPECIAL-003)",
+    )
     parser.add_argument("--out", type=Path, required=True, help="spec path (ignored)")
     args = parser.parse_args(argv)
     sets = parse_driver(args.driver.read_text(encoding="utf-8"))
@@ -519,7 +624,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     points = [int(c["slot"]) for c in roster] or args.point
     partners = [int(c["slot"]) for c in roster] or args.partners
     spec, targets = ending_spec(
-        program, points, partners, args.dialogue_layout, args.names
+        program,
+        points,
+        partners,
+        args.dialogue_layout,
+        args.names,
+        SECRET_SLOTS if args.secret_translations else (),
     )
     if args.with_win_quotes:
         if not roster:
@@ -530,7 +640,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         ]
         tables = spec["tables"]
         assert isinstance(tables, list)
-        win_quote_tables = roster_spec(quotes, roster)["tables"]
+        secret = (
+            json.loads(args.secret_roster.read_text())["characters"]
+            if args.secret_roster
+            else []
+        )
+        win_quote_tables = roster_spec(quotes, roster + secret)["tables"]
         assert isinstance(win_quote_tables, list)
         spec["tables"] = win_quote_tables + tables
         spec["description"] = (
@@ -539,6 +654,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{args.dialogue_layout}. Generated from the local arcade ROM; not "
             "committed."
         )
+    if args.secret_translations:
+        tables = spec["tables"]
+        assert isinstance(tables, list)
+        tables += secret_tables(args.secret_translations, args.track, spec_pairs(spec))
+        spec["secret_translations"] = True
     if args.glyph_style != "quote":
         spec["glyph_style"] = args.glyph_style
     if args.ui_english:
