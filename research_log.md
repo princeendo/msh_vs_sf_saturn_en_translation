@@ -4092,3 +4092,21 @@ redesign.
   - the full `pl0e_1` and `pl0f_1` catalogs.
 - **Checks:** `pytest` 228 passed, 1 skipped; `ruff`, `ruff format` and
   `mypy` are clean.
+
+## 2026-10-25 — LOC-005 / EXP-0056: name calls identified by listening
+
+- **User listening:** the name calls are clip #1 of each fighter bank.
+  - `PL0E.PAC` #1 (`0x04F`) says **"Bison"**; `PL0F.PAC` #1 (`0x048`)
+    says "Gouki".
+  - In each, the name starts about 1 s in, after another sound.
+  - Both clips are also in the select bank (`SEL.PAC` payload 1, #4 and
+    #3).
+- **Disproven:** Vega-bank #18 (`0x286`) as the name call. It was only the
+  last clip seen in a channel record after the win banner. Clip #1 played
+  between the recorded states.
+- **Open:**
+  - The voice says "Bison" while the text says "Vega", and the user's first
+    description of the in-game line was "Vega". Seeing the mixer start
+    `0x04F` would settle whether the in-game lines are this clip.
+  - If they are, the American-name variant needs only an "Akuma" clip.
+- **Checks:** docs only. `pytest` 228 passed, 1 skipped; `ruff` is clean.

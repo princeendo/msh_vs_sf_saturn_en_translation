@@ -238,9 +238,12 @@ remain open; none blocks the roster image.
   speaker labels. The full inventory is not done.
 - Does the announcer speak character names, and which ones? The user reports
   the voice says "Vega". It is not checked per character.
-- Which clips say "Vega" and "Gouki"? `CMNSE.PAC` has none (user,
-  `EXP-0055`). The candidates are the four clips `PL0E.PAC` (Vega) and the
-  four clips `PL0F.PAC` (Gouki) share with the select bank (`EXP-0056`).
+- The name calls are `PL0E` #1 (`0x04F`, "Bison") and `PL0F` #1 (`0x048`,
+  "Gouki") (`EXP-0056`). Two things are still open:
+  - Does the game play those clips at character select and on the win
+    screen? The user first described the line as "Vega", but this clip says
+    "Bison".
+  - Are other select-bank clips the other fighters' name calls?
 - What do the `CMNSE.PAC` tag flags (`tag >> 10`) and the u32 at `0x04` mean?
 - In what format, and in which files, is the name art stored (VS screen)? Is
   there any acceptable source of US-name voice clips? Only needed if the user

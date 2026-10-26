@@ -2835,11 +2835,12 @@ the user asks or when it unblocks other work.
 - **Milestone:** Polish
 - **Dependencies:** LOC-002, LOC-003.
 - **Blockers:**
-  - identifying the "Vega" and "Gouki" clips by listening. Every sound bank
-    on the disc is decoded and exported (`EXP-0055`, `EXP-0056`,
-    `tools/audio/sound_bank.py`). `CMNSE.PAC` holds no names (user). The
-    candidates are the clips each fighter's `PLxx.PAC` bank shares with the
-    select bank in `SEL.PAC`;
+  - confirming in game that the name calls play these clips. By the user's
+    listening (`EXP-0056`), they are `PL0E` bank #1 (`0x04F`, "Bison") and
+    `PL0F` bank #1 (`0x048`, "Gouki"), and both are also in the select bank
+    (`SEL.PAC` payload 1, #4 and #3). The Vega character's voice already
+    says the US name, so the American-name variant may need only an "Akuma"
+    clip; the Japanese-name variant would keep "Bison";
   - a user decision on doing it, and on the clip source (PS1 first);
   - an encoder for the bank's ADPCM (the decoder is known, `EXP-0055`).
 - **Objective:** If approved, make the voice say the US names in the variant

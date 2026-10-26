@@ -2,9 +2,9 @@
 
 Task: LOC-005 (first blocker: identify the "Vega" and "Gouki" clips)
 Status: DONE
-Confidence: CONFIRMED (the container and bank layout, and which clips the
-mixer played); SUPPORTED (Vega-bank clip #18 is the "Vega" call); UNKNOWN
-(Gouki's clip, pending listening)
+Confidence: CONFIRMED (the container and bank layout, which clips the mixer
+played, and, by the user's listening, the two name-call clips); DISPROVEN
+(Vega-bank #18 as the name call)
 
 ## Observation
 
@@ -95,14 +95,31 @@ other than `CMNSE.PAC`, and those files contain banks in the same layout.
 ## Conclusion
 
 - **CONFIRMED:** the PAC container and bank layout, and the 28 banks.
-- **SUPPORTED:** Vega-bank #18 (`0x286`) is the "Vega" name call. It plays
-  right after the win banner, and the same clip is in the select bank, which
-  matches the user's report of "Vega" at both points. Listening will confirm
-  it.
-- **DISPROVEN:** `CMNSE.PAC` as the source of the name calls (user
-  listening).
-- Gouki's name call is probably one of his four shared clips, by analogy.
-  This is not observed.
+- **CONFIRMED (user listening, 2026-10-25):** the name calls are clip #1 of
+  each fighter bank:
+
+  | Clip | ID | Says | Same data in the select bank |
+  | --- | --- | --- | --- |
+  | `PL0E.PAC` bank #1 | `0x04F` | "Bison" | `SEL.PAC` payload 1 #4 |
+  | `PL0F.PAC` bank #1 | `0x048` | "Gouki" | `SEL.PAC` payload 1 #3 |
+
+  In both, the name starts about 1 s into the clip, after another sound.
+  Because the same clip is in the select bank, one recording can serve both
+  character select and the win screen.
+- **DISPROVEN:**
+  - Vega-bank #18 (`0x286`) as the name call. It was only the last clip seen
+    in a channel record after the win banner. Clip #1 was never caught in a
+    record (see Uncertainty);
+  - `CMNSE.PAC` as the source of the name calls (user listening).
+- **Open: the voice says "Bison", the text says "Vega".** The text and art
+  for this character use "Vega" (`NAME_OVERRIDES`; life bar `0x760`). The
+  name call in his bank says "Bison", the US name, yet the user first
+  described the in-game line as "Vega". Two questions are not yet answered:
+  - whether the in-game select and win lines are this clip;
+  - whether other select-bank clips are name calls for the other fighters.
+
+  Seeing the mixer start clip `0x04F`, or the user listening in game, would
+  settle the first.
 
 ## Uncertainty and Alternatives
 
@@ -125,4 +142,7 @@ other than `CMNSE.PAC`, and those files contain banks in the same layout.
   per clip, `index.json`, `catalog.wav` and `catalog.tsv`.
 - Listening aid (local only): `local/audio/shortlist.wav` and `shortlist.tsv`.
   These hold the 4 Vega-shared, 4 Gouki-shared and 12 select-only clips, with
-  1 s gaps. Vega-bank #18 starts at 5.41 s.
+  1 s gaps. Vega-bank #1 starts at 0.00 s and Gouki-bank #1 at 7.24 s.
+- The full-bank catalogs are `local/audio/pl0e_1/catalog.wav` ("Bison" in
+  clip #1 at 1.72 s) and `local/audio/pl0f_1/catalog.wav` ("Gouki" in clip
+  #1 at 0.92 s).
