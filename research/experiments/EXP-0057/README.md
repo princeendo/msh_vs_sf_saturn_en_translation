@@ -5,6 +5,9 @@ Status: DONE
 Confidence: CONFIRMED (the clips the mixer starts in the replayed windows,
 and, by the user's listening to single clips, what each says)
 
+Name calls on the disc: both conventions for Vega/Bison, Gouki/Akuma and
+Mech-Gouki/Cyber-Akuma (see Conclusion).
+
 ## Observation
 
 - `EXP-0056` recorded, from the user's listening, `PL0E` bank #1 (`0x04F`) as
@@ -94,11 +97,29 @@ None to the game. Replays of recorded states with a per-frame mixer log.
     it is the character's voice;
   - **the disc also holds "Bison" (`0x04F`)**, in the same fighter bank and in
     the select bank. Nothing in these windows played it.
-- **Implication for `LOC-005`:** the American-name variant may not need new
-  audio for Bison. Pointing the name call at `0x04F` instead of `0x286`
-  could be enough. Gouki's bank has "Gouki" (`0x048`). Whether it also has
-  "Akuma" is not known yet; the candidates are its other clips shared with
-  the select bank (#13 `0x25A`, #23 `0x338`).
+- **Second listening round (2026-10-25):**
+
+  | File | Clip | Select-bank copy | Says |
+  | --- | --- | --- | --- |
+  | F | Gouki bank #13 (`0x25A`; also `PL13` #10) | #43 | not a name (user unsure where it is used) |
+  | G | Gouki bank #23 (`0x338`) | #62 | **"Akuma"** |
+  | H | Vega bank #7 (`0x1A5`) | #26 | not a name (user unsure where it is used) |
+  | I | `PL13` bank #1 (`0x05B`) | #7 | **"Cyber Akuma"** |
+  | J | `PL13` bank #2 (`0x082`) | #12 | **"Mech Gouki"** |
+
+- **Both naming conventions are on the disc for all three characters:**
+
+  | Character | Japanese-name call | US-name call |
+  | --- | --- | --- |
+  | Vega / Bison | `0x286` "Vega" (played on the win screen) | `0x04F` "Bison" |
+  | Gouki / Akuma | `0x048` "Gouki" | `0x338` "Akuma" |
+  | Mech-Gouki / Cyber-Akuma | `0x082` "Mech Gouki" | `0x05B` "Cyber Akuma" |
+
+  `PL13.PAC` is therefore Mech-Gouki's file (SUPPORTED by its contents).
+- **Implication for `LOC-005`:** the American-name variant needs no new
+  audio. It needs the mechanism that chooses the Japanese call over the US
+  call (a sound-ID table, a region flag, or a code path) and a switch of
+  that choice.
 
 ## Uncertainty and Alternatives
 

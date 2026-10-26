@@ -239,11 +239,11 @@ remain open; none blocks the roster image.
 - Does the announcer speak character names, and which ones? The user reports
   the voice says "Vega". It is not checked per character.
 - The disc holds both "Vega" (`0x286`, played on the win screen) and
-  "Bison" (`0x04F`) for one character (`EXP-0057`). What chooses
-  between them: a table, a region flag, or is "Bison" an unused leftover?
-- Is there an "Akuma" clip? Gouki's bank has "Gouki" (`0x048`). The
-  candidates are its other clips shared with the select bank, `0x25A` and
-  `0x338`.
+  "Bison" (`0x04F`) for one character, and likewise for Gouki and
+  Mech-Gouki (`EXP-0057`). What chooses between them: a sound-ID table, a
+  region flag, or are the US calls unused leftovers?
+- US-name calls exist for all three characters: "Bison" `0x04F`, "Akuma"
+  `0x338`, "Cyber Akuma" `0x05B` (`EXP-0057`). What plays them, if anything?
 - Which clip plays the name at character select? Not observed: the replay
   needs input that the agent cannot send.
 - What do the `CMNSE.PAC` tag flags (`tag >> 10`) and the u32 at `0x04` mean?

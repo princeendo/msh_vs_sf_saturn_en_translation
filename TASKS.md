@@ -2836,13 +2836,15 @@ the user asks or when it unblocks other work.
 - **Dependencies:** LOC-002, LOC-003.
 - **Blockers:**
   - finding how the game picks a name call. By `EXP-0057`, the disc holds
-    both "Vega" (`0x286`, played on the win screen) and "Bison" (`0x04F`) for
-    one character, plus "Gouki" (`0x048`). If the choice is a table or an ID,
-    the American-name variant needs no new audio for Bison;
-  - whether an "Akuma" clip exists. If it does not, one must be sourced and
-    encoded;
-  - a user decision on doing it, and on the clip source (PS1 first);
-  - an encoder for the bank's ADPCM (the decoder is known, `EXP-0055`).
+    both conventions for all three characters:
+    - "Vega" `0x286` / "Bison" `0x04F`;
+    - "Gouki" `0x048` / "Akuma" `0x338`;
+    - "Mech Gouki" `0x082` / "Cyber Akuma" `0x05B`.
+
+    So the American-name variant needs **no new audio**. It needs that
+    choice switched;
+  - a user decision on doing it. A clip source and an encoder are no longer
+    needed.
 - **Objective:** If approved, make the voice say the US names in the variant
   build.
 - **Acceptance criteria:**

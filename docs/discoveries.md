@@ -1158,7 +1158,11 @@ Experiments: `EXP-0055`, `EXP-0056`
     plays it on the win screen, 116 frames after the banner.
   - The same bank's #1 (`0x04F`, also select-bank #4) says "Bison". It was
     not seen played.
-  - `PL0F` bank #1 (`0x048`, select-bank #3) says "Gouki".
+  - `PL0F` bank #1 (`0x048`, select-bank #3) says "Gouki"; bank #23
+    (`0x338`, select #62) says "Akuma".
+  - `PL13` (Mech-Gouki) bank #2 (`0x082`, select #12) says "Mech Gouki"; #1
+    (`0x05B`, select #7) says "Cyber Akuma".
+  - So the disc holds both naming conventions for all three characters.
   - The character-select voices are `0x133` (Vega) and `0x1D1` (Gouki). They
     are the characters' own voices, not names.
 - **Evidence.** Replaying each active channel from its start reproduces the

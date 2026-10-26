@@ -4147,3 +4147,19 @@ redesign.
     flag, or an unused leftover);
   - listen to Gouki's other select-shared clips (`0x25A`, `0x338`) for
     "Akuma".
+
+## 2026-10-25 — LOC-005 / EXP-0057: every US-name call is on the disc
+
+- **User listening, second round:**
+  - G `0x338` (Gouki bank #23, select #62) says "Akuma";
+  - I `0x05B` (`PL13` #1, select #7) says "Cyber Akuma";
+  - J `0x082` (`PL13` #2, select #12) says "Mech Gouki";
+  - F `0x25A` and H `0x1A5` are not names; the user is unsure where they
+    are used.
+- **Result:** both naming conventions are on the disc for Vega/Bison,
+  Gouki/Akuma and Mech-Gouki/Cyber-Akuma. The American-name variant needs no
+  new audio, sourcing or encoder. It needs the mechanism that picks the
+  Japanese call, then a switch.
+- **Next for `LOC-005`:** locate where the win and select code choose the
+  sound ID (`0x286` for Vega). For example, search the program for the
+  ID, or break on the mixer's channel set-up when `0x286` starts.
