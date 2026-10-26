@@ -1,8 +1,9 @@
 # EXP-0079: Norimaro's post-fight text and ending in English
 
 Task: SPECIAL-002
-Status: IN_PROGRESS (built and checked offline; live check pending)
-Confidence: SUPPORTED (pairing, compiler checks, source hashes)
+Status: DONE
+Confidence: CONFIRMED (pairing, compiler checks, source hashes; seen in play
+from a cold boot)
 
 ## Observation
 
@@ -77,10 +78,31 @@ Saturn image (manifest hashes); arcade `mshvsfu`, `mshvsf`, `mshvsfj`; PS1 US.
 - **Rendered ending (US build):** the page images read "Cyber Akuma"
   (`build/regression/m8_roster_gold_us/build/records-ME-3F5C.png`).
 
+- **Live check** (2026-10-26, user play, US release image `4a24ab67…`,
+  `local/special003/play3/rec/shots/`): Arcade mode, Norimaro with Shadow.
+  - Fight 1 won by the user: Norimaro's official win quote "Hmm... I thought
+    you were taller..." (`f00010080`, `bfa9b1c7…`).
+  - Boss via `ending_driver --after-stage 1`: Norimaro vs CYBER-AKUMA; the
+    post-boss lines "You are worthy NORIMARO." (`f00011818`, `8bb2481f…`)
+    and "I'll never forget you SHADOW." (`f00012359`, `e0fee6ba…`).
+  - All five translated pages: "Victory over Apocalypse and Cyber Akuma went
+    to his head," (`f00013259`, `804f0b17…`), "and Norimaro took over the
+    world." (`f00013809`, `55795f71…`), "After his death…" (`f00014081`,
+    `41745568…`), "Later, he even tormented exam students…" (`f00014340`,
+    `ef3d5c80…`), "The End" (`f00014548`, `2a9c525d…`); then the staff
+    credits.
+- **Driver:** on the first launch the driver armed at boot: its first read of
+  the stage word was `0x0002`, which passed the single-read test. It was
+  stopped within seconds and the run discarded. It now arms only on a step
+  from `0xHH(N-1)` to `0xHHN`; this run armed on `0x0300` → `0x0301`, after
+  the boot values `0004`, `0002`, `0000`, `5854`, `0c13`, `0001`, `454d`,
+  `0100`, `2c00`, `ff00`.
+
 ## Conclusion
 
-**SUPPORTED** (offline): Norimaro's win quotes (official), partner lines
-(official) and ending (translated) are built into both release variants.
+**CONFIRMED:** Norimaro's win quotes (official), partner lines (official) and
+ending (translated) are in English in both release variants, seen in play in
+the US variant.
 
 ## Uncertainty and Alternatives
 

@@ -3073,11 +3073,12 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-002 - Translate Norimaro's post-fight text and ending
 
-- **Status:** `IN_PROGRESS` (2026-10-26). Built in both release references
+- **Status:** `DONE` (2026-10-26). Built in both release references
   (`EXP-0079`): the international arcade's official English win quotes
   (`MC11` slot 17) and partner lines, a new translation of his five ending
   pages (`ME.PAC` `0x3F5C`); the font fits by retiring kanji only replaced
-  records used. Remaining: the live check from a cold boot.
+  records used. Seen in play from a cold boot (US image): his win quote, the
+  post-boss lines with Shadow, and all five ending pages.
 - **Priority:** not set by the user
 - **Milestone:** M9
 - **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).

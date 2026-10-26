@@ -4680,3 +4680,15 @@ redesign.
   pass; 536 pairs each, 22 and 71 bytes spare.
 - **Next:** live check (Norimaro's win quote, post-boss lines, ending) on the
   user's command.
+
+## 2026-10-26 — SPECIAL-002 done: Norimaro's text seen in play
+
+- User play (US release image `4a24ab67…`, Norimaro with Shadow): his
+  official win quote, the official post-boss lines and his five translated
+  ending pages, all in English (`EXP-0079`).
+- **Not productive / fixed:** the first launch's `ending_driver
+  --after-stage 1` armed at boot on the stage word's first read, `0x0002`,
+  and wrote `0x0007` for a few seconds. Stopped, run discarded, Mednafen
+  restarted cold (config unchanged). The driver now arms only on a step from
+  `0xHH(N-1)` to `0xHHN`; this run's step was `0x0300` → `0x0301`.
+- **Next unblocked:** `UI-004` (the CONTINUE? hint box), backlog.

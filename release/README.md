@@ -122,6 +122,8 @@ byte-identical to the original.
   - the three English attract captions from a cold boot (`EXP-0073`, in the
     American-name image; both images carry byte-identical `MVSOP*.ST2`
     files).
+  - from a cold boot, in the American-name image: Metal Zangief's win quote,
+    post-boss lines and ending (`EXP-0078`), and Norimaro's (`EXP-0079`).
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 

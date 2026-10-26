@@ -12,10 +12,12 @@ user only works the menus (start arcade mode, pick a team). The driver then:
    untouched. With ``--repeat``, it re-arms after ``--rest`` seconds.
 
 With ``--after-stage N``, the first ARM waits, writing nothing, until the stage
-word reads ``0xHHNN`` with ``NN`` >= N (the player has won N stages), so the
-earlier fights, and their win quotes, play normally (`SPECIAL-003`). The high
-byte ``HH`` is not always 6 (a cold-boot run showed ``0x0400`` → ``0x0401``), so
-it is kept: that ARM holds ``0xHH07``. Every change of the stage word is logged
+word steps from ``0xHH(N-1)`` to ``0xHHN`` (the player has won N stages), so
+the earlier fights, and their win quotes, play normally (`SPECIAL-003`). A
+single read is not enough: at boot the word holds unrelated values such as
+``0x0002`` (`SPECIAL-002`). The high byte ``HH`` varies between runs
+(``0x0400`` → ``0x0401``, ``0x0300`` → ``0x0301``), so it is kept: that ARM
+holds ``0xHH07``. Every change of the stage word is logged
 while waiting.
 
 
@@ -49,7 +51,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--after-stage",
         type=int,
         default=0,
-        help="first arm only once N stages are won (stage word 0x06NN)",
+        help="first arm only once N stages are won (stage word 0xHH(N-1) -> 0xHHN)",
     )
     args = parser.parse_args(argv)
     agent = Agent(args.agent_dir.resolve(), 10)
@@ -83,9 +85,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                 word = agent.bus_read(STAGE_WORD, 2)
                 if word != last:
                     note(f"stage word {word.hex()}")
+                    # Only a step from index - 1 to index: at boot the word
+                    # holds unrelated values such as 0002 (SPECIAL-002).
+                    if (
+                        len(last) == 2
+                        and word[0] <= 0x0F
+                        and word[0] == last[0]
+                        and word[1] == index
+                        and last[1] == index - 1
+                        and index < STAGE_8[1]
+                    ):
+                        return bytes([word[0], STAGE_8[1]])
                     last = word
-                if word[0] <= 0x0F and index <= word[1] < STAGE_8[1]:
-                    return bytes([word[0], STAGE_8[1]])
             time.sleep(args.period)
 
     target = STAGE_8
