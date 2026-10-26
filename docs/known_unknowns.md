@@ -238,14 +238,14 @@ remain open; none blocks the roster image.
   speaker labels. The full inventory is not done.
 - Does the announcer speak character names, and which ones? The user reports
   the voice says "Vega". It is not checked per character.
-- Which clips are the name calls? `EXP-0056` recorded `PL0E` #1 (`0x04F`,
-  "Bison") and `PL0F` #1 (`0x048`, "Gouki"). In game, though, the mixer
-  played Vega-bank #5 (`0x133`) at select and #18 (`0x286`) on the win
-  screen (`EXP-0057`). The user is re-checking single clips. Also open:
-  - Does the game play those clips at character select and on the win
-    screen? The user first described the line as "Vega", but this clip says
-    "Bison".
-  - Are other select-bank clips the other fighters' name calls?
+- The disc holds both "Vega" (`0x286`, played on the win screen) and
+  "Bison" (`0x04F`) for one character (`EXP-0057`). What chooses
+  between them: a table, a region flag, or is "Bison" an unused leftover?
+- Is there an "Akuma" clip? Gouki's bank has "Gouki" (`0x048`). The
+  candidates are its other clips shared with the select bank, `0x25A` and
+  `0x338`.
+- Which clip plays the name at character select? Not observed: the replay
+  needs input that the agent cannot send.
 - What do the `CMNSE.PAC` tag flags (`tag >> 10`) and the u32 at `0x04` mean?
 - In what format, and in which files, is the name art stored (VS screen)? Is
   there any acceptable source of US-name voice clips? Only needed if the user

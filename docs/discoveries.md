@@ -1152,6 +1152,15 @@ Experiments: `EXP-0055`, `EXP-0056`
   - The active mask is at `0x060132D4`.
   - Each sample is doubled into rings that play at 24,031 Hz, so clips play
     at 12,015.5 Hz.
+- **Name calls** (`EXP-0057`: mixer log plus user listening to single
+  clips).
+  - `PL0E` bank #18 (`0x286`, also select-bank #48) says "Vega". The game
+    plays it on the win screen, 116 frames after the banner.
+  - The same bank's #1 (`0x04F`, also select-bank #4) says "Bison". It was
+    not seen played.
+  - `PL0F` bank #1 (`0x048`, select-bank #3) says "Gouki".
+  - The character-select voices are `0x133` (Vega) and `0x1D1` (Gouki). They
+    are the characters' own voices, not names.
 - **Evidence.** Replaying each active channel from its start reproduces the
   stored predictor and step exactly: 24 of 24 active channels in 38 states of
   the `END-024` recording. Every mismatch (73 of 575 records) is an inactive,

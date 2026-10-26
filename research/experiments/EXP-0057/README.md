@@ -1,9 +1,9 @@
 # EXP-0057: Which clips the game plays at character select and on the win screen
 
 Task: LOC-005 (first blocker: confirm the name-call clips in game)
-Status: IN_PROGRESS (waiting for the user to listen to the candidates)
-Confidence: CONFIRMED (the clips the mixer starts in the replayed windows);
-UNKNOWN (what each clip says)
+Status: DONE
+Confidence: CONFIRMED (the clips the mixer starts in the replayed windows,
+and, by the user's listening to single clips, what each says)
 
 ## Observation
 
@@ -76,16 +76,29 @@ None to the game. Replays of recorded states with a per-frame mixer log.
 ## Conclusion
 
 - **Prediction not met.** The game played `0x133` at select and `0x286` on
-  the win screen, not `0x04F`. Either the user's "Bison"/"Gouki" clips are
-  `0x133` and `0x1D1` (the shortlist reading), or the in-game lines are other
-  clips than the ones the user named.
-- The `EXP-0056` name-call record is under review. The user is listening to
-  single clips:
-  - A: `0x04F`;
-  - B: `0x133`, played at select;
-  - C: `0x286`, played on the win screen;
-  - D: `0x048`;
-  - E: `0x1D1`, also in Mech-Gouki's bank.
+  the win screen, not `0x04F`.
+- **User listening to single clips (2026-10-25):**
+
+  | File | Clip | Says |
+  | --- | --- | --- |
+  | A | Vega bank #1 (`0x04F`) | "Bison" |
+  | B | Vega bank #5 (`0x133`) | the character-select voice for Bison/Vega |
+  | C | Vega bank #18 (`0x286`) | "Vega" |
+  | D | Gouki bank #1 (`0x048`) | "Gouki" |
+  | E | Gouki bank #11 (`0x1D1`) | the character-select voice for Gouki |
+
+- **CONFIRMED:**
+  - the win-screen name call for this character is `0x286`, "Vega". The
+    mixer starts it 116 frames after the banner, and it says "Vega";
+  - the select voice is `0x133`. It was the clip just played at select, and
+    it is the character's voice;
+  - **the disc also holds "Bison" (`0x04F`)**, in the same fighter bank and in
+    the select bank. Nothing in these windows played it.
+- **Implication for `LOC-005`:** the American-name variant may not need new
+  audio for Bison. Pointing the name call at `0x04F` instead of `0x286`
+  could be enough. Gouki's bank has "Gouki" (`0x048`). Whether it also has
+  "Akuma" is not known yet; the candidates are its other clips shared with
+  the select bank (#13 `0x25A`, #23 `0x338`).
 
 ## Uncertainty and Alternatives
 
@@ -95,6 +108,8 @@ None to the game. Replays of recorded states with a per-frame mixer log.
 - The win window starts at the banner. A clip that started before the banner
   is seen only as an initial record. Those records show Vega-bank #3 and #21.
 - Gouki was not observed in game in this recording.
+- Where the game picks `0x286` over `0x04F` (a table, a region flag, or an
+  unused leftover) is not known.
 
 ## Reproduction
 

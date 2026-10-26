@@ -4129,3 +4129,21 @@ redesign.
 - **Status:** the clip-#1 name-call record is under review; the user is
   checking single clips A-E (`local/audio/confirm/`). It is removed from
   `docs/discoveries.md` until resolved.
+
+## 2026-10-25 — LOC-005 / EXP-0057: clip identities settled by listening
+
+- **User listening to single clips:**
+  - A `0x04F` says "Bison"; B `0x133` is Vega's select voice; C `0x286`
+    says "Vega"; D `0x048` says "Gouki"; E `0x1D1` is Gouki's select
+    voice.
+- **Conclusions:**
+  - The win screen plays "Vega" (`0x286`).
+  - The disc holds both names for this character. "Bison" (`0x04F`) was not
+    seen played.
+  - The `EXP-0056` reading ("the only name call is Bison"; "#18 is not a
+    name call") is disproven and corrected there.
+- **Next:**
+  - find what selects `0x286` over `0x04F` (a sound-ID table, a region
+    flag, or an unused leftover);
+  - listen to Gouki's other select-shared clips (`0x25A`, `0x338`) for
+    "Akuma".
