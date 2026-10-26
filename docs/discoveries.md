@@ -1215,6 +1215,30 @@ Experiment: `EXP-0059`
   - the US calls have not been heard in play beyond `EXP-0058`'s replay.
 - **Reproduce.** `research/experiments/EXP-0059/README.md`.
 
+## LOC-004: US Life-Bar Names and Speaker Labels
+
+Confidence: **CONFIRMED** (replays; AKUMA from the glyph cache and an offline
+render)
+
+Experiment: `EXP-0060`
+
+- **Life bars.**
+  - The fight HUD draws bold quote-font cells: VEGA `0x760`-`0x762`, GOUKI
+    `0x750`-`0x752`, MECH-GOUKI `0x568`-`0x56D`.
+  - The US variant copies the font's own BISON `0x763`-`0x765`, AKUMA
+    `0x753`-`0x755` and CYBER-AKUMA `0x5D9`-`0x5DE` over them. BISON and
+    CYBER-AKUMA were seen in a replay.
+  - AKUMA is 50 px wide and GOUKI's sprite 48 px, so 2 px are clipped.
+- **Speaker labels.**
+  - `ME.PAC` `0xB164` fields 14, 15 and 19 become "Bison", "Akuma" and
+    "Cyber Akuma".
+  - The table's RAM copy (WRAM-L `0x0023B234`) drives the label, which is
+    drawn when the page opens. Writing "Bison" before the page showed
+    "Bison".
+- **Not used anywhere seen:** the italic label set and the first MECH-GOUKI
+  copy `0x562`-`0x567`. The VS-screen names are a sprite mosaic.
+- **Reproduce.** `research/experiments/EXP-0060/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -204,3 +204,11 @@ ignored `local/` or `build/`.
 - Sort frame-numbered files numerically.
 - Never analyze compressed save states directly. Never commit game text beyond
   minimal translation records.
+- Run one Mednafen agent session at a time. Two emulators sharing
+  `local/mednafen/agent` both answer commands, so loads, frames, and
+  screenshots silently go to the wrong one (EXP-0060 lost a scan and several
+  replays this way).
+- A state replays the RAM it saved. Data the game loaded earlier (fonts,
+  `MEMFIX.PAC` tables, `ME.PAC`) comes from the state, not the mounted image,
+  until the game reloads it. Transplant fonts or poke RAM to test, or cold
+  boot.

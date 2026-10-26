@@ -6,6 +6,7 @@ from tools.text.official_endings import (
     box_line,
     localize,
     name_text,
+    speaker_patches,
     voice_patches,
 )
 
@@ -58,3 +59,20 @@ def test_voice_patches_copy_the_american_calls_with_expect() -> None:
     assert by_offset["0x124AEA"] == ("0286", "004f")  # table A: Vega -> Bison
     assert by_offset["0x124C44"] == ("0048", "0338")  # table B: Gouki -> Akuma
     assert by_offset["0x124B1C"] == ("0082", "005b")  # table A: Mech-Gouki
+
+
+def test_speaker_patches_set_the_us_labels_with_expect() -> None:
+    assert speaker_patches("saturn") == []
+    by_offset = {p["offset"]: p for p in speaker_patches("us")}
+    vega = by_offset["0xB244"]  # field 14
+    assert bytes.fromhex(vega["expect"]) == b"Vega".ljust(16)
+    assert bytes.fromhex(vega["hex"]) == b"Bison".ljust(16)
+    assert bytes.fromhex(by_offset["0xB294"]["hex"]) == b"Cyber Akuma".ljust(16)
+
+
+def test_us_label_copies_are_cell_for_cell() -> None:
+    glyphs = NAME_VARIANTS["us"].glyphs
+    assert [glyphs[0x760 + i] for i in range(3)] == [0x763, 0x764, 0x765]  # BISON
+    assert [glyphs[0x750 + i] for i in range(3)] == [0x753, 0x754, 0x755]  # AKUMA
+    assert [glyphs[0x568 + i] for i in range(6)] == list(range(0x5D9, 0x5DF))
+    assert NAME_VARIANTS["saturn"].glyphs == {}

@@ -113,18 +113,42 @@ US_VOICE_PATCHES = {
 }
 
 
+# LOC-004 (EXP-0060): the life-bar name labels are quote-font cells, and the font
+# already holds the US art. The fight HUD draws bold VEGA 0x760-0x762, GOUKI
+# 0x750-0x752, and MECH-GOUKI 0x568-0x56D; the US variant copies BISON
+# (0x763-0x765), AKUMA (0x753-0x755), and CYBER-AKUMA (0x5D9-0x5DE) over them.
+# AKUMA is 50 px wide and the GOUKI sprite 48 px, so its last 2 px are clipped.
+US_LABEL_COPIES = {
+    **{0x760 + i: 0x763 + i for i in range(3)},
+    **{0x750 + i: 0x753 + i for i in range(3)},
+    **{0x568 + i: 0x5D9 + i for i in range(6)},
+}
+# Ending speaker labels: 16-character ASCII fields in ME.PAC, one per character
+# index (EXP-0054). Index: (Saturn text, US text).
+SPEAKER_FIELDS, SPEAKER_FIELD = 0xB164, 16
+US_SPEAKERS = {
+    14: ("Vega", "Bison"),
+    15: ("Gouki", "Akuma"),
+    19: ("Mech-Gouki", "Cyber Akuma"),
+}
+
+
 @dataclass(frozen=True)
 class NameVariant:
-    """Name handling for one build variant (LOC-003)."""
+    """Name handling for one build variant (LOC-003, LOC-004)."""
 
     names: Mapping[int, str] = field(default_factory=dict)
     text: Mapping[str, str] = field(default_factory=dict)
     voice: Mapping[int, tuple[int, int]] = field(default_factory=dict)
+    glyphs: Mapping[int, int] = field(default_factory=dict)
+    speakers: Mapping[int, tuple[str, str]] = field(default_factory=dict)
 
 
 NAME_VARIANTS = {
     "saturn": NameVariant(NAME_OVERRIDES, TEXT_OVERRIDES),
-    "us": NameVariant(voice=US_VOICE_PATCHES),
+    "us": NameVariant(
+        voice=US_VOICE_PATCHES, glyphs=US_LABEL_COPIES, speakers=US_SPEAKERS
+    ),
 }
 
 
@@ -141,6 +165,25 @@ def en_lines(program: bytes, address: int, variant: str = "saturn") -> list[str]
     return [
         localize(text[:EN_CELLS].strip(), variant),
         localize(text[EN_CELLS:].strip(), variant),
+    ]
+
+
+def speaker_patches(variant: str) -> list[dict[str, str]]:
+    """Spec ``patches`` entries for the variant's ME.PAC speaker-label fields."""
+
+    def field_hex(text: str) -> str:
+        if len(text) > SPEAKER_FIELD:
+            raise ValueError(f"{text!r} is longer than {SPEAKER_FIELD} characters")
+        return text.ljust(SPEAKER_FIELD).encode("ascii").hex()
+
+    return [
+        {
+            "file": "ME.PAC",
+            "offset": f"0x{SPEAKER_FIELDS + SPEAKER_FIELD * index:X}",
+            "hex": field_hex(new),
+            "expect": field_hex(old),
+        }
+        for index, (old, new) in sorted(NAME_VARIANTS[variant].speakers.items())
     ]
 
 
@@ -398,7 +441,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         spec["names"] = args.names
         patches = spec["patches"]
         assert isinstance(patches, list)
-        patches += voice_patches(args.names)
+        patches += voice_patches(args.names) + speaker_patches(args.names)
+        copies = spec.get("glyph_copies") or {}
+        assert isinstance(copies, dict)
+        copies |= {
+            f"0x{t:03X}": f"0x{s:03X}"
+            for t, s in NAME_VARIANTS[args.names].glyphs.items()
+        }
+        spec["glyph_copies"] = dict(sorted(copies.items()))
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

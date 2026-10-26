@@ -295,10 +295,10 @@
   },
   {
    "name": "m8_roster_gold_us",
-   "experiment": "EXP-0059",
-   "purpose": "LOC-003 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides) and the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058). The name art is unchanged (LOC-004).",
-   "spec": "local/loc003/us.json",
-   "spec_sha256": "75e5f1bb437b88e19fa316ddc9dfd5ec7df10044ca3008fe6606f9bbae8d42dd",
+   "experiment": "EXP-0059, EXP-0060",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar labels copied from the font's own US art (BISON, AKUMA, CYBER-AKUMA) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060). The VS-screen names and the win banner are unchanged.",
+   "spec": "local/loc004/us.json",
+   "spec_sha256": "781f70eec010e4a7e736ad579eac012cba59f80e1c544221ea8767d4d90c94f4",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -312,7 +312,7 @@
     "--names",
     "us"
    ],
-   "track01_sha256": "e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf",
+   "track01_sha256": "49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513",
    "files_sha256": {
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
     "MC02.PAC": "241924b8e1bbc8b36e3dbeb33bcb53e4fbf727c418b93250aa5037b9195d20a9",
@@ -332,11 +332,17 @@
     "MC10.PAC": "41c8fa5dd10432a15fae8f21f00f5d038f536349cdc86f836f085bd61b504c41",
     "MC12.PAC": "e92bd50d35813b1645f5b582bfccec3641535cb3c3e828fb8d969a8da2edff58",
     "MC13.PAC": "1a2f2e1002791735b6d5fcbfa83dcb7e638709fff18281fd0f9439c510953ace",
-    "ME.PAC": "c809b2efd50c4bac6aa9c3f04c8606c11b2f5867eade74aba06e7d3a6eacf675",
-    "MEMFIX.PAC": "8f8c12e055f791c04bd84a83dc7a8ff27b4a172118a47008e79cf293ec6b53bc",
+    "ME.PAC": "58aad1dcfd456250a7a0245c8f3f7742119a0941c2efd82dd4e8bfb70ce3e2e7",
+    "MEMFIX.PAC": "70e243c02c9567a70b9467214c9a3d9d8bcde424e9826dda7645e9bed3c101f8",
     "MM.BIN": "5fef33fec5cbf061cd5e950054447d535d1658e455e61e711e57542ccc38727f"
    },
-   "baselined": "2026-10-25"
+   "baselined": "2026-10-25",
+   "previous": [
+    {
+     "track01_sha256": "e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf",
+     "replaced_because": "EXP-0060: US life-bar labels and speaker labels"
+    }
+   ]
   }
  ]
 }

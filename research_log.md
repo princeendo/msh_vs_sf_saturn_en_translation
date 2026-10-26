@@ -4208,3 +4208,33 @@ redesign.
 - **Tasks:** `LOC-003` DONE; `LOC-004` READY; `LOC-005` READY, with only the
   in-play listening check left.
 - **Checks:** `pytest` passes; `ruff`, `ruff format` and `mypy` are clean.
+
+## 2026-10-25 — LOC-004 / EXP-0060: US life-bar names and speaker labels
+
+- **Cells drawn by the fight HUD** (glyph logs): VEGA `0x760`-`0x762`, GOUKI
+  `0x750`-`0x752`, MECH-GOUKI `0x568`-`0x56D`.
+- **US variant:**
+  - copies BISON `0x763`-`0x765`, AKUMA `0x753`-`0x755` and CYBER-AKUMA
+    `0x5D9`-`0x5DE` over those cells;
+  - sets the `ME.PAC` speaker fields 14, 15 and 19 to Bison, Akuma and
+    Cyber Akuma.
+- **Build:** the Saturn spec is unchanged. The US spec is `781f70ee…`, track 01
+  `49e002df…`, patch `0e055dbc…`. 9 of 9 references pass.
+- **Seen:**
+  - a BISON / CYBER-AKUMA HUD in a replay with the US font transplanted;
+  - a "Bison" speaker label after writing the WRAM-L table copy (`0x23B234`)
+    before the page opens. Writing after the page is shown does nothing.
+- **Limitation:** AKUMA is 2 px wider than GOUKI's 3-cell sprite, so its last
+  A's foot is clipped. The sprite-width table was not found; static searches
+  for a per-character label table (index 14 = `0x760`, 15 = `0x750`) found
+  nothing.
+- **Not used anywhere seen:** the italic label set and the first MECH-GOUKI
+  copy. The VS screen draws no quote-font labels (450-frame glyph log).
+- **Process error (discarded):** a background glyph scan ran a second
+  Mednafen on the same agent directory as foreground replays. Both answered
+  commands. Those results were discarded, the checks were rerun one at a
+  time, and the pitfall is added to `docs/agent_briefing.md`.
+- **Not productive:** tracing `R2` at the glyph routine (it is the cache slot
+  map, `0x263D62 + 2 * (code - 0x480)`, not a source pointer).
+- **Checks:** `pytest` 232 passed, 1 skipped; `ruff`, `ruff format` and
+  `mypy` are clean.
