@@ -2951,7 +2951,8 @@ the user asks or when it unblocks other work.
 
 ### UI-003 - Replace the Japanese attract-mode teaser screens with their US versions
 
-- **Status:** `IN_PROGRESS`. The inventory and source are done (`EXP-0066`):
+- **Status:** `DONE` (2026-10-26). The inventory and source are done
+  (`EXP-0066`):
   - four Japanese captions per attract cycle, plus a Norimaro screen (out of
     scope without approval);
   - each caption is VDP2 tiles, LZ-compressed in all eight `MVSOP*.ST2`
@@ -2997,8 +2998,9 @@ the user asks or when it unblocks other work.
   `m8_roster_gold_us` (`0f87cc6d…`) and both release patches are
   rebaselined.
 
-  Remaining for acceptance: the PS1 US attract mode as a second oracle
-  (`REF-011` material; `EXP-0067` recorded only the arcade).
+  The PS1 US oracle is done (`EXP-0072`, user-supplied BIOS): the same three
+  captions as the US arcade, with the same wording and colour set as the
+  fixed Saturn captions. Every acceptance criterion is met.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the

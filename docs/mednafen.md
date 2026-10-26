@@ -521,6 +521,20 @@ MEDNAFEN_HOME="$PWD/local/mednafen" mednafen /path/to/mshvsf.cue
 The exact Mednafen build and observed boot result remain subject to `EMU-001` through
 `EMU-004`; these names and hashes are setup metadata, not runtime confirmation.
 
+## Local PlayStation BIOS (reference captures only)
+
+For capturing the PS1 US release (`UI-003`, `EXP-0072`), the user supplied a
+PlayStation BIOS on 2026-10-26. It is copied unchanged into the ignored
+firmware directory:
+
+| Local filename | Supplied filename | Size | SHA-256 | MD5 | Mednafen use |
+| --- | --- | ---: | --- | --- | --- |
+| `scph1001.bin` | `SCPH1001.BIN` | 524288 | `71af94d1e47a68c11e8fdb9f8368040601514a42a5a399cda48c7d3bff1e99d3` | `924e392ed05558ffdb115408c263dccf` | `-psx.bios_na scph1001.bin` on the command line |
+
+Mednafen 1.32.1 accepts it with `psx.bios_sanity 1` and boots the US disc to
+the SCEA licence screen. The project configuration is unchanged; the BIOS is
+selected per run.
+
 ## Modification Gate
 
 Do not modify Mednafen before `EMU-012` is complete and `EMU-020` documents why stock

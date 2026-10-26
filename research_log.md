@@ -4522,4 +4522,17 @@ redesign.
     `ec54c990…` (2,873,639 bytes);
   - the patches grew from about 157 KB because re-compressed streams change
     most of their bytes.
-- **Next:** record the PS1 US attract mode as UI-003's second oracle.
+
+## 2026-10-26 — UI-003 / EXP-0072: PS1 US attract captions (second oracle); UI-003 done
+
+- **BIOS:** the user supplied `SCPH1001.BIN` (SHA-256 `71af94d1…`, MD5
+  `924e392e…`), copied to the ignored `local/mednafen/firmware/scph1001.bin`
+  and selected per run with `-psx.bios_na scph1001.bin`
+  (`docs/mednafen.md`). Mednafen's sanity check accepts it.
+- **Capture:** cold boot of the US disc, a screenshot every 15 frames for
+  12,000 frames. Captions: LEGENDARY / HEROES / UNITE AGAIN!! (`f003512`),
+  AMAZING / TEAM BATTLES! (`f003887`), NEW HEROES / JOIN / THE FIGHT!!
+  (`f004142`); the cycle repeats about every 3,960 frames.
+- **Result:** wording equals the US arcade; colours are `F206`, `FFF0`-`FF80`
+  and `F0CC`, the same set as the fixed Saturn captions.
+- **UI-003:** `DONE`.

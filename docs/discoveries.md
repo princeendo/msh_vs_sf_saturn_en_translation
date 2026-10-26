@@ -1421,7 +1421,12 @@ Experiment: `EXP-0071`
 
   `official_endings --attract-captions` adds the result as expect-checked
   patches.
-- **Reproduce.** `research/experiments/EXP-0071/README.md`.
+- **Oracles agree.** The US arcade (`EXP-0067`) and the PS1 US release
+  (`EXP-0072`) show the same three captions in the colour set `F206`,
+  `FFF0`-`FF80` and `F0CC`, which is the Saturn win-banner set the captions
+  now use.
+- **Reproduce.** `research/experiments/EXP-0071/README.md` and
+  `research/experiments/EXP-0072/README.md`.
 
 ## Entry Requirements
 
