@@ -257,7 +257,9 @@ remain open; none blocks the roster image.
   claims (RC-1 to RC-6 in `references/mshvsf/arcade/README.md`):
   - Norimaro is selectable only in Japan, yet international ROMs hold his
     translated English, Spanish, and Portuguese win quotes (RC-1, RC-2).
-  - The secret characters have unique quotes only in Japan (RC-3).
+  - The secret characters have unique quotes only in Japan (RC-3). Answered
+    for slots 20-21 (`EXP-0077`): the US arcade and PS1 reuse Zangief's and
+    Sakura's English; slots 22-24 have their own English.
 - Which display languages does each local set offer? All three store identical
   English, Spanish, and Portuguese quote text (`EXP-0029`); what selects one is
   untested.
@@ -276,9 +278,9 @@ remain open; none blocks the roster image.
   - Decided by the user on 2026-10-24: use the paired official English (record
     `k` gets entry `k & 7`). Still open: how 25-character English lines fit
     19-cell Saturn lines.
-  - Do the two PS1-only English blocks (`EXP-0032`) belong to secret characters,
-    and are they official English for lines the arcade never translated? This is
-    deferred to `SPECIAL-001`.
+  - Do the two PS1-only English blocks (`EXP-0032`) belong to secret characters?
+    Answered (`EXP-0077`): they are copies of Zangief's and Sakura's English
+    blocks, stored at the slot-20/21 positions.
 - Do the European and US English wordings agree line for line?
 - Which arcade ROM members hold post-fight text, and in what form? Answered for
   Latin text by `EXP-0029` (`mvs.07b`, 16-bit codes); still open for Japanese.

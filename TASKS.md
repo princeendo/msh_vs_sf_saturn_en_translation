@@ -3094,7 +3094,12 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-003 - Translate the secret characters' post-fight text and endings
 
-- **Status:** `BACKLOG`
+- **Status:** `IN_PROGRESS`. Sources and oracles found (`EXP-0077`):
+  official English exists for slots 22-24's win quotes and every secret
+  slot's partner lines; slots 20-21's own quotes and all secret ending pages
+  have only substitutes in the official English (Zangief's/Sakura's quotes;
+  a generic two-record "secret character" ending). The PS1 adds no English of
+  its own. Next: the user's choice of route for the substitutes.
 - **Priority:** not set by the user
 - **Milestone:** M9
 - **Dependencies:** END-020 (done), the M5 win-quote pipeline (done).

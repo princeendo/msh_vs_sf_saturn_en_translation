@@ -4611,3 +4611,15 @@ redesign.
 - **Not productive:** the first PS1 pass read no files (the reader needs the
   `;1` version suffix); a byte/word/long search for a slot → name-ID map.
 - **Unattended runs are silent now** (user request): `local/mednafen_quiet`.
+
+## 2026-10-26 — SPECIAL-003 / EXP-0077: secret characters' text sources
+
+- **Win quotes:** arcade English slots 20/21/25 = Zangief/Sakura/Spider-Man;
+  22-24 have their own blocks. The Saturn's `MC14`/`MC15` Japanese is unique.
+- **Disproven:** `EXP-0032`'s PS1-only English blocks: they are copies of the
+  Zangief and Sakura blocks.
+- **Endings:** Japanese pages unique for 20-22 (5, 3, 6) and shared for 23-25;
+  English slots 19-25 share a generic two-record ending. English partner
+  lines exist for every secret slot.
+- **Next:** the user chooses the route for slots without their own official
+  English.
