@@ -1357,6 +1357,34 @@ Experiment: `EXP-0066`
   (`MVSOP0` at `0x500EB`).
 - **Reproduce.** `research/experiments/EXP-0066/README.md`.
 
+## UI-003: Attract Streams, Graphics LZ, and Caption Maps
+
+Confidence: **CONFIRMED** (the decoder reproduces RAM; the pages render as on
+screen)
+
+Experiment: `EXP-0068`
+
+- **`.ST2` container.**
+  - Header sector: up to eight u32 section sizes. `MVSOP*` has A (map
+    streams), B (events) and C (one graphics block).
+  - Then 0x800-byte sectors. `MISS`-tagged ones carry 0x7FC bytes of a
+    graphics stream; other sectors are interleaved.
+  - Tool: `tools/disc/st2_stream.py`.
+- **Graphics LZ** (`0x06021EDA`):
+  - u32 compressed size, u32 size;
+  - flags MSB first: 0 = literal; 1 = word `w`, copying `(w & 0xF) + 3` bytes
+    from `(w >> 4) - 0x1000` back.
+- **Caption layer.** NBG2 plane A page 0 (VRAM `0x70000`): 2x2-cell 4bpp
+  characters, 2-word pattern names, colour offset 6. The vertical scroll
+  selects ヴァリアブル… or 第2弾!! on the same page.
+- **Map path.** Section A goes through a bit-flag LZ (`0x06022750`) into a
+  ring at `0x06028020`, then a word LZ (`0x0602234C`) into the
+  index/attribute arrays (`0x06037020`/`0x06039020`), then the macro-cell
+  builder (`0x0601FD70`, 32x32 px per index) into `0x06050000`, then DMA.
+- **Sources.** Captions 1-2 are in section C. Captions 3-4 are each in one
+  stream block. Every one of the eight `MVSOP` files carries all four.
+- **Reproduce.** `research/experiments/EXP-0068/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

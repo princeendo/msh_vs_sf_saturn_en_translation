@@ -4399,3 +4399,33 @@ redesign.
   different timings; pair by neighbouring screens.
 - **Next:** decode `MVSOP*.ST2` and the LZ codec; agree the art route and the
   two-to-one mapping with the user.
+
+## 2026-10-26 — UI-003 / EXP-0068: MVSOP*.ST2 decoded; caption tiles and maps extracted
+
+- **Graphics LZ** (`0x06021EDA`): u32 csize, u32 size; flag bits MSB first;
+  1 = 12-bit-back copy of 3-18 bytes. The offline decoder reproduces the
+  RAM caption tiles exactly.
+- **`.ST2` container:**
+  - header: section sizes (A: map streams loaded to WRAM-L `0x2C0000`; B:
+    events; C: a graphics block);
+  - stream: 0x800-byte sectors, with `MISS` sectors carrying 0x7FC-byte
+    graphics payloads and other sectors interleaved.
+
+  The game decodes stream blocks into WRAM-H `0x06080000`, alternating
+  WRAM-L `0x240000`/`0x260000` for the input.
+- **Caption layer:** NBG2 page 0 (VRAM `0x70000`). Captions 1 and 2 share a
+  page and are chosen by vertical scroll.
+- **Map path:** bit-flag LZ (`0x06022750`) into a ring, then word LZ
+  (`0x0602234C`) into the arrays at `0x06037020`/`0x06039020`, then the
+  macro-cell builder (`0x0601FD70`) into `0x06050000`, then DMA.
+- **Extraction:** `tools/memory/vdp2_plane.py` writes map, tiles and a render
+  per caption (`local/ui003/extract/`).
+- **Sources:** captions 1-2 in section C, captions 3-4 in stream blocks; all
+  four in every `MVSOP0`-`7`.
+- **Not productive:**
+  - searching for contiguous blocks on disc: `MISS` sector tags break the
+    blocks every 0x7FC bytes;
+  - treating `0x06086000` as the output start (it is `0x06080000`).
+- **New tools:** `tools/disc/st2_stream.py`, `tools/memory/vdp2_plane.py`;
+  tests in `tests/unit/test_st2_stream.py`.
+- **Checks:** `pytest` 239 passed, 1 skipped; `ruff` and `mypy` are clean.

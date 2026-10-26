@@ -2963,8 +2963,17 @@ the user asks or when it unblocks other work.
   - 解き放て! 友情パワー → AMAZING TEAM BATTLES!;
   - 広がれ!! ヒーロー ワールド → NEW HEROES JOIN THE FIGHT!!.
 
-  Next: decode the `MVSOP*.ST2` layout and the LZ format, then choose the art
-  route and the two-to-one mapping with the user.
+  The decoding is done (`EXP-0068`):
+  - the `.ST2` container and `MISS` stream (`tools/disc/st2_stream.py`);
+  - the graphics LZ, verified against RAM;
+  - each caption's tiles and NBG2 map, extracted and rendered
+    (`tools/memory/vdp2_plane.py`). All eight files carry all four captions.
+
+  Next:
+  - a graphics-LZ encoder;
+  - choose the art route and the two-to-one mapping with the user;
+  - draw English tiles within the existing macro-cell layout, or decode the
+    two map codecs to change the layout.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** None. Follows the `UI-001`/`UI-002` method: find the

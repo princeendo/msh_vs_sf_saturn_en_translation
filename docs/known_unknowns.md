@@ -292,10 +292,12 @@ and `docs/discoveries.md`.
 
 ## Attract Mode (UI-003)
 
-- What is the layout of the `MVSOP*.ST2` opening streams, and the LZ format
-  decoded at `0x06021F0C`?
-- Which of the eight `MVSOP` files plays when, and do all hold the same
-  caption art?
+- The `.ST2` layout and graphics LZ are known (`EXP-0068`). Still open:
+  - the two map codecs (`0x06022750`, `0x0602234C`) as offline
+    decoders/encoders;
+  - the non-`MISS` interleaved sectors;
+  - which `MVSOP` file plays in which cycle. All eight carry the same caption
+    art, so it does not matter for the art.
 - The US arcade's captions are known (`EXP-0067`). What does the PS1 US
   release show? How should the two Japanese opening captions map onto the
   single US one?
