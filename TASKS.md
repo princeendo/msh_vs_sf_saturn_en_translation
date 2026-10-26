@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `3ee38981…`);
+      own font. They are in the release images (Saturn names `00e15be7…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3045,7 +3045,11 @@ the user asks or when it unblocks other work.
 
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 
-- **Status:** `BACKLOG`
+- **Status:** `IN_PROGRESS` (2026-10-26). Extracted and translated (draft,
+  not built): `data/translations/story_lines.json`, records 16-47 of the
+  `MM.BIN` table at `0x7C584`: one line per roster slot 0-25, two of Vega's
+  orders, developer jokes. Next: log reads of its RAM
+  (`0x06095544`-`0x06095EC3`, `tools/mednafen/bp_log.py`) during play.
 - **Priority:** low (one name placeholder; the text is not otherwise in scope)
 - **Milestone:** Reference
 - **Dependencies:** END-022.
@@ -3329,7 +3333,10 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 
-- **Status:** `BACKLOG`
+- **Status:** `IN_PROGRESS` (2026-10-26). Win quotes built in both release
+  references with the arcade's official English (`EXP-0081`). Remaining: see
+  them in play; the Mech-Gouki-as-player and ending question;
+  `MC00`'s three other tables.
 - **Priority:** medium
 - **Milestone:** M9
 - **Dependencies:** SPECIAL-001 (approval given by the user, 2026-10-26).

@@ -20,6 +20,10 @@ single read is not enough: at boot the word holds unrelated values such as
 holds ``0xHH07``. Every change of the stage word is logged
 while waiting.
 
+``--stage N`` arms stage N instead of 8 (``0xHH(N-1)``), and ``--no-ko`` stops
+writing once that stage's fight starts, so the player can lose it (to see the
+opponent's win quote, `SPECIAL-004`).
+
 
 These are the Saturn offsets found in `EXP-0042`. Every phase change is logged
 with the emulator frame number.
@@ -53,7 +57,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         default=0,
         help="first arm only once N stages are won (stage word 0xHH(N-1) -> 0xHHN)",
     )
+    parser.add_argument("--stage", type=int, default=8, help="stage to arm (1-8)")
+    parser.add_argument(
+        "--no-ko", action="store_true", help="arm only: the fight plays untouched"
+    )
     args = parser.parse_args(argv)
+    if not 1 <= args.stage <= 8:
+        parser.error("--stage must be 1-8")
+    stage = bytes([STAGE_8[0], args.stage - 1])
     agent = Agent(args.agent_dir.resolve(), 10)
 
     def note(text: str) -> None:
@@ -77,7 +88,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return int.from_bytes(agent.bus_read(VITALITY[0], 2), "big")
 
     def wait_for_stage(index: int) -> bytes:
-        """Wait for ``index`` won stages; return the stage-8 word to hold."""
+        """Wait for ``index`` won stages; return the stage word to hold."""
         note(f"WAIT: no writes until the stage word reaches stage index {index}")
         last = b""
         while True:
@@ -93,18 +104,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                         and word[0] == last[0]
                         and word[1] == index
                         and last[1] == index - 1
-                        and index < STAGE_8[1]
+                        and index < stage[1]
                     ):
-                        return bytes([word[0], STAGE_8[1]])
+                        return bytes([word[0], stage[1]])
                     last = word
             time.sleep(args.period)
 
-    target = STAGE_8
+    target = stage
     try:
         if args.after_stage:
             target = wait_for_stage(args.after_stage)
         while True:
-            note(f"ARM: holding the stage word at {target.hex()} (stage 8)")
+            note(f"ARM: holding the stage word at {target.hex()} (stage {args.stage})")
             previous = vitality()
             while True:
                 if agent.halted():
@@ -123,12 +134,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                     break
                 previous = now
                 time.sleep(args.period)
-            knock_out("KO: stage-8 fight started; zeroing the boss vitality")
+            if args.no_ko:
+                note(f"DONE: stage {args.stage} fight started; no more writes")
+                return 0
+            knock_out(f"KO: stage-{args.stage} fight started; zeroing boss vitality")
             note("DONE: no more writes; the ending plays untouched")
             if not args.repeat:
                 return 0
             time.sleep(args.rest)
-            target = STAGE_8
+            target = stage
     except AgentError as error:
         print(f"stopped: {error}")
         return 1

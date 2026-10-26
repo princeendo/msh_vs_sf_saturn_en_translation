@@ -1,0 +1,318 @@
+{
+ "schema": "mshvsf-translations/1",
+ "status": "DRAFT: not used by any build until TXT-001 finds where these lines are shown",
+ "description": "TXT-001 draft English for the MM.BIN story table (records 16-47 of the table at 0x7C584, after the 16 CONTINUE? hints). Records 16-41 are one line per roster slot 0-25; 42-43 are Vega's orders to Shadow and Metal Zangief; 44 is punctuation; 45-47 are developer jokes signed KAWASE.",
+ "translator": "Claude (AI), from the Saturn's own Japanese records rendered with its quote font; not official text (no arcade or PS1 English exists, EXP-0047).",
+ "tables": [
+  {
+   "kind": "story_lines",
+   "file": "MM.BIN",
+   "table": "0x7C584",
+   "format": "raw",
+   "records": [
+    {
+     "record": 16,
+     "source_sha256": "6cfba165facea8d6cc678a2e0b36f8b696e1cd73571e558e4d630438c2cce2fe",
+     "slot": 0,
+     "speaker_hypothesis": "Apocalypse",
+     "lines": [
+      "Give your body to Apocalypse!",
+      "I'll grant power fit for a new age!"
+     ]
+    },
+    {
+     "record": 17,
+     "source_sha256": "940ff52f0011efaa2061303017c967373792c1d8689b9bc722e0718819f16b0f",
+     "slot": 1,
+     "speaker_hypothesis": "Cyclops",
+     "lines": [
+      "Surprising... The way you moved",
+      "was no better than an amateur!"
+     ]
+    },
+    {
+     "record": 18,
+     "source_sha256": "cdab64e25f81722c84d8d962f3a46b920858dd9de7b5f2dbf005785edb86743e",
+     "slot": 2,
+     "speaker_hypothesis": "Captain America",
+     "lines": [
+      "As long as I have justice and ideals,",
+      "I won't lose to anyone!"
+     ]
+    },
+    {
+     "record": 19,
+     "source_sha256": "e27b36ac7d1f7de5c7fc3e8b427c18ef7b9b9722d13013326f2e5f2da179d7a6",
+     "slot": 3,
+     "speaker_hypothesis": "Hulk",
+     "lines": [
+      "Told you we should talk it out!",
+      "Listen when someone gives advice!"
+     ]
+    },
+    {
+     "record": 20,
+     "source_sha256": "9b7b2f367f43a954e3665bd30e28db6d3a370db07cbec4a0fed47be9cdd7755c",
+     "slot": 4,
+     "speaker_hypothesis": "Wolverine",
+     "lines": [
+      "Tch! Not again...",
+      "The beast in me is waking up again!"
+     ]
+    },
+    {
+     "record": 21,
+     "source_sha256": "b0ba81ff7ac33ef15fa04c6ebf3ade3f8792d582aaed3e51ac3143bce7349445",
+     "slot": 5,
+     "speaker_hypothesis": "Shuma-Gorath",
+     "lines": [
+      "Bingo-shu!",
+      ""
+     ]
+    },
+    {
+     "record": 22,
+     "source_sha256": "66aa43330d49a53df4b75eb51d2de620642b24d1e6c89eaa800b8ad09077d81b",
+     "slot": 6,
+     "speaker_hypothesis": "Omega Red",
+     "lines": [
+      "...Give it to me...",
+      "...all of your energy...!"
+     ]
+    },
+    {
+     "record": 23,
+     "source_sha256": "c5e8e319126b66d2628d36a44304f833c79bb6ca0da7925b174a30e0d873479e",
+     "slot": 7,
+     "speaker_hypothesis": "Spider-Man",
+     "lines": [
+      "Gee, it's a real mystery",
+      "how nobody can beat us."
+     ]
+    },
+    {
+     "record": 24,
+     "source_sha256": "3af5284df36893a703725433e1e30142c04a49b624601da7cc33ffe2ca6dca97",
+     "slot": 8,
+     "speaker_hypothesis": "Blackheart",
+     "lines": [
+      "Now, a devil or a reaper...",
+      "which shall I introduce you to?"
+     ]
+    },
+    {
+     "record": 25,
+     "source_sha256": "aa9f84db43d652129cfaf2f1677c37ca5e78980a95d9e121827aa20f6bc09797",
+     "slot": 9,
+     "speaker_hypothesis": "Ryu",
+     "lines": [
+      "I can't hold back the Hado power!",
+      "If this keeps up..."
+     ]
+    },
+    {
+     "record": 26,
+     "source_sha256": "56ae05d0ca9ea140080a408f66e74b2400e16444f1a9981f3c84569ffa0dcdaf",
+     "slot": 10,
+     "speaker_hypothesis": "Ken",
+     "lines": [
+      "That's weird... I could swear",
+      "I just saw Gambit over there..."
+     ]
+    },
+    {
+     "record": 27,
+     "source_sha256": "c7785e2ed8d3424fdcfa3d8fe5b6c0a4302a949b50ee381d324ca5190059ecdc",
+     "slot": 11,
+     "speaker_hypothesis": "Chun-Li",
+     "lines": [
+      "Oh? {P}, didn't you see",
+      "Rogue back there just now?"
+     ]
+    },
+    {
+     "record": 28,
+     "source_sha256": "d83eefcb85e25a872251b12e24b6b123e9fa1464e3f1d063546f8f2763654dde",
+     "slot": 12,
+     "speaker_hypothesis": "Dhalsim",
+     "lines": [
+      "Ah, good timing. I needed to replace",
+      "two of the skulls on my necklace..."
+     ]
+    },
+    {
+     "record": 29,
+     "source_sha256": "1f4985214aba1cc5acbd8a31eaa9565a45af16e93fafdb8135e048692b1a668c",
+     "slot": 13,
+     "speaker_hypothesis": "Zangief",
+     "lines": [
+      "Training a flesh-and-blood body...",
+      "this must be its limit..."
+     ]
+    },
+    {
+     "record": 30,
+     "source_sha256": "ad6712082ac8e48ded55652215783d648b467b9cbfbba8ee4a0166ef41c36872",
+     "slot": 14,
+     "speaker_hypothesis": "Vega",
+     "lines": [
+      "Hmm, the fighters have grown stronger.",
+      "Time to send my cyborgs into combat."
+     ]
+    },
+    {
+     "record": 31,
+     "source_sha256": "90e5a810714723be8940d27e57eef11c58d822e0dd2f7b5845afd92eebf8bc9f",
+     "slot": 15,
+     "speaker_hypothesis": "Gouki",
+     "lines": [
+      "If you would defeat me,",
+      "cast away your human body."
+     ]
+    },
+    {
+     "record": 32,
+     "source_sha256": "adfce9534b8342933aedcf3c7c1d69d8c11ec99541e04bf7f867d41167df8006",
+     "slot": 16,
+     "speaker_hypothesis": "Sakura",
+     "lines": [
+      "Ever since I came to this world,",
+      "I think I've gotten a tan."
+     ]
+    },
+    {
+     "record": 33,
+     "source_sha256": "21b5e14d90be7b66516a6faee48cb816b75a5e61e1380a206826175dd3c78514",
+     "slot": 17,
+     "speaker_hypothesis": "Norimaro",
+     "lines": [
+      "You guys are way too weeeak!!",
+      ""
+     ]
+    },
+    {
+     "record": 34,
+     "source_sha256": "3f98e8fc94a0286f593ed64c10a16ba1c632ec78c125b1106abf25cd2f933f24",
+     "slot": 18,
+     "speaker_hypothesis": "Dan",
+     "lines": [
+      "The Satsui no Hado? Who needs it?",
+      "I'm invincible without it!"
+     ]
+    },
+    {
+     "record": 35,
+     "source_sha256": "897c5601f5ef4c7a36cb91aac8fbc673fce8fe064ca70dff170bdd6286e17970",
+     "slot": 19,
+     "speaker_hypothesis": "Mech-Gouki",
+     "note": "Mech-Gouki: robot noise in symbols (%+、T$##L**!@(D¥¥,), not Japanese; kept"
+    },
+    {
+     "record": 36,
+     "source_sha256": "cb33c8a48ea305930e558f29744b19fbdf91fb57c964c3cc483fb291416ab7eb",
+     "slot": 20,
+     "speaker_hypothesis": "Metal Zangief",
+     "lines": [
+      "The one who gave me this body",
+      "is a god to me!"
+     ]
+    },
+    {
+     "record": 37,
+     "source_sha256": "0737f7f0eb29db2992aeb47a47c743138583204fe4f4ff2223c86f4e6aee0ecb",
+     "slot": 21,
+     "speaker_hypothesis": "Dark Sakura",
+     "lines": [
+      "My name is Dark Sakura...",
+      "...Just kidding!"
+     ]
+    },
+    {
+     "record": 38,
+     "source_sha256": "04e94814c08644862dbfd4392ac932c435aac4648a72ee84e78beeb11ac8bd52",
+     "slot": 22,
+     "speaker_hypothesis": "Shadow",
+     "lines": [
+      "I'll spare your life. In return,",
+      "forget you ever met me."
+     ]
+    },
+    {
+     "record": 39,
+     "source_sha256": "21c6e02e638148f6ff09bc21d7cf5709852ecd9b2d318d9d985e9272df09b2d2",
+     "slot": 23,
+     "speaker_hypothesis": "U.S. Agent",
+     "lines": [
+      "Shut up, you trash!",
+      "Don't call me a fake!"
+     ]
+    },
+    {
+     "record": 40,
+     "source_sha256": "de1c17d27413b589f6dd399600e59e808eac3bfe143a41ce51405859318118a0",
+     "slot": 24,
+     "speaker_hypothesis": "Mephisto",
+     "lines": [
+      "I am malice.",
+      "My name is Mephisto."
+     ]
+    },
+    {
+     "record": 41,
+     "source_sha256": "c5e8e319126b66d2628d36a44304f833c79bb6ca0da7925b174a30e0d873479e",
+     "slot": 25,
+     "speaker_hypothesis": "Armored Spider-Man",
+     "lines": [
+      "Gee, it's a real mystery",
+      "how nobody can beat us."
+     ]
+    },
+    {
+     "record": 42,
+     "source_sha256": "10512dfa5af7c6d8b33465fa711f45039e81ab025088793dda40d3eca8288154",
+     "lines": [
+      "Go, Shadow! This is a combat test!",
+      "Show them the power of Shadaloo!!"
+     ]
+    },
+    {
+     "record": 43,
+     "source_sha256": "a51b4854910a4b10e438fe3507ea539efee5540b41d2fec4c64770bd784884e0",
+     "lines": [
+      "Go forth, prototype Metal Zangief!",
+      "This is a combat test!!"
+     ]
+    },
+    {
+     "record": 44,
+     "source_sha256": "aa1009e9605c47d485b964c1b9cebe5edcf32775e6ddb3f6d8d1b3367de758a8",
+     "note": "a row of commas only; kept"
+    },
+    {
+     "record": 45,
+     "source_sha256": "fcf6114a1f1822183ff7d7226569f245f750bf4592de6b3c9b8308890b54b028",
+     "lines": [
+      "I'm the real hidden character!",
+      "Cyborg KAWASE!!!!"
+     ]
+    },
+    {
+     "record": 46,
+     "source_sha256": "e80964969cc013566e2ccfee4f64ef7b7a863d3cd46d9e99a22c211c2427d5d5",
+     "lines": [
+      "If you value your life, hand over",
+      "your Tokimeki pillows!!!!!"
+     ]
+    },
+    {
+     "record": 47,
+     "source_sha256": "cc4796d3b5d3356f5717c053985c186fbd83f82e9a4abfa743c2170cbf7066c0",
+     "lines": [
+      "Kakyusei is the best, man",
+      "by KAWASE"
+     ]
+    }
+   ]
+  }
+ ]
+}

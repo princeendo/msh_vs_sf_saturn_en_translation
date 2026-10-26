@@ -4753,3 +4753,20 @@ redesign.
   and the custom `--no-unlock-boss-fight` example (spec differs only by the
   `MM.BIN` `0x50E4` patch; patch `d5e8a5b8…`, round trip true). Git status
   clean afterwards.
+
+## 2026-10-26 — TXT-001, SPECIAL-004, tooling
+
+- **TXT-001:** the story table is `MM.BIN` records 16-47 after the CONTINUE?
+  hints (`0x7CA44`-`0x7D3C4`; the name table follows): one line per roster
+  slot 0-25, Vega's orders to Shadow and Metal Zangief, punctuation, and
+  developer jokes signed KAWASE. Draft English with source hashes in
+  `data/translations/story_lines.json` (not built). The CONTINUE? code picks
+  a hint with `and #0x0F` (`0x060AF328`) from pointer tables at `0x060AF392`
+  and `0x060AF6AA`; the reader of records 16-47 is not found statically.
+- **SPECIAL-004 (`EXP-0081`):** both bosses' tables equal the arcade
+  Japanese, and both have their own official English; built.
+- **Tools:** `ending_driver --stage N --no-ko`; `tools/mednafen/bp_log.py`
+  (log-mode breakpoints while someone plays; smoke-tested, 60,405 PC hits
+  logged without halting). Fixed: the hit cap now clears PC breakpoints too.
+- **Release:** `m8_roster_gold` track 01 `00e15be7…`, `m8_roster_gold_us`
+  `3d2a13d2…`; all nine references pass.
