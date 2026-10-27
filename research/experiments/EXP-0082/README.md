@@ -118,6 +118,37 @@ interface). Python 3.12.13.
   box shows the lead character's exchange (slot 15 here; Ryu's, slot 9, in
   the `EXP-0081` session).
 
+### Gold text for the pre-fight boxes (user request, 2026-10-26)
+
+- **Observation:** in the cold-boot run the pre-fight letters were grey. The
+  gold build switches only three message-window kinds (`EXP-0052`).
+- **Hypothesis:** the pre-fight box is one of the two kinds whose palette
+  immediate the initialiser (`0x060AECC4`, jump table `0x060AECD4`) does not
+  yet switch: kind 3 (`0x060AED1C` `E196`, palette `0x96`; `MM.BIN`
+  `0x9621D`) or kind 5 (`0x060AEDA0` `E08D` / `0x060AEDAE` `E090`).
+- **RAM trial** (`local/special004/paltrial.py`; state
+  `play2/rec/states/f00007724.mcs`, before the VS screen, saved on this same
+  image, so font and `MM.BIN` match): each candidate byte checked against
+  its original, then written to `0x81` (gold bank 1, bit 7 kept). Text
+  pixels in the box:
+  - control: (240,240,240) and (176,176,176), grey (`step12.png`
+    `cfd91ba012deee57…`);
+  - kind 3: (240,240,0) and (240,176,0), gold, the same text gold as the
+    post-boss dialogue (`k3/step12.png` `44745b21fd7ff8dd…`);
+  - kind 5: byte-identical to the control.
+- **Build:** `GOLD_PALETTE_PATCHES` adds `0x9621D: (0x96, 0x81)` (with an
+  `expect` byte). Both release references rebuilt; all nine pass; both
+  patches round-trip. `m8_roster_gold`: spec `57193b5d…`, track 01
+  `0a6a08c1…`, patch `a0c72ed7…` (2,952,126 bytes). `m8_roster_gold_us`:
+  spec `0c73e090…`, track 01 `0da69726…`, patch `05f3a90a…` (2,953,570
+  bytes). The built `MM.BIN` holds `E181` at `0x9621C` in both.
+- **Cold boot without play:** `MM.BIN` is not resident during the attract
+  demo (WRAM-H matched it in only 150-250 k of 848 k bytes from frame 1500
+  to 9000), so the new byte cannot be read back unattended. Replays restore
+  `MM.BIN` from cart RAM rather than the disc, so they cannot show it either.
+  SUPPORTED: same byte, same load address as the trial. A cold-boot play
+  check is pending.
+
 ## Conclusion
 
 **CONFIRMED** for the Saturn-name build: from a cold boot, the pre-fight

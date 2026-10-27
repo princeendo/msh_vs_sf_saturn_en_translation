@@ -246,9 +246,9 @@
   {
    "name": "m8_roster_gold",
    "experiment": "EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082",
-   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082).",
+   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082).",
    "spec": "local/ui003/spec/m8_roster_gold.json",
-   "spec_sha256": "bb7eaa90495359eab537326bbb2ef0844fd3c9cdc4e335cf9b1b44dc996f6524",
+   "spec_sha256": "57193b5db63c3aba139689719cc528f28683ae04049c422c028fd3a6ed1d573c",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -268,7 +268,7 @@
     "data/translations/continue_hints.json",
     "--boss-exchanges"
    ],
-   "track01_sha256": "e0395c3e5c1dc4cb39e94cbc8092fb2817f44eef91f6ab8ecb545f9fe7c13086",
+   "track01_sha256": "0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3",
    "files_sha256": {
     "MC00.PAC": "c69c349249dce4175f8e4c8c3412dc5b7ff781e2ce5c179e0b3483eca9d98188",
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
@@ -295,7 +295,7 @@
     "MC16.PAC": "159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4",
     "ME.PAC": "8d8bf166acca2016002f1fb9dd3dc801a6f726819e5a8e47ba1c985af1431c4f",
     "MEMFIX.PAC": "0a08259366b888767a135b0842aeb07fc2c683d864d6cfc9492a6cd77a08a954",
-    "MM.BIN": "910ac3586a265ab658e49e0c2ee9958f022408635435ef54a858bab3a5284b4d",
+    "MM.BIN": "743f1769ea0d8f2f6ca627be0f31ed3088c21850106a72c6249d78abbc36e1ca",
     "MVSOP0.ST2": "8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10",
     "MVSOP1.ST2": "6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931",
     "MVSOP2.ST2": "0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452",
@@ -346,15 +346,19 @@
     {
      "track01_sha256": "00e15be728b977724a9f9a747418676ba53ec3361eb2b089bbfbced6c1f33830",
      "replaced_because": "EXP-0082: Apocalypse's pre-fight exchanges"
+    },
+    {
+     "track01_sha256": "e0395c3e5c1dc4cb39e94cbc8092fb2817f44eef91f6ab8ecb545f9fe7c13086",
+     "replaced_because": "EXP-0082: pre-fight boxes gold"
     }
    ]
   },
   {
    "name": "m8_roster_gold_us",
    "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082",
-   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082).",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082).",
    "spec": "local/ui003/spec/m8_roster_gold_us.json",
-   "spec_sha256": "1de75fd8b16d85f2a286274a70ddd62d1a5eb0fd6926b72ee6d08552c8f4cbd7",
+   "spec_sha256": "0c73e09089bc8448c894794da6fe69d93fe405fe775a13696ad258b8f4e4836e",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -376,7 +380,7 @@
     "data/translations/continue_hints.json",
     "--boss-exchanges"
    ],
-   "track01_sha256": "963063de15a6793e70d13ff0a181d5c14512b40cd2c78ca1bcff05cf3e6b47b8",
+   "track01_sha256": "0da697261827e9d003104279701e4fdbd7c5ea64591b0532908d8d4f5288344f",
    "files_sha256": {
     "MC00.PAC": "1927f2dc253f55cd88e8d01def8edb3546614f3e3ed3db79264800287c620948",
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
@@ -403,7 +407,7 @@
     "MC16.PAC": "159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4",
     "ME.PAC": "36eb65cd5fd291f6e1eaac336f74ec1f4f1a51e24fec93c984a5946b8d0b8a29",
     "MEMFIX.PAC": "a128c362dc0a7a18557a96dbbffddcb62b75465957da9dab63d285b9ff88683c",
-    "MM.BIN": "fd58a455b6301ce90cac772a2fbc070cf80ed40402735c04fdcef7e0de80463a",
+    "MM.BIN": "30a63edcf827e71154de45f274def53ea4f305f63b3650abd98d7fdf60b86bbf",
     "MVSOP0.ST2": "8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10",
     "MVSOP1.ST2": "6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931",
     "MVSOP2.ST2": "0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452",
@@ -466,6 +470,10 @@
     {
      "track01_sha256": "3d2a13d2b26e5018a6e1bf1482fa5d8230e6ab65ff8fd7208ebd77dcece70da6",
      "replaced_because": "EXP-0082: Apocalypse's pre-fight exchanges"
+    },
+    {
+     "track01_sha256": "963063de15a6793e70d13ff0a181d5c14512b40cd2c78ca1bcff05cf3e6b47b8",
+     "replaced_because": "EXP-0082: pre-fight boxes gold"
     }
    ]
   }

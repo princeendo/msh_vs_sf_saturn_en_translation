@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `e0395c3e…`);
+      own font. They are in the release images (Saturn names `0a6a08c1…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3346,9 +3346,10 @@ the user asks or when it unblocks other work.
   build (`EXP-0081`). Apocalypse's pre-fight exchanges (`MC00` `0x3634`, 26
   slots × 3 boxes) are built in both release references from the US arcade's
   official English (`EXP-0082`, `--boss-exchanges`), seen in play from a
-  cold boot in the Saturn-name build (Gouki's exchange). Remaining: the US
-  build from a cold boot (replayed states keep the old font); the Mech-Gouki
-  select code (one failed attempt: Akuma could not be
+  cold boot in the Saturn-name build (Gouki's exchange). Their letters are
+  now gold too (`MM.BIN` `0x9621D`, RAM trial; built). Remaining: one
+  cold-boot play check of the US build (its font and the gold boxes); the
+  Mech-Gouki select code (one failed attempt: Akuma could not be
   chosen twice).
 - **Priority:** medium
 - **Milestone:** M9

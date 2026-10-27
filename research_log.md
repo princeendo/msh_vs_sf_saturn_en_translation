@@ -4829,3 +4829,12 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   as lead, driver to stage 7. All three boxes were correct English with
   "Gouki" (`local/special004/play2/rec`). The US build has not been
   cold-booted to this fight.
+- **Gold pre-fight boxes (EXP-0082):** the box is message-window kind 3,
+  whose palette immediate is at `MM.BIN` `0x9621D` (`0x96`). A RAM trial set
+  it to `0x81` and the text turned gold; kind 5 (`0x060AEDA1`/`0x060AEDAF`)
+  changed nothing. Built into `GOLD_PALETTE_PATCHES`; all nine references
+  pass. Release: track 01 `0a6a08c1…` / `0da69726…`, patch `a0c72ed7…` /
+  `05f3a90a…`.
+- **Lesson:** `MM.BIN` is loaded only after Start is pressed, not during the
+  attract demo, and replays restore it from cart RAM. An `MM.BIN` change
+  cannot be read back without a play session.

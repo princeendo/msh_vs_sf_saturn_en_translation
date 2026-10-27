@@ -150,12 +150,12 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,952,111
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,952,126
      bytes, SHA-256
-     `f2fbadef71ff8ec76bf23c583d980aead2b2907cf3b90e587ee9da3c97f65958`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,953,555
+     `a0c72ed7e8a85a6adb7f867cdfdd51986f1139bfd20da692faa066be3d1d2270`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,953,570
      bytes, SHA-256
-     `9cf26c3b350a59768ccca09392d033bebf761e8c61d1aff826ef9c140837075e`.
+     `05f3a90aba687958cbb6148fdfd4f721d30a24429e0e80341eaf9015e9c4149b`.
 
    The patches grew from about 157 KB when the attract captions were added:
    their streams are re-compressed, so most of their compressed bytes
@@ -176,9 +176,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `e0395c3e5c1dc4cb39e94cbc8092fb2817f44eef91f6ab8ecb545f9fe7c13086` for the
+   `0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3` for the
    Saturn-name patch, or
-   `963063de15a6793e70d13ff0a181d5c14512b40cd2c78ca1bcff05cf3e6b47b8` for the
+   `0da697261827e9d003104279701e4fdbd7c5ea64591b0532908d8d4f5288344f` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -246,8 +246,8 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `bb7eaa90…`, track 01 `e0395c3e…`, patch `f2fbadef…`;
-- American names: spec `1de75fd8…`, track 01 `963063de…`, patch `9cf26c3b…`;
+- Saturn names: spec `57193b5d…`, track 01 `0a6a08c1…`, patch `a0c72ed7…`;
+- American names: spec `0c73e090…`, track 01 `0da69726…`, patch `05f3a90a…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:

@@ -93,6 +93,7 @@ GOLD_PALETTE_PATCHES = {
     0x961E3: (0x9E, 0x81),  # win quotes (palette 0x1E)
     0x961FB: (0x9F, 0x81),  # ending pages (palette 0x1F)
     0x96233: (0x83, 0x81),  # post-boss dialogue (palette 0x03)
+    0x9621D: (0x96, 0x81),  # Apocalypse's pre-fight exchanges (0x16, EXP-0082)
 }
 # OPT-001 (EXP-0075): the boot initialiser in MM.BIN clears the boss-fight unlock
 # word 0x06017AB0 (``mov #0,r0`` at 0x0601DBE4); the title menu forces its
