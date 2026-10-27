@@ -118,8 +118,18 @@ UI_GLYPH_COPIES: dict[int, int | None] = {
 # matched by shading: 0x424/0x6A6, 0x428/0x6A8, 0x42C/0x6AA, 0x43A/0x6AC.
 for _jp, _en in ((0x424, 0x6A6), (0x428, 0x6A8), (0x42C, 0x6AA), (0x43A, 0x6AC)):
     UI_GLYPH_COPIES |= {_jp: None, _jp + 1: _en, _jp + 2: _en + 1, _jp + 3: None}
-# Applied in order, so "Cyber Akuma" is replaced before "Akuma".
-TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki"}
+# Applied in order, so "Cyber Akuma" is replaced before "Akuma". "Bison" first
+# appears in Apocalypse's pre-fight exchanges (SPECIAL-004).
+TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki", "Bison": "Vega"}
+# SPECIAL-004 (EXP-0082): Apocalypse's pre-fight exchanges. MC00.PAC holds three
+# 76-byte boxes per roster slot (the challenger's line, Apocalypse's reply, his
+# closing line), equal to the arcade Japanese block; the US arcade's English has
+# the same layout in 100-byte boxes.
+EXCHANGES_MC00, EXCHANGES_JA, EXCHANGES_EN = 0x3634, 0x2164B8, 0x2203F4
+EXCHANGE_BOXES = 3
+# The US arcade's only use of code 0x011E ("taking you down{011E} piece by
+# piece!") has no known glyph; the Spanish block has a comma there (EXP-0082).
+EXCHANGE_CODE_TEXT = {"{011e}": ","}
 # LOC-005 (EXP-0058): MEMFIX.PAC payload 7 is loaded into sound RAM and holds two
 # name-call tables of sound IDs indexed by character: table A (10-byte records,
 # file 0x124A5E; it chooses the win-screen call) and table B (16-byte records,
@@ -478,6 +488,61 @@ def fits(line: str, shift: int) -> bool:
     return True
 
 
+def fewest_pair_shifts(lines: set[str], existing: set[str]) -> dict[str, int]:
+    """Each line's half-cell shift, chosen to add the fewest pairs to ``existing``
+    (lines visited in sorted order, so the result is deterministic)."""
+    shifts: dict[str, int] = {}
+    added: set[str] = set()
+    for line in sorted(lines):
+        options = [
+            (len(line_pairs(line, shift) - existing - added), shift)
+            for shift in (0, 1)
+            if fits(line, shift)
+        ]
+        shifts[line] = min(options)[1]
+        added |= line_pairs(line, shifts[line]) - existing
+    return shifts
+
+
+def exchange_table(
+    program: bytes,
+    track: Path,
+    existing: set[str] = frozenset(),  # type: ignore[assignment]
+    variant: str = "saturn",
+) -> dict[str, object]:
+    """Spec table for Apocalypse's pre-fight exchanges in official English.
+
+    Record ``3 * slot + box`` gets the US arcade's English box at the same slot
+    and position. The Saturn block must equal the arcade Japanese block, or the
+    pairing does not hold and the table is refused.
+    """
+    count = SLOTS * EXCHANGE_BOXES
+    with track.open("rb") as stream:
+        disc = Track(stream, track.stat().st_size)
+        mc00 = decode_file(disc.read(*find_entry(track, "MC00.PAC;1")))[1]
+    saturn = mc00[EXCHANGES_MC00 : EXCHANGES_MC00 + RECORD * count]
+    if saturn != program[EXCHANGES_JA : EXCHANGES_JA + RECORD * count]:
+        raise ValueError("MC00 exchanges differ from the arcade Japanese block")
+    boxes = []
+    for k in range(count):
+        lines = en_lines(program, EXCHANGES_EN + EN_RECORD * k, variant)
+        for code, text in EXCHANGE_CODE_TEXT.items():
+            lines = [line.replace(code, text) for line in lines]
+        boxes.append(lines)
+    shifts = fewest_pair_shifts({x for box in boxes for x in box if x}, existing)
+    return {
+        "file": "MC00.PAC",
+        "table": f"0x{EXCHANGES_MC00:X}",
+        "records": [
+            {
+                "record": k,
+                "lines": [centred(x, shift=shifts.get(x, 0)) for x in lines],
+            }
+            for k, lines in enumerate(boxes)
+        ],
+    }
+
+
 def secret_tables(
     path: Path,
     track: Path,
@@ -506,18 +571,9 @@ def secret_tables(
                 sources[name] = (
                     data if table.get("format") == "raw" else decode_file(data)[1]
                 )
-    shifts: dict[str, int] = {}
-    added: set[str] = set()
-    for line in sorted(
-        {x for t in tables for r in t["records"] for x in r["lines"] if x}
-    ):
-        options = [
-            (len(line_pairs(line, shift) - existing - added), shift)
-            for shift in (0, 1)
-            if fits(line, shift)
-        ]
-        shifts[line] = min(options)[1]
-        added |= line_pairs(line, shifts[line]) - existing
+    shifts = fewest_pair_shifts(
+        {x for t in tables for r in t["records"] for x in r["lines"] if x}, existing
+    )
     out = []
     for table in tables:
         base = int(table["table"], 16)
@@ -635,6 +691,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         type=Path,
         help="extra win-quote roster with official English (SPECIAL-003)",
     )
+    parser.add_argument(
+        "--boss-exchanges",
+        action="store_true",
+        help="Apocalypse's pre-fight exchanges in official English (SPECIAL-004)",
+    )
     parser.add_argument("--out", type=Path, required=True, help="spec path (ignored)")
     args = parser.parse_args(argv)
     sets = parse_driver(args.driver.read_text(encoding="utf-8"))
@@ -689,6 +750,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         tables += secret_tables(
             args.ui_translations, args.track, spec_pairs(spec), args.names
         )
+        spec["retire_replaced_kanji"] = True
+    if args.boss_exchanges:
+        tables = spec["tables"]
+        assert isinstance(tables, list)
+        tables.append(exchange_table(program, args.track, spec_pairs(spec), args.names))
+        spec["boss_exchanges"] = True
         spec["retire_replaced_kanji"] = True
     if args.glyph_style != "quote":
         spec["glyph_style"] = args.glyph_style

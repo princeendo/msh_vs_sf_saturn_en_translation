@@ -4801,3 +4801,27 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   later on Versus, options and the other modes.
 - **Lesson:** start `bp_log` after boot (or ignore hits before the file is
   resident), and treat hits after an overlay change as reads of other data.
+
+## 2026-10-26 — SPECIAL-004: Apocalypse's pre-fight exchanges (EXP-0082)
+
+- **Layout:** `MC00.PAC` `0x3634`: 26 slots × 3 boxes (challenger, reply,
+  closing). Equal to arcade Japanese `0x2164B8` in all three sets. The census
+  tables `0x392E`/`0x3D7A`/`0x404E` were misaligned slices of this one block
+  (do not reuse those boundaries).
+- **English:** US arcade `0x2203F4`, 100-byte boxes, 300 per slot, 25-code
+  lines. Note: `0x2203F8` (the first guess) is 2 codes late.
+- **Built** with `official_endings --boss-exchanges` in both release
+  references. Bison → Vega was added to the Saturn-name text overrides.
+  `0x011E` (Wolverine's line, its only use) is drawn as a comma, inferred
+  from the Spanish block (HYPOTHESIS). All nine references pass. Release:
+  `m8_roster_gold` track 01 `e0395c3e…`, patch `f2fbadef…`;
+  `m8_roster_gold_us` track 01 `963063de…`, patch `9cf26c3b…`.
+- **Failed check:** replaying an old-build state on a font-changed image is
+  not a font check. The Saturn-name replay drew US-build glyphs ("yp" as
+  "Ap"), because the quote font stays in cart RAM from boot. This was
+  already a known pitfall; it is recorded again because it is easy to miss.
+- **Disproven route:** writing the build's font into cart RAM after loading
+  a state. The agent's `physical` space does not reach cart RAM
+  (`0x0278CF60` reads match neither font; writes do not stick).
+- **Tests:** `pytest tests/unit` (new: exchange pairing and refusal; Bison
+  → Vega).

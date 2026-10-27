@@ -33,7 +33,8 @@ It holds no game data: you build the patch yourself from your own disc image
     Sakura's own win quotes (the US release reuses Zangief's and Sakura's),
     and every secret character's and Norimaro's ending pages.
 - **Bosses:** Apocalypse's and Mech-Gouki's win quotes (shown when they beat
-  you), in the arcade's official English.
+  you), and Apocalypse's exchange with each challenger before his stage-7
+  fight, in the arcade's official English.
 - **CONTINUE? hints:** the gameplay hint under the countdown is a new
   translation (no official English exists). It keeps the game's joystick
   arrows.
@@ -50,7 +51,7 @@ It holds no game data: you build the patch yourself from your own disc image
     win banners, VS screen, sound test, and the announcer's calls (using
     recordings already on the disc).
 
-**Not changed:** Apocalypse's other text (not yet identified), the menus, the voices,
+**Not changed:** the menus, the voices,
 the attract-mode Norimaro screen, and every other screen not listed above.
 
 Only track 01 of the disc changes; tracks 02-12 (audio) and the CUE sheet stay
@@ -64,8 +65,8 @@ distributes them. A build makes two files:
 
 | File | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | Saturn names (recommended) | `00e15be728b977724a9f9a747418676ba53ec3361eb2b089bbfbced6c1f33830` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | American names | `3d2a13d2b26e5018a6e1bf1482fa5d8230e6ab65ff8fd7208ebd77dcece70da6` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | Saturn names (recommended) | `e0395c3e5c1dc4cb39e94cbc8092fb2817f44eef91f6ab8ecb545f9fe7c13086` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | American names | `963063de15a6793e70d13ff0a181d5c14512b40cd2c78ca1bcff05cf3e6b47b8` |
 
 To apply one, see [release/README.md](release/README.md#apply-the-patch). In
 short:
@@ -148,6 +149,7 @@ lists each image's exact options.
 | `--secret-roster data/text/secret_roster.json` | Official win quotes for Apocalypse, Mech-Gouki, Shadow, U.S. Agent, Mephisto and Norimaro. | on |
 | `--secret-translations data/translations/secret_characters.json` | New translations for the secret characters and Norimaro, plus their official partner lines and names. | on |
 | `--ui-translations data/translations/continue_hints.json` | The CONTINUE? hints. | on |
+| `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
 
 To build a variant of your own, such as the release image with the original
 boss-fight lock:
@@ -158,7 +160,7 @@ boss-fight lock:
   --with-win-quotes --glyph-style credits --caption-palette gold --ui-english \
   --attract-captions --secret-roster data/text/secret_roster.json \
   --secret-translations data/translations/secret_characters.json \
-  --ui-translations data/translations/continue_hints.json \
+  --ui-translations data/translations/continue_hints.json --boss-exchanges \
   --no-unlock-boss-fight --out local/custom/spec.json
 ./invenv.sh python -m tools.text.caption_compiler local/custom/spec.json --out-dir build/custom
 ./invenv.sh python -m tools.disc.make_patch --built-dir build/custom/image_a \

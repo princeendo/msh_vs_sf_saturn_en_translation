@@ -170,3 +170,50 @@ def test_secret_tables_refuse_a_different_source(tmp_path) -> None:  # type: ign
         assert records[0]["lines"][0].strip() == "Hi"
     finally:
         monkey.undo()
+
+
+def test_localize_uses_vega_for_bison_only_in_the_saturn_variant() -> None:
+    assert localize("Bison, Psycho Power is") == "Vega, Psycho Power is"
+    assert localize("Bison, Psycho Power is", "us") == "Bison, Psycho Power is"
+
+
+def test_exchange_table_pairs_boxes_and_refuses_another_block(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    import pytest
+
+    from tools.text import official_endings as oe
+
+    count = oe.SLOTS * oe.EXCHANGE_BOXES
+    program = bytearray(b"\x00\x20" * ((oe.EXCHANGES_EN + 100 * count) // 2))
+    japanese = bytes(range(256)) * (76 * count // 256 + 1)
+    program[oe.EXCHANGES_JA : oe.EXCHANGES_JA + 76 * count] = japanese[: 76 * count]
+    # Box 4, line 2: "Ok" + code 0x011E + "No" (arcade codes: A = 0x0140, a = 0x0161).
+    line2 = oe.EXCHANGES_EN + 100 * 4 + 50
+    program[line2 : line2 + 10] = bytes.fromhex("014e016b011e014d016f")
+    mc00 = bytearray(oe.EXCHANGES_MC00 + 76 * count)
+    mc00[oe.EXCHANGES_MC00 :] = japanese[: 76 * count]
+
+    class FakeTrack:
+        def __init__(self, stream, size):  # type: ignore[no-untyped-def]
+            pass
+
+        def read(self, lsn, size):  # type: ignore[no-untyped-def]
+            return b""
+
+    track = tmp_path / "track.bin"
+    track.write_bytes(b"")
+    monkey = pytest.MonkeyPatch()
+    monkey.setattr(oe, "Track", FakeTrack)
+    monkey.setattr(oe, "find_entry", lambda t, n: (0, 0))
+    monkey.setattr(oe, "decode_file", lambda data: (None, bytes(mc00)))
+    try:
+        table = oe.exchange_table(bytes(program), track)
+        records = table["records"]
+        assert isinstance(records, list)
+        assert table["file"] == "MC00.PAC" and len(records) == count
+        assert records[4]["lines"][1].strip() == "Ok,No"
+        assert [x.strip() for x in records[5]["lines"]] == ["", ""]
+        mc00[oe.EXCHANGES_MC00] ^= 1
+        with pytest.raises(ValueError, match="differ"):
+            oe.exchange_table(bytes(program), track)
+    finally:
+        monkey.undo()
