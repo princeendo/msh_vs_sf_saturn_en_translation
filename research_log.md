@@ -4746,7 +4746,7 @@ redesign.
 - **Corrected assumption:** building a patch needs `mshvsfu.zip` and
   `cps2.cpp` as well as the Saturn image (the official English is read from
   the arcade ROM at build time).
-- **Fresh-clone check** (clone of `8e2b649`, only the Saturn image and
+- **Fresh-clone check** (clone of `0134f26`, only the Saturn image and
   `mshvsfu.zip` linked in): `setup_venv.sh`, the `cps2.cpp` download,
   `reference_builds --only m8_roster_gold m8_roster_gold_us` (both pass),
   both `make_patch` runs (`abd03143…`, `46832e4d…`, identical to the record),
@@ -4894,7 +4894,7 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - ruff is clean;
   - mypy reports one error, which predates this work:
     `tests/unit/test_official_endings.py:185`, `SLOTS` is not exported
-    (from `facc48e`).
+    (from `6198fc5`).
 
 ## 2026-10-27 — REL-002 follow-up: the official patcher's code on macOS (EXP-0084)
 
@@ -4925,3 +4925,16 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 - **Tooling not installed:** installing `dotnet-stack` was refused by the
   permission check; the harness timed the build stages through reflection
   instead.
+
+## 2026-10-27 — Commit identity rewrite (user request)
+
+- **Rewrite:** every commit on `main` (181) now has author and committer
+  `Colin <13876322+princeendo@users.noreply.github.com>` (GitHub account
+  `princeendo`).
+  - Before: `Colin White <colin.white@edoinc.com>` (180 commits) and one
+    `Colin <haljordan@gmail.com>` (the GitHub-made Initial commit).
+  - Done with `git filter-branch --env-filter`; the final tree is unchanged.
+  - Force-pushed with the user's explicit approval (an exception to
+    `AGENTS.md`'s no-force-push rule).
+- **Hash references:** all commit hashes changed. The two quoted in this log
+  were updated: `facc48e` → `6198fc5`, `8e2b649` → `0134f26`.
