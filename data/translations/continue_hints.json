@@ -1,7 +1,7 @@
 {
  "schema": "mshvsf-translations/1",
  "description": "UI-004 new English for the CONTINUE? screen's gameplay hints (MM.BIN 0x7C584, 16 records; EXP-0080). Target: Sega Saturn MSHvSF (Japan), source image per references/mshvsf/saturn_jp/README.md. English only; each record names the Japanese source record by SHA-256 of its 76 bytes, which the build checks.",
- "translator": "Claude (AI), from the Saturn's own Japanese records rendered with its quote font (EXP-0080); not official text. No official English exists: the arcade sets hold only the Japanese hints, and the PS1 US has none.",
+ "translator": "Claude (AI), from the Saturn's own Japanese records rendered with its quote font (EXP-0080); not official text. Superseded in the release builds by the arcade's official English hints (UI-006, EXP-0086); EXP-0085 found them at arcade 0x2239FC, which EXP-0080's search missed. Kept for --ui-translations.",
  "policy": "Joystick arrows keep the game's own glyphs as {XXXX} cells (0x01E2 up, 0x01E4 forward, 0x01E5 down-forward, 0x01E6 down, 0x01E7 down-back, 0x01E8 back). Buttons use LP/MP/HP and LK/MK/HK for the Japanese weak/medium/strong; PPP and KKK stay as written. Records 13 and 14 repeat records 2 and 9 and get the same English.",
  "tables": [
   {

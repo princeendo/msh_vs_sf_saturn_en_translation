@@ -3379,7 +3379,9 @@ the user asks or when it unblocks other work.
 
 ### UI-005 - Verify the CONTINUE? hints that use the new punctuation
 
-- **Status:** `BACKLOG`
+- **Status:** `REJECTED` (2026-10-27): superseded by `UI-006`. The new
+  translations it was to check are no longer built. The official hints' "+"
+  and all six arrows were seen in `EXP-0086`.
 - **Priority:** medium
 - **Milestone:** Polish
 - **Dependencies:** UI-004 (done).
@@ -3398,27 +3400,28 @@ the user asks or when it unblocks other work.
   image, with screenshots and hashes; any glyph that reads badly fixed and
   rechecked.
 
-### UI-006 - Decide on the arcade's official English CONTINUE? hints
+### UI-006 - Use the arcade's official English CONTINUE? hints
 
-- **Status:** `BLOCKED`
+- **Status:** `DONE` (2026-10-27, `EXP-0086`)
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** UI-004 (done).
-- **Blockers:** user decision: keep the new translations (`UI-004`) or use the
-  official English.
-- **Objective:** `EXP-0085` found official English hints in all arcade sets
-  at `0x2239FC`, which `EXP-0080` had missed.
-  - **Content:** 12 hints, each two 100-byte records (four 25-cell lines),
-    with the same arrow codes.
-  - **Mapping:** the arcade shows them for its 16 random indexes through the
-    map at `0x070448` (indexes 12-15 repeat hints 0-3).
-  - **Fit:** the Saturn box is two lines of 19 cells. Whether the English
-    fits as built for `UI-004` is not checked.
-- **Effect on `UI-005`:** if the official English replaces the new
-  translations, `UI-005`'s punctuation checks apply to the new text instead.
+- **Decisions (user, 2026-10-27):**
+  - use the official English instead of `UI-004`'s new translations;
+  - fit: "8 hints, exact, 2 pages".
+- **Result:**
+  - **Generator:** `--official-hints` writes the arcade's English pages 0-15
+    (hints 0-7) into the 16 hint records. Two `nop`s and a new index map make
+    the Saturn page them as the US arcade does.
+  - **Rebuilt:** both release references, nine of nine passing; new patches.
+  - **Seen:** all eight hints, both pages, in a forced trial from a play
+    state with the built font (`tools/memory/mcs_patch.py`), with all six
+    arrows and "+".
+  - **Left out:** hints 8-11, for lack of space.
+- **Not yet:** seeing the hints from a cold boot (play needed).
 - **Acceptance criteria:** the decision is recorded. If the official English
   is used: built, regression references updated, and each hint seen or
-  forced (index byte `0x0601799E`).
+  forced.
 
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 

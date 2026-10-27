@@ -55,7 +55,7 @@ from tools.reference.arcade_endings import (
     latin,
     page_span,
 )
-from tools.reference.cps2_text import build_program, read_quote_table
+from tools.reference.cps2_text import build_program, decode_code, read_quote_table
 from tools.reference.mame_audit import parse_driver
 from tools.text.caption_compiler import (
     FONT_ENTRY,
@@ -131,6 +131,28 @@ EXCHANGE_BOXES = 3
 # The US arcade's only use of code 0x011E ("taking you down{011E} piece by
 # piece!") has no known glyph; the Spanish block has a comma there (EXP-0082).
 EXCHANGE_CODE_TEXT = {"{011e}": ","}
+# UI-006 (EXP-0086): the CONTINUE? hints. MM.BIN 0x7C584 holds 16 Japanese hint
+# records, equal to the arcade Japanese table (record 0 differs, EXP-0080). The
+# arcade's English hints (all sets) are 12 hints of two 100-byte pages; outside
+# Japan the game maps its random index to an even record and pages to the odd
+# one after 0x180 frames. The Saturn kept both steps behind region tests, so the
+# 16 records take the arcade's English records 0-15 (hints 0-7, user decision
+# 2026-10-27) and two branches become nops. 0x0129 is drawn as "+".
+HINTS_MM, HINTS_JA, HINTS_EN, HINT_RECORDS = 0x7C584, 0x2139AC, 0x2239FC, 16
+HINT0_SHA256 = "8c16fbfbad04382b1dedcbcd7b491181b5d94ddb8fbe4d2013cf160f7291b83b"
+HINT_CODE_TEXT = {"{0129}": "+"}
+# MM.BIN offset: (original, patched) bytes.
+HINT_PAGE_PATCHES = {
+    # creator 0x060AF348: map the random index outside Japan only -> always
+    0x96848: (bytes.fromhex("8903"), bytes.fromhex("0009")),
+    # index map 0x060AF3A0: arcade 0,2,...,22,0,2,4,6 -> hints 0-7, twice
+    0x968A0: (
+        bytes.fromhex("00020406080a0c0e1012141600020406"),
+        bytes.fromhex("00020406080a0c0e00020406080a0c0e"),
+    ),
+    # hint handler 0x060AEE8C: page to the next record outside Japan only -> always
+    0x9638C: (bytes.fromhex("8910"), bytes.fromhex("0009")),
+}
 # LOC-005 (EXP-0058): MEMFIX.PAC payload 7 is loaded into sound RAM and holds two
 # name-call tables of sound IDs indexed by character: table A (10-byte records,
 # file 0x124A5E; it chooses the win-screen call) and table B (16-byte records,
@@ -544,6 +566,63 @@ def exchange_table(
     }
 
 
+def en_cell_lines(program: bytes, address: int) -> list[str]:
+    """An arcade English record's two lines, cell by cell, codes as ``{XXXX}``."""
+    cells = []
+    for a in range(address, address + EN_RECORD, 2):
+        code = int.from_bytes(program[a : a + 2], "big")
+        text = decode_code(code)
+        if text is None or text.startswith("{"):
+            text = f"{{{code:04X}}}"
+        cells.append(HINT_CODE_TEXT.get(text, text))
+    return ["".join(cells[:EN_CELLS]).strip(), "".join(cells[EN_CELLS:]).strip()]
+
+
+def official_hint_table(
+    program: bytes,
+    track: Path,
+    existing: set[str] = frozenset(),  # type: ignore[assignment]
+) -> dict[str, object]:
+    """Spec table for the CONTINUE? hints: the arcade's English pages 0-15.
+
+    The Saturn records must be the Japanese hints (records 1-15 equal to the
+    arcade's, record 0 by hash), or the table is refused.
+    """
+    with track.open("rb") as stream:
+        disc = Track(stream, track.stat().st_size)
+        mm = disc.read(*find_entry(track, "MM.BIN;1"))
+    saturn = mm[HINTS_MM : HINTS_MM + RECORD * HINT_RECORDS]
+    arcade = program[HINTS_JA : HINTS_JA + RECORD * HINT_RECORDS]
+    if saturn[RECORD:] != arcade[RECORD:] or (
+        hashlib.sha256(saturn[:RECORD]).hexdigest() != HINT0_SHA256
+    ):
+        raise ValueError("MM.BIN hints differ from the Japanese hint table")
+    pages = [en_cell_lines(program, HINTS_EN + EN_RECORD * k) for k in range(16)]
+    shifts = fewest_pair_shifts({x for page in pages for x in page if x}, existing)
+    return {
+        "file": "MM.BIN",
+        "table": f"0x{HINTS_MM:X}",
+        "format": "raw",
+        "records": [
+            {"record": k, "lines": [centred(x, shift=shifts.get(x, 0)) for x in page]}
+            for k, page in enumerate(pages)
+        ],
+    }
+
+
+def hint_page_patches() -> list[dict[str, str]]:
+    """Spec patches that make the Saturn page its hints as the arcade does."""
+    return [
+        {
+            "file": "MM.BIN",
+            "offset": f"0x{offset:X}",
+            "hex": new.hex(),
+            "expect": old.hex(),
+        }
+        for offset, (old, new) in HINT_PAGE_PATCHES.items()
+    ]
+
+
 def secret_tables(
     path: Path,
     track: Path,
@@ -688,6 +767,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="translated screen text, such as the CONTINUE? hints (UI-004)",
     )
     parser.add_argument(
+        "--official-hints",
+        action="store_true",
+        help="the arcade's official English CONTINUE? hints, paged (UI-006)",
+    )
+    parser.add_argument(
         "--secret-roster",
         type=Path,
         help="extra win-quote roster with official English (SPECIAL-003)",
@@ -751,6 +835,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         tables += secret_tables(
             args.ui_translations, args.track, spec_pairs(spec), args.names
         )
+        spec["retire_replaced_kanji"] = True
+    if args.official_hints:
+        if args.ui_translations:
+            parser.error("--official-hints replaces the --ui-translations hints")
+        tables = spec["tables"]
+        assert isinstance(tables, list)
+        tables.append(official_hint_table(program, args.track, spec_pairs(spec)))
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += hint_page_patches()
+        spec["official_hints"] = True
         spec["retire_replaced_kanji"] = True
     if args.boss_exchanges:
         tables = spec["tables"]

@@ -4969,3 +4969,33 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 - **Not done:** the screens of records 39 and 42-44 were not seen. The rm in
   a first timeline command was refused by the safety check (an unguarded
   variable); the folder was new anyway.
+
+## 2026-10-27 — UI-006: official English CONTINUE? hints, paged (EXP-0086)
+
+- **User decisions:** use the arcade's official English hints; then
+  "8 hints, exact, 2 pages".
+- **Found:**
+  - the US arcade shows each English hint as two pages (records 6 then 7,
+    383 frames apart);
+  - the Saturn kept the arcade's map and page step behind the region test
+    `0xCC90`.
+- **Tried and dropped:**
+  - one page per hint does not fit: every hint needs three of the Saturn's
+    38-character lines;
+  - more records do not fit: every `0x9999` run in `MM.BIN`, including the
+    208 bytes before the table, is overwritten in RAM during play, so it is
+    work memory.
+- **Built:**
+  - `--official-hints`: arcade English pages 0-15 → records 0-15; `nop`s at
+    `MM.BIN` `0x96848` and `0x9638C`; map `0x968A0` → 0..14 twice;
+  - both references rebaselined; nine of nine pass;
+  - xdelta 641,843 / 643,267 and `.ssp` 559,332 / 559,184 bytes; egui
+    reproduces both tracks.
+- **New tools:**
+  - `tools/memory/mcs_patch.py` writes a region of a save state (here the
+    font into cart RAM, which the agent cannot write);
+  - `write_trial --shot-at` takes extra screenshots.
+- **Verified:** all eight hints, both pages, forced from the `EXP-0081` play
+  state with the built font. Not yet from a cold boot.
+- **Tasks:** `UI-005` rejected (superseded). `continue_hints.json` is marked
+  superseded and stays available.

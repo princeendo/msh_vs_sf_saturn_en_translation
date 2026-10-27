@@ -45,6 +45,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("out", type=Path, help="screenshot path (ignored location)")
     parser.add_argument("--write", action="append", default=[], type=parse_write)
     parser.add_argument("--frames", type=int, default=2)
+    parser.add_argument(
+        "--shot-at",
+        type=int,
+        action="append",
+        default=[],
+        help="also save <out stem>_f<N>.png after N frames (N < --frames)",
+    )
     parser.add_argument("--dump", type=Path, help="save work RAM here after the frames")
     parser.add_argument("--agent-dir", type=Path, default=Path("local/mednafen/agent"))
     parser.add_argument("--home", type=Path, help="default: the silent quiet_home()")
@@ -85,7 +92,19 @@ def main(argv: Sequence[str] | None = None) -> int:
                         "before": before.hex(),
                     }
                 )
-            agent.frames(args.frames)
+            done = 0
+            for at in sorted(set(args.shot_at)):
+                if not 0 < at < args.frames:
+                    raise SystemExit(
+                        f"--shot-at {at} is not inside 1..{args.frames - 1}"
+                    )
+                agent.frames(at - done)
+                wait_halted(agent, 30)
+                agent.screenshot(
+                    args.out.with_name(f"{args.out.stem}_f{at}.png").resolve()
+                )
+                done = at
+            agent.frames(args.frames - done)
             wait_halted(agent, 30)
             for entry, (space, address, data) in zip(report, args.write, strict=True):
                 entry["survived"] = agent.read(space, address, len(data)) == data

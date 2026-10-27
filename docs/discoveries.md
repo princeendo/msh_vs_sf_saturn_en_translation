@@ -1650,6 +1650,31 @@ Experiment: `EXP-0085`
   BCD powers-of-two table, not a reference to this table.
 - **Reproduce.** `research/experiments/EXP-0085/README.md`.
 
+## UI-006: The Saturn Can Page Its CONTINUE? Hints Like the US Arcade
+
+Confidence: **CONFIRMED** (forced trial from a play state with the built
+font and data; not yet a cold boot)
+
+Experiment: `EXP-0086`
+
+- **Two pages per hint:** the US arcade shows each English hint as two
+  100-byte records, page 1 then page 2 after `0x180` frames (`0x07012A`).
+  The creator maps the random index onto even records (`0x070448`).
+  - Both steps are skipped in the Japanese region, and the Saturn kept them
+    behind the same test: creator `bt` at `0x060AF348` (`MM.BIN` `0x96848`),
+    handler `bt` at `0x060AEE8C` (`0x9638C`), map at `0x060AF3A0`
+    (`0x968A0`).
+- **The release change:**
+  - two `nop`s;
+  - a map onto records 0-14;
+  - the arcade's English pages 0-15 (hints 0-7) in the 16 hint records,
+    with `0x0129` drawn as "+".
+  - Each hint then shows word for word on two pages; all eight were seen
+    forced, with all six arrows.
+- **No other free space:** every `0x9999` padding run in `MM.BIN` is work
+  memory at run time. Hints 8-11 do not fit.
+- **Reproduce.** `research/experiments/EXP-0086/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

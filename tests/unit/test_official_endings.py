@@ -217,3 +217,60 @@ def test_exchange_table_pairs_boxes_and_refuses_another_block(tmp_path) -> None:
             oe.exchange_table(bytes(program), track)
     finally:
         monkey.undo()
+
+
+def test_official_hints_read_cells_and_refuse_other_hints(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    import hashlib
+
+    import pytest
+
+    from tools.text import official_endings as oe
+
+    count = oe.HINT_RECORDS
+    program = bytearray(b"\x00\x20" * ((oe.HINTS_EN + 100 * count) // 2))
+    japanese = bytes(range(256)) * (76 * count // 256 + 1)
+    program[oe.HINTS_JA : oe.HINTS_JA + 76 * count] = japanese[: 76 * count]
+    # Page 3, line 1: arrow 0x01E2, "H", code 0x0129 ("+"), "K".
+    line = oe.HINTS_EN + 100 * 3
+    program[line : line + 8] = bytes.fromhex("01e20147012901 4a".replace(" ", ""))
+    mm = bytearray(oe.HINTS_MM + 76 * count)
+    mm[oe.HINTS_MM :] = japanese[: 76 * count]
+    mm[oe.HINTS_MM] ^= 0xFF  # the Saturn's record 0 differs from the arcade's
+
+    class FakeTrack:
+        def __init__(self, stream, size):  # type: ignore[no-untyped-def]
+            pass
+
+        def read(self, lsn, size):  # type: ignore[no-untyped-def]
+            return bytes(mm)
+
+    track = tmp_path / "track.bin"
+    track.write_bytes(b"")
+    monkey = pytest.MonkeyPatch()
+    monkey.setattr(oe, "Track", FakeTrack)
+    monkey.setattr(oe, "find_entry", lambda t, n: (0, 0))
+    record0 = hashlib.sha256(bytes(mm[oe.HINTS_MM : oe.HINTS_MM + 76])).hexdigest()
+    monkey.setattr(oe, "HINT0_SHA256", record0)
+    try:
+        table = oe.official_hint_table(bytes(program), track)
+        records = table["records"]
+        assert isinstance(records, list)
+        assert table["file"] == "MM.BIN" and table["format"] == "raw"
+        assert len(records) == count
+        assert records[3]["lines"][0].strip() == "{01E2}H+K"
+        mm[oe.HINTS_MM + 76] ^= 1
+        with pytest.raises(ValueError, match="differ"):
+            oe.official_hint_table(bytes(program), track)
+    finally:
+        monkey.undo()
+
+
+def test_hint_page_patches_keep_lengths() -> None:
+    from tools.text import official_endings as oe
+
+    patches = oe.hint_page_patches()
+    assert {p["offset"] for p in patches} == {"0x96848", "0x968A0", "0x9638C"}
+    for p in patches:
+        assert len(p["hex"]) == len(p["expect"])
+    new_map = bytes.fromhex(next(p["hex"] for p in patches if p["offset"] == "0x968A0"))
+    assert sorted(set(new_map)) == [0, 2, 4, 6, 8, 10, 12, 14]
