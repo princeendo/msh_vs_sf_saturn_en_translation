@@ -314,3 +314,14 @@ and `docs/discoveries.md`.
 - Does the game show records 3-5 of the slot 23-25 ending block
   (`ME.PAC` `0x467C`; developer leftovers, now translated, `EXP-0078`)?
 
+## Release Patches (`EXP-0084`)
+
+- Does the official Sega Saturn Patcher (Windows) accept the `.ssp` files,
+  and does its rebuilt image boot and play? It rebuilds the ISO in
+  `driveOrder.txt` order instead of patching in place, so its track 01 will
+  not have the release hash.
+  - **Likely:** the original files are packed back to back from LSN 30, so
+    a rebuild in that order would keep their LSNs. Its builder's start LSN
+    is unread.
+- Graphical xdelta patchers (Delta Patcher, Rom Patcher JS) are untested
+  with the 16 MiB window.

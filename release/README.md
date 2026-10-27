@@ -10,6 +10,8 @@ Build it locally (see "Rebuild the Patch") and distribute it yourself.
 
 [`m8_roster_gold.json`](m8_roster_gold.json) is the release record: hashes,
 sizes, xdelta3 version, and flags (metadata only).
+[`m8_roster_gold.ssp.json`](m8_roster_gold.ssp.json) is the same for the
+Sega Saturn Patcher (`.ssp`) file.
 
 ## Choose a Name Variant
 
@@ -19,7 +21,8 @@ characters are named (`LOC-003`):
 | | Saturn names (default) | American names |
 | --- | --- | --- |
 | Patch | `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` |
-| Record | [`m8_roster_gold.json`](m8_roster_gold.json) | [`m8_roster_gold_us.json`](m8_roster_gold_us.json) |
+| Sega Saturn Patcher patch | `mshvsf_saturn_en_m8_gold.ssp` | `mshvsf_saturn_en_m8_gold_us.ssp` |
+| Record | [`m8_roster_gold.json`](m8_roster_gold.json), [`.ssp.json`](m8_roster_gold.ssp.json) | [`m8_roster_gold_us.json`](m8_roster_gold_us.json), [`.ssp.json`](m8_roster_gold_us.ssp.json) |
 | Reference | `m8_roster_gold` | `m8_roster_gold_us` |
 | English text | Vega, Gouki, Mech-Gouki | Bison, Akuma, Cyber Akuma (as the US arcade) |
 | Announcer's name calls | Vega, Gouki, Mech Gouki (unchanged) | Bison, Akuma, Cyber Akuma: recordings already on the disc, selected through six data edits in `MEMFIX.PAC` (`EXP-0058`) |
@@ -189,6 +192,36 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 xdelta3 checks each window's Adler-32 checksum. It refuses a wrong source with
 "target window checksum mismatch".
 
+### Or: Sega Saturn Patcher (.ssp)
+
+The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
+
+| Variant | File | Size (bytes) | SHA-256 |
+| --- | --- | ---: | --- |
+| Saturn names | `mshvsf_saturn_en_m8_gold.ssp` | 560,868 | `eb809034c1adc21ccfc6f192d93f9fa9df3cb8c6b720ee26830971ca50ec7a61` |
+| American names | `mshvsf_saturn_en_m8_gold_us.ssp` | 560,981 | `1a7f0f32be32c81914d3b1190f17829f2411bb6f82b88f3ce2dbb87f772fd185` |
+
+- **Tested: [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui)**
+  (Linux and Windows builds, or build from source on macOS). It patches a
+  copy of track 01 in place:
+
+  ```bash
+  cp "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" "Track 01 patched.bin"
+  saturn-patcher mshvsf_saturn_en_m8_gold.ssp "Track 01 patched.bin"
+  ```
+
+  The result has the same SHA-256 as the xdelta result above (`e820f6e1…`,
+  or `a6572495…` for the `_us` file). Continue from step 3 above. egui
+  checks each original file's MD5 first and stops on a wrong or
+  already-patched image.
+- **Not tested: the official Sega Saturn Patcher** (Windows, .NET 5 Desktop
+  Runtime). Select the CUE as a CD image, then "+ Game Patch (SSP)" and
+  "Patch Image".
+  - It rebuilds the whole disc instead of patching in place, so its output
+    will not have the hashes above.
+  - The `.ssp` has the entries its code requires, and no `ip.bin`: the
+    image keeps its own boot area.
+
 ## Rebuild the Patch from This Repository
 
 The build is deterministic. It reproduces the hashes above from the untouched
@@ -244,12 +277,31 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
   --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
   --stem mshvsf_saturn_en_m8_gold_us --out-dir build/release/m8_gold_us \
   --record release/m8_roster_gold_us.json
+
+# 3. The Sega Saturn Patcher (.ssp) files, from the same builds.
+./invenv.sh python -m tools.disc.make_ssp \
+  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
+  --stem mshvsf_saturn_en_m8_gold --release-version 0.1.0 \
+  --description "Official arcade English text; Saturn character names." \
+  --out-dir build/release/m8_gold --record release/m8_roster_gold.ssp.json
+./invenv.sh python -m tools.disc.make_ssp \
+  --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
+  --stem mshvsf_saturn_en_m8_gold_us --release-version 0.1.0 \
+  --description "Official arcade English text; US character names." \
+  --out-dir build/release/m8_gold_us --record release/m8_roster_gold_us.ssp.json
 ```
 
 **Expected:**
 - Saturn names: spec `115f6cd3…`, track 01 `e820f6e1…`, patch `f7692948…`;
 - American names: spec `d441e9fc…`, track 01 `a6572495…`, patch `3d23dcd8…`;
-- the patch hashes assume xdelta3 3.2.2.
+- the patch hashes assume xdelta3 3.2.2;
+- `.ssp`: `eb809034…` (Saturn names) and `1a7f0f32…` (American names). These
+  need no external tool; they assume the recorded Python 3.12.13 build (zlib
+  1.2.12 and its own bzip2).
+
+`make_ssp` checks the same source and reference. It also checks that only
+whole files change, that two builds are byte-identical, and that its own
+applier reproduces the built track.
 
 `make_patch` also checks that:
 - the source components are the recorded originals;

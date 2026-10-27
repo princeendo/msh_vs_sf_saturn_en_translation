@@ -1,0 +1,287 @@
+{
+ "tool": "tools.disc.make_ssp",
+ "reference": "m8_roster_gold_us",
+ "ssp_version": "1.3.7760.32512",
+ "patch": "mshvsf_saturn_en_m8_gold_us.ssp",
+ "patch_size": 560981,
+ "patch_sha256": "1a7f0f32be32c81914d3b1190f17829f2411bb6f82b88f3ce2dbb87f772fd185",
+ "component": "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin",
+ "source_sha256": "8274307f9562d2da7fb7be0f5f306846edb74afde5913324bef04938ed3214f9",
+ "target_sha256": "a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4",
+ "deterministic": true,
+ "round_trip": true,
+ "files": [
+  {
+   "name": "MM.BIN",
+   "lsn": 65,
+   "size": 848396,
+   "source_md5": "341ea376724c90c7004958c9f6e0b2a6",
+   "target_sha256": "30a63edcf827e71154de45f274def53ea4f305f63b3650abd98d7fdf60b86bbf",
+   "dfr_stored_size": 1601
+  },
+  {
+   "name": "ME.PAC",
+   "lsn": 3924,
+   "size": 60692,
+   "source_md5": "9949ec8dd37b2e214af30b454fbe2746",
+   "target_sha256": "36eb65cd5fd291f6e1eaac336f74ec1f4f1a51e24fec93c984a5946b8d0b8a29",
+   "dfr_stored_size": 3299
+  },
+  {
+   "name": "MEMFIX.PAC",
+   "lsn": 3954,
+   "size": 1744100,
+   "source_md5": "e5eb8c1bd3e9da3c98eb1757cac58744",
+   "target_sha256": "a128c362dc0a7a18557a96dbbffddcb62b75465957da9dab63d285b9ff88683c",
+   "dfr_stored_size": 10696
+  },
+  {
+   "name": "MC00.PAC",
+   "lsn": 4941,
+   "size": 20848,
+   "source_md5": "1ef1543a34930568a0bc0e2dae3b28e1",
+   "target_sha256": "1927f2dc253f55cd88e8d01def8edb3546614f3e3ed3db79264800287c620948",
+   "dfr_stored_size": 9040
+  },
+  {
+   "name": "MC01.PAC",
+   "lsn": 5311,
+   "size": 34620,
+   "source_md5": "2b2bf10620d2729b95ba0ade5d990275",
+   "target_sha256": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
+   "dfr_stored_size": 6471
+  },
+  {
+   "name": "MC02.PAC",
+   "lsn": 5699,
+   "size": 36544,
+   "source_md5": "42852992561ec280ec75976263b40238",
+   "target_sha256": "f23258ae091fedd6fd579e731248f29b2193bee55ce358d01bb53490082a88c6",
+   "dfr_stored_size": 3610
+  },
+  {
+   "name": "MC03.PAC",
+   "lsn": 6085,
+   "size": 27260,
+   "source_md5": "89bf2d5ef83b87fb7b4062f9ae8549c0",
+   "target_sha256": "1fdfb4973632e2c8bab54b19668babc073bb4b4b315c0970812b5d505412e3c9",
+   "dfr_stored_size": 4376
+  },
+  {
+   "name": "MC04.PAC",
+   "lsn": 6473,
+   "size": 33224,
+   "source_md5": "294f26af70b15ef3959944c2fe2e40d7",
+   "target_sha256": "7e04a95a2f651dcf87aefccf7b7571e7f93a201eba96aa7047fc5a8543ccab56",
+   "dfr_stored_size": 2539
+  },
+  {
+   "name": "MC05.PAC",
+   "lsn": 6861,
+   "size": 34492,
+   "source_md5": "00508bee1d3eefa0f825d6b4707aa592",
+   "target_sha256": "9eededabb6c957d3c0189b38378593d48eba54ed84aef6c9b13f158179be5592",
+   "dfr_stored_size": 5913
+  },
+  {
+   "name": "MC06.PAC",
+   "lsn": 7252,
+   "size": 38240,
+   "source_md5": "b39476fd0e1ed32ff86a842390e9a97d",
+   "target_sha256": "3627ef8cec89581c03556a95e731d39f5d258ec1b7b6aee80ca31eaa99278d25",
+   "dfr_stored_size": 11616
+  },
+  {
+   "name": "MC07.PAC",
+   "lsn": 7632,
+   "size": 40404,
+   "source_md5": "2f24c69451910f3d4da2a95b15853942",
+   "target_sha256": "f5f16a598a4cf032c32fc4f7d10b04ca1d77afe32b5386674282eb2f7b0939fb",
+   "dfr_stored_size": 3639
+  },
+  {
+   "name": "MC08.PAC",
+   "lsn": 8026,
+   "size": 37148,
+   "source_md5": "51a14f79c64df358b266cd790cf2c3fc",
+   "target_sha256": "c55ad2b68f3c47e5b8761ae1b2300f07fb9e4433789a1e28d15797f7bdc0e211",
+   "dfr_stored_size": 7432
+  },
+  {
+   "name": "MC09.PAC",
+   "lsn": 8246,
+   "size": 25128,
+   "source_md5": "14e24f0865b2ccad925f22267948a6b1",
+   "target_sha256": "f99880ce17bb851fc1e1162f86db6a6366b4a4400ea8c601ea00dd256532e39c",
+   "dfr_stored_size": 3431
+  },
+  {
+   "name": "MC0A.PAC",
+   "lsn": 8492,
+   "size": 28364,
+   "source_md5": "a71582896d071df988a3395d7e4904c7",
+   "target_sha256": "dbd2b981b08f9f5c545bcf7a4e696248633eac05083a6c03d9c85d6703e23b00",
+   "dfr_stored_size": 2422
+  },
+  {
+   "name": "MC0B.PAC",
+   "lsn": 8736,
+   "size": 25984,
+   "source_md5": "c03f61b5c255df8d2fd8c7530eeaee80",
+   "target_sha256": "d6b2791675a3812747cd64af95b8a416ba056681cb89a0bb6d1a9fea86ee31b1",
+   "dfr_stored_size": 1989
+  },
+  {
+   "name": "MC0C.PAC",
+   "lsn": 9042,
+   "size": 28552,
+   "source_md5": "f2633f88304c3de85536b55582819110",
+   "target_sha256": "0e6e7b4a40d1798a521a741af18e0af083ded3b905929d939ef7319f350cf46a",
+   "dfr_stored_size": 3915
+  },
+  {
+   "name": "MC0D.PAC",
+   "lsn": 9392,
+   "size": 32916,
+   "source_md5": "ce0063ee5e58253b43697e3503de6c81",
+   "target_sha256": "e4ab1867642361442c61f2ff796ab9185832128f468c0fca41a36bad82d69cfd",
+   "dfr_stored_size": 3047
+  },
+  {
+   "name": "MC0E.PAC",
+   "lsn": 9639,
+   "size": 25984,
+   "source_md5": "526cf460e92731f3056ab0ae6086eb55",
+   "target_sha256": "b6e61cd01821e86fff78987ce85447305e8c58ab1a64b30f7a822911820fe7bc",
+   "dfr_stored_size": 5164
+  },
+  {
+   "name": "MC0F.PAC",
+   "lsn": 9886,
+   "size": 28752,
+   "source_md5": "2b38500910276b1bbd1e5705c010f7c1",
+   "target_sha256": "bcae0e2ecd9ef5b0d71e6458f882e2a4cc0d7942f4456dac3e4542a1a244f2f7",
+   "dfr_stored_size": 3499
+  },
+  {
+   "name": "MC10.PAC",
+   "lsn": 10231,
+   "size": 32304,
+   "source_md5": "e8ab1ea7c6039346e7664695d4fe84b0",
+   "target_sha256": "b58afe99d0e76d3d651e1b8dd09d9b175995ee0a2e42afae276d707df47c3517",
+   "dfr_stored_size": 4934
+  },
+  {
+   "name": "MC11.PAC",
+   "lsn": 10578,
+   "size": 31296,
+   "source_md5": "a716d63e2fa9aa494a93633942e0956c",
+   "target_sha256": "d75dadf803563f43c5dadce7689f19e4476071b2aa03e7a8a9d63144b9031e8f",
+   "dfr_stored_size": 5607
+  },
+  {
+   "name": "MC12.PAC",
+   "lsn": 10794,
+   "size": 22548,
+   "source_md5": "140f60d39dfc3d7adfdc31f01e4070e9",
+   "target_sha256": "27e0d2748109e695559887a8773cce6481f5ade6f39b44393e3abf5f4d8c99f2",
+   "dfr_stored_size": 2719
+  },
+  {
+   "name": "MC13.PAC",
+   "lsn": 11100,
+   "size": 31036,
+   "source_md5": "e6c1986127eac926f13403d5d707ac17",
+   "target_sha256": "f4324cddf1fd3c90f883210a2b4950775aebc9a6da2b60f4504d24ecd59aa216",
+   "dfr_stored_size": 4220
+  },
+  {
+   "name": "MC16.PAC",
+   "lsn": 11262,
+   "size": 26120,
+   "source_md5": "2809a07b72db694a641321b465611157",
+   "target_sha256": "159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4",
+   "dfr_stored_size": 3248
+  },
+  {
+   "name": "MC14.PAC",
+   "lsn": 11275,
+   "size": 35768,
+   "source_md5": "0058059ee39ace1dcd4a75a604cb3582",
+   "target_sha256": "7c7008cee65501900220f0c210302f7f3ccde5b4953cecb8f7dd0af363cc2ce8",
+   "dfr_stored_size": 20562
+  },
+  {
+   "name": "MC15.PAC",
+   "lsn": 11293,
+   "size": 33508,
+   "source_md5": "704c53e5a0f5af6ea76ab74fbba891ee",
+   "target_sha256": "2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806",
+   "dfr_stored_size": 17044
+  },
+  {
+   "name": "MVSOP0.ST2",
+   "lsn": 33081,
+   "size": 2693120,
+   "source_md5": "d3963c9ec11f58d47a414b3d12f8db09",
+   "target_sha256": "509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec",
+   "dfr_stored_size": 51407
+  },
+  {
+   "name": "MVSOP1.ST2",
+   "lsn": 34396,
+   "size": 3006464,
+   "source_md5": "0416606df25d5c9786fb1a71f0da3acf",
+   "target_sha256": "3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa",
+   "dfr_stored_size": 50891
+  },
+  {
+   "name": "MVSOP2.ST2",
+   "lsn": 35864,
+   "size": 2586624,
+   "source_md5": "0d7751a8bce70179a21bc28121a3b936",
+   "target_sha256": "4e5b96b55a5b388799ae153c9995aaea60d025f37aec72d73c449aaeed676e24",
+   "dfr_stored_size": 49421
+  },
+  {
+   "name": "MVSOP3.ST2",
+   "lsn": 37127,
+   "size": 2955264,
+   "source_md5": "75d0ab8e1faea86457a6c0270ede5b9c",
+   "target_sha256": "8c53c91b4a4e61e1666370e849ff6969ba639c5e988ae70c479ee4d86e91f9af",
+   "dfr_stored_size": 49747
+  },
+  {
+   "name": "MVSOP4.ST2",
+   "lsn": 38570,
+   "size": 2547712,
+   "source_md5": "f08c2abf700104dbf6ad7f684f10dfcc",
+   "target_sha256": "96f683b0f838bb6675a23ee9d181ea17976ed1f478bd0cc67195dbfeb2c8e3e7",
+   "dfr_stored_size": 48362
+  },
+  {
+   "name": "MVSOP5.ST2",
+   "lsn": 39814,
+   "size": 2770944,
+   "source_md5": "c3be1fbfdba4620d3a84fb78ace3f409",
+   "target_sha256": "e29dd79841981bc87eed7c275573f151a6e74b67c0330273e9242b33f751a58f",
+   "dfr_stored_size": 52077
+  },
+  {
+   "name": "MVSOP6.ST2",
+   "lsn": 41167,
+   "size": 2398208,
+   "source_md5": "6ed01a9515ee7d0fae41d6b0cffe1a8f",
+   "target_sha256": "1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1",
+   "dfr_stored_size": 50111
+  },
+  {
+   "name": "MVSOP7.ST2",
+   "lsn": 42338,
+   "size": 2682880,
+   "source_md5": "6346d4314f7b3df215b82e3fc07e0e9f",
+   "target_sha256": "2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856",
+   "dfr_stored_size": 49698
+  }
+ ]
+}

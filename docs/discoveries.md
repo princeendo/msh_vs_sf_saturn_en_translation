@@ -1579,6 +1579,33 @@ Experiment: `EXP-0083`
   bytes (from 2.95 MB).
 - **Reproduce.** `research/experiments/EXP-0083/README.md`.
 
+## REL-002: An .ssp Is a ZIP of Per-File BSDIFF40 Patches
+
+Confidence: **CONFIRMED** (in-place applier, both variants); the official
+patcher's rebuild is untested (HYPOTHESIS that it works)
+
+Experiment: `EXP-0084`
+
+- **Format:** an `.ssp` is a ZIP. Each `NAME._DFR` is a BSDIFF40 patch of
+  file `NAME`.
+  - **Required by the official patcher (v1.95, decompiled):** `version.txt`
+    (first two parts compared; `1.0` means its old text format) and
+    `driveOrder.txt` (`PATH,INDEX,XAMODE` per ISO entry, by extent).
+  - **Required by `saturn-patcher-egui`:** `changes.md5` (`NAME:MD5` of each
+    original file). The official patcher writes it but never reads it.
+  - **Optional `ip.bin`:** replaces the image's system area in the official
+    patcher. It is left out here.
+- **Official patcher:** it rebuilds the ISO from the extracted, patched
+  files in `driveOrder.txt` order.
+- **egui:** it patches root files in place and regenerates EDC/ECC.
+- **Release patches:** `tools/disc/make_ssp.py` writes 560,868-byte
+  (`eb809034…`, Saturn names) and 560,981-byte (`1a7f0f32…`, American
+  names) patches.
+  - `saturn-patcher-egui` (commit `20837e06…`) applied to the untouched
+    track 01 gives `e820f6e1…` and `a6572495…`: the release hashes.
+  - macOS `/usr/bin/bspatch` reproduces all 34 patched files of each.
+- **Reproduce.** `research/experiments/EXP-0084/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

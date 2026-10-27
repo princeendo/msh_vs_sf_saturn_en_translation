@@ -3210,23 +3210,25 @@ the user asks or when it unblocks other work.
 
 ### REL-002 - Also release the patch in Sega Saturn Patcher (.ssp) format
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0084`)
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** REL-001 (done).
-- **Blockers:** None known; the `.ssp` format is not yet documented here.
 - **Objective (user request, 2026-10-26):** Produce `.ssp` patches for both
   name variants next to the xdelta patches, as other Saturn translations do
   (for example the SFZ3 Saturn English patch ships xdelta and SSP).
-- **Known so far (web, 2026-10-26; HYPOTHESIS until checked):**
-  - Sega Saturn Patcher (segaxtreme.net) creates and applies `.ssp` patches;
-    the official tool is Windows-only (.NET).
-  - An open-source cross-platform applier (`ralfguth/saturn-patcher-egui`,
-    GPL-3.0) supports only patches that keep every file the same size,
-    suggests a ZIP container, and uses bsdiff; it works on track 1 and
-    regenerates Mode 1 EDC/ECC.
-  - Every file this project patches keeps its size (compiler check
-    `file_size_unchanged`), which fits that limit.
+- **Result:**
+  - **Format:** documented from a v1.3-made sample `.ssp` and the decompiled
+    official patcher v1.95 (`docs/discoveries.md`, REL-002). No GPL code was
+    copied.
+  - **Generator:** `tools/disc/make_ssp.py` (pure-Python bsdiff 4 scan, no
+    new dependency). It writes 560,868 bytes (`eb809034…`) and 560,981 bytes
+    (`1a7f0f32…`), smaller than the xdelta patches.
+  - **Check:** `saturn-patcher-egui` applied each to the untouched track 01
+    and gave the release hash (`e820f6e1…`, `a6572495…`).
+  - **Docs:** `release/README.md` gives SSP instructions and hashes.
+- **Known limit:** the official Windows patcher was not run. It rebuilds the
+  disc instead of patching in place (`docs/known_unknowns.md`).
 - **Acceptance criteria:**
   - the `.ssp` format documented from evidence (a patch the official tool
     made, or the applier's documented behaviour), with no code copied from a
@@ -3308,12 +3310,11 @@ the user asks or when it unblocks other work.
 
 ### REL-004 - Publish release 0.1.0 on GitHub
 
-- **Status:** `READY` (2026-10-27: REL-003 done; the SSP zip still needs
-  `REL-002`)
+- **Status:** `READY` (2026-10-27: REL-003 and REL-002 done)
 - **Priority:** high
 - **Milestone:** Polish
-- **Dependencies:** REL-003 (done); REL-002 for the SSP zip.
-- **Blockers:** None for the xdelta zip.
+- **Dependencies:** REL-003 (done); REL-002 (done).
+- **Blockers:** None.
 - **Objective (user request, 2026-10-26):** Publish the first release,
   version `0.1.0` (git tag `v0.1.0`), as a GitHub Release with the patches as
   assets (`AGENTS.md` rule 21 exception): one zip of every xdelta variant and,

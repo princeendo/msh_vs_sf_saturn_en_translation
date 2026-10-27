@@ -61,12 +61,18 @@ as they are. The full list, with evidence for each item, is in
 ## Patch Files
 
 You build the patches yourself (the next section); this repository never
-distributes them. A build makes two files:
+distributes them. Each name variant comes in two formats, which give the same
+patched track 01:
 
-| File | Variant | Patched track 01 SHA-256 |
-| --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | Saturn names (recommended) | `e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | American names | `a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4` |
+| xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
+| --- | --- | --- | --- |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4` |
+
+The `.ssp` hash holds when an in-place applier such as
+[saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies
+it. The official Windows Sega Saturn Patcher rebuilds the disc, so its output
+differs, and it has not been tested.
 
 To apply one, see [release/README.md](release/README.md#apply-the-patch). In
 short:
@@ -122,6 +128,18 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ./invenv.sh python -m tools.disc.make_patch \
   --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
   --stem mshvsf_saturn_en_m8_gold_us --out-dir build/release/m8_gold_us
+
+# 3. The same patches as Sega Saturn Patcher (.ssp) files (no extra tool needed).
+./invenv.sh python -m tools.disc.make_ssp \
+  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
+  --stem mshvsf_saturn_en_m8_gold --release-version 0.1.0 \
+  --description "Official arcade English text; Saturn character names." \
+  --out-dir build/release/m8_gold
+./invenv.sh python -m tools.disc.make_ssp \
+  --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
+  --stem mshvsf_saturn_en_m8_gold_us --release-version 0.1.0 \
+  --description "Official arcade English text; US character names." \
+  --out-dir build/release/m8_gold_us
 ```
 
 The patches are written to `build/release/m8_gold/` and

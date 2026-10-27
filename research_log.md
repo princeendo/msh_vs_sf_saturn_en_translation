@@ -4862,3 +4862,36 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 - **Check:** all nine references pass; cold-boot attract capture shows all
   three English captions. `pytest tests/unit` 277 passed; ruff and mypy
   clean.
+
+## 2026-10-27 — REL-002: SSP patches (EXP-0084)
+
+- **Evidence (user permission for each download and install):**
+  - a v1.3-made sample `.ssp` (Doom fix patch v0.3, `98c9ffdc…`);
+  - the bundled official patcher v1.95 (`9b739d18…`), decompiled with
+    `ilspycmd` 11.2 from its single-file bundle, never run;
+  - `saturn-patcher-egui` at `20837e06…`, built with cargo 1.99.1.
+- **Format:** a ZIP of `NAME._DFR` (BSDIFF40) entries.
+  - The official patcher needs `version.txt` and `driveOrder.txt`.
+  - egui needs `changes.md5`.
+  - `ip.bin` is optional and would replace the system area, so it is left
+    out.
+- **Mismatch in the open applier:** egui looks up `changes.md5` by exact
+  name, so it would not load the v1.3 sample, which has `CHANGES._MD5`.
+  v1.95 writes the lower-case name.
+- **Disproven:** one whole-file add per `._DFR` is valid but large (1.58 MB
+  in total; MEMFIX.PAC alone 191 KB). Data moved inside the files needs
+  real matching. A pure-Python bsdiff 4 scan with an 8-byte index gives
+  560,868 / 560,981 bytes, smaller than the xdelta patches.
+- **Checks:**
+  - egui applied each `.ssp` to the untouched track 01 and gave the release
+    hashes (`e820f6e1…`, `a6572495…`);
+  - `/usr/bin/bspatch` reproduced 34 of 34 files per variant;
+  - `make_ssp` round-trips and is deterministic.
+- **Layout note:** the original files are packed back to back from LSN 30.
+  The official patcher's rebuilt image is untested.
+- **Tests:**
+  - `pytest tests/unit`: 288 passed (11 new in `test_make_ssp.py`);
+  - ruff is clean;
+  - mypy reports one error, which predates this work:
+    `tests/unit/test_official_endings.py:185`, `SLOTS` is not exported
+    (from `facc48e`).
