@@ -141,6 +141,8 @@ EXCHANGE_CODE_TEXT = {"{011e}": ","}
 HINTS_MM, HINTS_JA, HINTS_EN, HINT_RECORDS = 0x7C584, 0x2139AC, 0x2239FC, 16
 HINT0_SHA256 = "8c16fbfbad04382b1dedcbcd7b491181b5d94ddb8fbe4d2013cf160f7291b83b"
 HINT_CODE_TEXT = {"{0129}": "+"}
+# TXT-002 (EXP-0085): MM.BIN story records 16-41, one per roster slot 0-25.
+STORY_RECORDS = range(16, 42)
 # MM.BIN offset: (original, patched) bytes.
 HINT_PAGE_PATCHES = {
     # creator 0x060AF348: map the random index outside Japan only -> always
@@ -636,8 +638,40 @@ def secret_tables(
     chosen to add the fewest pairs to ``existing`` (the font is nearly full).
     Names are written in the US arcade form and localized to ``variant``.
     """
+    return translation_tables(json.loads(path.read_text()), track, existing, variant)
+
+
+def story_tables(
+    path: Path,
+    track: Path,
+    existing: set[str] = frozenset(),  # type: ignore[assignment]
+    variant: str = "saturn",
+) -> list[dict[str, object]]:
+    """Spec table for the post-loss story lines (TXT-002, ``EXP-0085``).
+
+    Only records 16-41 are built: one per roster slot, shown in place of the CPU
+    winner's win quote on a 1-in-64 roll. A record without ``lines`` (slot 19's
+    symbol noise) keeps its original cells. ``{P}`` is the winner's teammate and
+    may sit at any cell.
+    """
     document = json.loads(path.read_text())
+    for table in document["tables"]:
+        table["records"] = [
+            r for r in table["records"] if r["record"] in STORY_RECORDS and "lines" in r
+        ]
+        table["placeholder"] = "anywhere"
+    return translation_tables(document, track, existing, variant)
+
+
+def translation_tables(
+    document: dict[str, object],
+    track: Path,
+    existing: set[str] = frozenset(),  # type: ignore[assignment]
+    variant: str = "saturn",
+) -> list[dict[str, object]]:
+    """Spec tables for one translations document (see ``secret_tables``)."""
     tables = document["tables"]
+    assert isinstance(tables, list)
     for table in tables:
         for record in table["records"]:
             record["lines"] = [localize(x, variant) for x in record["lines"]]
@@ -680,6 +714,8 @@ def secret_tables(
         }
         if table.get("format") == "raw":
             entry["format"] = "raw"
+        if table.get("placeholder") == "anywhere":
+            entry["placeholder"] = "anywhere"
         out.append(entry)
     return out
 
@@ -767,6 +803,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="translated screen text, such as the CONTINUE? hints (UI-004)",
     )
     parser.add_argument(
+        "--story-lines",
+        type=Path,
+        help="translated post-loss story lines, MM.BIN records 16-41 (TXT-002)",
+    )
+    parser.add_argument(
         "--official-hints",
         action="store_true",
         help="the arcade's official English CONTINUE? hints, paged (UI-006)",
@@ -835,6 +876,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         tables += secret_tables(
             args.ui_translations, args.track, spec_pairs(spec), args.names
         )
+        spec["retire_replaced_kanji"] = True
+    if args.story_lines:
+        tables = spec["tables"]
+        assert isinstance(tables, list)
+        tables += story_tables(
+            args.story_lines, args.track, spec_pairs(spec), args.names
+        )
+        spec["story_lines"] = True
         spec["retire_replaced_kanji"] = True
     if args.official_hints:
         if args.ui_translations:

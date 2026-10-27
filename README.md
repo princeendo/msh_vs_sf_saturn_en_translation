@@ -35,6 +35,10 @@ It holds no game data: you build the patch yourself from your own disc image
 - **Bosses:** Apocalypse's and Mech-Gouki's win quotes (shown when they beat
   you), and Apocalypse's exchange with each challenger before his stage-7
   fight, in the arcade's official English.
+- **Rare post-loss lines:** about once in 64 losses to the computer, the
+  winner says a special line instead of its win quote. These exist only in
+  Japanese (the arcade shows them only in Japan), so they are a new English
+  translation.
 - **CONTINUE? hints:** the gameplay hint under the countdown is the arcade's
   official English, shown in two pages as in the US arcade. The box fits 8
   of the arcade's 12 hints; the game's own joystick arrows are kept.
@@ -66,8 +70,8 @@ patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `93965dd4ea6577a6410277b4734f0315842518b85aaf9f0decb6f07b7531da41` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `b978085db3aa3e5ac7e8c1ef463b1b4d65c0c50b8d89a8b5e6903323f19171b5` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `a1e3a0bcaafb47cd5417f71dca2e6e79e4d9f4a7afb10b7f2f5ff9e179993e2d` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `0f430c0afde618d9748b636501ab46f8a8cf48ffed73eaec3ff219799b3698cb` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies
@@ -187,6 +191,7 @@ lists each image's exact options.
 | `--attract-captions` | The English attract-mode captions. | on |
 | `--secret-roster data/text/secret_roster.json` | Official win quotes for Apocalypse, Mech-Gouki, Shadow, U.S. Agent, Mephisto and Norimaro. | on |
 | `--secret-translations data/translations/secret_characters.json` | New translations for the secret characters and Norimaro, plus their official partner lines and names. | on |
+| `--story-lines data/translations/story_lines.json` | The rare post-loss lines (`MM.BIN` records 16-41), new translations. | on |
 | `--official-hints` | The CONTINUE? hints in the arcade's official English, paged as in the arcade (8 of 12 hints fit). | on |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
@@ -200,7 +205,7 @@ boss-fight lock:
   --with-win-quotes --glyph-style credits --caption-palette gold --ui-english \
   --attract-captions --secret-roster data/text/secret_roster.json \
   --secret-translations data/translations/secret_characters.json \
-  --official-hints --boss-exchanges \
+  --story-lines data/translations/story_lines.json --official-hints --boss-exchanges \
   --no-unlock-boss-fight --out local/custom/spec.json
 ./invenv.sh python -m tools.text.caption_compiler local/custom/spec.json --out-dir build/custom
 ./invenv.sh python -m tools.disc.make_patch --built-dir build/custom/image_a \

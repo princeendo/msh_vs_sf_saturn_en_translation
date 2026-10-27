@@ -3073,7 +3073,7 @@ the user asks or when it unblocks other work.
 
 ### TXT-002 - Build English for the post-loss story lines
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0087`)
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** TXT-001 (done).
@@ -3087,6 +3087,13 @@ the user asks or when it unblocks other work.
     Japan;
   - `{P}` inserts the winner's teammate;
   - record 35 (Mech-Gouki) is symbol noise and is kept.
+- **Result:**
+  - **Generator:** `--story-lines` builds records 16-41 into both release
+    references, nine of nine passing.
+  - **Seen:** all 25 built records in English in a forced trial from a play
+    state with the built font. Record 27 inserted a name mid-line
+    ("Oh? ZANGIEF, …").
+  - **Not yet:** a cold-boot play check, planned together with `UI-006`'s.
 - **Acceptance criteria:**
   - the records are built in both name variants, and the regression
     references are updated;

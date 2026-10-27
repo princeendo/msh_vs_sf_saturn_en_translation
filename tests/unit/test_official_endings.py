@@ -274,3 +274,65 @@ def test_hint_page_patches_keep_lengths() -> None:
         assert len(p["hex"]) == len(p["expect"])
     new_map = bytes.fromhex(next(p["hex"] for p in patches if p["offset"] == "0x968A0"))
     assert sorted(set(new_map)) == [0, 2, 4, 6, 8, 10, 12, 14]
+
+
+def test_story_tables_build_records_16_to_41_with_lines(tmp_path) -> None:  # type: ignore[no-untyped-def]
+    import hashlib
+    import json
+
+    import pytest
+
+    from tools.text import official_endings as oe
+
+    mm = bytearray(0x7C584 + 76 * 48)
+    for k in range(48):
+        mm[0x7C584 + 76 * k] = k + 1
+    digest = {
+        k: hashlib.sha256(
+            bytes(mm[0x7C584 + 76 * k : 0x7C584 + 76 * (k + 1)])
+        ).hexdigest()
+        for k in range(48)
+    }
+    records = [
+        {"record": 16, "source_sha256": digest[16], "lines": ["Give your body", ""]},
+        {"record": 27, "source_sha256": digest[27], "lines": ["Oh? {P}, see", ""]},
+        {"record": 35, "source_sha256": digest[35], "note": "symbol noise; kept"},
+        {"record": 42, "source_sha256": digest[42], "lines": ["Go, Shadow!", ""]},
+    ]
+    path = tmp_path / "story.json"
+    path.write_text(
+        json.dumps(
+            {
+                "tables": [
+                    {
+                        "file": "MM.BIN",
+                        "table": "0x7C584",
+                        "format": "raw",
+                        "records": records,
+                    }
+                ]
+            }
+        )
+    )
+
+    class FakeTrack:
+        def __init__(self, stream, size):  # type: ignore[no-untyped-def]
+            pass
+
+        def read(self, lsn, size):  # type: ignore[no-untyped-def]
+            return bytes(mm)
+
+    track = tmp_path / "track.bin"
+    track.write_bytes(b"")
+    monkey = pytest.MonkeyPatch()
+    monkey.setattr(oe, "Track", FakeTrack)
+    monkey.setattr(oe, "find_entry", lambda t, n: (0, 0))
+    try:
+        (table,) = oe.story_tables(path, track)
+        built = table["records"]
+        assert isinstance(built, list)
+        assert [r["record"] for r in built] == [16, 27]
+        assert table["placeholder"] == "anywhere" and table["format"] == "raw"
+        assert "{P}" in built[1]["lines"][0]
+    finally:
+        monkey.undo()

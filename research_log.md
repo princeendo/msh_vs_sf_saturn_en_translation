@@ -4999,3 +4999,23 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   state with the built font. Not yet from a cold boot.
 - **Tasks:** `UI-005` rejected (superseded). `continue_hints.json` is marked
   superseded and stays available.
+
+## 2026-10-27 — TXT-002: post-loss story lines in English (EXP-0087)
+
+- **Built:**
+  - `--story-lines` builds `MM.BIN` records 16-41 from
+    `story_lines.json`, with `placeholder: anywhere`; record 35 (symbols) is
+    kept;
+  - `centred` and `line_pairs` now accept `{P}` (two cells; the text after it
+    starts a new cell);
+  - nine of nine references pass;
+  - xdelta 644,163 / 644,944 and `.ssp` 561,626 / 561,628 bytes; egui
+    reproduces both tracks.
+- **Verified:** forced on the Saturn from the `EXP-0081` state with the
+  built font. The `bf` at `0x060AF228` became a `nop`, and the story base
+  literal `0x060AF250` was moved per record. All 25 records show in English.
+- **Lesson:** forcing Chun-Li's record onto Apocalypse inserted his own
+  Japanese name (slot 0, untranslated). Copying Zangief's name entry over
+  slot 0 in RAM showed "Oh? ZANGIEF, …". In real play the teammate is always
+  a playable character.
+- **Next:** one cold-boot play check for `UI-006` and `TXT-002` (user).

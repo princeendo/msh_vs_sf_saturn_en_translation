@@ -20,26 +20,32 @@ from pathlib import Path
 from tools.reference.cps2_text import build_program, read_quote_table
 from tools.reference.mame_audit import parse_driver
 from tools.reference.quote_pairing import OBSERVED_REMAP
-from tools.text.caption_compiler import LINE_CELLS, split_codes
+from tools.text.caption_compiler import LINE_CELLS, TOKEN, split_codes
 from tools.text.pair_font import char_code
 
 
-def centred(text: str, cells: int = LINE_CELLS, shift: int = 0) -> str:
+def centred(
+    text: str, cells: int = LINE_CELLS, shift: int = 0, name_cells: int = 2
+) -> str:
     """Pad ``text`` with whole blank cells so it sits centred in ``cells``.
 
     ``shift`` = 1 adds one leading space inside the first cell, which changes how
     the line splits into pairs (``best_shifts``). A ``{XXXX}`` font code takes a
-    whole cell (`UI-004`).
+    whole cell (`UI-004`). ``{P}``, a name the game inserts, is counted as
+    ``name_cells`` cells, and the text after it starts a new cell.
     """
     body = " " * shift + text
     used = 0
-    for part in split_codes(body):
-        if isinstance(part, int):
-            used += 1
-            continue
-        for char in part:
-            char_code(char)  # raises ValueError for characters without a glyph
-        used += (len(part) + 1) // 2
+    for index, segment in enumerate(body.split(TOKEN)):
+        if index:
+            used += name_cells  # ``{P}``: a name the game inserts (`TXT-002`)
+        for part in split_codes(segment):
+            if isinstance(part, int):
+                used += 1
+                continue
+            for char in part:
+                char_code(char)  # raises ValueError for characters without a glyph
+            used += (len(part) + 1) // 2
     if used > cells:
         raise ValueError(f"{text!r} needs {used} cells (max {cells})")
     return "  " * ((cells - used) // 2) + body
@@ -47,10 +53,11 @@ def centred(text: str, cells: int = LINE_CELLS, shift: int = 0) -> str:
 
 def line_pairs(text: str, shift: int) -> set[str]:
     pairs: set[str] = set()
-    for part in split_codes(" " * shift + text):
-        if isinstance(part, str):
-            body = part + " " * (len(part) % 2)
-            pairs |= {body[i : i + 2] for i in range(0, len(body), 2)}
+    for segment in (" " * shift + text).split(TOKEN):
+        for part in split_codes(segment):
+            if isinstance(part, str):
+                body = part + " " * (len(part) % 2)
+                pairs |= {body[i : i + 2] for i in range(0, len(body), 2)}
     return pairs - {"  "}
 
 

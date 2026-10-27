@@ -1,6 +1,6 @@
 {
  "schema": "mshvsf-translations/1",
- "status": "DRAFT: not used by any build until TXT-001 finds where these lines are shown",
+ "status": "Records 16-41 are built into the release by --story-lines (TXT-002): EXP-0085 found them shown in place of the CPU winner's win quote after a loss, on a 1-in-64 roll. Records 42-47 are not built (TXT-003).",
  "description": "TXT-001 draft English for the MM.BIN story table (records 16-47 of the table at 0x7C584, after the 16 CONTINUE? hints). Records 16-41 are one line per roster slot 0-25; 42-43 are Vega's orders to Shadow and Metal Zangief; 44 is punctuation; 45-47 are developer jokes signed KAWASE.",
  "translator": "Claude (AI), from the Saturn's own Japanese records rendered with its quote font; not official text (no arcade or PS1 English exists, EXP-0047).",
  "tables": [

@@ -1675,6 +1675,22 @@ Experiment: `EXP-0086`
   memory at run time. Hints 8-11 do not fit.
 - **Reproduce.** `research/experiments/EXP-0086/README.md`.
 
+## TXT-002: The Post-Loss Story Lines Show in English
+
+Confidence: **CONFIRMED** (forced trial from a play state with the built font
+and data; not yet a cold boot)
+
+Experiment: `EXP-0087`
+
+- **Built:** `--story-lines` builds `MM.BIN` records 16-41 from
+  `data/translations/story_lines.json`, with `{P}` allowed at any cell.
+  Record 35 (symbol noise) keeps its original cells.
+- **Seen:** with the 1-in-64 branch forced and the story base moved, all 25
+  built records show their English on the post-loss screen.
+- **Placeholder:** record 27's `{P}` inserts a name mid-line, centred
+  ("Oh? ZANGIEF, didn't you see").
+- **Reproduce.** `research/experiments/EXP-0087/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
