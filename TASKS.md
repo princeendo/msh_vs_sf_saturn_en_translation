@@ -864,10 +864,14 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-002 - Capture state B after KO/before caption
 
-- **Status:** `BACKLOG`
+- **Status:** `REJECTED` (2026-10-27): not needed. `EXP-0010` deferred it
+  until the C-set comparison failed, and it never did: A + C1/C1′/C2 isolated
+  the caption (`EXP-0013`), and `RE-012` confirmed the table by mutation (M1,
+  2026-10-17). Every later pipeline worked from three-state or play
+  checkpoints, so the three-state strategy stands.
 - **Milestone:** M0
 - **Dependencies:** DBG-001.
-- **Blockers:** None. Deferred by `EXP-0010`; revisit if the C-set comparison fails.
+- **Blockers:** None.
 - **Objective:** Capture the transition before the caption is fully displayed, if practical.
 - **Rationale:** An intermediate state may distinguish loading from display changes.
 - **Acceptance criteria:** A repeatable state and timing are recorded, or evidence documents why it is impractical and authorizes the three-state strategy.
@@ -897,10 +901,12 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
 
 ### DBG-004 - Capture state D after caption disappears
 
-- **Status:** `BACKLOG`
+- **Status:** `REJECTED` (2026-10-27): not needed, for the same reason as
+  `DBG-002`. The C-set comparison isolated the caption (`EXP-0013`, `RE-012`),
+  so state D was never required to rank runtime candidates.
 - **Milestone:** M0
 - **Dependencies:** DBG-003.
-- **Blockers:** None. Deferred by `EXP-0010`; revisit if the C-set comparison fails.
+- **Blockers:** None.
 - **Objective:** Capture a repeatable checkpoint immediately after caption disappearance.
 - **Rationale:** Disappearing data can help rank runtime candidates.
 - **Acceptance criteria:** State, timing, hash, screenshot metadata, and repeatability are recorded; if impractical, the three-state fallback is justified.

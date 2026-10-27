@@ -5141,3 +5141,11 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   instead.
 - **Next:** the remaining open tasks before any release (TXT-004, DBG-002,
   DBG-004, RE-048-050, REF-012, LOC-001, LOC-006, SPECIAL-001).
+
+## 2026-10-27 — DBG-002 and DBG-004 closed as not needed
+
+- **Decision:** both `REJECTED`. `EXP-0010` deferred states B (after the KO,
+  before the caption) and D (after the caption) until the C-set comparison
+  failed. It did not fail: `EXP-0013` searched the C1/C2/C2b states for the
+  candidates, and `RE-012` confirmed the WRAM-L table by mutation (M1).
+- **No experiment run:** this is a task-status change only.
