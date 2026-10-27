@@ -71,21 +71,42 @@ patched track 01:
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies
-it. The official Windows Sega Saturn Patcher rebuilds the disc, so its output
-differs, and it has not been tested.
+it. The official Sega Saturn Patcher rebuilds the disc, so its track 01
+differs in one field, the disc length. Every game file still comes out at
+its original place with the same contents (`EXP-0084`).
 
-To apply one, see [release/README.md](release/README.md#apply-the-patch). In
-short:
+### Applying a Patch
+
+These patch files cannot be applied by anything in this repository; use one
+of the tools below. Either way, patch an untouched copy of the image, never
+one already patched. The project tests the result in Mednafen with the 4 MB
+RAM cartridge.
+
+| Tool | Patch file | Platforms | Tested here | How-to |
+| --- | --- | --- | --- | --- |
+| [xdelta3](https://github.com/jmacd/xdelta) (command line) | `.xdelta` | macOS (`brew install xdelta`), Linux, Windows ([releases](https://github.com/jmacd/xdelta-gpl/releases)) | yes, 3.2.2 | the command below |
+| [Rom Patcher JS](https://www.marcrobledo.com/RomPatcher.js/) | `.xdelta` | any web browser; nothing to install | no | choose the track 01 `.bin` as the ROM file, the patch as the patch file, then "Apply patch" ([source and help](https://github.com/marcrobledo/RomPatcher.js)) |
+| [Delta Patcher](https://github.com/marco-calautti/DeltaPatcher) | `.xdelta` | Windows, macOS, Linux ([releases](https://github.com/marco-calautti/DeltaPatcher/releases)) | no | choose the track 01 `.bin` as the original file, the patch as the xdelta patch, then "Apply patch" |
+| [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) | `.ssp` | Windows, Linux ([releases](https://github.com/ralfguth/saturn-patcher-egui/releases)); macOS by building from source | yes, commit `20837e0` | `saturn-patcher PATCH.ssp "Track 01 copy.bin"` patches the copy in place ([README](https://github.com/ralfguth/saturn-patcher-egui#usage)) |
+| [Sega Saturn Patcher](https://segaxtreme.net/resources/sega-saturn-patcher.73/) (Knight0fDragon) | `.ssp` | Windows; needs the [.NET 5 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/5.0) | its code on macOS, not the Windows program | "Select Saturn Game" → "CD Image" (the `.cue`), "+ Game Patch (SSP)", then "Patch Image"; it writes a new image |
+
+With xdelta3:
 
 ```bash
 xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
   mshvsf_saturn_en_m8_gold.Track01.xdelta "Track 01 patched.bin"
 ```
 
-Then check the SHA-256, and put the patched file in place of track 01 under
-its original filename. Patch an untouched image only, never one already
-patched. The project tests the result in Mednafen with the 4 MB RAM
-cartridge.
+**After any of the xdelta tools or saturn-patcher-egui:**
+1. Check the patched track's SHA-256 against the table above.
+2. Put it in place of track 01 under its original filename.
+3. Keep tracks 02-12 and the CUE as they are.
+
+Sega Saturn Patcher instead writes a complete new image (CUE and tracks):
+load that.
+
+The full steps, hashes, and what each patch changes are in
+[release/README.md](release/README.md#apply-the-patch).
 
 ## Build the Patch
 
