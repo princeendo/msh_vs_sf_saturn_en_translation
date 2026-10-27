@@ -4838,3 +4838,7 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 - **Lesson:** `MM.BIN` is loaded only after Start is pressed, not during the
   attract demo, and replays restore it from cart RAM. An `MM.BIN` change
   cannot be read back without a play session.
+- **US cold-boot play check (EXP-0082):** track 01 `0da69726…`, Akuma as
+  lead, driver to stage 7. All three boxes were correct English, with
+  "Akuma", in gold ((240,240,0)/(240,176,0)). Both name variants are now
+  seen in play; EXP-0082 is CONFIRMED.

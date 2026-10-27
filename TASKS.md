@@ -3347,9 +3347,8 @@ the user asks or when it unblocks other work.
   slots × 3 boxes) are built in both release references from the US arcade's
   official English (`EXP-0082`, `--boss-exchanges`), seen in play from a
   cold boot in the Saturn-name build (Gouki's exchange). Their letters are
-  now gold too (`MM.BIN` `0x9621D`, RAM trial; built). Remaining: one
-  cold-boot play check of the US build (its font and the gold boxes); the
-  Mech-Gouki select code (one failed attempt: Akuma could not be
+  now gold too (`MM.BIN` `0x9621D`), seen in a cold-boot run of the US
+  build (Akuma's exchange). Remaining: the Mech-Gouki select code (one failed attempt: Akuma could not be
   chosen twice).
 - **Priority:** medium
 - **Milestone:** M9

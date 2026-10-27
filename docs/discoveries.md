@@ -1088,7 +1088,8 @@ Experiment: `EXP-0052`
   - win quote `0x961E3` = `0x9E`;
   - ending page `0x961FB` = `0x9F`;
   - post-boss dialogue `0x96233` = `0x83`;
-  - Apocalypse's pre-fight boxes `0x9621D` = `0x96` (`EXP-0082`, RAM trial).
+  - Apocalypse's pre-fight boxes `0x9621D` = `0x96` (`EXP-0082`; RAM trial,
+    then seen gold in a cold-boot run of the build).
 
   Setting each to `0x81` selects gold bank 1. Verified live on `3a6c485c…`
   (reference `m8_roster_gold`).
@@ -1544,7 +1545,7 @@ Experiment: `EXP-0081`
 ## SPECIAL-004: Apocalypse's Pre-Fight Exchanges Have Official English
 
 Confidence: **CONFIRMED** (byte identity with three arcade sets; seen in play
-from a cold boot in the Saturn-name build)
+from a cold boot in both name variants)
 
 Experiment: `EXP-0082`
 

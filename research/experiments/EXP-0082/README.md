@@ -1,8 +1,8 @@
 # EXP-0082: Apocalypse's pre-fight exchanges in official English
 
 Task: SPECIAL-004
-Status: DONE (built; seen in play from a cold boot, Saturn-name build)
-Confidence: CONFIRMED (Saturn-name build); SUPPORTED (US build, replay only)
+Status: DONE (built; seen in play from a cold boot in both name variants)
+Confidence: CONFIRMED
 
 ## Observation
 
@@ -146,22 +146,30 @@ interface). Python 3.12.13.
   demo (WRAM-H matched it in only 150-250 k of 848 k bytes from frame 1500
   to 9000), so the new byte cannot be read back unattended. Replays restore
   `MM.BIN` from cart RAM rather than the disc, so they cannot show it either.
-  SUPPORTED: same byte, same load address as the trial. A cold-boot play
-  check is pending.
+  The check below covers it.
+- **Cold-boot play check (US build, track 01 `0da69726…`):** user at the
+  controls; recorder `local/special004/play3/rec`; driver armed at frame
+  7585, fight started at 9031. With Akuma as lead, the boxes read "I will
+  unmake you / Apocalypse!" (`f00009082.png` `83b712757f2c21b4…`), "There is
+  evil within you / Akuma..." (`f00009198.png` `4fa57dc81d133e72…`) and
+  "Now, let only the / strong survive!" (`f00009329.png`
+  `c5942cf9bde0c32e…`). Every letter is correct, and the text pixels are
+  (240,240,0) and (240,176,0), the trial's gold.
 
 ## Conclusion
 
-**CONFIRMED** for the Saturn-name build: from a cold boot, the pre-fight
-boxes show the US arcade's official English, with Saturn names. The US build
-uses the same table and code, but its new font has only been seen through a
-replay (old font), so it stays SUPPORTED.
+**CONFIRMED:** from a cold boot, the pre-fight boxes show the US arcade's
+official English with each variant's names: Saturn names (Gouki, grey
+letters, before the gold fix) and American names (Akuma, gold letters,
+after it).
 
 ## Uncertainty and Alternatives
 
 - What `0x011E` looks like on the arcade screen (a comma is the inference).
 - Only Ryu's and Gouki's exchanges have been seen on screen. Slots 0-1
   (Cyclops) are probably unreachable.
-- The US build has not been cold-booted to this fight.
+- The gold fix was seen in the US build only; the Saturn-name build has the
+  same `MM.BIN` byte (compiler check).
 
 ## Reproduction
 
