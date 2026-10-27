@@ -264,6 +264,23 @@ Working conclusions until captures settle them:
 - `tools/reference/arcade_endings.py` writes one character's ending text to an
   ignored JSON.
 
+## Win-Quote Fonts by Region (`REF-012`, `EXP-0090`)
+
+- **One glyph set:** every mshvsf set loads the same graphics ROMs
+  (`mvs.13m`-`mvs.20m`, same CRCs).
+- **Drawing:** win-quote text is single 16 × 16 sprites. The tile is
+  `0x15000` + text code (object code word `0x5000` + code; y bit 13 adds
+  `0x10000`).
+- **US (`mshvsfu`):**
+  - narrow Latin codes `0x120`-`0x1DF`, each glyph within 8 pixels;
+  - 12 pixels apart, 25 cells a line.
+- **Japanese (`mshvsfj`):** kana and kanji codes, 16 pixels apart, 19 cells
+  a line.
+- **Digits** are ASCII + `0x100`: `0x130` = "0", and the US shows `0x138` as
+  "8".
+- `tools/reference/cps2_gfx.py` renders tiles from a set's zip. Its output is
+  tile art: keep it under `local/`.
+
 ## Rules
 
 - Only hashes, set names, member names, CRCs, and other factual metadata are

@@ -5149,3 +5149,33 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   failed. It did not fail: `EXP-0013` searched the C1/C2/C2b states for the
   candidates, and `RE-012` confirmed the WRAM-L table by mutation (M1).
 - **No experiment run:** this is a task-status change only.
+
+## 2026-10-27 — REF-012: arcade win-quote fonts by region (EXP-0090)
+
+- **MAME 0.289,** `mshvsfu` and `mshvsfj`, with no play:
+  - two coins, Start, Button 1 twice;
+  - vitality forced to 0 from frame 5,600 to 7,800 KOs the player;
+  - the CPU's quote is at 10,260 (US) and 10,800 (JP), deterministic over
+    two runs.
+- **Dumps:** VRAM, object RAM, and the new `share` verb for `:cps_a_regs`
+  (the CPS-A registers read back as 0 through the program space; a
+  `logwrites` on them over three frames caught nothing).
+- **Found:**
+  - one shared glyph set, sprite tile = `0x15000` + text code;
+  - US narrow Latin glyphs 12 pixels apart (25 a line), Japanese kana and
+    kanji 16 apart (19);
+  - the Saturn quote font holds the same glyphs at the same codes (pen + 1);
+  - a Saturn forced record of arcade codes draws them 16 apart.
+- **Disproven:**
+  - the user's "different font" as different tile data. It is a different
+    code range and pitch;
+  - `EXP-0078`'s digit base `0x12F`. The arcade shows `0x138` as "8"
+    (forced slot-22 quote, `0xFF9E4A`/`0xFF9E66` taps), and the Saturn shows
+    `0x12F`-`0x132` as ")012". The release text "Level 3" and "9 am" is
+    wrong; `TXT-005` fixes it.
+- **Tooling:**
+  - new `tools/reference/cps2_gfx.py` (rebuild, unshuffle, render);
+  - `mame_timeline.lua` `share` verb;
+  - a `region` verb was tried and dropped, because MAME regions have no
+    `read_range` in Lua and the zip rebuild is enough.
+- **Not done:** the EU set's pitch, and the pitch rule in either program.

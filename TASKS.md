@@ -2013,7 +2013,13 @@ the user asks or when it unblocks other work.
 
 ### REF-012 - Compare the arcade win-quote fonts across regions
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0090`). One shared glyph set: the US
+  set draws the narrow Latin codes (`0x120`-`0x1DF`, tiles `0x15000` + code)
+  12 pixels apart, the Japanese set kana and kanji 16 apart. The Saturn quote
+  font already holds the narrow glyphs at the same codes and draws them 16
+  apart. The fit options (keep credits pairs, pairs from the narrow glyphs,
+  or a 12-pixel pitch patch) are in `EXP-0090` for the user; nothing was
+  adopted. Found on the way: digits are ASCII + `0x100` (`TXT-005`).
 - **Priority:** low
 - **Milestone:** Reference (no Saturn change)
 - **Dependencies:** REF-008, REF-009.
@@ -3176,6 +3182,28 @@ the user asks or when it unblocks other work.
   - a regression reference (or a documented spec hash) covers the flag;
   - every corrected record is seen on the Saturn (forced trial or play);
   - the README build-option table lists the flag.
+
+### TXT-005 - Fix the arcade digit codes ("Level 2", "8 am")
+
+- **Status:** `READY`
+- **Priority:** high (shipped text is wrong)
+- **Milestone:** Polish
+- **Dependencies:** REF-012 (done).
+- **Blockers:** None.
+- **Objective:** Decode arcade digits as ASCII + `0x100` (`0x130` = "0"), not
+  ASCII − 1 (`EXP-0090` disproved `EXP-0078`'s base `0x12F`).
+- **Evidence:** the US arcade shows code `0x138` as "8" ("I beat more
+  people / before 8 am...", `EXP-0090`); the Saturn shows `0x12F`-`0x132` as
+  ")012".
+- **Affected release text:** CONTINUE? hint 2 "When Level 3 or higher," (should
+  be 2) and slot 22's quote "before 9 am..." (should be 8), in both release
+  references.
+- **Acceptance criteria:**
+  - `tools/reference/cps2_text.py` and its tests use base `0x130`;
+  - both release references are rebuilt and rebaselined with the reason, and
+    the release records and READMEs carry the new hashes;
+  - both corrected lines are seen on the Saturn (forced trial);
+  - every other decoded line that changes is listed.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 

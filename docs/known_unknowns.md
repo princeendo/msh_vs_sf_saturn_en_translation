@@ -333,3 +333,7 @@ and `docs/discoveries.md`.
     continue, as the US arcade keeps page 2? The Saturn release now does.
   - Is the page step (`0x060AEE84`) shared by any other message? None was
     found.
+- **Arcade quote pitch (`EXP-0090`):** what makes the US arcade draw its narrow
+  Latin glyphs 12 pixels apart and the Japanese set 16? It may be the set,
+  the language word, or the code range. The Saturn draws the same narrow
+  glyphs at 16, and where its pitch is set is not traced.

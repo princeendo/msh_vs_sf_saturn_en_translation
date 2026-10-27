@@ -5,6 +5,8 @@
 --   <frame> press <frames> <field name>   hold an input field, e.g. "P1 Button 1"
 --   <frame> snap                          save <set>_f<frame>.png to the snap dir
 --   <frame> dump <start> <end> <path>     write program-space bytes [start, end]
+--   <frame> share <tag> <path>            write a memory share, e.g. ":cps_a_regs"
+--                                         (write-only registers read back as 0)
 --   <frame> repeat <count> <every> <frames> <field name>
 --                                         press <count> times, <every> frames apart
 --   <frame> force16 <address> <value>     replace every CPU write to that word
@@ -55,6 +57,9 @@ for line in io.lines(path) do
     elseif verb == "dump" then
       local first, last, out = rest:match("^(%S+)%s+(%S+)%s+(%S+)$")
       add(frame, { kind = "dump", first = tonumber(first), last = tonumber(last), out = out })
+    elseif verb == "share" then
+      local tag, out = rest:match("^(%S+)%s+(%S+)$")
+      add(frame, { kind = "share", tag = tag, out = out })
     elseif verb == "force16" then
       local address, value = rest:match("^(%S+)%s+(%S+)$")
       add(frame, { kind = "force", address = tonumber(address), value = tonumber(value) })
@@ -92,6 +97,13 @@ emu.register_frame_done(function()
     elseif event.kind == "dump" then
       local out = assert(io.open(event.out, "wb"))
       out:write(program:read_range(event.first, event.last, 8))
+      out:close()
+    elseif event.kind == "share" then
+      local share = assert(manager.machine.memory.shares[event.tag], "no share " .. event.tag)
+      local bytes = {}
+      for i = 0, share.size - 1 do bytes[#bytes + 1] = string.char(share:read_u8(i)) end
+      local out = assert(io.open(event.out, "wb"))
+      out:write(table.concat(bytes))
       out:close()
     elseif event.kind == "force" then
       local value = event.value

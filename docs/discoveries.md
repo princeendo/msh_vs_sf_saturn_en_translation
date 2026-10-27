@@ -1737,6 +1737,29 @@ Experiment: `EXP-0089`
     records 0-2), then the credits.
 - **Reproduce.** `research/experiments/EXP-0089/README.md`.
 
+## REF-012: The Arcade Win-Quote Fonts Are One Glyph Set; the Saturn Has It Too
+
+Confidence: **CONFIRMED** (MAME captures and memory dumps of `mshvsfu` and
+`mshvsfj`; offline tile comparison; one Saturn forced trial)
+
+Experiment: `EXP-0090`
+
+- **Regions:**
+  - all mshvsf sets load the same graphics ROMs (`mvs.13m`-`mvs.20m`, same
+    CRCs);
+  - win quotes are single 16 × 16 sprites, tile = `0x15000` + text code;
+  - the US set uses the narrow Latin range (`0x120`-`0x1DF`) at a 12-pixel
+    pitch, 25 cells a line;
+  - the Japanese set uses kana and kanji codes at 16 pixels, 19 cells.
+- **The Saturn quote font** (`MEMFIX.PAC` entry 4) has the same glyph shapes
+  at the same codes for `0x100`-`0x18F`, `0x1E0`-`0x1FF`, most of
+  `0x200`-`0x2FF`, and `0x800`-`0xBFF`, with pen + 1. A forced Saturn record
+  of arcade codes shows the narrow letters, one per 16-pixel cell.
+- **Digits are ASCII + `0x100`** (`0x130` = "0"): the arcade shows code
+  `0x138` as "8" ("before 8 am..."), and the Saturn shows `0x12F`-`0x132` as
+  ")012". `EXP-0078`'s base `0x12F` was wrong.
+- **Reproduce.** `research/experiments/EXP-0090/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
