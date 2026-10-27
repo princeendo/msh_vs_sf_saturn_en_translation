@@ -3048,8 +3048,12 @@ the user asks or when it unblocks other work.
 - **Status:** `IN_PROGRESS` (2026-10-26). Extracted and translated (draft,
   not built): `data/translations/story_lines.json`, records 16-47 of the
   `MM.BIN` table at `0x7C584`: one line per roster slot 0-25, two of Vega's
-  orders, developer jokes. Next: log reads of its RAM
-  (`0x06095544`-`0x06095EC3`, `tools/mednafen/bp_log.py`) during play.
+  orders, developer jokes. Read log of 2026-10-26 (title, menus, character
+  select, Survival, two Arcade runs, CONTINUE?, Game Over): while `MM.BIN`
+  was resident, only the overlay save routine (`0x06010600`, copying
+  `0x06018B00`-`0x06100000` to `0x02486BC0`) read the table. No screen
+  visited shows it. Next: log the screens not yet visited (Versus, options,
+  other modes).
 - **Priority:** low (one name placeholder; the text is not otherwise in scope)
 - **Milestone:** Reference
 - **Dependencies:** END-022.
@@ -3327,6 +3331,10 @@ the user asks or when it unblocks other work.
 - **Approach:** find what selects the hint (its RAM index, from the pointers
   at `MM.BIN` `0x96890` and `0x96BAC`-`0x96BB4`), then set it on CONTINUE?
   screens in play, rather than waiting for chance.
+- **Progress (2026-10-26):** record 6 (three arrows and `+`) seen in play in
+  the US build and matches its spec (`EXP-0081` session, `f00020217.png`
+  `812d802ef34afafc…`). The store after `and #0x0F` (PC `0x060AF32C`) logged
+  `R0 = 6`, `GBR = 0x0601799C`, so the index byte is at `0x0601799E`.
 - **Acceptance criteria:** each of those records seen in play in the release
   image, with screenshots and hashes; any glyph that reads badly fixed and
   rechecked.
@@ -3334,9 +3342,12 @@ the user asks or when it unblocks other work.
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 
 - **Status:** `IN_PROGRESS` (2026-10-26). Win quotes built in both release
-  references with the arcade's official English (`EXP-0081`). Remaining: see
-  them in play; the Mech-Gouki-as-player and ending question;
-  `MC00`'s three other tables.
+  references with the arcade's official English and seen in play in the US
+  build (`EXP-0081`). `MC00`'s three other tables are Apocalypse's pre-fight
+  exchanges with each hero (stage 7), still Japanese; the US arcade has
+  official English for them (from `0x222AFE`). Remaining: build those
+  exchanges; the Mech-Gouki select code (one failed attempt: Akuma could not
+  be chosen twice).
 - **Priority:** medium
 - **Milestone:** M9
 - **Dependencies:** SPECIAL-001 (approval given by the user, 2026-10-26).

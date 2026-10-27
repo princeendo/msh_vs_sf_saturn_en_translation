@@ -1525,6 +1525,21 @@ Experiment: `EXP-0080`
   no PS1 US file has English hints.
 - **Reproduce.** `research/experiments/EXP-0080/README.md`.
 
+## SPECIAL-004: The Bosses' Win Quotes Have Official English
+
+Confidence: **CONFIRMED** (static pairing; seen in play in the US build)
+
+Experiment: `EXP-0081`
+
+- Apocalypse's 16 win-quote records are at `MC00.PAC` `0x3174` and
+  Mech-Gouki's at `MC13.PAC` `0xA06C`. Each is byte-identical to arcade
+  Japanese slot 0 (`0x20C2EC`) or slot 19 (`0x211D2C`) in `mshvsfu`, `mshvsf`
+  and `mshvsfj`. Each slot has its own English block (`0x219E00`,
+  `0x21D960`), with record `k` paired to entry `k & 7`.
+- In play, each boss shows its English quote after it beats the player.
+  Apocalypse is the stage-7 boss.
+- **Reproduce.** `research/experiments/EXP-0081/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

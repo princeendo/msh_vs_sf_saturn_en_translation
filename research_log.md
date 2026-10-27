@@ -4770,3 +4770,34 @@ redesign.
   logged without halting). Fixed: the hit cap now clears PC breakpoints too.
 - **Release:** `m8_roster_gold` track 01 `00e15be7…`, `m8_roster_gold_us`
   `3d2a13d2…`; all nine references pass.
+
+## 2026-10-26 — Play session: bosses, CONTINUE?, story-table reads
+
+US build (track 01 `3d2a13d2…`), user at the controls; recorder
+(`local/special004/play/rec`), `bp_log` on `06095544-06095EC3` plus PC
+`060AF32C`, `ending_driver --after-stage 1 --stage 7 --no-ko`, then
+`--after-stage 1` (details in `EXP-0081`).
+
+- **Boss win quotes:** Mech-Gouki's and Apocalypse's official English seen
+  as built. Apocalypse is the stage-7 boss.
+- **New Japanese text:** Apocalypse's pre-fight exchanges with each hero are
+  `MC00`'s three "unidentified" tables. The arcade has them byte for byte,
+  and the US arcade has official English (from `0x222AFE`). Not yet built.
+- **Mech-Gouki select code (GameFAQs, via the user):** not reproduced. Akuma
+  could not be chosen a second time. Unconfirmed, not disproven (one try).
+- **CONTINUE? hint:** record 6 seen as built (arrows and `+`). The index
+  store at `0x060AF32C` logged `R0 = 6`, `GBR = 0x0601799C`.
+- **Read logger:** the first run hit its 5,000-hit cap at frames 1003-1111,
+  because boot code uses `0x06095xxx` before `MM.BIN` is loaded. Restarted
+  at frame 2984, after checking that WRAM `0x06095544` matched `MM.BIN`
+  `0x7CA44`. Afterwards it logged 10,067 hits. Only two kinds of code read
+  the range:
+  - `0x06010690`/`0x06010694`: the overlay save copy, which copies
+    `0x06018B00`-`0x06100000` (and two more ranges, listed at `0x06010620`)
+    to `0x02486BC0` at mode changes (frames 4515, 9120, 21442);
+  - `0x06021F40`: code from the next overlay, once `MM.BIN` is gone.
+
+  So the story table was not shown on any screen visited. Run it again
+  later on Versus, options and the other modes.
+- **Lesson:** start `bp_log` after boot (or ignore hits before the file is
+  resident), and treat hits after an overlay change as reads of other data.

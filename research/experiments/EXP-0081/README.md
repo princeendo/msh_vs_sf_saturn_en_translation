@@ -1,8 +1,8 @@
 # EXP-0081: Apocalypse's and Mech-Gouki's win quotes in English
 
 Task: SPECIAL-004
-Status: IN_PROGRESS (built and checked offline; live check pending)
-Confidence: SUPPORTED (pairing, compiler checks)
+Status: DONE (win quotes built and seen in play)
+Confidence: CONFIRMED (win quotes, US build)
 
 ## Observation
 
@@ -69,19 +69,56 @@ Saturn image (manifest hashes), `MC00.PAC` and `MC13.PAC` decoded
 - **Apocalypse as a player:** nothing found (the same page lists him as
   "coming soon"); no ending is expected (HYPOTHESIS).
 
+### Live check (play session of 2026-10-26)
+
+US build (track 01 `3d2a13d2…`), user at the controls; session recorder
+(`local/special004/play/rec`), `bp_log` on `06095544-06095EC3` plus PC
+`060AF32C`, `ending_driver --after-stage 1 --stage 7 --no-ko`, then
+`--after-stage 1`.
+
+- **Mech-Gouki's win quote** (CYBER-AKUMA NOW!!, user lost): "My creator
+  wants you / dead. It is done..." (`f00008800.png`, `07db32afb1add90e…`),
+  as in the spec (records 7 and 15). No CONTINUE? follows in that mode.
+- **Apocalypse is the stage-7 boss:** with the stage word held at `0x0006`
+  the fight was against Apocalypse. His win quote after the user lost:
+  "Destruction is a small / price to pay for power!" (`f00019878.png`,
+  `f57704f85a3f0ab1…`), as in the spec (records 3 and 11).
+- **New text found:** before the fight, Ryu and Apocalypse exchange three
+  Japanese boxes at the top of the screen (`f00014237.png`
+  `4eccb7ee16af0632…`, `f00014363.png` `5fdc89fd1560df28…`,
+  `f00014479.png` `490113695858b632…`). Rendered with the quote font, they
+  are `MC00`'s three "unidentified" tables (`0x392E`, `0x3D7A`, `0x404E`):
+  one exchange with Apocalypse per hero (Hulk, Wolverine, Shuma-Gorath, Omega
+  Red, Spider-Man, Blackheart, Ryu, Ken, Chun-Li, Dhalsim, Zangief, Vega,
+  Gouki, Sakura, …). 24-byte probes from all 67 76-byte slices
+  `0x392E`-`0x4CC6` occur in all three arcade sets (from `0x210B5A`,
+  mostly `0x216552`-`0x216B4A`). The US arcade has official English for
+  them (`tools.reference.cps2_text.decode_code`, from `0x222AFE`), for
+  example Ryu's "I've looked forward to meeting you Apocalypse..." and
+  Apocalypse's repeated "Now, let only the strong survive!". No 32-bit
+  pointers to the Japanese record starts were found, so how the arcade
+  indexes them is still unknown.
+- **Mech-Gouki as a player:** not reproduced. After choosing Akuma, the user
+  could not choose him again (one attempt). The GameFAQs claim stays
+  unconfirmed; the second run played Akuma and Ryu, met Cyber-Akuma at stage
+  8, and started Akuma's ending in English.
+- **Apocalypse as a player:** nothing seen to suggest it.
+
 ## Conclusion
 
-**SUPPORTED** (offline): both bosses' win quotes are the official English in
-both release variants.
+**CONFIRMED** in play for both win quotes (US build): each boss shows the
+official English from its spec after beating the player. Apocalypse's
+pre-fight exchanges are new, untranslated scope.
 
 ## Uncertainty and Alternatives
 
-- When each boss quote is shown is not yet seen in play (after the boss beats
-  the player is expected).
-- Which stage holds Apocalypse is unknown: every driver run so far met
-  CYBER-AKUMA at stage 8.
-- `MC00`'s three other tables (`0x392E`, `0x3D7A`, `0x404E`) are still
-  unidentified.
+- Only the US build was played; the Saturn-name build has the same quote
+  bytes for both bosses (no names in the text) but was not seen.
+- The census record grid for `MC00`'s three extra tables does not line up
+  with the dialogue boxes (some 76-byte slices start mid-sentence), so the
+  real record boundaries and the arcade's index for the exchanges are still
+  to be found.
+- One failed attempt does not disprove the Mech-Gouki select code.
 
 ## Reproduction
 

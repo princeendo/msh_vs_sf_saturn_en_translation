@@ -37,7 +37,7 @@ Nothing listed here may be translated or modified in M5.
 
 | Item | Evidence | Reason | Owner |
 | --- | --- | --- | --- |
-| `MC00` slot 0 (Apocalypse), plus three extra tables (`0x392E`, `0x3D7A`, `0x404E`) | irregular file; block inside a 26-record table at `0x3106` | boss; extra tables unidentified | `SPECIAL-001` |
+| `MC00` slot 0 (Apocalypse), plus three extra tables (`0x392E`, `0x3D7A`, `0x404E`) | irregular file; block inside a 26-record table at `0x3106` | boss; win quotes built (`EXP-0081`); the extra tables are its pre-fight exchanges, not yet built | `SPECIAL-004` |
 | `MC02` slot 23 block (`0xDF68`) | second whole block in `MC02` | secret character: since 2026-10-26 official English (`SPECIAL-003`) | `SPECIAL-003` |
 | `MC08` slot 24 block (`0xBE5C`) | second whole block in `MC08` | secret character: since 2026-10-26 official English (`SPECIAL-003`) | `SPECIAL-003` |
 | `MC0C` 4-record table (`0x3B88`) | matches no arcade slot | content unknown | a future investigation task, to be created only when needed |
