@@ -2943,6 +2943,13 @@ the user asks or when it unblocks other work.
     (`EXP-*`, a discoveries heading, or a log entry), followed by a
     "Verify on XvSF" point. The only XvSF statements are the intake records
     already in `references/xmvsf/`, cited as records of the held files.
+- **Update (2026-10-27):** brought up to date through `4289061`
+  (`EXP-0051` to `EXP-0088`) before the XvSF repository was created: Phase 6
+  (M9 and later surfaces), new tools, emulator limits, pitfalls, user
+  decisions, and checklist items 20-25. It records the XvSF Redump-style image
+  hashed in the new repository, and the user's statement that XvSF needs the
+  4 MB cart. `EXP-0089` (Mech-Gouki select code) came after and is not
+  covered.
   - It covers environment and tools (agent interface, recorder, ending
     driver, client lock, replay limits, cold boot for font changes), source
     identity, the win-quote path, endings, capacity, regression, release,

@@ -5085,3 +5085,28 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 - **New tool:** `tools/mednafen/mechgouki_driver.py` (logs the words;
   optional boss KO in that mode, or forcing `0x06017AB4`). The play test is
   pending.
+
+## 2026-10-27 — DOC-020: playbook brought up to date for the XvSF repository
+
+- **Goal:** update `docs/playbook_cross_game.md` before the XvSF repository
+  (`princeendo/xmen_vs_sf_saturn_en_translation`) is set up from it.
+- **Method:** a read-only review of the 61 commits from `db193ba` to
+  `4289061` (`EXP-0051` to `EXP-0088`): `research_log.md`, `TASKS.md`,
+  discoveries, policy files, and experiment records.
+- **Added:** Phase 6 (special cases, unlocks, UI art, caption colour,
+  attract captions, CONTINUE? hints, rare and region-gated text, names and
+  voice); new design-decision rows; user decisions 2026-10-25 to 2026-10-27;
+  new tool rows; 12 emulator limits; 13 pitfalls; checklist items 20-25.
+- **Corrected:** the PS1 "extra" English blocks are copies (`EXP-0077`); the
+  xdelta flags and patch size (`REL-003`); the release policy (rule 21
+  exception, SSP); the names policy (two variants); capacity (536 pairs,
+  retired kanji); the M9 status.
+- **Checked against the sources before writing:** the SSP size history
+  (`EXP-0084`: whole-file adds made 1,577,860 bytes) and the attract pairing
+  method (`EXP-0067`: by sequence position, not frame number). Both first
+  drafts were wrong and were fixed.
+- **XvSF intake (recorded in the playbook):** the user supplied
+  `X-Men vs. Street Fighter (Japan) (3M).7z` (Redump-style BIN/CUE, 42
+  files). It was hashed in the XvSF repository; Track 01's user data equals
+  the old ISO rip's. The user states XvSF needs the 4 MB cart (2026-10-27).
+- **Not covered:** `EXP-0089`, committed by another session during this work.

@@ -1,7 +1,9 @@
 # Cross-Game Agent Playbook: Repeating This Localization on X-Men vs. Street Fighter (Saturn)
 
 Task: `DOC-020`. Written 2026-10-25, after M8 and `REL-001` of the Marvel Super
-Heroes vs. Street Fighter (MSHvSF) project.
+Heroes vs. Street Fighter (MSHvSF) project. Updated 2026-10-27 through commit
+`4289061`: special cases (M9), UI and attract text, name variants, story lines,
+hints, and SSP releases (`EXP-0051` to `EXP-0088`).
 
 This file is meant to be copied into a **new** repository for the Japanese Sega
 Saturn release of X-Men vs. Street Fighter (XvSF). It records how the MSHvSF
@@ -51,19 +53,25 @@ everything at the start of the XvSF project.
 
 | Material | Record | Status there |
 | --- | --- | --- |
-| Saturn JP data track (`T-1226G V1.002 19970925`, ISO plus 40 MP3 tracks) | `references/xmvsf/saturn_jp/README.md` | Identity **SUPPORTED** by the IP header only. Not a preservation image: it cannot be matched to MAME's CHD hashes. Running it in Mednafen is untested. |
+| Saturn JP data track (`T-1226G V1.002 19970925`, ISO plus 40 MP3 tracks) | `references/xmvsf/saturn_jp/README.md` | Identity **SUPPORTED** by the IP header only. Not a preservation image: it cannot be matched to MAME's CHD hashes. Running it in Mednafen is untested. **Superseded 2026-10-27** by a Redump-style BIN/CUE recorded in the XvSF repository (below). |
 | PS1 US (`SLUS`, MAME `psx.xml` `xmvsf`) and PS1 JP EX Edition | `references/xmvsf/ps1/README.md` | US identity **CONFIRMED** against MAME 0.289; JP EX **UNKNOWN**. |
 | 11 arcade zips, 6 keys | `references/xmvsf/arcade/README.md`, `manifest.json` | 10 of 11 sets verify in MAME 0.289 (`xmvsfb.key` missing); `xmvsfu` and `xmvsfjr2` boot. Zips use older set names; a renamed copy folder exists. |
 | Prior art | `docs/references.md`, "X-Men vs. Street Fighter (Saturn) and Related Prior Art" (`DOC-007`) | No public XvSF Saturn translation or internals research was found. Sources say XvSF needs the 4 MB cart (HSS-0167): an outside claim, not tested. |
 
+**Done in the XvSF repository (2026-10-27):** the user supplied
+`X-Men vs. Street Fighter (Japan) (3M)` as a Redump-style BIN/CUE (Track 01
+`MODE1/2352`, 71,908 sectors, plus 40 audio tracks). All 42 components are
+hashed in that repository's `references/saturn_jp/README.md`. Track 01's user
+data equals the old ISO rip byte for byte. Its identity is still **SUPPORTED**,
+not checked against Redump or MAME's `xmvssf`/`xmvssfdou` CHD. The user states
+that XvSF requires the 4 MB RAM cart (2026-10-27); confirm the setting in
+Mednafen.
+
 **Verify on XvSF, first:**
 
-- Obtain a preservation-grade image (Redump-style BIN/CUE, ideally verifiable
-  against MAME's `xmvssf`/`xmvssfdou` CHD) before any emulator work. The
-  intake note says the held rip suffices for file-level reading only.
 - Record every component's filename, size, SHA-256 and release description
-  before research (MSHvSF rule 2), as in MSHvSF
-  `references/mshvsf/saturn_jp/README.md` (13 components).
+  before research (MSHvSF rule 2). Done for the Saturn image; repeat for the
+  arcade and PS1 material.
 - The intake note observed no `.PAC` or `MEMFIX` file names on the XvSF data
   track. So do not search XvSF for MSHvSF's file names; find XvSF's own files
   from runtime evidence (the method in "Win Quotes" below).
@@ -97,7 +105,25 @@ hold at the start of XvSF.
   gate, changing scope, choosing between capacity options, and any side effect
   on text outside scope. The user decided each of those in MSHvSF.
 - **Commit and push** after each completed task (MSHvSF `AGENTS.md`, "Session
-  Closeout"), staging only intended files.
+  Closeout"), staging only intended files. Commit only as
+  `Colin <13876322+princeendo@users.noreply.github.com>`, never the work
+  identity. MSHvSF history was rewritten to this identity on 2026-10-27 and
+  force-pushed with explicit approval, as a one-time exception.
+- **Machine-local guidance.** Agent memory is stored per repository folder, so
+  it does not follow the user. The XvSF repository keeps these preferences in
+  an ignored `local_agent_guidance.md` (user decision, 2026-10-27).
+- **The user is an oracle for sound.** The user identified voice clips by
+  listening to exported WAVs, one clip at a time. An earlier attribution from
+  several clips at once was reversed twice (`EXP-0056`, `EXP-0057`). The user
+  also supplied a PS1 BIOS and cheat codes when asked.
+- **Unattended runs are silent** (2026-10-26): volume 0 and no vsync, in a
+  separate Mednafen home (see "Emulator limits").
+- **Disk hygiene.** States grow to tens of GB. The user asked to prune uncited
+  states and superseded builds (37 GB to 16 GB, 2026-10-26). Keep every state
+  an experiment cites.
+- **Scratch dependencies** (numpy, capstone, ilspycmd) were used through
+  `uv run --with`, never added to the project. Ask before each download or
+  install.
 
 ## Design Decisions and Their Rationale
 
@@ -117,8 +143,12 @@ it with the user and with XvSF evidence.
 | One shared font for all text in one image; joint allocation of pairs | The same font serves win quotes and endings. | `EXP-0038`, `EXP-0048` | Test whether XvSF surfaces share one font. |
 | Scope by an explicit roster file; untouched blocks byte-checked in every build | Prevents silent collateral edits; makes exclusions auditable. | `data/text/m5_roster.json`, `docs/coverage_exceptions.md`, `tools/text/ending_coverage.py` | Adopt the method; the roster is a user decision. |
 | Regression: every confirmed build is a reference rebuilt from the untouched image, hashes compared | Catches any generator or compiler drift. | `RE-047`, `docs/regression_report.md` | Adopt unchanged. |
-| Release as an xdelta3 patch of the changed track, kept local, with a rebuild README | No game data is committed; a user-style apply and a fresh clone were tested. | `REL-001`, `release/README.md` | Adopt; check which tracks change. |
-| Names follow the Saturn's own art and voice (provisional) | Text, art and voice stay consistent with no art or audio work. | `EXP-0050`, `docs/localization_plan.md`, `LOC-001` | Ask the user; inventory XvSF's regional names first. |
+| Release as an xdelta3 patch and an SSP patch of the changed track, with a rebuild README; patches may be GitHub Release assets but are never committed | No game data is committed; xdelta for general use, SSP for Sega Saturn Patcher users. A user-style apply and a fresh clone were tested. | `REL-001`, `REL-002`, `REL-003`, `release/README.md`, `AGENTS.md` rule 21 | Adopt; check which tracks change. |
+| Two name variants, both in English (`--names saturn` default, `--names us`), each switching text, voice, life bars, banners, VS screen and labels together | The user wanted both conventions. The disc already held every US-name asset, so no new art or audio was needed. | `LOC-002` to `LOC-005`, `EXP-0054` to `EXP-0065`, `docs/localization_plan.md` | Inventory XvSF's regional names and which assets already exist in both conventions; ask the user. |
+| Prefer art the game already has: copy existing English glyphs (`glyph_copies`), reuse the credits font for captions, recolour by palette number | Cheaper and more faithful than drawing; fits the font budget. | `UI-001`, `FONT-010`, `FONT-011`, `EXP-0051` to `EXP-0053` | Inventory English art already in XvSF's fonts first. |
+| Official English wherever it exists; a recorded new translation (translator named, source hashes kept) only where none exists | The user's policy, extended to secret characters and story lines. | `data/translations/secret_characters.json`, `EXP-0078`, `EXP-0087` | Confirm with the user; prove absence by code trace (see Pitfalls). |
+| A task is `DONE` only after a cold-boot play check by the user, after a forced trial | Forced trials from states can show stale fonts or code; only a cold boot proves the image. | `EXP-0044`, `EXP-0082`, `EXP-0086` | Adopt unchanged. |
+| Options default on only when harmless (`--unlock-boss-fight` default on; `--fix-grammar` opt-in, release stays official) | Release text stays official; play convenience is default. | `OPT-001`, `TXT-004` | Ask the user per option. |
 
 ## Order of Investigation
 
@@ -134,7 +164,8 @@ one because it looks easy (MSHvSF `AGENTS.md` rule 8).
 | M4 | A second character through the same mechanism. |
 | M5 | All ordinary win quotes, systematically. |
 | M6-M8 | Endings: investigation, one ending, then all roster endings. |
-| M9 | Special cases (Norimaro), only with explicit approval. |
+| M9 | Special cases, only with explicit approval. Approved 2026-10-26: Norimaro (`SPECIAL-002`), secret characters (`SPECIAL-003`), bosses (`SPECIAL-004`). |
+| After M8 | UI art, attract captions, CONTINUE? hints, story lines, name variants, release formats: each its own user-requested task (Phase 6). |
 
 Two gates were used (user decision, 2026-10-15, verbatim in MSHvSF
 `research_log.md`, SESSION-0016): `GATE-M0` (technical prerequisites for the
@@ -206,7 +237,10 @@ Run this alongside Phase 2; it gates English text on disc, not RAM work.
    > routine addresses. Force indexes in MAME to see every entry.
 5. **Second English source.**
    > **MSHvSF:** the US PS1 release stores the arcade English blocks
-   > byte-identically, plus two extra blocks (`EXP-0032`).
+   > byte-identically, plus two extra blocks (`EXP-0032`). The extra blocks
+   > were later shown to be copies of Zangief's and Sakura's blocks, not new
+   > text (`EXP-0077`). The PS1 also served as a second oracle for the attract
+   > captions (`EXP-0072`, which needed the user's PS1 BIOS).
    > **Verify on XvSF:** compare the held XvSF PS1 US image with XvSF's arcade
    > English; do not assume identity.
 6. **Gate.** The user decides the translation policy and gives the GO
@@ -414,29 +448,141 @@ Assume **nothing** from win quotes; re-derive each fact.
   > candidate kanji codes (`EXP-0048`); the font budget was 30,235 bytes
   > (`RE-044`). The pairs of already-verified tables are allocated first, so
   > their files stay byte-identical when more text is added.
-  > **Verify on XvSF:** the budget, and a stable allocation order.
+  > Later text raised this to 536 pairs, with 22 and 71 bytes spare
+  > (`EXP-0079`). When Norimaro's text overflowed the font by 657 bytes, kanji
+  > used only by records being replaced became sacrificial too
+  > (`caption_compiler` `retire_replaced_kanji`, `EXP-0079`).
+  > **Verify on XvSF:** the budget, and a stable allocation order. Plan for
+  > every surface the user may want, not only win quotes.
 - **Regression.** `tools/regression/reference_builds.py` regenerates each spec
   from the local arcade ROM, rebuilds from the untouched image, and compares
   every hash; `--write-baseline` only with a recorded reason.
-- **Release** (`REL-001`).
+  > **MSHvSF:** nine references by the end. Every new feature rebaselined
+  > both release references (Saturn names and US names) and re-made both
+  > patch formats. References built before a default-on option pass the
+  > option's `--no-` form, so they stay byte-identical.
+- **Close-out sequence** for each feature: build into both release
+  references; all references pass; re-make the xdelta and SSP patches; a
+  forced trial from a recorded play state; a cold-boot play check by the user.
+  Commit "Build X" first, then "Confirm X in play".
+- **Release** (`REL-001` to `REL-003`).
   > **MSHvSF:** only track 01 changed. `tools/disc/make_patch.py` checks the
   > source hashes, encodes twice for determinism, and round-trips with
-  > `xdelta3 -d`. Flags `-e -9 -S none -A -f` (plain VCDIFF). Tested with
-  > xdelta3 3.2.2, a user-style apply and a fresh clone. The patch is never
-  > committed.
-  > **Verify on XvSF:** which tracks change, and the image format the release
-  > targets (the held rip is ISO plus MP3, not BIN/CUE).
+  > `xdelta3 -d`. Flags are now `-e -9 -S none -A -W 16777216 -f` (plain
+  > VCDIFF, 16 MiB window). Tested with xdelta3 3.2.2, a user-style apply and
+  > a fresh clone. Re-compressing the attract streams had grown the patch to
+  > about 2.95 MB; splicing exact-length runs that resume the original
+  > compressed stream, plus the larger window, cut it to about 645 KB
+  > (`REL-003`, `EXP-0083`).
+  > The `.ssp` format (Sega Saturn Patcher) is a ZIP of per-file BSDIFF40
+  > `NAME._DFR` entries plus `version.txt`, `driveOrder.txt` and
+  > `changes.md5`. It was learned from a sample patch and the decompiled
+  > official patcher; no GPL code was copied. `tools/disc/make_ssp.py` is pure
+  > Python, about 561 KB. Verified with `saturn-patcher-egui` and with the
+  > official patcher's .NET core run on macOS (`REL-002`, `EXP-0084`).
+  > Patches may be GitHub Release assets but are never committed
+  > (`AGENTS.md` rule 21 exception, 2026-10-26).
+  > **Verify on XvSF:** which tracks change; whether any compressed stream is
+  > re-encoded (then splice to keep the patch small); whether users need SSP
+  > as well as xdelta. The release targets the Redump-style BIN/CUE.
+
+### Phase 6: Beyond the Roster (M9 and Later)
+
+Each of these was a separate, user-requested task after M8. On XvSF, propose
+none of them until the ordinary pipeline is done and the user asks; then use
+the method that worked.
+
+1. **Secret characters, Norimaro, bosses** (`SPECIAL-002` to `SPECIAL-004`).
+   > **MSHvSF:** pair by byte identity with the arcade JP slots, then `k & 7`,
+   > as for the roster. Some arcade English slots reuse other characters'
+   > English (slots 20 and 21 reuse Zangief's and Sakura's); others have
+   > their own. Secret endings have no official English (slots 19-25 share a
+   > generic ending), so the user approved recorded new translations
+   > (`EXP-0077` to `EXP-0079`). Both bosses' win quotes have official English
+   > (`EXP-0081`). Apocalypse's pre-fight exchanges (26 slots × 3 boxes in
+   > `MC00`) also have official English; the first arcade offset guess was 2
+   > codes late, and earlier census tables were misaligned slices of that
+   > block (`EXP-0082`).
+   > **Verify on XvSF:** which secret and boss slots have their own official
+   > English; whether any pre-fight or mid-game text exists.
+2. **Reaching special fights.** `ending_driver.py --after-stage N`, `--stage N`
+   and `--no-ko` let the user play to a chosen fight. Its arming rule failed
+   three times (armed after the stage had loaded; the stage word's high byte
+   varies; armed at boot on `0x0002`) before it armed only on a step from
+   stage N-1 to N.
+   > **MSHvSF:** the boss fight was locked by one word (`0x06017AB0`); one
+   > `MM.BIN` byte (`0x50E4`) unlocks it from the start (`OPT-001`,
+   > `EXP-0075`).
+   > **Verify on XvSF:** save- or progress-gated unlocks, and their flags.
+3. **UI art** (`UI-001`, `UI-002`, `EXP-0053`).
+   > **MSHvSF:** the 2P prompt and the "simple controls" panel were quote-font
+   > art cells. The font already held English art (JOIN IN, INSERT COIN, GAME
+   > OVER, EASY, life-bar names), so the fix was copying glyphs.
+   > **Verify on XvSF:** inventory the English art already in every font.
+4. **Caption style and colour** (`FONT-010`, `FONT-011`, `EXP-0051`,
+   `EXP-0052`).
+   > **MSHvSF:** the staff credits use the captions' own glyph routine, via SCU
+   > DMA to VDP1. Captions were redrawn as credits-style pairs (2 shading
+   > bands and an outline, 29,284 of 30,235 bytes). Gold came from three
+   > palette-number immediates in the message-window initialiser, not from
+   > colour RAM; the grey palette's generator was never found. Recolouring
+   > also turned excluded characters' Japanese windows gold.
+   > **Verify on XvSF:** whether the caption colour is a palette number that
+   > can be repointed.
+5. **Attract-mode captions** (`UI-003`, `EXP-0066` to `EXP-0073`).
+   > **MSHvSF:** VDP2 NBG2 tiles, not VDP1, streamed from `MVSOP0-7.ST2` with
+   > three codecs (graphics LZ, a bit-flag LZ command script, word-LZ map
+   > updates). Found by cold-boot no-input captures and the SCU DMA log;
+   > codecs proven by reproducing RAM. Oracles: MAME US set and PS1 US. The
+   > build uses the Saturn's own win-banner letters and colours with the
+   > arcade's wording and layout (the user's choice after three rounds).
+   > **Verify on XvSF:** whether attract mode has Japanese captions, which
+   > layer draws them, and which container holds them.
+6. **CONTINUE? hints** (`UI-004`, `UI-006`, `EXP-0080`, `EXP-0085`,
+   `EXP-0086`).
+   > **MSHvSF:** a 16-record quote-font table, found by glyph matching a
+   > recorded state. `EXP-0080` concluded "no official English" from a data
+   > search and built new translations; **that was wrong**. A code trace found
+   > 12 official hints, and the Saturn had kept the arcade's two-page index map
+   > behind a region test. 8 of 12 fit. Every `0x9999` padding run in
+   > `MM.BIN` is work RAM at run time, so it is not free space.
+   > **Verify on XvSF:** find UI text tables, then find the arcade's English
+   > for them by tracing the arcade code, not only by searching data.
+7. **Rare and region-gated text** (`TXT-001` to `TXT-003`, `EXP-0085`,
+   `EXP-0087`, `EXP-0088`).
+   > **MSHvSF:** `MM.BIN` records 16-41 replace the CPU winner's win quote
+   > after a player loss, on a 1-in-64 roll, in the Japanese region only.
+   > Records 42-44 show when the CPU fields a secret character; 45-47 have no
+   > reader. Found with MAME read taps (`mame_timeline.lua` `logreads`) and the
+   > decrypted opcodes, then forced rolls in MAME and on the Saturn.
+   > **Verify on XvSF:** trace every reader of every text table; expect text
+   > that normal play rarely shows.
+8. **Names and voice** (`LOC-002` to `LOC-007`, `EXP-0054` to `EXP-0065`,
+   `EXP-0074`, `EXP-0076`).
+   > **MSHvSF:** the disc already held every US-name asset: life-bar label
+   > records in both styles, win-banner and VS-screen records, speaker
+   > fields, ASCII menu strings, and the voice clips "Bison", "Akuma" and
+   > "Cyber Akuma". A name-call table in sound RAM picks the clip. The sound
+   > is software-mixed ADPCM on the SH-2; a decoder was validated against 24
+   > of 24 live channels, and the user identified clips by ear. Name records
+   > were found by searching reversed sprite-pattern sequences.
+   > **Verify on XvSF:** which names differ by region, whether both
+   > conventions' art and voice are on the disc, and how sound is mixed.
 
 ## Names and Localization Policy
 
 > **MSHvSF:** the Saturn is the Japanese release; its art, labels and voice use
 > Vega, Gouki and Mech-Gouki, while the arcade English uses BISON, AKUMA and
 > Cyber-Akuma. The user chose, in order (2026-10-25): VEGA in the name table,
-> then "Mech-Gouki" in text, then GOUKI "for now". This is **provisional**
-> (`LOC-001`); the later direction is two parallel name variants (`LOC-002` to
-> `LOC-006`). Implemented as `NAME_OVERRIDES` and `TEXT_OVERRIDES` in
-> `tools/text/official_endings.py`, applied to every text surface
-> (`EXP-0049`, `EXP-0050`, `docs/localization_plan.md`).
+> then "Mech-Gouki" in text, then GOUKI "for now" (`EXP-0049`, `EXP-0050`).
+> The user then asked for two parallel variants, both in English, with an
+> in-game Options toggle as a stretch goal. Both are built
+> (`official_endings --names saturn|us`): the US variant switches text, voice,
+> life bars, win banner, VS screen, speaker labels, sound test and menu,
+> using assets already on the disc (`LOC-002` to `LOC-005`). Saturn names are
+> the default. The secret characters' names already matched the US arcade
+> (`LOC-007`). The default and its presentation (`LOC-001`) and the toggle
+> (`LOC-006`) were still open on 2026-10-27.
 
 **Verify on XvSF:**
 
@@ -444,6 +590,8 @@ Assume **nothing** from win quotes; re-derive each fact.
   screen, ending labels) and every name the announcer speaks, from recorded
   sessions.
 - List where the arcade English names differ from those.
+- Check whether the disc already holds the other convention's art and voice
+  (MSHvSF's did, unused); that decides the cost of a second variant.
 - Put the options (Saturn names, US names everywhere, US names in text only)
   to the user with their costs before building text.
 - Keep overrides in one place in the generator so a reversal is a rebuild.
@@ -461,9 +609,19 @@ silently.
 | Endings: official English pages; the arcade's two English partner lines for the post-boss dialogue | 2026-10-24 | `data/translations/README.md` |
 | Dialogue layout: each English line whole, one block per speaker (first split across boxes, `EXP-0044`; revised, `EXP-0045`) | 2026-10-24 | `data/translations/README.md` |
 | English names in the name table, with the length table matched; English names accepted inside the remaining Japanese lines | 2026-10-24 | `data/translations/README.md`, `EXP-0047` |
-| The Saturn's names (VEGA, GOUKI, Mech-Gouki), provisional; parallel variants requested | 2026-10-25 | `docs/localization_plan.md` |
+| The Saturn's names (VEGA, GOUKI, Mech-Gouki), provisional; then two parallel English variants, with an Options toggle as a stretch ("would be incredible") | 2026-10-25 | `docs/localization_plan.md`, `TASKS.md` `LOC-001`/`LOC-003`/`LOC-006` |
 | Release: xdelta3, patch kept local, rebuild README | 2026-10-25 | `release/README.md` |
-| Later requests: the credits font for captions (`FONT-010`), English-only "PRESS START" (`UI-001`) | 2026-10-25 | `TASKS.md` |
+| Credits font for captions, squeezed, gold; "Both: build silver, then dig"; release switched to gold | 2026-10-25 | `research_log.md`, `TASKS.md` `FONT-011` |
+| Player-2 prompt reads JOIN IN; English-only UI art (`UI-001`) | 2026-10-25 | `research_log.md` (`EXP-0053`) |
+| Attract captions: replace with the US versions; win-banner letters; "Both name variants should get the English attract captions. But the colors seem really off."; then the arcade's symmetry and wording | 2026-10-25 to 2026-10-26 | `research_log.md` (`EXP-0069`, `EXP-0071`, `EXP-0073`) |
+| M9 approved: Norimaro (`SPECIAL-002`), secret characters (`SPECIAL-003`), names (`LOC-007`), boss unlock on by default (`OPT-001`) | 2026-10-26 | `research_log.md`, `TASKS.md` |
+| Secret characters: official English where it exists; new translations for the rest and for all secret endings | 2026-10-26 | `data/translations/README.md` |
+| Unattended emulator runs are silent | 2026-10-26 | `docs/mednafen.md`, `docs/agent_briefing.md` |
+| Patches may be GitHub Release assets (rule 21 exception); SSP format; smaller patches; README modelled on another translation's | 2026-10-26 | `AGENTS.md`, `TASKS.md` `REL-002` to `REL-004`, `DOC-021` |
+| Official CONTINUE? hints: "8 hints, exact, 2 pages" | 2026-10-27 | `TASKS.md` `UI-006`, `EXP-0086` |
+| Story records 42-43: "faithful translations" | 2026-10-27 | `EXP-0088` |
+| Grammar fixes only as an opt-in flag (`--fix-grammar`); the release stays official. No publishing until the open tasks are addressed | 2026-10-27 | `research_log.md`, `TASKS.md` `TXT-004`, `REL-004` |
+| Commit identity rewritten to the princeendo noreply address, force-pushed once | 2026-10-27 | `research_log.md` |
 
 ## Tools and How Each Was Validated
 
@@ -477,19 +635,28 @@ parameterized or rewritten.
 | `tools/mednafen/agent.py` | Python client; holds an exclusive `flock` per command so several clients share one emulator | unit tests; used by every live experiment since `EXP-0025` | Game-independent |
 | `tools/mednafen/session_recorder.py` | Rolling screenshots (1 s) and states (3 s), frame-named, ring-buffered, while the user plays | `EXP-0037`: checkpoints re-picked from the screenshots replayed as named | Game-independent |
 | `tools/mednafen/replay_state.py` | Load a state on any image and capture steps, breakpoint logs or a halt dump | `EXP-0036`: isolated a BIOS reset to one file | Game-independent; see the replay limits |
-| `tools/mednafen/write_trial.py` | Apply writes at a checkpoint, screenshot, report whether writes survived | `EXP-0038`, `EXP-0039` controls | Game-independent |
+| `tools/mednafen/write_trial.py` | Apply writes at a checkpoint, screenshot (`--shot-at`), report whether writes survived | `EXP-0038`, `EXP-0039` controls | Game-independent |
+| `quiet_home()` in `replay_state.py` | Silent unattended Mednafen home (volume 0, `video.glvsync 0`, `video.blit_timesync 0`) under `local/mednafen_quiet`, default for scripted runs | `test_replay_state_home.py`; `EXP-0083` | Game-independent |
+| `tools/mednafen/frame_capture.py` | Silent cold boot; screenshots of chosen frames, no input | smoke test, frames 120-240 | Game-independent |
+| `tools/mednafen/bp_log.py` | Log-mode breakpoints while the user plays; hit summary per PC | 60,405-hit smoke test; `EXP-0081` session | Game-independent; arm after boot |
 | `tools/mednafen/ko_capture.py`, `verify_records.py` | One human KO, then forced records, checked by pointer, screen, font, table and display buffer | `EXP-0025`, `EXP-0026`, `EXP-0036` | MSHvSF addresses inside |
-| `tools/mednafen/ending_driver.py` | While the user works the menus: force the stage word to the final stage, then zero the boss vitality, then stop writing | `EXP-0044`, `EXP-0049` | MSHvSF addresses inside |
-| `tools/memory/mcs_extract.py` | Regions from Mednafen Saturn states | `DBG-012` byte-identical to debugger dumps (cart unvalidated) | Re-validate |
+| `tools/mednafen/ending_driver.py` | While the user works the menus: force the stage word to the final stage, then zero the boss vitality, then stop writing. `--after-stage N`, `--stage N`, `--no-ko` reach a chosen fight | `EXP-0044`, `EXP-0049`; arming fixed after three failures (Phase 6) | MSHvSF addresses inside |
+| `tools/mednafen/continue_driver.py` | Forces a random branch and steps a hint map at the continue screen | `EXP-0086`, `EXP-0087` | MSHvSF addresses inside |
+| `tools/memory/mcs_extract.py` | Regions from Mednafen Saturn states | `DBG-012` byte-identical to debugger dumps (cart unvalidated; the font region matched the built font file, `EXP-0053`) | Re-validate |
+| `tools/memory/mcs_patch.py` | Write bytes into a state's region (e.g. a new font into cart RAM, which the agent cannot write) | `test_mcs_patch.py`; `EXP-0086` | Game-independent; a patched state is a test only, confirm by cold boot |
+| `tools/memory/vdp1_commands.py`, `vdp2_plane.py` | VDP1 command list with font matching; one VDP2 map page with tiles and palette | 121/121 credits sprites (`EXP-0051`); `EXP-0068` | Platform-level; VDP2 layer setup assumed |
+| `tools/audio/sound_bank.py`, `channel_check.py`, `mixer_log.py`, `live_calls.py` | Export clips to WAV; check the decoder against live channels; log clips per frame or during play | 24/24 channels; `EXP-0057`, `EXP-0064` | MSHvSF ADPCM format and mixer addresses |
 | `tools/memory/diff.py`, `tools/text/search.py`, `pattern_search.py`, `code_search.py` | Diff dumps; search encodings, equality patterns, code sequences | synthetic tests; `EXP-0011`, `EXP-0013`, `EXP-0039` | Game-independent |
 | `tools/memory/vdp1_sprites.py`, `tools/text/glyph_match.py` | Walk VDP1 command lists, render sprites; match cells to font codes | `EXP-0012`, `EXP-0038` | VDP1 is platform; colors and fonts are not |
 | `tools/disc/iso9660.py`, `patch_image.py`, `hash_source.py` | ISO walk; same-size in-place rebuild with EDC/ECC; source hashing | `EXP-0016`, `DISC-002` (all source sectors regenerate exactly) | Platform-level; check XvSF's image format |
 | `tools/disc/pac_lzss.py`, `pac_patch.py` | MSHvSF's LZSS container | `DISC-001`, `EXP-0036` | MSHvSF format; do not assume on XvSF |
 | `tools/text/font.py`, `font_pack.py`, `pair_font.py`, `glyph_patch.py` | Decode, repack, add pair glyphs | byte-identical repack (`EXP-0023`) | MSHvSF format |
-| `tools/text/caption_compiler.py` | Spec to image (schemas v1-v3: tables, raw files, fields, byte patches, placeholders) | `EXP-0026` through `EXP-0050` | Structure reusable; formats are MSHvSF's |
-| `tools/text/official_captions.py`, `official_endings.py` | Specs from the local arcade ROM, with a Japanese-identity check before writing | `EXP-0033`, `EXP-0044`, `EXP-0048` | MSHvSF ROM layout |
-| `tools/reference/*` (`mame_audit`, `cps2_text`, `mame_timeline.lua`, `arcade_route`, `arcade_ending_route`, pairing and census tools) | Arcade identity, text, scripted MAME runs, pairing | `REF-008` to `REF-010`, `EXP-0029` to `EXP-0034`, `EXP-0042` | MAME parts reusable; ROM offsets are MSHvSF's |
-| `tools/regression/reference_builds.py`, `tools/disc/make_patch.py` | Rebuild references and compare; build the release patch | `RE-047`, `REL-001` | Reusable with a new baseline |
+| `tools/disc/st2_stream.py`, `st2_encode.py`, `attract_captions.py` | MSHvSF's `.ST2` stream container, three codecs, encoders, caption builder | decoders reproduce RAM; round-trip tests (`EXP-0068` to `EXP-0073`) | MSHvSF formats |
+| `tools/text/caption_compiler.py` | Spec to image (schemas v1-v3: tables, raw files, fields, byte patches with `expect`, placeholders, `glyph_copies`, kept-code cells, `{P}` teammate insertion, retired kanji) | `EXP-0026` through `EXP-0088` | Structure reusable; formats are MSHvSF's |
+| `tools/text/official_captions.py`, `official_endings.py` | Specs from the local arcade ROM, with a Japanese-identity check before writing; one flag per feature (`--names`, `--ui-english`, `--attract-captions`, `--secret-roster`, `--story-lines`, `--official-hints`, `--boss-exchanges`, `--unlock-boss-fight`, ...) | `EXP-0033`, `EXP-0044`, `EXP-0048`, later experiments | MSHvSF ROM layout |
+| `tools/text/credits_font.py`, `pair_font.py` (`glyph_style`) | Credits code map, squeezed pair styles, mockups | `EXP-0051`, `EXP-0052` | MSHvSF fonts |
+| `tools/reference/*` (`mame_audit`, `cps2_text`, `mame_timeline.lua`, `arcade_route`, `arcade_ending_route`, pairing and census tools) | Arcade identity, text, scripted MAME runs, pairing; `mame_timeline.lua` gained a `logreads` read-tap verb (end address must be odd) | `REF-008` to `REF-010`, `EXP-0029` to `EXP-0034`, `EXP-0042`, `EXP-0085` | MAME parts reusable; ROM offsets are MSHvSF's |
+| `tools/regression/reference_builds.py`, `tools/disc/make_patch.py`, `make_ssp.py` | Rebuild references and compare; build the xdelta and SSP release patches | `RE-047`, `REL-001` to `REL-003`; SSP applied by two patchers | Reusable with a new baseline; `make_ssp` is game-independent |
 
 ### Emulator limits learned the hard way (MSHvSF)
 
@@ -513,7 +680,36 @@ parameterized or rewritten.
 - **`savestate` is refused while halted**; `PC` reads 0 when halted by `pause`
   (`docs/mednafen_agent_interface.md`).
 - **Breakpoints on hot words** fire in initialization loops first; arm them
-  late or filter by PC (`EXP-0025` Part 2).
+  late or filter by PC (`EXP-0025` Part 2). `bp_log` hit its cap during boot
+  before `MM.BIN` was resident (`EXP-0081` session).
+- **One emulator at a time.** Two Mednafens on one agent directory both answer
+  commands (`EXP-0060`).
+- **Command-line settings persist.** Mednafen saves them into `mednafen.cfg`
+  on exit; back the file up and restore it (`EXP-0074`).
+- **Unattended runs stall with vsync on** while the display sleeps; use the
+  quiet home. Split its settings on `\n` only: `splitlines()` broke a line
+  holding byte `0x85` (`EXP-0083`).
+- **No controller input from scripts.** Replays without input diverge or stop
+  at menus; plan a user play session for anything past a menu (`EXP-0057`,
+  `EXP-0088`).
+- **Unreachable hardware.** The `physical` space reads SCSP registers and cart
+  RAM as zeros, and cart writes do not stick. Use states, the `scspram` space,
+  or `mcs_patch.py` (`EXP-0054`, `EXP-0082`).
+- **Breakpoints never fired on VDP1 VRAM or colour RAM**; whether because of
+  DMA or an emulator gap is a **HYPOTHESIS**. Log the SCU DMA registers
+  instead (`EXP-0051`, `EXP-0052`).
+- **A poke right after `loadstate`** can be undone when the load lands later;
+  read the value back (`EXP-0071`).
+- **Load timing.** `MM.BIN` loads only after Start, not during attract, and
+  replays restore it from cart RAM, so an `MM.BIN` change needs a play
+  session. Replaying an old-build state on a font-changed image draws the old
+  glyphs (`EXP-0082`).
+- **Frame-level nondeterminism.** Two cold boots of one image differed in 72
+  of 440 frames; compare scenes, not frames (`EXP-0071`).
+- **Fast-forward** is fine during fights, but screens captured by the 1 s
+  recorder need normal speed (`EXP-0087`).
+- **A RAM write to the CPU team after a continue** crashed into the BIOS
+  (`EXP-0088`).
 
 ## Pitfalls and Disproven Ideas (MSHvSF)
 
@@ -544,6 +740,19 @@ so a quick XvSF check of the cheap ones is fine.
 | Arithmetic in pre-registered pointers | One slip caught by observation; compute, don't hand-add | `EXP-0025` |
 | New tests written over an existing test file | Overwrote it; restored from git | `REL-001` log |
 | Shell: `cat > file` with no input; zsh `$L:f`; output outside `build/` | Hang; modifier expansion; refused by `patch_image` | `RE-046`, `RE-047` logs |
+| "No official English exists" for a surface, from a data search | Wrong twice; the arcade code trace found it (CONTINUE? hints) | `EXP-0080` → `EXP-0085` |
+| A constant in code read as a pointer | It was a BCD constant | `EXP-0047` → `EXP-0085` |
+| Census table boundaries taken from a first pass | Misaligned slices of one larger block | `EXP-0082` |
+| First guess at an arcade English offset | 2 codes late; verify with a decoded line on both ends | `EXP-0082` |
+| Plain raw or LZSS search for a tile set; IMA, OKI and Yamaha ADPCM for sound | All failed; trace the loader or the DMA instead | `EXP-0051`, `EXP-0055` |
+| A voice clip attributed from several clips heard together | Reversed twice; play one clip at a time | `EXP-0056`, `EXP-0057` |
+| A label set "unused"; VS names as mosaic art | Both wrong; found by searching reversed sprite-pattern sequences | `EXP-0060` → `EXP-0065`; `EXP-0054` → `EXP-0063` |
+| Colour array word k is colour RAM entry k; one macro base for every file | Off by one; per-file bases | `EXP-0071`, `EXP-0073` |
+| Pairing attract captions by frame number across arcade sets | The sets' attract cycles have different timings; pair by sequence position and neighbouring screens | `EXP-0067` |
+| SSP entries written as whole-file adds (no match search) | 1,577,860 bytes; a bsdiff match search brought it to about 561 KB | `EXP-0084` |
+| A PS1 ISO reader without the `;1` file-name suffix | Read no files | `EXP-0076` |
+| `cmd \| head` under `set -e` | Hid a build failure; use `set -o pipefail` | `EXP-0080` |
+| Forcing a record onto the wrong winner | Inserted an untranslated name | `EXP-0087` |
 
 ## Consolidated "Verify on XvSF" Checklist
 
@@ -569,9 +778,22 @@ line, in this order.
 16. File census, roster and exceptions, capacity, roster image (M5).
 17. Endings, only after M5: reach, renderer, RAM, disc, arcade English,
     indexing, names and lengths, layout, census, combined image, coverage.
-18. Names: art and voice inventory; user's policy.
-19. Regression references; release patch and README.
+18. Names: art and voice inventory, including whether both conventions are
+    already on the disc; user's policy.
+19. Regression references; release patches (xdelta and SSP) and README.
+20. Only when the user asks, after the roster is done: secret and boss slots
+    (own English or reused); boss pre-fight text; save-gated unlocks.
+21. UI art already in the fonts; caption colour and style.
+22. Attract-mode captions: layer, container, codecs, oracles.
+23. Other UI text (continue screen, hints): find the arcade English by code
+    trace.
+24. Rare, random or region-gated text: trace every reader of every table.
+25. Patch size: splice instead of re-compressing where streams change.
 
 ## Changelog
 
 - 2026-10-25: first version (`DOC-020`).
+- 2026-10-27: added Phase 6 (M9 and later work), the new tools, emulator
+  limits, pitfalls, user decisions and checklist items from `EXP-0051` to
+  `EXP-0088`; recorded the XvSF Redump-style image; corrected the PS1 extra
+  blocks, the release flags and size, and the names policy.
