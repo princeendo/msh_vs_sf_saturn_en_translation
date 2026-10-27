@@ -2,16 +2,16 @@
  "tool": "tools.disc.make_patch",
  "reference": "m8_roster_gold",
  "xdelta3_version": "3.2.2",
- "xdelta3_encode_flags": "-e -9 -S none -A -f",
+ "xdelta3_encode_flags": "-e -9 -S none -A -W 16777216 -f",
  "patches": [
   {
    "component": "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin",
    "patch": "mshvsf_saturn_en_m8_gold.Track01.xdelta",
-   "patch_size": 2952126,
-   "patch_sha256": "a0c72ed7e8a85a6adb7f867cdfdd51986f1139bfd20da692faa066be3d1d2270",
+   "patch_size": 642747,
+   "patch_sha256": "f769294861bd7bc70ee69c75b96dc52f0ceb04aef605a38a360f98edfa00c460",
    "source_size": 452397792,
    "source_sha256": "8274307f9562d2da7fb7be0f5f306846edb74afde5913324bef04938ed3214f9",
-   "target_sha256": "0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3",
+   "target_sha256": "e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2",
    "deterministic": true,
    "round_trip": true
   }

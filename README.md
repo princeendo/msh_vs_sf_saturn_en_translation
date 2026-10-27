@@ -65,8 +65,8 @@ distributes them. A build makes two files:
 
 | File | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | Saturn names (recommended) | `0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | American names | `0da697261827e9d003104279701e4fdbd7c5ea64591b0532908d8d4f5288344f` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | Saturn names (recommended) | `e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | American names | `a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4` |
 
 To apply one, see [release/README.md](release/README.md#apply-the-patch). In
 short:

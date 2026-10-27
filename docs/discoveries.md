@@ -1559,6 +1559,26 @@ Experiment: `EXP-0082`
   100 bytes a box (two 25-code lines), 300 a slot.
 - **Reproduce.** `research/experiments/EXP-0082/README.md`.
 
+## REL-003: The Attract Streams Can Be Spliced in Place
+
+Confidence: **CONFIRMED** (round trips; all regression references; cold-boot
+capture)
+
+Experiment: `EXP-0083`
+
+- Both stream codecs (graphics LZ: a flag byte per 8 tokens; section A: LSB-
+  first flag bits fetched as needed) can resume the original compressed
+  stream after a re-encoded run, as long as the run ends where an original
+  flag byte starts.
+- A run can usually be given exactly the original byte length, by padding
+  with literals or growing over neighbouring groups, so later sectors are
+  unchanged. On the raw track, each changed 2,048-byte sector also changes
+  304 bytes of EDC/ECC.
+- The English captions change 7 of 2,064 script frames and about 25 KB of
+  each 238 KB caption block. The release patches are 642,747 and 644,202
+  bytes (from 2.95 MB).
+- **Reproduce.** `research/experiments/EXP-0083/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

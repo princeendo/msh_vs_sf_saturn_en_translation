@@ -53,7 +53,7 @@ At most one reverse-engineering experiment may be `IN_PROGRESS`.
       medium) to `LOC-006` (stretch);
     - player-2 prompt and "EASY" label in English only: `UI-001` and `UI-002`
       are done (`EXP-0053`): "JOIN IN" and "EASY" art copied from the game's
-      own font. They are in the release images (Saturn names `0a6a08c1…`);
+      own font. They are in the release images (Saturn names `e820f6e1…`);
     - a cross-game agent playbook for XvSF: `DOC-020` (done,
       `docs/playbook_cross_game.md`).
   - `FONT-010` is done (`EXP-0051`): the credits font is quote-font codes
@@ -3285,7 +3285,12 @@ the user asks or when it unblocks other work.
 
 ### REL-003 - Shrink the release patches
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0083`). Patches 2,952,126 →
+  642,747 bytes (Saturn names) and 2,953,570 → 644,202 (US names), −78%.
+  The attract streams are spliced into the original compressed bytes, with
+  re-encoded runs of exactly the original length, so nothing after them
+  shifts; `make_patch` uses a 16 MiB window. All nine references pass; the
+  three English captions show from a cold boot.
 - **Priority:** high (before `REL-004`)
 - **Milestone:** Polish
 - **Dependencies:** REL-001 (done), UI-003 (done).
@@ -3303,11 +3308,12 @@ the user asks or when it unblocks other work.
 
 ### REL-004 - Publish release 0.1.0 on GitHub
 
-- **Status:** `BLOCKED` (on `REL-003`; SSP patches from `REL-002` if ready)
+- **Status:** `READY` (2026-10-27: REL-003 done; the SSP zip still needs
+  `REL-002`)
 - **Priority:** high
 - **Milestone:** Polish
-- **Dependencies:** REL-003; REL-002 for the SSP zip.
-- **Blockers:** REL-003.
+- **Dependencies:** REL-003 (done); REL-002 for the SSP zip.
+- **Blockers:** None for the xdelta zip.
 - **Objective (user request, 2026-10-26):** Publish the first release,
   version `0.1.0` (git tag `v0.1.0`), as a GitHub Release with the patches as
   assets (`AGENTS.md` rule 21 exception): one zip of every xdelta variant and,

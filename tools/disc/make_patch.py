@@ -13,9 +13,10 @@ Safety and reproducibility:
 - Patches are written under ``build/`` (git-ignored): their bytes include
   game-derived data, which is never committed (``AGENTS.md`` rule 21).
 - xdelta3 runs with fixed flags (``XDELTA_ENCODE``): no secondary compressor, so
-  any VCDIFF patcher can apply it, and no application header, so no local file
-  names are stored. Each patch is encoded twice and must be byte-identical, then
-  decoded with ``xdelta3 -d`` and compared with the built component.
+  any VCDIFF patcher can apply it, no application header, so no local file
+  names are stored, and the largest input window. Each patch is encoded twice
+  and must be byte-identical, then decoded with ``xdelta3 -d`` and compared
+  with the built component.
 - The JSON record (hashes, sizes, xdelta3 version, flags) is metadata only and
   may be committed.
 """
@@ -32,7 +33,10 @@ from pathlib import Path
 
 from tools.disc.patch_image import REPO_ROOT, load_manifest_hashes, sha256_file
 
-XDELTA_ENCODE = ("-e", "-9", "-S", "none", "-A", "-f")
+# -W 16 MiB (xdelta3's largest input window, REL-003): later copies of repeated
+# new data, such as the eight attract streams' identical caption tiles, can
+# copy from earlier output instead of being stored again.
+XDELTA_ENCODE = ("-e", "-9", "-S", "none", "-A", "-W", "16777216", "-f")
 SOURCE_DIR = Path("local/disc_images/mshvsf_saturn_jp")
 SOURCE_MANIFEST = Path("references/mshvsf/saturn_jp/README.md")
 BASELINE = Path("data/regression/reference_builds.json")

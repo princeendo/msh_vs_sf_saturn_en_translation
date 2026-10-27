@@ -31,25 +31,34 @@ HOME = Path("local/mednafen")  # the user's own (interactive) settings
 QUIET_HOME = Path("local/mednafen_quiet")
 
 
+# Unattended settings (REL-003): no sound, and no wait for the display's
+# vertical sync, which stalls emulation (and the agent) while the display sleeps.
+QUIET_SETTINGS = {"sound.volume": "0", "video.glvsync": "0", "video.blit_timesync": "0"}
+
+
 def quiet_home(source: Path = HOME, target: Path = QUIET_HOME) -> Path:
     """A Mednafen home for unattended runs: ``source``'s configuration with
-    ``sound.volume 0``, sharing its firmware. Created if missing.
+    ``QUIET_SETTINGS``, sharing its firmware. Created if missing; the settings
+    are reapplied to an existing home.
 
-    A separate home, not a ``-sound.volume`` argument, because Mednafen saves
+    A separate home, not command-line arguments, because Mednafen saves
     command-line settings into the configuration on exit (`EXP-0074`).
     """
     config = target / "mednafen.cfg"
     if not config.exists():
         target.mkdir(parents=True, exist_ok=True)
-        lines = (source / "mednafen.cfg").read_text(encoding="latin-1").splitlines()
-        config.write_text(
-            "\n".join(
-                "sound.volume 0" if line.startswith("sound.volume ") else line
-                for line in lines
-            )
-            + "\n",
-            encoding="latin-1",
+        config.write_bytes((source / "mednafen.cfg").read_bytes())
+    # Split on newlines only: values may hold bytes that ``splitlines`` treats
+    # as line breaks in latin-1 (0x85, 0x1C-0x1E).
+    lines = config.read_bytes().split(b"\n")
+    config.write_bytes(
+        b"\n".join(
+            f"{key} {QUIET_SETTINGS[key]}".encode()
+            if (key := line.split(b" ", 1)[0].decode("latin-1")) in QUIET_SETTINGS
+            else line
+            for line in lines
         )
+    )
     firmware = target / "firmware"
     if not firmware.exists():
         firmware.symlink_to(Path("..") / source.name / "firmware")

@@ -245,10 +245,10 @@
   },
   {
    "name": "m8_roster_gold",
-   "experiment": "EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082",
-   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082).",
+   "experiment": "EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083",
+   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083).",
    "spec": "local/ui003/spec/m8_roster_gold.json",
-   "spec_sha256": "57193b5db63c3aba139689719cc528f28683ae04049c422c028fd3a6ed1d573c",
+   "spec_sha256": "115f6cd3b1e503c0681d271bccd097bbb9d62c95d7c718174557daf53f31b858",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -268,7 +268,7 @@
     "data/translations/continue_hints.json",
     "--boss-exchanges"
    ],
-   "track01_sha256": "0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3",
+   "track01_sha256": "e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2",
    "files_sha256": {
     "MC00.PAC": "c69c349249dce4175f8e4c8c3412dc5b7ff781e2ce5c179e0b3483eca9d98188",
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
@@ -296,16 +296,16 @@
     "ME.PAC": "8d8bf166acca2016002f1fb9dd3dc801a6f726819e5a8e47ba1c985af1431c4f",
     "MEMFIX.PAC": "0a08259366b888767a135b0842aeb07fc2c683d864d6cfc9492a6cd77a08a954",
     "MM.BIN": "743f1769ea0d8f2f6ca627be0f31ed3088c21850106a72c6249d78abbc36e1ca",
-    "MVSOP0.ST2": "8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10",
-    "MVSOP1.ST2": "6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931",
-    "MVSOP2.ST2": "0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452",
-    "MVSOP3.ST2": "b7da91331ef1ee6aca0d0cbd90ad0aee0f95a474574371a2df5899010214c586",
-    "MVSOP4.ST2": "2e15cf41567d727915bd2c2d8e83f23defb54a30d12c40128b3e0cc25a989a6c",
-    "MVSOP5.ST2": "633ac1b691f5067e686393cd372bc06e5d5c690cb37eaf69200b9f3dd7bf24e8",
-    "MVSOP6.ST2": "73cd56492973321bddd39c036c4e7d104e7e38d388325a45a445d59f65f3078f",
-    "MVSOP7.ST2": "9f4873982dbe4fea8c14c7235830a780fdc0893713e50fb9c42ba972e1393d75"
+    "MVSOP0.ST2": "509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec",
+    "MVSOP1.ST2": "3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa",
+    "MVSOP2.ST2": "4e5b96b55a5b388799ae153c9995aaea60d025f37aec72d73c449aaeed676e24",
+    "MVSOP3.ST2": "8c53c91b4a4e61e1666370e849ff6969ba639c5e988ae70c479ee4d86e91f9af",
+    "MVSOP4.ST2": "96f683b0f838bb6675a23ee9d181ea17976ed1f478bd0cc67195dbfeb2c8e3e7",
+    "MVSOP5.ST2": "e29dd79841981bc87eed7c275573f151a6e74b67c0330273e9242b33f751a58f",
+    "MVSOP6.ST2": "1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1",
+    "MVSOP7.ST2": "2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856"
    },
-   "baselined": "2026-10-26",
+   "baselined": "2026-10-27",
    "previous": [
     {
      "track01_sha256": "3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3",
@@ -350,15 +350,23 @@
     {
      "track01_sha256": "e0395c3e5c1dc4cb39e94cbc8092fb2817f44eef91f6ab8ecb545f9fe7c13086",
      "replaced_because": "EXP-0082: pre-fight boxes gold"
+    },
+    {
+     "track01_sha256": "0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3",
+     "replaced_because": "EXP-0083: attract streams spliced (smaller patch)"
+    },
+    {
+     "track01_sha256": "d353436f3d0dde6610b7f884dbdce07168bd59e0c3d9737ab297b0fa4c4e3ea7",
+     "replaced_because": "EXP-0083: attract streams spliced in place (smaller patch)"
     }
    ]
   },
   {
    "name": "m8_roster_gold_us",
-   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082",
-   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082).",
+   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083).",
    "spec": "local/ui003/spec/m8_roster_gold_us.json",
-   "spec_sha256": "0c73e09089bc8448c894794da6fe69d93fe405fe775a13696ad258b8f4e4836e",
+   "spec_sha256": "d441e9fcc468b7ba278c09aa9ed200e0243ccd4cb5b7f8dd95c622f00382b07f",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -380,7 +388,7 @@
     "data/translations/continue_hints.json",
     "--boss-exchanges"
    ],
-   "track01_sha256": "0da697261827e9d003104279701e4fdbd7c5ea64591b0532908d8d4f5288344f",
+   "track01_sha256": "a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4",
    "files_sha256": {
     "MC00.PAC": "1927f2dc253f55cd88e8d01def8edb3546614f3e3ed3db79264800287c620948",
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
@@ -408,16 +416,16 @@
     "ME.PAC": "36eb65cd5fd291f6e1eaac336f74ec1f4f1a51e24fec93c984a5946b8d0b8a29",
     "MEMFIX.PAC": "a128c362dc0a7a18557a96dbbffddcb62b75465957da9dab63d285b9ff88683c",
     "MM.BIN": "30a63edcf827e71154de45f274def53ea4f305f63b3650abd98d7fdf60b86bbf",
-    "MVSOP0.ST2": "8c617506169e6703dc52d44d6584311d69aa87e14a3a3e8fcff931f077dc8a10",
-    "MVSOP1.ST2": "6474eec7e8118e485c935b743df28063b68706c44ef48166bc800357ddbf1931",
-    "MVSOP2.ST2": "0b494ce883abeb05da9d91760bc49c06626b75b8ed2af1141e11c06a582aa452",
-    "MVSOP3.ST2": "b7da91331ef1ee6aca0d0cbd90ad0aee0f95a474574371a2df5899010214c586",
-    "MVSOP4.ST2": "2e15cf41567d727915bd2c2d8e83f23defb54a30d12c40128b3e0cc25a989a6c",
-    "MVSOP5.ST2": "633ac1b691f5067e686393cd372bc06e5d5c690cb37eaf69200b9f3dd7bf24e8",
-    "MVSOP6.ST2": "73cd56492973321bddd39c036c4e7d104e7e38d388325a45a445d59f65f3078f",
-    "MVSOP7.ST2": "9f4873982dbe4fea8c14c7235830a780fdc0893713e50fb9c42ba972e1393d75"
+    "MVSOP0.ST2": "509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec",
+    "MVSOP1.ST2": "3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa",
+    "MVSOP2.ST2": "4e5b96b55a5b388799ae153c9995aaea60d025f37aec72d73c449aaeed676e24",
+    "MVSOP3.ST2": "8c53c91b4a4e61e1666370e849ff6969ba639c5e988ae70c479ee4d86e91f9af",
+    "MVSOP4.ST2": "96f683b0f838bb6675a23ee9d181ea17976ed1f478bd0cc67195dbfeb2c8e3e7",
+    "MVSOP5.ST2": "e29dd79841981bc87eed7c275573f151a6e74b67c0330273e9242b33f751a58f",
+    "MVSOP6.ST2": "1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1",
+    "MVSOP7.ST2": "2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856"
    },
-   "baselined": "2026-10-26",
+   "baselined": "2026-10-27",
    "previous": [
     {
      "track01_sha256": "e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf",
@@ -474,6 +482,14 @@
     {
      "track01_sha256": "963063de15a6793e70d13ff0a181d5c14512b40cd2c78ca1bcff05cf3e6b47b8",
      "replaced_because": "EXP-0082: pre-fight boxes gold"
+    },
+    {
+     "track01_sha256": "0da697261827e9d003104279701e4fdbd7c5ea64591b0532908d8d4f5288344f",
+     "replaced_because": "EXP-0083: attract streams spliced (smaller patch)"
+    },
+    {
+     "track01_sha256": "e9c7f56136d2adc91c49b7c37aa2848c1367e6c8414304f0a779684d514a3221",
+     "replaced_because": "EXP-0083: attract streams spliced in place (smaller patch)"
     }
    ]
   }

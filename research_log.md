@@ -4842,3 +4842,23 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   lead, driver to stage 7. All three boxes were correct English, with
   "Akuma", in gold ((240,240,0)/(240,176,0)). Both name variants are now
   seen in play; EXP-0082 is CONFIRMED.
+
+## 2026-10-27 — REL-003: smaller release patches (EXP-0083)
+
+- **Breakdown:** the eight `MVSOP` streams were 2.83 MB of the 2.95 MB
+  patch: re-compression noise (script ~130 KB, section C ~77 KB, stream
+  blocks ~150 KB per file), while the decoded data barely changes.
+- **Version 1 (splice, later bytes shift):** 932,677 bytes. The rest was
+  shifted bytes and the EDC/ECC of every shifted sector.
+- **Version 2 (exact-length runs):** 701,266 bytes; 618 changed sectors.
+  One stretch needed far more bytes than the original, and only growing the
+  run backward fixed it. A `_fit` that forced scattered groups was slow and
+  spread changes over many sectors (avoid).
+- **`-W 16777216`:** 642,747 / 644,202 bytes. Zipping adds only 4%.
+- **Tooling fix:** unattended Mednafen stalled while the display slept
+  (vsync). The silent home now sets `video.glvsync 0` and
+  `video.blit_timesync 0`. `quiet_home` splits its settings on `\n` only,
+  because `splitlines()` broke a line holding 0x85.
+- **Check:** all nine references pass; cold-boot attract capture shows all
+  three English captions. `pytest tests/unit` 277 passed; ruff and mypy
+  clean.

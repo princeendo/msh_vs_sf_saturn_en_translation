@@ -150,22 +150,23 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 2,952,126
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 642,747
      bytes, SHA-256
-     `a0c72ed7e8a85a6adb7f867cdfdd51986f1139bfd20da692faa066be3d1d2270`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 2,953,570
+     `f769294861bd7bc70ee69c75b96dc52f0ceb04aef605a38a360f98edfa00c460`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 644,202
      bytes, SHA-256
-     `05f3a90aba687958cbb6148fdfd4f721d30a24429e0e80341eaf9015e9c4149b`.
+     `3d23dcd8444f122d00341d0b3a8ca900de193af9f86962c75869de0dca405ef4`.
 
-   The patches grew from about 157 KB when the attract captions were added:
-   their streams are re-compressed, so most of their compressed bytes
-   change.
+   Most of their size is the English attract captions: the rebuilt streams
+   keep the original compressed bytes wherever possible (`REL-003`), and
+   what remains is the new caption art and the CD error-correction bytes of
+   the sectors it touches.
 
 3. **An xdelta3 (VCDIFF) patcher.**
    - Tested: the `xdelta3` 3.2.2 command line (`brew install xdelta` on macOS).
    - Not tested: graphical patchers such as Delta Patcher, xdelta UI, or Rom
-     Patcher JS. The patch uses plain VCDIFF with no secondary compression and
-     no application header, which they are expected to read.
+     Patcher JS. The patch uses plain VCDIFF with no secondary compression, no
+     application header and a 16 MiB window, which they are expected to read.
 
 ### Steps
 
@@ -176,9 +177,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `0a6a08c10276e9333a54fef0d660bd50bc0fcb70c77c53c857008b4011be2ee3` for the
+   `e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2` for the
    Saturn-name patch, or
-   `0da697261827e9d003104279701e4fdbd7c5ea64591b0532908d8d4f5288344f` for the
+   `a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -246,8 +247,8 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `57193b5d…`, track 01 `0a6a08c1…`, patch `a0c72ed7…`;
-- American names: spec `0c73e090…`, track 01 `0da69726…`, patch `05f3a90a…`;
+- Saturn names: spec `115f6cd3…`, track 01 `e820f6e1…`, patch `f7692948…`;
+- American names: spec `d441e9fc…`, track 01 `a6572495…`, patch `3d23dcd8…`;
 - the patch hashes assume xdelta3 3.2.2.
 
 `make_patch` also checks that:

@@ -28,9 +28,12 @@ win-banner letters (``MEMFIX.PAC`` font, codes ``0x2E0``+) and colours:
   ramps, the three that start the caption slots (the first, third and fifth)
   get words 1-14 of both lines set to the banner colours (`EXP-0071`).
 - **Rebuild.** Section A and the caption graphics blocks are re-encoded
-  (``st2_encode``) and written over the originals in place. Each block keeps its
-  header's compressed size and the original bytes after the new stream, so no
-  sector moves and every following block stays where it was.
+  (``st2_encode``) and written over the originals in place. The encoding is
+  spliced into the original (REL-003): the original compressed bytes are kept
+  wherever they still decode to the new data, so only the changed stretches
+  differ. Each block keeps its header's compressed size and the original
+  bytes after the new stream, so no sector moves and every following block
+  stays where it was.
 
 The output (patched files, patches) is game-derived: keep it under ``local/`` or
 ``build/`` only (``AGENTS.md`` rule 21).
@@ -47,7 +50,7 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from tools.disc.st2_encode import lz_encode, map_encode, script_encode
+from tools.disc.st2_encode import lz_splice, map_encode, script_splice
 from tools.disc.st2_stream import (
     SECTOR,
     TAG,
@@ -330,13 +333,12 @@ def overwrite_block(
     csize, size = struct.unpack_from(">II", original, start)
     if len(data) != size:
         raise LayoutError("a block's decompressed size cannot change")
-    encoded = lz_encode(data)
+    room = max(csize, limit or 0)
+    try:
+        encoded = lz_splice(original[start : start + 8 + csize], data, room)
+    except ValueError as error:
+        raise LayoutError(f"block at 0x{start:X} {error}") from error
     length = len(encoded) - 8
-    if length > csize and (limit is None or length > limit):
-        raise LayoutError(
-            f"block at 0x{start:X} re-encodes to 0x{length:X} bytes; "
-            f"0x{max(csize, limit or 0):X} available"
-        )
     out = bytearray(original)
     if length > csize:
         if any(original[start + 8 + csize : start + 8 + length]):
@@ -346,6 +348,29 @@ def overwrite_block(
     if lz_decode(bytes(out), start)[0] != data:
         raise LayoutError(f"block at 0x{start:X} does not round-trip")
     return bytes(out)
+
+
+def unchanged(old: bytes, new: bytes) -> list[tuple[int, int, int]]:
+    """(old start, old end, new start) of the runs of whole script frames that
+    are byte-identical in ``old`` and ``new`` (the same frames, in order)."""
+    a, b = script_frames(old), script_frames(new)
+    if len(a) != len(b):
+        raise LayoutError("a rebuilt script must keep its frames")
+    ends_a = [f.offset for f in a[1:]] + [len(old)]
+    ends_b = [f.offset for f in b[1:]] + [len(new)]
+    runs: list[tuple[int, int, int]] = []
+    for fa, ea, fb, eb in zip(a, ends_a, b, ends_b, strict=True):
+        if old[fa.offset : ea] != new[fb.offset : eb]:
+            continue
+        if (
+            runs
+            and runs[-1][1] == fa.offset
+            and runs[-1][2] + (fa.offset - runs[-1][0]) == fb.offset
+        ):
+            runs[-1] = (runs[-1][0], ea, runs[-1][2])
+        else:
+            runs.append((fa.offset, ea, fb.offset))
+    return runs
 
 
 def miss_offsets(data: bytes) -> list[int]:
@@ -382,6 +407,7 @@ def rebuild(name: str, data: bytes, font: Font, slots: Sequence[Slot]) -> bytes:
     out = bytearray(data)
     (a0, asize), _, (c0, csection) = sections(data)[:3]
     script, _ = script_decode(data[a0 : a0 + asize])
+    old = script
     parts: dict[str, bytearray] = {}
     payload = miss_payload(data)
     found = {f"{n:02d}": b for n, b in enumerate(blocks(payload))}
@@ -406,7 +432,11 @@ def rebuild(name: str, data: bytes, font: Font, slots: Sequence[Slot]) -> bytes:
     for slot, plan in plans:
         script = apply_plan(script, slot, plan)
     new_script, _ = recolour(script)
-    encoded = script_encode(new_script)
+    runs = unchanged(old, new_script)
+    try:
+        encoded = script_splice(data[a0 : a0 + asize], new_script, runs, asize)
+    except ValueError as error:
+        raise LayoutError(f"{name}: section A {error}") from error
     if len(encoded) > asize:
         raise LayoutError(f"{name}: section A needs 0x{len(encoded):X} bytes")
     out[a0 : a0 + len(encoded)] = encoded

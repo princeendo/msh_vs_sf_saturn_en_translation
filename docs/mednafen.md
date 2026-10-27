@@ -539,9 +539,12 @@ selected per run.
 
 Unattended runs (replays, captures, traces) use `local/mednafen_quiet/`: a copy
 of `local/mednafen/mednafen.cfg` with `sound.volume 0` (sound stays on, so
-timing and `-soundrecord` are unchanged), with `firmware/` linked to the
-original. `tools/mednafen/replay_state.py` `quiet_home()` creates it when
-missing, and `replay_state`, `write_trial` and `mixer_log` use it by default
+timing and `-soundrecord` are unchanged) and `video.glvsync 0` /
+`video.blit_timesync 0`, with `firmware/` linked to the original. With vsync
+on, emulation and the agent stall while the display sleeps (2026-10-27: every
+`status` timed out after midnight; with vsync off the same boot ran at about
+60 frames a second). `tools/mednafen/replay_state.py` `quiet_home()` creates
+it when missing and reapplies those three settings each time, and `replay_state`, `write_trial` and `mixer_log` use it by default
 (user request, 2026-10-26). Interactive play-tests keep `local/mednafen/`, so
 the user hears the game. The quiet home has its own `sav/` and `mcs/`: a cold
 boot there starts without the user's backup RAM.
