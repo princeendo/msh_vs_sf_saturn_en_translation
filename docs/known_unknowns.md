@@ -122,7 +122,8 @@ then three ending pages (a picture panel and a bottom text box).
   (16 + 2·(26 + point slot)), and `0x0000` names the other character. Still
   open:
   - Does the KO character (partner instead of point) change anything?
-  - Are Cyber-Akuma's pairs (records 54/55, 106/107) used?
+  - Are Cyber-Akuma's pairs (records 54/55, 106/107) used? Answered
+    (`EXP-0089`): yes, in a Mech-Gouki Arcade clear (his own scene).
 - **Renderer.** Answered for box 1 and page 1 (`EXP-0038`, discoveries
   `END-002`): VDP1 sprites of byte-exact quote-font glyphs, built by
   `0x0601CE00` from 16-bit codes. Still open: whether pages 2-3, boxes 3-4, and

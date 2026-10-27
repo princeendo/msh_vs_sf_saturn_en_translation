@@ -1711,6 +1711,32 @@ Experiment: `EXP-0088`
   reader is an arcade-only scene.
 - **Reproduce.** `research/experiments/EXP-0088/README.md`.
 
+## SPECIAL-004: The Mech-Gouki Select Code and His Arcade Ending
+
+Confidence: **CONFIRMED** (user play test of the US release image; record
+107's English by forced trial)
+
+Experiment: `EXP-0089`
+
+- **Unlock chain (session words, cleared at boot):**
+  - a Survival clear sets `0x06017AB0` (MECH-GOUKI NOW!! in the menu; the
+    release presets it);
+  - a MECH-GOUKI NOW!! clear sets `0x06017AB4` (seen at frame 11,283);
+  - an Arcade clear sets `0x06017AA8` (seen at frame 72,468). Without it the
+    partner select skips the point character, so Gouki cannot be picked
+    twice.
+- **The code:** at character select, hold Start and pick Gouki, then hold
+  Start and pick Gouki again. The routine at `0x06051CD4` counts the picks
+  (`0x06017CEE`/`EF`) and writes Mech-Gouki (`0x26`) to both team words; he
+  plays alone.
+- **His Arcade run:**
+  - stage 8 is a Mech-Gouki mirror (CPU team `0026 0026`);
+  - the post-boss scene shows `MC13` records 54, 55, 106 (dots) and 107,
+    Gouki's 作られし者よ・・・, now "You who were created...";
+  - the ending pages are the disc's generic English (`ME.PAC` `0x467C`
+    records 0-2), then the credits.
+- **Reproduce.** `research/experiments/EXP-0089/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

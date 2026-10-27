@@ -19,8 +19,8 @@ Last run: 2026-10-27.
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-27 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-27 | pass (regenerated spec) |
 | `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `bede40b15644ccab…` | 2026-10-25 | 2026-10-27 | pass (regenerated spec) |
-| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088` | `91c62f7b12fa3a20…` | `de8861da75ba78f3…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
-| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088` | `86957f2af95a4603…` | `39ae78b3d848df75…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
+| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089` | `a824a86e929eaaa9…` | `5999ca63d263d518…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
+| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089` | `d79c2fce18a313a2…` | `d6bdd2e019b44b1f…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -200,7 +200,7 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MC10.PAC` | `b58afe99d0e76d3d651e1b8dd09d9b175995ee0a2e42afae276d707df47c3517` |
 | `MC11.PAC` | `d75dadf803563f43c5dadce7689f19e4476071b2aa03e7a8a9d63144b9031e8f` |
 | `MC12.PAC` | `27e0d2748109e695559887a8773cce6481f5ade6f39b44393e3abf5f4d8c99f2` |
-| `MC13.PAC` | `f4324cddf1fd3c90f883210a2b4950775aebc9a6da2b60f4504d24ecd59aa216` |
+| `MC13.PAC` | `da1bd3c00abd3c46b2bc69a76a7945ba3c7a943bb8898008fb26126a0c918451` |
 | `MC14.PAC` | `4d615f25b8ca58a0250a5c29288e970dacaab5af3be6f08d3653777b2453be06` |
 | `MC15.PAC` | `2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806` |
 | `MC16.PAC` | `159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4` |
@@ -216,7 +216,7 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MVSOP6.ST2` | `1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1` |
 | `MVSOP7.ST2` | `2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856` |
 
-Track 01: `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc`
+Track 01: `5999ca63d263d51815198230cd24e9516cfe4efacc26ccf8ee87af5eb8e7dd88`
 
 - Previous track 01 `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`: EXP-0052: capital W redesigned (variant A).
 - Previous track 01 `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`: EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image.
@@ -234,6 +234,7 @@ Track 01: `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc`
 - Previous track 01 `e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2`: EXP-0086: official English CONTINUE? hints, paged.
 - Previous track 01 `93965dd4ea6577a6410277b4734f0315842518b85aaf9f0decb6f07b7531da41`: EXP-0087: post-loss story lines in English.
 - Previous track 01 `a1e3a0bcaafb47cd5417f71dca2e6e79e4d9f4a7afb10b7f2f5ff9e179993e2d`: EXP-0088: Vega's orders (records 42-43) in English.
+- Previous track 01 `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc`: EXP-0089: Mech-Gouki's post-boss line (MC13 record 107) in English.
 
 ### `m8_roster_gold_us`
 
@@ -260,7 +261,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MC10.PAC` | `b58afe99d0e76d3d651e1b8dd09d9b175995ee0a2e42afae276d707df47c3517` |
 | `MC11.PAC` | `d75dadf803563f43c5dadce7689f19e4476071b2aa03e7a8a9d63144b9031e8f` |
 | `MC12.PAC` | `27e0d2748109e695559887a8773cce6481f5ade6f39b44393e3abf5f4d8c99f2` |
-| `MC13.PAC` | `f4324cddf1fd3c90f883210a2b4950775aebc9a6da2b60f4504d24ecd59aa216` |
+| `MC13.PAC` | `da1bd3c00abd3c46b2bc69a76a7945ba3c7a943bb8898008fb26126a0c918451` |
 | `MC14.PAC` | `7c7008cee65501900220f0c210302f7f3ccde5b4953cecb8f7dd0af363cc2ce8` |
 | `MC15.PAC` | `2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806` |
 | `MC16.PAC` | `159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4` |
@@ -276,7 +277,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MVSOP6.ST2` | `1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1` |
 | `MVSOP7.ST2` | `2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856` |
 
-Track 01: `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e`
+Track 01: `d6bdd2e019b44b1f9b6430f25fe5bca43b4d9c71c1aa4d32e12398f6df6786f6`
 
 - Previous track 01 `e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf`: EXP-0060: US life-bar labels and speaker labels.
 - Previous track 01 `49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513`: EXP-0061: US menu and sound-test strings.
@@ -297,3 +298,4 @@ Track 01: `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e`
 - Previous track 01 `a6572495338f2d490abb75f7e4311230629a2f6b3749e9caabd1f576e87528d4`: EXP-0086: official English CONTINUE? hints, paged.
 - Previous track 01 `b978085db3aa3e5ac7e8c1ef463b1b4d65c0c50b8d89a8b5e6903323f19171b5`: EXP-0087: post-loss story lines in English.
 - Previous track 01 `0f430c0afde618d9748b636501ab46f8a8cf48ffed73eaec3ff219799b3698cb`: EXP-0088: Vega's orders (records 42-43) in English.
+- Previous track 01 `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e`: EXP-0089: Mech-Gouki's post-boss line (MC13 record 107) in English.

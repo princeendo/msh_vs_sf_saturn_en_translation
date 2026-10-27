@@ -35,6 +35,11 @@ It holds no game data: you build the patch yourself from your own disc image
 - **Bosses:** Apocalypse's and Mech-Gouki's win quotes (shown when they beat
   you), and Apocalypse's exchange with each challenger before his stage-7
   fight, in the arcade's official English.
+- **Mech-Gouki's ending:** when you finish Arcade as Mech-Gouki, Gouki's
+  line in the post-fight scene is a new translation (it exists only on the
+  Saturn). To play as Mech-Gouki: clear MECH-GOUKI NOW!!, then clear Arcade
+  or Versus once; then, at character select, hold Start and pick Gouki, and
+  hold Start and pick Gouki again.
 - **Rare post-loss lines:** about once in 64 losses to the computer, the
   winner says a special line instead of its win quote. These exist only in
   Japanese (the arcade shows them only in Japan), so they are a new English
@@ -70,8 +75,8 @@ patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `5999ca63d263d51815198230cd24e9516cfe4efacc26ccf8ee87af5eb8e7dd88` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `d6bdd2e019b44b1f9b6430f25fe5bca43b4d9c71c1aa4d32e12398f6df6786f6` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies

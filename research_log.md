@@ -5110,3 +5110,34 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   files). It was hashed in the XvSF repository; Track 01's user data equals
   the old ISO rip's. The user states XvSF needs the 4 MB cart (2026-10-27).
 - **Not covered:** `EXP-0089`, committed by another session during this work.
+
+## 2026-10-27 — SPECIAL-004: Mech-Gouki play test and his post-boss line
+
+- **Play test** (`EXP-0089`; US release image `39ae78b3…`; user at the
+  controls; `mechgouki_driver --ko-boss`; recorder `local/sp004/play/rec`):
+  - a MECH-GOUKI NOW!! clear set `0x06017AB4` = 1 (frame 11,283);
+  - **disproven:** the static prediction that `0x06017AB4` alone is enough.
+    With `0x06017AA8` = 0, three Arcade attempts each counted one Gouki
+    pick, and the partner cursor skipped Gouki;
+  - with `0x06017AA8` forced to 1, holding Start and picking Gouki twice
+    gave Mech-Gouki alone (frame 45,253);
+  - with it reset to 0, the Mech-Gouki Arcade clear set it again on its own
+    (frame 72,468);
+  - stage 8 was a Mech-Gouki mirror. The post-boss scene showed dots and
+    one Japanese line (`MC13` record 107, 作られし者よ・・・). The ending
+    pages were the disc's generic English, not Dan's.
+- **Translation:** record 107 became "You who were created..." (new, faithful;
+  `data/translations/secret_characters.json`). The US arcade's slot-19
+  partner lines are generic and do not correspond.
+- **Commands and outcomes:**
+  - the specs were regenerated with `official_endings`;
+  - `bash local/sp004/rebaseline.sh` (`reference_builds --write-baseline`,
+    then the report, `make_patch` and `make_ssp`): nine of nine references
+    pass, and both patch formats round-trip;
+  - `bash research/experiments/EXP-0089/verify_dialogue.sh`: box 4 shows the
+    English (`c020f16e…`).
+- **Tooling note:** the recorder keeps only 60 states, so no state from
+  before the dialogue survived. The trial used `EXP-0039`'s Ryu checkpoint
+  instead.
+- **Next:** the remaining open tasks before any release (TXT-004, DBG-002,
+  DBG-004, RE-048-050, REF-012, LOC-001, LOC-006, SPECIAL-001).

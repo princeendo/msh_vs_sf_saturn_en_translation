@@ -3483,20 +3483,23 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 
-- **Status:** `IN_PROGRESS` (2026-10-26). Win quotes built in both release
-  references with the arcade's official English and seen in play in the US
-  build (`EXP-0081`). Apocalypse's pre-fight exchanges (`MC00` `0x3634`, 26
-  slots × 3 boxes) are built in both release references from the US arcade's
-  official English (`EXP-0082`, `--boss-exchanges`), seen in play from a
-  cold boot in the Saturn-name build (Gouki's exchange). Their letters are
-  now gold too (`MM.BIN` `0x9621D`), seen in a cold-boot run of the US
-  build (Akuma's exchange). Remaining: the Mech-Gouki select code (one failed attempt: Akuma could not be
-  chosen twice). `EXP-0089` (disassembly, 2026-10-27):
-  - Mech-Gouki needs `0x06017AB4`, set only by clearing the MECH-GOUKI NOW!!
-    fight;
-  - then hold Start and pick Gouki twice; the second Start-held pick counts
-    2.
-  - The play test is pending.
+- **Status:** `DONE` (2026-10-27).
+  - Win quotes are built in both release references with the arcade's
+    official English, and seen in play in the US build (`EXP-0081`).
+  - Apocalypse's pre-fight exchanges are the US arcade's official English
+    (`EXP-0082`, `--boss-exchanges`), in gold, seen from a cold boot in both
+    builds.
+  - **Mech-Gouki** (`EXP-0089`, user play test 2026-10-27):
+    - The select code is confirmed in play: clear MECH-GOUKI NOW!!
+      (`0x06017AB4`), then clear Arcade or Versus (`0x06017AA8`), then hold
+      Start and pick Gouki twice.
+    - His Arcade run ends in a Mech-Gouki mirror at stage 8.
+    - The post-boss scene is `MC13` records 54/55/106/107: three rows of
+      dots and Gouki's line, record 107, now a new translation ("You who
+      were created...", forced trial).
+    - The ending pages are the disc's own generic English (`ME.PAC`
+      `0x467C` records 0-2), not Dan's.
+  - Not done: a full Mech-Gouki run showing the new line in a real run.
 - **Priority:** medium
 - **Milestone:** M9
 - **Dependencies:** SPECIAL-001 (approval given by the user, 2026-10-26).

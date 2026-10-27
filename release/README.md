@@ -98,6 +98,13 @@ Sakura, and Dan.
   Mech-Gouki's win quotes, shown when they beat you, and Apocalypse's
   exchange with each challenger before his stage-7 fight, are the arcade's
   official English.
+- **Mech-Gouki's ending** (`SPECIAL-004`, `EXP-0089`): after an Arcade
+  clear as Mech-Gouki, Gouki's line in the post-fight scene (作られし者よ)
+  is a new translation, "You who were created..." (not official text: the
+  line exists only on the Saturn). The other three boxes are rows of dots,
+  and the ending pages are already English on the disc. Mech-Gouki is
+  playable after clearing MECH-GOUKI NOW!! and then Arcade or Versus: hold
+  Start and pick Gouki twice at character select.
 - **Rare post-loss lines** (`TXT-002`, `EXP-0085`, `EXP-0087`): about once
   in 64 losses to the computer, the winner says a special line instead of
   its win quote. They exist only in Japanese (the arcade shows them only in
@@ -149,6 +156,10 @@ byte-identical to the original.
     CONTINUE? hints, both pages each (`EXP-0086`), and a post-loss story line
     in English (`EXP-0087`). The hint order and the story line were forced
     by a driver; the other story lines were seen in a forced trial.
+  - Mech-Gouki's select code, stage-8 fight and post-fight scene, in the
+    American-name image (`EXP-0089`; the boss KOs and one unlock word were
+    forced by a driver). Gouki's English line was then seen in a forced
+    trial.
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 
@@ -168,12 +179,12 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 644,312
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 644,505
      bytes, SHA-256
-     `4535ce19de21b4e5c237c15d8ce474678a8cb6704ebeb5bc1fa0b20df9bc822e`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 645,074
+     `587d3f1ddfa052e6a2270dbb3da67164e49724abcb863c1e675b85c8a2e4d6f1`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 645,267
      bytes, SHA-256
-     `d65695b6127c9ccb16beb5b72aaa8261f36a1f69bf87173945cadea63347223a`.
+     `420bc7afe4f9f3222201c24700ebd891bd3f271a7f17b55e0ea1bf08bedddd53`.
 
    Most of their size is the English attract captions: the rebuilt streams
    keep the original compressed bytes wherever possible (`REL-003`), and
@@ -195,9 +206,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc` for the
+   `5999ca63d263d51815198230cd24e9516cfe4efacc26ccf8ee87af5eb8e7dd88` for the
    Saturn-name patch, or
-   `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e` for the
+   `d6bdd2e019b44b1f9b6430f25fe5bca43b4d9c71c1aa4d32e12398f6df6786f6` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -213,8 +224,8 @@ The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
 
 | Variant | File | Size (bytes) | SHA-256 |
 | --- | --- | ---: | --- |
-| Saturn names | `mshvsf_saturn_en_m8_gold.ssp` | 561,714 | `b1d1e65ae9b8321ac674613c4bbbba4ed4708ca0dde82d4911094d9a86f41e36` |
-| American names | `mshvsf_saturn_en_m8_gold_us.ssp` | 561,872 | `7d6f98a50467f9897f75eb5f808b01016f186247402a9b0ef5c098379bb56ba0` |
+| Saturn names | `mshvsf_saturn_en_m8_gold.ssp` | 563,100 | `6623b523022622124cd71607889bbe5ae442390cb122a64d592b6a61566dff85` |
+| American names | `mshvsf_saturn_en_m8_gold_us.ssp` | 563,258 | `7566715b1ab5c8d1cdd2c18a09eddca8d25c3e6117ddb658effd4c67b2cda173` |
 
 - **Tested: [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui)**
   (Linux and Windows builds, or build from source on macOS). It patches a
@@ -225,8 +236,8 @@ The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
   saturn-patcher mshvsf_saturn_en_m8_gold.ssp "Track 01 patched.bin"
   ```
 
-  The result has the same SHA-256 as the xdelta result above (`de8861da…`,
-  or `39ae78b3…` for the `_us` file). Continue from step 3 above. egui
+  The result has the same SHA-256 as the xdelta result above (`5999ca63…`,
+  or `d6bdd2e0…` for the `_us` file). Continue from step 3 above. egui
   checks each original file's MD5 first and stops on a wrong or
   already-patched image.
 - **The official Sega Saturn Patcher** (Windows, .NET 5 Desktop Runtime).
@@ -313,10 +324,10 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `91c62f7b…`, track 01 `de8861da…`, patch `4535ce19…`;
-- American names: spec `86957f2a…`, track 01 `39ae78b3…`, patch `d65695b6…`;
+- Saturn names: spec `a824a86e…`, track 01 `5999ca63…`, patch `587d3f1d…`;
+- American names: spec `d79c2fce…`, track 01 `d6bdd2e0…`, patch `420bc7af…`;
 - the patch hashes assume xdelta3 3.2.2;
-- `.ssp`: `b1d1e65a…` (Saturn names) and `7d6f98a5…` (American names). These
+- `.ssp`: `6623b523…` (Saturn names) and `7566715b…` (American names). These
   need no external tool; they assume the recorded Python 3.12.13 build (zlib
   1.2.12 and its own bzip2).
 

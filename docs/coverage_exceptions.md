@@ -91,7 +91,7 @@ whatever the roster's pages say.
 | Slot | Shares pages with | Consequence |
 | --- | --- | --- |
 | 0 (Apocalypse) | slot 1 (Cyclops), in both the Japanese and English tables | Slot 0 shows Cyclops's English pages, as in the arcade English. |
-| 19 (Cyber-Akuma / Mech-Gouki) | slot 18 (Dan), in the Japanese table | Slot 19's pointer reaches Dan's English pages. In the arcade English table, slot 19 points to a different block instead. |
+| 19 (Cyber-Akuma / Mech-Gouki) | slot 18 (Dan), in the Japanese table | Slot 19's pointer reaches Dan's English pages. In the arcade English table, slot 19 points to a different block instead. In play, a Mech-Gouki Arcade clear shows the disc's generic English pages (`ME.PAC` `0x467C` records 0-2), not Dan's (`EXP-0089`). |
 
 Neither slot is in the roster, and no session so far has reached either one
 as a point character. Whether the game can is not tested.
@@ -104,7 +104,7 @@ Nothing listed here may be translated or modified in M8.
 | --- | --- | --- | --- |
 | Slot 0 dialogue pairs | `MC13` records 16, 17, 68, 69 | boss | `SPECIAL-001` |
 | Slot 17 (Norimaro): pages, dialogue, name | `ME.PAC` `0x3F5C` (5 records); `MC13` 50, 51, 102, 103; `MM.BIN` slot 17 | special case (`AGENTS.md` rule 24). The US arcade's English page table points slot 17 at Dan's pages, so the pages have no English of their own. Since 2026-10-26 (`SPECIAL-002`, `EXP-0079`, release builds only): pages translated, dialogue official, name set. | `SPECIAL-002` |
-| Slot 19 (Cyber-Akuma / Mech-Gouki): dialogue, name | `MC13` 54, 55, 106, 107 (these do not equal the arcade block, `EXP-0042`); `MM.BIN` slot 19 | boss; records unmatched | `SPECIAL-001` |
+| Slot 19 (Cyber-Akuma / Mech-Gouki): dialogue, name | `MC13` 54, 55, 106, 107 (these do not equal the arcade block, `EXP-0042`); `MM.BIN` slot 19 | The Saturn's own post-boss scene for a Mech-Gouki Arcade clear (`EXP-0089`). Records 54, 55 and 106 are dots and stay. Since 2026-10-27 (`SPECIAL-004`, release builds): record 107 is a new translation. | `SPECIAL-004` |
 | Slots 20-22 (second Zangief entry, second Sakura entry, Shadow) | `ME.PAC` `0x4254` (5), `0x43D0` (3), `0x44B4` (6); `MC13` 56-61, 108-113; `MM.BIN` | secret characters. Since 2026-10-26 (`SPECIAL-003`, `EXP-0078`, release builds only): pages translated, dialogue official, names set. | `SPECIAL-003` |
 | Slots 23-25 (U.S. Agent, Mephisto, second Spider-Man entry) | `ME.PAC` `0x467C`-`0x4844` (6 records; 0-2 already English); `MC13` 62-67, 114-119; `MM.BIN` | secret characters. Since 2026-10-26 (`SPECIAL-003`): records 3-5 translated, dialogue official, names set. | `SPECIAL-003` |
 | `MC13` records 0-15 | Cyber-Akuma's win quotes | already an M5 exception | `SPECIAL-001` |
