@@ -276,7 +276,7 @@ def test_hint_page_patches_keep_lengths() -> None:
     assert sorted(set(new_map)) == [0, 2, 4, 6, 8, 10, 12, 14]
 
 
-def test_story_tables_build_records_16_to_41_with_lines(tmp_path) -> None:  # type: ignore[no-untyped-def]
+def test_story_tables_build_records_16_to_43_with_lines(tmp_path) -> None:  # type: ignore[no-untyped-def]
     import hashlib
     import json
 
@@ -298,6 +298,7 @@ def test_story_tables_build_records_16_to_41_with_lines(tmp_path) -> None:  # ty
         {"record": 27, "source_sha256": digest[27], "lines": ["Oh? {P}, see", ""]},
         {"record": 35, "source_sha256": digest[35], "note": "symbol noise; kept"},
         {"record": 42, "source_sha256": digest[42], "lines": ["Go, Shadow!", ""]},
+        {"record": 45, "source_sha256": digest[45], "lines": ["Cyborg KAWASE!", ""]},
     ]
     path = tmp_path / "story.json"
     path.write_text(
@@ -331,7 +332,7 @@ def test_story_tables_build_records_16_to_41_with_lines(tmp_path) -> None:  # ty
         (table,) = oe.story_tables(path, track)
         built = table["records"]
         assert isinstance(built, list)
-        assert [r["record"] for r in built] == [16, 27]
+        assert [r["record"] for r in built] == [16, 27, 42]
         assert table["placeholder"] == "anywhere" and table["format"] == "raw"
         assert "{P}" in built[1]["lines"][0]
     finally:

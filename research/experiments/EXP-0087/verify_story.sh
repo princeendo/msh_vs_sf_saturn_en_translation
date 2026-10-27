@@ -1,4 +1,4 @@
-# TXT-002 / EXP-0087: show each post-loss story line (MM.BIN records 16-41) on the
+# TXT-002 / TXT-003 (EXP-0087, EXP-0088): show each story record (MM.BIN 16-43) on the
 # Saturn from the EXP-0081 play state, with the built US image's font in cart RAM.
 # The branch after the 1-in-64 roll is forced (bf -> nop at 0x060AF228), and the
 # story base literal (0x060AF250) is moved so that the winner's slot 0
@@ -19,7 +19,7 @@ with src.open("rb") as f:
     mm = t.read(files["MM.BIN"].lsn, files["MM.BIN"].size_bytes)
 out = Path("local/txt002/verify")
 (out / "font.bin").write_bytes(memfix[0x6A558:0x6A558 + 0x32740])
-(out / "story.bin").write_bytes(mm[0x7CA44:0x7CA44 + 76 * 26])
+(out / "story.bin").write_bytes(mm[0x7CA44:0x7CA44 + 76 * 28])
 assert mm[0x96750:0x96754] == bytes.fromhex("06095544"), mm[0x96750:0x96754].hex()
 print("font and story records extracted")
 PY

@@ -142,7 +142,11 @@ HINTS_MM, HINTS_JA, HINTS_EN, HINT_RECORDS = 0x7C584, 0x2139AC, 0x2239FC, 16
 HINT0_SHA256 = "8c16fbfbad04382b1dedcbcd7b491181b5d94ddb8fbe4d2013cf160f7291b83b"
 HINT_CODE_TEXT = {"{0129}": "+"}
 # TXT-002 (EXP-0085): MM.BIN story records 16-41, one per roster slot 0-25.
-STORY_RECORDS = range(16, 42)
+# TXT-003 (EXP-0088): records 42-43 are Vega's orders in Shadow's and Metal
+# Zangief's intros when the CPU fields them (user decision 2026-10-27: faithful
+# translations). Record 44 (Dark Sakura's row of dots) and the unreferenced
+# records 45-47 are not built.
+STORY_RECORDS = range(16, 44)
 # MM.BIN offset: (original, patched) bytes.
 HINT_PAGE_PATCHES = {
     # creator 0x060AF348: map the random index outside Japan only -> always
@@ -647,12 +651,13 @@ def story_tables(
     existing: set[str] = frozenset(),  # type: ignore[assignment]
     variant: str = "saturn",
 ) -> list[dict[str, object]]:
-    """Spec table for the post-loss story lines (TXT-002, ``EXP-0085``).
+    """Spec table for the story records (TXT-002, TXT-003; ``EXP-0085``/``0088``).
 
-    Only records 16-41 are built: one per roster slot, shown in place of the CPU
-    winner's win quote on a 1-in-64 roll. A record without ``lines`` (slot 19's
-    symbol noise) keeps its original cells. ``{P}`` is the winner's teammate and
-    may sit at any cell.
+    Records 16-41 (one per roster slot) replace the CPU winner's win quote on a
+    1-in-64 roll; records 42-43 are Vega's orders in two secret characters'
+    intros. A record without ``lines`` (slot 19's symbol noise, record 44) keeps
+    its original cells. ``{P}`` is the winner's teammate and may sit at any
+    cell.
     """
     document = json.loads(path.read_text())
     for table in document["tables"]:
@@ -805,7 +810,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--story-lines",
         type=Path,
-        help="translated post-loss story lines, MM.BIN records 16-41 (TXT-002)",
+        help="translated story lines, MM.BIN records 16-43 (TXT-002, TXT-003)",
     )
     parser.add_argument(
         "--official-hints",

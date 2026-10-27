@@ -70,8 +70,8 @@ patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `a1e3a0bcaafb47cd5417f71dca2e6e79e4d9f4a7afb10b7f2f5ff9e179993e2d` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `0f430c0afde618d9748b636501ab46f8a8cf48ffed73eaec3ff219799b3698cb` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies
@@ -191,7 +191,7 @@ lists each image's exact options.
 | `--attract-captions` | The English attract-mode captions. | on |
 | `--secret-roster data/text/secret_roster.json` | Official win quotes for Apocalypse, Mech-Gouki, Shadow, U.S. Agent, Mephisto and Norimaro. | on |
 | `--secret-translations data/translations/secret_characters.json` | New translations for the secret characters and Norimaro, plus their official partner lines and names. | on |
-| `--story-lines data/translations/story_lines.json` | The rare post-loss lines (`MM.BIN` records 16-41), new translations. | on |
+| `--story-lines data/translations/story_lines.json` | The rare post-loss lines (`MM.BIN` records 16-41) and Vega's orders in two secret characters' intros (records 42-43), new translations. | on |
 | `--official-hints` | The CONTINUE? hints in the arcade's official English, paged as in the arcade (8 of 12 hints fit). | on |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |

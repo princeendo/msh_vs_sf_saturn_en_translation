@@ -5042,3 +5042,27 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - `TXT-004` (opt-in `--fix-grammar` for clumsy official English, starting
     with hint 0);
   - no publishing until the open tasks are addressed.
+
+## 2026-10-27 — TXT-003: screens of story records 39 and 42-47 (EXP-0088)
+
+- **Arcade:**
+  - the team words are at `0xFF48B0` (player then CPU, character × 2);
+  - forcing the CPU team with `force16` showed Vega's order boxes for Shadow
+    (42) and Metal Zangief (43), and Dark Sakura's dots (44);
+  - the US set shows "I've finally tracked you / down!Now,you're mine!"
+    instead;
+  - the player's own secret team shows nothing (as on the Saturn in
+    `EXP-0078`).
+- **Saturn:** the same routine, called from the secret characters' `MC`
+  files, with an extra flag `0x0601801C`. The team words mirror the arcade
+  at `0x060F48B0`, and the phase byte is `0x060F4800`.
+- **Disproven method:** writing the Saturn CPU team after the continue
+  always crashed the load into the BIOS menu, with Dan and Sakura as well.
+  The original team loaded normally. Earlier states stall on the mode select
+  without input.
+- **No readers:** records 45-47 have none; record 39's extra reader is an
+  arcade-only scene.
+- **Built (user decision: faithful translations):** records 42-43; renders
+  on the Saturn; nine of nine references pass; patches remade.
+- **Tooling note:** an MSHvSF character-select code (Dhalsim + Start, then a
+  button) picked Dhalsim in MAME; the team was forced in RAM instead.

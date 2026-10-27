@@ -3104,7 +3104,7 @@ the user asks or when it unblocks other work.
 
 ### TXT-003 - Identify the screens of story records 39 and 42-47
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0088`)
 - **Priority:** not set by the user
 - **Milestone:** Reference
 - **Dependencies:** TXT-001 (done).
@@ -3119,6 +3119,19 @@ the user asks or when it unblocks other work.
     In other regions all three show the English "I've finally tracked you
     down! Now, you're mine!" (`0x2243C0`).
   - **Records 45-47:** developer jokes; no reader found.
+- **Result:**
+  - **Records 42-44 (arcade, forced CPU team):** shown when the CPU fields
+    Shadow (42, Vega's order), Metal Zangief (43) or Dark Sakura (44, a row
+    of dots). Nothing is shown when the player has them.
+  - **Saturn:** the same code, called from `MC16`/`MC14`/`MC15`, with one
+    extra flag (`0x0601801C` = 0).
+  - **Build (user decision: faithful translations):** records 42-43 are
+    built from the drafts; the rendering was seen on the Saturn. Record 44
+    is kept.
+  - **Record 39:** its extra reader is an arcade-only scene; the Saturn has
+    none.
+  - **Records 45-47:** no reader in either version.
+- **Open:** whether normal play ever fields these CPU characters.
 - **Acceptance criteria:**
   - each reader's screen is identified by a trace or a forced trial;
   - records 42-44 get the arcade's English, or a recorded reason not to.

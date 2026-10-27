@@ -1691,6 +1691,26 @@ Experiment: `EXP-0087`
   ("Oh? ZANGIEF, didn't you see").
 - **Reproduce.** `research/experiments/EXP-0087/README.md`.
 
+## TXT-003: Vega's Orders Are Shown When the CPU Fields a Secret Character
+
+Confidence: **CONFIRMED** (arcade read trace with a forced CPU team);
+Saturn by matching code
+
+Experiment: `EXP-0088`
+
+- **When they show:** story records 42-44 appear in the intro when the CPU's
+  point character is Shadow (42), Metal Zangief (43) or Dark Sakura (44, a
+  row of dots).
+  - Vega steps in for the first two.
+  - Nothing is shown when the player uses them.
+- **Team words:** at arcade `0xFF48B0` and Saturn `0x060F48B0` (character ×
+  2): player, then CPU.
+- **Saturn:** the same routine (`0x060AF5A0`/`A8`/`B0`), called from
+  `MC16`/`MC14`/`MC15`, with an extra flag test (`0x0601801C` = 0).
+- **No other readers:** none reaches records 45-47, and record 39's other
+  reader is an arcade-only scene.
+- **Reproduce.** `research/experiments/EXP-0088/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
