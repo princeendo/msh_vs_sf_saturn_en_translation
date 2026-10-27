@@ -2,7 +2,7 @@
 
 Task: REL-002
 Status: DONE
-Confidence: CONFIRMED (in-place applier); HYPOTHESIS (official patcher)
+Confidence: CONFIRMED (in-place applier; the official patcher's own code on macOS)
 
 ## Observation
 
@@ -160,23 +160,108 @@ The ZIP entries:
   bsdiff matches against the whole original file, so moved data is stored
   as a copy.
 
+### The official patcher's own code (follow-up, user request 2026-10-27)
+
+The official patcher's core libraries target plain .NET 5. Only its window
+needs Windows. So they were run on macOS under .NET 10.0.403 with a small
+console harness (`official_build/`, `official_apply/`).
+`unbundle_dotnet.py` extracts its libraries into `local/rel002/ssplib/`.
+
+**Test A, completely unmodified code** (`official_apply`):
+- **Steps:** `SelectGame` on a scratch copy of the untouched CUE, then
+  `Extract`, then `new SSP(file, version, device)`; then
+  `ssp.ApplyPatch(name, path, methods)` for every extracted file, with the
+  names Windows would compute.
+- **Results, both variants:**
+  - the patch is valid, with version 1.3.7760.32512;
+  - `ContainsContent` is true;
+  - 414 drive-order entries are read;
+  - exactly 34 files change, each from the recorded source MD5 to the
+    recorded target SHA-256 (34 of 34).
+
+**Test B, the GUI's build path** (`official_build`):
+- **Steps:**
+  1. `SelectedCDInfo.SelectGame("CD Image", null, cue)`;
+  2. set `PatchName`;
+  3. `OutputType = BIN`;
+  4. `await BuildDisc.Build(out, multiFiles: true, methods)`.
+- **Two macOS-only problems, found first:**
+  1. **Command line:** the patcher's own command line (`BuildDisc.Parse`)
+     reads absolute macOS paths as `/` switches. Given relative paths, it
+     spun for over ten minutes and was stopped. Its command line also
+     replaces the volume descriptor with blank, current-date values, unlike
+     the GUI, so it was not used.
+  2. **Path separators:** `BuildDisc` strips its work folder with
+     `path.Replace(folder + "\\", "")` (four places). With the unmodified
+     core, `ApplyPatch` left `MM.BIN` unchanged, and the build spun.
+- **The fix:** `posix_sep.py` changes the core's single `"\\"` string
+  literal to `"/"`, one byte (`#US` entry at file offset `0xA8DE`, `0x5C` to
+  `0x2F`).
+  - original `SegaSaturnPatcherCore.dll`: `a33eb122…`;
+  - modified copy: `1607a3d40d25624cf2087133a2c28d31af4110065b30f16f86a753f8ebfb00aa`.
+  - On Windows the original literal is already right.
+- **Output CUE:** it was rewritten with bare file names, as
+  `Split('\\').Last()` gives on Windows; Mednafen refuses absolute paths.
+
+**Test B results** (`compare_layout.py`, against the original or the release
+track 01):
+
+| Build | Track 01 SHA-256 | Files moved / resized / different | Raw sectors different |
+| --- | --- | --- | --- |
+| no patch (control) | `0768faaa86c80ce0aba7d07785a5df1240f882047f1da8d5c0fbc479a8201f63` | 0 / 0 / 0 (vs. original) | 1: LSN 16 |
+| Saturn-name `.ssp` | `93b46b4ee700771f47119f94db4be1e50451279e9e5fccbb501a4e2d623ad7af` | 0 / 0 / 0 (vs. `e820f6e1…`) | 1: LSN 16 |
+| American-name `.ssp` | `44dea132153f4469ca67b1a8fa851360ac48bb8bbece4fa086719797f3b5bbe5` | 0 / 0 / 0 (vs. `a6572495…`) | 1: LSN 16 |
+
+- **Track 01:** the rebuild keeps every file at its original LSN with
+  identical bytes; the size is the same (452,397,792 bytes).
+- **LSN 16:** the only change is the volume descriptor's volume space size,
+  216,839 → 218,484 (bytes `0x50`-`0x57`). That is the rebuilt disc's total
+  length with the re-laid audio.
+- **Audio tracks:** the patcher re-lays them in the no-patch control as
+  well, so this is its own behaviour, not the patch's.
+  - each track file starts with about 145-146 more sectors before the
+    original audio;
+  - track 03's pregap becomes 2:00 (Redump: 1:74);
+  - the files no longer equal the originals byte for byte.
+
+**Cold boot:** `tools.mednafen.frame_capture`, silent, frames 600-7,200
+every 300.
+- **Saturn-name rebuild** (`local/rel002/boot_official_gold/`):
+  - CAPCOM logo (`f00001200.png`);
+  - "LEGENDARY / HEROES / UNITE AGAIN!!" (`f00002700.png`);
+  - "AMAZING / TEAM BATTLES!" (`f00006300.png`);
+  - the demo fight (`f00004800.png`);
+  - the title screen (`f00007200.png`).
+- **American-name rebuild** (`local/rel002/boot_official_gold_us/`): the
+  same frames as the Saturn-name rebuild, byte for byte:
+  - `f00002700.png` `dc3c865c…`;
+  - `f00004800.png` `071fd4bf…`;
+  - `f00006300.png` `ff536381…`;
+  - `f00007200.png` `9277ee35…`.
+  `f00006300.png` also equals the release image's cold-boot capture of the
+  same caption in `EXP-0083` (`ff536381e827fa72…`).
+- **Audio:** sound was muted, so CD audio from the re-laid tracks was not
+  heard.
+
 ## Conclusion
 
-**CONFIRMED:** applying the generated `.ssp` with the independent
-`saturn-patcher-egui` gives each release track 01 exactly. The macOS
-`bspatch` reproduces every file diff. The format matches what the official
-v1.95 patcher writes and requires.
+**CONFIRMED:**
+- applying the generated `.ssp` with the independent `saturn-patcher-egui`
+  gives each release track 01 exactly;
+- the macOS `bspatch` reproduces every file diff;
+- the official patcher's own unmodified loader and bsdiff apply all 34 file
+  patches exactly;
+- its own rebuild, with one path-separator byte changed for macOS, writes
+  every file at its original position with the release contents, and the
+  image boots into the English attract sequence and the title screen.
 
 ## Uncertainty and Alternatives
 
-- **The official patcher was not run.** It needs Windows and .NET 5
-  Desktop. It rebuilds the disc instead of patching in place, so its output
-  will not have the release hash.
-  - **Likely layout:** the original files are packed back to back from LSN
-    30 with no gaps, and `driveOrder.txt` keeps their order. A rebuild in
-    that order would place them at their original LSNs if its builder starts
-    at LSN 30 (HYPOTHESIS).
-  - **Untested:** whether its rebuilt image boots.
+- **Not run on Windows.** The GUI was not used, and the rebuild ran on macOS
+  with the one-byte separator change. Windows behaviour is inferred from the
+  same code.
+- **Audio:** the official rebuild re-lays the CD audio tracks; they were not
+  listened to.
 - `version.txt` 1.3 is chosen so that v1.3 and later accept the patch; only
   v1.95's code was read.
 
@@ -198,4 +283,29 @@ v1.95 patcher writes and requires.
 cp "local/disc_images/mshvsf_saturn_jp/Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" t01.bin
 saturn-patcher build/release/m8_gold/mshvsf_saturn_en_m8_gold.ssp t01.bin
 shasum -a 256 t01.bin   # e820f6e12fb54d71f19c83477399e91159de2a1856e0983df93e76cec452a1c2
+```
+
+Official patcher's code on macOS (needs the .NET SDK; the libraries are
+extracted from the patcher's bundle, which is not in the repository):
+
+```bash
+E=research/experiments/EXP-0084
+mkdir -p local/rel002/ssplib
+python3 -I $E/unbundle_dotnet.py SegaSaturnPatcher.exe local/rel002/ssplib \
+  SegaSaturnPatcherCore SSPStandard ISO9660 Helper DeltaQ ICSharpCode Microsoft NAudio
+# Test A (unmodified libraries)
+dotnet build $E/official_apply/official_apply.csproj -c Release -o local/rel002/apply
+(cd "$WORK" && dotnet "$OLDPWD/local/rel002/apply/official_apply.dll" COPY.cue \
+  "$OLDPWD/build/release/m8_gold/mshvsf_saturn_en_m8_gold.ssp" "$WORK/files")
+# Test B (separator byte changed in a copy of the core)
+mkdir -p local/rel002/ssplib_posix && cp local/rel002/ssplib/*.dll local/rel002/ssplib_posix/
+python3 -I $E/posix_sep.py local/rel002/ssplib/SegaSaturnPatcherCore.dll \
+  local/rel002/ssplib_posix/SegaSaturnPatcherCore.dll
+dotnet build $E/official_build/official_build.csproj -c Release -o local/rel002/build \
+  -p:SspLib=$PWD/local/rel002/ssplib_posix
+dotnet local/rel002/build/official_build.dll "$WORK/COPY.cue" \
+  "$PWD/build/release/m8_gold/mshvsf_saturn_en_m8_gold.ssp" "$WORK/out/m8_gold.bin" multi
+./invenv.sh python $E/compare_layout.py \
+  "build/regression/m8_roster_gold/build/image_a/Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
+  "$WORK/out/m8_gold_Track_1.bin"
 ```

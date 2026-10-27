@@ -214,13 +214,19 @@ The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
   or `a6572495…` for the `_us` file). Continue from step 3 above. egui
   checks each original file's MD5 first and stops on a wrong or
   already-patched image.
-- **Not tested: the official Sega Saturn Patcher** (Windows, .NET 5 Desktop
-  Runtime). Select the CUE as a CD image, then "+ Game Patch (SSP)" and
-  "Patch Image".
-  - It rebuilds the whole disc instead of patching in place, so its output
-    will not have the hashes above.
-  - The `.ssp` has the entries its code requires, and no `ip.bin`: the
-    image keeps its own boot area.
+- **The official Sega Saturn Patcher** (Windows, .NET 5 Desktop Runtime).
+  Select the CUE as a CD image, then "+ Game Patch (SSP)" and "Patch Image".
+  - **Not tried:** the Windows program itself.
+  - **Tried:** its own code, run on macOS (`EXP-0084`). It applied every
+    file exactly. Its rebuilt disc keeps every file at its original place
+    with the patched contents, and boots into the English attract captions
+    and the title screen.
+  - **Its rebuilt disc differs in two ways:**
+    - one byte range of the volume descriptor (the disc length) differs,
+      so its track 01 will not match the hashes above;
+    - it re-lays the CD audio tracks (it does this with or without a
+      patch).
+  - The `.ssp` has no `ip.bin`, so the image keeps its own boot area.
 
 ## Rebuild the Patch from This Repository
 

@@ -316,12 +316,11 @@ and `docs/discoveries.md`.
 
 ## Release Patches (`EXP-0084`)
 
-- Does the official Sega Saturn Patcher (Windows) accept the `.ssp` files,
-  and does its rebuilt image boot and play? It rebuilds the ISO in
-  `driveOrder.txt` order instead of patching in place, so its track 01 will
-  not have the release hash.
-  - **Likely:** the original files are packed back to back from LSN 30, so
-    a rebuild in that order would keep their LSNs. Its builder's start LSN
-    is unread.
+- **Official Sega Saturn Patcher, on Windows itself:** its core code was run
+  on macOS (`EXP-0084`), with one separator byte changed. The rebuild kept
+  every file in place and booted. Still open:
+  - the Windows GUI itself;
+  - how the CD audio sounds after its re-laid tracks (about 146 extra lead
+    sectors each, track 03's pregap 2:00 instead of 1:74).
 - Graphical xdelta patchers (Delta Patcher, Rom Patcher JS) are untested
   with the 16 MiB window.

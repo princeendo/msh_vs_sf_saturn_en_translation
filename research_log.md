@@ -4895,3 +4895,33 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - mypy reports one error, which predates this work:
     `tests/unit/test_official_endings.py:185`, `SLOTS` is not exported
     (from `facc48e`).
+
+## 2026-10-27 — REL-002 follow-up: the official patcher's code on macOS (EXP-0084)
+
+- **Setup (user request):** the v1.95 core libraries target plain .NET 5,
+  so a .NET 10 console harness can load them. They were taken unmodified
+  from the bundle.
+- **Test A, unmodified code:** its `SSP` class and DeltaQ bsdiff apply all
+  34 `._DFR` patches exactly in both variants. The patch is valid (v1.3),
+  `ContainsContent` is true, and 414 drive-order entries are read.
+- **macOS-only failures:**
+  - the command line (`BuildDisc.Parse`) treats `/` paths as switches, and
+    otherwise spun for over ten minutes;
+  - `BuildDisc` strips work-folder prefixes with `folder + "\\"`, so on
+    macOS no patch was applied (`MM.BIN` unchanged) and the build spun.
+- **The fix:** changing the core's single `"\\"` string-heap entry to `"/"`
+  (one byte) fixed both. The rebuild then takes 7 s.
+- **Test B results:**
+  - every file stays at its original LSN with the release contents;
+  - only LSN 16 differs (volume space size 216,839 → 218,484), also in the
+    no-patch control;
+  - the audio tracks are re-laid (about 146 extra lead sectors; track 03's
+    pregap 2:00);
+  - Mednafen cold boot of both rebuilds: CAPCOM logo, English attract
+    captions, demo fight, title screen.
+- **Lesson:** the output CUE carries absolute paths on macOS (Windows keeps
+  the bare names), and Mednafen refuses them (`filesys.untrusted_fip_check`).
+  Rewrite them to bare names.
+- **Tooling not installed:** installing `dotnet-stack` was refused by the
+  permission check; the harness timed the build stages through reflection
+  instead.

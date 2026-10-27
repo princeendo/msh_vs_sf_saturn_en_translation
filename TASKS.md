@@ -3227,8 +3227,15 @@ the user asks or when it unblocks other work.
   - **Check:** `saturn-patcher-egui` applied each to the untouched track 01
     and gave the release hash (`e820f6e1…`, `a6572495…`).
   - **Docs:** `release/README.md` gives SSP instructions and hashes.
-- **Known limit:** the official Windows patcher was not run. It rebuilds the
-  disc instead of patching in place (`docs/known_unknowns.md`).
+- **Official patcher (follow-up, user request 2026-10-27):** its v1.95 core
+  code was run on macOS.
+  - **Unmodified:** its loader and bsdiff apply all 34 files exactly.
+  - **Its rebuild:** with one separator byte changed for macOS, it keeps
+    every file in place and differs from the release track 01 only at LSN 16
+    (the disc length). It re-lays the audio tracks.
+  - **Boot:** the rebuilt image cold-boots into the English attract
+    captions and the title screen.
+  - **Not tried:** the Windows GUI itself.
 - **Acceptance criteria:**
   - the `.ssp` format documented from evidence (a patch the official tool
     made, or the applier's documented behaviour), with no code copied from a

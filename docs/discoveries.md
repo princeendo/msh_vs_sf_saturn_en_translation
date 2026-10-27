@@ -1581,8 +1581,8 @@ Experiment: `EXP-0083`
 
 ## REL-002: An .ssp Is a ZIP of Per-File BSDIFF40 Patches
 
-Confidence: **CONFIRMED** (in-place applier, both variants); the official
-patcher's rebuild is untested (HYPOTHESIS that it works)
+Confidence: **CONFIRMED** (in-place applier and the official patcher's own
+code, both variants)
 
 Experiment: `EXP-0084`
 
@@ -1604,6 +1604,16 @@ Experiment: `EXP-0084`
   - `saturn-patcher-egui` (commit `20837e06…`) applied to the untouched
     track 01 gives `e820f6e1…` and `a6572495…`: the release hashes.
   - macOS `/usr/bin/bspatch` reproduces all 34 patched files of each.
+- **The official patcher's own code** (v1.95 core libraries on macOS):
+  - **Unmodified:** its loader and bsdiff apply all 34 file patches exactly,
+    in both variants.
+  - **Its rebuild:** with one path-separator byte changed for macOS, it
+    keeps every file at its original LSN with the release contents. Only
+    LSN 16 (volume space size 216,839 → 218,484) differs from the release
+    track 01.
+  - **Audio:** it re-lays the CD audio tracks, with or without a patch.
+  - **Boot:** the rebuilt image cold-boots into the English attract
+    captions and the title screen.
 - **Reproduce.** `research/experiments/EXP-0084/README.md`.
 
 ## Entry Requirements
