@@ -2,7 +2,7 @@
 
 Task: UI-006
 Status: DONE
-Confidence: CONFIRMED (forced trial from a play state; not yet seen from a cold boot)
+Confidence: CONFIRMED (forced trial; cold-boot play check)
 
 ## Observation
 
@@ -125,6 +125,35 @@ references):
 - **Glyphs:** all six arrows (`0x01E2`, `0x01E4`-`0x01E8`) and "+" render
   correctly. Contact sheet: `local/ui006/verify/sheet.png`.
 
+### Cold-boot play check (2026-10-27, user at the controls)
+
+- **Setup:**
+  - US release image, track 01 `0f430c0a…` (built with `--story-lines
+    --official-hints`);
+  - your PS4 controller;
+  - recorder `local/txt002/play2/rec`;
+  - driver `tools/mednafen/continue_driver.py`. It forces the story-line
+    branch and steps the hint map 0-7, one per CONTINUE?. It writes only
+    `0x060AF228` and the 16-byte map.
+- **Eight losses to the stage-1 CPU team** (Blackheart and Zangief):
+  - **Story line:** every post-loss screen showed Blackheart's record 24 in
+    English, "Now, a devil or a reaper... / which shall I introduce you to?"
+    (`f00008493.png` `c0081ff0…`).
+  - **Hints:** each CONTINUE? showed hints 0-7 in order, page 1 at countdown
+    8 and page 2 by countdown 5. For example:
+    - hint 0 `f00008731.png` `18a77987…` and `f00009019.png` `71cd2a4e…`;
+    - hint 2 page 2 "for the Cross-Over / Combination move!" `027b645f…`;
+    - hint 7 `f00064952.png` `d136d228…` and `f00065252.png` `1cfac482…`.
+  - The driver log (`local/txt002/play2/driver.log`) records each hint's
+    creation frame.
+- **After Start, page 2 stays on the team screen until character select.**
+  The user saw it on every continue. The US arcade does the same: MAME
+  `mshvsfu`, coin and Start after page 2; its team screen still shows "Your
+  partner will / assist you." (`local/txt002/play2/sheet_arcu.png`). So it is
+  the arcade's own behaviour.
+  - Not checked: whether the Japanese original keeps its single page there
+    too. A comparison run mistimed its inputs.
+
 ## Conclusion
 
 **CONFIRMED** (forced trial):
@@ -137,9 +166,9 @@ references):
 
 ## Uncertainty and Alternatives
 
-- **Not seen from a cold boot.** The trial used a play state of an older
-  build with this build's font and hint data written in. A cold boot reads
-  the same bytes from the disc.
+- **Cold boot:** the cold-boot play check showed all eight hints. The page
+  step was forced only through the map, never through the release's own
+  random index.
 - **Hints 8-11 are not shown** (the user's choice): quick air combo / switch
   when low, vitality and throw escape, dash, partner support. There is no
   free space for their records.

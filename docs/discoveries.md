@@ -1652,8 +1652,8 @@ Experiment: `EXP-0085`
 
 ## UI-006: The Saturn Can Page Its CONTINUE? Hints Like the US Arcade
 
-Confidence: **CONFIRMED** (forced trial from a play state with the built
-font and data; not yet a cold boot)
+Confidence: **CONFIRMED** (forced trial; cold-boot play check of all eight
+hints)
 
 Experiment: `EXP-0086`
 
@@ -1677,8 +1677,8 @@ Experiment: `EXP-0086`
 
 ## TXT-002: The Post-Loss Story Lines Show in English
 
-Confidence: **CONFIRMED** (forced trial from a play state with the built font
-and data; not yet a cold boot)
+Confidence: **CONFIRMED** (forced trial of all 25 records; cold-boot play
+check of record 24)
 
 Experiment: `EXP-0087`
 

@@ -328,6 +328,8 @@ and `docs/discoveries.md`.
     sectors each, track 03's pregap 2:00 instead of 1:74).
 - Graphical xdelta patchers (Delta Patcher, Rom Patcher JS) are untested
   with the 16 MiB window.
-- **CONTINUE? hints (`EXP-0086`):** the official hints were seen only in a
-  forced trial from a play state, not from a cold boot. Is the page step
-  (`0x060AEE84`) shared by any other message? None was found.
+- **CONTINUE? hints (`EXP-0086`):**
+  - Does the Japanese original also keep its hint on the team screen after a
+    continue, as the US arcade keeps page 2? The Saturn release now does.
+  - Is the page step (`0x060AEE84`) shared by any other message? None was
+    found.

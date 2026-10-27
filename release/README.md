@@ -140,9 +140,10 @@ byte-identical to the original.
     files).
   - from a cold boot, in the American-name image: Metal Zangief's win quote,
     post-boss lines and ending (`EXP-0078`), and Norimaro's (`EXP-0079`).
-  - the eight official CONTINUE? hints, both pages each (`EXP-0086`). They
-    were seen from a play state, with this image's font and hint data
-    written into memory, not from a cold boot.
+  - from a cold boot, in the American-name image: the eight official
+    CONTINUE? hints, both pages each (`EXP-0086`), and a post-loss story line
+    in English (`EXP-0087`). The hint order and the story line were forced
+    by a driver; the other story lines were seen in a forced trial.
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 

@@ -5019,3 +5019,26 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   slot 0 in RAM showed "Oh? ZANGIEF, …". In real play the teammate is always
   a playable character.
 - **Next:** one cold-boot play check for `UI-006` and `TXT-002` (user).
+
+## 2026-10-27 — Cold-boot play check: hints and story lines (EXP-0086, EXP-0087)
+
+- **Setup:**
+  - US release `0f430c0a…`, user playing with a PS4 controller. The first
+    launch had no controller; it was restarted.
+  - Recorder `local/txt002/play2/rec`.
+  - New `tools/mednafen/continue_driver.py`: forces the 1-in-64 branch and
+    steps the hint map 0-7, one per CONTINUE? (log-mode PC breakpoint at
+    `0x060AF352`).
+- **Result:** eight losses to Blackheart and Zangief.
+  - Every post-loss screen showed Blackheart's story line in English.
+  - The CONTINUE? screens showed hints 0-7 in order, page 1 then page 2.
+- **User report:** page 2 stays on the team screen after a continue. The US
+  arcade does the same (MAME `mshvsfu`), so it is authentic. A Japanese-set
+  comparison mistimed its inputs.
+- **Speed:** fast-forward is fine during fights. The post-loss and CONTINUE?
+  screens must play at normal speed, because the recorder takes one
+  screenshot per real second.
+- **User requests:**
+  - `TXT-004` (opt-in `--fix-grammar` for clumsy official English, starting
+    with hint 0);
+  - no publishing until the open tasks are addressed.

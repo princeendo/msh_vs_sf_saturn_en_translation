@@ -3093,7 +3093,8 @@ the user asks or when it unblocks other work.
   - **Seen:** all 25 built records in English in a forced trial from a play
     state with the built font. Record 27 inserted a name mid-line
     ("Oh? ZANGIEF, …").
-  - **Not yet:** a cold-boot play check, planned together with `UI-006`'s.
+  - **Cold boot (2026-10-27):** eight losses with the branch forced showed
+    Blackheart's record 24 in English every time.
 - **Acceptance criteria:**
   - the records are built in both name variants, and the regression
     references are updated;
@@ -3453,7 +3454,9 @@ the user asks or when it unblocks other work.
     state with the built font (`tools/memory/mcs_patch.py`), with all six
     arrows and "+".
   - **Left out:** hints 8-11, for lack of space.
-- **Not yet:** seeing the hints from a cold boot (play needed).
+- **Cold boot (2026-10-27):** a play check showed hints 0-7, both pages,
+  with the map stepped by `continue_driver`. After a continue, page 2 stays
+  on the team screen until character select, as on the US arcade.
 - **Acceptance criteria:** the decision is recorded. If the official English
   is used: built, regression references updated, and each hint seen or
   forced.
