@@ -3122,6 +3122,34 @@ the user asks or when it unblocks other work.
   - each reader's screen is identified by a trace or a forced trial;
   - records 42-44 get the arcade's English, or a recorded reason not to.
 
+### TXT-004 - Optional grammar fixes for clumsy official English (`--fix-grammar`)
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** UI-006 (done).
+- **Blockers:** None known.
+- **Objective (user request, 2026-10-27):** Add a build flag, `--fix-grammar`
+  or similar, that lightly corrects the grammar of official English the user
+  finds hard to read. It starts with the CONTINUE? hints (`EXP-0086`), for
+  example hint 0, "When Air Combo starts to / move hits the opponent, / put
+  the lever ↑ to chase / him and execute a combo!".
+- **Constraints:**
+  - keep the official wording and the two-page layout wherever possible;
+  - each line still fits the box (19 cells, about 38 letters);
+  - the corrected lines are new text, not official text. Record them in a
+    tracked file with the official line they replace (by hash, not by
+    copying the official text) and the reason;
+  - the release default stays the official text unless the user decides
+    otherwise;
+  - check whether other official English (win quotes, endings, exchanges)
+    needs the same treatment.
+- **Acceptance criteria:**
+  - the flag builds both variants;
+  - a regression reference (or a documented spec hash) covers the flag;
+  - every corrected record is seen on the Saturn (forced trial or play);
+  - the README build-option table lists the flag.
+
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 
 - **Status:** `BACKLOG`
