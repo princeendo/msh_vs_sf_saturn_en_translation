@@ -3484,7 +3484,12 @@ the user asks or when it unblocks other work.
   cold boot in the Saturn-name build (Gouki's exchange). Their letters are
   now gold too (`MM.BIN` `0x9621D`), seen in a cold-boot run of the US
   build (Akuma's exchange). Remaining: the Mech-Gouki select code (one failed attempt: Akuma could not be
-  chosen twice).
+  chosen twice). `EXP-0089` (disassembly, 2026-10-27):
+  - Mech-Gouki needs `0x06017AB4`, set only by clearing the MECH-GOUKI NOW!!
+    fight;
+  - then hold Start and pick Gouki twice; the second Start-held pick counts
+    2.
+  - The play test is pending.
 - **Priority:** medium
 - **Milestone:** M9
 - **Dependencies:** SPECIAL-001 (approval given by the user, 2026-10-26).

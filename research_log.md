@@ -5066,3 +5066,22 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   on the Saturn; nine of nine references pass; patches remade.
 - **Tooling note:** an MSHvSF character-select code (Dhalsim + Start, then a
   button) picked Dhalsim in MAME; the team was forced in RAM instead.
+
+## 2026-10-27 — SPECIAL-004: the Mech-Gouki select code, static (EXP-0089)
+
+- **The routine:** `0x06051CD4`, called from both pick confirms.
+  - It maps six cursor characters to secret ones while Start is held.
+  - For Gouki, it counts Start-held picks per player (`0x06017CEE`/`EF`).
+    On the 2nd it gives Mech-Gouki, if `0x06017AB4` ≠ 0.
+- **The unlock:** `0x06017AB4` is set by the end-of-mode routine
+  (`0x060989F8`) only after the MECH-GOUKI NOW!! fight (mode flags
+  `0x0601801C` = `FF`, `0x06018024` = `FF`).
+  - A Survival clear (`FF`/`00`) sets `0x06017AB0`, the boss-fight unlock.
+  - Arcade/Versus (`00`) sets `0x06017AA8`.
+- **Correction:** `EXP-0075`'s "saved-data bytes" are mode flags set at game
+  start.
+- **Tooling note:** misreading SH-2 `tst`/`bt` (T = 1 when zero) first gave
+  the wrong mode-to-unlock table; corrected before writing it down.
+- **New tool:** `tools/mednafen/mechgouki_driver.py` (logs the words;
+  optional boss KO in that mode, or forcing `0x06017AB4`). The play test is
+  pending.

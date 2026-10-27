@@ -88,6 +88,10 @@ NOW!! selectable from a cold boot, and the boss fight runs.
 
 - The saved-data condition behind `0x06098A1A` is assumed to be the Survival
   clear (the user's report); it was not traced.
+  **Correction (`EXP-0089`):** `0x0601801C` and `0x06018024` are mode flags
+  set at game start, not saved data. Survival sets `FF`/`00`, so its clear
+  sets `0x06017AB0`. MECH-GOUKI NOW!! sets `FF`/`FF`, and its clear sets
+  `0x06017AB4` (Mech-Gouki selectable).
 - L/R are mapped to the keyboard's P key in this Mednafen configuration.
 
 ## Reproduction
