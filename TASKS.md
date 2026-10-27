@@ -3345,9 +3345,10 @@ the user asks or when it unblocks other work.
   references with the arcade's official English and seen in play in the US
   build (`EXP-0081`). Apocalypse's pre-fight exchanges (`MC00` `0x3634`, 26
   slots × 3 boxes) are built in both release references from the US arcade's
-  official English (`EXP-0082`, `--boss-exchanges`). Remaining: a cold-boot
-  check of the exchanges in each name variant (replayed states keep the old
-  font); the Mech-Gouki select code (one failed attempt: Akuma could not be
+  official English (`EXP-0082`, `--boss-exchanges`), seen in play from a
+  cold boot in the Saturn-name build (Gouki's exchange). Remaining: the US
+  build from a cold boot (replayed states keep the old font); the Mech-Gouki
+  select code (one failed attempt: Akuma could not be
   chosen twice).
 - **Priority:** medium
 - **Milestone:** M9

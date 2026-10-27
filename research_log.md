@@ -4825,3 +4825,7 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   (`0x0278CF60` reads match neither font; writes do not stick).
 - **Tests:** `pytest tests/unit` (new: exchange pairing and refusal; Bison
   → Vega).
+- **Cold-boot play check (EXP-0082):** Saturn-name build `e0395c3e…`, Gouki
+  as lead, driver to stage 7. All three boxes were correct English with
+  "Gouki" (`local/special004/play2/rec`). The US build has not been
+  cold-booted to this fight.

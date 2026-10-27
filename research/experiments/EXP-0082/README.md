@@ -1,9 +1,8 @@
 # EXP-0082: Apocalypse's pre-fight exchanges in official English
 
 Task: SPECIAL-004
-Status: IN_PROGRESS (built; cold-boot check pending)
-Confidence: SUPPORTED (byte-identical pairing; compiler checks; replay shows
-the new records)
+Status: DONE (built; seen in play from a cold boot, Saturn-name build)
+Confidence: CONFIRMED (Saturn-name build); SUPPORTED (US build, replay only)
 
 ## Observation
 
@@ -108,17 +107,30 @@ interface). Python 3.12.13.
   loading a state. The agent has no input injection, so a valid check needs a
   cold boot and a short play.
 
+- **Cold-boot play check (Saturn-name build, track 01 `e0395c3e…`):** user
+  at the controls; recorder `local/special004/play2/rec`;
+  `ending_driver --after-stage 1 --stage 7 --no-ko` (armed at frame 6543,
+  fight started at 7980). With Gouki as lead against Apocalypse, the three
+  boxes read "I will unmake you / Apocalypse!" (`f00008030.png`
+  `68e3b65fccdd9c26…`), "There is evil within you / Gouki..."
+  (`f00008178.png` `7fae783a4911ba65…`) and "Now, let only the / strong
+  survive!" (`f00008292.png` `a2fffee5dd9d8658…`), every letter correct. The
+  box shows the lead character's exchange (slot 15 here; Ryu's, slot 9, in
+  the `EXP-0081` session).
+
 ## Conclusion
 
-**SUPPORTED:** the pairing is exact by byte identity, the build passes every
-check, and a replay shows the new records loaded from disc into the right
-boxes. A cold-boot check of each name variant's font is still to do.
+**CONFIRMED** for the Saturn-name build: from a cold boot, the pre-fight
+boxes show the US arcade's official English, with Saturn names. The US build
+uses the same table and code, but its new font has only been seen through a
+replay (old font), so it stays SUPPORTED.
 
 ## Uncertainty and Alternatives
 
 - What `0x011E` looks like on the arcade screen (a comma is the inference).
-- Only Ryu's exchange has been seen on screen. Slots 0-1 (Cyclops) are
-  probably unreachable.
+- Only Ryu's and Gouki's exchanges have been seen on screen. Slots 0-1
+  (Cyclops) are probably unreachable.
+- The US build has not been cold-booted to this fight.
 
 ## Reproduction
 

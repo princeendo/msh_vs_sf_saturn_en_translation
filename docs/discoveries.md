@@ -1540,6 +1540,23 @@ Experiment: `EXP-0081`
   Apocalypse is the stage-7 boss.
 - **Reproduce.** `research/experiments/EXP-0081/README.md`.
 
+## SPECIAL-004: Apocalypse's Pre-Fight Exchanges Have Official English
+
+Confidence: **CONFIRMED** (byte identity with three arcade sets; seen in play
+from a cold boot in the Saturn-name build)
+
+Experiment: `EXP-0082`
+
+- `MC00.PAC` `0x3634`-`0x4D5C` holds 26 roster slots × 3 boxes × 76 bytes:
+  the challenger's line, Apocalypse's reply and his closing line, shown at the
+  top of the screen before the stage-7 fight for the lead character's slot.
+  The census tables `0x392E`, `0x3D7A` and `0x404E` were misaligned slices
+  of it.
+- The block equals arcade Japanese `0x2164B8` in `mshvsfu`, `mshvsf` and
+  `mshvsfj`. The US arcade's English has the same layout from `0x2203F4`:
+  100 bytes a box (two 25-code lines), 300 a slot.
+- **Reproduce.** `research/experiments/EXP-0082/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:
