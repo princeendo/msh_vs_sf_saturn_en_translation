@@ -3045,30 +3045,75 @@ the user asks or when it unblocks other work.
 
 ### TXT-001 - Identify the Japanese-only text table in MM.BIN
 
-- **Status:** `IN_PROGRESS` (2026-10-26). Extracted and translated (draft,
-  not built): `data/translations/story_lines.json`, records 16-47 of the
-  `MM.BIN` table at `0x7C584`: one line per roster slot 0-25, two of Vega's
-  orders, developer jokes. Read log of 2026-10-26 (title, menus, character
-  select, Survival, two Arcade runs, CONTINUE?, Game Over): while `MM.BIN`
-  was resident, only the overlay save routine (`0x06010600`, copying
-  `0x06018B00`-`0x06100000` to `0x02486BC0`) read the table. No screen
-  visited shows it. Next: log the screens not yet visited (Versus, options,
-  other modes).
+- **Status:** `DONE` (2026-10-27, `EXP-0085`)
 - **Priority:** low (one name placeholder; the text is not otherwise in scope)
 - **Milestone:** Reference
 - **Dependencies:** END-022.
-- **Blockers:** None.
 - **Objective:** Find where and when the Japanese dialogue table in `MM.BIN`
-  (`0x7CC86`-`0x7D1DC`; arcade `0x213F82`-`0x2147EC`, used by code at
-  `0x0B03BA`) is shown, and whose name its placeholder inserts.
-- **Rationale:** It is the only placeholder in Japanese text that roster-only
-  play might show with an English name (`EXP-0047`). No English counterpart
-  exists in the arcade sets.
+  (`0x7CC86`-`0x7D1DC`; arcade `0x213F82`-`0x2147EC`) is shown, and whose
+  name its placeholder inserts.
+- **Result:**
+  - **Where and when:** records 16-41 (one per roster slot) replace the CPU
+    winner's win quote, on the screen after the player loses and before
+    CONTINUE?. The trigger is a 1-in-64 roll, in the Japanese region only
+    (Saturn `MM.BIN` `0x060AF1F2`; arcade `0x070336`).
+  - **Placeholder:** `{P}` inserts the winner's teammate.
+  - **Seen:**
+    - in the arcade with the roll forced (records 24 and 27);
+    - on the Saturn US release image with the branch forced (record 16, in
+      Japanese).
+  - **So the release can show this Japanese text at random** (`TXT-002`).
+  - **Other records:** 39 and 42-44 are also read by other screens, and no
+    reader of 45-47 was found (`TXT-003`).
+  - **Corrections:**
+    - `EXP-0047`'s code pointer was a BCD constant;
+    - the arcade has official English CONTINUE? hints (`UI-006`).
 - **Acceptance criteria:** A write or read breakpoint, or an arcade trace,
   identifies the screen and trigger. The finding is recorded with evidence.
-- **User direction (2026-10-26):** extract and translate the table's records
-  first, to narrow down where they are shown. `EXP-0080` found its start: it
-  follows the CONTINUE? hint table, from `MM.BIN` `0x7CA44`.
+
+### TXT-002 - Build English for the post-loss story lines
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** TXT-001 (done).
+- **Blockers:** None known.
+- **Objective:** On about 1 in 64 losses to the CPU, the release shows the
+  winner's story line (`MM.BIN` records 16-41) in Japanese (`EXP-0085`).
+  Build the draft English in `data/translations/story_lines.json` into the
+  release images.
+- **Known:**
+  - no official English exists, because the arcade shows these lines only in
+    Japan;
+  - `{P}` inserts the winner's teammate;
+  - record 35 (Mech-Gouki) is symbol noise and is kept.
+- **Acceptance criteria:**
+  - the records are built in both name variants, and the regression
+    references are updated;
+  - one record is seen on the Saturn with the branch forced
+    (`write_trial … --write workramh:AF228:0009`), in English, with the
+    teammate's name in place.
+
+### TXT-003 - Identify the screens of story records 39 and 42-47
+
+- **Status:** `BACKLOG`
+- **Priority:** not set by the user
+- **Milestone:** Reference
+- **Dependencies:** TXT-001 (done).
+- **Blockers:** None known.
+- **Objective:** `EXP-0085` found two more readers of the table, and none for
+  records 45-47. Find the screens:
+  - **Record 39:** arcade `0x0A06A8` → `0x0705E0`. In other regions the
+    screen shows English "MSH VS STREET FIGHTER / COMING SOON".
+  - **Records 42-44:** Vega's orders and a punctuation row, via `0x07059C`,
+    `0x0705A0` and `0x0705A4`. They are called from three character intro
+    routines, `0x062A36`, `0x05B2EA` and `0x05F60C`, when `(-$3800,A5)` ≥ 4.
+    In other regions all three show the English "I've finally tracked you
+    down! Now, you're mine!" (`0x2243C0`).
+  - **Records 45-47:** developer jokes; no reader found.
+- **Acceptance criteria:**
+  - each reader's screen is identified by a trace or a forced trial;
+  - records 42-44 get the arcade's English, or a recorded reason not to.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 
@@ -3352,6 +3397,28 @@ the user asks or when it unblocks other work.
 - **Acceptance criteria:** each of those records seen in play in the release
   image, with screenshots and hashes; any glyph that reads badly fixed and
   rechecked.
+
+### UI-006 - Decide on the arcade's official English CONTINUE? hints
+
+- **Status:** `BLOCKED`
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** UI-004 (done).
+- **Blockers:** user decision: keep the new translations (`UI-004`) or use the
+  official English.
+- **Objective:** `EXP-0085` found official English hints in all arcade sets
+  at `0x2239FC`, which `EXP-0080` had missed.
+  - **Content:** 12 hints, each two 100-byte records (four 25-cell lines),
+    with the same arrow codes.
+  - **Mapping:** the arcade shows them for its 16 random indexes through the
+    map at `0x070448` (indexes 12-15 repeat hints 0-3).
+  - **Fit:** the Saturn box is two lines of 19 cells. Whether the English
+    fits as built for `UI-004` is not checked.
+- **Effect on `UI-005`:** if the official English replaces the new
+  translations, `UI-005`'s punctuation checks apply to the new text instead.
+- **Acceptance criteria:** the decision is recorded. If the official English
+  is used: built, regression references updated, and each hint seen or
+  forced (index byte `0x0601799E`).
 
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 

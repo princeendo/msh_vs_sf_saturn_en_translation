@@ -4938,3 +4938,34 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
     `AGENTS.md`'s no-force-push rule).
 - **Hash references:** all commit hashes changed. The two quoted in this log
   were updated: `facc48e` → `6198fc5`, `8e2b649` → `0134f26`.
+
+## 2026-10-27 — TXT-001: the story table is a rare post-loss win quote (EXP-0085)
+
+- **Method:**
+  - a new `logreads` verb in `tools/reference/mame_timeline.lua` (MAME read
+    taps; the end address must be odd);
+  - decrypted arcade code from the debugger's `saveo`;
+  - MAME's `dasm` disassembles the decrypted opcodes, but the plain program
+    dump does not show CPS-II immediates.
+- **Runs:**
+  - **Attract loop, 60,000 frames:** no read (besides a boot sweep).
+  - **One lost game:** hint record 11 at CONTINUE?.
+  - **26 CONTINUE? screens:** hints only.
+- **Code:** the post-loss winner's line (`0x070336`, Saturn `0x060AF1F2`)
+  shows story record 16 + the winner's slot. That needs the Japanese region
+  and a 1-in-64 roll; otherwise it is a normal win quote.
+- **Forced trials:**
+  - arcade: Blackheart's record 24, and record 27 with `{P}` = Zangief, the
+    winner's teammate;
+  - Saturn US release: Apocalypse's record 16 in Japanese.
+- **Disproven:**
+  - `EXP-0047`'s pointer at `0x0B03BA` is a BCD constant (2,147,483,648);
+  - `EXP-0080`'s "no official English hints": the arcade has 12 English
+    hints at `0x2239FC`, and `mshvsfj` and `mshvsfu` are identical there.
+- **New tasks:**
+  - `TXT-002`: build the draft English for records 16-41;
+  - `TXT-003`: the screens of records 39 and 42-47;
+  - `UI-006`: decide on the official hints (user decision).
+- **Not done:** the screens of records 39 and 42-44 were not seen. The rm in
+  a first timeline command was refused by the safety check (an unguarded
+  variable); the folder was new anyway.

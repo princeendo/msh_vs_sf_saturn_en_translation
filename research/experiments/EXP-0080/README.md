@@ -77,7 +77,12 @@ English hints.
 - **Arrows:** the hints draw joystick motions with quote-font codes `0x01E2`
   ↑, `0x01E4` →, `0x01E5` ↘, `0x01E6` ↓, `0x01E7` ↙, `0x01E8` ← (rendered,
   `local/ui004/arrows.png`).
-- **Official English:** none. The arcade programs hold the same Japanese
+- **Correction (`EXP-0085`):** the arcade does hold official English hints,
+  at `0x2239FC` (12 hints, two 100-byte records each), used for non-Japanese
+  regions. The search below missed them. The cause is not established;
+  HYPOTHESIS: it searched for wording such as "Aerial Rave", while the
+  arcade says "Air Combo".
+- **Official English (as first recorded):** none. The arcade programs hold the same Japanese
   table at `0x2139AC` in all three sets (records 1-15 byte-identical to the
   Saturn's; record 0 differs). No arcade text run and no PS1 US file holds
   English hint wording, and the PS1 US has no copy of the Japanese records.

@@ -1523,8 +1523,9 @@ Experiment: `EXP-0080`
   holds that address at `0x96890` and `0x96BAC`-`0x96BB4`.
 - Joystick arrows are quote-font codes `0x01E2` ↑, `0x01E4` →, `0x01E5` ↘,
   `0x01E6` ↓, `0x01E7` ↙, `0x01E8` ← (inside the credits font).
-- The arcade sets hold the same Japanese table (`0x2139AC`); no arcade set and
-  no PS1 US file has English hints.
+- The arcade sets hold the same Japanese table (`0x2139AC`). Correction
+  (`EXP-0085`): the arcade also holds official English hints, at `0x2239FC`
+  (see TXT-001 below). The earlier "no English hints" search was wrong.
 - **Reproduce.** `research/experiments/EXP-0080/README.md`.
 
 ## SPECIAL-004: The Bosses' Win Quotes Have Official English
@@ -1615,6 +1616,39 @@ Experiment: `EXP-0084`
   - **Boot:** the rebuilt image cold-boots into the English attract
     captions and the title screen.
 - **Reproduce.** `research/experiments/EXP-0084/README.md`.
+
+## TXT-001: The MM.BIN Story Lines Are a Rare Post-Loss Win Quote
+
+Confidence: **CONFIRMED** (arcade read trace with a forced roll; Saturn RAM
+trial on the release image)
+
+Experiment: `EXP-0085`
+
+- **When it shows:** `MM.BIN` records 16-41 (`0x7CA44` + 76 × n) are a rare
+  alternative to the winner's win quote, on the screen after the CPU beats
+  the player and before CONTINUE?. The winner's line is normally a random
+  win quote of the winning character.
+- **The trigger:** in the Japanese region (`0xCC90` = 0), a 1-in-64 roll
+  (`and #0x3F`, `cmp/eq #39`) shows record 16 + the winner's slot instead.
+  - Saturn code: `MM.BIN` `0x060AF1F2`; arcade: `0x070336`.
+  - The arcade's other regions skip the roll, so these records have no
+    English.
+- **The placeholder** `{P}` (Chun-Li's record 27) inserts the winner's
+  teammate.
+- **Seen:**
+  - arcade `mshvsfj` with the roll forced: Blackheart's record 24, and
+    record 27 with "ザンギエフ";
+  - Saturn US release image (`a6572495…`) with the branch forced:
+    Apocalypse's record 16 in Japanese, in place of his English win quote.
+- **Other English in the arcade:**
+  - **Hints:** official English CONTINUE? hints at `0x2239FC`: 12 hints of
+    two 100-byte records each, reached through the index map at
+    `0x070448`. `mshvsfj` and `mshvsfu` are identical there.
+  - **Records 42-44** (Vega's orders) have the English line "I've finally
+    tracked you down! Now, you're mine!" at `0x2243C0`.
+- **Correction:** `EXP-0047`'s code pointer at `0x0B03BA` is a value in a
+  BCD powers-of-two table, not a reference to this table.
+- **Reproduce.** `research/experiments/EXP-0085/README.md`.
 
 ## Entry Requirements
 

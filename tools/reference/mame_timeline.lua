@@ -10,6 +10,10 @@
 --   <frame> force16 <address> <value>     replace every CPU write to that word
 --   <frame> unforce <address>             remove that replacement
 --   <frame> logwrites <address> <path>    append "frame pc value" per CPU write
+--   <frame> logreads <first> <last> <path>
+--                                         append "frame pc offset" for CPU reads
+--                                         of [first, last]: one line per change
+--                                         of (frame, pc), at its first offset
 --   <frame> debug <command>               run a MAME debugger command (needs -debug)
 --   <frame> exit
 -- Output paths are written as given; keep them under ignored local/ paths.
@@ -59,6 +63,9 @@ for line in io.lines(path) do
     elseif verb == "logwrites" then
       local address, out = rest:match("^(%S+)%s+(%S+)$")
       add(frame, { kind = "log", address = tonumber(address), out = out })
+    elseif verb == "logreads" then
+      local first, last, out = rest:match("^(%S+)%s+(%S+)%s+(%S+)$")
+      add(frame, { kind = "logreads", first = tonumber(first), last = tonumber(last), out = out })
     elseif verb == "debug" then
       add(frame, { kind = "debug", command = rest })
     elseif verb == "exit" then
@@ -100,6 +107,21 @@ emu.register_frame_done(function()
           local pc = cpu.state["CURPC"] or cpu.state["PC"]
           out:write(string.format("%d %06x %04x %04x\n", screen:frame_number(), pc.value, data, mask))
           out:flush()
+        end)
+    elseif event.kind == "logreads" then
+      local out = assert(io.open(event.out, "a"))
+      local cpu = manager.machine.devices[":maincpu"]
+      local last_key = nil
+      taps["reads" .. event.first] = program:install_read_tap(
+        event.first, event.last, "reads" .. event.first,
+        function(offset, data, mask)
+          local pc = (cpu.state["CURPC"] or cpu.state["PC"]).value
+          local key = screen:frame_number() * 16777216 + pc
+          if key ~= last_key then
+            last_key = key
+            out:write(string.format("%d %06x %06x\n", screen:frame_number(), pc, offset))
+            out:flush()
+          end
         end)
     elseif event.kind == "unforce" then
       if taps[event.address] then taps[event.address]:remove() end

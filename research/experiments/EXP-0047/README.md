@@ -89,6 +89,9 @@ excludes them.
 - The same text is in the arcade programs at `0x213F82`-`0x2147EC`, just before
   the Japanese ending pages, in all three sets. It is referenced from code (one
   pointer, `0x0B03BA` → `0x214748`), not from a per-language table.
+  **Correction (`EXP-0085`): DISPROVEN.** That value sits in a table of
+  powers of two in BCD (`0021 4748 3648`); it is not a reference. The real
+  readers are the post-loss win-quote and CONTINUE? routines.
 - **No English counterpart was found:** there are no Gambit or Rogue lines in
   the English text.
 - Where it is shown is not identified.

@@ -108,7 +108,8 @@ Nothing listed here may be translated or modified in M8.
 | Slots 20-22 (second Zangief entry, second Sakura entry, Shadow) | `ME.PAC` `0x4254` (5), `0x43D0` (3), `0x44B4` (6); `MC13` 56-61, 108-113; `MM.BIN` | secret characters. Since 2026-10-26 (`SPECIAL-003`, `EXP-0078`, release builds only): pages translated, dialogue official, names set. | `SPECIAL-003` |
 | Slots 23-25 (U.S. Agent, Mephisto, second Spider-Man entry) | `ME.PAC` `0x467C`-`0x4844` (6 records; 0-2 already English); `MC13` 62-67, 114-119; `MM.BIN` | secret characters. Since 2026-10-26 (`SPECIAL-003`): records 3-5 translated, dialogue official, names set. | `SPECIAL-003` |
 | `MC13` records 0-15 | Cyber-Akuma's win quotes | already an M5 exception | `SPECIAL-001` |
-| `MM.BIN` Japanese text table | `0x7CC86`-`0x7D1DC` | screen unknown; one name placeholder (`EXP-0047`) | `TXT-001` |
+| `MM.BIN` story records 16-41 | `0x7CA44`-`0x7D1FC` | Japanese only (no English exists): a 1-in-64 post-loss win quote of the CPU winner, so the release shows them in Japanese at random (`EXP-0085`); the draft translation is not built | `TXT-002` |
+| `MM.BIN` story records 39, 42-47 | `0x7D118`, `0x7D1FC`-`0x7D3C4` | records 39 and 42-44 are also shown on other screens, not yet seen (records 42-44 have arcade English); records 45-47 have no reader found (`EXP-0085`) | `TXT-003` |
 
 **Names in the remaining Japanese text.** The name table is global. Excluded
 characters' lines that insert a roster name show it in English (user decision,

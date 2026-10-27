@@ -170,8 +170,12 @@ then three ending pages (a picture panel and a bottom text box).
 
 - **Localization (M7, `EXP-0044`).** Ryu's ending is done. Still open:
   - What else inserts names (`0x0000`)? Answered by the census (`EXP-0047`).
-    Still open: where the Japanese-only `MM.BIN` text table (`0x7CC86`) is
-    shown (`TXT-001`).
+    The `MM.BIN` story table is answered (`EXP-0085`): records 16-41 are a
+    1-in-64 post-loss win quote. Still open (`TXT-003`):
+    - the screens of record 39 (arcade `0x0A06A8`; English "COMING SOON");
+    - the screens of records 42-44 (three character intros; English "I've
+      finally tracked you down!");
+    - whether records 45-47 are ever read.
   - What are the 92 WRAM-H bytes (`0x06010A94`, `0x060EFA91…`) that differ
     after a cold boot of the built image?
   - When exactly is the quote font loaded (after the title, before stage 1)?
