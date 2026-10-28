@@ -1,7 +1,7 @@
 {
  "schema": "mshvsf-grammar-fixes/1",
  "status": "Built only with --fix-grammar, which needs --official-hints (TXT-004, EXP-0093). Off by default: the release keeps the official text. Draft wording for user review.",
- "description": "Light grammar corrections of the US arcade's official English CONTINUE? hint pages (the 16 pages at MM.BIN records 0-15 under --official-hints, EXP-0086). Each fix names the official page it replaces by the SHA-256 of its decoded lines joined with a newline (tools.text.official_endings.en_cell_lines), so the official text is not copied here; the build refuses a page whose hash differs. Codes {01E2}-{01E8} are the joystick-arrow glyphs.",
+ "description": "Light grammar corrections of the US arcade's official English CONTINUE? hint pages (the 16 pages at MM.BIN records 0-15 under --official-hints, EXP-0086). Each fix names the official page it replaces by the SHA-256 of its decoded lines joined with a newline (tools.text.official_endings.en_cell_lines), so the official text is not copied here; the build refuses a page whose hash differs. Codes {01E2}-{01E8} are the joystick-arrow glyphs. \"lines\" (user decision 2026-10-28: typos and commas) corrects single lines anywhere in the build (win quotes, partner lines, endings): each names the official line by the SHA-256 of its stripped text, and the build refuses a fix that matches no line.",
  "author": "Claude (AI) draft from the official English; new text, not official.",
  "hints": [
   {
@@ -48,6 +48,113 @@
     "for a safe fall!"
    ],
    "reason": "Indefinite article."
+  }
+ ],
+ "lines": [
+  {
+   "official_sha256": "81b525102dd832cb3bf6e6e55f991d86961767315e0dc1a4b6eb0463315ee56f",
+   "text": "I must meditate on why you",
+   "reason": "Typo: \"mediate\" for \"meditate\" (Dhalsim)."
+  },
+  {
+   "official_sha256": "3e02911426d7836d9c2b2b2a028765f01cb84728be0cd69bb665f404e80c7b51",
+   "text": "lose its appeal.",
+   "reason": "Possessive \"its\", not \"it is\"."
+  },
+  {
+   "official_sha256": "dc0be687de30c6a0657c5bdfacf72a274be3fefdd1117fdf25991065af6a8ca8",
+   "text": "of this world's riches...",
+   "reason": "Possessive apostrophe."
+  },
+  {
+   "official_sha256": "1dc7708db68a3b54cf41216d30591d305daadc41f7d870713b2e8e554cda1215",
+   "text": "I lead the X-Men!",
+   "reason": "The team's name is capitalised X-Men."
+  },
+  {
+   "official_sha256": "06ecb37c94b97848e27af0fdf025e96edad9aba4616403f4d0967804861ec010",
+   "text": "stand a chance, fool!",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "788fcce37220212fa77d76558c546ed90ceb6840462b5b46c3ea829727e10ee8",
+   "text": "Perish, you insignificant",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "8d47f9f8262e780749da5a2310adae7f94f4fe1a1c165fc0024f9b70360ede4e",
+   "text": "Rest easy, soldier,",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "71d5f844a92733bca57c84b7730388b44cc0c58bcb4c033abe65cfcd23e18e80",
+   "text": "Break, burn, freeze...",
+   "reason": "An ellipsis has three dots."
+  },
+  {
+   "official_sha256": "d376b3d13a8f0056620d0315dbda7fb87c2dc3952fef64f8fb6aad33a78e5783",
+   "text": "With discipline come",
+   "reason": "The subject is \"the rewards\" (plural), on the next line."
+  },
+  {
+   "official_sha256": "dc16e0280e2d57da9da3fc5105f37ac94a27ede1e648d7812f009b005cb4a62f",
+   "text": "That was easy, right...",
+   "reason": "Comma before the tag question."
+  },
+  {
+   "official_sha256": "ec313f4ea014c807f529f212d7de225180f976d1b7a6a0b3b8e0e87bc44a5e51",
+   "text": "ends here, Apocalypse!",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "59660f99ed8983b5df450a9a7f3e38001af5747834fb289ec59cff7c13cae093",
+   "text": "See ya",
+   "reason": "Only the first word is capitalised."
+  },
+  {
+   "official_sha256": "ee4147003d08a6a84ac023c486f26e823063fce52004ee84e8938ca78091affe",
+   "text": "you're safe, Tiger!",
+   "reason": "The full stop splits the sentence; a comma before the direct address."
+  },
+  {
+   "official_sha256": "6e20873a49a1f2382dc3a283b712ba08d11423ce84ac9417c9140ece08d819fe",
+   "text": "Welcome home, Zangief.",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "f40b813f000c735d06a2fff29a1387bf0672046c00f0a2e5ceb18f7b5fdb757e",
+   "text": "Welcome back, brother!",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "f4a7918508fc77116f72c665146ed4a66d078cf706a42011bff1c93ef57ebe83",
+   "text": "than before, my son.",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "011c9f9ae6e93b220715bcc4ed1ec0cb69b183d5e566872715bb47fc640cf71d",
+   "text": "How about it, Ryu?",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "db523c21e297636f89ec66be8d33ffef39e4e055f8f0462fe75eb63d62f5abb6",
+   "text": "Good luck then, Ryu. Come",
+   "reason": "Comma before a direct address."
+  },
+  {
+   "official_sha256": "18cba7528c5a4b200ec6da2f931866b4fcb13cc8a18f28505d2a788d12fc6be4",
+   "text": "Our homemade borshch is",
+   "reason": "\"Homemade\" is one word."
+  },
+  {
+   "official_sha256": "7b4d30999f7f7ef3668305c08e291aefa9fe35397638970f3ef3df55f94afb43",
+   "text": "for safekeeping!",
+   "reason": "\"Safekeeping\" is one word."
+  },
+  {
+   "official_sha256": "7fe6f9cd8a0eeff3bc21d5e75333471529c27da5c575ee6742a3d3cc83d8d173",
+   "text": "He's our...!!",
+   "reason": "Starts a new sentence."
   }
  ]
 }

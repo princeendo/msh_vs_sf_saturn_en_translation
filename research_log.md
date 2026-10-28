@@ -5288,3 +5288,41 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   not fit there (HYPOTHESIS).
 - **Next:** a short session at the Options menu for the menu and storage
   questions. Nothing implemented.
+
+## 2026-10-28 — User decisions; arcade glyphs adopted; Options table; KO session (EXP-0096 to EXP-0098)
+
+- **User decisions:**
+  - `RE-048`'s descenders and `TXT-004`'s hint wording are kept;
+  - `--fix-grammar` also fixes typos and missing commas elsewhere, and stays
+    opt-in;
+  - American names, voices and art are the default (`LOC-001` done);
+  - the release uses the arcade's narrow glyphs (`REF-012`);
+  - two play sessions.
+- **`EXP-0096`:**
+  - new `--glyph-style arcade`; both release references are rebaselined
+    (nine of nine pass);
+  - new track 01: `bf36e4cb…` (Saturn names), `b9372a58…` (American names);
+  - patches `c3161c1e…` / `376f85bf…`; `.ssp` `d370a32f…` / `66d5909e…`.
+  - Found: code `0x122` draws "!?", not "‼". The decoder note is corrected.
+  - Pitfall: `reference_builds --write-baseline` refuses a changed spec. The
+    new spec must be adopted, with its hash, first (as `TXT-005` did).
+- **`EXP-0097` (Options session):**
+  - the settings table is at `0x06017AA0`, with its backup-RAM copy at
+    `.bkr` `0x19F`;
+  - the menu text is in `MM.BIN` `0x5C9F`, with a hidden COMBO GAGE row;
+  - "CHOUHATU" on the button-config screen is untranslated.
+  - Disproven approach: searching for bytes that step by one over the whole
+    session found nothing, because the same bytes change at boot. Comparing
+    steady windows before and after worked.
+- **`EXP-0098` (KO session, arcade-glyph US image):**
+  - Bison and Akuma pass all 16 records;
+  - the `RE-049` slot rule holds for ten of ten quotes, and the winner
+    pattern is a new HYPOTHESIS;
+  - `verify_records.py` now skips raw tables;
+  - its `screen_ok` cannot see gold text, so the boxes were read instead.
+- **`EXP-0093` addendum:** 21 line fixes (32 record lines), with two shown on
+  the Saturn.
+
+Checks: pytest (298 passed, 1 skipped), ruff check, and strict mypy (74
+files) pass. `ruff format --check` reports only `EXP-0070/README.md`, which
+predates this session and was not touched.

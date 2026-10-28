@@ -208,6 +208,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             decode_file((args.compile_dir / "files" / t["file"]).read_bytes())[1],
         )
         for t in listed
+        if t.get("format") != "raw"  # endings and MM.BIN pages are not win quotes
     ]
     report = {run.name: verify_run(run, font_image, tables) for run in args.runs}
     text = json.dumps(report, indent=1)

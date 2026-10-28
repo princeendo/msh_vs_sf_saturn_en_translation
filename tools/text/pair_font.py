@@ -61,19 +61,71 @@ def char_code(char: str) -> int | None:
     raise ValueError(f"no full-width glyph mapping for {char!r}")
 
 
-STYLES = ("quote", "credits")
+STYLES = ("quote", "credits", "arcade")
+# The US arcade's narrow win-quote glyphs, at the arcade's own codes, which the
+# Saturn quote font also holds (REF-012, EXP-0090). Punctuation by code (cps2_text)
+# and, for "+", ":", "(" and ")", by glyph shape (EXP-0096).
+NARROW_UPPER, NARROW_LOWER, NARROW_DIGITS = 0x0140, 0x0161, 0x0130
+NARROW_PUNCTUATION = {
+    "!": 0x0120,
+    "?": 0x0121,
+    "\u203c": 0x0122,  # the arcade's own one-cell "!?" glyph (EXP-0096)
+    "(": 0x0128,
+    "+": 0x0129,
+    "-": 0x012A,
+    ")": 0x012F,
+    ":": 0x013B,
+    '"': 0x0160,
+    ".": 0x0184,
+    ",": 0x0185,
+    "'": 0x0187,
+}
+
+
+def narrow_code(char: str) -> int:
+    """The arcade narrow-glyph code for ``char``."""
+    if "A" <= char <= "Z":
+        return NARROW_UPPER + ord(char) - ord("A")
+    if "a" <= char <= "z":
+        return NARROW_LOWER + ord(char) - ord("a")
+    if "0" <= char <= "9":
+        return NARROW_DIGITS + ord(char) - ord("0")
+    if char in NARROW_PUNCTUATION:
+        return NARROW_PUNCTUATION[char]
+    raise ValueError(f"no narrow glyph mapping for {char!r}")
+
+
+def narrow_pair(cells: Sequence[bytes], pair: str) -> bytes:
+    """Two narrow glyphs side by side: each glyph's 8 drawn columns, unchanged."""
+    halves = [
+        bytes(64)
+        if char == " "
+        else bytes(
+            byte
+            for row in range(16)
+            for byte in cells[narrow_code(char)][row * 8 : row * 8 + 4]
+        )
+        for char in pair
+    ]
+    return b"".join(
+        halves[0][row * 4 : row * 4 + 4] + halves[1][row * 4 : row * 4 + 4]
+        for row in range(16)
+    )
 
 
 def pair_glyph(cells: Sequence[bytes], pair: str, style: str = "quote") -> bytes:
     """The pair glyph for ``pair`` from the font's ``cells``.
 
     ``quote`` composes two full-width quote glyphs (``glyph_patch.compose``);
-    ``credits`` squeezes two staff-credits glyphs (``credits_font``, FONT-011).
+    ``credits`` squeezes two staff-credits glyphs (``credits_font``, FONT-011);
+    ``arcade`` places two of the arcade's narrow glyphs side by side (REF-012).
     """
     if style == "credits":
         from tools.text.credits_font import pair_bytes
 
         return pair_bytes(cells, pair)
+    if style == "arcade":
+        return narrow_pair(cells, pair)
     if style != "quote":
         raise ValueError(f"unknown glyph style {style!r}")
     blank = bytes(CELL_BYTES)

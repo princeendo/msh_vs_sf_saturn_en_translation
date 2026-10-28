@@ -78,6 +78,11 @@ the three ending pages."
     American name calls already on the disc (`EXP-0058`; no new samples). The
     name art is not changed yet (`LOC-004`). `--names saturn` (the default)
     is the build above.
+- **Default variant (user decision, 2026-10-28, `LOC-001`).** American names,
+  voices and art are the default, because the names shown and spoken must
+  agree. Releases publish both variants, the American one listed first.
+  `--names saturn` stays the generator's default argument so existing
+  references and commands are unchanged.
 - **Implemented for Ryu** in `EXP-0044`, with Ken and Gouki as partners
   (`tools/text/official_endings.py`). The text is read from the local ROM at
   build time and not committed.
@@ -116,10 +121,14 @@ metadata and the minimal text needed for the project record.
 
 - `grammar_fixes.json` holds light corrections of official English. These
   are new text, not official.
-- **Scope:** five CONTINUE? hint pages. Each names the official page it
-  replaces by hash, and the build refuses a page that differs.
+- **Scope:**
+  - five CONTINUE? hint pages, each naming the official page it replaces by
+    hash (the build refuses a page that differs);
+  - 21 single lines in win quotes, partner lines and endings (`"lines"`,
+    user decision 2026-10-28: typos and missing commas). Each names its
+    official line by the hash of the stripped text, and the build refuses a
+    fix that matches no line.
 - **Use:** they are built only with `--fix-grammar` (with `--official-hints`).
   The release default stays official.
-- **Status:** the wording is a draft for user review. Candidate fixes
-  elsewhere (win quotes, partner lines, endings) are listed in `EXP-0093`;
-  none are applied.
+- **Status:** the hint wording was approved by the user on 2026-10-28.
+  Both kinds of fix stay opt-in.

@@ -346,3 +346,18 @@ def test_story_tables_build_records_16_to_43_with_lines(tmp_path) -> None:  # ty
         assert "{P}" in built[1]["lines"][0]
     finally:
         monkey.undo()
+
+
+def test_fix_lines_replaces_by_hash_keeps_centre_and_refuses_stale() -> None:
+    import hashlib
+
+    import pytest
+
+    import tools.text.official_endings as oe
+
+    spec = {"tables": [{"records": [{"record": 0, "lines": ["    See Ya", "  {P}."]}]}]}
+    digest = hashlib.sha256(b"See Ya").hexdigest()
+    assert oe.fix_lines(spec, {digest: "See ya, pal"}) == 1
+    assert spec["tables"][0]["records"][0]["lines"] == [" See ya, pal", "  {P}."]
+    with pytest.raises(ValueError, match="match no official line"):
+        oe.fix_lines(spec, {digest: "again"})

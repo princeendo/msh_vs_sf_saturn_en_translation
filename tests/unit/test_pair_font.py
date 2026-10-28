@@ -10,7 +10,14 @@ import pytest
 from tests.unit.test_font_pack import header, letter
 from tools.text.font import CELL_BYTES
 from tools.text.font_pack import CODES, Glyph, pack, unpack
-from tools.text.pair_font import PUNCTUATION, build, char_code, split_pairs
+from tools.text.pair_font import (
+    PUNCTUATION,
+    build,
+    char_code,
+    narrow_code,
+    narrow_pair,
+    split_pairs,
+)
 
 
 def base_image(extra: int = 0) -> bytes:
@@ -96,3 +103,24 @@ def test_punctuation_codes_are_distinct_full_width_glyphs() -> None:
     codes = list(PUNCTUATION.values())
     assert len(set(codes)) == len(codes)
     assert all(0x08A0 <= code < 0x08E8 for code in codes)  # below "A"
+
+
+def test_narrow_pair_keeps_each_glyphs_left_eight_columns() -> None:
+    assert (narrow_code("A"), narrow_code("a"), narrow_code("0")) == (
+        0x140,
+        0x161,
+        0x130,
+    )
+    cells = [bytes(CELL_BYTES)] * 0x200
+    cells = list(cells)
+    cells[narrow_code("A")] = bytes(range(128))
+    cells[narrow_code("b")] = bytes(range(128, 256))
+    pair = narrow_pair(cells, "Ab")
+    for row in range(16):
+        assert pair[row * 8 : row * 8 + 4] == bytes(range(row * 8, row * 8 + 4))
+        assert pair[row * 8 + 4 : row * 8 + 8] == bytes(
+            range(128 + row * 8, 132 + row * 8)
+        )
+    assert narrow_pair(cells, " b")[:4] == bytes(4)
+    with pytest.raises(ValueError):
+        narrow_code("~")

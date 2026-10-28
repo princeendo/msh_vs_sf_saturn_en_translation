@@ -26,7 +26,9 @@ DIGIT_BASE = 0x0130  # "0"; digits are ASCII + 0x100 ("before 8 am", EXP-0090)
 PUNCTUATION = {
     0x0120: "!",
     0x0121: "?",
-    0x0122: "\u203c",  # double exclamation, one cell (seen on screen, RE-044)
+    # One cell. The tile draws "!?" (EXP-0096), not the "‼" read off screen in
+    # RE-044; the symbol is kept so the decoded text and cell counts stay stable.
+    0x0122: "\u203c",
     0x0160: '"',  # straight double quote (seen on screen, RE-044)
     0x012A: "-",
     0x0184: ".",

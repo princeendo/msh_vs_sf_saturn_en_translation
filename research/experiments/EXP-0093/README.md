@@ -150,3 +150,30 @@ COMMON="--driver local/mame_src/cps2.cpp --archive local/arcade_roms/mshvsf/mshv
 ./invenv.sh python -m tools.text.official_endings $COMMON --out local/txt004/spec/m8_roster_gold.json
 bash research/experiments/EXP-0093/verify_grammar.sh
 ```
+
+## Addendum (2026-10-28): line fixes in quotes, partner lines and endings
+
+- **User decision:** apply both the typos and the missing commas from the
+  list above. `--fix-grammar` stays opt-in; the release is unchanged.
+- **Change:**
+  - `grammar_fixes.json` gains `"lines"`: 21 fixes, each naming its official
+    line by the SHA-256 of the stripped text, with the corrected text and a
+    reason;
+  - `official_endings.fix_lines` replaces every matching record line in the
+    finished spec. It moves the line's indent by half the length change, so
+    the line stays centred. It refuses a fix that matches no line;
+  - the spec gains `"grammar_fixes_lines"` (the number of lines replaced);
+  - unit test `test_fix_lines_replaces_by_hash_keeps_centre_and_refuses_stale`.
+- **Result** (arcade glyphs, `EXP-0096`; `local/txt004b/gen.sh`):
+  - every fix matched. 32 record lines changed in each variant, because
+    win quotes appear twice and partner lines more often;
+  - against the spec without the flag, the only differences are those 32
+    lines, the eight hint lines and the two flag fields;
+  - specs: Saturn names `5bd9eec6…`, American names `10a0af7e…`;
+  - the American-names image (`build/txt004b_us`, track 01 `cea44ea0…`)
+    built with every compiler check passing.
+- **On the Saturn** (`verify_lines.sh`, as `EXP-0092`):
+  - "of this world's riches..." (`MC0E` record 3, `0f3a1732…`);
+  - "lose its appeal." (`MC0F` record 2, `01e5cd0d…`).
+- **Not covered:** the endings' lines were not shown on the Saturn. They go
+  through the same record writer as the dialogue already checked there.

@@ -1761,6 +1761,54 @@ Experiment: `EXP-0090`
   the decoder and the release text.
 - **Reproduce.** `research/experiments/EXP-0090/README.md`.
 
+## LOC-006: The Options Settings Table, Its Backup-RAM Copy, and the Menu Text
+
+Confidence: **CONFIRMED** (one recorded session at the Options menu; each
+change matched against the screen)
+
+Experiment: `EXP-0097`
+
+- **Settings:** a table of longs in WRAM-H:
+
+  | Address | Setting | Values |
+  | --- | --- | --- |
+  | `0x06017AB8` | DIFFICULTY | 1 = ★★, 2 = ★★★ |
+  | `0x06017ABC` | TIME LIMIT | 1 = ON, 0 = OFF |
+  | `0x06017AC0` | GAME SPEED | 0 = ★, 1 = ★★ |
+  | `0x06017AC4` | VS SHORT CUT | 0 = OFF, 1 = ON |
+  | `0x06017AC8` | AUDIO | 0 = STEREO, 1 = MONAURAL |
+  | `0x06017ACC` | BACK UP | 0 = AUTO |
+  | `0x06017AD0` | VS POWER GAGE | 0 = NORMAL, 1 = FULL |
+
+  Each value changes at the moment the screen shows the change, and holds
+  until the next change.
+- **Backup RAM:** leaving the menu writes the low byte of each setting to
+  the Mednafen `.bkr` file at offsets `0x19F`-`0x1B7`, every 4 bytes, in
+  table order. Four bytes at `0x2B0` also change, consistent with a checksum
+  (not tested).
+- **Menu text:** plain ASCII in `MM.BIN`:
+  - rows at `0x5C9F`, 35 bytes each. There are 11, including COMBO GAGE,
+    which the menu does not show;
+  - value strings at `0x5FDE`-`0x6667`;
+  - the button-config screen at `0x6676`-`0x6A36`, whose " CHOUHATU" column
+    header (`0x69EE`) is romanised Japanese.
+- **Reproduce.** `research/experiments/EXP-0097/README.md`.
+
+## REF-012 Addendum: Arcade Code `0x122` Draws "!?"
+
+Confidence: **CONFIRMED** (arcade tile `0x15122` read from the `mshvsfu`
+graphics ROMs; the Saturn quote font's code `0x122`)
+
+Experiment: `EXP-0096`
+
+- The arcade tile for text code `0x122` and the Saturn font's code `0x122`
+  are the same glyph: a narrow "!" beside a narrow "?". `RE-044` had read it
+  off a MAME screen as a double exclamation.
+- `cps2_text` still decodes it as one "‼" symbol, so cell counts stay as
+  they are. Under `--glyph-style arcade`, the pair builder takes that code's
+  own glyph, so the two lines that use it ("star setting", "the rough stuff")
+  get "!?" as in the arcade. They were not shown on the Saturn.
+
 ## Entry Requirements
 
 Each future entry must include:

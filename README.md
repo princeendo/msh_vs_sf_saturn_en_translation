@@ -19,9 +19,9 @@ It holds no game data: you build the patch yourself from your own disc image
 - **Endings in English:** each regular character's ending pages and the
   post-boss partner dialogue, in the US arcade's official English, with
   English character names.
-- **New lettering:** the Japanese white font is replaced by the game's own
-  staff-credits letters, two letters to a cell, in the credits' gold. This is
-  the Saturn's own art, not the US arcade font.
+- **New lettering:** the Japanese white font is replaced by the US arcade's
+  own narrow win-quote letters, two to a cell, in the credits' gold. The
+  Saturn font already holds these letters, so no art is imported (`EXP-0096`).
 - **Attract mode:** the Japanese teaser captions are replaced by the US
   arcade's three English captions (LEGENDARY / HEROES / UNITE AGAIN!!,
   AMAZING / TEAM BATTLES!, NEW HEROES / JOIN / THE FIGHT!!), in the game's
@@ -54,11 +54,11 @@ It holds no game data: you build the patch yourself from your own disc image
   the SURVIVAL MODE row, press L or R, then Start. Optional; see
   [Build Options](#build-options).
 - **Names:** two variants.
-  - **Saturn names** (default): Vega, Gouki and Mech-Gouki, which match the
-    Saturn's own art and voice.
-  - **American names**: Bison, Akuma and Cyber Akuma in the text, life bars,
-    win banners, VS screen, sound test, and the announcer's calls (using
-    recordings already on the disc).
+  - **American names** (default): Bison, Akuma and Cyber Akuma in the text,
+    life bars, win banners, VS screen, sound test, and the announcer's calls
+    (using recordings already on the disc).
+  - **Saturn names**: Vega, Gouki and Mech-Gouki, which match the Saturn's
+    own art and voice.
 
 **Not changed:** the menus, the voices,
 the attract-mode Norimaro screen, and every other screen not listed above.
@@ -75,8 +75,8 @@ patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `0d55127a1757de3d15d40808d98b9cd900b50a7cf38eba93c666550899f4b125` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `0c3f72bbe856acd8f24d072185a12190b97a7344beb94e0b821cb3266bb21ef0` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names (default) | `b9372a5898d5ed493056364355b5649f1ccc27bb7f5424c45b8112629d9aff51` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names | `bf36e4cb793ca9f9c5e73891d6919f5b54cde2f2c589a486178f6cc59042aec4` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies
@@ -190,7 +190,7 @@ lists each image's exact options.
 | `--unlock-boss-fight` / `--no-unlock-boss-fight` | Start with the title menu's boss fight unlocked (the default), or keep the original lock (a Survival clear). | unlocked |
 | `--roster data/text/m5_roster.json` | The 17 regular characters: their endings and partner dialogue in English. | on |
 | `--with-win-quotes` | Adds the regular characters' win quotes (needs `--roster`). | on |
-| `--glyph-style credits` / `quote` | Letters from the staff-credits font (`credits`) or the original quote font (`quote`). | `credits` |
+| `--glyph-style arcade` / `credits` / `quote` | Letters from the US arcade's narrow win-quote glyphs (`arcade`), the staff-credits font (`credits`), or the original quote font (`quote`). | `arcade` |
 | `--caption-palette gold` / `silver` | Text colour: the credits' gold, or the original grey. | `gold` |
 | `--ui-english` | The "JOIN IN" and "EASY" labels. | on |
 | `--attract-captions` | The English attract-mode captions. | on |
@@ -198,7 +198,7 @@ lists each image's exact options.
 | `--secret-translations data/translations/secret_characters.json` | New translations for the secret characters and Norimaro, plus their official partner lines and names. | on |
 | `--story-lines data/translations/story_lines.json` | The rare post-loss lines (`MM.BIN` records 16-41) and Vega's orders in two secret characters' intros (records 42-43), new translations. | on |
 | `--official-hints` | The CONTINUE? hints in the arcade's official English, paged as in the arcade (8 of 12 hints fit). | on |
-| `--fix-grammar data/translations/grammar_fixes.json` | Light grammar fixes to five official hint pages, such as "When an Air Combo starter / hits the opponent,". These are new text, not official. Needs `--official-hints`. | off |
+| `--fix-grammar data/translations/grammar_fixes.json` | Light grammar fixes to official English: five hint pages (such as "When an Air Combo starter / hits the opponent,") and 21 lines of win quotes, partner lines and endings (typos such as "meditate" and missing commas such as "Rest easy, soldier,"). These are new text, not official. Needs `--official-hints`. | off |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
 
@@ -208,7 +208,7 @@ boss-fight lock:
 ```bash
 ./invenv.sh python -m tools.text.official_endings --driver local/mame_src/cps2.cpp \
   --archive local/arcade_roms/mshvsf/mshvsfu.zip --roster data/text/m5_roster.json \
-  --with-win-quotes --glyph-style credits --caption-palette gold --ui-english \
+  --with-win-quotes --glyph-style arcade --caption-palette gold --ui-english \
   --attract-captions --secret-roster data/text/secret_roster.json \
   --secret-translations data/translations/secret_characters.json \
   --story-lines data/translations/story_lines.json --official-hints --boss-exchanges \

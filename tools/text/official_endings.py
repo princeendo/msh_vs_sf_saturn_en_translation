@@ -593,6 +593,41 @@ def grammar_fixes(path: Path) -> dict[int, tuple[str, list[str]]]:
     }
 
 
+def line_fixes(path: Path) -> dict[str, str]:
+    """Official line SHA-256 -> corrected line, for any record line (TXT-004)."""
+    document = json.loads(path.read_text())
+    return {
+        str(fix["official_sha256"]): str(fix["text"])
+        for fix in document.get("lines", [])
+    }
+
+
+def fix_lines(spec: dict[str, object], fixes: Mapping[str, str]) -> int:
+    """Replace each record line whose stripped text has a fix's hash, centred.
+
+    Every fix must match at least one line, or the spec is refused. Returns the
+    number of lines replaced.
+    """
+    used: set[str] = set()
+    replaced = 0
+    for table in spec["tables"]:  # type: ignore[attr-defined]
+        for record in table["records"]:
+            for i, line in enumerate(record["lines"]):
+                text = line.strip()
+                digest = hashlib.sha256(text.encode()).hexdigest()
+                if digest not in fixes:
+                    continue
+                new = fixes[digest]
+                lead = len(line) - len(line.lstrip(" "))
+                lead = max(0, lead - (len(new) - len(text) + 1) // 2)
+                record["lines"][i] = " " * lead + new
+                used.add(digest)
+                replaced += 1
+    if missing := set(fixes) - used:
+        raise ValueError(f"line fixes match no official line: {sorted(missing)}")
+    return replaced
+
+
 def official_hint_table(
     program: bytes,
     track: Path,
@@ -784,9 +819,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         "--glyph-style",
-        choices=("quote", "credits"),
+        choices=("quote", "credits", "arcade"),
         default="quote",
-        help="pair glyphs from the quote font or the staff-credits font (FONT-011)",
+        help="pair glyphs from the quote font, the staff-credits font (FONT-011), "
+        "or the arcade narrow glyphs (REF-012)",
     )
     parser.add_argument(
         "--names",
@@ -973,6 +1009,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         patches = spec["patches"]
         assert isinstance(patches, list)
         patches += attract_patches(args.track)
+    if args.fix_grammar and (fixes_by_line := line_fixes(args.fix_grammar)):
+        spec["grammar_fixes_lines"] = fix_lines(spec, fixes_by_line)
     with args.track.open("rb") as stream:
         disc = Track(stream, args.track.stat().st_size)
         files = {

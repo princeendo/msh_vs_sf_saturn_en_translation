@@ -1919,7 +1919,10 @@ the user asks or when it unblocks other work.
   12-14. All 496 affected release lines were rendered and read offline, and
   two built records were seen on the Saturn. The font still fits. The three
   credits-style references were rebaselined (nine of nine pass). New track
-  01: `0d55127a…` (Saturn names), `0c3f72bb…` (American names).
+  01: `0d55127a…` (Saturn names), `0c3f72bb…` (American names). User
+  review (2026-10-28): kept. Since `EXP-0096` the release draws the arcade's
+  own narrow glyphs, which have their own descenders. These overrides apply
+  to `--glyph-style credits` only.
 - **Priority:** low
 - **Milestone:** M5 polish
 - **Dependencies:** RE-045.
@@ -1945,7 +1948,10 @@ the user asks or when it unblocks other work.
   The rule fits all six quotes seen, including `EXP-0036`'s: a type-`0x00FF`
   task linked to a character object (`0x060F3800`) holds `9ED6`, or doesn't.
   It appears with the winner's sprite over the title logo (HYPOTHESIS: part
-  of that screen). Still open:
+  of that screen). Session 2026-10-28 (`EXP-0098`): four more quotes fit the
+  rule (ten of ten). By winner: Ryu, Akuma, Cyclops → `9E16`; Bison,
+  Zangief, Captain America, Dhalsim and every CPU win → `9ED6`
+  (HYPOTHESIS: the winning character decides it). Still open:
   - why only some user wins keep it alive;
   - the "team state" candidate, which was not tested directly.
 - **Priority:** low
@@ -1964,7 +1970,10 @@ the user asks or when it unblocks other work.
 
 ### RE-050 - Spot-check more roster characters live
 
-- **Status:** `BACKLOG`
+- **Status:** `BACKLOG`. Progress (2026-10-28, `EXP-0098`): Bison and Akuma
+  pass all 16 records live (six characters live now). `verify_records.py`'s
+  screen check cannot see gold text (it looks for white), so for gold
+  builds the boxes were read instead.
 - **Priority:** low
 - **Milestone:** M5 polish
 - **Dependencies:** RE-046.
@@ -2036,6 +2045,8 @@ the user asks or when it unblocks other work.
   apart. The fit options (keep credits pairs, pairs from the narrow glyphs,
   or a 12-pixel pitch patch) are in `EXP-0090` for the user; nothing was
   adopted. Found on the way: digits are ASCII + `0x100` (`TXT-005`).
+  User decision (2026-10-28): the release uses pairs of the arcade's narrow
+  glyphs (`--glyph-style arcade`, `EXP-0096`), seen live in `EXP-0098`.
 - **Priority:** low
 - **Milestone:** Reference (no Saturn change)
 - **Dependencies:** REF-008, REF-009.
@@ -2654,7 +2665,12 @@ the user asks or when it unblocks other work.
 
 ### LOC-001 - Final character-name policy across text, art, and audio
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-28). User decision: American names, voices and
+  art are the default ("It should be consistent. We shouldn't display one
+  name and speak another."). Releases publish both variants, the American one
+  listed first (`release/README.md`, `README.md`). No rebuild: the US variant
+  already switches every name surface (`LOC-004`, `LOC-005`). Recorded in
+  `data/translations/README.md` and `docs/localization_plan.md`.
 - **Priority:** decide before a release (`REL-001`)
 - **Milestone:** Reference
 - **Dependencies:** END-026.
@@ -2902,8 +2918,15 @@ the user asks or when it unblocks other work.
     second font (largest 190,208 bytes; HYPOTHESIS, extraction not
     validated).
 
-  The menu, option-storage and code-hook questions need a short session at
-  the Options menu.
+  Options session (2026-10-28, `EXP-0097`):
+  - the settings are a table of longs at `0x06017AA0` (difficulty `AB8`
+    through VS power gage `AD0`);
+  - leaving the menu writes their low bytes to backup RAM (file offset
+    `0x19F`, every 4 bytes) with an apparent checksum;
+  - the menu text is plain ASCII in `MM.BIN` (`0x5C9F`). It has a hidden
+    11th row, COMBO GAGE (HYPOTHESIS: a place for a name switch).
+
+  Still open: the code hooks (the first SH-2 patch) and a cost estimate.
 - **Priority:** stretch (user: "would be incredible", likely a very large
   effort)
 - **Milestone:** Polish
@@ -3186,9 +3209,11 @@ the user asks or when it unblocks other work.
   five official hint pages (0, 1, 4, 8, 12) with draft corrections, each
   naming the official page by hash. Both variants build (spec `1fde4bf1…` /
   `4dd19378…`, track 01 `99067ff4…` / `a47d2ba8…`), and every corrected page
-  was seen on the Saturn by forced trial. Off by default. Candidate fixes in
-  other official English are listed in `EXP-0093` for the user to decide;
-  none were applied. The wording awaits user review.
+  was seen on the Saturn by forced trial. Off by default. User review
+  (2026-10-28): the hint wording is approved, and the typos and missing
+  commas elsewhere are fixed too. The `EXP-0093` addendum adds 21 line fixes
+  (32 record lines) in win quotes, partner lines and endings, two of them
+  seen on the Saturn. The flag stays opt-in.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** UI-006 (done).

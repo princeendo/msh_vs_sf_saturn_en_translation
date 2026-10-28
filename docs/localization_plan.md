@@ -103,7 +103,14 @@ Offer both conventions as parallel builds, both in English: the Saturn names
 - `LOC-005`: voice, if approved;
 - `LOC-006`: an in-game option, a stretch goal.
 
-## Questions for the User (`LOC-001`)
+## Decision (user, 2026-10-28)
+
+American names, voices and art are the default: "It should be consistent.
+We shouldn't display one name and speak another." The US variant
+(`--names us`) already switches every name surface found, using assets on the
+disc. Releases publish both variants, the American one listed first.
+
+## Questions for the User (`LOC-001`, answered above)
 
 1. A or B?
 2. If B: is audio in scope, and from which source? Candidates are unverified:
