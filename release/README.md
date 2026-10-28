@@ -81,8 +81,8 @@ Red, Spider-Man, Blackheart, Ryu, Ken, Chun-Li, Dhalsim, Zangief, Bison
   "CHOUHATU" reads "TAUNT" (`UI-007`).
 - **Caption look:** captions and ending text use the US arcade's own narrow
   win-quote letters, two to a cell, in the credits' gold, instead of the
-  original white font (`EXP-0096`). The gold also colours the remaining Japanese message
-  windows (excluded characters).
+  original white font (`EXP-0096`). The gold also colours the remaining
+  Japanese message windows (excluded characters).
 - **Attract-mode captions:** the Japanese teaser captions before the demo
   are replaced by the US arcade's three English captions, with its wording,
   line breaks and centring: LEGENDARY / HEROES / UNITE AGAIN!!, AMAZING /

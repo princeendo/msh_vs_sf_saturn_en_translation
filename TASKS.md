@@ -3511,7 +3511,12 @@ the user asks or when it unblocks other work.
 
 ### REL-004 - Publish release 0.1.0 on GitHub
 
-- **Status:** `READY` (2026-10-27: REL-003 and REL-002 done)
+- **Status:** `READY` (2026-10-27: REL-003 and REL-002 done). 2026-10-28,
+  `EXP-0102`: user go-ahead. Zips built and checked from the zips:
+  - `mshvsf_saturn_en_0.1.0_xdelta.zip` `af5c1d6e…`;
+  - `mshvsf_saturn_en_0.1.0_ssp.zip` `6c94e181…`.
+
+  Notes are in `release/notes_v0.1.0.md`, and the tag is `v0.1.0`.
 - **Priority:** high
 - **Milestone:** Polish
 - **Dependencies:** REL-003 (done); REL-002 (done).
