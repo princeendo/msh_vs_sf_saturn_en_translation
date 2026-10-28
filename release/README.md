@@ -169,6 +169,8 @@ byte-identical to the original.
     American-name image (`EXP-0089`; the boss KOs and one unlock word were
     forced by a driver). Gouki's English line was then seen in a forced
     trial.
+- On a real Saturn (user report, 2026-10-28, no EXP): the American-names
+  image made with xdelta, booted through Pseudo Saturn Kai.
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 

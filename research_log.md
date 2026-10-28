@@ -5368,3 +5368,13 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
 - **Publishing:** the user created the release on github.com as princeendo,
   because `gh` was signed in only as the work account. The API confirms
   both asset hashes.
+
+## 2026-10-28 — Real-Saturn boot; README links the release
+
+- **User report:** the American-names image (`c6f1fbd0…`), patched with the
+  xdelta file, boots and plays on a real Saturn through Pseudo Saturn Kai.
+  No EXP: the user ran it, and no capture was taken.
+- **README:** a Download section now links the v0.1.0 release and both zips.
+  The "Patch Files" text no longer says the repository never distributes
+  the patches. The real-Saturn boot is noted in `README.md` and
+  `release/README.md`.

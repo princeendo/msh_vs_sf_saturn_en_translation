@@ -7,10 +7,25 @@ the US PlayStation release matches. Where none exists, it uses a new
 translation, marked as such.
 
 The repository holds the tools, the translation data, and the expected hashes.
-It holds no game data: you build the patch yourself from your own disc image
-(see [Build the Patch](#build-the-patch)). How the work was done is recorded in
-[TASKS.md](TASKS.md), [research_log.md](research_log.md), and
+It holds no game data. The ready-made patches are on the
+[releases page](#download). You can also build them yourself from your own
+disc image (see [Build the Patch](#build-the-patch)). How the work was done is
+recorded in [TASKS.md](TASKS.md), [research_log.md](research_log.md), and
 `research/experiments/`.
+
+## Download
+
+The latest release is
+[0.1.0](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/tag/v0.1.0):
+
+- [mshvsf_saturn_en_0.1.0_xdelta.zip](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/download/v0.1.0/mshvsf_saturn_en_0.1.0_xdelta.zip):
+  xdelta patches for track 01;
+- [mshvsf_saturn_en_0.1.0_ssp.zip](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/download/v0.1.0/mshvsf_saturn_en_0.1.0_ssp.zip):
+  Sega Saturn Patcher (`.ssp`) files.
+
+Each zip holds both name variants (American names is the default) and a
+`README.txt` with every expected hash. You supply your own Japanese disc
+image. To apply a patch, see [Applying a Patch](#applying-a-patch).
 
 ## What's Changed
 
@@ -71,9 +86,10 @@ as they are. The full list, with evidence for each item, is in
 
 ## Patch Files
 
-You build the patches yourself (the next section); this repository never
-distributes them. Each name variant comes in two formats, which give the same
-patched track 01:
+The release zips ([Download](#download)) hold these files. They are GitHub
+Release assets only and are never committed to the repository (`AGENTS.md`
+rule 21). You can also build them yourself (the next section). Each name
+variant comes in two formats, which give the same patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
@@ -91,7 +107,8 @@ its original place with the same contents (`EXP-0084`).
 These patch files cannot be applied by anything in this repository; use one
 of the tools below. Either way, patch an untouched copy of the image, never
 one already patched. The project tests the result in Mednafen with the 4 MB
-RAM cartridge.
+RAM cartridge. The American-names image made with xdelta also boots on a real
+Saturn through Pseudo Saturn Kai (user report, 2026-10-28).
 
 | Tool | Patch file | Platforms | Tested here | How-to |
 | --- | --- | --- | --- | --- |
