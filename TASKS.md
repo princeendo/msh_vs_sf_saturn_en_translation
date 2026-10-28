@@ -3575,6 +3575,22 @@ the user asks or when it unblocks other work.
   is used: built, regression references updated, and each hint seen or
   forced.
 
+
+### UI-007 - Translate "CHOUHATU" on the button-config screen
+
+- **Status:** `DONE` (2026-10-28, `EXP-0099`)
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** LOC-006 groundwork (`EXP-0097` found the text).
+- **Decision (user, 2026-10-28):** change the romanised "CHOUHATU" (taunt) to
+  "TAUNT".
+- **Result:**
+  - `--ui-english` patches the four 9-byte `MM.BIN` fields (`0x69EE`,
+    `0x6A42`, `0x6ACE`, `0x6B22`: left and right columns, plain and
+    highlighted) to "  TAUNT  ", each checked against the original bytes;
+  - seen on the Saturn on the button-config screen, from the user's
+    Options-session state with those fields written to RAM;
+  - both release references rebaselined, with new patches.
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 
 - **Status:** `DONE` (2026-10-27).

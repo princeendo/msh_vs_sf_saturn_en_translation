@@ -119,6 +119,28 @@ UI_GLYPH_COPIES: dict[int, int | None] = {
 # matched by shading: 0x424/0x6A6, 0x428/0x6A8, 0x42C/0x6AA, 0x43A/0x6AC.
 for _jp, _en in ((0x424, 0x6A6), (0x428, 0x6A8), (0x42C, 0x6AA), (0x43A, 0x6AC)):
     UI_GLYPH_COPIES |= {_jp: None, _jp + 1: _en, _jp + 2: _en + 1, _jp + 3: None}
+# UI-007 (EXP-0099): the button-config screen's romanised "CHOUHATU" (taunt), in
+# its four MM.BIN fields (left and right columns, plain and highlighted).
+TAUNT_FIELDS = {
+    0x69EE: " CHOUHATU",
+    0x6A42: " CHOUHATU",
+    0x6ACE: "CHOUHATU ",
+    0x6B22: "CHOUHATU ",
+}
+
+
+def taunt_patches() -> list[dict[str, str]]:
+    return [
+        {
+            "file": "MM.BIN",
+            "offset": f"0x{offset:X}",
+            "hex": b"  TAUNT  ".hex(),
+            "expect": old.encode().hex(),
+        }
+        for offset, old in TAUNT_FIELDS.items()
+    ]
+
+
 # Applied in order, so "Cyber Akuma" is replaced before "Akuma". "Bison" first
 # appears in Apocalypse's pre-fight exchanges (SPECIAL-004).
 TEXT_OVERRIDES = {"Cyber Akuma": "Mech-Gouki", "Akuma": "Gouki", "Bison": "Vega"}
@@ -976,6 +998,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"0x{t:03X}": None if s is None else f"0x{s:03X}"
             for t, s in sorted(UI_GLYPH_COPIES.items())
         }
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += taunt_patches()
     if args.caption_palette == "gold":
         patches = spec["patches"]
         assert isinstance(patches, list)

@@ -48,7 +48,8 @@ It holds no game data: you build the patch yourself from your own disc image
   official English, shown in two pages as in the US arcade. The box fits 8
   of the arcade's 12 hints; the game's own joystick arrows are kept.
 - **English UI labels:** the player-2 prompt shows the game's own "JOIN IN" art
-  instead of 対戦者求む!, and the mode panel's 簡単操作 reads "EASY".
+  instead of 対戦者求む!, the mode panel's 簡単操作 reads "EASY", and the
+  button-config screen's romanised "CHOUHATU" reads "TAUNT".
 - **Boss fight unlocked:** MECH-GOUKI NOW!! (CYBER-AKUMA NOW!! with American
   names) is in the title menu from the start, without a Survival clear: on
   the SURVIVAL MODE row, press L or R, then Start. Optional; see
@@ -60,7 +61,7 @@ It holds no game data: you build the patch yourself from your own disc image
   - **Saturn names**: Vega, Gouki and Mech-Gouki, which match the Saturn's
     own art and voice.
 
-**Not changed:** the menus, the voices,
+**Not changed:** the other menus (already English), the voices,
 the attract-mode Norimaro screen, and every other screen not listed above.
 
 Only track 01 of the disc changes; tracks 02-12 (audio) and the CUE sheet stay
@@ -75,8 +76,8 @@ patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names (default) | `b9372a5898d5ed493056364355b5649f1ccc27bb7f5424c45b8112629d9aff51` |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names | `bf36e4cb793ca9f9c5e73891d6919f5b54cde2f2c589a486178f6cc59042aec4` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names (default) | `c6f1fbd0b85ed4f6f48a6d366cc4e39cb2c6dccfa001f06025de3473e979359b` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names | `cdf366b3b3ac33a5e176f56a1585d3f1d9fcd9fd10ab1599bf3f87c859780858` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies

@@ -249,10 +249,10 @@
   },
   {
    "name": "m8_roster_gold",
-   "experiment": "EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092, EXP-0096",
-   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083). The CONTINUE? hints are the arcade's official English, paged as in the arcade (UI-006, EXP-0086). The post-loss story lines (MM.BIN records 16-41) are in English (TXT-002, EXP-0087). Vega's orders in the secret characters' intros (MM.BIN records 42-43) are in English (TXT-003, EXP-0088). The pair glyphs are the US arcade's own narrow win-quote glyphs, already in the Saturn quote font, two to a cell (--glyph-style arcade; REF-012, EXP-0096; user decision 2026-10-28).",
+   "experiment": "EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092, EXP-0096, EXP-0099",
+   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083). The CONTINUE? hints are the arcade's official English, paged as in the arcade (UI-006, EXP-0086). The post-loss story lines (MM.BIN records 16-41) are in English (TXT-002, EXP-0087). Vega's orders in the secret characters' intros (MM.BIN records 42-43) are in English (TXT-003, EXP-0088). The pair glyphs are the US arcade's own narrow win-quote glyphs, already in the Saturn quote font, two to a cell (--glyph-style arcade; REF-012, EXP-0096; user decision 2026-10-28). With --ui-english, the button-config screen's romanised CHOUHATU reads TAUNT (UI-007, EXP-0099).",
    "spec": "local/ui003/spec/m8_roster_gold.json",
-   "spec_sha256": "67fed5056c8fd5551e8dd99544416b814f95ac426d207dac6a971c946cf6ebb5",
+   "spec_sha256": "86178579dd60b939b44412469f6d5caba874b6356657881b82c21249473c8644",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -273,7 +273,7 @@
     "--official-hints",
     "--boss-exchanges"
    ],
-   "track01_sha256": "bf36e4cb793ca9f9c5e73891d6919f5b54cde2f2c589a486178f6cc59042aec4",
+   "track01_sha256": "cdf366b3b3ac33a5e176f56a1585d3f1d9fcd9fd10ab1599bf3f87c859780858",
    "files_sha256": {
     "MC00.PAC": "ed576eef0d4bdc0a7dee30b266acecb34c572a7e4b007ebaddf832f1748a1895",
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
@@ -300,7 +300,7 @@
     "MC16.PAC": "159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4",
     "ME.PAC": "8d8bf166acca2016002f1fb9dd3dc801a6f726819e5a8e47ba1c985af1431c4f",
     "MEMFIX.PAC": "6f0dc7f117e140a565b19820356a98942fb0d0e7b7ea1a675a400f27d0264b22",
-    "MM.BIN": "31beaf3894de1496f5935b616ab8c1e59902950aaf928e88c664f1c5644e5541",
+    "MM.BIN": "0ae2dfa489c89b924baf98ef3e112adfd05fbeac89e08b33930f72327f088742",
     "MVSOP0.ST2": "509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec",
     "MVSOP1.ST2": "3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa",
     "MVSOP2.ST2": "4e5b96b55a5b388799ae153c9995aaea60d025f37aec72d73c449aaeed676e24",
@@ -391,15 +391,19 @@
     {
      "track01_sha256": "0d55127a1757de3d15d40808d98b9cd900b50a7cf38eba93c666550899f4b125",
      "replaced_because": "EXP-0096: pair glyphs from the US arcade narrow win-quote glyphs (--glyph-style arcade, REF-012, user decision 2026-10-28)"
+    },
+    {
+     "track01_sha256": "bf36e4cb793ca9f9c5e73891d6919f5b54cde2f2c589a486178f6cc59042aec4",
+     "replaced_because": "EXP-0099: the button-config screen's CHOUHATU reads TAUNT (UI-007, --ui-english)"
     }
    ]
   },
   {
    "name": "m8_roster_gold_us",
-   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092, EXP-0096",
-   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083). The CONTINUE? hints are the arcade's official English, paged as in the arcade (UI-006, EXP-0086). The post-loss story lines (MM.BIN records 16-41) are in English (TXT-002, EXP-0087). Vega's orders in the secret characters' intros (MM.BIN records 42-43) are in English (TXT-003, EXP-0088). The pair glyphs are the US arcade's own narrow win-quote glyphs, already in the Saturn quote font, two to a cell (--glyph-style arcade; REF-012, EXP-0096; user decision 2026-10-28).",
+   "experiment": "EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092, EXP-0096, EXP-0099",
+   "purpose": "LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text with the arcade's names (Bison, Akuma, Cyber Akuma; no Vega/Gouki text overrides); the voice switched to the American name calls already on the disc (six MEMFIX.PAC name-call table edits, EXP-0058); the life-bar label records for both player sides replaced by the disc's own US records (BISON, AKUMA at full width, CYBER-AKUMA; EXP-0065) and the ME.PAC speaker labels set to Bison, Akuma, Cyber Akuma (EXP-0060); the MM.BIN sound-test titles (18.BISON, 22.AKUMA) and the title-menu unlock message (CYBER-AKUMA NOW!!) (EXP-0061); the win-banner name pointers switched to the disc's BISON, AKUMA, and CYBER-AKUMA records (EXP-0062); the VS-screen name pointers switched the same way (EXP-0063). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083). The CONTINUE? hints are the arcade's official English, paged as in the arcade (UI-006, EXP-0086). The post-loss story lines (MM.BIN records 16-41) are in English (TXT-002, EXP-0087). Vega's orders in the secret characters' intros (MM.BIN records 42-43) are in English (TXT-003, EXP-0088). The pair glyphs are the US arcade's own narrow win-quote glyphs, already in the Saturn quote font, two to a cell (--glyph-style arcade; REF-012, EXP-0096; user decision 2026-10-28). With --ui-english, the button-config screen's romanised CHOUHATU reads TAUNT (UI-007, EXP-0099).",
    "spec": "local/ui003/spec/m8_roster_gold_us.json",
-   "spec_sha256": "86e0ebd6bfdb9732642213f5608695b1f2e2df9efb3fb69da669f9e1b46195fe",
+   "spec_sha256": "b89d46796e2aaa9f1a9874c95bb042ee8fbefe093aa9c5f2557b45e52ada69f0",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -422,7 +426,7 @@
     "--official-hints",
     "--boss-exchanges"
    ],
-   "track01_sha256": "b9372a5898d5ed493056364355b5649f1ccc27bb7f5424c45b8112629d9aff51",
+   "track01_sha256": "c6f1fbd0b85ed4f6f48a6d366cc4e39cb2c6dccfa001f06025de3473e979359b",
    "files_sha256": {
     "MC00.PAC": "586fcb89f320b80e5eccb5358954c0c1b37ea80aaa2fee6a6445f19ad35f00f7",
     "MC01.PAC": "46ae4cf00560b74048f3aea6a18f00c1d094a48760a1d22febc6f7238eb97a39",
@@ -449,7 +453,7 @@
     "MC16.PAC": "159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4",
     "ME.PAC": "36eb65cd5fd291f6e1eaac336f74ec1f4f1a51e24fec93c984a5946b8d0b8a29",
     "MEMFIX.PAC": "be24dc10a92485652e958f4967722163b31675f193a7ddee41c3cabcf936d691",
-    "MM.BIN": "1f8c37911acc5d6b173a06b2ed44f9645ac8d658517dbfab2a7c98b6c8cfedb1",
+    "MM.BIN": "15e2770d1fa51487799bd0cbbe8a762c2f24155e0e32be5da5ca9fd29486f815",
     "MVSOP0.ST2": "509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec",
     "MVSOP1.ST2": "3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa",
     "MVSOP2.ST2": "4e5b96b55a5b388799ae153c9995aaea60d025f37aec72d73c449aaeed676e24",
@@ -552,6 +556,10 @@
     {
      "track01_sha256": "0c3f72bbe856acd8f24d072185a12190b97a7344beb94e0b821cb3266bb21ef0",
      "replaced_because": "EXP-0096: pair glyphs from the US arcade narrow win-quote glyphs (--glyph-style arcade, REF-012, user decision 2026-10-28)"
+    },
+    {
+     "track01_sha256": "b9372a5898d5ed493056364355b5649f1ccc27bb7f5424c45b8112629d9aff51",
+     "replaced_because": "EXP-0099: the button-config screen's CHOUHATU reads TAUNT (UI-007, --ui-english)"
     }
    ]
   }

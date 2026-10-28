@@ -5326,3 +5326,16 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 Checks: pytest (298 passed, 1 skipped), ruff check, and strict mypy (74
 files) pass. `ruff format --check` reports only `EXP-0070/README.md`, which
 predates this session and was not touched.
+
+## 2026-10-28 — UI-007: "CHOUHATU" reads "TAUNT" (EXP-0099)
+
+- **User request:** translate the button-config screen's romanised
+  "CHOUHATU".
+- **Fields:** `MM.BIN` holds it in four 9-byte fields (`0x69EE`, `0x6A42`,
+  `0x6ACE`, `0x6B22`). `--ui-english` now patches each to "  TAUNT  ".
+- **Pitfall:** writing the text into RAM on an already-drawn screen shows
+  nothing. Changing the L-button value (`0x06017AE0`) forces a redraw.
+- **Rebuilt:** both references (nine of nine pass), with new patches. Track
+  01: `cdf366b3…` (Saturn names), `c6f1fbd0…` (American names).
+
+Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pass. `ruff format --check` flags only the untouched `EXP-0070/README.md`.

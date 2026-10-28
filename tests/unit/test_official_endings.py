@@ -361,3 +361,14 @@ def test_fix_lines_replaces_by_hash_keeps_centre_and_refuses_stale() -> None:
     assert spec["tables"][0]["records"][0]["lines"] == [" See ya, pal", "  {P}."]
     with pytest.raises(ValueError, match="match no official line"):
         oe.fix_lines(spec, {digest: "again"})
+
+
+def test_taunt_patches_replace_each_chouhatu_field_in_place() -> None:
+    import tools.text.official_endings as oe
+
+    patches = oe.taunt_patches()
+    assert len(patches) == 4
+    for patch in patches:
+        old, new = bytes.fromhex(patch["expect"]), bytes.fromhex(patch["hex"])
+        assert len(old) == len(new) == 9 and b"CHOUHATU" in old
+        assert new == b"  TAUNT  "
