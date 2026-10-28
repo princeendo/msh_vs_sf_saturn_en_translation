@@ -5277,3 +5277,14 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - in this session the task appeared with Ryu's sprite over the title logo,
     linked to the character object `0x060F3800`;
   - the CPU's win showed its sprite on black, with no tally or logo.
+
+## 2026-10-27 — LOC-006 groundwork: what a name switch must swap (EXP-0095)
+
+- **Release-image census:** the font (`MEMFIX.PAC` entry 4) differs in 58,369
+  bytes. Everything else totals about 490 bytes: the name-call table, `MM.BIN`,
+  `ME.PAC`, `MC00`, `MC14` and `MC0F`.
+- **Cart RAM:** across 213 recorder states, the largest block zero in all of
+  them is 190,208 bytes at `0x0259EB00`. A second font (206,656 bytes) does
+  not fit there (HYPOTHESIS).
+- **Next:** a short session at the Options menu for the menu and storage
+  questions. Nothing implemented.

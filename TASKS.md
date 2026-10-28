@@ -2895,7 +2895,15 @@ the user asks or when it unblocks other work.
 
 ### LOC-006 - In-game option to switch the name variant (stretch)
 
-- **Status:** `BACKLOG`
+- **Status:** `BACKLOG`. Groundwork (2026-10-27, `EXP-0095`):
+  - the two release images differ in the quote font (58 KB of a 206 KB
+    image) plus about 490 bytes of tables and text across five files;
+  - in 213 recorded states, no zero cart-RAM region is big enough for a
+    second font (largest 190,208 bytes; HYPOTHESIS, extraction not
+    validated).
+
+  The menu, option-storage and code-hook questions need a short session at
+  the Options menu.
 - **Priority:** stretch (user: "would be incredible", likely a very large
   effort)
 - **Milestone:** Polish
