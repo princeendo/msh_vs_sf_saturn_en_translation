@@ -1,10 +1,15 @@
 """RE-049 trials: does the quote task take the highest free 0xC0 pool slot?"""
-import json, sys
+
+import json
 from pathlib import Path
+
 from tools.mednafen.agent import Agent
+
 S = Path("local/re049/play/rec/states")
 agent = Agent(Path("local/mednafen/agent").resolve(), 10)
-leftover = Path("local/re049/dump_f00007980/wram_h.bin").read_bytes()[0xF9ED6:0xF9ED6 + 0xC0]
+leftover = Path("local/re049/dump_f00007980/wram_h.bin").read_bytes()[
+    0xF9ED6 : 0xF9ED6 + 0xC0
+]
 trials = {
     "A_win_control": ("f00007980.mcs", None),
     "B_win_free_9ED6": ("f00007980.mcs", bytes(0xC0)),
@@ -27,7 +32,11 @@ for name, (state, slot) in trials.items():
     agent.run()
     status = agent.wait_halted(60)
     regs = agent.regs()
-    results[name] = {"frame": status["frame"], "r12": f"{regs['R12']:08X}", "r0": f"{regs['R0']:08X}"}
+    results[name] = {
+        "frame": status["frame"],
+        "r12": f"{regs['R12']:08X}",
+        "r0": f"{regs['R0']:08X}",
+    }
     print(name, results[name], flush=True)
 agent.breakpoints("pc")
 Path("local/re049/slot_trial.json").write_text(json.dumps(results, indent=1))
