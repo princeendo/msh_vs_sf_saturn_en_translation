@@ -76,9 +76,9 @@ These questions are unresolved unless a later entry links to reproducible eviden
     used the second. Candidates: the winning side (1P/2P), the match number, or
     the team's state after a lost round. Discriminating test: one session with known sides, logging `r12` at
     `060AF724` for KOs from each side.
-  - Can lowercase descenders (`p`, and possibly `g`, `q`, `y`) be drawn more
-    clearly in the pair glyphs? In `EXP-0036`, `p` sits on the baseline with a
-    short stem. It is legible and cosmetic only.
+  - ~~Can lowercase descenders be drawn more clearly in the pair glyphs?~~
+    Answered by `RE-048` (`EXP-0092`): hand-drawn g, j, p, q and y in the
+    credits font.
   - What is the WRAM-H list at `0x06094FD8`? It held per-team table pointers
     (`0x002091AC`/`0x0021A59C`, or `0x002191AC`/`0x0020A59C`), but `0x99000E99`
     in its second entry with partner Gouki (`EXP-0027` V2). Must the partner-name
@@ -336,4 +336,16 @@ and `docs/discoveries.md`.
 - **Arcade quote pitch (`EXP-0090`):** what makes the US arcade draw its narrow
   Latin glyphs 12 pixels apart and the Japanese set 16? It may be the set,
   the language word, or the code range. The Saturn draws the same narrow
-  glyphs at 16, and where its pitch is set is not traced.
+  glyphs at 16.
+  - **Lead (HYPOTHESIS, static):** the Saturn quote routine near `0x060AF6E0`
+    switches on the words at `0x060F4C8E` and `0x060F4C90` (r11 − `0x3372` and
+    − `0x3370`; the arcade's language word is at −`$3370`, `EXP-0031`):
+    - the record size goes from 76 to 100;
+    - the line length from 38 cells to 50;
+    - the pitch from 16 to 12.
+
+    Both words read 0 in the `EXP-0089` checkpoint. Setting `0x060F4C90` = 1
+    there left the post-boss box empty (`lang_f1100.png` `ad93c8ee…`). That
+    is consistent with the US arcade having no English multi-box dialogue,
+    but it says nothing about pitch. The test still to run: a state just
+    before a win quote, with the flag set.

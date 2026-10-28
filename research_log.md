@@ -5233,3 +5233,23 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   outside the hints (typos such as "mediate" and "it's appeal", missing
   commas) are listed in `EXP-0093` for the user; none are applied.
 - **Default unchanged:** no release reference uses the flag.
+
+## 2026-10-27 — Lead: the Saturn quote routine keeps the arcade's English layout switch
+
+- **Static reading** of WRAM-H (`EXP-0089` checkpoint) at `0x060AF6E0`-`0x060AF79E`
+  (translated 68000 code). The routine switches on the words at r11 −
+  `0x3372` and − `0x3370` (`0x060F4C8E`, `0x060F4C90`):
+  - record size 76 → 100;
+  - line length 38 → 50 cells;
+  - pitch 16 → 12.
+
+  The arcade's language word is at −`$3370` (`EXP-0031`). Both words read 0.
+- **One trial:** `0x060F4C90` = 1 on the box-4 checkpoint left the post-boss
+  box empty (`local/ref012/saturn/lang_f1100.png` `ad93c8ee…`). This says
+  nothing about pitch.
+- **Status:** HYPOTHESIS. The test still needed is a state just before a win
+  quote. If it holds, the Saturn could draw the arcade's narrow font 12 px
+  apart without a code patch (`REF-012` option 3).
+- **RE-049 side note:** r12 in this routine is the running task object.
+  `0x060F9E16`/`0x060F9ED6` may be pool slots, a fourth candidate besides
+  side, match number and team state.
