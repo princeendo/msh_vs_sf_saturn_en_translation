@@ -50,3 +50,15 @@ its recorded track 01.
 ./invenv.sh python research/experiments/EXP-0102/make_zips.py 0.1.0 build/release/v0.1.0
 bash research/experiments/EXP-0102/check_zips.sh 0.1.0 build/release/v0.1.0 local/rel004/check
 ```
+
+## Publication (2026-10-28)
+
+- **Release:** the user created it on github.com as princeendo:
+  https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/tag/v0.1.0
+  (published 2026-10-28T16:21:26Z, not a pre-release).
+- **Why manual:** `gh` was signed in only as the work account, which this
+  project does not use.
+- **Assets:** the GitHub API (`/releases/tags/v0.1.0`) lists
+  `mshvsf_saturn_en_0.1.0_ssp.zip` (1,124,506 bytes, `sha256:6c94e181…`) and
+  `mshvsf_saturn_en_0.1.0_xdelta.zip` (1,221,013 bytes, `sha256:af5c1d6e…`).
+  Both are identical to the built zips.

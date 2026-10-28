@@ -5359,3 +5359,12 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   about 0.27 against 1.0.
 - **User (2026-10-28):** `RE-049`, `RE-050`, `LOC-006`, `SPECIAL-001` and
   the optional extras are deferred past 0.1.0 (`docs/known_unknowns.md`).
+
+## 2026-10-28 — REL-004: release 0.1.0 published (EXP-0102)
+
+- **Zips:** both are reproducible. Every patch applied from them rebuilds its
+  recorded track 01 (`c6f1fbd0…` American names, `cdf366b3…` Saturn names).
+- **Tag:** `v0.1.0` is pushed.
+- **Publishing:** the user created the release on github.com as princeendo,
+  because `gh` was signed in only as the work account. The API confirms
+  both asset hashes.

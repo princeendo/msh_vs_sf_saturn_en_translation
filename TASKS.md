@@ -3511,8 +3511,11 @@ the user asks or when it unblocks other work.
 
 ### REL-004 - Publish release 0.1.0 on GitHub
 
-- **Status:** `READY` (2026-10-27: REL-003 and REL-002 done). 2026-10-28,
-  `EXP-0102`: user go-ahead. Zips built and checked from the zips:
+- **Status:** `DONE` (2026-10-28, `EXP-0102`). Published by the user at
+  https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/tag/v0.1.0
+  (tag `v0.1.0`, 2026-10-28T16:21:26Z). The GitHub API reports both assets
+  with the same sizes and SHA-256 as the built zips. Zips built and checked
+  from the zips:
   - `mshvsf_saturn_en_0.1.0_xdelta.zip` `af5c1d6e…`;
   - `mshvsf_saturn_en_0.1.0_ssp.zip` `6c94e181…`.
 
