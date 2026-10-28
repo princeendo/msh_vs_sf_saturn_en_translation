@@ -5339,3 +5339,14 @@ predates this session and was not touched.
   01: `cdf366b3…` (Saturn names), `c6f1fbd0…` (American names).
 
 Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pass. `ruff format --check` flags only the untouched `EXP-0070/README.md`.
+
+## 2026-10-28 — Cold-boot check of the final image (EXP-0100)
+
+- **Fixed first:** the stale "provisional" names and "Not changed" text in
+  the release README (`7912a1d`).
+- **Run:** the user cold-booted the final American-names image (`c6f1fbd0…`)
+  and played Options → BUTTON CONFIG, then an Arcade run with a continue
+  through to the ending and credits.
+- **Seen, all correct:** TAUNT, the win quotes, the CONTINUE? hint, the
+  post-boss captions, Ryu's ending pages (arcade letters, gold) and the
+  credits. Nothing was reported wrong.

@@ -59,9 +59,8 @@ screen, and the release now shows "TAUNT".
 
 ## Uncertainty and Alternatives
 
-- **Not checked from a cold boot:** the screen was reached through the user's
-  state, with the fields written into RAM. Because `MM.BIN` is resident, the
-  disc copy is what a fresh boot loads.
+- **Cold boot:** seen since in `EXP-0100`. The screen there showed TAUNT
+  straight from the disc.
 
 ## Reproduction
 

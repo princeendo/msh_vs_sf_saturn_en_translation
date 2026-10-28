@@ -3590,7 +3590,8 @@ the user asks or when it unblocks other work.
     highlighted) to "  TAUNT  ", each checked against the original bytes;
   - seen on the Saturn on the button-config screen, from the user's
     Options-session state with those fields written to RAM;
-  - both release references rebaselined, with new patches.
+  - both release references rebaselined, with new patches;
+  - seen from a cold boot of the final image (`EXP-0100`).
 ### SPECIAL-004 - Apocalypse's and Mech-Gouki's own text
 
 - **Status:** `DONE` (2026-10-27).
