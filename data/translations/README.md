@@ -111,3 +111,15 @@ metadata and the minimal text needed for the project record.
   check as the secret-character file; joystick arrows stay the game's own
   glyphs (`{XXXX}` cells).
 
+
+## Grammar Fixes (`TXT-004`, `EXP-0093`)
+
+- `grammar_fixes.json` holds light corrections of official English. These
+  are new text, not official.
+- **Scope:** five CONTINUE? hint pages. Each names the official page it
+  replaces by hash, and the build refuses a page that differs.
+- **Use:** they are built only with `--fix-grammar` (with `--official-hints`).
+  The release default stays official.
+- **Status:** the wording is a draft for user review. Candidate fixes
+  elsewhere (win quotes, partner lines, endings) are listed in `EXP-0093`;
+  none are applied.

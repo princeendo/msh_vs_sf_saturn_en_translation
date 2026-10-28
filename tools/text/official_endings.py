@@ -584,15 +584,27 @@ def en_cell_lines(program: bytes, address: int) -> list[str]:
     return ["".join(cells[:EN_CELLS]).strip(), "".join(cells[EN_CELLS:]).strip()]
 
 
+def grammar_fixes(path: Path) -> dict[int, tuple[str, list[str]]]:
+    """Hint page -> (official page SHA-256, corrected lines) (TXT-004)."""
+    document = json.loads(path.read_text())
+    return {
+        int(fix["page"]): (str(fix["official_sha256"]), list(fix["lines"]))
+        for fix in document["hints"]
+    }
+
+
 def official_hint_table(
     program: bytes,
     track: Path,
     existing: set[str] = frozenset(),  # type: ignore[assignment]
+    fixes: Mapping[int, tuple[str, list[str]]] | None = None,
 ) -> dict[str, object]:
     """Spec table for the CONTINUE? hints: the arcade's English pages 0-15.
 
     The Saturn records must be the Japanese hints (records 1-15 equal to the
-    arcade's, record 0 by hash), or the table is refused.
+    arcade's, record 0 by hash), or the table is refused. ``fixes`` replaces
+    pages with corrected lines (``grammar_fixes``); each must name the official
+    page's hash, or the table is refused.
     """
     with track.open("rb") as stream:
         disc = Track(stream, track.stat().st_size)
@@ -604,6 +616,10 @@ def official_hint_table(
     ):
         raise ValueError("MM.BIN hints differ from the Japanese hint table")
     pages = [en_cell_lines(program, HINTS_EN + EN_RECORD * k) for k in range(16)]
+    for k, (official, lines) in (fixes or {}).items():
+        if hashlib.sha256("\n".join(pages[k]).encode()).hexdigest() != official:
+            raise ValueError(f"hint page {k} is not the official text the fix names")
+        pages[k] = lines
     shifts = fewest_pair_shifts({x for page in pages for x in page if x}, existing)
     return {
         "file": "MM.BIN",
@@ -818,6 +834,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="the arcade's official English CONTINUE? hints, paged (UI-006)",
     )
     parser.add_argument(
+        "--fix-grammar",
+        type=Path,
+        help="corrected official hint pages, with --official-hints (TXT-004)",
+    )
+    parser.add_argument(
         "--secret-roster",
         type=Path,
         help="extra win-quote roster with official English (SPECIAL-003)",
@@ -890,16 +911,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         spec["story_lines"] = True
         spec["retire_replaced_kanji"] = True
+    if args.fix_grammar and not args.official_hints:
+        parser.error("--fix-grammar corrects the --official-hints pages")
     if args.official_hints:
         if args.ui_translations:
             parser.error("--official-hints replaces the --ui-translations hints")
         tables = spec["tables"]
         assert isinstance(tables, list)
-        tables.append(official_hint_table(program, args.track, spec_pairs(spec)))
+        fixes = grammar_fixes(args.fix_grammar) if args.fix_grammar else None
+        tables.append(official_hint_table(program, args.track, spec_pairs(spec), fixes))
         patches = spec["patches"]
         assert isinstance(patches, list)
         patches += hint_page_patches()
         spec["official_hints"] = True
+        if fixes:
+            spec["grammar_fixes"] = True
         spec["retire_replaced_kanji"] = True
     if args.boss_exchanges:
         tables = spec["tables"]

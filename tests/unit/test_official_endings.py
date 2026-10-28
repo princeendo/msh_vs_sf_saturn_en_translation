@@ -258,6 +258,15 @@ def test_official_hints_read_cells_and_refuse_other_hints(tmp_path) -> None:  # 
         assert table["file"] == "MM.BIN" and table["format"] == "raw"
         assert len(records) == count
         assert records[3]["lines"][0].strip() == "{01E2}H+K"
+        page3 = hashlib.sha256(b"{01E2}H+K\n").hexdigest()
+        fixed = oe.official_hint_table(
+            bytes(program), track, fixes={3: (page3, ["Fixed", "page"])}
+        )
+        assert [x.strip() for x in fixed["records"][3]["lines"]] == ["Fixed", "page"]
+        with pytest.raises(ValueError, match="official text"):
+            oe.official_hint_table(
+                bytes(program), track, fixes={3: ("0" * 64, ["Fixed", "page"])}
+            )
         mm[oe.HINTS_MM + 76] ^= 1
         with pytest.raises(ValueError, match="differ"):
             oe.official_hint_table(bytes(program), track)

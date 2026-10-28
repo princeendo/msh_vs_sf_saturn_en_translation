@@ -3162,7 +3162,14 @@ the user asks or when it unblocks other work.
 
 ### TXT-004 - Optional grammar fixes for clumsy official English (`--fix-grammar`)
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0093`). `--fix-grammar
+  data/translations/grammar_fixes.json` (needs `--official-hints`) replaces
+  five official hint pages (0, 1, 4, 8, 12) with draft corrections, each
+  naming the official page by hash. Both variants build (spec `1fde4bf1…` /
+  `4dd19378…`, track 01 `99067ff4…` / `a47d2ba8…`), and every corrected page
+  was seen on the Saturn by forced trial. Off by default. Candidate fixes in
+  other official English are listed in `EXP-0093` for the user to decide;
+  none were applied. The wording awaits user review.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** UI-006 (done).

@@ -198,6 +198,7 @@ lists each image's exact options.
 | `--secret-translations data/translations/secret_characters.json` | New translations for the secret characters and Norimaro, plus their official partner lines and names. | on |
 | `--story-lines data/translations/story_lines.json` | The rare post-loss lines (`MM.BIN` records 16-41) and Vega's orders in two secret characters' intros (records 42-43), new translations. | on |
 | `--official-hints` | The CONTINUE? hints in the arcade's official English, paged as in the arcade (8 of 12 hints fit). | on |
+| `--fix-grammar data/translations/grammar_fixes.json` | Light grammar fixes to five official hint pages, such as "When an Air Combo starter / hits the opponent,". These are new text, not official. Needs `--official-hints`. | off |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
 

@@ -1,0 +1,53 @@
+{
+ "schema": "mshvsf-grammar-fixes/1",
+ "status": "Built only with --fix-grammar, which needs --official-hints (TXT-004, EXP-0093). Off by default: the release keeps the official text. Draft wording for user review.",
+ "description": "Light grammar corrections of the US arcade's official English CONTINUE? hint pages (the 16 pages at MM.BIN records 0-15 under --official-hints, EXP-0086). Each fix names the official page it replaces by the SHA-256 of its decoded lines joined with a newline (tools.text.official_endings.en_cell_lines), so the official text is not copied here; the build refuses a page whose hash differs. Codes {01E2}-{01E8} are the joystick-arrow glyphs.",
+ "author": "Claude (AI) draft from the official English; new text, not official.",
+ "hints": [
+  {
+   "page": 0,
+   "official_sha256": "8c090d7270fd19b67bb5eeb8bd69eae73c228ef0a702e719fefe8b45c92ba000",
+   "lines": [
+    "When an Air Combo starter",
+    "hits the opponent,"
+   ],
+   "reason": "Pages 0 and 1 are one sentence. The official line garbles \"starting move\"; \"an Air Combo starter\" says it in two words with the article."
+  },
+  {
+   "page": 1,
+   "official_sha256": "2876d7a9e497c28c3e44f3a8df6bdbcd5df8abf78a34126f93f1144912439edf",
+   "lines": [
+    "push the lever {01E2} to chase",
+    "them and execute a combo!"
+   ],
+   "reason": "The usual verb for the lever, and \"them\", since the opponent may be any character."
+  },
+  {
+   "page": 4,
+   "official_sha256": "eb0734ec44ba0c01bee345314978ff175fc68bfbd6d5245824d703189015662c",
+   "lines": [
+    "At Level 2 or higher,",
+    "enter {01E6}{01E5}{01E4} HP+HK"
+   ],
+   "reason": "The official clause has no subject; \"At Level 2 or higher\" reads as intended."
+  },
+  {
+   "page": 8,
+   "official_sha256": "377e7860c9644702f499b1cc6a1e6785c1310299e70bc1fdb03d7f66002fa4b7",
+   "lines": [
+    "Press HP+HK together for",
+    "the Cross-Over Attack!"
+   ],
+   "reason": "The official line has no verb. \"Cross-Over\" is capitalised as on page 5."
+  },
+  {
+   "page": 12,
+   "official_sha256": "81bda32c56ed432a9037ca96a807acf4cd2e382602ba5a374dd0645106727a74",
+   "lines": [
+    "{01E8}{01E7}{01E6} P before landing",
+    "for a safe fall!"
+   ],
+   "reason": "Indefinite article."
+  }
+ ]
+}

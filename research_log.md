@@ -5215,3 +5215,21 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - `bash research/experiments/EXP-0092/verify_descenders.sh`: two built
     records show the descenders on the Saturn.
 - **For the user:** the letter shapes are a design choice and can be redrawn.
+
+## 2026-10-27 — TXT-004: opt-in grammar fixes (EXP-0093)
+
+- **Change:**
+  - `--fix-grammar data/translations/grammar_fixes.json` (needs
+    `--official-hints`) replaces five official hint pages (0, 1, 4, 8, 12);
+  - each fix names the official page by the SHA-256 of its decoded lines.
+- **Commands and outcomes:**
+  - `bash local/txt004/gen.sh`: each spec differs from the release spec in
+    the eight corrected lines and the flag field only;
+  - specs `1fde4bf1…` (Saturn names) and `4dd19378…` (American names);
+  - both images built (track 01 `99067ff4…` / `a47d2ba8…`);
+  - `bash research/experiments/EXP-0093/verify_grammar.sh`: hints 0, 2, 4
+    and 6 show the corrected pages on the Saturn.
+- **Review:** all 405 distinct built records were read. Candidate fixes
+  outside the hints (typos such as "mediate" and "it's appeal", missing
+  commas) are listed in `EXP-0093` for the user; none are applied.
+- **Default unchanged:** no release reference uses the flag.
