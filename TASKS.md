@@ -1914,7 +1914,12 @@ the user asks or when it unblocks other work.
 
 ### RE-048 - Improve lowercase descenders in pair glyphs
 
-- **Status:** `BACKLOG`
+- **Status:** `DONE` (2026-10-27, `EXP-0092`). The credits font has no
+  descenders, so `OVERRIDES` gains hand-drawn g, j, p, q and y using rows
+  12-14. All 496 affected release lines were rendered and read offline, and
+  two built records were seen on the Saturn. The font still fits. The three
+  credits-style references were rebaselined (nine of nine pass). New track
+  01: `0d55127a…` (Saturn names), `0c3f72bb…` (American names).
 - **Priority:** low
 - **Milestone:** M5 polish
 - **Dependencies:** RE-045.

@@ -5195,3 +5195,23 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - `bash research/experiments/EXP-0091/verify_digits.sh`: hint 2 shows
     "When Level 2 or higher," and box 4 shows "before 8 am...".
 - **Errata:** added to `EXP-0078` and `EXP-0086`.
+
+## 2026-10-27 — RE-048: descenders in the credits pair glyphs (EXP-0092)
+
+- **Observation:**
+  - the release's credits font has no descenders (lower case ends on row
+    11);
+  - "Keep your guard up, puppy" read like "Kee0 vour 9uard u0";
+  - the arcade's narrow font (`EXP-0090`) has real descenders, but adopting
+    it is a user decision, so it was not used here.
+- **Change:** `tools/text/credits_font.py` `OVERRIDES` gains g, j, p, q and y,
+  drawn into rows 12-14.
+- **Commands and outcomes:**
+  - offline: 496 distinct release lines with those letters were rendered in
+    16 sheets, and all were read;
+  - `bash local/re048/rebaseline.sh`: `m8_roster_credits`, `m8_roster_gold`
+    and `m8_roster_gold_us` were rebaselined, nine of nine pass, and both
+    patch formats round-trip;
+  - `bash research/experiments/EXP-0092/verify_descenders.sh`: two built
+    records show the descenders on the Saturn.
+- **For the user:** the letter shapes are a design choice and can be redrawn.

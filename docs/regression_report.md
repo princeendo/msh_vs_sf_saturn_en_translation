@@ -18,9 +18,9 @@ Last run: 2026-10-27.
 | `roster` | `EXP-0036` | `b2c097fa5c28a61b…` | `351254c4751e0a49…` | 2026-10-24 | 2026-10-27 | pass (regenerated spec) |
 | `end010` | `EXP-0044, EXP-0045, EXP-0050` | `776d16d254e0f3c6…` | `7ae5401f5fdee7a4…` | 2026-10-25 | 2026-10-27 | pass (regenerated spec) |
 | `m8_roster` | `EXP-0048, EXP-0049, EXP-0050` | `04ccb45256104eb3…` | `2a5b26b75a0d9080…` | 2026-10-25 | 2026-10-27 | pass (regenerated spec) |
-| `m8_roster_credits` | `EXP-0052` | `173d485c04030ac2…` | `bede40b15644ccab…` | 2026-10-25 | 2026-10-27 | pass (regenerated spec) |
-| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091` | `5cce9a7e98b86581…` | `ceeca6abe9678ee1…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
-| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091` | `7028eff9481e72d9…` | `a1bf1809cf26ff36…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
+| `m8_roster_credits` | `EXP-0052, EXP-0092` | `173d485c04030ac2…` | `5d1c69b92c4a0bcb…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
+| `m8_roster_gold` | `EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092` | `5cce9a7e98b86581…` | `0d55127a1757de3d…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
+| `m8_roster_gold_us` | `EXP-0059, EXP-0060, EXP-0061, EXP-0062, EXP-0063, EXP-0065, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092` | `7028eff9481e72d9…` | `0c3f72bbe856acd8…` | 2026-10-27 | 2026-10-27 | pass (regenerated spec) |
 
 ## Patched Files
 
@@ -168,12 +168,13 @@ The m8_roster image with pair glyphs drawn from the staff-credits font (glyph_st
 | `MC12.PAC` | `74adaf9f76af1bc874dd25b49c961f7049b00dac1b50520ffd8c069307efca7a` |
 | `MC13.PAC` | `2434f8f0752e7f14e97c39080367d96aa3c6075234f489d37bfb4f2467eb2382` |
 | `ME.PAC` | `dcfff759ca30c287f9ea3dc08c40763d1e4d3d09e84655548f0d64f5537ee255` |
-| `MEMFIX.PAC` | `559e3927e5bab304904c7e58e80cd57a5f8a5aeff1610b0b505c3b1085d00b93` |
+| `MEMFIX.PAC` | `ae53cfd67b0cc2d1b4a49d71c7a2bb5ef9e584399387f64b590db2c390acaa9b` |
 | `MM.BIN` | `d8ab1dea75d725ec8cfdfdee516137f5bba8d6b5bdbe1679311717a3e2de819e` |
 
-Track 01: `bede40b15644ccab5555bc94e33d80107aeb2dc42a4ba132857ee18411746f4e`
+Track 01: `5d1c69b92c4a0bcb0cb4b0c701e601ec5d8fa2109b228b669cd73402b3980d4a`
 
 - Previous track 01 `9246148ff0e933a3b7041a9041a4b007df5375a4db856b107154d5be81785334`: EXP-0052: capital W redesigned (variant A).
+- Previous track 01 `bede40b15644ccab5555bc94e33d80107aeb2dc42a4ba132857ee18411746f4e`: EXP-0092: lower-case g, j, p, q, y drawn with descenders in the credits pair glyphs (RE-048).
 
 ### `m8_roster_gold`
 
@@ -205,7 +206,7 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MC15.PAC` | `2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806` |
 | `MC16.PAC` | `159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4` |
 | `ME.PAC` | `8d8bf166acca2016002f1fb9dd3dc801a6f726819e5a8e47ba1c985af1431c4f` |
-| `MEMFIX.PAC` | `b3959d6799bb04ccb1868bded66fe75c6dec1fe7c2aebaccc91366e7e288bfe2` |
+| `MEMFIX.PAC` | `69d046847640a926ec0868a1f3dfded85c85d03cde62aeabdf55b323465c934e` |
 | `MM.BIN` | `31beaf3894de1496f5935b616ab8c1e59902950aaf928e88c664f1c5644e5541` |
 | `MVSOP0.ST2` | `509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec` |
 | `MVSOP1.ST2` | `3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa` |
@@ -216,7 +217,7 @@ m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, 
 | `MVSOP6.ST2` | `1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1` |
 | `MVSOP7.ST2` | `2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856` |
 
-Track 01: `ceeca6abe9678ee1580395242c3a93c47ea57fceaa13d246e1043f21e48be0e1`
+Track 01: `0d55127a1757de3d15d40808d98b9cd900b50a7cf38eba93c666550899f4b125`
 
 - Previous track 01 `3a6c485c6e7aa57cf6534623b402ec36c64945676e5aee1caf0bedfae97f26f3`: EXP-0052: capital W redesigned (variant A).
 - Previous track 01 `e213140aceea2e6c8f3dbd27eb6eebbac1b93fed4cf88a871bdd95685aaf08ae`: EXP-0053: English UI art (JOIN IN, EASY) added to the gold release image.
@@ -236,6 +237,7 @@ Track 01: `ceeca6abe9678ee1580395242c3a93c47ea57fceaa13d246e1043f21e48be0e1`
 - Previous track 01 `a1e3a0bcaafb47cd5417f71dca2e6e79e4d9f4a7afb10b7f2f5ff9e179993e2d`: EXP-0088: Vega's orders (records 42-43) in English.
 - Previous track 01 `de8861da75ba78f3d89f11dbdd3bb5507c6e5ae9819d16c62a0c3a3bd08edadc`: EXP-0089: Mech-Gouki's post-boss line (MC13 record 107) in English.
 - Previous track 01 `5999ca63d263d51815198230cd24e9516cfe4efacc26ccf8ee87af5eb8e7dd88`: EXP-0091: arcade digits are ASCII + 0x100 (Level 2, before 8 am).
+- Previous track 01 `ceeca6abe9678ee1580395242c3a93c47ea57fceaa13d246e1043f21e48be0e1`: EXP-0092: lower-case g, j, p, q, y drawn with descenders in the credits pair glyphs (RE-048).
 
 ### `m8_roster_gold_us`
 
@@ -267,7 +269,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MC15.PAC` | `2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806` |
 | `MC16.PAC` | `159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4` |
 | `ME.PAC` | `36eb65cd5fd291f6e1eaac336f74ec1f4f1a51e24fec93c984a5946b8d0b8a29` |
-| `MEMFIX.PAC` | `d6b91604fe46abfd8f4083f55eb13f71b7804f0aff8f267010d0dd2154cc85c8` |
+| `MEMFIX.PAC` | `835c020077b8928e346ee67dc25f42f99f09668839b958282034c9e76e381cc4` |
 | `MM.BIN` | `1f8c37911acc5d6b173a06b2ed44f9645ac8d658517dbfab2a7c98b6c8cfedb1` |
 | `MVSOP0.ST2` | `509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec` |
 | `MVSOP1.ST2` | `3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa` |
@@ -278,7 +280,7 @@ LOC-003/LOC-004 American-name variant of m8_roster_gold: official English text w
 | `MVSOP6.ST2` | `1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1` |
 | `MVSOP7.ST2` | `2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856` |
 
-Track 01: `a1bf1809cf26ff36525206ad9933a679c3732d8eaf33523e9e7dc4da93fea372`
+Track 01: `0c3f72bbe856acd8f24d072185a12190b97a7344beb94e0b821cb3266bb21ef0`
 
 - Previous track 01 `e1337dbfa46e7fc3ee255628d1a57eff6a99a984788aa969aa68859526ac2fdf`: EXP-0060: US life-bar labels and speaker labels.
 - Previous track 01 `49e002df650a4590a5047ba2ef27c949328a624a01df08e0d87ce60e307e5513`: EXP-0061: US menu and sound-test strings.
@@ -301,3 +303,4 @@ Track 01: `a1bf1809cf26ff36525206ad9933a679c3732d8eaf33523e9e7dc4da93fea372`
 - Previous track 01 `0f430c0afde618d9748b636501ab46f8a8cf48ffed73eaec3ff219799b3698cb`: EXP-0088: Vega's orders (records 42-43) in English.
 - Previous track 01 `39ae78b3d848df753bf8a981778b0b56712201c0832149249e45d331b58d010e`: EXP-0089: Mech-Gouki's post-boss line (MC13 record 107) in English.
 - Previous track 01 `d6bdd2e019b44b1f9b6430f25fe5bca43b4d9c71c1aa4d32e12398f6df6786f6`: EXP-0091: arcade digits are ASCII + 0x100 (Level 2, before 8 am).
+- Previous track 01 `a1bf1809cf26ff36525206ad9933a679c3732d8eaf33523e9e7dc4da93fea372`: EXP-0092: lower-case g, j, p, q, y drawn with descenders in the credits pair glyphs (RE-048).

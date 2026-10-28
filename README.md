@@ -75,8 +75,8 @@ patched track 01:
 
 | xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
 | --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `ceeca6abe9678ee1580395242c3a93c47ea57fceaa13d246e1043f21e48be0e1` |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `a1bf1809cf26ff36525206ad9933a679c3732d8eaf33523e9e7dc4da93fea372` |
+| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names (recommended) | `0d55127a1757de3d15d40808d98b9cd900b50a7cf38eba93c666550899f4b125` |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names | `0c3f72bbe856acd8f24d072185a12190b97a7344beb94e0b821cb3266bb21ef0` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies

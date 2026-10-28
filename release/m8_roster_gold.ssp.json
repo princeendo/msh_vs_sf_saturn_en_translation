@@ -3,11 +3,11 @@
  "reference": "m8_roster_gold",
  "ssp_version": "1.3.7760.32512",
  "patch": "mshvsf_saturn_en_m8_gold.ssp",
- "patch_size": 563143,
- "patch_sha256": "4f641d3fc19e65bcb1d4c95077692403de13ceadcd0ad75c1e53c60c763b9ac9",
+ "patch_size": 563121,
+ "patch_sha256": "b0f642da209f9e7a91bb6a968f23ec6f3fa51ef7c84fa6f38a1a5ee21747af80",
  "component": "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin",
  "source_sha256": "8274307f9562d2da7fb7be0f5f306846edb74afde5913324bef04938ed3214f9",
- "target_sha256": "ceeca6abe9678ee1580395242c3a93c47ea57fceaa13d246e1043f21e48be0e1",
+ "target_sha256": "0d55127a1757de3d15d40808d98b9cd900b50a7cf38eba93c666550899f4b125",
  "deterministic": true,
  "round_trip": true,
  "files": [
@@ -32,8 +32,8 @@
    "lsn": 3954,
    "size": 1744100,
    "source_md5": "e5eb8c1bd3e9da3c98eb1757cac58744",
-   "target_sha256": "b3959d6799bb04ccb1868bded66fe75c6dec1fe7c2aebaccc91366e7e288bfe2",
-   "dfr_stored_size": 10382
+   "target_sha256": "69d046847640a926ec0868a1f3dfded85c85d03cde62aeabdf55b323465c934e",
+   "dfr_stored_size": 10360
   },
   {
    "name": "MC00.PAC",
