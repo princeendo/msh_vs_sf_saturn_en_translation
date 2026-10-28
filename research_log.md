@@ -5378,3 +5378,30 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   The "Patch Files" text no longer says the repository never distributes
   the patches. The real-Saturn boot is noted in `README.md` and
   `release/README.md`.
+
+## 2026-10-28 — DOC-020: playbook brought up to date after release 0.1.0
+
+- **Request:** the user asked for one last look over this repository and for
+  any changes to be ported to the XvSF repository.
+- **Read:** the 19 commits after `e70e60b` (`7cab6bd` to `26c54bc`): the
+  research log, discoveries, the localization plan, `EXP-0089` to `EXP-0102`,
+  and `RE-049` in `TASKS.md`.
+- **Added to `docs/playbook_cross_game.md`:**
+  - working with the user: releases wait until open tasks are done or
+    deferred; the user publishes on github.com (`gh` is the work account);
+    design choices go back to the user; real-Saturn boots;
+  - design decisions: the American-names default with the user's reason,
+    arcade glyphs, fixes keyed to the official text, reproducible zips;
+  - Phase 1: arcade fonts, code ranges and the digit base;
+  - Phase 2: the `RE-049` task-slot rule;
+  - Phase 5: the changed-spec baseline rule and the 0.1.0 release steps;
+  - Phase 6: the Mech-Gouki unlock chain, the Options menu and romanised
+    text, descenders, the name-switch census, and the leftover language
+    switch;
+  - tools, emulator limits, pitfalls, user decisions, and checklist items
+    26-30.
+- **Unchanged files:** `AGENTS.md`, `docs/research_protocol.md`, the
+  experiment template, `pyproject.toml`, `setup_venv.sh`, `invenv.sh` and
+  `tools/disc/hash_source.py` did not change after `e70e60b`, so the XvSF
+  copies stand.
+- **No experiment run:** documentation only.

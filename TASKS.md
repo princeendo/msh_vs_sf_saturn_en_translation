@@ -3008,6 +3008,11 @@ the user asks or when it unblocks other work.
   hashed in the new repository, and the user's statement that XvSF needs the
   4 MB cart. `EXP-0089` (Mech-Gouki select code) came after and is not
   covered.
+- **Update (2026-10-28):** brought up to date through `26c54bc` (`EXP-0089`
+  to `EXP-0102`, release 0.1.0) and copied to the XvSF repository: arcade
+  fonts and digit codes, the win-quote slot rule, unlock chains, the Options
+  table, descenders and arcade glyphs, the name-switch census, the release
+  zips, the American-names default, and checklist items 26-30.
   - It covers environment and tools (agent interface, recorder, ending
     driver, client lock, replay limits, cold boot for font changes), source
     identity, the win-quote path, endings, capacity, regression, release,
