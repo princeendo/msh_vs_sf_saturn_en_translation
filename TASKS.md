@@ -3185,7 +3185,11 @@ the user asks or when it unblocks other work.
 
 ### TXT-005 - Fix the arcade digit codes ("Level 2", "8 am")
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-10-27, `EXP-0091`). `DIGIT_BASE` is `0x0130`;
+  each release spec changed in exactly three lines; both references were
+  rebaselined (nine of nine pass); the corrected hint and quote were seen on
+  the Saturn by forced trial. New track 01: `ceeca6ab…` (Saturn names),
+  `a1bf1809…` (American names).
 - **Priority:** high (shipped text is wrong)
 - **Milestone:** Polish
 - **Dependencies:** REF-012 (done).

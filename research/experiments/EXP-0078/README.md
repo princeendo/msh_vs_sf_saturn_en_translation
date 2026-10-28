@@ -67,6 +67,10 @@ extra_slots`), `tools/reference/cps2_text.py` (digits and `0x0186`),
 - **Arcade codes:** two quotes use codes the decoder lacked: `0x0138` ("before
   9 am") and `0x0186` ("'Cause"). Digits are ASCII − 1 + `0x100` ("Level
   3" = `0x0132`); `0x0186` is an opening quote, drawn as the apostrophe.
+  - **Erratum (2026-10-27):** the digit base is wrong. `EXP-0090` saw the
+    arcade draw `0x0138` as "8", so digits are ASCII + `0x100`: "before 8
+    am" and "Level 2". `TXT-005` (`EXP-0091`) fixed the decoder and the
+    release text.
 - **Japanese sources:** `MC14` holds 9 distinct quotes (records 9-15 repeat
   0-6), `MC15` 8 (8-15 repeat 0-7). The `ME.PAC` ending blocks are
   contiguous: slot 20 `0x4254`-`0x43D0`, 21 `0x43D0`-`0x44B4`, 22

@@ -48,9 +48,10 @@ def test_decode_code_maps_observed_codes_and_marks_unknowns() -> None:
     assert decode_code(0x0185) == ","
     assert decode_code(0x0122) == "\u203c"
     assert decode_code(0x0160) == '"'
-    assert decode_code(0x012F) == "0"
-    assert decode_code(0x0132) == "3"  # "Level 3"
-    assert decode_code(0x0138) == "9"
+    assert decode_code(0x0130) == "0"
+    assert decode_code(0x0132) == "2"  # "Level 2"
+    assert decode_code(0x0138) == "8"  # "before 8 am", seen in the arcade (EXP-0090)
+    assert decode_code(0x012F) == "{012f}"
     assert decode_code(0x0186) == "'"  # opening quote, drawn as an apostrophe
     assert decode_code(0x01E6) == "{01e6}"
     assert decode_code(0x0872) is None

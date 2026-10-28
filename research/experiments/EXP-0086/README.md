@@ -122,6 +122,10 @@ references):
 | 6 | "←↙↓ P before landing / for the safe fall!" `49d1133f…` | "Outsmart your opponent!" `440b892d…` |
 | 7 | "Enter ↓↑ or KKK for / a Super Jump!" `6a14530c…` | "You can attack infinitely / while doing a Super Jump!" `eb962224…` |
 
+Erratum (2026-10-27): hint 2 page 1 read "Level 3" because of a digit-decoding
+error. The arcade text is "Level 2" (`EXP-0090`). `TXT-005` (`EXP-0091`) fixed
+it, and the corrected page shows "When Level 2 or higher," (`f88ba15b…`).
+
 - **Glyphs:** all six arrows (`0x01E2`, `0x01E4`-`0x01E8`) and "+" render
   correctly. Contact sheet: `local/ui006/verify/sheet.png`.
 

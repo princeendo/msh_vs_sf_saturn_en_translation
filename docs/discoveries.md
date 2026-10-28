@@ -1757,7 +1757,8 @@ Experiment: `EXP-0090`
   of arcade codes shows the narrow letters, one per 16-pixel cell.
 - **Digits are ASCII + `0x100`** (`0x130` = "0"): the arcade shows code
   `0x138` as "8" ("before 8 am..."), and the Saturn shows `0x12F`-`0x132` as
-  ")012". `EXP-0078`'s base `0x12F` was wrong.
+  ")012". `EXP-0078`'s base `0x12F` was wrong; `TXT-005` (`EXP-0091`) fixed
+  the decoder and the release text.
 - **Reproduce.** `research/experiments/EXP-0090/README.md`.
 
 ## Entry Requirements

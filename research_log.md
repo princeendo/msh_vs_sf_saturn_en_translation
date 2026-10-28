@@ -5179,3 +5179,19 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   - a `region` verb was tried and dropped, because MAME regions have no
     `read_range` in Lua and the zip rebuild is enough.
 - **Not done:** the EU set's pitch, and the pitch rule in either program.
+
+## 2026-10-27 — TXT-005: digit codes fixed in the release (EXP-0091)
+
+- **Change:** `tools/reference/cps2_text.py` `DIGIT_BASE` `0x012F` → `0x0130`,
+  with its test updated.
+- **Commands and outcomes:**
+  - `bash local/txt005/gen.sh` before the change reproduced both reference
+    specs byte for byte (`a824a86e…`, `d79c2fce…`);
+  - after the change, each spec differs in exactly three lines: "before 9
+    am..." ×2 → "8", and "When Level 3 or higher," → "2";
+  - `bash local/txt005/rebaseline.sh`: both references rebaselined, nine of
+    nine pass, and both patch formats round-trip. New track 01 `ceeca6ab…`
+    (Saturn names) and `a1bf1809…` (American names);
+  - `bash research/experiments/EXP-0091/verify_digits.sh`: hint 2 shows
+    "When Level 2 or higher," and box 4 shows "before 8 am...".
+- **Errata:** added to `EXP-0078` and `EXP-0086`.

@@ -22,7 +22,7 @@ from tools.reference.mame_audit import RomSet, parse_driver
 SPACE = 0x0020
 UPPER_BASE = 0x0140  # "A"; uppercase codes are ASCII - 1 + 0x100
 LOWER_BASE = 0x0161  # "a"; lowercase codes are ASCII + 0x100
-DIGIT_BASE = 0x012F  # "0"; digits are ASCII - 1 + 0x100 ("Level 3", EXP-0078)
+DIGIT_BASE = 0x0130  # "0"; digits are ASCII + 0x100 ("before 8 am", EXP-0090)
 PUNCTUATION = {
     0x0120: "!",
     0x0121: "?",

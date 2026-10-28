@@ -179,12 +179,12 @@ byte-identical to the original.
    Only track 01 is patched, but the other tracks must be the originals.
 
 2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 644,505
+   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 644,524
      bytes, SHA-256
-     `587d3f1ddfa052e6a2270dbb3da67164e49724abcb863c1e675b85c8a2e4d6f1`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 645,267
+     `eeb0b497d376f9f48090b872505fc7646b5a0646000c63e590d02441e009dd35`;
+   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 645,279
      bytes, SHA-256
-     `420bc7afe4f9f3222201c24700ebd891bd3f271a7f17b55e0ea1bf08bedddd53`.
+     `a796a3b92bb75caf6bc7d158b815c596bb54f02f654816a72f78a8198d487666`.
 
    Most of their size is the English attract captions: the rebuilt streams
    keep the original compressed bytes wherever possible (`REL-003`), and
@@ -206,9 +206,9 @@ xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `5999ca63d263d51815198230cd24e9516cfe4efacc26ccf8ee87af5eb8e7dd88` for the
+   `ceeca6abe9678ee1580395242c3a93c47ea57fceaa13d246e1043f21e48be0e1` for the
    Saturn-name patch, or
-   `d6bdd2e019b44b1f9b6430f25fe5bca43b4d9c71c1aa4d32e12398f6df6786f6` for the
+   `a1bf1809cf26ff36525206ad9933a679c3732d8eaf33523e9e7dc4da93fea372` for the
    American-name patch (use the `_us` patch file in the command).
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
@@ -224,8 +224,8 @@ The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
 
 | Variant | File | Size (bytes) | SHA-256 |
 | --- | --- | ---: | --- |
-| Saturn names | `mshvsf_saturn_en_m8_gold.ssp` | 563,100 | `6623b523022622124cd71607889bbe5ae442390cb122a64d592b6a61566dff85` |
-| American names | `mshvsf_saturn_en_m8_gold_us.ssp` | 563,258 | `7566715b1ab5c8d1cdd2c18a09eddca8d25c3e6117ddb658effd4c67b2cda173` |
+| Saturn names | `mshvsf_saturn_en_m8_gold.ssp` | 563,143 | `4f641d3fc19e65bcb1d4c95077692403de13ceadcd0ad75c1e53c60c763b9ac9` |
+| American names | `mshvsf_saturn_en_m8_gold_us.ssp` | 563,206 | `0912e6a0d3b16776f0bcd518d9de137969a86e53eb204275acba7f31236fb130` |
 
 - **Tested: [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui)**
   (Linux and Windows builds, or build from source on macOS). It patches a
@@ -236,8 +236,8 @@ The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
   saturn-patcher mshvsf_saturn_en_m8_gold.ssp "Track 01 patched.bin"
   ```
 
-  The result has the same SHA-256 as the xdelta result above (`5999ca63…`,
-  or `d6bdd2e0…` for the `_us` file). Continue from step 3 above. egui
+  The result has the same SHA-256 as the xdelta result above (`ceeca6ab…`,
+  or `a1bf1809…` for the `_us` file). Continue from step 3 above. egui
   checks each original file's MD5 first and stops on a wrong or
   already-patched image.
 - **The official Sega Saturn Patcher** (Windows, .NET 5 Desktop Runtime).
@@ -324,10 +324,10 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 ```
 
 **Expected:**
-- Saturn names: spec `a824a86e…`, track 01 `5999ca63…`, patch `587d3f1d…`;
-- American names: spec `d79c2fce…`, track 01 `d6bdd2e0…`, patch `420bc7af…`;
+- Saturn names: spec `5cce9a7e…`, track 01 `ceeca6ab…`, patch `eeb0b497…`;
+- American names: spec `7028eff9…`, track 01 `a1bf1809…`, patch `a796a3b9…`;
 - the patch hashes assume xdelta3 3.2.2;
-- `.ssp`: `6623b523…` (Saturn names) and `7566715b…` (American names). These
+- `.ssp`: `4f641d3f…` (Saturn names) and `0912e6a0…` (American names). These
   need no external tool; they assume the recorded Python 3.12.13 build (zlib
   1.2.12 and its own bzip2).
 
