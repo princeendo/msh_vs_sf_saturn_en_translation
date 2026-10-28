@@ -352,3 +352,19 @@ and `docs/discoveries.md`.
   - **DISPROVEN as a switch (`EXP-0094`):** setting it, alone or with
     `0x060F4C8E`, before a real win quote dropped the game to the BIOS CD
     player.
+
+## Deferred Past 0.1.0 (user, 2026-10-28)
+
+These were offered and deferred. None blocks the release image.
+- **Tasks:**
+  - `RE-049` (what keeps the `0x00FF` task alive; the winner pattern in
+    `EXP-0098`);
+  - `RE-050` (live checks of the 11 characters checked offline only);
+  - `LOC-006` (the in-game name switch);
+  - `SPECIAL-001`.
+- **Dan's last ending page** is blank in the official English (Japanese 完).
+  "THE END" would be new text.
+- **Post-boss dialogue centring** for long names (Captain America sits right
+  of centre).
+- **The attract-mode Norimaro screen's** Japanese brush lettering (art).
+- **The `MC0C` 4-record table** (`0x3B88`): content and use unknown.

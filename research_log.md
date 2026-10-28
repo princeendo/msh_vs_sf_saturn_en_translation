@@ -5350,3 +5350,12 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
 - **Seen, all correct:** TAUNT, the win quotes, the CONTINUE? hint, the
   post-boss captions, Ryu's ending pages (arcade letters, gold) and the
   credits. Nothing was reported wrong.
+
+## 2026-10-28 — Gold-caption screen check (EXP-0101); deferrals
+
+- **`quote_render.match`** now reads gold captions: a gold pixel test and a
+  pen 1-9 mask, picked when gold outnumbers white in the box. All 32
+  `EXP-0098` runs pass `verify_records.py`, with a wrong-record best of
+  about 0.27 against 1.0.
+- **User (2026-10-28):** `RE-049`, `RE-050`, `LOC-006`, `SPECIAL-001` and
+  the optional extras are deferred past 0.1.0 (`docs/known_unknowns.md`).

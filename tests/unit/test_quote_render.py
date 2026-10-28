@@ -50,12 +50,14 @@ def records() -> list[list[int]]:
     return out
 
 
-def screenshot(mask: set[tuple[int, int]], shift: tuple[int, int]) -> Image:
+def screenshot(
+    mask: set[tuple[int, int]], shift: tuple[int, int], colour: bytes = b"\xf0\xf0\xf0"
+) -> Image:
     width, height = 352, 240
     rgb = bytearray(width * height * 3)
     for x, y in mask:
         offset = ((y + shift[1]) * width + x + shift[0]) * 3
-        rgb[offset : offset + 3] = b"\xf0\xf0\xf0"
+        rgb[offset : offset + 3] = colour
     return Image(width, height, bytes(rgb))
 
 
@@ -101,3 +103,12 @@ def test_render_and_parse_records() -> None:
     image = decode_png(png)
     assert image.width == 19 * 16 + 8
     assert parse_records("0-2,5") == [0, 1, 2, 5]
+
+
+def test_match_reads_gold_captions() -> None:
+    f = font()
+    recs = records()
+    image = screenshot(body_mask(f, recs[7], gold=True), ORIGIN, b"\xf0\xd0\x00")
+    ranked = match(image, f, recs)
+    assert ranked[0]["record"] == 7
+    assert ranked[0]["iou"] == 1.0

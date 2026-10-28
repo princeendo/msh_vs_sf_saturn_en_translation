@@ -1939,7 +1939,7 @@ the user asks or when it unblocks other work.
 
 ### RE-049 - Identify what selects the second win-quote state
 
-- **Status:** `BACKLOG`. Progress (2026-10-27, `EXP-0094`):
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28). Progress (2026-10-27, `EXP-0094`):
   - r12 is a 0xC0-byte task slot;
   - the win scene's tasks shift up one slot when slot `9ED6` is free, so the
     quote lands in `9ED6` instead of `9E16`;
@@ -1970,10 +1970,9 @@ the user asks or when it unblocks other work.
 
 ### RE-050 - Spot-check more roster characters live
 
-- **Status:** `BACKLOG`. Progress (2026-10-28, `EXP-0098`): Bison and Akuma
-  pass all 16 records live (six characters live now). `verify_records.py`'s
-  screen check cannot see gold text (it looks for white), so for gold
-  builds the boxes were read instead.
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28). Progress (2026-10-28, `EXP-0098`): Bison and Akuma
+  pass all 16 records live (six characters live now). The screen check
+  reads gold captions since `EXP-0101`.
 - **Priority:** low
 - **Milestone:** M5 polish
 - **Dependencies:** RE-046.
@@ -2911,7 +2910,7 @@ the user asks or when it unblocks other work.
 
 ### LOC-006 - In-game option to switch the name variant (stretch)
 
-- **Status:** `BACKLOG`. Groundwork (2026-10-27, `EXP-0095`):
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28). Groundwork (2026-10-27, `EXP-0095`):
   - the two release images differ in the quote font (58 KB of a 206 KB
     image) plus about 490 bytes of tables and text across five files;
   - in 213 recorded states, no zero cart-RAM region is big enough for a
@@ -3267,7 +3266,7 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 
-- **Status:** `BACKLOG`
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28).
 - **Milestone:** M9
 - **Dependencies:** END-020.
 - **Blockers:** None. The ordinary pipelines are mature (M8 done), and the

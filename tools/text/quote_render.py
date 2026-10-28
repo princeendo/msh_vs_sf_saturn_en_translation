@@ -11,6 +11,11 @@ channels are all at least ``BODY_MIN`` (body colour `(240, 240, 240)` in Mednafe
 screenshots, measured in `RE-021`). For each record, the best score over a small
 offset window around the origin is kept. The score is intersection over union of
 the two pixel sets. Only the text box region is compared.
+
+Gold captions (`FONT-011`, `EXP-0096`) draw every fill nibble (1-9) in yellow to
+orange, so for them the mask is nibbles 1-9 and the screen pixels are those with
+red and green high and blue low (`EXP-0101`). ``match`` picks gold when the box
+holds more gold pixels than white ones.
 """
 
 from __future__ import annotations
@@ -32,6 +37,8 @@ RECORDS = 16
 PLACEHOLDER = 0x0000
 BODY, SHADOW = 1, 15
 BODY_MIN = 200
+# Gold captions: fill nibbles 1-9; on screen (240, 240 - 16 * (v - 1), 0) or close.
+GOLD_FILL_MAX, GOLD_GREEN_MIN, GOLD_BLUE_MAX = 9, 96, 64
 ORIGIN = (26, 186)  # top-left of line-1 cell 0 in a 352x240 screenshot (RE-021)
 REGION = (16, 176, 336, 232)  # x0, y0, x1, y1 of the compared text box
 
@@ -65,8 +72,13 @@ def nibbles(font: Font, codes: Sequence[int]) -> dict[tuple[int, int], int]:
     return pixels
 
 
-def body_mask(font: Font, codes: Sequence[int]) -> set[tuple[int, int]]:
-    return {xy for xy, value in nibbles(font, codes).items() if value == BODY}
+def body_mask(
+    font: Font, codes: Sequence[int], gold: bool = False
+) -> set[tuple[int, int]]:
+    def drawn(value: int) -> bool:
+        return 1 <= value <= GOLD_FILL_MAX if gold else value == BODY
+
+    return {xy for xy, value in nibbles(font, codes).items() if drawn(value)}
 
 
 def render(font: Font, records: Sequence[Sequence[int]], scale: int = 2) -> bytes:
@@ -96,15 +108,20 @@ def _scale(pixels: bytearray, width: int, height: int, scale: int) -> bytearray:
     return out
 
 
+def is_gold(pixel: Sequence[int]) -> bool:
+    red, green, blue = pixel[:3]
+    return red >= BODY_MIN and green >= GOLD_GREEN_MIN and blue <= GOLD_BLUE_MAX
+
+
 def screen_body(
-    image: Image, region: tuple[int, int, int, int] = REGION
+    image: Image, region: tuple[int, int, int, int] = REGION, gold: bool = False
 ) -> set[tuple[int, int]]:
     x0, y0, x1, y1 = region
     return {
         (x, y)
         for y in range(y0, min(y1, image.height))
         for x in range(x0, min(x1, image.width))
-        if min(image.pixel(x, y)) >= BODY_MIN
+        if (is_gold(image.pixel(x, y)) if gold else min(image.pixel(x, y)) >= BODY_MIN)
     }
 
 
@@ -141,10 +158,12 @@ def match(
     window: int = 3,
 ) -> list[dict[str, object]]:
     """Score every record against a screenshot, best first."""
-    screen = screen_body(image)
+    white, golden = screen_body(image), screen_body(image, gold=True)
+    gold = len(golden) > len(white)
+    screen = golden if gold else white
     results = []
     for index, codes in enumerate(records):
-        value, at = score(body_mask(font, codes), screen, origin, window)
+        value, at = score(body_mask(font, codes, gold), screen, origin, window)
         results.append({"record": index, "iou": round(value, 4), "origin": list(at)})
     return sorted(results, key=lambda item: -float(item["iou"]))  # type: ignore[arg-type]
 
