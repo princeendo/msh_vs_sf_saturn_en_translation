@@ -130,15 +130,19 @@ Red, Spider-Man, Blackheart, Ryu, Ken, Chun-Li, Dhalsim, Zangief, Bison
   Survival clear: on the SURVIVAL MODE row, press L or R, then Start
   (`OPT-001`, `EXP-0075`). Build option `--unlock-boss-fight`, on by
   default; `--no-unlock-boss-fight` keeps the original lock.
-- **Names follow the Saturn's own art and voice:** Vega (not M. Bison), Gouki
-  (not Akuma), and Mech-Gouki (not Cyber-Akuma). This is a **provisional**
-  decision (`LOC-001`, `docs/localization_plan.md`). The American-name patch
-  differs only here (see "Choose a Name Variant").
+- **Names:** the default patch uses the American names (Bison, Akuma, Cyber
+  Akuma) in the text, art and announcer's calls; the Saturn-names patch keeps
+  Vega, Gouki and Mech-Gouki to match the Japanese release (user decision
+  2026-10-28, `LOC-001`). The two patches differ only here (see "Choose a
+  Name Variant").
 
 **Not changed:**
-- menus, voice, and every other screen; the attract-mode Norimaro screen.
-  The American-name patch also changes three name calls; see "Choose a Name
-  Variant".
+- the other menus (already English apart from the button-config screen's
+  "CHOUHATU", which now reads "TAUNT", `UI-007`);
+- the voices, apart from the American-name patch's three name calls (see
+  "Choose a Name Variant");
+- the attract-mode Norimaro screen (Japanese brush lettering, which is art);
+- every other screen not listed above.
 
 Only track 01 changes. Tracks 02-12 (audio) and the CUE sheet are
 byte-identical to the original.

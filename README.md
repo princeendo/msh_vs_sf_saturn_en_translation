@@ -61,8 +61,9 @@ It holds no game data: you build the patch yourself from your own disc image
   - **Saturn names**: Vega, Gouki and Mech-Gouki, which match the Saturn's
     own art and voice.
 
-**Not changed:** the other menus (already English), the voices,
-the attract-mode Norimaro screen, and every other screen not listed above.
+**Not changed:** the other menus (already English), the voices (apart from
+the American names' three name calls), the attract-mode Norimaro screen, and
+every other screen not listed above.
 
 Only track 01 of the disc changes; tracks 02-12 (audio) and the CUE sheet stay
 as they are. The full list, with evidence for each item, is in

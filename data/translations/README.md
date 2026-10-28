@@ -63,7 +63,7 @@ the three ending pages."
   lines a roster image leaves: excluded characters' lines and one `MM.BIN` line
   (`EXP-0047`).
 - **The Saturn's names, not the US arcade's (user decisions, 2026-10-25;
-  provisional).** The Saturn is the Japanese release: its art, labels, and
+  now the Saturn-names variant, not the default).** The Saturn is the Japanese release: its art, labels, and
   voice say Vega, Gouki, and Mech-Gouki. So the English text uses VEGA (not
   BISON), GOUKI (not AKUMA), and Mech-Gouki (not Cyber Akuma).
   - Implemented by `NAME_OVERRIDES` and `TEXT_OVERRIDES` in
@@ -76,7 +76,7 @@ the three ending pages."
     2026-10-25).** `official_endings --names us` keeps the arcade's names
     (BISON, AKUMA, Cyber Akuma) in the text. It also switches the voice to the
     American name calls already on the disc (`EXP-0058`; no new samples). The
-    name art is not changed yet (`LOC-004`). `--names saturn` (the default)
+    name art is switched too (`LOC-004`). `--names saturn` (the default)
     is the build above.
 - **Default variant (user decision, 2026-10-28, `LOC-001`).** American names,
   voices and art are the default, because the names shown and spoken must
