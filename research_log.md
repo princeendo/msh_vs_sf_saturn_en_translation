@@ -5253,3 +5253,21 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
 - **RE-049 side note:** r12 in this routine is the running task object.
   `0x060F9E16`/`0x060F9ED6` may be pool slots, a fourth candidate besides
   side, match number and team state.
+
+## 2026-10-27 — RE-049 play session and the language word (EXP-0094)
+
+- **Play:** the user, US release image `0c3f72bb…`, won stage 1 and lost
+  stage 2. Recorder `local/re049/play/rec`; pc log at `060AF724`.
+  - r12 `9E16` for the user's KO, `9ED6` for the CPU's KO, and `9A56` for the
+    hint pages.
+- **Pool:**
+  - the win scene's tasks sit one slot higher when slot `9ED6` is free;
+  - after the user's KO, a task with code `0605F964` held `9ED6`.
+- **Disproven:**
+  - the winning side alone and the match number alone (with `EXP-0036`);
+  - setting the language word at `0x060F4C90` before a quote. The game drops
+    to the BIOS, so it is not a 12-pixel switch.
+- **Invalid trials:** zeroing slot `9ED6` crashed the game, and copying a
+  task into an empty pool before the scene starts was wiped by the scene's
+  pool clear.
+- **Open:** what the `9ED6` task is. RE-049 stays `BACKLOG`.

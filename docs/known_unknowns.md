@@ -72,10 +72,11 @@ These questions are unresolved unless a later entry links to reproducible eviden
     question: katakana ケン inline after the Latin text.)
   - What selects the quote state? The pointer routine runs with `r12` =
     `0x060F9E16` or `0x060F9ED6` (base at `+0x34`, index at `+0x50`, `EXP-0036`).
-    Cyclops's KO used the first; the Zangief, Captain America, and Dhalsim KOs
-    used the second. Candidates: the winning side (1P/2P), the match number, or
-    the team's state after a lost round. Discriminating test: one session with known sides, logging `r12` at
-    `060AF724` for KOs from each side.
+    - **`EXP-0094`:** r12 is a pool task slot. The win scene's tasks shift up
+      one slot when slot `9ED6` is free.
+    - The winning side and the match number are each insufficient.
+    - Open: what the task at `9ED6` (code `0605F964`) is, and why it survives
+      into some win scenes.
   - ~~Can lowercase descenders be drawn more clearly in the pair glyphs?~~
     Answered by `RE-048` (`EXP-0092`): hand-drawn g, j, p, q and y in the
     credits font.
@@ -347,5 +348,7 @@ and `docs/discoveries.md`.
     Both words read 0 in the `EXP-0089` checkpoint. Setting `0x060F4C90` = 1
     there left the post-boss box empty (`lang_f1100.png` `ad93c8ee…`). That
     is consistent with the US arcade having no English multi-box dialogue,
-    but it says nothing about pitch. The test still to run: a state just
-    before a win quote, with the flag set.
+    but it says nothing about pitch.
+  - **DISPROVEN as a switch (`EXP-0094`):** setting it, alone or with
+    `0x060F4C8E`, before a real win quote dropped the game to the BIOS CD
+    player.

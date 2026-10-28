@@ -1936,7 +1936,14 @@ the user asks or when it unblocks other work.
 
 ### RE-049 - Identify what selects the second win-quote state
 
-- **Status:** `BACKLOG`
+- **Status:** `BACKLOG`. Progress (2026-10-27, `EXP-0094`):
+  - r12 is a 0xC0-byte task slot;
+  - the win scene's tasks shift up one slot when slot `9ED6` is free, so the
+    quote lands in `9ED6` instead of `9E16`;
+  - neither the winning side nor the match number decides it alone.
+
+  Still open: what the task at `9ED6` (code `0605F964`) is, and when it
+  survives into the win scene.
 - **Priority:** low
 - **Milestone:** M5 polish
 - **Dependencies:** RE-046.
