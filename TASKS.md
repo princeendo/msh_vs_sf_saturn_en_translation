@@ -1942,8 +1942,12 @@ the user asks or when it unblocks other work.
     quote lands in `9ED6` instead of `9E16`;
   - neither the winning side nor the match number decides it alone.
 
-  Still open: what the task at `9ED6` (code `0605F964`) is, and when it
-  survives into the win scene.
+  The rule fits all six quotes seen, including `EXP-0036`'s: a type-`0x00FF`
+  task linked to a character object (`0x060F3800`) holds `9ED6`, or doesn't.
+  It appears with the winner's sprite over the title logo (HYPOTHESIS: part
+  of that screen). Still open:
+  - why only some user wins keep it alive;
+  - the "team state" candidate, which was not tested directly.
 - **Priority:** low
 - **Milestone:** M5 polish
 - **Dependencies:** RE-046.

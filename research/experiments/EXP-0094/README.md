@@ -115,6 +115,29 @@ From f7980:
 - **Untested candidate:** "team state after a lost round" was not tested
   directly. MSHvSF matches are single-round as played here.
 
+## Addendum: the extra task across all six quotes
+
+- **`EXP-0036`'s quote-time states** (`local/mednafen/agent/runs/re046-*/quote.mc`):
+  - for Cyclops, a task with type word `0x00FF` (+`0x0C`) held `9ED6`, and
+    the quote was in `9E16`;
+  - for Zangief, Captain America and Dhalsim, no such task existed, and the
+    quote was in `9ED6`.
+
+  With this session's two quotes, the rule fits all six.
+- **The task in this session** (f7980): type `0x00FF`, a pointer to
+  `0x060F3800` at +`0x54` (a character object; vitality `0x060F3E50` lies
+  inside it), and `0x00205EC4` at +`0x66` (WRAM-L). It first appears between
+  f7809 and f7980.
+- **Screenshots:**
+  - that window (`ko_window.png` `5a657c98…`): K.O., the win banner, the
+    VITAL/TIME/BONUS tally, then Ryu's sprite over the title logo;
+  - before the CPU's quote (`cpu_window.png` `52121d3b…`): K.O., the win
+    banner, then Chun-Li's sprite on black, with no tally and no logo.
+- **HYPOTHESIS:** it is part of the winner-sprite screen in the scene with
+  the logo, still alive when the quote scene sets up. Why the four
+  `EXP-0036` user wins differ (Cyclops with it, three without) is not known.
+  The screen's length or timing may vary by character.
+
 ## Reproduction
 
 ```bash

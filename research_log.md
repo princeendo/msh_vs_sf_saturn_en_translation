@@ -5271,3 +5271,9 @@ US build (track 01 `3d2a13d2…`), user at the controls; recorder
   task into an empty pool before the scene starts was wiped by the scene's
   pool clear.
 - **Open:** what the `9ED6` task is. RE-049 stays `BACKLOG`.
+- **Addendum:**
+  - `EXP-0036`'s quote-time states fit the rule: Cyclops had a type-`0x00FF`
+    task in `9ED6` (quote in `9E16`), and the other three had none;
+  - in this session the task appeared with Ryu's sprite over the title logo,
+    linked to the character object `0x060F3800`;
+  - the CPU's win showed its sprite on black, with no tally or logo.
