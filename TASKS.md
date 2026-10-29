@@ -3638,3 +3638,41 @@ the user asks or when it unblocks other work.
   the official English used where it exists (US arcade, PS1 US), a new
   translation otherwise; built with expect checks and seen in play; the
   Mech-Gouki ending question answered with evidence.
+
+
+### UI-008 - Translate the boot-time warning screens (4M cartridge and save memory)
+
+- **Status:** `DONE` (2026-10-29, `EXP-0103`, `EXP-0104`)
+- **Result:**
+  - the screens are `ERR1.BIN`-`ERR5.BIN`, BMPs drawn as they are
+    (`EXP-0103`, a marker band in `ERR5.BIN`);
+  - each was triggered in Mednafen: ERR5 no cartridge (or a backup
+    cartridge), ERR4 a 1 MB cartridge, ERR1 unformatted backup memory, ERR2
+    a damaged save, ERR3 too little free memory (8 blocks or fewer);
+  - no official English exists, so it is a new translation, with the US
+    Saturn BIOS's "Memory Manager" and "formatted";
+  - `official_endings --error-screens` builds all five in the arcade's
+    narrow letters; both release references were rebaselined (track 01
+    `b2e526a7…` American names, `1112bfb4…` Saturn names), and every English
+    screen was seen from a cold boot, equal to its built file;
+  - not in the published 0.1.0 (its track hashes stay in `README.md`).
+- **Priority:** user request (2026-10-29)
+- **Milestone:** Polish
+- **Dependencies:** None.
+- **Blockers:** None.
+- **Objective (user request, 2026-10-29):** A player reported that "the very
+  first page is still in Japanese". With no 4 MB RAM cartridge, the released
+  0.1.0 image (American names) stops after the SEGA logo on a Japanese
+  warning ("4M拡張ラムカートリッジが差し込まれていません。…"); with the cart it
+  boots SEGA → CAPCOM with no Japanese (Mednafen frame captures, 2026-10-29).
+  The disc holds five such screens, `ERR1.BIN`-`ERR5.BIN`: 4 bpp 352x240
+  Windows BMPs (two cartridge warnings, three save-memory warnings).
+  Replace their Japanese text with English.
+- **Acceptance criteria:**
+  - the file the game draws for the no-cart screen established by a
+    single-change experiment;
+  - official US wording checked for (there is no US Saturn release, so a new
+    translation is expected);
+  - built by the generator with expect checks, in both release references;
+  - each screen seen in English on the Saturn where it can be triggered in
+    Mednafen, and the cart boot unchanged.

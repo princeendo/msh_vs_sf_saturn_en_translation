@@ -5405,3 +5405,34 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   `tools/disc/hash_source.py` did not change after `e70e60b`, so the XvSF
   copies stand.
 - **No experiment run:** documentation only.
+
+## 2026-10-29 — UI-008: English boot-time warning screens (EXP-0103, EXP-0104)
+
+- **User report:** "the very first page is still in Japanese". With the
+  4 MB cart, the 0.1.0 image shows SEGA then CAPCOM. With no cart it stops
+  after SEGA on a Japanese warning. This is the reported page (HYPOTHESIS:
+  the player had no cart, or the wrong one).
+- **`EXP-0103` (CONFIRMED):** the warning is `ERR5.BIN`, a 352x240 4 bpp BMP
+  drawn as it is (shifted up 8 rows). A red band written into it showed at
+  exactly its rows.
+- **`EXP-0104` (CONFIRMED):** every `ERR` screen triggered in Mednafen: no
+  cart or a backup cart (ERR5), a 1 MB cart (ERR4), unformatted backup memory
+  (ERR1), a damaged save (ERR2), 8 or fewer free blocks (ERR3; 9 boots).
+  `--error-screens` draws the English, and both release references were
+  rebaselined. All five English screens equal their built files.
+- **Terms:** no official English (no US Saturn release). The US BIOS
+  (`mpr-17933`) strings give "Memory Manager" and "Not Formatted". Its
+  CD-player screen was seen by booting the BIOS with an audio-only CUE and
+  `-force_module ss`.
+- **Pitfalls:**
+  - Mednafen opens an audio-only CUE in its CD-player module, not the
+    Saturn's, unless `-force_module ss` is given.
+  - A `cp -R` of a Mednafen home breaks its relative `firmware` symlink.
+  - `--write-baseline` refused the changed specs again. Adopting the new
+    spec hashes first worked (as `TXT-005`).
+- **Not determined:** the unit of ERR3's "8" (`docs/known_unknowns.md`).
+- **Release:** the published 0.1.0 is unchanged. The repository now builds
+  new track hashes, and the README says how to rebuild 0.1.0 from its tag.
+- **Checks:** unit tests for `error_screens` and `backup_ram`; ruff, ruff
+  format and mypy on the changed files; the full regression (nine
+  references) with the report.

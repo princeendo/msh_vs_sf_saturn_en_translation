@@ -1809,6 +1809,54 @@ Experiment: `EXP-0096`
   own glyph, so the two lines that use it ("star setting", "the rough stuff")
   get "!?" as in the arcade. They were not shown on the Saturn.
 
+## UI-008: The Boot-Time Warning Screens Are BMP Files
+
+Confidence: **CONFIRMED** (a marker in `ERR5.BIN` showed at exactly its rows;
+the screen matched the BMP pixel for pixel)
+
+Experiment: `EXP-0103`
+
+- **Files.** `ERR1.BIN`-`ERR5.BIN` (42,358 bytes each, LSNs 12436-12520,
+  21 apart) are Windows BMPs: a 118-byte header and 16-colour palette, then
+  352x240 4 bpp pixels stored bottom-up, two pixels a byte, high nibble
+  first. All five share one palette: 0 black, 1-6 grey to white, 7-10 cyan,
+  11-12 yellow, 13-14 red.
+- **Screens.** ERR5: the 4M Extended RAM Cartridge is not inserted (seen with
+  Mednafen `ss.cart none`, after the SEGA screen; the game stops there).
+  ERR4: the cartridge is not inserted correctly. ERR1-ERR3: the internal
+  backup memory is not formatted, its data cannot be read, or it lacks free
+  space.
+- **Drawing.** The game shows the pixels as they are, shifted up 8 rows
+  (screen y = BMP y - 8), in the file's palette or an identical one.
+- **Source hashes.** `ERR5.BIN` `0732e81d…`; the others are listed in the
+  experiment.
+- **Reproduce.** `research/experiments/EXP-0103/README.md`.
+
+## UI-008 Addendum: What Shows Each Warning; English Build
+
+Confidence: **CONFIRMED** (each condition produced in Mednafen; each English
+screen equal to its built file, 0 pixel mismatches)
+
+Experiment: `EXP-0104`
+
+| Screen | Condition (cold boot) |
+| --- | --- |
+| `ERR5.BIN` | no cartridge, or a backup memory cartridge |
+| `ERR4.BIN` | a 1 MB extended RAM cartridge |
+| `ERR1.BIN` | internal backup memory not formatted (all zero) |
+| `ERR2.BIN` | the game's save damaged (one inverted data byte) |
+| `ERR3.BIN` | no save, and 8 or fewer free 64-byte blocks; 9 free boots normally |
+
+- **Save size.** The game's save, `MSH_VS_SF__`, holds 480 bytes in 9 blocks
+  (a first block and 8 more).
+- **English.** `official_endings --error-screens` draws all five
+  (`tools/disc/error_screens.py`, `data/ui008/error_screens.json`) in the
+  arcade's narrow win-quote glyphs, keeping each file's size and palette.
+  Both release references use it: track 01 `b2e526a7…` (American names),
+  `1112bfb4…` (Saturn names). Nothing else in them changed.
+- **Fixtures.** `tools/mednafen/backup_ram.py` writes the backup-RAM files.
+- **Reproduce.** `research/experiments/EXP-0104/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

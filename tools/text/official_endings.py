@@ -44,6 +44,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from tools.disc.attract_captions import FILES, st2_patches
+from tools.disc.error_screens import FILES as ERROR_FILES
+from tools.disc.error_screens import error_patches
 from tools.disc.iso9660 import Track
 from tools.disc.pac_lzss import decode_file
 from tools.disc.patch_image import find_entry
@@ -810,6 +812,18 @@ def attract_patches(track: Path) -> list[dict[str, str]]:
     return st2_patches(files, files["MEMFIX.PAC"][offset : offset + length])
 
 
+def warning_patches(track: Path) -> list[dict[str, str]]:
+    """English boot-time warning screens, ``ERR1.BIN``-``ERR5.BIN`` (`EXP-0104`)."""
+    with track.open("rb") as stream:
+        disc = Track(stream, track.stat().st_size)
+        files = {
+            name: disc.read(*find_entry(track, f"{name};1"))
+            for name in [*ERROR_FILES, "MEMFIX.PAC"]
+        }
+    offset, length = FONT_ENTRY
+    return error_patches(files, files["MEMFIX.PAC"][offset : offset + length])
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--driver", type=Path, required=True, help="MAME cps2.cpp")
@@ -905,6 +919,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--boss-exchanges",
         action="store_true",
         help="Apocalypse's pre-fight exchanges in official English (SPECIAL-004)",
+    )
+    parser.add_argument(
+        "--error-screens",
+        action="store_true",
+        help="the boot-time warning screens (no 4M cartridge, save memory) in "
+        "English (UI-008)",
     )
     parser.add_argument("--out", type=Path, required=True, help="spec path (ignored)")
     args = parser.parse_args(argv)
@@ -1034,6 +1054,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         patches = spec["patches"]
         assert isinstance(patches, list)
         patches += attract_patches(args.track)
+    if args.error_screens:
+        spec["error_screens"] = True
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += warning_patches(args.track)
     if args.fix_grammar and (fixes_by_line := line_fixes(args.fix_grammar)):
         spec["grammar_fixes_lines"] = fix_lines(spec, fixes_by_line)
     with args.track.open("rb") as stream:

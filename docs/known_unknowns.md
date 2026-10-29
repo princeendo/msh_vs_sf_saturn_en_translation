@@ -353,6 +353,20 @@ and `docs/discoveries.md`.
     `0x060F4C8E`, before a real win quote dropped the game to the BIOS CD
     player.
 
+## Warning Screens (`UI-008`, `EXP-0104`)
+
+- **ERR3's "8":** the Japanese says "8の空き容量" with no unit. The game's save
+  takes 9 raw 64-byte blocks (a first block and 8 more), and the warning
+  shows at 8 free raw blocks, not at 9. Open: whether "8" is the BIOS's free
+  count (one less than the raw count?) or the save's data blocks. The English
+  says "8 free blocks".
+- **US BIOS terms:** "Memory Manager" and "Not Formatted" are US BIOS strings;
+  the menus themselves were not shown (no button input for the agent). The
+  BIOS start screen is called "control panel" by description only.
+- **Real hardware:** not tested. Whether a real cartridge that is "not
+  inserted correctly" shows ERR4 or ERR5 is unknown; Mednafen shows ERR4 for
+  a 1 MB RAM cartridge and ERR5 for a backup memory cartridge.
+
 ## Deferred Past 0.1.0 (user, 2026-10-28)
 
 These were offered and deferred. None blocks the release image.

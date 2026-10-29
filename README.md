@@ -27,6 +27,12 @@ Each zip holds both name variants (American names is the default) and a
 `README.txt` with every expected hash. You supply your own Japanese disc
 image. To apply a patch, see [Applying a Patch](#applying-a-patch).
 
+The game needs the **4 MB RAM cartridge** (拡張ラムカートリッジ4MB), on a
+real Saturn or in an emulator (Mednafen: `ss.cart auto` or `extram4`). Without
+it, the game stops after the SEGA screen on a warning page. That page is
+still in Japanese in 0.1.0; the repository now builds it in English (see
+"Warning screens" below).
+
 ## What's Changed
 
 - **Win quotes in English:** every win quote of the 17 regular characters, in
@@ -69,6 +75,11 @@ image. To apply a patch, see [Applying a Patch](#applying-a-patch).
   names) is in the title menu from the start, without a Survival clear: on
   the SURVIVAL MODE row, press L or R, then Start. Optional; see
   [Build Options](#build-options).
+- **Warning screens** (after 0.1.0): the five boot-time warnings are a new
+  English translation, in the same narrow arcade letters: the 4 MB RAM
+  cartridge missing or not inserted correctly (shown, for example, with a
+  1 MB cartridge), and the Saturn's backup memory not formatted, unreadable,
+  or full. The save-data terms follow the US Saturn's own "Memory Manager".
 - **Names:** two variants.
   - **American names** (default): Bison, Akuma and Cyber Akuma in the text,
     life bars, win banners, VS screen, sound test, and the announcer's calls
@@ -165,6 +176,11 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 
 ### Build the Release Patches
 
+These commands build the repository's current images. They include changes
+made after 0.1.0 (the English warning screens), so their hashes differ from
+the 0.1.0 table above. To rebuild 0.1.0 exactly, check out the `v0.1.0` tag
+first.
+
 ```bash
 # 1. Build both release images from the untouched disc and check their hashes.
 ./invenv.sh python -m tools.regression.reference_builds --driver local/mame_src/cps2.cpp \
@@ -220,6 +236,7 @@ lists each image's exact options.
 | `--fix-grammar data/translations/grammar_fixes.json` | Light grammar fixes to official English: five hint pages (such as "When an Air Combo starter / hits the opponent,") and 21 lines of win quotes, partner lines and endings (typos such as "meditate" and missing commas such as "Rest easy, soldier,"). These are new text, not official. Needs `--official-hints`. | off |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
+| `--error-screens` | The five boot-time warning screens (`ERR1.BIN`-`ERR5.BIN`: no 4 MB cartridge, cartridge not inserted correctly, backup memory not formatted, unreadable, or full), new translations. | on (after 0.1.0) |
 
 To build a variant of your own, such as the release image with the original
 boss-fight lock:
@@ -231,7 +248,7 @@ boss-fight lock:
   --attract-captions --secret-roster data/text/secret_roster.json \
   --secret-translations data/translations/secret_characters.json \
   --story-lines data/translations/story_lines.json --official-hints --boss-exchanges \
-  --no-unlock-boss-fight --out local/custom/spec.json
+  --error-screens --no-unlock-boss-fight --out local/custom/spec.json
 ./invenv.sh python -m tools.text.caption_compiler local/custom/spec.json --out-dir build/custom
 ./invenv.sh python -m tools.disc.make_patch --built-dir build/custom/image_a \
   --stem mshvsf_saturn_en_custom --out-dir build/release/custom

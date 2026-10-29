@@ -750,6 +750,7 @@ parameterized or rewritten.
 | `tools/reference/cps2_gfx.py`; `mame_timeline.lua` `share` verb | Rebuild and unshuffle CPS-II graphics ROMs and render tiles; dump a MAME memory share (the CPS-A registers read 0 through the program space) | `EXP-0090` | CPS-II platform; tile bases are MSHvSF's |
 | `quote_render.match` (gold) and `verify_records.py` | Screen check that reads gold captions (gold pixel test, pen mask) as well as white | 32 of 32 `EXP-0098` runs; wrong-record best about 0.27 against 1.0 (`EXP-0101`) | MSHvSF palettes |
 | `pair_font` `arcade` style | Pair cells from two narrow arcade glyphs (left 8 columns each) | unit test; `EXP-0096`, `EXP-0098` | MSHvSF codes |
+| `tools/disc/error_screens.py` (`--error-screens`); `tools/mednafen/backup_ram.py` | Draw English into the BMP warning screens `ERR1`-`ERR5` with the narrow arcade glyphs; write backup-RAM `.bkr` fixtures (unformatted, N blocks free, one byte damaged) to trigger them | unit tests; every screen triggered and pixel-equal (`EXP-0103`, `EXP-0104`) | `backup_ram` is platform-level; check XvSF's warning files and cart check |
 
 ### Emulator limits learned the hard way (MSHvSF)
 

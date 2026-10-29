@@ -1,0 +1,86 @@
+{
+ "schema": "mshvsf-error-screens/1",
+ "description": "UI-008 (EXP-0103, EXP-0104): English for the five boot-time warning screens, ERR1.BIN-ERR5.BIN (4 bpp 352x240 BMPs drawn as they are; the screen shows BMP rows 8-239). New translations: there is no US Saturn release. Terms from the US Saturn BIOS (mpr-17933): 'Memory Manager', 'formatted'. Lines are drawn in the US arcade's narrow win-quote glyphs from the quote font, 8 pixels apart, 16 rows a line; {text} is cyan and [text] red, as the Japanese highlights; an empty line is a gap of 'gap' rows. The body is a left-aligned block centred on the screen; the title is centred. 'top' and 'title_top' are BMP rows.",
+ "screens": {
+  "ERR1.BIN": {
+   "japanese": "本体RAMのバックアップの準備がまだできていません(初期化されていません)。セガサターン本体の保存データ管理画面で全ての記録を消してください(初期化してください)。このまま何かボタンを押すと、マルチプレイヤー画面へ進みます。",
+   "title": "WARNING",
+   "title_top": 24,
+   "top": 56,
+   "gap": 12,
+   "lines": [
+    "The Saturn's internal backup memory",
+    "is not ready (it is not formatted).",
+    "",
+    "In the {Sega Saturn's Memory Manager},",
+    "clear all saved data (format it).",
+    "",
+    "Press any button now to go to the",
+    "Sega Saturn's control panel."
+   ]
+  },
+  "ERR2.BIN": {
+   "japanese": "記録を正しく読み込むことができませんでした。このままゲームをスタートした場合、以前のデータは使用されません。何かボタンを押すと、ゲームがスタートします。",
+   "title": "WARNING",
+   "title_top": 24,
+   "top": 56,
+   "gap": 12,
+   "lines": [
+    "The saved data could not be",
+    "read correctly.",
+    "",
+    "If you start the game now, your",
+    "previous data will not be used.",
+    "",
+    "Press any button to start the game."
+   ]
+  },
+  "ERR3.BIN": {
+   "japanese": "新しい記録を保存するための空き容量がありません。このままゲームをスタートした場合、セガサターン本体の保存データ管理画面で他の記録を消さない限り、新しい記録を保存することはできません。新しい記録を保存するためには、8の空き容量が必要です。このまま何かボタンを押すと、ゲームがスタートします。",
+   "title": "WARNING",
+   "title_top": 24,
+   "top": 48,
+   "gap": 6,
+   "lines": [
+    "There is not enough free space",
+    "to save new data.",
+    "",
+    "If you start the game now, new data",
+    "cannot be saved until you delete",
+    "other data in the {Memory Manager}.",
+    "",
+    "Saving new data needs [8] free blocks.",
+    "",
+    "Press any button to start the game."
+   ]
+  },
+  "ERR4.BIN": {
+   "japanese": "4M拡張ラムカートリッジが正しく差し込まれていません。電源を切り、4M拡張ラムカートリッジを差し直してください。",
+   "title": "WARNING",
+   "title_top": 24,
+   "top": 64,
+   "gap": 16,
+   "lines": [
+    "The {4M Extended RAM Cartridge}",
+    "is not inserted correctly.",
+    "",
+    "Turn off the power and reinsert",
+    "the {4M Extended RAM Cartridge}."
+   ]
+  },
+  "ERR5.BIN": {
+   "japanese": "4M拡張ラムカートリッジが差し込まれていません。電源を切り、4M拡張ラムカートリッジを差し直してください。",
+   "title": "WARNING",
+   "title_top": 24,
+   "top": 64,
+   "gap": 16,
+   "lines": [
+    "The {4M Extended RAM Cartridge}",
+    "is not inserted.",
+    "",
+    "Turn off the power and insert",
+    "the {4M Extended RAM Cartridge}."
+   ]
+  }
+ }
+}
