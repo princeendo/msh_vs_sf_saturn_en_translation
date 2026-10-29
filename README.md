@@ -325,3 +325,4 @@ Research records are kept by purpose:
 - [docs/architecture.md](docs/architecture.md): repository architecture
 - [docs/references.md](docs/references.md): source bibliography and evidence rules
 - [data/translations/README.md](data/translations/README.md): translation policy
+- [release/RELEASING.md](release/RELEASING.md): how to make and publish a release
