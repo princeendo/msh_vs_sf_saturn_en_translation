@@ -54,14 +54,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             try:
                 if now >= next_shot or now >= next_state:
                     frame = int(agent.status()["frame"])
-                if now >= next_shot:
-                    agent.screenshot(shots / f"f{frame:08d}.png")
+                # A paused emulator keeps its frame number; Mednafen will not
+                # overwrite a screenshot, so a repeated frame is skipped.
+                shot = shots / f"f{frame:08d}.png"
+                if now >= next_shot and not shot.exists():
+                    agent.screenshot(shot)
                     index.write(f"{time.time():.2f}\t{frame}\tshot\n")
+                if now >= next_shot:
                     next_shot = now + args.shot_interval
                     if args.keep_shots:
                         prune(shots, "f*.png", args.keep_shots)
                 if now >= next_state:
-                    if agent.halted():
+                    if agent.halted() or (states / f"f{frame:08d}.mcs").exists():
                         next_state = now + args.state_interval
                     else:
                         agent.savestate(states / f"f{frame:08d}.mcs")
