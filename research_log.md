@@ -5464,3 +5464,13 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   `research/memory_dumps`.
 - **Checks:** `./invenv.sh python -m pytest -q`: 311 passed, 1 skipped (the
   regression integration test needs `MSHVSF_REGRESSION=1`).
+- **Archived to the homelab, then deleted here (user request):** the 68
+  finished-task folders and loose files left in `local/` (everything except
+  the kept list above and `ui008/usbios`): 16,433 files, 2,214,962,184
+  bytes, with `MANIFEST-2026-11-02.tsv` (path, bytes, SHA-256). They joined
+  the 2026-10-30 batch in `/mnt/HD/Seagate22TB/filebrowser-inbox/Archives/MSHvSF-Saturn-EN`
+  (paths mirror `local/`; no path is in both batches). The 98 symlinks were
+  not copied; `SYMLINKS-2026-11-02.tsv` lists each path and target. On the
+  server, `sha256sum -c` of both manifests passed (16,433 and 23,299 rows),
+  with no symlinks and the Inbox owner and modes. The archive `README.md`
+  has the restore commands. `local/` is now 4.2 GB.
