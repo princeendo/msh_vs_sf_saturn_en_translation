@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -66,14 +67,15 @@ from tools.text.caption_compiler import (
     SCHEMA_V3,
     TOKEN,
 )
+from tools.text.names_switch import alternates
 from tools.text.official_captions import (
     best_shifts,
     centred,
     line_pairs,
     roster_spec,
 )
+from tools.text.options_submenu import NAMES_RESERVE, submenu
 from tools.text.options_submenu import RESERVE as SUBMENU_RESERVE
-from tools.text.options_submenu import submenu
 from tools.text.pair_font import split_pairs
 
 EN_RECORD, EN_CELLS = 100, 25  # arcade English records: 2 lines of 25 cells
@@ -519,6 +521,19 @@ def check_targets(
 SECRET_SLOTS = (17, 20, 21, 22, 23, 24, 25)  # SPECIAL-002/003 (EXP-0077-0079)
 
 
+def saturn_spec(argv: Sequence[str] | None, out: Path) -> dict[str, object]:
+    """The same build with Saturn names and no switch (OPT-005), generated
+    next to ``out``."""
+    words = list(sys.argv[1:] if argv is None else argv)
+    words = [w for w in words if w != "--names-switch"]
+    words[words.index("--names") + 1] = "saturn"
+    words[words.index("--out") + 1] = str(out.with_suffix(".saturn.json"))
+    main(words)
+    spec = json.loads(out.with_suffix(".saturn.json").read_text())
+    assert isinstance(spec, dict)
+    return spec
+
+
 def tail_marker(size: int) -> bytes:
     """A known, non-repeating fill for the font-tail test (OPT-003): SHA-256 of
     ``OPT-003`` and a block counter, concatenated."""
@@ -945,6 +960,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         "COMBO GAUGE; VS POWER GAUGE spelled so (OPT-004)",
     )
     parser.add_argument(
+        "--names-switch",
+        action="store_true",
+        help="a NAMES row in EXTRA OPTIONS: American names on the disc, Saturn "
+        "names copied in at run time (OPT-005; needs --names us and "
+        "--options-submenu)",
+    )
+    parser.add_argument(
         "--font-tail-marker",
         type=int,
         metavar="BYTES",
@@ -1086,10 +1108,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         patches += warning_patches(args.track)
     if args.options_submenu and args.font_tail_marker:
         parser.error("--options-submenu and --font-tail-marker both use the tail")
+    if args.names_switch and (args.names != "us" or not args.options_submenu):
+        parser.error("--names-switch needs --names us and --options-submenu")
     if args.options_submenu:
-        payload, submenu_patches = submenu()
+        reserve = NAMES_RESERVE if args.names_switch else SUBMENU_RESERVE
+        payload, submenu_patches = submenu(reserve)
         spec["options_submenu"] = True
-        spec["font_tail"] = {"reserve": SUBMENU_RESERVE, "hex": payload.hex()}
+        spec["font_tail"] = (
+            {"reserve": reserve, "builder": "options_submenu"}
+            if args.names_switch
+            else {"reserve": reserve, "hex": payload.hex()}
+        )
         patches = spec["patches"]
         assert isinstance(patches, list)
         patches += submenu_patches
@@ -1107,6 +1136,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             for name in ("MC13.PAC", "ME.PAC")
         }
     checks = check_targets(program, targets, files["MC13.PAC"], files["ME.PAC"])
+    if args.names_switch:
+        spec["names_switch"] = alternates(spec, saturn_spec(argv, args.out))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(spec, indent=1) + "\n", encoding="utf-8")
     print(json.dumps({"out": str(args.out), "checks": checks}))

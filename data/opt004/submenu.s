@@ -25,7 +25,9 @@
         .equ SOUND_ENTER, 0x0601E44A
         .equ SOUND_EXIT, 0x0601E474
         .equ EXIT_TEXT, 0x0601E8FE
-        .equ ROWS, 2
+        .equ ROWS, 3
+        .equ NAMES, 0x06017AB4          ! saved by BACK UP; cleared at boot (EXP-0105)
+        .equ SLOTS, 4
         .equ VBLANK_NEXT, 0x0600CB5C    ! what the V-blank handler called (SYS.BIN)
 
 ! ---- every frame, from the main V-blank-in handler (0x0600C13C), through
@@ -34,12 +36,108 @@
 ! ---- pops it and returns.
         .align 4
 vblank:
+        mov.l @(l_names),r0
+        mov.l @r0,r12
+        mov #1,r0
+        and r0,r12                      ! 0 American (the disc), 1 Saturn
+        mov.l @(l_sites),r13
+next_site:                              ! OPT-005 site table (names_switch.pack)
+        mov.l @r13,r7                   ! address, or the offset in each slot
+        tst r7,r7
+        bt vblank_done
+        mov.w @(4,r13),r0
+        extu.w r0,r11                   ! length (even, >= 4)
+        mov.w @(6,r13),r0
+        extu.w r0,r6                    ! 1: in each character slot
+        mov.w @(8,r13),r0
+        extu.w r0,r10                   ! probe offset
+        mov r13,r9
+        add #12,r9                      ! r9 = the bytes to put there
+        mov r9,r8
+        add r11,r8                      ! r8 = the bytes to replace
+        tst r12,r12
+        bt bytes_chosen                 ! American: American bytes over Saturn
+        mov r9,r0
+        mov r8,r9
+        mov r0,r8
+bytes_chosen:
+        mov #1,r5
+        tst r6,r6
+        bt check_next
+        mov #SLOTS,r5
+        mov.l @(l_slot0),r0
+        add r0,r7
+check_next:
+        bsr check_site
+        sts.l pr,@-r15
+        mov.l @(l_slot_step),r0
+        add r0,r7
+        dt r5
+        bf check_next
+        mov r11,r0                      ! next: 12 + 2 x length, rounded to 4
+        shll r0
+        add #15,r0
+        shlr2 r0
+        shll2 r0
+        add r0,r13
+        bra next_site
+        nop
+vblank_done:
         mov.l @(l_frames),r1
         mov.l @r1,r0
         add #1,r0
         mov.l r0,@r1
         mov.l @(l_vblank_next),r0
         jmp @r0
+        nop
+
+! r7 = address, r8 = bytes to replace, r9 = bytes to put, r10 = probe, r11 =
+! length. Reads go through the cache-through alias. The copy writes both
+! aliases: a store through the cached alias did not reach sound RAM
+! (EXP-0112), and the cached store keeps any cached copy of work RAM
+! current. Words only: sites are even.
+check_site:
+        mov.l @(l_uncached),r1
+        or r7,r1
+        mov r1,r2
+        add r10,r2
+        mov r8,r3
+        add r10,r3
+        mov #2,r4
+probe_word:
+        mov.w @r2+,r0
+        mov.w @r3+,r6
+        cmp/eq r0,r6
+        bf site_done
+        dt r4
+        bf probe_word
+        mov r1,r2
+        mov r8,r3
+        mov r11,r4
+        shlr r4
+full_word:
+        mov.w @r2+,r0
+        mov.w @r3+,r6
+        cmp/eq r0,r6
+        bf site_done
+        dt r4
+        bf full_word
+        mov r7,r2
+        mov r1,r6                       ! the cache-through alias
+        mov r9,r3
+        mov r11,r4
+        shlr r4
+copy_word:
+        mov.w @r3+,r0
+        mov.w r0,@r6
+        mov.w r0,@r2
+        add #2,r6
+        dt r4
+        bf/s copy_word
+        add #2,r2
+site_done:
+        lds.l @r15+,pr
+        rts
         nop
 
 ! ---- Options row 8 handler: every frame the cursor is on EXTRA OPTIONS
@@ -276,6 +374,11 @@ l_sound_change: .long SOUND_CHANGE
 l_sound_enter: .long SOUND_ENTER
 l_sound_exit: .long SOUND_EXIT
 l_frames: .long frames
+l_names: .long NAMES
+l_sites: .long sites
+l_slot0: .long 0x00200000             ! character PAC slots (OPT-005)
+l_slot_step: .long 0x00010000
+l_uncached: .long 0x20000000
 l_vblank_next: .long VBLANK_NEXT
 
 ! ---- variables (cart RAM is writable)
@@ -290,8 +393,11 @@ rows:
         .long 0x06017AB0, 1, 0, label_boss, values_boss, 0, 0, 0
         ! COMBO GAUGE: the game's COMBO GAGE setting; 0x0601E172 applies it
         .long 0x06017AD4, 1, 0x0601E172, label_combo, values_combo, 0, 0, 0
+        ! NAMES: American or Saturn names, applied every frame by `vblank`
+        .long NAMES, 1, 0, label_names, values_names, 0, 0, 0
 values_boss: .long boss_locked, boss_open
 values_combo: .long combo_normal, combo_full
+values_names: .long names_american, names_saturn
 entry_values: .long entry_value         ! Options row 8's value (MM.BIN literal)
 
 ! ---- strings: x, y in 8-pixel cells, then text (labels end at column 19,
@@ -312,7 +418,15 @@ combo_normal: .byte 22, 8
         .asciz "NORMAL"
 combo_full: .byte 22, 8
         .asciz "FULL  "
+label_names: .byte 6, 10
+        .asciz "         NAMES "
+names_american: .byte 22, 10
+        .asciz "AMERICAN"
+names_saturn: .byte 22, 10
+        .asciz "SATURN  "
 entry_value: .byte 22, 22
         .asciz "PRESS A OR C BUTTON"
         .align 4
 end:
+! ---- the OPT-005 site table goes here (names_switch.pack); empty: one zero
+sites:  .long 0

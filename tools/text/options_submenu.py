@@ -24,7 +24,8 @@ from tools.sh2.asm import assemble
 from tools.text.caption_compiler import FONT_ADDRESS, FONT_ENTRY
 
 SOURCE = Path("data/opt004/submenu.s")
-RESERVE = 1024  # bytes of font tail; the sub-menu is 676
+RESERVE = 1024  # bytes of font tail for the sub-menu alone
+NAMES_RESERVE = 6144  # with the OPT-005 site table
 MM_BASE = 0x06018B00
 SYS_BASE = 0x06002000  # SYS.BIN is loaded raw here
 VBLANK_LITERAL = 0x0600C1C0  # the main V-blank handler's call to VBLANK_NEXT
@@ -78,6 +79,20 @@ def guard(submenu_at: int, vblank_at: int, signature: int) -> bytes:
     if symbols["guard"] != GUARD or len(code) != len(STATE2_ORIGINAL):
         raise ValueError("the guard no longer fits the dead state-2 routine")
     return code
+
+
+def tail(reserve: int, sites: bytes) -> bytes:
+    """The payload with an OPT-005 site table (``names_switch.pack``) in place
+    of the empty one; the code before it is the same as ``submenu``'s."""
+    origin = FONT_ADDRESS + FONT_ENTRY[1] - reserve
+    code, symbols = assemble(SOURCE.read_text(), origin)
+    cut = symbols["sites"] - origin
+    if code[cut:] != bytes(4):
+        raise ValueError("the site table is not the end of the payload")
+    payload = code[:cut] + sites
+    if len(payload) > reserve:
+        raise ValueError(f"the payload is {len(payload)} bytes; the reserve {reserve}")
+    return payload
 
 
 def code_long(code: bytes, origin: int, address: int) -> int:

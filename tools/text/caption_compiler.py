@@ -260,6 +260,9 @@ class FontTail:
 
     reserve: int
     payload: bytes
+    builder: str | None = (
+        None  # "options_submenu": payload built after the files (OPT-005)
+    )
 
     @property
     def address(self) -> int:
@@ -274,14 +277,17 @@ def parse_font_tail(spec: dict[str, object]) -> FontTail | None:
     if not isinstance(entry, dict):
         raise SpecError("font_tail must be an object")
     reserve, payload = entry.get("reserve"), entry.get("hex", "")
+    builder = entry.get("builder")
     if not isinstance(reserve, int) or reserve <= 0 or reserve % 4:
         raise SpecError("font_tail reserve must be a positive multiple of 4")
     if not isinstance(payload, str):
         raise SpecError("font_tail hex must be a string")
+    if builder not in (None, "options_submenu") or (builder and payload):
+        raise SpecError("font_tail builder must be options_submenu, without hex")
     data = bytes.fromhex(payload)
     if len(data) > reserve:
         raise SpecError(f"font_tail payload is {len(data)} bytes, reserve {reserve}")
-    return FontTail(reserve, data)
+    return FontTail(reserve, data, builder if isinstance(builder, str) else None)
 
 
 def parse_glyph_copies(spec: dict[str, object]) -> dict[int, int | None]:
@@ -604,12 +610,15 @@ def compile_tables(
     style: str = "quote",
     copies: dict[int, int | None] | None = None,
     tail: FontTail | None = None,
+    extra_cells: Sequence[Sequence[Cell]] = (),
 ) -> CompiledSet:
-    """Build one font image and every quote PAC (no disc I/O)."""
+    """Build one font image and every quote PAC (no disc I/O). ``extra_cells``
+    (the other name variant's text, OPT-005) get codes too."""
     cells = table_cells(tables, pacs)
     pairs = distinct_pairs(
         [record for table in cells for record in table]
         + [field_cells(f) for f in fields]
+        + list(extra_cells)
     )
     available = free_codes(font_image, ranges)
     kept = {
@@ -899,6 +908,97 @@ def load_candidates(path: Path) -> list[int]:
     return sorted((c for c in unseen if KANJI[0] <= c <= KANJI[1]), reverse=True)
 
 
+def names_entries(
+    document: dict[str, object], tables: Sequence[TableSpec], pacs: dict[str, bytes]
+) -> list[tuple[dict[str, object], dict[int, int], list[Cell]]]:
+    """The spec's ``names_switch`` records and fields (OPT-005), each with its
+    16-bit writes still to be coded, as (entry, {}, cells); bytes entries have
+    no cells."""
+    entries = document.get("names_switch") or []
+    if not isinstance(entries, list):
+        raise SpecError("names_switch must be a list")
+    formats = {t.file: t for t in tables}
+    out: list[tuple[dict[str, object], dict[int, int], list[Cell]]] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise SpecError("each names_switch entry must be an object")
+        name = str(entry.get("file", "")).upper()
+        if entry.get("kind") == "record":
+            if name not in formats:
+                raise SpecError(f"names_switch: {name} has no table in the spec")
+            lines = entry.get("lines")
+            if not isinstance(lines, list) or len(lines) != 2:
+                raise SpecError("names_switch: a record needs two lines")
+            table = hex_offset(entry.get("table"), "names_switch table")
+            caption = Caption(
+                int(str(entry.get("record"))), (str(lines[0]), str(lines[1]))
+            )
+            base = formats[name]
+            spec = TableSpec(
+                name, table, [caption], base.raw, base.placeholder_anywhere
+            )
+            original = record_codes(table_data(spec, pacs), caption.record, table)
+            cells = record_cells(caption, original, base.placeholder_anywhere)
+            out.append((entry, {}, cells))
+        elif entry.get("kind") == "field":
+            field = FieldSpec(
+                name,
+                hex_offset(entry.get("offset"), "names_switch field"),
+                int(str(entry.get("cells"))),
+                str(entry.get("text")),
+            )
+            out.append((entry, {}, field_cells(field)))
+        elif entry.get("kind") != "bytes":
+            raise SpecError(f"names_switch: unknown kind {entry.get('kind')!r}")
+        else:
+            out.append((entry, {}, []))
+    return out
+
+
+def build_tail(
+    document: dict[str, object],
+    tail: FontTail,
+    alternates: Sequence[tuple[dict[str, object], dict[int, int], list[Cell]]],
+    codes: dict[str, int],
+    outputs: dict[str, bytes],
+) -> tuple[bytes, dict[str, object]]:
+    """OPT-005: encode the Saturn names with the build's code map, read the
+    American bytes from the built files, pack the site table into the
+    sub-menu payload, and put it in ``MEMFIX.PAC``'s font tail."""
+    from tools.text import names_switch, options_submenu
+
+    writes: dict[tuple[str, int], int] = {}
+    for entry, _, cells in alternates:
+        name = str(entry["file"]).upper()
+        if entry["kind"] == "record":
+            table = hex_offset(entry["table"], "names_switch table")
+            caption = Caption(int(str(entry["record"])), ("", ""))
+            for offset, value in table_writes([caption], [cells], codes, table).items():
+                writes[(name, offset)] = value
+        elif entry["kind"] == "field":
+            start = hex_offset(entry["offset"], "names_switch field")
+            for i, cell in enumerate(cells):
+                writes[(name, start + 2 * i)] = (
+                    BLANK if cell == "  " else codes[str(cell)]
+                )
+    found = names_switch.sites([e for e, _, _ in alternates], outputs, writes)
+    site_table = names_switch.pack(found)
+    payload = options_submenu.tail(tail.reserve, site_table)
+    offset, length = FONT_ENTRY
+    memfix = bytearray(outputs["MEMFIX.PAC"])
+    start = offset + length - tail.reserve
+    if any(memfix[start : offset + length]):
+        raise SpecError("the font tail is not empty")
+    memfix[start : start + len(payload)] = payload
+    return bytes(memfix), {
+        "address": f"0x{tail.address:08X}",
+        "payload_bytes": len(payload),
+        "payload_sha256": sha(payload),
+        "sites": len(found),
+        "slot_sites": sum(1 for f in found if f.slots),
+    }
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("spec", type=Path, help="caption spec JSON")
@@ -960,6 +1060,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print(json.dumps(report_cap, indent=1))
             return 0
+        tail = parse_font_tail(document)
+        alternates = names_entries(document, tables, pacs)
         compiled = compile_tables(
             tables,
             old_font,
@@ -968,7 +1070,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             fields=fields,
             style=style,
             copies=copies,
-            tail=parse_font_tail(document),
+            tail=tail,
+            extra_cells=[cells for _, _, cells in alternates],
         )
         new_memfix = memfix[:offset] + compiled.font_image + memfix[offset + length :]
         outputs = {"MEMFIX.PAC": new_memfix} | {
@@ -978,6 +1081,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         for name in sorted({p.file for p in patches}):
             outputs[name], patch_checks[name] = apply_patches(
                 outputs.get(name, pacs[name]), [p for p in patches if p.file == name]
+            )
+        tail_report: dict[str, object] = {}
+        if tail and tail.builder:
+            outputs["MEMFIX.PAC"], tail_report = build_tail(
+                document, tail, alternates, compiled.codes, outputs
             )
         report: dict[str, object] = {
             "tool": "tools.text.caption_compiler",
@@ -1016,6 +1124,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 },
             },
         }
+        if tail_report:
+            report["tail_builder"] = tail_report
         if retired:
             report["retired_candidates"] = [f"0x{c:04X}" for c in retired]
         if style != "quote":
