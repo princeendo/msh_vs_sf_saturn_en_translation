@@ -3846,6 +3846,23 @@ the user asks or when it unblocks other work.
   XvSF's `LOC-009` is evidence that it can be done, not a template.
 - **Open for the user:** the default setting (XvSF chose American).
 - **Notes:** `LOC-006` is superseded by this task once it starts.
+- **Inventory (2026-11-02, from the two `--options-submenu` specs):**
+
+  | File | What differs | At run time |
+  | --- | --- | --- |
+  | `MM.BIN` | the name fields `0x7D584` and `0x7D5A4`; sound-test titles `0x6341` and `0x639D`; the unlock message `0x24F03`; six life-bar labels `0x32D84`-`0x32FA4`; banner pointers `0x665DE`-`0x6661A`; VS pointers `0x9FCA0`-`0x9FCDC`; a name length `0x96DF6`; 2 story-line records (pair shifts only) | resident at `0x06018B00`, below the MEMFIX entry 11 overlay (`0x060DDB74`), so it can be patched in place |
+  | `MEMFIX.PAC` entry 7 | six 2-byte name calls (file `0x124AEA`-`0x124C84`) | loaded to WRAM-L `0x00206510` (destination list), then sound RAM (not traced) |
+  | `MC00.PAC` | 4 pre-fight exchange records | decoded per fight; address not traced |
+  | `MC0F.PAC` | 2 win quotes ("only Gouki/Akuma") | decoded per fight (a player slot) |
+  | `ME.PAC` | 7 ending records and 3 speaker labels (`0xB244`-`0xB294`) | loaded for endings; address not traced |
+
+- **Disproven:** alternate copies of the three files in the 150 free sectors
+  at the end of track 01. `DIRBUF.BIN` (the game's file table, in RAM from
+  `0x0600424C`, 18-byte entries: name, 2-byte frame address, size) cannot
+  address frames past 65,535, and the free sectors start at frame 192,346.
+- **Found:** the win-quote builder reads the record pointer at
+  `0x060AF7D0` (from `0x060F249C`). The exchanges and the endings use other
+  code, not yet traced.
 
 ### OPT-006 - GRAMMAR switch in the sub-menu
 

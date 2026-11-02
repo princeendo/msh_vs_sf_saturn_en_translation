@@ -76,7 +76,9 @@ cursor, `0x06017AB0`, `0x06017AD4`, `0x06017AA8` and the combo effect
 - **The user, with BOSS FIGHT locked:** "Yes, it stayed hidden" (L/R on
   SURVIVAL MODE).
 - **The Arcade fight with COMBO GAUGE FULL:** it played normally
-  (`f00016052.png`, `f00019314.png`). Its visible effect was not identified.
+  (`f00016052.png`, `f00019314.png`).
+- **COMBO GAUGE FULL in a fight (the user, later in Mednafen):** "It just
+  continuously refills the combo gauge and works as expected." 
 
 ## Conclusion
 
@@ -85,12 +87,11 @@ cursor, `0x06017AB0`, `0x06017AD4`, `0x06017AA8` and the combo effect
 - COMBO GAUGE drives the game's own effect variable;
 - both settings are saved by BACK UP (AUTO) and survive a reset. The saved
   value replaces the boot-time `OPT-001` unlock;
-- BOSS FIGHT controls CYBER-AKUMA NOW!! in both positions.
+- BOSS FIGHT controls CYBER-AKUMA NOW!! in both positions;
+- COMBO GAUGE FULL keeps the combo gauge refilled (the user).
 
 ## Uncertainty and Alternatives
 
-- **COMBO GAUGE FULL's effect in a fight** is the game's own and was not
-  identified.
 - **Not run:** BACK UP: SAVE (NON-AUTO) and LOAD; the Saturn-names image (it
   gets the same `MM.BIN` writes, and every expected byte is the same in both
   variants, `OPT-004`).

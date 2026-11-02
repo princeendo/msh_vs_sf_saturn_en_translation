@@ -5627,3 +5627,24 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
 - **README:** EXTRA OPTIONS and the VS POWER GAUGE spelling under "What's
   Changed" and "Build Options", marked "after 0.1.0". `release/README.md`
   describes 0.1.0 and waits for the next release.
+
+## 2026-11-02 — OPT-005 groundwork: what the names switch must change
+
+- **User:** COMBO GAUGE FULL "just continuously refills the combo gauge and
+  works as expected" (recorded in `EXP-0110`). The user wants NAMES done
+  before the hardware check, to burn one disc; `67cd332` stays unpushed.
+- **Inventory:** the two `--options-submenu` specs differ in 18 records or
+  fields and 25 byte patches, across `MM.BIN`, `MEMFIX.PAC` entry 7,
+  `MC00.PAC`, `MC0F.PAC` and `ME.PAC` (table in `TASKS.md` `OPT-005`).
+  Every `MM.BIN` site is below the MEMFIX entry 11 overlay.
+- **Disproven (alternate files):** the US copies of MC00, MC0F and ME would
+  fit the 150 free sectors at the end of track 01 (11 + 15 + 30 sectors),
+  but the game's file table (`DIRBUF.BIN` in RAM, 18-byte entries) stores
+  2-byte frame addresses. The free sectors are at frame 192,346.
+- **Win quotes:** a read breakpoint on `0x060F249C` from the OPT-003 state
+  f9517 found the quote module's builder at `0x060AF7D0`. The exchanges and
+  the endings are drawn by other modules (not traced).
+- **Next:** trace where MC00, MC0F and ME land, and an after-load or
+  per-frame hook point. That needs checkpoints at a stage-7 exchange, a
+  Vega fight and an ending: the archived `sp004`/`special004` states or a
+  new session.
