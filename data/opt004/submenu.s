@@ -26,7 +26,21 @@
         .equ SOUND_EXIT, 0x0601E474
         .equ EXIT_TEXT, 0x0601E8FE
         .equ ROWS, 2
-        .equ ROW_SHIFT_NOTE, 32         ! bytes per row record (see `rows`)
+        .equ VBLANK_NEXT, 0x0600CB5C    ! what the V-blank handler called (SYS.BIN)
+
+! ---- every frame, from the main V-blank-in handler (0x0600C13C), through
+! ---- the guard in MM.BIN (0x0601E232), which checks this routine's first
+! ---- long. The handler saved every register and pushed PR; VBLANK_NEXT
+! ---- pops it and returns.
+        .align 4
+vblank:
+        mov.l @(l_frames),r1
+        mov.l @r1,r0
+        add #1,r0
+        mov.l r0,@r1
+        mov.l @(l_vblank_next),r0
+        jmp @r0
+        nop
 
 ! ---- Options row 8 handler: every frame the cursor is on EXTRA OPTIONS
 entry:
@@ -261,11 +275,14 @@ l_sound_move: .long SOUND_MOVE
 l_sound_change: .long SOUND_CHANGE
 l_sound_enter: .long SOUND_ENTER
 l_sound_exit: .long SOUND_EXIT
+l_frames: .long frames
+l_vblank_next: .long VBLANK_NEXT
 
 ! ---- variables (cart RAM is writable)
 cursor: .long 0
 row: .long 0
 dir_bits: .long 0
+frames: .long 0                         ! V-blank calls (EXP-0111)
 
 ! ---- rows: setting, maximum, apply routine (0 = none), label, value strings
 rows:

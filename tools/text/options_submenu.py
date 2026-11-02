@@ -26,6 +26,14 @@ from tools.text.caption_compiler import FONT_ADDRESS, FONT_ENTRY
 SOURCE = Path("data/opt004/submenu.s")
 RESERVE = 1024  # bytes of font tail; the sub-menu is 676
 MM_BASE = 0x06018B00
+SYS_BASE = 0x06002000  # SYS.BIN is loaded raw here
+VBLANK_LITERAL = 0x0600C1C0  # the main V-blank handler's call to VBLANK_NEXT
+VBLANK_NEXT = 0x0600CB5C
+STATE2_INPUT = 0x0601E22C  # dead: state 2 is never set (EXP-0105)
+GUARD = 0x0601E232
+STATE2_ORIGINAL = bytes.fromhex(  # 0x0601E22C-0x0601E253 in MM.BIN
+    "d90a61929011201920088becdb08dc09dd09de0ab01c4f22db09dc0add0ade0bb0164f224f26000b"
+)
 VS_LABEL = b"VS POWER GAUGE  --" + b" " * 13  # 31 characters, as the original
 ENTRY_LABEL = b" EXTRA OPTIONS" + b" " * 17
 
@@ -40,6 +48,40 @@ def _record(x: int, y: int, text: bytes) -> bytes:
 
 def _long(value: int) -> bytes:
     return value.to_bytes(4, "big")
+
+
+def guard(submenu_at: int, vblank_at: int, signature: int) -> bytes:
+    """``0x0601E22C``-``0x0601E253``: the state-2 trampoline, then the V-blank
+    guard. The guard runs the tail's ``vblank`` only when its first long is
+    there (the tail loads after the handler is installed, `EXP-0111`)."""
+    source = f"""
+        mov.l @(t_submenu),r0
+        jmp @r0
+        nop
+    guard:
+        mov.l @(t_vblank),r2
+        mov.l @r2,r0
+        mov.l @(t_signature),r1
+        cmp/eq r1,r0
+        bt go
+        mov.l @(t_next),r2
+    go:
+        jmp @r2
+        nop
+        .align 4
+    t_submenu: .long {submenu_at}
+    t_vblank: .long {vblank_at}
+    t_signature: .long {signature}
+    t_next: .long {VBLANK_NEXT}
+    """
+    code, symbols = assemble(source, STATE2_INPUT)
+    if symbols["guard"] != GUARD or len(code) != len(STATE2_ORIGINAL):
+        raise ValueError("the guard no longer fits the dead state-2 routine")
+    return code
+
+
+def code_long(code: bytes, origin: int, address: int) -> int:
+    return int.from_bytes(code[address - origin : address - origin + 4], "big")
 
 
 def submenu(reserve: int = RESERVE) -> tuple[bytes, list[dict[str, str]]]:
@@ -100,26 +142,43 @@ def submenu(reserve: int = RESERVE) -> tuple[bytes, list[dict[str, str]]]:
             _record(6, 24, b"VS POWER GAUGE "),
             "row 9 highlight",
         ),
-        # state 2: input jumps to the sub-menu; the BUTTON CONFIG draw is skipped
+        # state 2: input jumps to the sub-menu; the BUTTON CONFIG draw is skipped.
+        # The rest of that dead routine holds the V-blank guard (OPT-005).
         (
             0x0601E22C,
-            bytes.fromhex("d90a61929011201920088bec"),
-            bytes.fromhex("d001402b00090009") + _long(symbols["submenu"]),
-            "mov.l @(0x0601E234),r0; jmp @r0; nop; nop; .long submenu",
+            STATE2_ORIGINAL,
+            guard(
+                symbols["submenu"],
+                symbols["vblank"],
+                code_long(code, origin, symbols["vblank"]),
+            ),
+            "state-2 trampoline and the V-blank guard",
         ),
         (0x0601DDAC, bytes.fromhex("b43a4f22"), bytes.fromhex("a0000009"), "bra; nop"),
     ]
     patches = []
     for address, old, new, why in writes:
-        if len(old) != len(new):
-            raise ValueError(f"0x{address:08X}: {why} changes the length")
-        patches.append(
-            {
-                "file": "MM.BIN",
-                "offset": f"0x{address - MM_BASE:X}",
-                "hex": new.hex(),
-                "expect": old.hex(),
-                "why": f"OPT-004 0x{address:08X}: {why}",
-            }
+        patches.append(_patch("MM.BIN", address - MM_BASE, old, new, why))
+    # the V-blank handler's call to 0x0600CB5C goes through the guard
+    patches.append(
+        _patch(
+            "SYS.BIN",
+            VBLANK_LITERAL - SYS_BASE,
+            _long(VBLANK_NEXT),
+            _long(GUARD),
+            "V-blank call through the guard",
         )
+    )
     return code, patches
+
+
+def _patch(name: str, offset: int, old: bytes, new: bytes, why: str) -> dict[str, str]:
+    if len(old) != len(new):
+        raise ValueError(f"{name} 0x{offset:X}: {why} changes the length")
+    return {
+        "file": name,
+        "offset": f"0x{offset:X}",
+        "hex": new.hex(),
+        "expect": old.hex(),
+        "why": f"OPT-004/OPT-005 {name} 0x{offset:X}: {why}",
+    }
