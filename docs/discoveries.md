@@ -1940,6 +1940,32 @@ Experiments: `EXP-0108`, `EXP-0109`, `EXP-0110`
   is unlocked and stays hidden when it is locked.
 - **Reproduce.** `research/experiments/EXP-0110/README.md`.
 
+## OPT-005: A Guarded V-Blank Hook and the NAMES Site Table
+
+Confidence: **CONFIRMED** (cold boots, unattended; the per-fight and ending
+sites are not yet seen)
+
+Experiments: `EXP-0111`, `EXP-0112`
+
+- **The hook:**
+  - the main V-blank-in handler `0x0600C13C` (`SYS.BIN`, loaded raw at
+    `0x06002000`) calls `0x0600CB5C` through the literal at `0x0600C1C0`
+    (`SYS.BIN` `0xA1C0`);
+  - pointed at a guard in `MM.BIN`'s dead state-2 routine (`0x0601E232`),
+    it runs the font tail's `vblank` once that routine's first long is
+    present, and falls through before the tail loads;
+  - the guard and literal are written only by the boot loads.
+- **The switch:**
+  - the image holds American names. 42 sites (`names_switch.pack`) list
+    both variants' bytes;
+  - each frame `vblank` copies the variant chosen by `0x06017AB4` over the
+    other;
+  - all 26 resident sites (`MM.BIN`, and the name calls in sound RAM at
+    `0x05A06510` + `0xF32`…) switch both ways.
+- **Sound RAM:** a store through the cached alias did not reach sound RAM
+  (Mednafen). The copy also stores through `0x25A…`.
+- **Reproduce.** `research/experiments/EXP-0112/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

@@ -89,12 +89,14 @@ still in Japanese in 0.1.0; the repository now builds it in English (see
     (NORMAL by default).
 
   VS POWER GAGE is spelled VS POWER GAUGE.
-- **Names:** two variants.
-  - **American names** (default): Bison, Akuma and Cyber Akuma in the text,
-    life bars, win banners, VS screen, sound test, and the announcer's calls
+- **Names** (switchable after 0.1.0, EXTRA OPTIONS → NAMES):
+  - **AMERICAN** (default): Bison, Akuma and Cyber Akuma in the text, life
+    bars, win banners, VS screen, sound test, and the announcer's calls
     (using recordings already on the disc).
-  - **Saturn names**: Vega, Gouki and Mech-Gouki, which match the Saturn's
-    own art and voice.
+  - **SATURN**: Vega, Gouki and Mech-Gouki, which match the Saturn's own
+    art and voice.
+
+  0.1.0 shipped the two as separate patches.
 
 **Not changed:** the other menus (already English), the voices (apart from
 the American names' three name calls), the attract-mode Norimaro screen, and
@@ -246,6 +248,7 @@ lists each image's exact options.
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
 | `--options-submenu` | The EXTRA OPTIONS sub-menu (BOSS FIGHT, COMBO GAUGE) and the VS POWER GAUGE spelling. Its code is placed in the quote font's spare space. | on (after 0.1.0) |
+| `--names-switch` | A NAMES row in EXTRA OPTIONS: the image has American names, and Saturn names are copied in while the game runs. Needs `--names us` and `--options-submenu`; generates the Saturn spec too, so it takes twice as long. | on in `m8_roster_gold_us` (after 0.1.0) |
 | `--error-screens` | The five boot-time warning screens (`ERR1.BIN`-`ERR5.BIN`: no 4 MB cartridge, cartridge not inserted correctly, backup memory not formatted, unreadable, or full), new translations. | on (after 0.1.0) |
 
 To build a variant of your own, such as the release image with the original

@@ -5648,3 +5648,38 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   per-frame hook point. That needs checkpoints at a stage-7 exchange, a
   Vega fight and an ending: the archived `sp004`/`special004` states or a
   new session.
+
+## 2026-11-02 — OPT-005: the NAMES switch (EXP-0111, EXP-0112)
+
+- **User decisions:** American by default; one release image; checkpoints
+  from the archive (`sp004/play/rec` fetched read-only with
+  `rsync --rsync-path="sudo -n rsync"` from `192.168.86.45`; `plex-thin` did
+  not resolve; 1,513 files matched the manifest).
+- **Homes:**
+  - four 64 KiB character slots from `0x00200000`;
+  - `ME.PAC` at `0x001FFFF0` + offset;
+  - name calls in sound RAM at `0x05A06510`;
+  - `MM.BIN` resident.
+- **Disproven:**
+  - alternate file copies (`DIRBUF.BIN`'s 2-byte frame addresses);
+  - a `SYS.BIN` zero run as the guard's home: not needed. `MM.BIN` is
+    resident whenever the handler runs, since `0x0600CB5C` calls into it.
+- **`EXP-0111` (CONFIRMED):** the guarded hook runs every main-handler frame
+  after the tail loads and falls through before it.
+- **`EXP-0112` (CONFIRMED):**
+  - 26 resident sites switch both ways;
+  - two faults were fixed on the way: sound-RAM stores need the
+    cache-through alias, and the variant diff must skip the sub-menu's own
+    patches.
+- **Code:**
+  - `tools/text/names_switch.py`;
+  - `caption_compiler` (`names_switch` entries, `font_tail` builder, extra
+    cells);
+  - `official_endings --names-switch`;
+  - `data/opt004/submenu.s` (NAMES row, `vblank` site walk);
+  - unit tests (325 pass).
+- **Next:** the release reference with `--names-switch`, then the user's
+  session (fights with Vega/Bison, an exchange, an ending).
+- **Release reference:** `m8_roster_gold_us` now also passes
+  `--names-switch` (spec `edf1f16a…`) and is rebaselined: pass, track 01
+  `6669eb94…`. The switch test repeats on it: 26 of 26 both ways.

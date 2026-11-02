@@ -3831,7 +3831,14 @@ the user asks or when it unblocks other work.
 
 ### OPT-005 - NAMES switch (US / Saturn) in the sub-menu
 
-- **Status:** `BLOCKED` by `OPT-004`.
+- **Status:** `IN_PROGRESS` (user, 2026-11-02: names before the hardware
+  check, to burn one disc).
+  - `EXP-0111`: a guarded V-blank hook runs the tail's code every frame.
+  - `EXP-0112`: `--names-switch` switches all 26 resident sites both ways
+    on a cold boot.
+  - Left: the user's session (the character-slot and ending sites, what
+    the switch looks and sounds like), then the release reference
+    rebaselined.
 - **Milestone:** Polish
 - **Objective:** The names switch from `LOC-006` and `EXP-0095`, in the
   sub-menu.
