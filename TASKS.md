@@ -3863,6 +3863,39 @@ the user asks or when it unblocks other work.
 - **Found:** the win-quote builder reads the record pointer at
   `0x060AF7D0` (from `0x060F249C`). The exchanges and the endings use other
   code, not yet traced.
+- **User decisions (2026-11-02):** American names by default; one release
+  image; checkpoints from the homelab archive (`sp004` fetched and checked
+  against its manifest: 1,513 files).
+- **Run-time homes (from states; SUPPORTED):**
+  - character files decode into four 64 KiB WRAM-L slots, `0x00200000` +
+    `0x10000` × n (MC09, MC0A, MC05, MC06, MC0F, MC10 and MC13 seen);
+  - `ME.PAC` is in RAM at `0x001FFFF0` + file offset for the ending;
+  - MEMFIX entry 7 is in sound RAM at `0x05A06510`, so the name calls are
+    at `+0xF32` onward.
+- **Per-frame hook (SUPPORTED):**
+  - the main V-blank-in handler is `0x0600C13C` (`SYS.BIN`, loaded raw at
+    `0x06002000`) in 37 of 43 states. It saves every register and calls
+    `0x0600CB5C` through the literal at `SYS.BIN` `0xA1C0`;
+  - the handler is installed by frame 1,704, before the font tail loads
+    (frame ~1,950). So a guard must sit in `SYS.BIN` itself: the zero runs
+    at `0x060021BC` (96 bytes) and `0x060040F8` (128 bytes) stayed zero in
+    79 states (to be checked with a write log).
+- **Design:**
+  - **The image:** built with American names. The font is merged
+    (`EXP-0106`), with one code map for both variants; the spec lists the
+    Saturn variant's extra pairs, and the compiler checks the codes.
+  - **The NAMES row:** in EXTRA OPTIONS, setting `0x06017AB4` (saved;
+    0 = American, 1 = Saturn).
+  - **The guard:** the V-blank literal points to a guard in `SYS.BIN`,
+    which calls the tail routine only when its 8-byte signature is present.
+  - **The tail routine:** for every site, it compares one probe long with
+    the other variant's bytes and copies the chosen variant on a match:
+    - `MM.BIN` sites at fixed addresses;
+    - MC00 and MC0F records in each of the four slots;
+    - ME records and labels;
+    - the sound-RAM name calls.
+
+    It then jumps to `0x0600CB5C`.
 
 ### OPT-006 - GRAMMAR switch in the sub-menu
 
