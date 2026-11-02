@@ -5567,3 +5567,36 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   - mypy strict: 4 errors, all in existing `tests/unit/test_official_endings.py`
     code (lines 186, 266, 361, 364), present before this change.
 - **Next:** `OPT-004`. Test running code from cart RAM first.
+
+## 2026-11-02 — OPT-004: EXTRA OPTIONS sub-menu built (EXP-0108, EXP-0109)
+
+- **User:** "Yes, start OPT-004".
+- **`tools/sh2/asm.py` (new):** a two-pass SH-2 assembler in the
+  disassembler's syntax.
+  - A unit test checks all 65,536 opcodes.
+  - It reassembles the Options code exactly (1,383 instructions).
+  - Mnemonics match case-insensitively; symbols are case-sensitive (an
+    early version lowercased `ROWS` into the label `rows`).
+- **`EXP-0108` (CONFIRMED on a checkpoint):** a row handler in cart RAM ran
+  once per frame (a counter went 1 → 121 over 120 frames), so code can stay
+  in the font tail.
+- **Design (`tools/text/options_submenu.py`, `data/opt004/submenu.s`):**
+  - OPTION MODE row 8 is EXTRA OPTIONS, always shown; its handler is in the
+    tail;
+  - VS POWER GAUGE moves to row 9 (y = 24), using the existing y = 24
+    NORMAL/FULL strings;
+  - the unused state 2 runs the sub-menu: `0x0601E22C` jumps to the tail,
+    and the BUTTON CONFIG draw at `0x0601DDAC` is skipped;
+  - the sub-menu draws through the game's `0x0601B710` (big title),
+    `trapa #48`/`0x32` (labels) and `0x0601E4EC` (values).
+- **`EXP-0109` (SUPPORTED on a checkpoint):** everything behaved as
+  designed. Presses were written to the pad words at the dispatcher, since
+  the title does not read them and the agent has no button input.
+- **Pitfalls:**
+  - `mcs_patch` writes 16-bit elements only, so odd-sized writes go through
+    an extracted copy;
+  - the auto-mode classifier refused `kill <pid>` on my paused exploration
+    Mednafen (quiet home), so later runs use the separate home
+    `local/mednafen_quiet_opt004`.
+- **Checks:** pytest 319 passed, 1 skipped; ruff clean; mypy 4 errors, all
+  older ones in `tests/unit/test_official_endings.py`.

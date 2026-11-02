@@ -3790,9 +3790,16 @@ the user asks or when it unblocks other work.
 
 ### OPT-004 - The sub-menu, with BOSS FIGHT and COMBO GAUGE
 
-- **Status:** `READY` (`OPT-003` done). The code and data go in the font
-  tail (`EXP-0107`). Whether the SH-2 runs code from cart RAM, or the code
-  is copied to work RAM first, is the first thing to test.
+- **Status:** `IN_PROGRESS` (user: "Yes, start OPT-004", 2026-11-02).
+  - `EXP-0108`: code runs from cart RAM.
+  - `official_endings --options-submenu` builds the sub-menu: 676 bytes in a
+    1 KiB font tail and 17 `MM.BIN` writes with expect checks. It uses
+    `tools/sh2/asm.py` (new) and `data/opt004/submenu.s`.
+  - `EXP-0109` (checkpoint): entry, BOSS FIGHT, COMBO GAUGE, exit, and the
+    VS POWER GAUGE row and cursor with and without the unlock all work.
+  - Left: the user's cold-boot session (BACK UP keeping both settings, the
+    title menu with BOSS FIGHT LOCKED); then the release references
+    rebaselined and the hardware check.
 - **Milestone:** Polish
 - **Objective (user decision, 2026-11-02):**
   - The hidden COMBO GAGE row becomes the always-shown entry to a new

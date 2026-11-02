@@ -72,6 +72,8 @@ from tools.text.official_captions import (
     line_pairs,
     roster_spec,
 )
+from tools.text.options_submenu import RESERVE as SUBMENU_RESERVE
+from tools.text.options_submenu import submenu
 from tools.text.pair_font import split_pairs
 
 EN_RECORD, EN_CELLS = 100, 25  # arcade English records: 2 lines of 25 cells
@@ -937,6 +939,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         "English (UI-008)",
     )
     parser.add_argument(
+        "--options-submenu",
+        action="store_true",
+        help="the Options screen's EXTRA OPTIONS sub-menu with BOSS FIGHT and "
+        "COMBO GAUGE; VS POWER GAUGE spelled so (OPT-004)",
+    )
+    parser.add_argument(
         "--font-tail-marker",
         type=int,
         metavar="BYTES",
@@ -1076,6 +1084,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         patches = spec["patches"]
         assert isinstance(patches, list)
         patches += warning_patches(args.track)
+    if args.options_submenu and args.font_tail_marker:
+        parser.error("--options-submenu and --font-tail-marker both use the tail")
+    if args.options_submenu:
+        payload, submenu_patches = submenu()
+        spec["options_submenu"] = True
+        spec["font_tail"] = {"reserve": SUBMENU_RESERVE, "hex": payload.hex()}
+        patches = spec["patches"]
+        assert isinstance(patches, list)
+        patches += submenu_patches
     if args.font_tail_marker:
         spec["font_tail"] = {
             "reserve": args.font_tail_marker,
