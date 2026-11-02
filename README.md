@@ -80,6 +80,15 @@ still in Japanese in 0.1.0; the repository now builds it in English (see
   cartridge missing or not inserted correctly (shown, for example, with a
   1 MB cartridge), and the Saturn's backup memory not formatted, unreadable,
   or full. The save-data terms follow the US Saturn's own "Memory Manager".
+- **EXTRA OPTIONS** (after 0.1.0): a new OPTION MODE row opens a sub-menu
+  with two switches, saved with your other options:
+  - **BOSS FIGHT:** UNLOCKED (the default) or LOCKED, which puts back the
+    original Survival-clear lock on MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!;
+  - **COMBO GAUGE:** the game's own COMBO GAGE option, which the game shows
+    only after an unlock (its condition is not traced), now always available
+    (NORMAL by default).
+
+  VS POWER GAGE is spelled VS POWER GAUGE.
 - **Names:** two variants.
   - **American names** (default): Bison, Akuma and Cyber Akuma in the text,
     life bars, win banners, VS screen, sound test, and the announcer's calls
@@ -236,6 +245,7 @@ lists each image's exact options.
 | `--fix-grammar data/translations/grammar_fixes.json` | Light grammar fixes to official English: five hint pages (such as "When an Air Combo starter / hits the opponent,") and 21 lines of win quotes, partner lines and endings (typos such as "meditate" and missing commas such as "Rest easy, soldier,"). These are new text, not official. Needs `--official-hints`. | off |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
+| `--options-submenu` | The EXTRA OPTIONS sub-menu (BOSS FIGHT, COMBO GAUGE) and the VS POWER GAUGE spelling. Its code is placed in the quote font's spare space. | on (after 0.1.0) |
 | `--error-screens` | The five boot-time warning screens (`ERR1.BIN`-`ERR5.BIN`: no 4 MB cartridge, cartridge not inserted correctly, backup memory not formatted, unreadable, or full), new translations. | on (after 0.1.0) |
 
 To build a variant of your own, such as the release image with the original
@@ -248,7 +258,7 @@ boss-fight lock:
   --attract-captions --secret-roster data/text/secret_roster.json \
   --secret-translations data/translations/secret_characters.json \
   --story-lines data/translations/story_lines.json --official-hints --boss-exchanges \
-  --error-screens --no-unlock-boss-fight --out local/custom/spec.json
+  --error-screens --options-submenu --no-unlock-boss-fight --out local/custom/spec.json
 ./invenv.sh python -m tools.text.caption_compiler local/custom/spec.json --out-dir build/custom
 ./invenv.sh python -m tools.disc.make_patch --built-dir build/custom/image_a \
   --stem mshvsf_saturn_en_custom --out-dir build/release/custom

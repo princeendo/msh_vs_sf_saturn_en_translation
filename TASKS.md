@@ -3797,9 +3797,13 @@ the user asks or when it unblocks other work.
     `tools/sh2/asm.py` (new) and `data/opt004/submenu.s`.
   - `EXP-0109` (checkpoint): entry, BOSS FIGHT, COMBO GAUGE, exit, and the
     VS POWER GAUGE row and cursor with and without the unlock all work.
-  - Left: the user's cold-boot session (BACK UP keeping both settings, the
-    title menu with BOSS FIGHT LOCKED); then the release references
-    rebaselined and the hardware check.
+  - `EXP-0110` (cold boot, the user): both settings change, survive a reset,
+    and BOSS FIGHT controls CYBER-AKUMA NOW!! (user: "Yes, it stayed
+    hidden").
+  - Both release references now use `--options-submenu` and are
+    rebaselined.
+  - Left: the user's real-hardware check of the `build/disc/` images before
+    the image change is pushed.
 - **Milestone:** Polish
 - **Objective (user decision, 2026-11-02):**
   - The hidden COMBO GAGE row becomes the always-shown entry to a new

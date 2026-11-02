@@ -1912,6 +1912,34 @@ Experiment: `EXP-0107`
   seen.
 - **Reproduce.** `research/experiments/EXP-0107/README.md`.
 
+## OPT-004: An EXTRA OPTIONS Sub-Menu Runs in the Options Menu's Unused State 2
+
+Confidence: **CONFIRMED** (cold boot of the US image with
+`--options-submenu`, track 01 `28303246…`; the user's session)
+
+Experiments: `EXP-0108`, `EXP-0109`, `EXP-0110`
+
+- **Code from cart RAM:** SH-2 code in the quote font's tail runs where it
+  loads, called through the game's own row-handler pointers (`EXP-0108`).
+- **The patch set:** 17 `MM.BIN` writes, each with an expect check
+  (`tools/text/options_submenu.py`).
+  - OPTION MODE row 8 is EXTRA OPTIONS, always shown.
+  - VS POWER GAUGE (new spelling) is row 9, shown when unlocked; the
+    cursor's last row follows.
+  - Menu state 2, which the game never sets, runs the sub-menu:
+    `0x0601E22C` jumps to it, and its BUTTON CONFIG draw is skipped.
+- **The sub-menu** (`data/opt004/submenu.s`, 676 bytes at `0x027BF2A0`):
+  - it draws with the game's routines (big title `0x0601B710`, labels
+    `trapa #48`/`0x32`, values `0x0601E4EC`);
+  - BOSS FIGHT sets `0x06017AB0`;
+  - COMBO GAUGE sets `0x06017AD4`, applied by `0x0601E172` to
+    `0x06049D34`.
+- **Saving:** BACK UP (AUTO) keeps both settings across a reset. The saved
+  BOSS FIGHT value replaces the boot-time unlock.
+- **The title menu follows BOSS FIGHT:** CYBER-AKUMA NOW!! appears when it
+  is unlocked and stays hidden when it is locked.
+- **Reproduce.** `research/experiments/EXP-0110/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

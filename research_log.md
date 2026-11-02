@@ -5600,3 +5600,30 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
     `local/mednafen_quiet_opt004`.
 - **Checks:** pytest 319 passed, 1 skipped; ruff clean; mypy 4 errors, all
   older ones in `tests/unit/test_official_endings.py`.
+
+## 2026-11-02 — OPT-004: cold-boot check; release references rebaselined (EXP-0110)
+
+- **`EXP-0110` (CONFIRMED, the user's cold-boot session on the US
+  `--options-submenu` image, track 01 `28303246…`):**
+  - EXTRA OPTIONS opens the sub-menu;
+  - COMBO GAUGE FULL sets `0x06017AD4` and the effect `0x06049D34`;
+  - BOSS FIGHT LOCKED sets `0x06017AB0` = 0;
+  - both survive a reset (BACK UP AUTO), and the saved value replaces the
+    boot-time `OPT-001` unlock;
+  - CYBER-AKUMA NOW!! is back after unlocking (`f00014164`);
+  - the user, while locked: "Yes, it stayed hidden".
+- **The session recorder:** it stopped on a paused emulator (repeated frame,
+  Mednafen refuses to overwrite a screenshot). Fixed in `39d46d8`.
+- **Release references:** `m8_roster_gold` and `m8_roster_gold_us` now pass
+  `--options-submenu`; specs `15d6c367…` (Saturn) and `16e32fc6…` (US).
+  Rebaselined with `reference_builds --driver local/mame_src/cps2.cpp
+  --report docs/regression_report.md --write-baseline --reason "OPT-004: …"`:
+  - nine of nine pass;
+  - new track 01: `fd5f9351…` (Saturn names), `28303246…` (American names,
+    the image the user tested).
+- **Hardware check:** both images are in `build/disc/opt004_us/` and
+  `build/disc/opt004_saturn/`. The commit stays local until the user's
+  real-hardware check.
+- **README:** EXTRA OPTIONS and the VS POWER GAUGE spelling under "What's
+  Changed" and "Build Options", marked "after 0.1.0". `release/README.md`
+  describes 0.1.0 and waits for the next release.
