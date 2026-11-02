@@ -58,6 +58,11 @@ same bytes also change at boot. It is kept as a record of the attempt.
 
 - Each change matches the shot taken at that moment, and the value stays
   until the next change.
+- **Corrected by `EXP-0105`:** the AUDIO and SOUND TEST rows above are
+  swapped.
+  - The menu's row table shows `0x06017AA0` is AUDIO (the f4758 change; the
+    shot at f4753 already shows MONAURAL).
+  - `0x06017AC8` is the SOUND TEST track (the f5035 change; f5055 shows 02).
 - The SOUND TEST change (01 → 02) is not in this table.
 
 ### 2. Backup RAM

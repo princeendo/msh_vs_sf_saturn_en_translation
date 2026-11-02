@@ -5474,3 +5474,45 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   server, `sha256sum -c` of both manifests passed (16,433 and 23,299 rows),
   with no symlinks and the Inbox owner and modes. The archive `README.md`
   has the restore commands. `local/` is now 4.2 GB.
+
+## 2026-11-02 — OPT-002 study: the Options menu and one merged font (EXP-0105, EXP-0106)
+
+- **User request:** "Start the study" (the switch list with costs before any
+  build). `OPT-002` is `IN_PROGRESS`.
+- **`EXP-0105` (CONFIRMED, code read from validated WRAM of three
+  `EXP-0097` states):**
+  - the Options menu is a state machine on `0x06017A84`, with 10 table-driven
+    rows at `0x0601E954`;
+  - the last row is an immediate (7, 8 or 9, by the unlock flags
+    `0x06017AA8` and `0x06017AAC`);
+  - strings carry their own cell positions;
+  - BUTTON CONFIG is state 1/2, built from the generic routines `0x0601E27C`
+    and `0x0601E4EC`;
+  - the save copies `0x80` bytes from `0x06017AA8`.
+- **Corrected:** `EXP-0097` swapped AUDIO and SOUND TEST.
+  - `0x06017AA0` is AUDIO; `0x06017AC8` is the SOUND TEST track.
+  - The row table and the shots f4753 and f5055 show it.
+  - `docs/discoveries.md` and the `EXP-0097` record are updated.
+- **`EXP-0106` (CONFIRMED offline):**
+  - one quote font holds the pairs of Saturn/US names × grammar on/off:
+    592 pairs, built under the compiler's rules, with 352 candidate kanji
+    spare;
+  - the base builds reproduce both release `MEMFIX.PAC` hashes (`6f0dc7f1…`,
+    `be24dc10…`).
+- **Disproven:**
+  - that a run-time names or grammar switch needs a font reload or a second
+    font (the `EXP-0095` HYPOTHESIS). The 58 KB font difference is a
+    repacking shift: the variants differ by 7 pairs (names) and 5 (grammar);
+  - that a grammar switch would need extra fonts.
+- **Costs** (HYPOTHESIS, in `TASKS.md` `OPT-002`):
+  - the boss unlock or COMBO GAGE in the hidden row: low, in-place edits;
+  - names: high (a load hook, RAM patches, new code in a write-log-checked
+    free region, per-variant code maps);
+  - grammar: medium once names exists;
+  - a sub-menu: medium, worth it at three or more switches.
+- **Commands:** `EXP-0105` and `EXP-0106` Reproduction sections. The specs
+  take about seven minutes each.
+- **Checks:** ruff check and format, and strict mypy, on the four new
+  scripts; `./invenv.sh python -m pytest -q`: 311 passed, 1 skipped.
+- **Next:** the user picks the switches from the `OPT-002` list. Any build
+  starts with a write log over a full session for the chosen free region.

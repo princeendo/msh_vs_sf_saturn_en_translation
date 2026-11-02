@@ -1776,7 +1776,8 @@ Experiment: `EXP-0097`
   | `0x06017ABC` | TIME LIMIT | 1 = ON, 0 = OFF |
   | `0x06017AC0` | GAME SPEED | 0 = ★, 1 = ★★ |
   | `0x06017AC4` | VS SHORT CUT | 0 = OFF, 1 = ON |
-  | `0x06017AC8` | AUDIO | 0 = STEREO, 1 = MONAURAL |
+  | `0x06017AA0` | AUDIO | 0 = STEREO, 1 = MONAURAL (corrected by `EXP-0105`) |
+  | `0x06017AC8` | SOUND TEST track | 0 = 01, 1 = 02, … (`EXP-0105`) |
   | `0x06017ACC` | BACK UP | 0 = AUTO |
   | `0x06017AD0` | VS POWER GAGE | 0 = NORMAL, 1 = FULL |
 
@@ -1856,6 +1857,39 @@ Experiment: `EXP-0104`
   `1112bfb4…` (Saturn names). Nothing else in them changed.
 - **Fixtures.** `tools/mednafen/backup_ram.py` writes the backup-RAM files.
 - **Reproduce.** `research/experiments/EXP-0104/README.md`.
+
+## OPT-002: The Options Menu Is a Table-Driven State Machine
+
+Confidence: **CONFIRMED** (code read from validated WRAM-H extractions of three
+`EXP-0097` states, US release image, track 01 `0c3f72bb…`; code identical in
+all three)
+
+Experiment: `EXP-0105`
+
+- **States:** `0x06017A84`:
+  - 0 = OPTION MODE;
+  - 1 and 2 = BUTTON CONFIG;
+  - 3 = backup save/load;
+  - 99 = leaving.
+
+  The dispatcher is `0x0601DD14`. The BUTTON CONFIG row's handler
+  (`0x0601E0D6`) enters state 1 on A or C, and `0x0601E212` returns to 0.
+- **Rows:** a 10-row table at `0x0601E954`, 16 bytes each: max value, label
+  record, setting address, handler.
+  - The cursor is `0x06017A88`.
+  - The last row is an immediate at `0x0601DEC2`: 7, or 8 and 9 when the
+    unlock flags `0x06017AA8` and `0x06017AAC` are set. Those flags also hide
+    or show VS POWER GAGE and COMBO GAGE.
+- **Drawing:** each string starts with its `x, y` in 8-pixel cells and is
+  drawn by `trapa #48`, function `0x33`.
+  - Rows are at y = 6-24, two cells apart, and PRESS START is at y = 26.
+  - Values are drawn by the generic `0x0601E4EC` (setting, string table,
+    cursor, row).
+- **Saving:** the save copy list (`0x0601A344`) copies `0x80` bytes from
+  `0x06017AA8`: the unlock flags, the boss unlock `0x06017AB0`,
+  `0x06017AB4`, the settings `0x06017AB8`-`0x06017AD4` and both button maps.
+  AUDIO (`0x06017AA0`) comes from the console setting.
+- **Reproduce.** `research/experiments/EXP-0105/README.md`.
 
 ## Entry Requirements
 

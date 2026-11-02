@@ -3680,7 +3680,32 @@ the user asks or when it unblocks other work.
 
 ### OPT-002 - Options-menu switches for build options (as in XvSF)
 
-- **Status:** `BACKLOG` (user request, 2026-11-02).
+- **Status:** `IN_PROGRESS` (study started by the user, 2026-11-02:
+  "Start the study"). The menu half is done (`EXP-0105`):
+  - the menu is a table-driven state machine; BUTTON CONFIG is its second
+    state, built from generic routines;
+  - one switch fits in the hidden COMBO GAGE row with in-place edits
+    (HYPOTHESIS);
+  - an 11th row or a sub-menu needs new code in a free region confirmed by a
+    write log.
+
+  Font half (`EXP-0106`): one merged quote font holds the pairs of all four
+  text variants (592 pairs, fits; offline build). Text switches need no font
+  reload, only record swaps after each file load.
+
+  Costs for the user to pick from (all HYPOTHESIS, nothing built):
+
+  | Switch | Menu side | What it must change | Rough cost |
+  | --- | --- | --- | --- |
+  | Boss-fight unlock (`0x06017AB0`, already saved) | The COMBO GAGE row, in-place edits | Nothing more. The game reads the word. Check the init write at `0x0601DBE4` against the backup load. | Low |
+  | COMBO GAGE (unhide the game's own row) | Make the `0x06017AAC` tests always-true (three places) | Nothing. It takes the row the other switches would use. | Low |
+  | Names (US / Saturn) | A row, plus a saved slot (`0x06017AB4`?) | The merged font and per-variant code maps (tooling); 21 `MM.BIN` entries patched in RAM; a hook after MC PAC loads; the sound-RAM name-call table; ME.PAC; new code in a free region checked by a write log | High |
+  | Grammar fixes | A row | The same mechanism as names, over nine MC PACs, ME.PAC and five hints | Medium after names |
+  | Sub-menu holding the switches | New state code reusing `0x0601E27C` and `0x0601E4EC`, entered from one Options row | Only the switches inside it | Medium; worth it at three or more switches |
+
+  Not worth a switch: glyph style, caption palette, UI art, attract
+  captions, boss exchanges, error screens (shown before the menu). Official
+  vs. new hints: not estimated.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** LOC-006's groundwork (`EXP-0095`, `EXP-0097`).

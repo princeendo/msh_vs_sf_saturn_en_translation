@@ -367,6 +367,30 @@ and `docs/discoveries.md`.
   inserted correctly" shows ERR4 or ERR5 is unknown; Mednafen shows ERR4 for
   a 1 MB RAM cartridge and ERR5 for a backup memory cartridge.
 
+## Options-Menu Switches (`OPT-002`, `EXP-0105`, `EXP-0106`)
+
+- **Free RAM for new code:**
+  - zero in all 474 recorded states: WRAM-L `0x0028E500` (`0x31700`) and
+    `0x002FC800` (`0x3800`), and six small WRAM-H blocks;
+  - none is confirmed by a write log;
+  - how new code would be loaded there (a MEMFIX entry, a new file) is
+    open.
+- **`0x06017AB4`:** saved with BACK UP and cleared at init. No pointer
+  literal references it. Whether it is free is untested.
+- **Unlock flags:** `0x06017AA8` (VS POWER GAGE) and `0x06017AAC` (COMBO
+  GAGE) are set at `0x06098A94`-`0x06098AB6` under conditions not traced.
+- **Boss unlock and the save:** init writes `0x06017AB0` = 1
+  (`0x0601DBE4`). Whether a saved 0 from backup RAM overrides it later is
+  untested.
+- **Backup checksum:** what the four bytes at `.bkr` `0x2B0` cover
+  (`EXP-0097`).
+- **Text swaps:**
+  - the hook point after an MC PAC is decoded;
+  - when ME.PAC loads;
+  - writing the name-call table in sound RAM while the game runs.
+- **11th row:** PRESS START at y = 28 was not drawn. Real-TV overscan may
+  crop it.
+
 ## Deferred Past 0.1.0 (user, 2026-10-28)
 
 These were offered and deferred. None blocks the release image.
