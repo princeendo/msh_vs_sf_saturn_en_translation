@@ -380,5 +380,6 @@ These were offered and deferred. None blocks the release image.
   "THE END" would be new text.
 - **Post-boss dialogue centring** for long names (Captain America sits right
   of centre).
-- **The attract-mode Norimaro screen's** Japanese brush lettering (art).
+- **The attract-mode Norimaro screen's** Japanese brush lettering (art):
+  `SPECIAL-005` (backlog, 2026-11-02).
 - **The `MC0C` 4-record table** (`0x3B88`): content and use unknown.

@@ -5436,3 +5436,31 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
 - **Checks:** unit tests for `error_screens` and `backup_ram`; ruff, ruff
   format and mypy on the changed files; the full regression (nine
   references) with the report.
+
+## 2026-11-02 — Backlog additions and local cleanup
+
+- **Backlog (user request):** `OPT-002`, Options-menu switches for build
+  options as in XvSF (the names switch is `LOC-006`'s scope); `SPECIAL-005`,
+  the attract-mode Norimaro screen's Japanese brush lettering (investigation
+  approved, `AGENTS.md` rule 24). Both `BACKLOG`.
+- **Deleted, ignored and rebuildable (about 4.3 GB):**
+  - `build/regression/` (the two release references) and the 0.1.0 burn
+    image `build/disc/`: rebuilt by `tools.regression.reference_builds`
+    (`release/RELEASING.md` step 1) and by applying the published patch;
+  - `build/release/m8`, `m8_gold`, `m8_gold_us`: rebuilt by `make_patch` and
+    `make_ssp` (step 2). The published 0.1.0 zips in `build/release/v0.1.0/`
+    were kept;
+  - the disc file trees `research/extracted_files/mshvsf_saturn_jp/`,
+    `local/ui008/disc/`, `local/end010/disc/` and the user stream
+    `research/extracted_files/mshvsf_saturn_jp_track01_user.bin`: rebuilt by
+    `tools.disc.iso9660 --extract … --user-stream …` (`EXP-0016`);
+  - Mednafen object files (`*.o`, `*.a`) in `vendor/mednafen/build*/`; both
+    binaries kept and start;
+  - `.mypy_cache`, `.pytest_cache`, `.ruff_cache`, `__pycache__`, `.DS_Store`.
+- **Kept:** source inputs (`local/disc_images`, `local/arcade_roms`,
+  `local/mame_src`, `local/mame_arcade`, `local/arcade_text`), the Mednafen
+  homes (`local/mednafen`, `local/mednafen_quiet`), deferred-task evidence
+  (`local/loc006`, `local/re049`, `local/re050`), `research/savestates` and
+  `research/memory_dumps`.
+- **Checks:** `./invenv.sh python -m pytest -q`: 311 passed, 1 skipped (the
+  regression integration test needs `MSHVSF_REGRESSION=1`).

@@ -2926,6 +2926,7 @@ the user asks or when it unblocks other work.
     11th row, COMBO GAGE (HYPOTHESIS: a place for a name switch).
 
   Still open: the code hooks (the first SH-2 patch) and a cost estimate.
+  Since 2026-11-02 this is the names switch of `OPT-002`.
 - **Priority:** stretch (user: "would be incredible", likely a very large
   effort)
 - **Milestone:** Polish
@@ -3676,3 +3677,54 @@ the user asks or when it unblocks other work.
   - built by the generator with expect checks, in both release references;
   - each screen seen in English on the Saturn where it can be triggered in
     Mednafen, and the cart boot unchanged.
+
+### OPT-002 - Options-menu switches for build options (as in XvSF)
+
+- **Status:** `BACKLOG` (user request, 2026-11-02).
+- **Priority:** not set by the user
+- **Milestone:** Polish
+- **Dependencies:** LOC-006's groundwork (`EXP-0095`, `EXP-0097`).
+- **Blockers:** None known. It would be the project's first SH-2 code patch.
+- **Objective (user request, 2026-11-02):** Move build-time choices into the
+  game's Options menu, as the XvSF project did (`LOC-009`, `LOC-010` there:
+  a NAMES row in the hidden COMBO GAGE slot, saved with BACK UP: SAVE). The
+  names switch is `LOC-006`'s scope and the first candidate. Others to put
+  to the user: the boss-fight unlock (`OPT-001`, the word `0x06017AB0`) and
+  the hidden COMBO GAGE row (`MM.BIN` `0x5C9F`).
+- **Acceptance criteria (study first):**
+  - the user picks the switches from a list with a cost for each;
+  - for each: its setting traced (RAM, backup RAM at file offset `0x19F`,
+    the checksum), its menu row drawn, and a default that matches the
+    release image;
+  - built by the generator with expect checks, in a regression reference;
+    each setting seen working in both positions from a cold boot, and the
+    choice kept across BACK UP: SAVE.
+- **Notes:** XvSF's findings are evidence, not templates (`AGENTS.md` rule
+  13): its playbook, `docs/playbook_from_mshvsf.md` there, and its
+  `EXP-0068`-`EXP-0070`. Its first build put the switch routine in the
+  interrupt-handler table and hung the title; check any free region here
+  with a write log before use.
+
+### SPECIAL-005 - The attract-mode Norimaro screen's Japanese brush lettering
+
+- **Status:** `BACKLOG` (user request, 2026-11-02). Investigation approved by
+  the user (`AGENTS.md` rule 24).
+- **Priority:** not set by the user
+- **Milestone:** M9
+- **Dependencies:** SPECIAL-001 (approval given), UI-003 (the attract
+  stream tooling).
+- **Blockers:** None.
+- **Objective (user request, 2026-11-02):** Find whether the red Japanese
+  brush lettering on the attract-mode Norimaro screen can be replaced or
+  removed. The English caption below it, "NORIMARO CHALLENGES IMPOSSIBLE",
+  stays (`EXP-0066`, frame `f004574`, `00f2235a…`). The US arcade has no
+  Norimaro screen (`EXP-0067`), so any English is new text or art.
+- **Acceptance criteria (feasibility first):**
+  - where the lettering comes from: layer, tiles or bitmap, and the file
+    and stream that hold it (HYPOTHESIS: an `MVSOP*.ST2` stream like the
+    captions; untested);
+  - the options and their cost put to the user: English art in the same
+    room, blank it, or leave it;
+  - if one is chosen: built with expect checks in both release references,
+    seen from a cold boot through a full attract cycle, other attract
+    screens unchanged.
