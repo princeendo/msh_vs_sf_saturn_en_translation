@@ -3706,6 +3706,16 @@ the user asks or when it unblocks other work.
   Not worth a switch: glyph style, caption palette, UI art, attract
   captions, boss exchanges, error screens (shown before the menu). Official
   vs. new hints: not estimated.
+
+  **User decision (2026-11-02):** "I want all four switches. I know the
+  US/Saturn names should be _possible_ since we did it on XvSF. Also, I'd
+  fix `COMBO GAGE` to be `COMBO GAUGE`, if that's an option. So I guess we
+  should go for a sub-menu."
+  - The first acceptance criterion is met.
+  - The build is split into `OPT-003` (where new code lives), `OPT-004` (the
+    sub-menu with BOSS FIGHT and COMBO GAUGE), `OPT-005` (names) and
+    `OPT-006` (grammar), in that order.
+  - `OPT-002` stays `IN_PROGRESS` until they are done.
 - **Priority:** not set by the user
 - **Milestone:** Polish
 - **Dependencies:** LOC-006's groundwork (`EXP-0095`, `EXP-0097`).
@@ -3729,6 +3739,93 @@ the user asks or when it unblocks other work.
   `EXP-0068`-`EXP-0070`. Its first build put the switch routine in the
   interrupt-handler table and hung the title; check any free region here
   with a write log before use.
+
+### OPT-003 - A home for new code and data: the quote font's tail
+
+- **Status:** `READY`
+- **Priority:** first step of `OPT-002` (user decision, 2026-11-02)
+- **Milestone:** Polish
+- **Dependencies:** `EXP-0105`, `EXP-0106`.
+- **Blockers:** None.
+- **Objective:** Find where the sub-menu and switch code and data can live
+  and how they reach RAM.
+- **Evidence so far (2026-11-02):**
+  - **Disc tools:** they replace files at the same size only
+    (`patch_image.replace_files`).
+  - **MEMFIX:** its entries fill their destinations back to back, so no
+    entry can grow into a free block.
+  - **The font entry:** entry 4 is loaded whole to `0x0278CF60` at boot,
+    including any zero tail.
+  - **The tail in recorded states:** across 31 sampled cart-RAM states from
+    three sessions, the font region changes only at the boot load, and the
+    tail (92-100 bytes today) stays zero (SUPPORTED; cart-RAM extraction not
+    validated).
+  - **The game never writes into its font:** the original font had no tail,
+    so the tail range held glyphs.
+- **Hypothesis:** sacrificing more of the 352 spare candidate kanji (about
+  95 bytes each) frees a tail big enough for the code and data. The existing
+  MEMFIX loader then puts it at a fixed cart address at every boot, with no
+  disc growth and no loader change.
+- **Experiment:** one variable, a known marker block in the tail of the
+  merged font.
+  - It is read back at the predicted address after a cold boot.
+  - It is unchanged after a session covering the title, Options, select, VS,
+    a fight with win quotes, and continue: an agent write log on the range
+    plus a read-back.
+  - Quotes render as before.
+  - Fallback: confirm a WRAM-L region from `EXP-0105` instead.
+- **Acceptance criteria:**
+  - the payload location is CONFIRMED by that test;
+  - the generator can place a payload there, with expect checks;
+  - the code-entry plan is recorded. The COMBO GAGE row's handler pointer at
+    `0x0601E9F0` (data) can point into the payload; the dispatcher
+    (`0x0601DD3E`) needs a small in-place patch for a new state.
+
+### OPT-004 - The sub-menu, with BOSS FIGHT and COMBO GAUGE
+
+- **Status:** `BLOCKED` by `OPT-003`.
+- **Milestone:** Polish
+- **Objective (user decision, 2026-11-02):**
+  - The hidden COMBO GAGE row becomes the always-shown entry to a new
+    sub-menu screen (a new state, as BUTTON CONFIG is).
+  - The sub-menu holds BOSS FIGHT (`0x06017AB0`) and COMBO GAUGE, spelled
+    so ("COMBO GAUGE" per the user). It works as the game's COMBO GAGE did,
+    through `0x06017AD4`.
+  - It has room for NAMES and GRAMMAR.
+- **Acceptance criteria:**
+  - the row labels, the entry and exit, and the values are drawn and seen;
+  - each setting works in both positions from a cold boot and is kept
+    across BACK UP: SAVE (the `0x80` save block);
+  - the release default matches today's image (boss fight unlocked, combo
+    gauge off);
+  - built by the generator with expect checks; a regression reference;
+    the user's hardware check before push.
+
+### OPT-005 - NAMES switch (US / Saturn) in the sub-menu
+
+- **Status:** `BLOCKED` by `OPT-004`.
+- **Milestone:** Polish
+- **Objective:** The names switch from `LOC-006` and `EXP-0095`, in the
+  sub-menu.
+- **What it involves:**
+  - the merged font (`EXP-0106`) with per-variant code maps;
+  - the 21 `MM.BIN` entries patched in RAM;
+  - a hook after MC PAC loads (`MC00`, `MC0F`);
+  - ME.PAC;
+  - the sound-RAM name-call table;
+  - a saved slot (`0x06017AB4` if it is free).
+
+  XvSF's `LOC-009` is evidence that it can be done, not a template.
+- **Open for the user:** the default setting (XvSF chose American).
+- **Notes:** `LOC-006` is superseded by this task once it starts.
+
+### OPT-006 - GRAMMAR switch in the sub-menu
+
+- **Status:** `BLOCKED` by `OPT-005`.
+- **Milestone:** Polish
+- **Objective:** `TXT-004`'s fixes as a switch, through `OPT-005`'s
+  mechanism (nine MC PACs, ME.PAC, five `MM.BIN` hint records). The default
+  stays official text unless the user decides otherwise.
 
 ### SPECIAL-005 - The attract-mode Norimaro screen's Japanese brush lettering
 

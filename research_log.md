@@ -5516,3 +5516,22 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   scripts; `./invenv.sh python -m pytest -q`: 311 passed, 1 skipped.
 - **Next:** the user picks the switches from the `OPT-002` list. Any build
   starts with a write log over a full session for the chosen free region.
+
+## 2026-11-02 — OPT-002: switches chosen; where new code could live
+
+- **User decision:** all four switches (BOSS FIGHT, COMBO GAUGE, NAMES,
+  GRAMMAR) in a sub-menu. COMBO GAGE is to be spelled COMBO GAUGE. Split
+  into `OPT-003` to `OPT-006`.
+- **Ruled out as a code vehicle:**
+  - growing a disc file: the disc tools replace files at the same size only;
+  - growing a MEMFIX entry: the entries fill their destinations back to
+    back (entry 9 at `0x002D7800` ends at `0x002F9D12`, short of the
+    WRAM-L free block at `0x002FC800`).
+- **MEMFIX layout (JP disc):** 12 entries, sizes from the header.
+  - Font entry 4 is `0x32740` bytes and has no zero tail in the original.
+  - Destinations come from the list that `0x06041294` points to.
+- **Candidate (`OPT-003`, SUPPORTED):** the merged font's zero tail.
+  - In 31 sampled cart-RAM states from three sessions, the font region
+    changes only at the boot load, and its tail stays zero.
+  - Cart-RAM extraction is not validated.
+- **Next:** `OPT-003`'s marker experiment.
