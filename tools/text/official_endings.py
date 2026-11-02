@@ -517,6 +517,16 @@ def check_targets(
 SECRET_SLOTS = (17, 20, 21, 22, 23, 24, 25)  # SPECIAL-002/003 (EXP-0077-0079)
 
 
+def tail_marker(size: int) -> bytes:
+    """A known, non-repeating fill for the font-tail test (OPT-003): SHA-256 of
+    ``OPT-003`` and a block counter, concatenated."""
+    blocks = (
+        hashlib.sha256(b"OPT-003" + n.to_bytes(4, "big")).digest()
+        for n in range((size + 31) // 32)
+    )
+    return b"".join(blocks)[:size]
+
+
 def spec_pairs(spec: dict[str, object]) -> set[str]:
     """The letter pairs a spec's tables and fields already draw."""
     texts = [
@@ -926,6 +936,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="the boot-time warning screens (no 4M cartridge, save memory) in "
         "English (UI-008)",
     )
+    parser.add_argument(
+        "--font-tail-marker",
+        type=int,
+        metavar="BYTES",
+        help="reserve BYTES at the end of the quote font and fill them with a "
+        "known marker (OPT-003 test)",
+    )
     parser.add_argument("--out", type=Path, required=True, help="spec path (ignored)")
     args = parser.parse_args(argv)
     sets = parse_driver(args.driver.read_text(encoding="utf-8"))
@@ -1059,6 +1076,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         patches = spec["patches"]
         assert isinstance(patches, list)
         patches += warning_patches(args.track)
+    if args.font_tail_marker:
+        spec["font_tail"] = {
+            "reserve": args.font_tail_marker,
+            "hex": tail_marker(args.font_tail_marker).hex(),
+        }
     if args.fix_grammar and (fixes_by_line := line_fixes(args.fix_grammar)):
         spec["grammar_fixes_lines"] = fix_lines(spec, fixes_by_line)
     with args.track.open("rb") as stream:

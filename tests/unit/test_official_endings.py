@@ -10,6 +10,7 @@ from tools.text.official_endings import (
     pointer_patches,
     speaker_patches,
     string_patches,
+    tail_marker,
     voice_patches,
 )
 
@@ -372,3 +373,10 @@ def test_taunt_patches_replace_each_chouhatu_field_in_place() -> None:
         old, new = bytes.fromhex(patch["expect"]), bytes.fromhex(patch["hex"])
         assert len(old) == len(new) == 9 and b"CHOUHATU" in old
         assert new == b"  TAUNT  "
+
+
+def test_tail_marker_is_deterministic_and_sized() -> None:
+    assert tail_marker(100) == tail_marker(100)
+    assert len(tail_marker(100)) == 100
+    assert tail_marker(32) == tail_marker(100)[:32]
+    assert tail_marker(64)[:32] != tail_marker(64)[32:]

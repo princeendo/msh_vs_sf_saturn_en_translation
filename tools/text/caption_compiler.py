@@ -74,6 +74,7 @@ BLANK, PLACEHOLDER = 0x0020, 0x0000
 TOKEN = "{P}"
 CODE_TOKEN = re.compile(r"\{([0-9A-F]{4})\}")  # UI-004: a font code kept as is
 FONT_ENTRY = (0x6A558, 0x32740)  # MEMFIX.PAC entry 4 (EXP-0022)
+FONT_ADDRESS = 0x0278CF60  # cart RAM, where entry 4 is loaded (FONT-001)
 # Free codes below the code count. 0x00A8-0x00B1 displayed in EXP-0023; the rest
 # are empty in the original font but have not been shown on screen.
 FREE_RANGES = ((0x00A8, 0x00FF), (0x0190, 0x01DF), (0x0260, 0x02AF))
@@ -247,6 +248,40 @@ def hex_offset(value: object, what: str) -> int:
     if not isinstance(value, str) or not value.startswith("0x"):
         raise SpecError(f"{what} must be a hex string like '0x3674'")
     return int(value, 16)
+
+
+@dataclass(frozen=True)
+class FontTail:
+    """OPT-003: bytes kept free at the end of the font image, and what fills them.
+
+    The MEMFIX loader puts the whole entry in cart RAM at every boot, so the
+    payload lands at ``address``.
+    """
+
+    reserve: int
+    payload: bytes
+
+    @property
+    def address(self) -> int:
+        return FONT_ADDRESS + FONT_ENTRY[1] - self.reserve
+
+
+def parse_font_tail(spec: dict[str, object]) -> FontTail | None:
+    """The v3 ``font_tail``: ``{"reserve": bytes, "hex": payload}``."""
+    entry = spec.get("font_tail")
+    if entry is None:
+        return None
+    if not isinstance(entry, dict):
+        raise SpecError("font_tail must be an object")
+    reserve, payload = entry.get("reserve"), entry.get("hex", "")
+    if not isinstance(reserve, int) or reserve <= 0 or reserve % 4:
+        raise SpecError("font_tail reserve must be a positive multiple of 4")
+    if not isinstance(payload, str):
+        raise SpecError("font_tail hex must be a string")
+    data = bytes.fromhex(payload)
+    if len(data) > reserve:
+        raise SpecError(f"font_tail payload is {len(data)} bytes, reserve {reserve}")
+    return FontTail(reserve, data)
 
 
 def parse_glyph_copies(spec: dict[str, object]) -> dict[int, int | None]:
@@ -568,6 +603,7 @@ def compile_tables(
     fields: Sequence[FieldSpec] = (),
     style: str = "quote",
     copies: dict[int, int | None] | None = None,
+    tail: FontTail | None = None,
 ) -> CompiledSet:
     """Build one font image and every quote PAC (no disc I/O)."""
     cells = table_cells(tables, pacs)
@@ -598,8 +634,27 @@ def compile_tables(
         )
     codes = dict(zip(pairs, available + extra, strict=False))
     new_font, font_info = build_font(
-        font_image, pairs, [codes[p] for p in pairs], candidates, extra, style, copies
+        font_image,
+        pairs,
+        [codes[p] for p in pairs],
+        candidates,
+        extra,
+        style,
+        copies,
+        reserve=tail.reserve if tail else 0,
     )
+    if tail:
+        start = len(new_font) - tail.reserve
+        if any(new_font[start:]):
+            raise SpecError("the font tail is not empty")
+        end = start + len(tail.payload)
+        new_font = new_font[:start] + tail.payload + new_font[end:]
+        font_info["tail"] = {
+            "address": f"0x{tail.address:08X}",
+            "reserve": tail.reserve,
+            "payload_bytes": len(tail.payload),
+            "payload_sha256": sha(tail.payload),
+        }
     per_file: dict[str, dict[int, int]] = {}
     raw = {spec.file: spec.raw for spec in tables} | {f.file: True for f in fields}
     for spec, records in zip(tables, cells, strict=True):
@@ -913,6 +968,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             fields=fields,
             style=style,
             copies=copies,
+            tail=parse_font_tail(document),
         )
         new_memfix = memfix[:offset] + compiled.font_image + memfix[offset + length :]
         outputs = {"MEMFIX.PAC": new_memfix} | {

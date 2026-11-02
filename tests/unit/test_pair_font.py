@@ -124,3 +124,16 @@ def test_narrow_pair_keeps_each_glyphs_left_eight_columns() -> None:
     assert narrow_pair(cells, " b")[:4] == bytes(4)
     with pytest.raises(ValueError):
         narrow_code("~")
+
+
+def test_build_reserve_sacrifices_until_the_tail_is_free() -> None:
+    image = base_image(extra=200)
+    _, plain = build(image, ["Th"], [0x00A8], list(range(0x0A0F, 0x09FF, -1)))
+    assert plain["sacrificed"] == []
+    new, info = build(
+        image, ["Th"], [0x00A8], list(range(0x0A0F, 0x09FF, -1)), reserve=600
+    )
+    assert info["sacrificed"] and info["reserve"] == 600
+    assert not any(new[-600:])
+    with pytest.raises(ValueError, match="reserve"):
+        build(image, ["Th"], [0x00A8], [0x0A00], reserve=len(image))

@@ -1891,6 +1891,27 @@ Experiment: `EXP-0105`
   AUDIO (`0x06017AA0`) comes from the console setting.
 - **Reproduce.** `research/experiments/EXP-0105/README.md`.
 
+## OPT-003: A Payload in the Quote Font's Tail Survives Boot and Play
+
+Confidence: **CONFIRMED** (boot, attract, Options, fights, win quotes,
+CONTINUE?)
+
+Experiment: `EXP-0107`
+
+- **Placement:**
+  - `caption_compiler`'s `font_tail` key reserves N bytes at the end of
+    `MEMFIX.PAC` entry 4 by sacrificing more candidate kanji;
+  - the boot loader (PC `0x0603E04E`) copies them to cart
+    `0x027BF6A0 - N`.
+- **Nothing writes the range after boot:**
+  - a CPU write log through 20,000 attract frames and a user session found
+    no writes;
+  - the cart RAM read back from states equals the built entry byte for
+    byte (marker image track 01 `79c91f17…`, 16 KiB at `0x027BB6A0`).
+- **The smaller font still draws:** a win quote and a CONTINUE? hint were
+  seen.
+- **Reproduce.** `research/experiments/EXP-0107/README.md`.
+
 ## Entry Requirements
 
 Each future entry must include:

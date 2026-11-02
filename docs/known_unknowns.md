@@ -370,11 +370,11 @@ and `docs/discoveries.md`.
 ## Options-Menu Switches (`OPT-002`, `EXP-0105`, `EXP-0106`)
 
 - **Free RAM for new code:**
-  - zero in all 474 recorded states: WRAM-L `0x0028E500` (`0x31700`) and
-    `0x002FC800` (`0x3800`), and six small WRAM-H blocks;
-  - none is confirmed by a write log;
-  - how new code would be loaded there (a MEMFIX entry, a new file) is
-    open.
+  - the font tail is confirmed (`EXP-0107`);
+  - not covered there: the ending, the boss, Survival, VS mode, BUTTON
+    CONFIG, BACK UP and the sound test;
+  - whether code runs from cart RAM is open;
+  - the WRAM blocks zero in all 474 states (`EXP-0105`) are unconfirmed.
 - **`0x06017AB4`:** saved with BACK UP and cleared at init. No pointer
   literal references it. Whether it is free is untested.
 - **Unlock flags:** `0x06017AA8` (VS POWER GAGE) and `0x06017AAC` (COMBO

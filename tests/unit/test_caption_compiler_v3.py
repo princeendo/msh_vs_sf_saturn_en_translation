@@ -6,6 +6,8 @@ from tests.unit.test_caption_compiler import CANDIDATES, font_image, pac_file
 from tools.disc.pac_lzss import decode_file
 from tools.text.caption_compiler import (
     BLANK,
+    FONT_ADDRESS,
+    FONT_ENTRY,
     PLACEHOLDER,
     RECORD,
     SCHEMA_V3,
@@ -14,6 +16,7 @@ from tools.text.caption_compiler import (
     apply_patches,
     compile_tables,
     parse_document,
+    parse_font_tail,
     parse_patches,
     verify_font,
     verify_raw,
@@ -130,3 +133,23 @@ def test_apply_patches_checks_expected_bytes() -> None:
     assert out == bytes([0x81, 0x00]) and checks["changed_bytes"] == 1
     with pytest.raises(SpecError):
         apply_patches(data, [PatchSpec("MM.BIN", 0, b"\x81", b"\x9f")])
+
+
+def test_font_tail_payload_lands_at_the_end_of_the_font() -> None:
+    tables, fields = parse_document(spec_v3())
+    pacs = {"MC13.PAC": pac_file(), "ME.PAC": raw_file(), "MM.BIN": bytes(0x600)}
+    tail = parse_font_tail({"font_tail": {"reserve": 64, "hex": "a5" * 8}})
+    assert tail is not None and tail.address == FONT_ADDRESS + FONT_ENTRY[1] - 64
+    compiled = compile_tables(
+        tables, font_image(), pacs, CANDIDATES, fields=fields, tail=tail
+    )
+    font = compiled.font_image
+    assert font[-64:] == b"\xa5" * 8 + bytes(56)
+    assert verify_font(font_image(), font, compiled)["pairs_equal_composed"]
+    info = compiled.font_info["tail"]
+    assert isinstance(info, dict) and info["payload_bytes"] == 8
+    bad: object
+    for bad in ({"reserve": 6}, {"reserve": 8, "hex": "00" * 9}, []):
+        with pytest.raises(SpecError):
+            parse_font_tail({"font_tail": bad})
+    assert parse_font_tail({}) is None

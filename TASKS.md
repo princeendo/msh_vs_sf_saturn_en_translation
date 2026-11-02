@@ -3742,7 +3742,14 @@ the user asks or when it unblocks other work.
 
 ### OPT-003 - A home for new code and data: the quote font's tail
 
-- **Status:** `READY`
+- **Status:** `DONE` (2026-11-02, `EXP-0107`).
+  - A 16 KiB marker reserved at the end of the font loads at `0x027BB6A0`
+    (the boot loader, frames 1950-1953). It is never written after that
+    through 20,000 attract frames and a user session (Options, fights, a win
+    quote, CONTINUE?).
+  - Win quotes and hints still draw.
+  - The `font_tail` spec key and `pair_font.build(reserve=)` place a
+    payload.
 - **Priority:** first step of `OPT-002` (user decision, 2026-11-02)
 - **Milestone:** Polish
 - **Dependencies:** `EXP-0105`, `EXP-0106`.
@@ -3783,7 +3790,9 @@ the user asks or when it unblocks other work.
 
 ### OPT-004 - The sub-menu, with BOSS FIGHT and COMBO GAUGE
 
-- **Status:** `BLOCKED` by `OPT-003`.
+- **Status:** `READY` (`OPT-003` done). The code and data go in the font
+  tail (`EXP-0107`). Whether the SH-2 runs code from cart RAM, or the code
+  is copied to work RAM first, is the first thing to test.
 - **Milestone:** Polish
 - **Objective (user decision, 2026-11-02):**
   - The hidden COMBO GAGE row becomes the always-shown entry to a new
@@ -3792,6 +3801,14 @@ the user asks or when it unblocks other work.
     so ("COMBO GAUGE" per the user). It works as the game's COMBO GAGE did,
     through `0x06017AD4`.
   - It has room for NAMES and GRAMMAR.
+  - **Spelling (user, 2026-11-02: "Yes, fix both"):** VS POWER GAGE becomes
+    VS POWER GAUGE too. `GAGE` is only in `MM.BIN` (JP disc), twice per row:
+    - the drawn labels at `0x5DC5` and `0x5DE8`;
+    - the highlight records at `0x5FA4` and `0x5FB6`.
+
+    " VS POWER GAGE" becomes "VS POWER GAUGE", the same 14 bytes with the
+    leading space dropped. The COMBO row's label becomes the sub-menu
+    entry's.
 - **Acceptance criteria:**
   - the row labels, the entry and exit, and the values are drawn and seen;
   - each setting works in both positions from a cold boot and is kept

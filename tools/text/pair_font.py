@@ -153,11 +153,14 @@ def build(
     reusable: Sequence[int] = (),
     style: str = "quote",
     copies: dict[int, int | None] | None = None,
+    reserve: int = 0,
 ) -> tuple[bytes, dict[str, object]]:
     """Store ``pairs[i]`` at ``codes[i]``, emptying candidates only as needed.
 
     A code in ``reusable`` (a sacrificial glyph, RE-044 option A) may be non-empty:
-    its glyph is emptied first and the pair stored in its place.
+    its glyph is emptied first and the pair stored in its place. ``reserve`` bytes
+    at the end of the image are kept free for a payload (OPT-003); candidates are
+    emptied until they fit too.
     """
     if len(pairs) != len(codes) or len(set(codes)) != len(codes):
         raise ValueError("need one distinct code per pair")
@@ -191,7 +194,7 @@ def build(
     freed = 0
     current = len(pack(header, glyphs))
     for code in candidates:
-        if current + needed - freed <= len(image):
+        if current + needed - freed + reserve <= len(image):
             break
         if glyphs[code].kind == "empty" or code in codes or code in copies:
             continue
@@ -202,8 +205,11 @@ def build(
     for code, glyph in zip(codes, new, strict=True):
         glyphs[code] = glyph
     packed = pack(header, glyphs)
-    if len(packed) > len(image):
-        raise ValueError(f"repacked font {len(packed)} exceeds {len(image)} bytes")
+    if len(packed) + reserve > len(image):
+        raise ValueError(
+            f"repacked font {len(packed)} plus a {reserve}-byte reserve exceeds "
+            f"{len(image)} bytes"
+        )
     result = packed + bytes(len(image) - len(packed))
     info: dict[str, object] = {
         "pairs": {f"0x{c:04X}": p for c, p in zip(codes, pairs, strict=True)},
@@ -213,6 +219,8 @@ def build(
         "packed_size": len(packed),
         "zero_fill": len(image) - len(packed),
     }
+    if reserve:
+        info["reserve"] = reserve
     if reused:
         info["reused"] = [f"0x{c:04X}" for c in reused]
     if copies:

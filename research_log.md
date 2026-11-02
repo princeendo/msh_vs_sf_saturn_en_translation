@@ -5535,3 +5535,35 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
     changes only at the boot load, and its tail stays zero.
   - Cart-RAM extraction is not validated.
 - **Next:** `OPT-003`'s marker experiment.
+
+## 2026-11-02 — OPT-003: the quote font's tail as a payload home (EXP-0107)
+
+- **User decision:** "Yes, fix both": VS POWER GAGE becomes VS POWER GAUGE
+  too (`OPT-004`).
+  - `GAGE` is only in `MM.BIN`: labels `0x5DC5` and `0x5DE8`, highlight
+    records `0x5FA4` and `0x5FB6`.
+- **Tooling:**
+  - `pair_font.build(reserve=)`;
+  - `caption_compiler`'s `font_tail` key (`FontTail`, `parse_font_tail`);
+  - `official_endings --font-tail-marker`;
+  - unit tests.
+  - With no tail, the compiler reproduces the `m8_roster_gold_us` track
+    (`b2e526a7…`).
+- **`EXP-0107` (CONFIRMED):**
+  - a 16 KiB marker reserved at the font's end loads at `0x027BB6A0` (4,096
+    long writes by PC `0x0603E04E`, frames 1950-1953);
+  - nothing else writes there through 20,000 attract frames or the user's
+    session (Options, two fights, a win quote, CONTINUE?);
+  - the read-back from states equals the built bytes.
+- **Pitfalls:**
+  - the agent cannot read cart RAM: Mednafen's physical-bus peek is a TODO,
+    so read-back goes through `mcs_extract`;
+  - another project's Mednafen hotkey run was active, so the boot waited for
+    it to exit;
+  - a failed `&&` chain left the CUE variable empty, and Mednafen opened ".".
+- **Checks:**
+  - `pytest`: 314 passed, 1 skipped;
+  - ruff check and format: clean;
+  - mypy strict: 4 errors, all in existing `tests/unit/test_official_endings.py`
+    code (lines 186, 266, 361, 364), present before this change.
+- **Next:** `OPT-004`. Test running code from cart RAM first.
