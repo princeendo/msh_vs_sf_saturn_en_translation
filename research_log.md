@@ -5683,3 +5683,13 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
 - **Release reference:** `m8_roster_gold_us` now also passes
   `--names-switch` (spec `edf1f16a…`) and is rebaselined: pass, track 01
   `6669eb94…`. The switch test repeats on it: 26 of 26 both ways.
+
+## 2026-11-02 — OPT-005: the user's play check (EXP-0113)
+
+- **The user, on the release image (track 01 `6669eb94…`):** "Everything
+  looked good!".
+- **The recording** (204 states): the resident sites, Vega's MC0F quotes and
+  the stage-7 MC00 exchanges held the Saturn bytes while NAMES was SATURN,
+  and the American bytes after switching back. The ending was not reached.
+- **Disc:** `build/disc/opt005_release/` replaces the two `opt004` folders
+  (removed, rebuildable). The commits stay local until the hardware check.

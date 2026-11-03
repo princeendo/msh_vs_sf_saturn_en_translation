@@ -3836,9 +3836,12 @@ the user asks or when it unblocks other work.
   - `EXP-0111`: a guarded V-blank hook runs the tail's code every frame.
   - `EXP-0112`: `--names-switch` switches all 26 resident sites both ways
     on a cold boot.
-  - Left: the user's session (the character-slot and ending sites, what
-    the switch looks and sounds like), then the release reference
-    rebaselined.
+  - `EXP-0113`: on the release image (`m8_roster_gold_us`, rebaselined,
+    track 01 `6669eb94…`) the user played with NAMES SATURN to stage 7 and
+    back to AMERICAN: "Everything looked good!". The resident text, Vega's
+    quotes and the stage-7 exchanges switched both ways.
+  - Not reached: the ending's `ME.PAC` sites.
+  - Left: the real-hardware check (with `OPT-004`).
 - **Milestone:** Polish
 - **Objective:** The names switch from `LOC-006` and `EXP-0095`, in the
   sub-menu.
