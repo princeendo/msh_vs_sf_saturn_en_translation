@@ -263,6 +263,7 @@ class FontTail:
     builder: str | None = (
         None  # "options_submenu": payload built after the files (OPT-005)
     )
+    rows: int = 3  # the sub-menu's rows, for the builder
 
     @property
     def address(self) -> int:
@@ -278,6 +279,9 @@ def parse_font_tail(spec: dict[str, object]) -> FontTail | None:
         raise SpecError("font_tail must be an object")
     reserve, payload = entry.get("reserve"), entry.get("hex", "")
     builder = entry.get("builder")
+    rows = entry.get("rows", 3)
+    if not isinstance(rows, int):
+        raise SpecError("font_tail rows must be an integer")
     if not isinstance(reserve, int) or reserve <= 0 or reserve % 4:
         raise SpecError("font_tail reserve must be a positive multiple of 4")
     if not isinstance(payload, str):
@@ -287,7 +291,7 @@ def parse_font_tail(spec: dict[str, object]) -> FontTail | None:
     data = bytes.fromhex(payload)
     if len(data) > reserve:
         raise SpecError(f"font_tail payload is {len(data)} bytes, reserve {reserve}")
-    return FontTail(reserve, data, builder if isinstance(builder, str) else None)
+    return FontTail(reserve, data, builder if isinstance(builder, str) else None, rows)
 
 
 def parse_glyph_copies(spec: dict[str, object]) -> dict[int, int | None]:
@@ -914,26 +918,33 @@ def names_entries(
     """The spec's ``names_switch`` records and fields (OPT-005), each with its
     16-bit writes still to be coded, as (entry, {}, cells); bytes entries have
     no cells."""
-    entries = document.get("names_switch") or []
-    if not isinstance(entries, list):
-        raise SpecError("names_switch must be a list")
-    formats = {t.file: t for t in tables}
+    names = document.get("names_switch") or []
+    grammar = document.get("grammar_switch") or []
+    if not isinstance(names, list) or not isinstance(grammar, list):
+        raise SpecError("names_switch and grammar_switch must be lists")
+    entries = [dict(e, switch=1) for e in names] + [dict(e, switch=2) for e in grammar]
+    # the base table that lists the record: one file may hold several tables,
+    # even at one offset (MC13.PAC 0xA06C, with different placeholder rules)
+    formats = {(t.file, t.table, c.record): t for t in tables for c in t.captions}
     out: list[tuple[dict[str, object], dict[int, int], list[Cell]]] = []
     for entry in entries:
         if not isinstance(entry, dict):
             raise SpecError("each names_switch entry must be an object")
         name = str(entry.get("file", "")).upper()
         if entry.get("kind") == "record":
-            if name not in formats:
-                raise SpecError(f"names_switch: {name} has no table in the spec")
+            table = hex_offset(entry.get("table"), "names_switch table")
+            record = int(str(entry.get("record")))
+            if (name, table, record) not in formats:
+                raise SpecError(
+                    f"names_switch: {name} 0x{table:X} record {record} is not listed"
+                )
             lines = entry.get("lines")
             if not isinstance(lines, list) or len(lines) != 2:
                 raise SpecError("names_switch: a record needs two lines")
-            table = hex_offset(entry.get("table"), "names_switch table")
             caption = Caption(
                 int(str(entry.get("record"))), (str(lines[0]), str(lines[1]))
             )
-            base = formats[name]
+            base = formats[(name, table, record)]
             spec = TableSpec(
                 name, table, [caption], base.raw, base.placeholder_anywhere
             )
@@ -983,7 +994,7 @@ def build_tail(
                 )
     found = names_switch.sites([e for e, _, _ in alternates], outputs, writes)
     site_table = names_switch.pack(found)
-    payload = options_submenu.tail(tail.reserve, site_table)
+    payload = options_submenu.tail(tail.reserve, site_table, tail.rows)
     offset, length = FONT_ENTRY
     memfix = bytearray(outputs["MEMFIX.PAC"])
     start = offset + length - tail.reserve

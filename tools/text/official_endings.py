@@ -74,7 +74,7 @@ from tools.text.official_captions import (
     line_pairs,
     roster_spec,
 )
-from tools.text.options_submenu import NAMES_RESERVE, submenu
+from tools.text.options_submenu import NAMES_RESERVE, SWITCHES_RESERVE, submenu
 from tools.text.options_submenu import RESERVE as SUBMENU_RESERVE
 from tools.text.pair_font import split_pairs
 
@@ -521,15 +521,24 @@ def check_targets(
 SECRET_SLOTS = (17, 20, 21, 22, 23, 24, 25)  # SPECIAL-002/003 (EXP-0077-0079)
 
 
-def saturn_spec(argv: Sequence[str] | None, out: Path) -> dict[str, object]:
-    """The same build with Saturn names and no switch (OPT-005), generated
-    next to ``out``."""
+def variant_spec(
+    argv: Sequence[str] | None, out: Path, names: str, fixes: Path | None = None
+) -> dict[str, object]:
+    """The same build without the switches, with ``names`` and (OPT-006)
+    ``--fix-grammar fixes``, generated next to ``out``."""
     words = list(sys.argv[1:] if argv is None else argv)
+    if "--grammar-switch" in words:
+        at = words.index("--grammar-switch")
+        del words[at : at + 2]
     words = [w for w in words if w != "--names-switch"]
-    words[words.index("--names") + 1] = "saturn"
-    words[words.index("--out") + 1] = str(out.with_suffix(".saturn.json"))
+    words[words.index("--names") + 1] = names
+    if fixes is not None:
+        words += ["--fix-grammar", str(fixes)]
+    stem = names + ("_grammar" if fixes else "")
+    target = out.with_suffix(f".{stem}.json")
+    words[words.index("--out") + 1] = str(target)
     main(words)
-    spec = json.loads(out.with_suffix(".saturn.json").read_text())
+    spec = json.loads(target.read_text())
     assert isinstance(spec, dict)
     return spec
 
@@ -967,6 +976,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--options-submenu)",
     )
     parser.add_argument(
+        "--grammar-switch",
+        type=Path,
+        metavar="FIXES",
+        help="a GRAMMAR FIXES row in EXTRA OPTIONS: official text on the disc, "
+        "FIXES (as --fix-grammar) copied in at run time (OPT-006; needs "
+        "--names-switch and --official-hints)",
+    )
+    parser.add_argument(
         "--font-tail-marker",
         type=int,
         metavar="BYTES",
@@ -1110,12 +1127,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         parser.error("--options-submenu and --font-tail-marker both use the tail")
     if args.names_switch and (args.names != "us" or not args.options_submenu):
         parser.error("--names-switch needs --names us and --options-submenu")
+    if args.grammar_switch and (
+        not args.names_switch or not args.official_hints or args.fix_grammar
+    ):
+        parser.error(
+            "--grammar-switch needs --names-switch and --official-hints, "
+            "without --fix-grammar"
+        )
     if args.options_submenu:
-        reserve = NAMES_RESERVE if args.names_switch else SUBMENU_RESERVE
-        payload, submenu_patches = submenu(reserve)
+        rows = 2 + bool(args.names_switch) + bool(args.grammar_switch)
+        reserve = {2: SUBMENU_RESERVE, 3: NAMES_RESERVE, 4: SWITCHES_RESERVE}[rows]
+        payload, submenu_patches = submenu(reserve, rows)
         spec["options_submenu"] = True
         spec["font_tail"] = (
-            {"reserve": reserve, "builder": "options_submenu"}
+            {"reserve": reserve, "builder": "options_submenu", "rows": rows}
             if args.names_switch
             else {"reserve": reserve, "hex": payload.hex()}
         )
@@ -1137,7 +1162,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         }
     checks = check_targets(program, targets, files["MC13.PAC"], files["ME.PAC"])
     if args.names_switch:
-        spec["names_switch"] = alternates(spec, saturn_spec(argv, args.out))
+        spec["names_switch"] = alternates(spec, variant_spec(argv, args.out, "saturn"))
+    if args.grammar_switch:
+        grammar = alternates(
+            spec, variant_spec(argv, args.out, "us", args.grammar_switch)
+        )
+        spec["grammar_switch"] = grammar
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(spec, indent=1) + "\n", encoding="utf-8")
     print(json.dumps({"out": str(args.out), "checks": checks}))

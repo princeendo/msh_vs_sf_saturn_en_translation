@@ -1958,13 +1958,33 @@ Experiments: `EXP-0111`, `EXP-0112`
 - **The switch:**
   - the image holds American names. 42 sites (`names_switch.pack`) list
     both variants' bytes;
-  - each frame `vblank` copies the variant chosen by `0x06017AB4` over the
-    other;
+  - each frame `vblank` copies the chosen variant over the other. The
+    choice was first `0x06017AB4`; that is the game's Mech-Gouki unlock
+    (`EXP-0089`), so it moved (`EXP-0114`, below);
   - all 26 resident sites (`MM.BIN`, and the name calls in sound RAM at
     `0x05A06510` + `0xF32`…) switch both ways.
 - **Sound RAM:** a store through the cached alias did not reach sound RAM
   (Mednafen). The copy also stores through `0x25A…`.
 - **Reproduce.** `research/experiments/EXP-0112/README.md`.
+
+## OPT-006: GRAMMAR FIXES Beside NAMES; the Switches' Saved Slot
+
+Confidence: **CONFIRMED** (cold boot; checkpoint for the menu)
+
+Experiment: `EXP-0114`
+
+- **Disjoint sites:** NAMES (42 places) and GRAMMAR FIXES (40 places) share
+  no place. Each site carries its setting bit (1, 2).
+- **The saved slot:** the P1 button struct's second long `0x06017ADC` is in
+  the `0x80` save block and is never read:
+  - the mapping code skips the struct's first 8 bytes;
+  - the BUTTON CONFIG rows use offsets 8-36;
+  - only the Options entry writes a pointer there.
+
+  `vblank` mirrors the tail's `switches` there as `0x4E53xxxx` and adopts a
+  marked value after a load.
+- **Not free:** `0x06017AB4` is the Mech-Gouki unlock (`EXP-0089`).
+- **Reproduce.** `research/experiments/EXP-0114/README.md`.
 
 ## Entry Requirements
 

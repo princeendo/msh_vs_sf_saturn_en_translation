@@ -25,14 +25,15 @@ from tools.text.caption_compiler import FONT_ADDRESS, FONT_ENTRY
 from tools.text.names_switch import Site, unpack
 from tools.text.options_submenu import NAMES_RESERVE, SOURCE
 
-NAMES = 0x06017AB4
+NAMES = 0x06017ADC  # the saved slot; vblank adopts a marked value (OPT-006)
+MARK = 0x4E530000
 
 
-def site_table(memfix: Path) -> list[Site]:
+def site_table(memfix: Path, reserve: int = NAMES_RESERVE, rows: int = 3) -> list[Site]:
     offset, length = FONT_ENTRY
-    tail = memfix.read_bytes()[offset + length - NAMES_RESERVE : offset + length]
-    origin = FONT_ADDRESS + length - NAMES_RESERVE
-    _, symbols = assemble(SOURCE.read_text(), origin)
+    tail = memfix.read_bytes()[offset + length - reserve : offset + length]
+    origin = FONT_ADDRESS + length - reserve
+    _, symbols = assemble(SOURCE.read_text(), origin, {"ROWS": rows})
     return unpack(tail[symbols["sites"] - origin :])
 
 
@@ -57,8 +58,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--start", type=int, default=2100)
     parser.add_argument("--end", type=int, default=2600)
     parser.add_argument("--step", type=int, default=5)
+    parser.add_argument(
+        "--bit", type=int, default=1, help="1 NAMES, 2 GRAMMAR (OPT-006)"
+    )
+    parser.add_argument("--reserve", type=int, default=NAMES_RESERVE)
+    parser.add_argument("--rows", type=int, default=3)
     args = parser.parse_args(argv)
-    found = site_table(args.memfix)
+    found = [
+        s
+        for s in site_table(args.memfix, args.reserve, args.rows)
+        if s.switch == args.bit
+    ]
     resident = [
         s for s in found if not s.slots and not 0x001FFFF0 <= s.address < 0x00300000
     ]
@@ -87,9 +97,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             agent.frames(args.start - frame)
             agent.wait_halted(120)
             print(f"frame {args.start}: {state(agent, resident)}")
-            phase, want = "saturn", 1
+            phase, want = "saturn", args.bit
             while frame < args.end:
-                agent.bus_write(NAMES, want.to_bytes(4, "big"))
+                agent.bus_write(NAMES, (MARK | want).to_bytes(4, "big"))
                 agent.frames(args.step)
                 agent.wait_halted(60)
                 frame = int(agent.status()["frame"])

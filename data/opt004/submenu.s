@@ -8,6 +8,8 @@
 !   - in state 2 the dispatcher calls 0x0601E22C, patched to jump to
 !     `submenu`, every frame: Start leaves, up/down move, left/right change
 !     the current row, and every row is redrawn.
+! ROWS (2, 3 or 4: BOSS FIGHT, COMBO GAUGE, NAMES, GRAMMAR FIXES) is given
+! by the build (options_submenu).
 ! Calling convention (the game's): the caller pushes PR in the delay slot of
 ! its jsr/bsr, the callee pops it with `lds.l @r15+,pr` before `rts`.
 
@@ -25,8 +27,8 @@
         .equ SOUND_ENTER, 0x0601E44A
         .equ SOUND_EXIT, 0x0601E474
         .equ EXIT_TEXT, 0x0601E8FE
-        .equ ROWS, 3
-        .equ NAMES, 0x06017AB4          ! saved by BACK UP; cleared at boot (EXP-0105)
+        .equ SAVED, 0x06017ADC          ! P1 button struct +4: saved, never read (OPT-006)
+        .equ MARK, 0x4E530000           ! NS in its upper half marks our value
         .equ SLOTS, 4
         .equ VBLANK_NEXT, 0x0600CB5C    ! what the V-blank handler called (SYS.BIN)
 
@@ -36,10 +38,34 @@
 ! ---- pops it and returns.
         .align 4
 vblank:
-        mov.l @(l_names),r0
-        mov.l @r0,r12
-        mov #1,r0
-        and r0,r12                      ! 0 American (the disc), 1 Saturn
+        ! keep `switches` in SAVED, so BACK UP saves it. A marked value we did
+        ! not write was loaded from the save: take it. Anything else (the
+        ! Options screen writes a pointer there on entry) is overwritten.
+        mov.l @(l_saved),r1
+        mov.l @r1,r0
+        mov.l @(l_last_saved),r2
+        mov.l @r2,r3
+        cmp/eq r0,r3
+        bt save_switches
+        mov r0,r4
+        shlr16 r4
+        shll16 r4
+        mov.l @(l_mark),r5
+        cmp/eq r4,r5
+        bf save_switches
+        mov #3,r4
+        and r4,r0
+        mov.l @(l_switches),r4
+        mov.l r0,@r4
+save_switches:
+        mov.l @(l_switches),r4
+        mov.l @r4,r12
+        mov #3,r0
+        and r0,r12                      ! bit 0 NAMES SATURN, bit 1 GRAMMAR FIXES ON
+        mov.l @(l_mark),r0
+        or r12,r0
+        mov.l r0,@r1
+        mov.l r0,@r2
         mov.l @(l_sites),r13
 next_site:                              ! OPT-005 site table (names_switch.pack)
         mov.l @r13,r7                   ! address, or the offset in each slot
@@ -55,8 +81,10 @@ next_site:                              ! OPT-005 site table (names_switch.pack)
         add #12,r9                      ! r9 = the bytes to put there
         mov r9,r8
         add r11,r8                      ! r8 = the bytes to replace
-        tst r12,r12
-        bt bytes_chosen                 ! American: American bytes over Saturn
+        mov.w @(10,r13),r0              ! the site's setting bit
+        and r12,r0
+        tst r0,r0
+        bt bytes_chosen                 ! bit clear: the disc's bytes over the other
         mov r9,r0
         mov r8,r9
         mov r0,r8
@@ -256,6 +284,13 @@ no_move:
         mov.l @r9,r8                    ! setting
         mov.l @(4,r9),r3                ! its maximum
         mov.l @r8,r2
+        mov.l @(20,r9),r0               ! a bit row toggles its bit
+        tst r0,r0
+        bt whole_value
+        xor r0,r2
+        bra change_store
+        nop
+whole_value:
         mov r5,r0
         cmp/eq #4,r0
         bf go_right
@@ -318,6 +353,17 @@ label:
         bsr row_at
         sts.l pr,@-r15
         mov.l @r9,r8                    ! setting
+        mov.l @(20,r9),r0               ! a bit row shows its bit as 0 or 1
+        tst r0,r0
+        bt value_ready
+        mov.l @r8,r1
+        and r1,r0
+        tst r0,r0
+        movt r0
+        xor #1,r0
+        mov.l @(l_bit_value),r8
+        mov.l r0,@r8
+value_ready:
         mov.l @(16,r9),r9               ! value strings
         mov.l @(l_cursor),r10
         mov.l @(l_draw_value),r0
@@ -374,7 +420,11 @@ l_sound_change: .long SOUND_CHANGE
 l_sound_enter: .long SOUND_ENTER
 l_sound_exit: .long SOUND_EXIT
 l_frames: .long frames
-l_names: .long NAMES
+l_saved: .long SAVED
+l_last_saved: .long last_saved
+l_mark: .long MARK
+l_switches: .long switches
+l_bit_value: .long bit_value
 l_sites: .long sites
 l_slot0: .long 0x00200000             ! character PAC slots (OPT-005)
 l_slot_step: .long 0x00010000
@@ -386,18 +436,25 @@ cursor: .long 0
 row: .long 0
 dir_bits: .long 0
 frames: .long 0                         ! V-blank calls (EXP-0111)
+bit_value: .long 0                      ! a bit row's value, for drawing
+switches: .long 0                       ! NAMES (bit 0), GRAMMAR FIXES (bit 1)
+last_saved: .long 0                     ! what vblank last wrote to SAVED
 
-! ---- rows: setting, maximum, apply routine (0 = none), label, value strings
+! ---- rows: setting, maximum, apply routine (0 = none), label, value strings,
+! ---- bit (0 = the whole long; else the row toggles that bit)
 rows:
         ! BOSS FIGHT: the title menu's boss fight unlock (OPT-001, EXP-0075)
         .long 0x06017AB0, 1, 0, label_boss, values_boss, 0, 0, 0
         ! COMBO GAUGE: the game's COMBO GAGE setting; 0x0601E172 applies it
         .long 0x06017AD4, 1, 0x0601E172, label_combo, values_combo, 0, 0, 0
         ! NAMES: American or Saturn names, applied every frame by `vblank`
-        .long NAMES, 1, 0, label_names, values_names, 0, 0, 0
+        .long switches, 1, 0, label_names, values_names, 1, 0, 0
+        ! GRAMMAR FIXES: TXT-004's corrections, applied every frame by `vblank`
+        .long switches, 1, 0, label_grammar, values_grammar, 2, 0, 0
 values_boss: .long boss_locked, boss_open
 values_combo: .long combo_normal, combo_full
 values_names: .long names_american, names_saturn
+values_grammar: .long grammar_off, grammar_on
 entry_values: .long entry_value         ! Options row 8's value (MM.BIN literal)
 
 ! ---- strings: x, y in 8-pixel cells, then text (labels end at column 19,
@@ -418,6 +475,12 @@ combo_normal: .byte 22, 8
         .asciz "NORMAL"
 combo_full: .byte 22, 8
         .asciz "FULL  "
+label_grammar: .byte 6, 12
+        .asciz " GRAMMAR FIXES "
+grammar_off: .byte 22, 12
+        .asciz "OFF"
+grammar_on: .byte 22, 12
+        .asciz "ON "
 label_names: .byte 6, 10
         .asciz "         NAMES "
 names_american: .byte 22, 10

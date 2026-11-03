@@ -5693,3 +5693,29 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   and the American bytes after switching back. The ending was not reached.
 - **Disc:** `build/disc/opt005_release/` replaces the two `opt004` folders
   (removed, rebuildable). The commits stay local until the hardware check.
+
+## 2026-11-02 — OPT-006: GRAMMAR FIXES switch; the switches' saved slot (EXP-0114)
+
+- **User:** "GRAMMAR first" (one disc for all four switches).
+- **No overlap:** NAMES and GRAMMAR change disjoint places (42 and 40), so
+  each site carries one setting bit.
+- **Correction:** `0x06017AB4` is the Mech-Gouki unlock (`EXP-0089`), not
+  free. The pointer-literal search of `EXP-0105` missed it; the
+  discoveries entry was there. NAMES SATURN set that unlock in the user's
+  `EXP-0113` session (the test image's save only). The switches now live in
+  a tail variable mirrored as `0x4E53xxxx` in `0x06017ADC`: saved, read by
+  nothing, rewritten by the Options entry only.
+- **Faults fixed on the way:**
+  - the site-table writer and reader had lost the setting field (an edit
+    landed only after a formatter rewrap);
+  - alternate records now find their own base table (`MC13.PAC` has three
+    at `0xA06C`);
+  - the NAMES/GRAMMAR overlap check now compares within one file only
+    (slot offsets of different files may coincide);
+  - the sub-menu-only reserve grew to 2 KiB;
+  - `menu_drive.py` reads builder tails from the built `MEMFIX.PAC`.
+- **Results:** both bits switch their own sites both ways on a cold boot
+  (through the saved-slot adoption), and the four-row sub-menu toggles them
+  independently (checkpoint).
+- **Checks:** pytest 327 passed, 1 skipped; ruff; mypy (the four older
+  errors only).

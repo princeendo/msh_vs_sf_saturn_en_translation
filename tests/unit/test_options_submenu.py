@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from itertools import pairwise
 
+import pytest
+
 from tools.sh2.disasm import decode
 from tools.text.caption_compiler import FONT_ADDRESS, FONT_ENTRY
 from tools.text.options_submenu import (
@@ -9,6 +11,7 @@ from tools.text.options_submenu import (
     MM_BASE,
     RESERVE,
     STATE2_INPUT,
+    SWITCHES_RESERVE,
     SYS_BASE,
     VBLANK_LITERAL,
     VBLANK_NEXT,
@@ -73,3 +76,10 @@ def test_v_blank_goes_through_the_guard_to_the_tail_or_the_original() -> None:
     # the guard ends in jmp @r2 with a nop in its delay slot
     texts = [decode(block, STATE2_INPUT, STATE2_INPUT + 2 * i)[1] for i in range(11)]
     assert texts[0].startswith("mov.l @(") and texts[9:11] == ["jmp @r2", "nop"]
+
+
+def test_rows_choose_the_reserve_and_are_checked() -> None:
+    code, _ = submenu(SWITCHES_RESERVE, 4)
+    assert b"GRAMMAR FIXES" in code and len(code) <= SWITCHES_RESERVE
+    with pytest.raises(ValueError):
+        submenu(RESERVE, 5)

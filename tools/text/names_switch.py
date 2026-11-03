@@ -34,12 +34,19 @@ SOUND_ENTRY7 = 0x05A06510
 RECORD = 76
 
 
+NAMES_BIT, GRAMMAR_BIT = 1, 2  # bits of the saved setting 0x06017AB4
+
+
 @dataclass(frozen=True)
 class Site:
+    """``american`` is the disc's bytes and ``saturn`` the other variant's: for
+    a GRAMMAR site (``switch`` 2) the official and the corrected text."""
+
     address: int  # absolute, or the offset in each character slot
     slots: bool
     american: bytes
     saturn: bytes
+    switch: int = NAMES_BIT
 
 
 def _key(entry: Mapping[str, object]) -> tuple[str, int]:
@@ -148,6 +155,7 @@ def sites(
         return decoded[name]
 
     out = []
+    spans: list[tuple[str, int, int, int]] = []
     for entry in entries:
         name = str(entry["file"]).upper()
         kind = entry["kind"]
@@ -184,14 +192,26 @@ def sites(
         if bytes(saturn) == american:
             continue
         address, slots = home(name, start)
-        out.append(Site(address, slots, american, bytes(saturn)))
+        switch = int(str(entry.get("switch", NAMES_BIT)))
+        spans.append((name, start, end, switch))
+        out.append(Site(address, slots, american, bytes(saturn), switch))
+    # A NAMES and a GRAMMAR site must not share bytes of one file (slot
+    # offsets of different files may coincide: the copy checks contents).
+    for (name_a, a0, a1, sw_a), (name_b, b0, b1, sw_b) in (
+        (a, b) for i, a in enumerate(spans) for b in spans[i + 1 :]
+    ):
+        if name_a == name_b and sw_a != sw_b and a0 < b1 and b0 < a1:
+            raise ValueError(
+                f"a NAMES site and a GRAMMAR site overlap in {name_a} 0x{a0:X}"
+            )
     return out
 
 
 def pack(found: Sequence[Site]) -> bytes:
     """The site table read by ``vblank``: per site the address (or slot
     offset), the byte length, 1 for slots, the offset of a 4-byte probe where
-    the variants differ, then the American and Saturn bytes, padded to 4.
+    the variants differ, the setting bit (1 NAMES, 2 GRAMMAR), then the disc's
+    bytes and the other variant's, padded to 4.
     A zero address ends the table."""
     out = bytearray()
     for site in found:
@@ -202,7 +222,7 @@ def pack(found: Sequence[Site]) -> bytes:
         out += (
             (1 if site.slots else 0).to_bytes(2, "big")
             + probe.to_bytes(2, "big")
-            + bytes(2)
+            + site.switch.to_bytes(2, "big")
         )
         out += site.american + site.saturn
         out += bytes(-len(out) % 4)
@@ -215,6 +235,7 @@ def unpack(table: bytes) -> list[Site]:
     while (address := int.from_bytes(table[at : at + 4], "big")) != 0:
         length = int.from_bytes(table[at + 4 : at + 6], "big")
         slots = int.from_bytes(table[at + 6 : at + 8], "big") == 1
+        switch = int.from_bytes(table[at + 10 : at + 12], "big")
         body = at + 12
         out.append(
             Site(
@@ -222,6 +243,7 @@ def unpack(table: bytes) -> list[Site]:
                 slots,
                 table[body : body + length],
                 table[body + length : body + 2 * length],
+                switch,
             )
         )
         at = body + 2 * length

@@ -81,12 +81,13 @@ still in Japanese in 0.1.0; the repository now builds it in English (see
   1 MB cartridge), and the Saturn's backup memory not formatted, unreadable,
   or full. The save-data terms follow the US Saturn's own "Memory Manager".
 - **EXTRA OPTIONS** (after 0.1.0): a new OPTION MODE row opens a sub-menu
-  with two switches, saved with your other options:
+  with four switches, saved with your other options:
   - **BOSS FIGHT:** UNLOCKED (the default) or LOCKED, which puts back the
     original Survival-clear lock on MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!;
   - **COMBO GAUGE:** the game's own COMBO GAGE option, which the game shows
     only after an unlock (its condition is not traced), now always available
-    (NORMAL by default).
+    (NORMAL by default);
+  - **NAMES** and **GRAMMAR FIXES** (see below).
 
   VS POWER GAGE is spelled VS POWER GAUGE.
 - **Names** (switchable after 0.1.0, EXTRA OPTIONS → NAMES):
@@ -97,6 +98,9 @@ still in Japanese in 0.1.0; the repository now builds it in English (see
     art and voice.
 
   0.1.0 shipped the two as separate patches.
+- **GRAMMAR FIXES** (after 0.1.0, EXTRA OPTIONS, OFF by default): light
+  corrections to the official English (five hint pages, 21 lines of win
+  quotes, partner lines and endings), which are new text, not official.
 
 **Not changed:** the other menus (already English), the voices (apart from
 the American names' three name calls), the attract-mode Norimaro screen, and
@@ -248,6 +252,7 @@ lists each image's exact options.
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
 | `--options-submenu` | The EXTRA OPTIONS sub-menu (BOSS FIGHT, COMBO GAUGE) and the VS POWER GAUGE spelling. Its code is placed in the quote font's spare space. | on (after 0.1.0) |
+| `--grammar-switch data/translations/grammar_fixes.json` | A GRAMMAR FIXES row in EXTRA OPTIONS: official text on the disc, `--fix-grammar`'s corrections copied in while the game runs (OFF by default). Needs `--names-switch` and `--official-hints`. | on in `m8_roster_gold_us` (after 0.1.0) |
 | `--names-switch` | A NAMES row in EXTRA OPTIONS: the image has American names, and Saturn names are copied in while the game runs. Needs `--names us` and `--options-submenu`; generates the Saturn spec too, so it takes twice as long. | on in `m8_roster_gold_us` (after 0.1.0) |
 | `--error-screens` | The five boot-time warning screens (`ERR1.BIN`-`ERR5.BIN`: no 4 MB cartridge, cartridge not inserted correctly, backup memory not formatted, unreadable, or full), new translations. | on (after 0.1.0) |
 

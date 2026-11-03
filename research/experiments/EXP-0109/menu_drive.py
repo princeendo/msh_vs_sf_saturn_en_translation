@@ -26,7 +26,7 @@ from pathlib import Path
 
 from tools.mednafen.agent import Agent
 from tools.mednafen.replay_state import BINARY, connect, quiet_home
-from tools.text.caption_compiler import parse_font_tail, parse_patches
+from tools.text.caption_compiler import FONT_ENTRY, parse_font_tail, parse_patches
 
 MM_BASE = 0x06018B00
 DISPATCH = 0x0601DD3E
@@ -41,7 +41,7 @@ PRESSES = {  # (buttons, directions)
 }
 
 
-def patch_state(state: Path, spec: Path, out: Path) -> None:
+def patch_state(state: Path, spec: Path, out: Path, memfix: Path | None = None) -> None:
     """The state's WRAM-H holds 16-bit elements, so the menu's ``MM.BIN``
     writes (some odd-sized) go into an extracted copy, written back as one
     aligned span."""
@@ -65,7 +65,12 @@ def patch_state(state: Path, spec: Path, out: Path) -> None:
     ]
     tail = parse_font_tail(document)
     if tail:
-        writes.append(("cart_ram", tail.address, tail.payload))
+        payload = tail.payload
+        if memfix is not None:  # a builder-made tail (OPT-005): from the built file
+            offset, length = FONT_ENTRY
+            built = memfix.read_bytes()[offset : offset + length]
+            payload = built[length - tail.reserve :]
+        writes.append(("cart_ram", tail.address, payload))
     for index, (region, address, data) in enumerate(writes):
         blob = out.parent / f"write{index}.bin"
         blob.write_bytes(data)
@@ -133,10 +138,12 @@ def drive(
                 boss = agent.bus_read(0x06017AB0, 4).hex()
                 combo = agent.bus_read(0x06017AD4, 4).hex()
                 effect = agent.bus_read(0x06049D34, 2).hex()
+                switches = agent.bus_read(0x06017ADC, 4).hex()
                 agent.screenshot(out / f"{number:02d}-{name}.png")
                 print(
                     f"{number:02d} {name:6} state {state} cursor {cursor} "
-                    f"boss {boss} combo {combo} combo effect {effect}"
+                    f"boss {boss} combo {combo} combo effect {effect} "
+                    f"switches {switches}"
                 )
         finally:
             proc.terminate()
@@ -153,10 +160,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--poke", action="append", default=[], help="ADDRESS=HEX written after loading"
     )
+    parser.add_argument(
+        "--memfix", type=Path, help="the built MEMFIX.PAC (builder tails)"
+    )
     args = parser.parse_args(argv)
     args.out.mkdir(parents=True, exist_ok=True)
     checkpoint = args.out / "checkpoint.mcs"
-    patch_state(args.state, args.spec, checkpoint)
+    patch_state(args.state, args.spec, checkpoint, args.memfix)
     drive(args.cue, checkpoint, args.out, args.steps, args.poke)
     return 0
 

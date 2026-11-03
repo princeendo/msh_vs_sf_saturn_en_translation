@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 from tools.text.names_switch import (
+    GRAMMAR_BIT,
     MM_BASE,
     SOUND_ENTRY7,
     Site,
@@ -108,3 +109,21 @@ def test_unpack_reverses_pack() -> None:
         Site(0x42F8, True, bytes(76), bytes(74) + b"\x00\x01"),
     ]
     assert unpack(pack(found)) == found
+
+
+def test_grammar_sites_keep_their_bit_and_may_not_overlap_names_sites() -> None:
+    grammar = Site(
+        0x0601F000, False, b"\x00\x01\x02\x03", b"\x00\x01\x09\x03", GRAMMAR_BIT
+    )
+    assert unpack(pack([grammar]))[0].switch == GRAMMAR_BIT
+    mm = bytes(range(64))
+    names = {
+        "kind": "bytes",
+        "file": "MM.BIN",
+        "offset": "0x10",
+        "american": "1011",
+        "saturn": "aaaa",
+    }
+    fix = {**names, "saturn": "bbbb", "switch": GRAMMAR_BIT}
+    with pytest.raises(ValueError, match="overlap"):
+        sites([names, fix], {"MM.BIN": mm}, {})

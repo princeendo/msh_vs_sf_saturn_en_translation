@@ -3841,6 +3841,8 @@ the user asks or when it unblocks other work.
     back to AMERICAN: "Everything looked good!". The resident text, Vega's
     quotes and the stage-7 exchanges switched both ways.
   - Not reached: the ending's `ME.PAC` sites.
+  - **Correction (`EXP-0114`):** the setting used `0x06017AB4`, the
+    Mech-Gouki unlock. It now lives in `0x06017ADC` (see `OPT-006`).
   - Left: the real-hardware check (with `OPT-004`).
 - **Milestone:** Polish
 - **Objective:** The names switch from `LOC-006` and `EXP-0095`, in the
@@ -3909,7 +3911,14 @@ the user asks or when it unblocks other work.
 
 ### OPT-006 - GRAMMAR switch in the sub-menu
 
-- **Status:** `BLOCKED` by `OPT-005`.
+- **Status:** `IN_PROGRESS` (user, 2026-11-02: "GRAMMAR first", one disc
+  for all four switches).
+  - `EXP-0114`: a GRAMMAR FIXES row switches the 40 grammar sites,
+    independent of NAMES (no place has both).
+  - The two settings moved out of `0x06017AB4`, the game's Mech-Gouki
+    unlock (`EXP-0089`), to a marked value in the saved, unread
+    `0x06017ADC`.
+  - Left: the release reference, the user's session, the hardware check.
 - **Milestone:** Polish
 - **Objective:** `TXT-004`'s fixes as a switch, through `OPT-005`'s
   mechanism (nine MC PACs, ME.PAC, five `MM.BIN` hint records). The default

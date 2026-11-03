@@ -24,8 +24,9 @@ from tools.sh2.asm import assemble
 from tools.text.caption_compiler import FONT_ADDRESS, FONT_ENTRY
 
 SOURCE = Path("data/opt004/submenu.s")
-RESERVE = 1024  # bytes of font tail for the sub-menu alone
+RESERVE = 2048  # bytes of font tail for the sub-menu alone
 NAMES_RESERVE = 6144  # with the OPT-005 site table
+SWITCHES_RESERVE = 12288  # with NAMES and GRAMMAR sites (OPT-006)
 MM_BASE = 0x06018B00
 SYS_BASE = 0x06002000  # SYS.BIN is loaded raw here
 VBLANK_LITERAL = 0x0600C1C0  # the main V-blank handler's call to VBLANK_NEXT
@@ -81,11 +82,18 @@ def guard(submenu_at: int, vblank_at: int, signature: int) -> bytes:
     return code
 
 
-def tail(reserve: int, sites: bytes) -> bytes:
+def _assemble(reserve: int, rows: int) -> tuple[bytes, dict[str, int], int]:
+    if rows not in (2, 3, 4):
+        raise ValueError("the sub-menu has 2, 3 or 4 rows")
+    origin = FONT_ADDRESS + FONT_ENTRY[1] - reserve
+    code, symbols = assemble(SOURCE.read_text(), origin, {"ROWS": rows})
+    return code, symbols, origin
+
+
+def tail(reserve: int, sites: bytes, rows: int = 3) -> bytes:
     """The payload with an OPT-005 site table (``names_switch.pack``) in place
     of the empty one; the code before it is the same as ``submenu``'s."""
-    origin = FONT_ADDRESS + FONT_ENTRY[1] - reserve
-    code, symbols = assemble(SOURCE.read_text(), origin)
+    code, symbols, origin = _assemble(reserve, rows)
     cut = symbols["sites"] - origin
     if code[cut:] != bytes(4):
         raise ValueError("the site table is not the end of the payload")
@@ -99,10 +107,12 @@ def code_long(code: bytes, origin: int, address: int) -> int:
     return int.from_bytes(code[address - origin : address - origin + 4], "big")
 
 
-def submenu(reserve: int = RESERVE) -> tuple[bytes, list[dict[str, str]]]:
-    """The tail payload and the ``MM.BIN`` patches (spec v3 ``patches``)."""
-    origin = FONT_ADDRESS + FONT_ENTRY[1] - reserve
-    code, symbols = assemble(SOURCE.read_text(), origin)
+def submenu(
+    reserve: int = RESERVE, rows: int = 2
+) -> tuple[bytes, list[dict[str, str]]]:
+    """The tail payload and the ``MM.BIN`` patches (spec v3 ``patches``).
+    ``rows``: 2 (BOSS FIGHT, COMBO GAUGE), 3 (+ NAMES), 4 (+ GRAMMAR FIXES)."""
+    code, symbols, origin = _assemble(reserve, rows)
     if len(code) > reserve:
         raise ValueError(f"the sub-menu is {len(code)} bytes; the reserve {reserve}")
     writes: list[tuple[int, bytes, bytes, str]] = [
