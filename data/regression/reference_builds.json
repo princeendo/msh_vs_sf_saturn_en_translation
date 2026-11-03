@@ -250,9 +250,9 @@
   {
    "name": "m8_roster_gold",
    "experiment": "EXP-0052, EXP-0053, EXP-0071, EXP-0073, EXP-0075, EXP-0078, EXP-0079, EXP-0080, EXP-0081, EXP-0082, EXP-0083, EXP-0086, EXP-0087, EXP-0088, EXP-0089, EXP-0091, EXP-0092, EXP-0096, EXP-0099, EXP-0103, EXP-0104, EXP-0105, EXP-0107, EXP-0108, EXP-0109, EXP-0110",
-   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083). The CONTINUE? hints are the arcade's official English, paged as in the arcade (UI-006, EXP-0086). The post-loss story lines (MM.BIN records 16-41) are in English (TXT-002, EXP-0087). Vega's orders in the secret characters' intros (MM.BIN records 42-43) are in English (TXT-003, EXP-0088). The pair glyphs are the US arcade's own narrow win-quote glyphs, already in the Saturn quote font, two to a cell (--glyph-style arcade; REF-012, EXP-0096; user decision 2026-10-28). With --ui-english, the button-config screen's romanised CHOUHATU reads TAUNT (UI-007, EXP-0099). With --error-screens, the five boot-time warning screens (no 4M cartridge, cartridge not inserted correctly, save memory not formatted, unreadable, or full; ERR1.BIN-ERR5.BIN) are in English, in the arcade's narrow win-quote glyphs (UI-008, EXP-0103, EXP-0104). With --options-submenu, OPTION MODE row 8 is EXTRA OPTIONS, a sub-menu with BOSS FIGHT (the title menu boss fight unlock) and COMBO GAUGE (the game's hidden COMBO GAGE setting); VS POWER GAGE is spelled VS POWER GAUGE and moves to row 9. The sub-menu code runs from the quote font's 1 KiB tail at cart 0x027BF2A0 (OPT-004).",
+   "purpose": "m8_roster_credits plus the three MM.BIN palette immediates that put win quotes, post-boss dialogue and ending pages in the credits' gold bank 1 (FONT-011); with --ui-english, the Japanese UI art for the player-2 prompt and the EASY mode label is replaced by the game's own English art (UI-001, UI-002). With --attract-captions, the attract-mode captions show the arcade's three English captions in the arcade layout, drawn with the game's own win-banner letters and colours (UI-003, EXP-0071, EXP-0073). The title menu's boss fight (MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!) is unlocked from the start (--unlock-boss-fight, the default; OPT-001, EXP-0075). The secret characters (slots 20-25) get English: official arcade win quotes for Shadow, U.S. Agent and Mephisto; new translations for Metal Zangief's and Dark Sakura's win quotes and every secret ending page; official partner lines (SPECIAL-003, EXP-0078). Norimaro (slot 17) gets his official arcade English win quotes and partner lines and a new translation of his ending; kanji used only by replaced records may be reclaimed for the font (SPECIAL-002, EXP-0079). The CONTINUE? screen's gameplay hints get a new English translation that keeps the game's joystick-arrow glyphs (UI-004, EXP-0080). The bosses Apocalypse (slot 0) and Mech-Gouki (slot 19) get their official arcade English win quotes (SPECIAL-004, EXP-0081). Apocalypse's pre-fight exchanges get the US arcade's official English (SPECIAL-004, EXP-0082). The pre-fight boxes gold (MM.BIN 0x9621D, EXP-0082). The attract streams are spliced into the original compressed bytes (REL-003, EXP-0083). The CONTINUE? hints are the arcade's official English, paged as in the arcade (UI-006, EXP-0086). The post-loss story lines (MM.BIN records 16-41) are in English (TXT-002, EXP-0087). Vega's orders in the secret characters' intros (MM.BIN records 42-43) are in English (TXT-003, EXP-0088). The pair glyphs are the US arcade's own narrow win-quote glyphs, already in the Saturn quote font, two to a cell (--glyph-style arcade; REF-012, EXP-0096; user decision 2026-10-28). With --ui-english, the button-config screen's romanised CHOUHATU reads TAUNT (UI-007, EXP-0099). With --error-screens, the five boot-time warning screens (no 4M cartridge, cartridge not inserted correctly, save memory not formatted, unreadable, or full; ERR1.BIN-ERR5.BIN) are in English, in the arcade's narrow win-quote glyphs (UI-008, EXP-0103, EXP-0104). With --options-submenu, OPTION MODE row 8 is EXTRA OPTIONS, a sub-menu with BOSS FIGHT (the title menu boss fight unlock) and COMBO GAUGE (the game's hidden COMBO GAGE setting); VS POWER GAGE is spelled VS POWER GAUGE and moves to row 9. The sub-menu code runs from the quote font's 2 KiB tail (OPT-004); a regression reference since 0.2.0, which ships m8_roster_gold_us only.",
    "spec": "local/ui003/spec/m8_roster_gold.json",
-   "spec_sha256": "15d6c367b59c6fb8f8ae576bf761fa2a650c10eb641757e95d77eaec58872ba1",
+   "spec_sha256": "c9980241eba508cbf225633fa87ee07ab9403310bb61b4e6b50759927c839e10",
    "generator_module": "official_endings",
    "generate": [
     "--roster",
@@ -275,7 +275,7 @@
     "--error-screens",
     "--options-submenu"
    ],
-   "track01_sha256": "fd5f93519d1b67b9bb55446da53131d7af8c0ce8bcf5902c5432cb8ab9e1e77e",
+   "track01_sha256": "a0313d1cea37725f2b31eb81e5a7b53d6279ec121e0bf9794999f98372603e7a",
    "files_sha256": {
     "ERR1.BIN": "d26cd6da9c39a4631a1e48af555ddd5db2c7c7aaaf521a8d08be340edc11abbb",
     "ERR2.BIN": "82677413c81720ff5371b0a5e87099135de532d6341e9ac00d1784534fff6fd3",
@@ -306,8 +306,8 @@
     "MC15.PAC": "2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806",
     "MC16.PAC": "159681282fbff6858987bfd30b62d0eff275599d09f9f652485b5b910058f5c4",
     "ME.PAC": "8d8bf166acca2016002f1fb9dd3dc801a6f726819e5a8e47ba1c985af1431c4f",
-    "MEMFIX.PAC": "3786b385d49f683f3363db229f83134d53d51982cce2d42bc7e8921ac899220a",
-    "MM.BIN": "78bb75f59fdc6b36ae216afeedef1dbdd3562eb56508a4dfd9c1a4498d183ccd",
+    "MEMFIX.PAC": "46a9a4dee5d49974ad2a823662cd03e9ed6f6faa4a6170be8a03ddb87e6648ed",
+    "MM.BIN": "dfea6faf69aa16ba77631a402b3c6265987ff7419c799e11235012da2d67b27c",
     "MVSOP0.ST2": "509b16f809764f1c55ad9a2a63035d1b560bc6000d2fd382cdda864bc461ebec",
     "MVSOP1.ST2": "3e9973b09ed6a33e6309e6975c217a09fca91f0e61cdc5e98483f7f5849d42aa",
     "MVSOP2.ST2": "4e5b96b55a5b388799ae153c9995aaea60d025f37aec72d73c449aaeed676e24",
@@ -315,7 +315,8 @@
     "MVSOP4.ST2": "96f683b0f838bb6675a23ee9d181ea17976ed1f478bd0cc67195dbfeb2c8e3e7",
     "MVSOP5.ST2": "e29dd79841981bc87eed7c275573f151a6e74b67c0330273e9242b33f751a58f",
     "MVSOP6.ST2": "1fc33e09d4ab0845015a6935bc24fc3c1b69c2740ab9546faac03a250a93fae1",
-    "MVSOP7.ST2": "2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856"
+    "MVSOP7.ST2": "2bab152e3c2ff6ab10c99f10fa97b7d2625d30b64bd959696155ad1243b10856",
+    "SYS.BIN": "2b0899d0661558d0f32fb0c5e7efc5f519d88c32fe82145c59e446d4e0b3b1bc"
    },
    "baselined": "2026-11-02",
    "previous": [
@@ -410,6 +411,10 @@
     {
      "track01_sha256": "1112bfb4a55bc81b2e782f94588b8296a0c1dfbc8abe38035892698653171ab8",
      "replaced_because": "OPT-004: EXTRA OPTIONS sub-menu (BOSS FIGHT, COMBO GAUGE) and VS POWER GAUGE spelling"
+    },
+    {
+     "track01_sha256": "fd5f93519d1b67b9bb55446da53131d7af8c0ce8bcf5902c5432cb8ab9e1e77e",
+     "replaced_because": "OPT-005/OPT-006: the sub-menu code with the V-blank routine (two rows here)"
     }
    ]
   },

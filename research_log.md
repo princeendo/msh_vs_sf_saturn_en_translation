@@ -5736,3 +5736,64 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   - the ending was not reached.
 - **Disc:** `build/disc/release/` (track 01 `3812bdc1…`) replaces
   `opt005_release`. Ten commits stay local until the hardware check.
+
+### 2026-11-02: cdrdao release-disc burn blocked by device ownership
+
+- **Image:** `build/disc/release/`; track 01 SHA-256
+  `3812bdc196aa5b6b1b0db7f7e9f0db2f1948803f4581d055fdae0615fbd6dbf2`,
+  matching the four-switch build recorded above. The CUE SHA-256 is
+  `526a4370aee466d9ace54e6ce6526b199580c736f2c8a888b704a98a7d9013b7`.
+- **Preflight:** `cue2toc` 0.2 converted the 12-track CUE. `cdrdao toc-size`
+  reported 216,839 blocks, and `cdrdao simulate` completed successfully using
+  cdrdao 1.2.6 and the HL-DT-ST DVD+-RW GTA0N. `cdrdao disk-info` reported a
+  blank Taiyo Yuden CD-R with 359,847 blocks, enough capacity.
+- **Initial result:** The first `cdrdao write` attempt stopped before writing
+  because the device was reported already in use. After the user ejected and
+  reinserted the drive/disc, `cdrdao scanbus` and `disk-info` worked. The
+  medium was still blank.
+- **Successful write:** `cdrdao write --speed 10` completed successfully,
+  including power calibration, all 12 tracks, and 216,839 blocks. The drive
+  reported one finalized session and 12 tracks. macOS `diskutil list` then
+  recognized the external disc as a CD with the `MSH_VS_STREET_FIGHTER` data
+  volume and eleven CD-DA tracks; `drutil status` reported 48:11:14 used.
+  This verifies the write completion, TOC, and readable mounted data volume;
+  no full-disc byte-for-byte readback was performed.
+- **Recovery note:** macOS mounted the written disc and subsequent `cdrdao`
+  access reported the device busy. `diskutil unmountDisk /dev/disk4` released
+  it, after which `cdrdao scanbus` and `disk-info` read the finalized disc.
+  The final `diskutil eject /dev/disk4` request timed out; the disc was not
+  confirmed ejected. The temporary `.cdrdao-burn.toc` was removed.
+
+## 2026-11-02 — REL-005: release 0.2.0 prepared
+
+- **User:** "Works on real hardware! I'm ready to turn this into a 0.2.0
+  release." The ten hardware-checked commits were pushed first.
+- **Backlog (user):** RE-049, RE-050, SPECIAL-001 and SPECIAL-005 deferred
+  past 0.2.0; LOC-006 closed as done by OPT-005; OPT-002 and OPT-004 to
+  OPT-006 done.
+- **Step 1:** `reference_builds --driver local/mame_src/cps2.cpp --report
+  docs/regression_report.md`.
+  - The first run passed 8 of 9. `m8_roster_gold` failed on its spec hash,
+    because its spec embeds the sub-menu code, which changed (the V-blank
+    routine, the guard, the row count, the 2 KiB tail).
+  - Its spec `c9980241…` was adopted and the reference rebaselined (pass);
+    it is a regression reference only from 0.2.0.
+  - The final full run is recorded in `docs/regression_report.md`.
+- **Step 2 (one image):**
+  - `make_patch` → `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` `23c1c526…`
+    (671,848 bytes);
+  - `make_ssp --release-version 0.2.0` → `.ssp` `b6f5a6e5…` (585,165 bytes);
+  - both target `3812bdc1…`, deterministic and round-trip.
+- **Steps 3-4:** `EXP-0102/make_zips.py 0.2.0` (now one variant from 0.2.0;
+  0.1.0 still builds two).
+  - `xdelta.zip` `860db0cd…` and `ssp.zip` `6248fb14…`, the same on a second
+    build;
+  - `check_zips.sh` applied both patches from the zips: `3812bdc1…`.
+- **Step 5:**
+  - `release/notes_v0.2.0.md`;
+  - `README.md` (Download, Patch Files, build commands, no "after 0.1.0");
+  - `release/README.md` (one patch, the switches table, hashes, commands);
+  - `release/RELEASING.md` (one image);
+  - `REL-005`;
+  - the 0.1.0 Saturn-patch records `release/m8_roster_gold*.json` removed
+    (kept at tag `v0.1.0`).

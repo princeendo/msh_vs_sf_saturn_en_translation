@@ -1939,7 +1939,7 @@ the user asks or when it unblocks other work.
 
 ### RE-049 - Identify what selects the second win-quote state
 
-- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28). Progress (2026-10-27, `EXP-0094`):
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28) and past 0.2.0 (user, 2026-11-02). Progress (2026-10-27, `EXP-0094`):
   - r12 is a 0xC0-byte task slot;
   - the win scene's tasks shift up one slot when slot `9ED6` is free, so the
     quote lands in `9ED6` instead of `9E16`;
@@ -1970,7 +1970,7 @@ the user asks or when it unblocks other work.
 
 ### RE-050 - Spot-check more roster characters live
 
-- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28). Progress (2026-10-28, `EXP-0098`): Bison and Akuma
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28) and past 0.2.0 (user, 2026-11-02). Progress (2026-10-28, `EXP-0098`): Bison and Akuma
   pass all 16 records live (six characters live now). The screen check
   reads gold captions since `EXP-0101`.
 - **Priority:** low
@@ -2910,7 +2910,7 @@ the user asks or when it unblocks other work.
 
 ### LOC-006 - In-game option to switch the name variant (stretch)
 
-- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28). Groundwork (2026-10-27, `EXP-0095`):
+- **Status:** `DONE` (2026-11-02): superseded by `OPT-005`, the NAMES switch in EXTRA OPTIONS (`EXP-0112`, `EXP-0113`). Groundwork (2026-10-27, `EXP-0095`):
   - the two release images differ in the quote font (58 KB of a 206 KB
     image) plus about 490 bytes of tables and text across five files;
   - in 213 recorded states, no zero cart-RAM region is big enough for a
@@ -3272,7 +3272,7 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-001 - Investigate Norimaro and other approved special cases
 
-- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28).
+- **Status:** `BACKLOG`, deferred past 0.1.0 (user, 2026-10-28) and past 0.2.0 (user, 2026-11-02).
 - **Milestone:** M9
 - **Dependencies:** END-020.
 - **Blockers:** None. The ordinary pipelines are mature (M8 done), and the
@@ -3540,6 +3540,28 @@ the user asks or when it unblocks other work.
   notes list the changes and the known limits; nothing game-derived is
   committed to git.
 
+
+### REL-005 - Publish release 0.2.0 on GitHub
+
+- **Status:** `IN_PROGRESS` (user, 2026-11-02: "Works on real hardware! I'm
+  ready to turn this into a 0.2.0 release.").
+  - Open tasks deferred past 0.2.0 by the user: RE-049, RE-050,
+    SPECIAL-001, SPECIAL-005. LOC-006 is done by OPT-005.
+  - One patch: reference `m8_roster_gold_us` (spec `204b624e…`, track 01
+    `3812bdc1…`, the image played on a real Saturn).
+  - Patches: xdelta `23c1c526…` (671,848 bytes) and `.ssp` `b6f5a6e5…`
+    (585,165 bytes); each reproduces track 01 `3812bdc1…`.
+  - Zips, built twice with the same hashes and checked by applying them:
+    - `mshvsf_saturn_en_0.2.0_xdelta.zip` `860db0cd…` (637,718 bytes);
+    - `mshvsf_saturn_en_0.2.0_ssp.zip` `6248fb14…` (583,683 bytes).
+  - Notes are in `release/notes_v0.2.0.md`; the tag is `v0.2.0`.
+  - Left: the user publishes on github.com, then the agent checks the
+    served assets.
+- **Priority:** high
+- **Milestone:** Polish
+- **Dependencies:** OPT-002 to OPT-006, UI-008 (done).
+- **Blockers:** None.
+- **Acceptance criteria:** `release/RELEASING.md` steps 1-10.
 ### UI-005 - Verify the CONTINUE? hints that use the new punctuation
 
 - **Status:** `REJECTED` (2026-10-27): superseded by `UI-006`. The new
@@ -3680,8 +3702,10 @@ the user asks or when it unblocks other work.
 
 ### OPT-002 - Options-menu switches for build options (as in XvSF)
 
-- **Status:** `IN_PROGRESS` (study started by the user, 2026-11-02:
-  "Start the study"). The menu half is done (`EXP-0105`):
+- **Status:** `DONE` (2026-11-02): all four switches built (`OPT-003` to
+  `OPT-006`), played, and checked on real hardware by the user ("Works on
+  real hardware!"). Study started by the user, 2026-11-02 ("Start the
+  study"). The menu half is done (`EXP-0105`):
   - the menu is a table-driven state machine; BUTTON CONFIG is its second
     state, built from generic routines;
   - one switch fits in the hidden COMBO GAGE row with in-place edits
@@ -3790,7 +3814,8 @@ the user asks or when it unblocks other work.
 
 ### OPT-004 - The sub-menu, with BOSS FIGHT and COMBO GAUGE
 
-- **Status:** `IN_PROGRESS` (user: "Yes, start OPT-004", 2026-11-02).
+- **Status:** `DONE` (real hardware checked by the user, 2026-11-02: "Works on real
+  hardware!"), (user: "Yes, start OPT-004", 2026-11-02).
   - `EXP-0108`: code runs from cart RAM.
   - `official_endings --options-submenu` builds the sub-menu: 676 bytes in a
     1 KiB font tail and 17 `MM.BIN` writes with expect checks. It uses
@@ -3802,8 +3827,8 @@ the user asks or when it unblocks other work.
     hidden").
   - Both release references now use `--options-submenu` and are
     rebaselined.
-  - Left: the user's real-hardware check of the `build/disc/` images before
-    the image change is pushed.
+  - The real-hardware check passed (`build/disc/release/`, with all four
+    switches).
 - **Milestone:** Polish
 - **Objective (user decision, 2026-11-02):**
   - The hidden COMBO GAGE row becomes the always-shown entry to a new
@@ -3831,7 +3856,8 @@ the user asks or when it unblocks other work.
 
 ### OPT-005 - NAMES switch (US / Saturn) in the sub-menu
 
-- **Status:** `IN_PROGRESS` (user, 2026-11-02: names before the hardware
+- **Status:** `DONE` (real hardware checked by the user, 2026-11-02: "Works on real
+  hardware!"), (user, 2026-11-02: names before the hardware
   check, to burn one disc).
   - `EXP-0111`: a guarded V-blank hook runs the tail's code every frame.
   - `EXP-0112`: `--names-switch` switches all 26 resident sites both ways
@@ -3843,7 +3869,7 @@ the user asks or when it unblocks other work.
   - Not reached: the ending's `ME.PAC` sites.
   - **Correction (`EXP-0114`):** the setting used `0x06017AB4`, the
     Mech-Gouki unlock. It now lives in `0x06017ADC` (see `OPT-006`).
-  - Left: the real-hardware check (with `OPT-004`).
+  - The real-hardware check passed (with `OPT-004` and `OPT-006`).
 - **Milestone:** Polish
 - **Objective:** The names switch from `LOC-006` and `EXP-0095`, in the
   sub-menu.
@@ -3911,7 +3937,8 @@ the user asks or when it unblocks other work.
 
 ### OPT-006 - GRAMMAR switch in the sub-menu
 
-- **Status:** `IN_PROGRESS` (user, 2026-11-02: "GRAMMAR first", one disc
+- **Status:** `DONE` (real hardware checked by the user, 2026-11-02: "Works on real
+  hardware!"), (user, 2026-11-02: "GRAMMAR first", one disc
   for all four switches).
   - `EXP-0114`: a GRAMMAR FIXES row switches the 40 grammar sites,
     independent of NAMES (no place has both).
@@ -3922,7 +3949,7 @@ the user asks or when it unblocks other work.
     both switches, reset, played, and switched GRAMMAR back: "Nothing was
     out of the ordinary." The RAM timeline agrees: kept across the reset,
     the Mech-Gouki unlock untouched.
-  - Left: the real-hardware check (`build/disc/release/`).
+  - The real-hardware check of `build/disc/release/` passed.
 - **Milestone:** Polish
 - **Objective:** `TXT-004`'s fixes as a switch, through `OPT-005`'s
   mechanism (nine MC PACs, ME.PAC, five `MM.BIN` hint records). The default
@@ -3930,7 +3957,7 @@ the user asks or when it unblocks other work.
 
 ### SPECIAL-005 - The attract-mode Norimaro screen's Japanese brush lettering
 
-- **Status:** `BACKLOG` (user request, 2026-11-02). Investigation approved by
+- **Status:** `BACKLOG` (user request, 2026-11-02), deferred past 0.2.0 (user, 2026-11-02). Investigation approved by
   the user (`AGENTS.md` rule 24).
 - **Priority:** not set by the user
 - **Milestone:** M9

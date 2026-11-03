@@ -11,17 +11,28 @@ from pathlib import Path
 
 VERSION = sys.argv[1]
 OUT = Path(sys.argv[2])
-VARIANTS = (  # (record stem, build dir, label), default first
+VARIANTS = (  # (record stem, build dir, label), default first; 0.1.0 had two
     (
-        "m8_roster_gold_us",
-        "m8_gold_us",
-        "American names (default): Bison, Akuma, Cyber Akuma",
-    ),
-    ("m8_roster_gold", "m8_gold", "Saturn names: Vega, Gouki, Mech-Gouki"),
+        (
+            "m8_roster_gold_us",
+            "m8_gold_us",
+            "American names (default): Bison, Akuma, Cyber Akuma",
+        ),
+        ("m8_roster_gold", "m8_gold", "Saturn names: Vega, Gouki, Mech-Gouki"),
+    )
+    if VERSION == "0.1.0"
+    else (  # from 0.2.0 one image; NAMES and GRAMMAR FIXES are in EXTRA OPTIONS
+        (
+            "m8_roster_gold_us",
+            "m8_gold_us",
+            "The patch (American names by default; Saturn names and grammar\n"
+            "  fixes can be switched on in OPTION MODE > EXTRA OPTIONS)",
+        ),
+    )
 )
 TRACK = "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin"
 REPO = "https://github.com/princeendo/msh_vs_sf_saturn_en_translation"
-STAMP = (2026, 10, 28, 0, 0, 0)
+STAMP = (2026, 10, 28, 0, 0, 0) if VERSION == "0.1.0" else (2026, 11, 2, 0, 0, 0)
 APPLY = {
     "xdelta": [
         f'xdelta3 -d -s "{TRACK}" \\',

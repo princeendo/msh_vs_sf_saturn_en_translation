@@ -1,4 +1,4 @@
-# Release Patch: English Win Quotes and Endings (M8)
+# Release Patch: English Win Quotes, Endings and Options (0.2.0)
 
 This folder describes the English patch for the Japanese Sega Saturn release of
 **Marvel Super Heroes vs. Street Fighter**. It covers how to apply the patch,
@@ -8,52 +8,48 @@ and how to rebuild it from this repository.
 game-derived data, which this project never commits (`AGENTS.md` rule 21).
 Build it locally (see "Rebuild the Patch") and distribute it yourself.
 
-[`m8_roster_gold.json`](m8_roster_gold.json) is the release record: hashes,
-sizes, xdelta3 version, and flags (metadata only).
-[`m8_roster_gold.ssp.json`](m8_roster_gold.ssp.json) is the same for the
-Sega Saturn Patcher (`.ssp`) file.
+[`m8_roster_gold_us.json`](m8_roster_gold_us.json) is the release record:
+hashes, sizes, xdelta3 version, and flags (metadata only).
+[`m8_roster_gold_us.ssp.json`](m8_roster_gold_us.ssp.json) is the same for
+the Sega Saturn Patcher (`.ssp`) file.
 
-## Choose a Name Variant
+## One Patch, Switches in the Game (0.2.0)
 
-Two patches are built from the same tools. They differ only in how three
-characters are named (`LOC-003`):
+From 0.2.0 there is one patch, built as reference `m8_roster_gold_us`.
+0.1.0 had two patches, one per name variant; rebuild them from the `v0.1.0`
+tag. OPTION MODE has a new row, **EXTRA OPTIONS** (A or C), with four
+switches saved by BACK UP like the other options (`OPT-002` to `OPT-006`):
 
-| | American names (default) | Saturn names |
+| Switch | Values | Default |
 | --- | --- | --- |
-| Patch | `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.Track01.xdelta` |
-| Sega Saturn Patcher patch | `mshvsf_saturn_en_m8_gold_us.ssp` | `mshvsf_saturn_en_m8_gold.ssp` |
-| Record | [`m8_roster_gold_us.json`](m8_roster_gold_us.json), [`.ssp.json`](m8_roster_gold_us.ssp.json) | [`m8_roster_gold.json`](m8_roster_gold.json), [`.ssp.json`](m8_roster_gold.ssp.json) |
-| Reference | `m8_roster_gold_us` | `m8_roster_gold` |
+| BOSS FIGHT | UNLOCKED: MECH-GOUKI NOW!! / CYBER-AKUMA NOW!! from the start; LOCKED: the original Survival-clear lock | UNLOCKED |
+| COMBO GAUGE | NORMAL or FULL (keeps the combo gauge refilled): the game's own COMBO GAGE option, which it hides until an unlock | NORMAL |
+| NAMES | AMERICAN or SATURN (below) | AMERICAN |
+| GRAMMAR FIXES | OFF: the official English; ON: light corrections (`TXT-004`), which are new text | OFF |
+
+VS POWER GAGE is spelled VS POWER GAUGE.
+
+**What NAMES switches** (`LOC-003`, `LOC-004`; the disc holds the American
+names, and a per-frame routine copies the Saturn names in while NAMES is
+SATURN, `OPT-005`, `EXP-0112`):
+
+| | AMERICAN (default) | SATURN |
+| --- | --- | --- |
 | English text | Bison, Akuma, Cyber Akuma (as the US arcade) | Vega, Gouki, Mech-Gouki |
-| Announcer's name calls | Bison, Akuma, Cyber Akuma: recordings already on the disc, selected through six data edits in `MEMFIX.PAC` (`EXP-0058`) | Vega, Gouki, Mech Gouki (unchanged) |
-| Life-bar names (both sides) | BISON, AKUMA, CYBER-AKUMA: the game's own US label records (`EXP-0065`) | VEGA, GOUKI, MECH-GOUKI |
+| Announcer's name calls | Bison, Akuma, Cyber Akuma: recordings already on the disc (`EXP-0058`) | Vega, Gouki, Mech Gouki |
+| Life-bar names (both sides) | BISON, AKUMA, CYBER-AKUMA (`EXP-0065`) | VEGA, GOUKI, MECH-GOUKI |
 | Ending speaker labels | Bison, Akuma, Cyber Akuma (`EXP-0060`) | Vega, Gouki, Mech-Gouki |
 | Sound test, title-menu unlock message | 18.BISON, 22.AKUMA, CYBER-AKUMA NOW!! (`EXP-0061`) | 18.VEGA, 22.GOUKI, MECH-GOUKI NOW!! |
-| Win banner ("… WIN") | BISON, AKUMA, CYBER-AKUMA: the game's own banner records (`EXP-0062`) | VEGA, GOUKI, MECH-GOUKI |
-| VS-screen names | BISON, AKUMA, CYBER-AKUMA: the game's own VS name records (`EXP-0063`) | Vega, Gouki, Mech-Gouki |
-| Attract-mode captions | English (both variants, identical) | English (both variants, identical) |
+| Win banner ("… WIN") | BISON, AKUMA, CYBER-AKUMA (`EXP-0062`) | VEGA, GOUKI, MECH-GOUKI |
+| VS-screen names | BISON, AKUMA, CYBER-AKUMA (`EXP-0063`) | Vega, Gouki, Mech-Gouki |
 
-- **American names** is the default (user decision, 2026-10-28, `LOC-001`:
-  the names shown and spoken must agree). It switches every name surface
-  found so far (`LOC-004`). It was played from a cold boot (`EXP-0064`): the
-  "Akuma" and "Bison" calls at character select, BISON / AKUMA vs
-  CYBER-AKUMA on the VS screen, AKUMA and CYBER-AKUMA life bars, the AKUMA /
-  BISON / WIN banner, and the "Akuma" win call.
-  - Seen running: after a cold boot, sound RAM holds the American calls
-    (`EXP-0059`).
-  - Proven in a replay: switching that table entry makes the win screen say
-    "Bison" (`EXP-0058`).
-  - Seen in replays: BISON and CYBER-AKUMA life bars, a "Bison" speaker
-    label (`EXP-0060`), a BISON / RYU / WIN banner (`EXP-0062`), and BISON on
-    the VS screen (`EXP-0063`).
-  - Seen in play since (`EXP-0074`): the full-width AKUMA life bar for
-    player 1 and the italic AKUMA for player 2.
-  - Not yet heard in play: the Cyber Akuma call.
-- **Saturn names** keeps the Japanese release's names, which also match
-  everything the game shows and says.
+American names are the default (user decision, 2026-10-28, `LOC-001`: the
+names shown and spoken must agree, and 2026-11-02 for the switch).
 
-Apply either patch the same way (below), using that patch's file and target
-hash. Everything else in this README applies to both.
+**How the switches are kept:** BOSS FIGHT and COMBO GAUGE use the game's own
+settings. NAMES and GRAMMAR FIXES are kept as a marked value in a saved slot
+the game never reads (`0x06017ADC`, `EXP-0114`); they do not touch the
+game's Mech-Gouki unlock.
 
 The release draws its captions with the US arcade's narrow win-quote glyphs,
 two to a cell, in the credits' gold (`--glyph-style arcade`, `EXP-0096`, user
@@ -128,19 +124,24 @@ Red, Spider-Man, Blackheart, Ryu, Ken, Chun-Li, Dhalsim, Zangief, Bison
 - **Boss fight unlocked:** the title menu's MECH-GOUKI NOW!! (CYBER-AKUMA
   NOW!! with American names) is available from the start, without a
   Survival clear: on the SURVIVAL MODE row, press L or R, then Start
-  (`OPT-001`, `EXP-0075`). Build option `--unlock-boss-fight`, on by
-  default; `--no-unlock-boss-fight` keeps the original lock.
-- **Names:** the default patch uses the American names (Bison, Akuma, Cyber
-  Akuma) in the text, art and announcer's calls; the Saturn-names patch keeps
-  Vega, Gouki and Mech-Gouki to match the Japanese release (user decision
-  2026-10-28, `LOC-001`). The two patches differ only here (see "Choose a
-  Name Variant").
+  (`OPT-001`, `EXP-0075`). EXTRA OPTIONS → BOSS FIGHT LOCKED puts the
+  original lock back.
+- **EXTRA OPTIONS** (0.2.0): BOSS FIGHT, COMBO GAUGE, NAMES and GRAMMAR
+  FIXES (see "One Patch, Switches in the Game").
+- **Names:** American by default, Saturn by the NAMES switch.
+- **Grammar fixes** (`TXT-004`, `EXP-0093`): with GRAMMAR FIXES ON, five
+  CONTINUE? hint pages and 21 lines of win quotes, partner lines and endings
+  get light corrections (new text, not official).
+- **Warning screens** (0.2.0, `UI-008`, `EXP-0104`): the five boot-time
+  warnings (no 4 MB RAM cartridge or one not inserted correctly; backup
+  memory not formatted, unreadable or full) are a new English translation,
+  in the arcade's narrow letters.
 
 **Not changed:**
 - the other menus (already English apart from the button-config screen's
   "CHOUHATU", which now reads "TAUNT", `UI-007`);
-- the voices, apart from the American-name patch's three name calls (see
-  "Choose a Name Variant");
+- the voices, apart from the three American name calls (see "What NAMES
+  switches");
 - the attract-mode Norimaro screen (Japanese brush lettering, which is art);
 - every other screen not listed above.
 
@@ -171,6 +172,11 @@ byte-identical to the original.
     trial.
 - On a real Saturn (user report, 2026-10-28, no EXP): the American-names
   image made with xdelta, booted through Pseudo Saturn Kai.
+- 0.2.0 (`EXP-0110`, `EXP-0113`, `EXP-0115`): the four switches played from
+  a cold boot in Mednafen, each both ways, kept across a reset, with the
+  names and grammar fixes seen in menus, fights and the stage-7 exchanges
+  (the endings were not reached); then the 0.2.0 image on a real Saturn
+  (user report, 2026-11-02: "Works on real hardware!").
 - The rest was checked offline (`EXP-0044` to `EXP-0052`).
 - Open questions are in `docs/known_unknowns.md`.
 
@@ -189,15 +195,11 @@ byte-identical to the original.
 
    Only track 01 is patched, but the other tracks must be the originals.
 
-2. **The patch:**
-   - Saturn names: `mshvsf_saturn_en_m8_gold.Track01.xdelta`, 641,506
-     bytes, SHA-256
-     `c7b18d55c1543ccb7cc30ce326e2785f4214a72b6078f3862223b025ffe600b4`;
-   - American names: `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 642,313
-     bytes, SHA-256
-     `b252e40e3353f6f52ffe0a4cfbb9ddb2428a50c02613a68c8908c481fb82e7b0`.
+2. **The patch:** `mshvsf_saturn_en_m8_gold_us.Track01.xdelta`, 671,848
+   bytes, SHA-256
+   `23c1c5260f0d80e7a1ef57e4ae7aaf4e70a6713133512acee51059366d8e0716`.
 
-   Most of their size is the English attract captions: the rebuilt streams
+   Most of its size is the English attract captions: the rebuilt streams
    keep the original compressed bytes wherever possible (`REL-003`), and
    what remains is the new caption art and the CD error-correction bytes of
    the sectors it touches.
@@ -212,15 +214,12 @@ byte-identical to the original.
 
 ```bash
 xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
-  mshvsf_saturn_en_m8_gold.Track01.xdelta "Track 01 patched.bin"
+  mshvsf_saturn_en_m8_gold_us.Track01.xdelta "Track 01 patched.bin"
 ```
 
 1. Run the command above in the folder with the original image.
 2. Check the result. Its SHA-256 must be
-   `cdf366b3b3ac33a5e176f56a1585d3f1d9fcd9fd10ab1599bf3f87c859780858` for the
-   Saturn-name patch, or
-   `c6f1fbd0b85ed4f6f48a6d366cc4e39cb2c6dccfa001f06025de3473e979359b` for the
-   American-name patch (use the `_us` patch file in the command).
+   `3812bdc196aa5b6b1b0db7f7e9f0db2f1948803f4581d055fdae0615fbd6dbf2`.
 3. Replace track 01 with the patched file, keeping its original filename so
    the CUE sheet still finds it. Keep tracks 02-12 and the CUE unchanged.
 4. Load the CUE in a Saturn emulator. The project tests with Mednafen and the
@@ -233,10 +232,9 @@ xdelta3 checks each window's Adler-32 checksum. It refuses a wrong source with
 
 The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
 
-| Variant | File | Size (bytes) | SHA-256 |
-| --- | --- | ---: | --- |
-| Saturn names | `mshvsf_saturn_en_m8_gold.ssp` | 563,578 | `f827caa44c84ba50727c915627c0d9a1a144a2720dc5591c7ddfc1a03dc371a4` |
-| American names | `mshvsf_saturn_en_m8_gold_us.ssp` | 563,635 | `a021dafc0d91932dc4e56dc5a28fd21b117b3931961ebaec7cc860a61071ef0f` |
+| File | Size (bytes) | SHA-256 |
+| --- | ---: | --- |
+| `mshvsf_saturn_en_m8_gold_us.ssp` | 585,165 | `b6f5a6e50b35680ab508e5a5b86506dcf725e5cabd6d98e0ad55aefe8416f1e2` |
 
 - **Tested: [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui)**
   (Linux and Windows builds, or build from source on macOS). It patches a
@@ -244,11 +242,10 @@ The same changes, as an `.ssp` file (`REL-002`, `EXP-0084`):
 
   ```bash
   cp "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" "Track 01 patched.bin"
-  saturn-patcher mshvsf_saturn_en_m8_gold.ssp "Track 01 patched.bin"
+  saturn-patcher mshvsf_saturn_en_m8_gold_us.ssp "Track 01 patched.bin"
   ```
 
-  The result has the same SHA-256 as the xdelta result above (`cdf366b3…`,
-  or `c6f1fbd0…` for the `_us` file). Continue from step 3 above. egui
+  The result has the same SHA-256 as the xdelta result above (`3812bdc1…`). Continue from step 3 above. egui
   checks each original file's MD5 first and stops on a wrong or
   already-patched image.
 - **The official Sega Saturn Patcher** (Windows, .NET 5 Desktop Runtime).
@@ -294,8 +291,8 @@ laid out.
 - the font-candidate list (`data/text/font_candidates.json`);
 - the translation policy (`data/translations/README.md`);
 - the generators and compiler (`tools/`);
-- the expected hashes (`data/regression/reference_builds.json`, references
-  `m8_roster_gold` and `m8_roster_gold_us`).
+- the expected hashes (`data/regression/reference_builds.json`, reference
+  `m8_roster_gold_us`).
 
 ### Commands
 
@@ -305,42 +302,30 @@ mkdir -p local/mame_src
 curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/mame/f34f02505e32c1993c6a782b6814232cbfc74e36/src/mame/capcom/cps2.cpp
 
 # 1. Rebuild every reference from the untouched image and check its hashes
-#    (9 of 9 must pass). The gold builds land in build/regression/m8_roster_gold/
-#    (Saturn names) and build/regression/m8_roster_gold_us/ (American names).
+#    (9 of 9 must pass). The release image lands in
+#    build/regression/m8_roster_gold_us/. It takes about 40 minutes: the
+#    release generates three text specs (base, Saturn names, grammar fixes).
 ./invenv.sh python -m tools.regression.reference_builds --driver local/mame_src/cps2.cpp
 
-# 2. Make the patch from that build; it is checked against the m8_roster_gold reference.
-./invenv.sh python -m tools.disc.make_patch \
-  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
-  --stem mshvsf_saturn_en_m8_gold --out-dir build/release/m8_gold \
-  --record release/m8_roster_gold.json
-
-# 2b. The American-name patch, from its own reference.
+# 2. Make the patch from that build; it is checked against the reference.
 ./invenv.sh python -m tools.disc.make_patch \
   --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
   --stem mshvsf_saturn_en_m8_gold_us --out-dir build/release/m8_gold_us \
   --record release/m8_roster_gold_us.json
 
-# 3. The Sega Saturn Patcher (.ssp) files, from the same builds.
-./invenv.sh python -m tools.disc.make_ssp \
-  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
-  --stem mshvsf_saturn_en_m8_gold --release-version 0.1.0 \
-  --description "Official arcade English text; Saturn character names." \
-  --out-dir build/release/m8_gold --record release/m8_roster_gold.ssp.json
+# 3. The Sega Saturn Patcher (.ssp) file, from the same build.
 ./invenv.sh python -m tools.disc.make_ssp \
   --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
-  --stem mshvsf_saturn_en_m8_gold_us --release-version 0.1.0 \
-  --description "Official arcade English text; US character names." \
+  --stem mshvsf_saturn_en_m8_gold_us --release-version 0.2.0 \
+  --description "Official arcade English text; American names by default; EXTRA OPTIONS switches for names and grammar fixes." \
   --out-dir build/release/m8_gold_us --record release/m8_roster_gold_us.ssp.json
 ```
 
 **Expected:**
-- Saturn names: spec `86178579…`, track 01 `cdf366b3…`, patch `c7b18d55…`;
-- American names: spec `b89d4679…`, track 01 `c6f1fbd0…`, patch `b252e40e…`;
-- the patch hashes assume xdelta3 3.2.2;
-- `.ssp`: `f827caa4…` (Saturn names) and `a021dafc…` (American names). These
-  need no external tool; they assume the recorded Python 3.12.13 build (zlib
-  1.2.12 and its own bzip2).
+- spec `204b624e…`, track 01 `3812bdc1…`, patch `23c1c526…`;
+- the patch hash assumes xdelta3 3.2.2;
+- `.ssp`: `b6f5a6e5…`. It needs no external tool; it assumes the recorded
+  Python 3.12.13 build (zlib 1.2.12 and its own bzip2).
 
 `make_ssp` checks the same source and reference. It also checks that only
 whole files change, that two builds are byte-identical, and that its own

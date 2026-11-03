@@ -3,21 +3,29 @@
  "reference": "m8_roster_gold_us",
  "ssp_version": "1.3.7760.32512",
  "patch": "mshvsf_saturn_en_m8_gold_us.ssp",
- "patch_size": 563635,
- "patch_sha256": "a021dafc0d91932dc4e56dc5a28fd21b117b3931961ebaec7cc860a61071ef0f",
+ "patch_size": 585165,
+ "patch_sha256": "b6f5a6e50b35680ab508e5a5b86506dcf725e5cabd6d98e0ad55aefe8416f1e2",
  "component": "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin",
  "source_sha256": "8274307f9562d2da7fb7be0f5f306846edb74afde5913324bef04938ed3214f9",
- "target_sha256": "c6f1fbd0b85ed4f6f48a6d366cc4e39cb2c6dccfa001f06025de3473e979359b",
+ "target_sha256": "3812bdc196aa5b6b1b0db7f7e9f0db2f1948803f4581d055fdae0615fbd6dbf2",
  "deterministic": true,
  "round_trip": true,
  "files": [
+  {
+   "name": "SYS.BIN",
+   "lsn": 34,
+   "size": 61536,
+   "source_md5": "614a65687dda3c2672274b7757dba865",
+   "target_sha256": "2b0899d0661558d0f32fb0c5e7efc5f519d88c32fe82145c59e446d4e0b3b1bc",
+   "dfr_stored_size": 140
+  },
   {
    "name": "MM.BIN",
    "lsn": 65,
    "size": 848396,
    "source_md5": "341ea376724c90c7004958c9f6e0b2a6",
-   "target_sha256": "15e2770d1fa51487799bd0cbbe8a762c2f24155e0e32be5da5ca9fd29486f815",
-   "dfr_stored_size": 2733
+   "target_sha256": "5901a915d460dc7468341c0bf1e62525b92c1d41031ddc5d99824ffa4c5b4e86",
+   "dfr_stored_size": 2942
   },
   {
    "name": "ME.PAC",
@@ -32,8 +40,8 @@
    "lsn": 3954,
    "size": 1744100,
    "source_md5": "e5eb8c1bd3e9da3c98eb1757cac58744",
-   "target_sha256": "be24dc10a92485652e958f4967722163b31675f193a7ddee41c3cabcf936d691",
-   "dfr_stored_size": 10845
+   "target_sha256": "1b8129ae27d28d70ae40467ae74ca46801296553a3fde1015eab23a6f1a260ea",
+   "dfr_stored_size": 15294
   },
   {
    "name": "MC00.PAC",
@@ -218,6 +226,46 @@
    "source_md5": "704c53e5a0f5af6ea76ab74fbba891ee",
    "target_sha256": "2d1d9008c2cea839519ede37c2fee576590b736a8c15a2565003974718a6b806",
    "dfr_stored_size": 17044
+  },
+  {
+   "name": "ERR1.BIN",
+   "lsn": 12436,
+   "size": 42358,
+   "source_md5": "231a5cc3d5423ebc9647666d13399acf",
+   "target_sha256": "d26cd6da9c39a4631a1e48af555ddd5db2c7c7aaaf521a8d08be340edc11abbb",
+   "dfr_stored_size": 3871
+  },
+  {
+   "name": "ERR2.BIN",
+   "lsn": 12457,
+   "size": 42358,
+   "source_md5": "23e507b3e184cee4c162cf34915b875c",
+   "target_sha256": "82677413c81720ff5371b0a5e87099135de532d6341e9ac00d1784534fff6fd3",
+   "dfr_stored_size": 3015
+  },
+  {
+   "name": "ERR3.BIN",
+   "lsn": 12478,
+   "size": 42358,
+   "source_md5": "a28ad9a45f23a8210fcc3d042d68af60",
+   "target_sha256": "6d0d7f760a772c62234c635765538c417df2ac474f1a1269b1bdba7cc7707532",
+   "dfr_stored_size": 3872
+  },
+  {
+   "name": "ERR4.BIN",
+   "lsn": 12499,
+   "size": 42358,
+   "source_md5": "952f2bc6967e7b4e5ee8b6be15e9b646",
+   "target_sha256": "7899ae23525c9dfc9673316ff9a2f272a2251cc132219e0908b0e7d18fb3d66a",
+   "dfr_stored_size": 2679
+  },
+  {
+   "name": "ERR5.BIN",
+   "lsn": 12520,
+   "size": 42358,
+   "source_md5": "7755a9d1543e0587c751065146b1ee46",
+   "target_sha256": "66ffbe9dc7eae19506e7eb7be2510fe3b27be5db96e7ced8068c76dc8e90315e",
+   "dfr_stored_size": 2466
   },
   {
    "name": "MVSOP0.ST2",

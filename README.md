@@ -16,22 +16,23 @@ recorded in [TASKS.md](TASKS.md), [research_log.md](research_log.md), and
 ## Download
 
 The latest release is
-[0.1.0](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/tag/v0.1.0):
+[0.2.0](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/tag/v0.2.0):
 
-- [mshvsf_saturn_en_0.1.0_xdelta.zip](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/download/v0.1.0/mshvsf_saturn_en_0.1.0_xdelta.zip):
-  xdelta patches for track 01;
-- [mshvsf_saturn_en_0.1.0_ssp.zip](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/download/v0.1.0/mshvsf_saturn_en_0.1.0_ssp.zip):
-  Sega Saturn Patcher (`.ssp`) files.
+- [mshvsf_saturn_en_0.2.0_xdelta.zip](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/download/v0.2.0/mshvsf_saturn_en_0.2.0_xdelta.zip):
+  an xdelta patch for track 01;
+- [mshvsf_saturn_en_0.2.0_ssp.zip](https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/download/v0.2.0/mshvsf_saturn_en_0.2.0_ssp.zip):
+  a Sega Saturn Patcher (`.ssp`) file.
 
-Each zip holds both name variants (American names is the default) and a
-`README.txt` with every expected hash. You supply your own Japanese disc
-image. To apply a patch, see [Applying a Patch](#applying-a-patch).
+Each zip holds the one patch and a `README.txt` with every expected hash.
+The names (American by default, or Saturn) and the grammar fixes are
+switches in the game: OPTION MODE → EXTRA OPTIONS. You supply your own
+Japanese disc image. To apply a patch, see
+[Applying a Patch](#applying-a-patch).
 
 The game needs the **4 MB RAM cartridge** (拡張ラムカートリッジ4MB), on a
 real Saturn or in an emulator (Mednafen: `ss.cart auto` or `extram4`). Without
-it, the game stops after the SEGA screen on a warning page. That page is
-still in Japanese in 0.1.0; the repository now builds it in English (see
-"Warning screens" below).
+it, the game stops after the SEGA screen on a warning page (in English
+from 0.2.0).
 
 ## What's Changed
 
@@ -75,12 +76,12 @@ still in Japanese in 0.1.0; the repository now builds it in English (see
   names) is in the title menu from the start, without a Survival clear: on
   the SURVIVAL MODE row, press L or R, then Start. Optional; see
   [Build Options](#build-options).
-- **Warning screens** (after 0.1.0): the five boot-time warnings are a new
+- **Warning screens:** the five boot-time warnings are a new
   English translation, in the same narrow arcade letters: the 4 MB RAM
   cartridge missing or not inserted correctly (shown, for example, with a
   1 MB cartridge), and the Saturn's backup memory not formatted, unreadable,
   or full. The save-data terms follow the US Saturn's own "Memory Manager".
-- **EXTRA OPTIONS** (after 0.1.0): a new OPTION MODE row opens a sub-menu
+- **EXTRA OPTIONS:** a new OPTION MODE row opens a sub-menu
   with four switches, saved with your other options:
   - **BOSS FIGHT:** UNLOCKED (the default) or LOCKED, which puts back the
     original Survival-clear lock on MECH-GOUKI NOW!! / CYBER-AKUMA NOW!!;
@@ -90,15 +91,15 @@ still in Japanese in 0.1.0; the repository now builds it in English (see
   - **NAMES** and **GRAMMAR FIXES** (see below).
 
   VS POWER GAGE is spelled VS POWER GAUGE.
-- **Names** (switchable after 0.1.0, EXTRA OPTIONS → NAMES):
+- **Names** (EXTRA OPTIONS → NAMES):
   - **AMERICAN** (default): Bison, Akuma and Cyber Akuma in the text, life
     bars, win banners, VS screen, sound test, and the announcer's calls
     (using recordings already on the disc).
   - **SATURN**: Vega, Gouki and Mech-Gouki, which match the Saturn's own
     art and voice.
 
-  0.1.0 shipped the two as separate patches.
-- **GRAMMAR FIXES** (after 0.1.0, EXTRA OPTIONS, OFF by default): light
+  0.1.0 shipped the two as separate patches; from 0.2.0 there is one.
+- **GRAMMAR FIXES** (EXTRA OPTIONS, OFF by default): light
   corrections to the official English (five hint pages, 21 lines of win
   quotes, partner lines and endings), which are new text, not official.
 
@@ -114,13 +115,12 @@ as they are. The full list, with evidence for each item, is in
 
 The release zips ([Download](#download)) hold these files. They are GitHub
 Release assets only and are never committed to the repository (`AGENTS.md`
-rule 21). You can also build them yourself (the next section). Each name
-variant comes in two formats, which give the same patched track 01:
+rule 21). You can also build them yourself (the next section). The patch
+comes in two formats, which give the same patched track 01:
 
-| xdelta file | Sega Saturn Patcher file | Variant | Patched track 01 SHA-256 |
-| --- | --- | --- | --- |
-| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | American names (default) | `c6f1fbd0b85ed4f6f48a6d366cc4e39cb2c6dccfa001f06025de3473e979359b` |
-| `mshvsf_saturn_en_m8_gold.Track01.xdelta` | `mshvsf_saturn_en_m8_gold.ssp` | Saturn names | `cdf366b3b3ac33a5e176f56a1585d3f1d9fcd9fd10ab1599bf3f87c859780858` |
+| xdelta file | Sega Saturn Patcher file | Patched track 01 SHA-256 |
+| --- | --- | --- |
+| `mshvsf_saturn_en_m8_gold_us.Track01.xdelta` | `mshvsf_saturn_en_m8_gold_us.ssp` | `3812bdc196aa5b6b1b0db7f7e9f0db2f1948803f4581d055fdae0615fbd6dbf2` |
 
 The `.ssp` hash holds when an in-place applier such as
 [saturn-patcher-egui](https://github.com/ralfguth/saturn-patcher-egui) applies
@@ -133,8 +133,9 @@ its original place with the same contents (`EXP-0084`).
 These patch files cannot be applied by anything in this repository; use one
 of the tools below. Either way, patch an untouched copy of the image, never
 one already patched. The project tests the result in Mednafen with the 4 MB
-RAM cartridge. The American-names image made with xdelta also boots on a real
-Saturn through Pseudo Saturn Kai (user report, 2026-10-28).
+RAM cartridge. The 0.1.0 American-names image and the 0.2.0 image, made with
+xdelta, also run on a real Saturn (user reports, 2026-10-28 through Pseudo
+Saturn Kai, and 2026-11-02).
 
 | Tool | Patch file | Platforms | Tested here | How-to |
 | --- | --- | --- | --- | --- |
@@ -148,7 +149,7 @@ With xdelta3:
 
 ```bash
 xdelta3 -d -s "Marvel Super Heroes vs. Street Fighter (Japan) (Track 01).bin" \
-  mshvsf_saturn_en_m8_gold.Track01.xdelta "Track 01 patched.bin"
+  mshvsf_saturn_en_m8_gold_us.Track01.xdelta "Track 01 patched.bin"
 ```
 
 **After any of the xdelta tools or saturn-patcher-egui:**
@@ -191,41 +192,32 @@ curl -sSfLo local/mame_src/cps2.cpp https://raw.githubusercontent.com/mamedev/ma
 
 ### Build the Release Patches
 
-These commands build the repository's current images. They include changes
-made after 0.1.0 (the English warning screens), so their hashes differ from
-the 0.1.0 table above. To rebuild 0.1.0 exactly, check out the `v0.1.0` tag
-first.
+These commands build the release image of 0.2.0. To rebuild an older
+release exactly (0.1.0 had two name variants), check out its tag first.
 
 ```bash
-# 1. Build both release images from the untouched disc and check their hashes.
+# 1. Build the release image from the untouched disc and check its hashes
+#    (about 25 minutes: it generates three text specs).
 ./invenv.sh python -m tools.regression.reference_builds --driver local/mame_src/cps2.cpp \
-  --only m8_roster_gold m8_roster_gold_us
+  --only m8_roster_gold_us
 
-# 2. Make each patch from its image (checked against its reference).
-./invenv.sh python -m tools.disc.make_patch \
-  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
-  --stem mshvsf_saturn_en_m8_gold --out-dir build/release/m8_gold
+# 2. Make the patch from that image (checked against its reference).
 ./invenv.sh python -m tools.disc.make_patch \
   --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
   --stem mshvsf_saturn_en_m8_gold_us --out-dir build/release/m8_gold_us
 
-# 3. The same patches as Sega Saturn Patcher (.ssp) files (no extra tool needed).
-./invenv.sh python -m tools.disc.make_ssp \
-  --built-dir build/regression/m8_roster_gold/build/image_a --reference m8_roster_gold \
-  --stem mshvsf_saturn_en_m8_gold --release-version 0.1.0 \
-  --description "Official arcade English text; Saturn character names." \
-  --out-dir build/release/m8_gold
+# 3. The same patch as a Sega Saturn Patcher (.ssp) file (no extra tool needed).
 ./invenv.sh python -m tools.disc.make_ssp \
   --built-dir build/regression/m8_roster_gold_us/build/image_a --reference m8_roster_gold_us \
-  --stem mshvsf_saturn_en_m8_gold_us --release-version 0.1.0 \
-  --description "Official arcade English text; US character names." \
+  --stem mshvsf_saturn_en_m8_gold_us --release-version 0.2.0 \
+  --description "Official arcade English text; American names by default; EXTRA OPTIONS switches for names and grammar fixes." \
   --out-dir build/release/m8_gold_us
 ```
 
-The patches are written to `build/release/m8_gold/` and
-`build/release/m8_gold_us/`. Step 1 rebuilds each image twice and stops if any
-hash differs from the recorded one. Leave out `--only …` to rebuild all nine
-regression references. The full procedure, with expected hashes, is in
+The patches are written to `build/release/m8_gold_us/`. Step 1 rebuilds the
+image twice and stops if any hash differs from the recorded one. Leave out
+`--only …` to rebuild all nine regression references. The full procedure,
+with expected hashes, is in
 [release/README.md](release/README.md#rebuild-the-patch-from-this-repository).
 
 ### Build Options
@@ -251,10 +243,10 @@ lists each image's exact options.
 | `--fix-grammar data/translations/grammar_fixes.json` | Light grammar fixes to official English: five hint pages (such as "When an Air Combo starter / hits the opponent,") and 21 lines of win quotes, partner lines and endings (typos such as "meditate" and missing commas such as "Rest easy, soldier,"). These are new text, not official. Needs `--official-hints`. | off |
 | `--ui-translations data/translations/continue_hints.json` | Earlier new translations of the 16 Japanese hints (`UI-004`), one page each. Cannot be combined with `--official-hints`. | off |
 | `--boss-exchanges` | Apocalypse's pre-fight exchanges, from the arcade's official English. | on |
-| `--options-submenu` | The EXTRA OPTIONS sub-menu (BOSS FIGHT, COMBO GAUGE) and the VS POWER GAUGE spelling. Its code is placed in the quote font's spare space. | on (after 0.1.0) |
-| `--grammar-switch data/translations/grammar_fixes.json` | A GRAMMAR FIXES row in EXTRA OPTIONS: official text on the disc, `--fix-grammar`'s corrections copied in while the game runs (OFF by default). Needs `--names-switch` and `--official-hints`. | on in `m8_roster_gold_us` (after 0.1.0) |
-| `--names-switch` | A NAMES row in EXTRA OPTIONS: the image has American names, and Saturn names are copied in while the game runs. Needs `--names us` and `--options-submenu`; generates the Saturn spec too, so it takes twice as long. | on in `m8_roster_gold_us` (after 0.1.0) |
-| `--error-screens` | The five boot-time warning screens (`ERR1.BIN`-`ERR5.BIN`: no 4 MB cartridge, cartridge not inserted correctly, backup memory not formatted, unreadable, or full), new translations. | on (after 0.1.0) |
+| `--options-submenu` | The EXTRA OPTIONS sub-menu (BOSS FIGHT, COMBO GAUGE) and the VS POWER GAUGE spelling. Its code is placed in the quote font's spare space. | on |
+| `--grammar-switch data/translations/grammar_fixes.json` | A GRAMMAR FIXES row in EXTRA OPTIONS: official text on the disc, `--fix-grammar`'s corrections copied in while the game runs (OFF by default). Needs `--names-switch` and `--official-hints`. | on in `m8_roster_gold_us` |
+| `--names-switch` | A NAMES row in EXTRA OPTIONS: the image has American names, and Saturn names are copied in while the game runs. Needs `--names us` and `--options-submenu`; generates the Saturn spec too, so it takes twice as long. | on in `m8_roster_gold_us` |
+| `--error-screens` | The five boot-time warning screens (`ERR1.BIN`-`ERR5.BIN`: no 4 MB cartridge, cartridge not inserted correctly, backup memory not formatted, unreadable, or full), new translations. | on |
 
 To build a variant of your own, such as the release image with the original
 boss-fight lock:
