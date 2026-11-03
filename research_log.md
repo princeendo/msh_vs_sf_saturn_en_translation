@@ -5797,3 +5797,15 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   - `REL-005`;
   - the 0.1.0 Saturn-patch records `release/m8_roster_gold*.json` removed
     (kept at tag `v0.1.0`).
+
+## 2026-11-03 — REL-005: release 0.2.0 published
+
+- **Publishing:** the user created the release on github.com as princeendo
+  (tag `v0.2.0`, 2026-11-03T16:58:27Z, title "0.2.0: Options Moved to
+  Sub-Menu", not a pre-release, latest).
+- **Step 9:** the releases API lists both assets with the built zips' sizes
+  and digests: `xdelta.zip` 637,718 bytes `860db0cd…`, `ssp.zip` 583,683
+  bytes `6248fb14…`. Both were downloaded with `curl -L`, and `shasum -a 256`
+  gave the same hashes. The release description equals
+  `release/notes_v0.2.0.md` (except the final newline).
+- **Step 10:** `REL-005` done.

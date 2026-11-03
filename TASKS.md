@@ -3543,8 +3543,12 @@ the user asks or when it unblocks other work.
 
 ### REL-005 - Publish release 0.2.0 on GitHub
 
-- **Status:** `IN_PROGRESS` (user, 2026-11-02: "Works on real hardware! I'm
-  ready to turn this into a 0.2.0 release.").
+- **Status:** `DONE` (2026-11-03). Published by the user at
+  https://github.com/princeendo/msh_vs_sf_saturn_en_translation/releases/tag/v0.2.0
+  (tag `v0.2.0`, 2026-11-03T16:58:27Z, title "0.2.0: Options Moved to
+  Sub-Menu", marked latest). The GitHub API reports both assets with the
+  same sizes and SHA-256 as the built zips, and the downloaded assets hash
+  the same. The description equals `release/notes_v0.2.0.md`.
   - Open tasks deferred past 0.2.0 by the user: RE-049, RE-050,
     SPECIAL-001, SPECIAL-005. LOC-006 is done by OPT-005.
   - One patch: reference `m8_roster_gold_us` (spec `204b624e…`, track 01
@@ -3555,8 +3559,6 @@ the user asks or when it unblocks other work.
     - `mshvsf_saturn_en_0.2.0_xdelta.zip` `860db0cd…` (637,718 bytes);
     - `mshvsf_saturn_en_0.2.0_ssp.zip` `6248fb14…` (583,683 bytes).
   - Notes are in `release/notes_v0.2.0.md`; the tag is `v0.2.0`.
-  - Left: the user publishes on github.com, then the agent checks the
-    served assets.
 - **Priority:** high
 - **Milestone:** Polish
 - **Dependencies:** OPT-002 to OPT-006, UI-008 (done).
