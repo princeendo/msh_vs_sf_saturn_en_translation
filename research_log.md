@@ -5719,3 +5719,7 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   independently (checkpoint).
 - **Checks:** pytest 327 passed, 1 skipped; ruff; mypy (the four older
   errors only).
+- **Release reference:** `m8_roster_gold_us` now also passes
+  `--grammar-switch data/translations/grammar_fixes.json` (spec
+  `204b624e…`, rebaselined from the stored spec): pass, track 01
+  `3812bdc1…`. Both bits switch their resident sites both ways on it.
