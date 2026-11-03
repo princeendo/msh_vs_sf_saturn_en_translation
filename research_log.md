@@ -5723,3 +5723,16 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   `--grammar-switch data/translations/grammar_fixes.json` (spec
   `204b624e…`, rebaselined from the stored spec): pass, track 01
   `3812bdc1…`. Both bits switch their resident sites both ways on it.
+
+## 2026-11-02 — OPT-006: the user's play check (EXP-0115)
+
+- **The user, on the four-switch release image (track 01 `3812bdc1…`):**
+  "Nothing was out of the ordinary."
+- **The recording** (117 states):
+  - NAMES and GRAMMAR FIXES switched their own sites, both ways;
+  - they came back from the save after an F10 reset (`0x06017ADC` =
+    `4E530003`);
+  - `0x06017AB4` (the Mech-Gouki unlock) stayed 0;
+  - the ending was not reached.
+- **Disc:** `build/disc/release/` (track 01 `3812bdc1…`) replaces
+  `opt005_release`. Ten commits stay local until the hardware check.

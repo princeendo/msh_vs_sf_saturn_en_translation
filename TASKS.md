@@ -3918,7 +3918,11 @@ the user asks or when it unblocks other work.
   - The two settings moved out of `0x06017AB4`, the game's Mech-Gouki
     unlock (`EXP-0089`), to a marked value in the saved, unread
     `0x06017ADC`.
-  - Left: the release reference, the user's session, the hardware check.
+  - `EXP-0115`: on the release image (track 01 `3812bdc1…`) the user set
+    both switches, reset, played, and switched GRAMMAR back: "Nothing was
+    out of the ordinary." The RAM timeline agrees: kept across the reset,
+    the Mech-Gouki unlock untouched.
+  - Left: the real-hardware check (`build/disc/release/`).
 - **Milestone:** Polish
 - **Objective:** `TXT-004`'s fixes as a switch, through `OPT-005`'s
   mechanism (nine MC PACs, ME.PAC, five `MM.BIN` hint records). The default
