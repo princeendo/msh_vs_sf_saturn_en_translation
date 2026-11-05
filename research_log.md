@@ -5809,3 +5809,63 @@ Checks: pytest (299 passed, 1 skipped), ruff check and strict mypy (74 files) pa
   gave the same hashes. The release description equals
   `release/notes_v0.2.0.md` (except the final newline).
 - **Step 10:** `REL-005` done.
+
+## 2026-11-05 — Disk cleanup: third homelab batch; rebuildable images deleted
+
+- **User request:** low disk space (about 12 GiB free); back up the data to
+  the homelab the same way as before, and delete the data not in use. The
+  user chose to keep the deferred-task evidence and the checkpoints on the
+  Mac.
+- **Kept, and why:**
+  - source inputs (`local/disc_images`, `local/arcade_roms`,
+    `local/mame_src`, `local/mame_arcade`, `local/arcade_text`);
+  - the Mednafen homes `local/mednafen`, `local/mednafen_quiet` and
+    `local/mednafen_quiet_opt004` (the default home of `EXP-0109` and
+    `EXP-0112` scripts), and `vendor/`;
+  - deferred tasks: `local/re049` (RE-049; tool defaults read
+    `local/re049/...`) and `local/re050` (RE-050);
+  - `local/ui008/usbios`, `research/savestates`, `research/memory_dumps`;
+  - the release outputs `build/release/` (`v0.1.0`, `v0.2.0` zips and
+    `m8_gold_us` patches) and `build/reddit_0.2.0`.
+- **Deleted, finished and rebuildable disc images (about 18 GiB):**
+  - `build/regression/` (nine references, 8.6 GiB): `reference_builds`
+    (`release/RELEASING.md` step 1);
+  - `build/opt003` to `build/opt006` (eight experiment images, 8.9 GiB): the
+    compile commands in the `EXP-0107`, `EXP-0109`, `EXP-0111`, `EXP-0112`
+    and `EXP-0114` Reproduction sections, from specs now in the archive;
+  - `build/disc/release` (the 0.2.0 burn image, track 01 `3812bdc1…`): the
+    `m8_roster_gold_us` reference build, or the published 0.2.0 patch
+    applied to the source image.
+- **Archived to the homelab, then deleted here:** batch 2026-11-05 in
+  `/mnt/HD/Seagate22TB/filebrowser-inbox/Archives/MSHvSF-Saturn-EN`, beside
+  the 2026-10-30 and 2026-11-02 batches (paths mirror `local/`; no path is in
+  two batches):
+  - `local/opt002` to `local/opt006`, `local/rel`, `local/loc006` (LOC-006
+    is done, superseded by OPT-005), `local/rel020_*.log`,
+    `local/sp004/manifest.tsv`, and the nine `build/opt00*.log` build logs
+    (archived as `build_logs/`);
+  - `local/ui003/spec/m8_roster_gold_us.json` differs from the 2026-10-30
+    file of that name, so it is archived as
+    `ui003/spec/m8_roster_gold_us.2026-11-05.json`;
+  - `MANIFEST-2026-11-05.tsv` (path, bytes, SHA-256): 3,642 files,
+    3,309,322,486 bytes, including the empty `SYMLINKS-2026-11-05.tsv` (the
+    batch had no symlinks). No file equals a BIOS file, source disc-image
+    component or arcade ROM (checked by SHA-256);
+  - the 1,513 files left in `local/sp004/play` equal the archived
+    `sp004/play` files byte for byte, so they were not copied again; they
+    were deleted after the server re-checked them.
+  - Method: staged in `local/offload_2026-11-05/`, then
+    `rsync -a --rsync-path="sudo -n rsync" -e "ssh -o IdentitiesOnly=yes -i ~/.ssh/opencode" local/offload_2026-11-05/ opencode@192.168.86.45:<archive>/`
+    (30 s, exit 0); as root `chown -R filebrowser:media-inbox`, directories
+    `2770`, files `660`. The archive `README.md` describes all three batches
+    and the restore commands.
+- **Server checks:** `sha256sum -c` passed for the new manifest (3,642
+  rows), the `sp004/play` rows (1,521) and both older manifests; 43,378
+  files, no symlinks, no owner or mode mismatches. `homelab-plex-health`
+  passed before and after. Logged in `remote_server_maintenance`.
+- **Disk use:** `build/` 17.9 GiB → 4.8 MiB; `local/` 6.9 GiB → 3.5 GiB (`du -sk`). Free
+  space on the data volume: 12,106,640 KiB → 34,507,268 KiB (+21.4 GiB).
+- **Checks:** `./invenv.sh python -m pytest -q`: 327 passed, 1 skipped (the
+  regression integration test needs `MSHVSF_REGRESSION=1`).
+- **Before the next burn, patch or Mednafen check of the current image:**
+  rebuild the references (`release/RELEASING.md` step 1).
